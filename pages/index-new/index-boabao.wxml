@@ -1,0 +1,117 @@
+<scroll-view scroll-x="true" class='baobao-use'>
+  <view class='baobao-thing {{currentTab==0 ? "chooseTab" : ""}}' data-current="0" bindtap='goToList'>
+    <text class='baobao-some-thing '>宝宝用品</text>
+  </view>
+  <view class='baobao-thing {{currentTab==1 ? "chooseTab" : ""}}' data-current="1" bindtap='goToList'>
+    <text class='baobao-some-thing'>宝宝饮食</text>
+  </view>
+  <view class='baobao-thing {{currentTab==2 ? "chooseTab" : ""}}' data-current="2" bindtap='goToList'>
+    <text class='baobao-some-thing'>萌宝潮搭</text>
+  </view>
+  <view class='baobao-thing {{currentTab==3 ? "chooseTab" : ""}}' data-current="3" bindtap='goToList'>
+    <text class='baobao-some-thing'>宝贝成长</text>
+  </view>
+  <view class='baobao-thing {{currentTab==4 ? "chooseTab" : ""}}' data-current="4" bindtap='goToList'>
+    <text class='baobao-some-thing'>辣妈专区</text>
+  </view>
+</scroll-view>
+<!--用品  -->
+<view class='rush-baobao-box' wx:if="{{tabList==0}}">
+    <block wx:for="{{dataList}}">
+    <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.productId}}'>
+      <image class='rush-bobao-child' src='{{item.productPic}}'></image>
+      <view class='rush-baobao-text'>
+        <text class='rush-boabao-title'>{{item.productName}}</text>
+        <text class='rush-boabao-reduce' wx:if="{{item.specialPrice != null}}">直降{{item.tag}}元</text>
+        <view class='rush-baobao-price'>
+          <view class='rush-baobao-curr-father'>
+            <text class='rush-baobao-cn'>￥</text>
+            <text class='rush-bobao-current'>{{item.specialPrice==null?item.productPrice:item.specialPrice}}</text>
+          </view>
+          <text class='rush-baobao-yet' wx:if="{{item.specialPrice!=null}}">￥{{item.productPrice}}</text>
+          <text class='rush-baobao-sell'>已售{{item.num}}件</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>
+<!--饮食  -->
+<view class='rush-baobao-box' wx:if="{{tabList==1}}">
+  <block wx:for="{{dataList}}">
+    <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.productId}}'>
+      <image class='rush-bobao-child' src='{{item.productPic}}'></image>
+      <view class='rush-baobao-text'>
+        <text class='rush-boabao-title'>{{item.productName}}</text>
+        <text class='rush-boabao-reduce' wx:if="{{item.specialPrice != null}}">直降{{item.tag}}元</text>
+        <view class='rush-baobao-price'>
+          <view class='rush-baobao-curr-father'>
+            <text class='rush-baobao-cn'>￥</text>   
+            <text class='rush-bobao-current'>{{item.specialPrice==null?item.productPrice:item.specialPrice}}</text>
+          </view>
+          <text class='rush-baobao-yet' wx:if="{{item.specialPrice!=null}}">￥{{item.productPrice}}</text>
+          <text class='rush-baobao-sell'>已售{{item.num}}件</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>
+<!--潮搭  -->
+<view class='rush-baobao-box' wx:if="{{tabList==2}}">
+    <block wx:for="{{dataList}}">
+    <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.productId}}'>
+      <image class='rush-bobao-child' src='{{item.productPic}}'></image>
+      <view class='rush-baobao-text'>
+        <text class='rush-boabao-title'>{{item.productName}}</text>
+        <text class='rush-boabao-reduce' wx:if="{{item.specialPrice != null}}">直降{{item.tag}}元</text>
+        <view class='rush-baobao-price'>
+          <view class='rush-baobao-curr-father'>
+            <text class='rush-baobao-cn'>￥</text>
+            <text class='rush-bobao-current'>{{item.specialPrice==null?item.productPrice:item.specialPrice}}</text>
+          </view>
+          <text class='rush-baobao-yet' wx:if="{{item.specialPrice!=null}}">￥{{item.productPrice}}</text>
+          <text class='rush-baobao-sell'>已售{{item.num}}件</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>
+<!--成长  -->
+<view class='rush-baobao-box' wx:if="{{tabList==3}}">
+    <block wx:for="{{dataList}}">
+    <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.productId}}'>
+      <image class='rush-bobao-child' src='{{item.productPic}}'></image>
+      <view class='rush-baobao-text'>
+        <text class='rush-boabao-title'>{{item.productName}}</text>
+        <text class='rush-boabao-reduce' wx:if="{{item.specialPrice != null}}">直降{{item.tag}}元</text>
+        <view class='rush-baobao-price'>
+          <view class='rush-baobao-curr-father'>
+            <text class='rush-baobao-cn'>￥</text>
+           <text class='rush-bobao-current'>{{item.specialPrice==null?item.productPrice:item.specialPrice}}</text>
+          </view>
+          <text class='rush-baobao-yet' wx:if="{{item.specialPrice!=null}}">￥{{item.productPrice}}</text>
+          <text class='rush-baobao-sell'>已售{{item.num}}件</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>
+<!--专区  -->
+<view class='rush-baobao-box' wx:if="{{tabList==4}}">
+    <block wx:for="{{dataList}}">
+    <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.productId}}'>
+      <image class='rush-bobao-child' src='{{item.productPic}}'></image>
+      <view class='rush-baobao-text'>
+        <text class='rush-boabao-title'>{{item.productName}}</text>
+        <text class='rush-boabao-reduce' wx:if="{{item.specialPrice != null}}">直降{{item.tag}}元</text>
+        <view class='rush-baobao-price'>
+          <view class='rush-baobao-curr-father'>
+            <text class='rush-baobao-cn'>￥</text>
+            <text class='rush-bobao-current'>{{item.specialPrice==null?item.productPrice:item.specialPrice}}</text>
+          </view>
+          <text class='rush-baobao-yet' wx:if="{{item.specialPrice!=null}}">￥{{item.productPrice}}</text>
+          <text class='rush-baobao-sell'>已售{{item.num}}件</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

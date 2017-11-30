@@ -1,0 +1,51 @@
+/* pages/card/card_detail.wxss */
+.card-detail-container{
+    flex-direction: column;
+    width: 750rpx;
+}
+
+.detail-title-view{
+    flex-direction: row;
+    padding-left: 15rpx;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #F4F4F4;
+}
+.detail-title-text-view{
+    font-size: 15px;
+    margin-left:5px;
+}
+.detail-desc-view{
+    width: 750rpx;
+    flex-direction: row;
+    justify-content: center;
+}
+.desc-textarea{
+    flex-direction: column;
+    width:650rpx;
+    font-size: 30rpx;
+    margin-top: 10px;
+    margin-bottom: 60px;
+}
+
+.label-text-view{
+    flex-direction: row;
+    font-size:25rpx;
+    padding-left: 70rpx;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #F4F4F4;
+}
+.label-text{
+    flex:1;
+    text-align: right;
+}
+.readonly-text{
+    flex:3;
+    font-size:25rpx;
+    color:grey;
+}
+
+.wxParse-br{
+    height: 10rpx;
+}

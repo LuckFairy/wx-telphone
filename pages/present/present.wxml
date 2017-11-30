@@ -1,0 +1,17 @@
+<!--present.wxml-->
+<import src="../template/present-list.wxml" />
+<import src="../template/modal.wxml" />
+
+<loading hidden="{{!loading}}">
+	加载中...
+</loading>
+
+<scroll-view scroll-y="{{true}}">
+	<view class="tab-container">
+		
+		<template wx:if="{{!loading}}" is="present-list" data="{{presentData}}" />			
+	</view>
+</scroll-view>
+
+<template wx:if="{{showErrModal}}" is="text-error-modal" data="{{...errModalConfig}}" />
+<template wx:if="{{showSuccessModal}}" is="text-comfirm-modal" data="{{...successModalConfig}}" />

@@ -1,0 +1,51 @@
+<view class="container">
+  <view class="header center normalText">
+    <text>哦嚯，我们发现</text>
+    <text>您宝宝的资料还没有完善哦</text>
+  </view><!-- .header -->
+  <view class="section">
+    <view class="section-cell">
+      <image src="../../image/mine_babyset_xingbie.png" mode="widthFix" class="cell-bitmap" /> 
+      <view class="cell-contain sp-border" style="flex-direction: row; justify-content: space-between">
+        <view
+          class="sex navigator"
+          data-sex="1"
+          bindtap="setBabySex"
+          style="background-image: {{pageData.sex == 1? 'url(../../image/mine_babyset_boy_1.png)' : 'url(../../image/mine_babyset_boy_0.png)'}}"
+        />
+        <view
+          class="sex navigator"
+          data-sex="2"
+          bindtap="setBabySex"
+          style="background-image: {{pageData.sex == 2? 'url(../../image/mine_babyset_girl_1.png)' : 'url(../../image/mine_babyset_girl_0.png)'}}"
+        />
+        <view
+          class="sex navigator"
+          data-sex="0"
+          bindtap="setBabySex"
+          style="background-image: {{pageData.sex == 0? 'url(../../image/mine_babyset_mom_1.png)' : 'url(../../image/mine_babyset_mom_0.png)'}}"
+        />
+      </view>
+    </view><!-- .section-cell -->
+    <view class="section-cell">
+      <image src="../../image/mine_babyset_xingming.png" mode="widthFix" class="cell-bitmap" /> 
+      <view class="cell-contain sp-border">
+        <input class="normalText" bindinput="setBabyName" value="{{pageData.name}}" placeholder="填写宝宝小名" placeholder-class="normalText grayText" />
+      </view>
+    </view><!-- .section-cell -->
+    <view class="section-cell">
+      <image src="../../image/mine_babyset_shengri.png" mode="widthFix" class="cell-bitmap" /> 
+      <view class="cell-contain sp-border">
+        <!--<input class="normalText" bindinput="setBabyBirthday" value="{{pageData.birthday}}" placeholder="生产/预产期" placeholder-class="normalText grayText" />-->
+         <picker mode="date" value="{{pageData.birthday}}" start="2010-09-01" end="2020-09-01" bindchange="setBabyBirthday">
+          <view class="picker">
+            <text class="normalText grayText" wx:if="{{!pageData.birthday}}">生产/预产期</text>
+            <text class="normalText" wx:show="{{pageData.birthday}}">{{pageData.birthday}}</text>
+          </view>
+        </picker>
+      </view>
+    </view><!-- .section-cell -->
+  </view><!-- .section -->
+  
+  <text bindtap="nextStep" class="nextStepButton normalText navigator hotBackgroundColor">下一步</text>
+</view>

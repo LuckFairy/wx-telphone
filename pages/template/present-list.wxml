@@ -1,0 +1,42 @@
+<template name="present-list">
+	<view
+		wx:for="{{presentData}}"
+		wx:key="{{item.productId}}"
+		class="page {{item.hasTrial? '':'navigator'}}"
+		data-options="{{item}}"
+		bindtap="{{item.hasTrial ? '':'applyForPresent'}}"
+	>
+		<view 
+			class="{{index === presentData.length - 1? 'no-border':' '}} container"
+		>
+			<view class="modelImage">
+				<image src="{{item.image}}" mode="widthFix" />
+			</view>
+			<view class="modelRightContainer">
+				<view class="description">
+					<text class="titleText title">{{item.name || ''}}</text>
+					<!-- subtitle -->
+				</view>
+       
+				<view class="info">
+					<view class="priceInfo">
+            <text class="specialRedText special"><text class="mText">¥</text>{{item.price}}</text>
+            <text class="grayText price">{{'¥' + item.basePrice}}</text><!--wx:if="{{item.price !== item.basePrice}}"-->
+          </view>
+					<view class="controlWrap">
+						<view wx:if="{{item.quantity > 0 && item.quantity < 1000}}" class="badgeWrap">
+							<text class="mText">剩余<text class="specialRedText">{{item.quantity}}</text></text>
+						</view>
+						<view wx:else style="flex: 1;"></view>
+						<text class="getButton {{item.hasTrial ? 'grayBackgroundColor':'specialRedBackgroundColor'}}">{{item.hasTrial ? '已申请过' : '立即领取'}}</text>
+					</view>
+          
+				</view>
+         
+			</view>
+     
+		</view>
+   
+	</view>
+  
+</template>

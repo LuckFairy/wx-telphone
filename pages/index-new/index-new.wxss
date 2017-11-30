@@ -1,0 +1,380 @@
+.wrap {
+  display: block;
+  background: #efefef;
+  width: 750rpx;
+  font-size: 0rpx;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+/*头图  */
+
+.list-header-image{
+  /* display: block; */
+  width: 750rpx;
+  height: 230rpx;
+  background: #fff;
+}
+ .header-image{
+   display: block;
+  width: 750rpx;
+  height: 230rpx;
+  background: #fff;
+ }
+/*信息提示区域  */
+
+.header-message {
+  display: block;
+  font-size: 0rpx;
+  width: 750rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding-left: 24rpx;
+  background: #fff;
+}
+
+.header-msg-text {
+  font-size: 24rpx;
+  color: #262626;
+  margin-left: 10rpx;
+}
+
+.headder-msg-image {
+  width: 30rpx;
+  height: 24rpx;
+  display: inline-block;
+  vertical-align: -5%;
+}
+
+/*列表选项区域  */
+
+.list-select-area {
+  display: block;
+  width: 750rpx;
+  background: #fff;
+  padding-bottom: 28rpx;
+}
+
+.list-select-area-top, .list-select-area-bottom {
+  display: flex;
+  display: -webkit-flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  margin: 0 25rpx;
+}
+
+.list-select-area-bottom {
+  margin-top: 28rpx;
+}
+
+.select-list {
+  display: inline-block;
+  font-size: 0rpx;
+  width: 100rpx;
+}
+
+.select-list-image {
+  display: block;
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.select-list-text {
+  display: block;
+  font-size: 24rpx;
+  color: #262626;
+  margin-top: 10rpx;
+  text-align: center;
+  width: 100rpx;
+}
+
+/*咿呀拼多多区域  */
+
+/*标题 (拼多多 /秒杀/热门推荐) */
+
+.yiya-pinduoduo-area {
+  margin-top: 16rpx;
+  padding-bottom: 34rpx;
+}
+
+.yiya-pinduoduo-area, .pinduoduo-title {
+  display: block;
+  background: #fff;
+}
+
+.pinduoduo-title, .pinduoduo-more {
+  font-size: 0rpx;
+}
+
+.pinduoduo-title {
+  height: 88rpx;
+  line-height: 88rpx;
+  padding: 0 24rpx;
+}
+
+.pinduoduo-more {
+  display: inline-block;
+  float: right;
+}
+
+.pinduodudo-text-title {
+  font-size: 30rpx;
+  color: #1b1b1b;
+  display: inline-block;
+  float: left;
+}
+
+.more-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.more-image {
+  width: 8rpx;
+  height: 22rpx;
+  vertical-align: -3%;
+  margin-left: 10rpx;
+}
+
+.pinduoduo-title::after {
+  clear: both;
+  content: '.';
+  display: block;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+/*标题结束  */
+
+/*内容开始  */
+.pinduoduo-content{
+  display: inline-block;
+  display: -webkit-flex;
+  display: flex;
+  padding: 0 15rpx;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  width: 750rpx;
+}
+.pinduoduo-content-list{
+  display: inline-block;
+  width: 230rpx;
+  font-size: 0rpx;
+}
+.pinduoduo-content-image{
+  width: 230rpx;
+  height: 230rpx;
+}
+.pinduoduo-content-title{
+  padding: 0 10rpx;
+  font-size: 22rpx;
+  color: #1b1b1b;
+  display: block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp: 2;
+  height: 60rpx;
+  margin-top: 16rpx;
+  text-align: left;
+}
+.pinduoduo-content-price{
+  font-size: 0rpx;
+  margin: 22rpx 10rpx 0rpx;
+  height: 24rpx;
+  line-height: 24rpx;
+  display: block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.pinduoduo-content-current{
+  font-size: 24rpx;
+  color: #ff3030;
+  display: inline-block;
+}
+.pinduoduo-already{
+  font-size: 20rpx;
+  color: #999999;
+  margin-left: 10rpx;
+  display: inline-block;
+}
+/*内容结束  */
+
+/*拼多多结束  */
+/*限时秒杀开始  */
+.miaosha-area{
+  display: block;
+  width: 702rpx;
+  height: 256rpx;
+  background: #ffe71c;
+  border-radius: 10rpx;
+  margin: 0 auto;  
+}
+.miaosha-lasttime-father{
+  width: 702rpx;
+  text-align: right;
+  padding-right: 24rpx;
+}
+.miaosha-lasttime{
+  font-size: 0rpx;
+  display: block; 
+  width: 702rpx;
+  height: 70rpx;
+  line-height: 60rpx;
+}
+.miaosha-time-now{
+  display: inline-block;
+  font-size: 26rpx;
+  color: #ff3030;
+  margin-right: 16rpx;
+  vertical-align: top;
+}
+.miaosha-time-point{
+  color: #ff3030;
+  display: inline-block;
+  font-size: 22rpx;
+  font-weight: bold;
+  width: 10rpx;
+  text-align: center;
+}
+.miaosha-time-detail{
+  display: inline-block;
+  font-size: 22rpx;
+  color: #ffffff;
+  height: 34rpx;
+  width: 34rpx;
+  background: #ff3030;
+  border-radius: 5rpx;
+  line-height: 33rpx;
+  text-align: center;
+}
+.miaosha-list-wrap{
+  display: inline-block;
+}
+.miaosha-list{
+  display: inline-block;
+  position: relative;
+  width: 156rpx;
+  height: 156rpx;
+  font-size: 0rpx;
+}
+.miaosha-list-image{
+  width: 156rpx;
+  height: 156rpx;
+}
+.miaosha-list-price{
+  display: inline-block;
+  position: absolute;
+  bottom: 0rpx;
+  left: 0rpx;
+  font-size: 22rpx;
+  color: #ffffff;
+  background: #ff3030;
+  padding:2rpx 5rpx;
+}
+.miaosha-list-father{
+  display: flex;
+  display: -webkit-flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  margin: 0rpx 18rpx;
+}
+/*限时秒杀结束  */
+/*热门推荐开始  */
+.hot-recommend-image,.hot-recommend-text-list{
+  display: inline-block;
+}
+.hot-recommend{
+  display: block;
+}
+.hot-recommend-list{
+  margin: 0 24rpx;
+  border-bottom: 1rpx solid #eeeeee;
+  padding-bottom: 18rpx;
+  margin-top: 30rpx;
+}
+.hot-recommend-list:first-child{
+  margin-top: 0rpx;
+}
+.hot-recommend-image,.hot-image{
+  width: 230rpx;
+  height: 230rpx;
+  display: inline-block;
+}
+.hot-recommend-text-list{
+  font-size: 0rpx;
+}
+.hot-recomend-title{
+  font-size: 28rpx;
+  color: #1b1b1b;
+  display: block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp: 2;
+  margin-left: 20rpx;
+  height: 80rpx;
+}
+.hot-recomend-sell{
+  font-size: 22rpx;
+  color: #a9a9a9;
+  display: block;
+  margin-left: 20rpx;
+  margin-top: 10rpx;
+}
+.hot-recomend-down{
+  font-size: 22rpx;
+  border: 1rpx solid #ff3030;
+  display: inline-block;
+  padding: 2rpx 8rpx;
+  border-radius: 8rpx;
+  color: #ff3030;
+  margin-left: 20rpx;
+  margin-top: 10rpx;
+}
+.hot-recomend-cn{
+  font-size: 24rpx;
+  color: #ff3030;
+}
+.hot-recomend-current{
+  font-size: 36rpx;
+  color: #ff3030;
+}
+.hot-recomend-ever{
+  display: block;
+  font-size: 24rpx;
+  color: #a9a9a9;
+}
+.hot-recomend-price{
+  height: 50rpx;
+  font-size: 0rpx;
+  line-height: 50rpx;
+  margin-top: 18rpx;
+  margin-left: 20rpx;
+}
+.hot-recomend-ever{
+  margin-left: 10rpx;
+}
+/*返回顶部区域开始  */
+.yiya-top{
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+  bottom: 0rpx;
+  right: 0rpx;
+  width: 750rpx;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.yiya-top-image{
+  width: 80rpx;
+  height: 80rpx;
+  position: fixed;
+  top: 1000rpx;
+  left: 630rpx;
+  z-index: 99999999999;
+}
+/*返回顶部区域结束  */

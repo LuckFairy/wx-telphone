@@ -1,0 +1,52 @@
+<view class="schedule-header">
+    <!-- <view class='schedule-header-img'> -->
+       <image src='../../image/schedule_1.jpg' wx:if="{{curIndex==1}}"></image>
+       <image src='../../image/schedule_2.jpg' wx:if="{{curIndex==2}}"></image>   
+    <!-- </view> -->
+    <view class='schedule-header-text'>
+       <text class="schedule_1 {{curActIndex == '0' ? 'oning' : '' }}" >退款通知</text>
+       <text class="schedule_1 {{curActIndex == '1' ? 'oning' : '' }}" >处理中</text>
+       <text class="schedule_1 {{curActIndex == '2' ? 'oning' : '' }}" >已收款</text>
+    </view>
+</view>
+<view class='schedule'>
+    <view class='schedule-section'>
+         <view class='schedule-view_1' >
+             <view class='schedule-right'></view>
+             <view class="schedule-icon  {{curActIndex == '0' ? 'current' : '' }}" ></view>
+         </view>
+        <view class='schedule-view_2'>
+            <view class='schedule-time'>
+                <text class='schedule-time-data'>20107-5-5</text>
+                <text>18:00</text>
+            </view>
+            <text class='schedule-text'>系统已接受到你的请求，即将把您的拼团购金额退还</text>
+        </view>
+    </view>
+    <view class='schedule-section'>
+         <view class='schedule-view_1' bindtap='change'>
+            <view class='schedule-right'></view>
+            <view class="schedule-icon  {{curActIndex == '1' ? 'current' : '' }}"></view>
+         </view>
+         <view class='schedule-view_2'>
+            <view class='schedule-time'>
+               <text class='schedule-time-data'>20107-5-5</text>
+                <text>18:00</text>
+            </view>
+            <text class='schedule-text'>处理中</text>
+         </view>
+    </view>
+     <view class='schedule-section'>
+         <view class='schedule-view_1' bindtap='change'>
+            <view class='schedule-right'></view>
+            <view class="schedule-icon  {{curActIndex == '2' ? 'current' : '' }}"></view>
+         </view>
+         <view class='schedule-view_2'>
+            <view class='schedule-time'>
+                <text class='schedule-time-data'>20107-5-5</text>
+                <text>18:00</text>
+            </view>
+            <text class='schedule-text'>即将金额退至您的账户中</text>
+         </view>
+    </view>
+</view>

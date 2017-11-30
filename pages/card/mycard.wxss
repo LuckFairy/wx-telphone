@@ -1,0 +1,202 @@
+/* pages/card/mycard.wxss */
+page{
+    width:100%;
+    height: 100%;
+}
+view{
+    display: flex;
+}
+swiper{
+    display: flex;
+    height: 100%;
+    width: 750rpx;
+    padding-top: 80rpx;
+}
+scroll-view{
+    height: 100%;
+    display: block;
+    background-color: #ECF2F9;
+    _padding-top:10px;
+}
+text{
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    margin:0px;
+    padding:0px;
+}
+.main-container{
+    flex-direction: column;
+    width: 750rpx;
+    height: 100%;
+}
+.nav-header-view{
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+    width:750rpx;
+    height: 80rpx;
+    margin-bottom: -80rpx;
+    font-size:25rpx;
+    color:grey;
+    _box-shadow: 0px 5px 10px rgba(1,1,1,0.2);
+    z-index: 2;
+}
+.header-col-view{
+    flex:1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(1,1,1,0);
+    height: 40px;
+    padding-top:5px;
+}
+.show-border-bottom{
+    border-bottom-color: #FFCC3C;
+}
+/*  -------------优惠券-------------------- */
+
+.card-list-view{
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap:wrap;
+    width:750rpx;
+    padding-bottom:15px;
+    margin-top:10px;
+    margin-bottom: 30rpx;
+}
+.card-ad-view{
+    display: flex;
+    flex-direction: row;
+    width: 750rpx;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.card-ad-img{
+    width: 750rpx;
+}
+.card-item-view{
+    flex-direction: row;
+    justify-content: space-between;
+    width:710rpx;
+    height: 105px;
+    margin-bottom: 10px;
+}
+.card-item-left{
+    flex-direction: column;
+    justify-content: space-around;
+    width:600rpx;
+    height: 100px;
+    background-color:white;
+    padding-left:15rpx;
+    padding-bottom:0px;
+}
+.card-item-title-view{
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    
+}
+.card-item-mch-icon{
+    width:60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    margin-right:10px;
+}
+.card-title-text{
+    font-size: 35rpx;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.card-info-text-normal{
+    color:grey;
+    font-size: 26rpx;
+    margin-bottom: 10rpx;
+}
+.card-info-text-small{
+    color:grey;
+    font-size: 23rpx;
+    height: 34rpx;
+}
+
+.card-item-right{
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    width:150rpx;
+    height: 100px;
+    background-size: 100% 100%;
+}
+.card-bg-available{
+    background-image: url('http://olb6oyltr.bkt.clouddn.com/ma_coupon_bg_1.png');
+}
+.card-bg-disable{
+    background-image: url('http://olb6oyltr.bkt.clouddn.com/ma_coupon_bg_2.png');
+}
+.card-item-value{
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width:100%;
+    color:white;
+    font-size: 30rpx;
+}
+.card-item-btn-view{
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width:100%;
+    color:white;
+    font-size: 20rpx;
+}
+
+
+.overlay{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:fixed;top:0px;left:0px;width:750rpx;height:100%;background-color:rgba(10,10,10,0.3);
+}
+.qr-view{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:500rpx;
+    background-color: white;
+    color:grey;
+    font-size: 25rpx;
+    padding-bottom: 20px;
+    position:relative;
+}
+.qr-image{
+    width: 400rpx;
+}
+.close-icon{
+    position: absolute;
+    right: 2px;
+    top:0px;
+    font-size:35rpx;
+}
+
+
+.no-data-view {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 150rpx;
+}
+.no-data-image {
+    width: 200rpx;
+    margin-bottom: 40rpx;
+}
+.no-data-text {
+    text-align: center;
+    color: #666;
+    line-height: 130%;
+}
+.go-add{
+  font-size: 22rpx;
+}

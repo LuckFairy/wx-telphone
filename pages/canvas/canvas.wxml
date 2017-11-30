@@ -1,0 +1,44 @@
+<view class="wrapper lotteryDraw">
+  <image src="../../image/bg2.png" class='bgImage'></image>
+	<view class="header" wx:if="{{textShow}}" bindtap='enterFreshen'>
+    <text class='header-title'>{{textMsg}}</text>
+	</view>
+	<view class="main">
+    	<view class="canvas-container">
+          <view  animation="{{animationData}}" class="canvas-content" >
+            <image src="../../image/activity-lottery-5.png" style="-webkit-transform: rotate({{}});transform: rotate({{}})"></image>
+          </view>
+          <view bindtap="getLottery" class="canvas-btn {{btnDisabled}}">
+            <image src="../../image/172X200.png"></image>
+          </view>		
+      </view>
+	</view>
+  <view class='prize'>
+    <view class='prize-header'>
+      <view class='prize-header-text'><text >奖项设置</text></view>
+      <view class='prize-header-img'> <image src='../../image/down.png' ></image></view>
+    </view>
+    <view class='prize-explain'>
+      <text class='prize-four'>专属奖项，只给特别的您！</text>
+      <text class='prize-one'>一等奖：咿呀母婴 - 【妙佳宝贝】30元外出服抵用券</text>
+      <!-- <text class='prize-one' wx:if="{{first}}">{{first}}</text>
+      <text class='prize-two' wx:if="{{second}}">{{second}}</text>
+      <text class='prize-three' wx:if="{{third}}">{{third}}</text>
+      <text class='prize-four' wx:if="{{prizeinfo}}">{{prizeinfo}}</text> -->
+    </view>
+   
+  </view>
+  <view class='explain'>
+    <view class='explain-header'>
+      <view class='explain-header-text'><text >活动说明</text></view>
+      <view class='explain-header-img'><image src='../../image/down.png' ></image></view>
+    </view>
+    <text class='explain-text'>凡在咿呀门店购买妙佳宝贝外出服即可使用这张30元妙佳宝贝抵用券
+使用日期：11月13日-11月19日
+温馨提示：
+1：联营柜台不参与
+2：使用地点：咿呀门店
+中奖卡券将会在自动在“微信/发现/小程序/咿呀悦购/我的/我的卡包”中呈现。
+最终解释权归咿呀门店所有</text>
+  </view>
+</view>

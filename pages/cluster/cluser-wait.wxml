@@ -1,0 +1,139 @@
+<!--pages/cluster/cluser-wait.wxml-->
+<!--轮播图以及详情  -->
+<swiper class="swiper-list" indicator-dots="true" indicator-color="#ccc" indicator-active-color="#FF1D33" autoplay="false" circular="true" interval="30000">
+  <block wx:for="{{faileddata.pic}}">
+    <swiper-item>
+      <image src="{{item}}"></image>
+    </swiper-item>
+  </block>
+</swiper>
+<view class="middle-box">
+  <text class="middle-title">{{faileddata.productName}}</text>
+  <view class="middle-detail">
+    <text class="mid-list-zero">￥</text>
+    <text class="mid-list-one">{{faileddata.groupbuyPrice}}</text>
+    <text class="mid-list-two">￥{{faileddata.productPrice}}</text>
+    <block wx:if="{{item}}"  wx:for="{{taglist}}" wx:key="{{index}}">
+      <text class="mid-list-three mid-total">{{item}}</text>        
+    </block>
+    <text class="mid-list-five">{{faileddata.groupbuyNumber}}人团</text>
+    <!-- <text class="mid-list-six">参与人数：</text>
+            <text class="mid-list-seven">44</text> -->
+  </view>
+  <!--多规格内容 2017年8月14日15:55:23  by leo-->
+<view class="commodity_attr_list" style='display:none'>
+  <!--每组属性-->
+  <view class="attr_box" wx:for="{{attrValueList}}" wx:for-item="attrValueObj" wx:for-index="attrIndex" >
+      <!--属性名-->
+      <view class="attr_name">{{attrValueObj.attrKey}}</view>
+      <!--属性值-->
+      <view class="attr_value_box">
+          <!--每个属性值-->
+          <view class="attr_value {{attrIndex==firstIndex || attrValueObj.attrValueStatus[valueIndex]?(value==attrValueObj.selectedValue?'attr_value_active':''):'attr_value_disabled'}}" bindtap="selectAttrValue" data-status="{{attrValueObj.attrValueStatus[valueIndex]}}"
+              data-value="{{value}}" data-key="{{attrValueObj.attrKey}}" data-index="{{attrIndex}}" data-selectedvalue="{{attrValueObj.selectedValue}}" wx:for="{{attrValueObj.attrValues}}" wx:for-item="value" wx:for-index="valueIndex">{{value}}</view>
+      </view>
+
+  </view>
+
+  <!--
+  <view class="attr_box_test" wx:if="{{skuId}}">
+      <view class="attr_name">库存</view>
+      <view class="attr_value_box attr-value-quantity">{{num}}</view>
+  </view>
+  -->
+  
+</view>
+<!--多规格内容 end-->
+<!--颜色、尺码、购买数量  -->
+
+
+<!-- 数量的增减start -->
+<view class="stepper" style='display:none'>
+<text class='ste-number'>购买数量</text>
+    <view class='stepper-father'>
+      <!-- 减号 -->
+    <text class="{{minusStatus}} ste-reduce" bindtap="bindMinus">-</text>
+    <!-- 数值 -->
+    <input class='ste-input-num' type="number" bindchange="bindManual" value="{{num}}" />
+    <!-- 加号 -->
+    <text class="normal ste-add" bindtap="bindPlus">+</text>
+    </view>
+    
+</view>
+<!-- 数量的增减end -->
+
+</view>
+<!--轮播图以及详情结束  -->
+<!--邀请好友参团  -->
+<view class="invite-friend-group">
+  <view class="invite-friend-pho">
+    <block wx:for="{{userlist.pic}}">
+      <image class="inv-image" src="{{item}}"></image>
+    </block>
+  </view>
+  <view class="invite-fri-num">
+    <!-- <text class="peo-need total-peo-number">还差 </text>
+    <text class="peo-number total-peo-number">22</text>
+    <text class="peo-text total-peo-number"> 人，</text> -->
+    <text wx:if="{{status==3}}" class="peo-time total-peo-number">拼团不成功，款项将原路返还</text>
+    <text wx:if="{{status==1 && timelist.lacknum}}">还差{{timelist.lacknum}}人，{{timelist.expireTime}}后结束</text>
+  </view>
+  <view class="invite-friend-cluster">
+    <text wx:if="{{status==3}}" class="invite-friend-text" bindtap="doBuy">再次一键开团</text>
+    <button open-type='share' bindtap='Page.onShareAppMessage' wx:if="{{status==1}}" class="invite-friend-text">邀请好友开团</button>
+  </view>
+</view>
+<!--邀请好友参团结束  -->
+<!--拼团详情、时间、须知区域开始  -->
+<view class="commodity-group">
+<!--<navigator url='../group-buying/group-buying?prodId={{prodId}}&groupbuyId={{groupbuyId}}'> -->
+
+
+  <view class="commodity-detail" bindtap='goWaitDetail' data-groupstatus='{{status}}' style='display:none'>
+      <text class="com-det">商品详情</text>
+      <text class="com-go">></text>
+  </view>
+  
+  <view class="group-time" wx:if="{{userlist.successTime}}">
+    <text class="gro-timing">成团时间</text>
+     <text class="time-date">{{userlist.successTime}}</text> 
+    <!-- <text class="time-hour">{{userlist.successTime}}</text> -->
+  </view>
+  <view class="group-notice">
+    <text class="gro-not">拼团须知</text>
+    <text class="gro-text-known">好友参团.人满发货.人不满退款</text>
+  </view>
+</view>
+<!--拼团详情、时间、须知区域结束  -->
+<!--热门推荐开始  -->
+<view class="hot-list-gro">
+  <text class="hot-list-gro-text">热门推荐</text>
+</view>
+<view class="group-shop-father">
+  <view class="group-shop" wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}" bindtap='goGroupDetail' data-productId='{{item.productId}}' data-groupbyId='{{item.groupbuyId}}' data-sellDetail='{{(item.quantity>0)?1:0}}'> 
+    <image class="group-shop-image" src="{{item.productPic}}"></image>
+    <text class="group-shop-title">{{item.productName}}</text>
+    <view class='group-shopping-wraps'>
+      <text class="group-shop-num">￥{{item.groupbuyPrice}}</text>
+      <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
+    </view>
+    <!--在售  -->
+    <view class="group-shop-bottom" wx:if='{{item.quantity>0}}'>
+        <view class='group-shopping-father'>
+           <text class="gro-pre" style='display:none'>已团{{item.gbnum}}件</text>
+          <text class="gro-pre">仅剩{{item.quantity}}件</text>
+        </view>
+        <text class='shopping-go-group'>去开团</text>
+    </view>
+    <!--在售  -->
+    <!--已售罄  -->
+    <view class="group-shop-bottom" wx:if='{{item.quantity<=0}}'>
+        <view class='group-shopping-father'>
+          <text class="gro-pre">{{item.gbnum+item.quantity}}件已售完</text>
+        </view>
+        <text class='shopping-go-group-end'>已售罄</text>
+    </view>
+    <!--已售罄结束  -->
+  </view>
+</view>
+<!--热门推荐结束  -->

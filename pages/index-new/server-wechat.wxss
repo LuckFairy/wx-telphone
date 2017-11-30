@@ -1,0 +1,37 @@
+.server{
+  display: block;
+  width: 750rpx;
+  background: #ffffff;
+  font-size: 0rpx;
+}
+.server-image{
+  display: block;
+  width: 162rpx;
+  height: 162rpx;
+  margin: 0 auto;
+  margin-top: 100rpx;
+}
+.server-tecent-wechat{
+  font-size: 0rpx;
+  width: 750rpx;
+  display: flex;
+  justify-content: center;
+  margin-top: 34rpx;
+}
+.server-text{
+  font-size: 30rpx;
+  color: #1b1b1b;
+  text-align: center;
+  margin-top: 38rpx;
+  padding-left: 50rpx;
+  padding-right: 50rpx;
+}
+.server-wechat-total{
+  font-size: 30rpx;
+  color: #999999;
+}
+.server-message{
+  text-align: center;
+  display: block;
+  margin-top: 12rpx;
+}

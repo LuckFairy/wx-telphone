@@ -1,0 +1,44 @@
+
+<scroll-view class="bac-color">
+    <view class="goods-list-containner">
+        <!-- 头部导航条 -->
+        <!-- <view class="goods-list-header-view">
+            <text class="nav-text left-nav {{tabName=='going' ? 'nav-active' : ''}}" data-status="going" bindtap="gotoGoing">正在进行</text>
+            <text class="nav-text right-nav {{tabName=='incoming' ? 'nav-active' : ''}}" data-status="incoming" bindtap="gotoIncoming">即将进行</text>
+            <text class="nav-text {{tabName=='shopping' ? 'nav-active' : ''}}" data-status="shopping" bindtap="switchTab">拼团购</text>
+        </view> -->
+        <!--拼团购  -->
+        <view class="group-shop-father">  
+            <view class="group-shop" wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}" bindtap='goGroupDetail' data-productId='{{item.productId}}' data-groupbyId='{{item.groupbuyId}}' data-sellDetail='{{(item.quantity>0)?1:0}}'>
+                <image class="group-shop-image" src="{{item.productPic}}"></image>
+                <text class="group-shop-title">{{item.productName}}</text>
+                <view class='group-shopping-wraps'>
+                  <text class="gro-pre">已团{{item.gbnum}}件</text>
+                </view>
+                <!--在售  -->
+               <view class="group-shop-bottom" wx:if='{{item.quantity>0}}'>
+                    <view class='group-shopping-father'>
+                      <text class="group-shop-num">
+                        <text>￥</text><text class="group-shop-num2">{{item.groupbuyPrice?item.groupbuyPrice:item.productPrice}}</text></text>
+                      <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
+                     <!--<text class="gro-pre">仅剩{{item.quantity}}件</text>--> 
+                    </view>
+                    <text class='shopping-go-group'>去开团</text>
+               </view>
+                <!--在售  -->
+                <!--已售罄  -->
+                <view class="group-shop-bottom" wx:if='{{item.quantity<=0}}'>
+                    <view class='group-shopping-father'>
+                      <text class="group-shop-num">
+                        <text>￥</text><text class="group-shop-num2">{{item.groupbuyPrice?item.groupbuyPrice:item.productPrice}}</text></text>
+                      <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
+                     <!--<text class="gro-pre">仅剩{{item.quantity}}件</text>--> 
+                    </view>
+                    <text class='shopping-go-group-end'>已售罄</text>
+                </view>
+                <!--已售罄结束  -->
+            </view>
+        </view>
+        <!--拼团购  -->
+    </view>
+</scroll-view>

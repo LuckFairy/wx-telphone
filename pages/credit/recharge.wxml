@@ -1,0 +1,15 @@
+<view class="container">
+  <view class="header">
+    <image
+      src="../../image/card_bg.png"
+      mode="widthFix"
+      class="header-image"
+    />
+  </view><!-- .header -->
+  <view class="section">
+    <input bindinput="tellphone" type="number" class="input normalText" placeholder-class="normalText grayText" placeholder="请输入对应的运营商号码" />
+    <input bindinput="tellphone2" type="number" class="input normalText" placeholder-class="normalText grayText" placeholder="请再次确认输入的号码" />
+  </view><!-- .section -->
+  
+  <text bindtap="recharge" class="rechargeButton normalText navigator hotBackgroundColor">立即充值</text>
+</view>

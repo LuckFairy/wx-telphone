@@ -1,0 +1,24 @@
+/* modal.wxss */
+/************** 提交试用的弹出框 ***************/
+.modal-secondText {
+	margin-top: 8rpx;
+	line-height: 140%;
+}
+
+
+/************** 重复领用赠品时的弹出框 **************/
+.modal-firstText {
+	line-height: 140%;
+}
+
+.modal-image {
+	align-self: center;
+	margin-bottom: 20rpx;
+	width: 110rpx;
+}
+
+/************** 积分页面积分不够时的弹出框 **************/
+.modal-spline {
+	width: 1px;
+	background-color: #EAEAEA;
+}

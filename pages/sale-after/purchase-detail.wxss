@@ -1,0 +1,53 @@
+page{
+  background: #ececec;
+}
+.service-detail{
+  display: block;
+}
+.server-detail-number{
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 0rpx;
+  background: #ffffff;
+  display: block;
+  width: 750rpx;
+  padding: 0 24rpx;
+}
+.server-number-text{
+  font-size: 28rpx;
+  color: rgba(27, 27, 27, 0.7);
+}
+.server-number-order{
+  font-size: 28rpx;
+  color: rgb(27, 27, 27);
+  margin-left: 46rpx;
+}
+.server-detail-number-two{
+  margin-top: 1rpx;
+}
+.server-feedback{
+  display: block;
+  height: 160rpx;
+  font-size: 0rpx;
+  background: #ffffff;
+  margin-top: 16rpx;
+  padding-left: 24rpx;
+}
+.server-feedback-title{
+  font-size: 28rpx;
+  display: block;
+  color: rgba(27, 27, 27, 0.7);
+  padding-top: 26rpx;
+}
+.server-feedback-title-two{
+  font-size: 28rpx;
+  display: inline-block;
+  color: rgba(27, 27, 27, 0.7);
+  padding-top: 26rpx;
+}
+.server-feedback-detail{
+  font-size: 28rpx;
+  color: rgb(27, 27, 27);
+  display: block;
+  padding-top: 26rpx;
+}

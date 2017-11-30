@@ -1,0 +1,34 @@
+<loading hidden="{{!loading}}">
+	加载中...
+</loading>
+
+<scroll-view wx:if="{{!loading}}">
+	<view class="container">
+		<view
+			wx:for="{{pageData}}"
+			wx:key="{{item.id}}"
+			class="cell-item navigator"
+			style="{{'background-image: url(' + item.backgroundImage + ')'}}"
+			bindtap="completeInfo"
+		>
+			<text class="cell-item-name normalText">{{item.name}}</text><!-- .cell-item-name -->
+			<view class="cell-item-body mText">
+				<view class="cell-item-body-section">
+					<text style="margin-right: 18rpx" wx:if="{{item.nickName}}">{{item.nickName}}</text>
+					<text>{{item.age}}</text>
+				</view>
+				<view class="cell-item-body-section">
+					<text>{{item.expectedDate? '预产期: ' + item.expectedDate : '生日: ' + item.birthday}}</text>
+				</view>
+				<Text class="cell-item-footer sp-border">编辑</Text>
+			</view><!-- .cell-item-body -->
+		</view><!-- .cell-item -->
+		
+		<view
+			class="cell-item add navigator"
+			style="background-image: url('../../image/mine_baby_add.png')"
+		>
+			<text bindtap="addBaby" style="margin-top: 70rpx" class="mText grayText">新增宝宝档案</text>
+		</view>
+	</view><!-- .container -->
+</scroll-view>

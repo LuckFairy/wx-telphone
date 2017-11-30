@@ -1,0 +1,121 @@
+<view class="clus-total">
+    <view class="clus-list-tit">
+        <text class="clu-shop-tot clus-list-total {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="switchtap">全部</text>
+        <text class="clu-shop-wait clus-list-total {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="switchtap">待成团</text>
+        <text class="clu-shop-already clus-list-total {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="switchtap">已成团</text>
+        <text class="clu-shop-loser clus-list-total {{currentTab==3 ? 'on' : ''}}" data-current="3" bindtap="switchtap">拼团失败</text>
+    </view>
+    <!-- 全部 -->
+    <view class="all-list" wx:if="{{currentTab==0}}">
+        <view class="all-com-fri-det">
+            <view class="all-commodity-img">
+                <image class="all-com" src="../../image/clus-list-img.jpg"></image>
+            </view>
+            <view class="all-commodity-text">
+                <view class="all-com-tit">
+                    <text class="all-com-detail">gggl方法来开封广播嗯嗯</text>
+                    <text class="all-com-num">x 1</text>
+                </view>
+                <view class="all-com-size">
+                    <text class="all-size-number">红色S码</text>
+                </view>
+                <view class="current-price-time">
+                    <text class="now-price">现价：</text>
+                    <text class="now-pri-text">￥1212</text>
+                    <text class="count-down">24:40:44后结束</text>
+                    <text class="group-now">拼团中</text>
+                </view>
+            </view>
+        </view>
+        <view class="invite-friend-detail">
+            <text class="invite-friend inv-total">邀请好友参团</text>
+            <text class="invite-detail inv-total">查看订单详情</text>
+        </view>
+    </view> 
+    <!--全部结束  -->
+    <!--待成团  -->
+    <view class="all-list" wx:if="{{currentTab==1}}">
+        <view class="all-com-fri-det">
+            <view class="all-commodity-img">
+                <image class="all-com" src="../../image/clus-list-img.jpg"></image>
+            </view>
+            <view class="all-commodity-text">
+                <view class="all-com-tit">
+                    <text class="all-com-detail">gggl方法来开封广播嗯嗯</text>
+                    <text class="all-com-num">x 1</text>
+                </view>
+                <view class="all-com-size">
+                    <text class="all-size-number">红色S码</text>
+                </view>
+                <view class="current-price-time">
+                    <text class="now-price">现价：</text>
+                    <text class="now-pri-text">￥1212</text>
+                    <text class="count-down">24:40:44后结束</text>
+                    <text class="group-now">待成团</text>
+                </view>
+            </view>
+        </view>
+        <view class="invite-friend-detail">
+            <text class="invite-friend inv-total">邀请好友参团</text>
+            <text class="invite-detail inv-total">查看订单详情</text>
+        </view>
+    </view> 
+    <!--待成团结束  -->
+    <!--已成团  -->
+    <view class="all-list" wx:if="{{currentTab==2}}">
+        <view class="all-com-fri-det">
+            <view class="all-commodity-img">
+                <image class="all-com" src="../../image/clus-list-img.jpg"></image>
+            </view>
+            <view class="all-commodity-text">
+                <view class="all-com-tit">
+                    <text class="all-com-detail">gggl方法来开封广播嗯嗯</text>
+                    <text class="all-com-num">x 1</text>
+                </view>
+                <view class="all-com-size">
+                    <text class="all-size-number">红色S码</text>
+                </view>
+                <view class="current-price-time">
+                    <text class="now-price">现价：</text>
+                    <text class="now-pri-text">￥1212</text>
+                    <text class="count-down">24:40:44后结束</text>
+                    <text class="group-now">已成团</text>
+                </view>
+            </view>
+        </view>
+        <view class="invite-friend-detail">
+            <text class="invite-friend inv-total">邀请好友参团</text>
+            <text class="invite-detail inv-total">查看订单详情</text>
+        </view>
+    </view> 
+    <!--已成团结束  -->
+    <!--拼团失败  -->
+    <view class="all-list" wx:if="{{currentTab==3}}">
+        <view class="all-com-fri-det">
+            <view class="all-commodity-img">
+                <image class="all-com" src="../../image/clus-list-img.jpg"></image>
+            </view>
+            <view class="all-commodity-text">
+                <view class="all-com-tit">
+                    <text class="all-com-detail">gggl方法来开封广播嗯嗯</text>
+                    <text class="all-com-num">x 1</text>
+                </view>
+                <view class="all-com-size">
+                    <text class="all-size-number">红色S码</text>
+                </view>
+                <view class="current-price-time">
+                    <text class="now-price">现价：</text>
+                    <text class="now-pri-text">￥1212</text>
+                    <text class="count-down">24:40:44后结束</text>
+                    <text class="group-now">拼团失败</text>
+                </view>
+            </view>
+        </view>
+        <view class="invite-friend-detail">
+            <text class="invite-friend inv-total">邀请好友参团</text>
+            <text class="invite-detail inv-total">查看订单详情</text>
+        </view>
+    </view>
+    <!--拼团失败结束  -->
+    
+</view>

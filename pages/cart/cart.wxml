@@ -1,0 +1,191 @@
+<!--pages/cart/cart.wxml-->
+<import src="../template/count-down.wxml" />
+<view wx:if="{{false}}" class="full-reduce">
+  <text class="full-rec-text">满减</text>
+  <text class="full-rec-tedetail">dkdkdds.ffssf分级阅读等多个机构</text>
+  <text class="full-rec-mer">去凑单</text>
+  <text class="full-rec-lar">></text>
+</view>
+<view class="page-list">
+  <view class="shop df" wx:for="{{productData}}" wx:key="{{index}}">
+    <image class="sh_slt" src="{{item.ImgUrl}}"></image>
+    <view class="df_1">
+      <view class="sp_text">
+        <navigator url="../index/detail?productId={{item.ProID}}">
+          <view class="sp_tit ovh1">{{item.ProductName}}</view>
+        </navigator>
+        <view class="sp_neb">数量：×{{item.BuyCount}}</view>
+        <view class="sp_jg">¥：{{item.Price}}</view>
+        <button class="dle" data-card-id="{{item.CartID}}" bindtap="removeShopCard">删除</button>
+        <navigator class="dle" url="../order/pay?productId={{item.ProID}}&cartId={{item.CartID}}&buyCount={{item.BuyCount}}">下单                  </navigator>
+      </view>
+    </view>
+  </view>
+  <!--样式-->
+  <view class="container carts-list" wx:if="{{carts==''}}">
+    <view class="pp">
+       <image class='pp-null' src='../../image/shop-null.png'></image>
+       <text class='pp-text'>购物车还是空的</text>
+       <view class='pp-goindex' bindtap='goindex'>去逛逛</view>  
+       <!--  <image class="kong" src="../../image/cart.jpg" mode="aspectFill" /> 
+       <view class="cla">购物车空空如也</view> -->
+    </view>
+  </view>
+  <view class="container carts-list">
+    <!--勾-->
+    <view wx:for="{{carts}}" class="carts-item" data-title="{{item.proName}}" id="{{item.id}}" wx:key="{{index}}">
+      <icon wx:if="{{item.selected}}" type="success_circle" size="20" bindtap="bindCheckbox" data-index="{{index}}" />
+      <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-index="{{index}}" />
+      <!--img-->
+      <view>
+        <image class="carts-image" src="{{item.photoX}}" mode="aspectFill" />
+      </view>
+      <!--文字-->
+      <!-- <view class="carts-text">
+        <text class="carts-title">{{item.proName}}</text>
+        <text class="carts-size">灰色M码</text>
+        <view class="carts-subtitle">
+          <text class="carts-price">¥ {{item.price}}</text>
+        </view>
+      </view> -->
+      <!--右边-->
+      <!-- <view class="title">
+        <text bindtap="removeShopCard" data-cartid="{{item.id}}" class="modal-close">x</text>
+        <view class="stepper"> -->
+      <!-- 减号 -->
+      <!-- <text class="{{minusStatuses[index]}}" data-index="{{index}}" bindtap="bindMinus" data-cartid="{{item.id}}">-</text> -->
+      <!-- 数值 -->
+      <!-- <input type="number" bindchange="bindManual" value="{{item.num}}" /> -->
+      <!-- 加号 -->
+      <!-- <text class="normal" data-index="{{index}}" bindtap="bindPlus" data-cartid="{{item.id}}">+</text>
+        </view>
+      </view> -->
+      <view class="cart-total">
+        <text class="cart-tot-title">{{item.proName}}</text>
+        <view class="cart-size-list">
+          <text class="cart-text-list">{{item.color}}{{item.size}}</text>
+          <image class="cart-img-list" src="../../image/delete.png" bindtap="removeShopCard" data-cartid="{{item.id}}"></image>
+        </view>
+        <view class="cart-frice-list-far">
+          <text class="cart-frice-list">￥{{item.price}}</text>
+          <view class="cart-add-reduce">
+            <text class="cart-reduce cart-common" data-index="{{index}}" bindtap="bindMinus" data-cartid="{{item.id}}">-</text>
+            <text class="cart-text-num cart-common" type="number" bindchange="bindManual" value="{{item.num}}">{{item.num}}</text>
+            <text class="cart-add cart-common" data-index="{{index}}" bindtap="bindPlus" data-cartid="{{item.id}}">+</text>
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+</view>
+<!--底部-->
+  <view class="carts-footer" wx:if='{{cartSHow}}'>
+    <view class="total-choose" bindtap="bindSelectAll">
+      <icon wx:if="{{selectedAllStatus}}" type="success_circle" size="24" />
+      <icon wx:else type="circle" size="24" />
+      <text class="total-go">全选</text>
+    </view>
+    <view class="total-price">
+      <text class="total-pri-text">合计{{total}}
+      </text>
+      <!-- <text class="not-wrap-price">不含运费，已优惠￥0.222</text> -->
+    </view>
+    <view class="button" bindtap='bindCheckout'>去结算</view>
+  </view>
+<!-- 热门推荐-->
+ <view class="hot-recommend">
+  <text class="hot-com-text">-----热门推荐-----</text>
+</view>
+<!--拼团购  -->
+        <view class="group-shop-father">  
+            <view class="group-shop" wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}" bindtap='goGroupDetail' data-productId='{{item.productId}}' data-groupbyId='{{item.groupbuyId}}' data-sellDetail='{{(item.quantity>0)?1:0}}'>
+                <image class="group-shop-image" src="{{item.productPic}}"></image>
+                <text class="group-shop-title">{{item.productName}}</text>
+                <view class='group-shopping-wraps'>
+                  <text class="group-shop-num">￥{{item.groupbuyPrice}}</text>
+                  <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
+                </view>
+                <!--在售  -->
+               <view class="group-shop-bottom" wx:if='{{item.quantity>0}}'>
+                    <view class='group-shopping-father'>
+                       <text class="gro-pre" style='display:none'>已团{{item.gbnum}}件</text>
+                      <text class="gro-pre">仅剩{{item.quantity}}件</text>
+                    </view>
+                    <text class='shopping-go-group'>去开团</text>
+               </view>
+                <!--在售  -->
+                <!--已售罄  -->
+                <view class="group-shop-bottom" wx:if='{{item.quantity<=0}}'>
+                    <view class='group-shopping-father'>
+                      <text class="gro-pre">{{item.gbnum+item.quantity}}件已售完</text>
+                    </view>
+                    
+                    <text class='shopping-go-group-end'>已售罄</text>
+                </view>
+                <!--已售罄结束  -->
+            </view>
+        </view>
+        <!--拼团购  -->
+
+
+<!-- <block wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}">
+  <navigator class="goods-item-view" url="../shopping/goods-detail?prodId={{item.prodId}}">
+    <view class="hot-img">
+      <image mode='widthFix' class="img-hot-com" src="{{item.bannerImage}}"></image>
+    </view>
+    </navigator>
+    <view class="hot-rec-text-wrap">
+      <text class="hot-rec-text">{{item.prodName}}</text>
+      <view class="hot-rec-text-down">
+        <text class="hot-rec-del">仅剩：</text>
+        <template is="count-down" data="{{...item.countDown}}" />
+      </view>
+    </view>
+  
+</block> -->
+<!-- <view class="hot-list-gro">
+  <text class="hot-list-gro-text">热门推荐</text>
+</view>
+<view class="group-shop-father">
+  <view class="group-shop">
+    <image class="group-shop-image" src="../../image/group-shop.jpg"></image>
+    <text class="group-shop-title">防火防盗回复的vkldfl</text>
+    <text class="group-shop-num">已团2333件</text>
+    <view class="group-shop-bottom">
+      <text class="gro-now">￥333</text>
+      <text class="gro-pre">￥222</text>
+      <text class="go-gro">去开团</text>
+    </view>
+  </view>
+  <view class="group-shop">
+    <image class="group-shop-image" src="../../image/group-shop.jpg"></image>
+    <text class="group-shop-title">防火防盗回复的vkldfl</text>
+    <text class="group-shop-num">已团2333件</text>
+    <view class="group-shop-bottom">
+      <text class="gro-now">￥333</text>
+      <text class="gro-pre">￥222</text>
+      <text class="go-gro">去开团</text>
+    </view>
+  </view>
+  <view class="group-shop">
+    <image class="group-shop-image" src="../../image/group-shop.jpg"></image>
+    <text class="group-shop-title">防火防盗回复的vkldfl</text>
+    <text class="group-shop-num">已团2333件</text>
+    <view class="group-shop-bottom">
+      <text class="gro-now">￥333</text>
+      <text class="gro-pre">￥222</text>
+      <text class="go-gro">去开团</text>
+    </view>
+  </view>
+  <view class="group-shop">
+    <image class="group-shop-image" src="../../image/group-shop.jpg"></image>
+    <text class="group-shop-title">防火防盗回复的vkldfl</text>
+    <text class="group-shop-num">已团2333件</text>
+    <view class="group-shop-bottom">
+      <text class="gro-now">￥333</text>
+      <text class="gro-pre">￥222</text>
+      <text class="go-gro">去开团</text>
+    </view>
+  </view>
+</view> -->
