@@ -146,7 +146,7 @@
         <view class='property-list'>
           <text class='property-title'>{{pid.name}}</text>
           <view class='property-value-list'>
-            <text wx:for='{{pid.values}}' wx:for-item='vid' wx:key='{{index}}' data-pid='{{pid.pid}}' data-vid='{{vid.vid}}' class='pro-val-list {{arrone==(pid.pid+vid.vid) || arrtwo==(pid.pid+vid.vid) ? "chooseTab" : ""}}' bindtap='chooseProperty' data-pidvid='{{pid.pid+vid.vid}}'>{{vid.value}}</text>
+            <text wx:for='{{pid.values}}' wx:for-item='vid' wx:key='{{index}}' data-pid='{{pid.pid}}' data-vid='{{vid.vid}}' class='pro-val-list  {{curTabs ==(pid.pid+vid.vid) || arrotwo==(pid.pid+vid.vid) || arrone==(pid.pid+vid.vid) ? "chooseTab" : ""}}' bindtap='chooseProperty' data-pidvid='{{pid.pid+vid.vid}}'>{{vid.value}}</text>
           </view>
         </view>
       </block>

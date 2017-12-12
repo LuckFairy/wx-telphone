@@ -35,11 +35,14 @@ Page({
     quantitys:[],
     oneMatching:[],
     oriPid:'',
-    curTab:'',
+    curTabone: '',
+    curTabtwo:'',
     choTab:'',
     numPid:'',
     arrone:'',
-    arrotwo:""
+    arrotwo:"",
+    curTabtwos:'',
+    curTabs:''
   },
   goStoreServer() {
     wx.navigateTo({
@@ -191,7 +194,11 @@ Page({
     }
     that.setData({
       moreChoose: false,
-      oneMatching:[]
+      oneMatching: oneMatching,
+      curTabs:'',
+      arrone: '',
+      arrotwo: "",
+      oriPid:''
     });
     console.log('222222222')
   },
@@ -229,7 +236,11 @@ Page({
     var product_id = e.currentTarget.dataset.productId;
     that.setData({
       moreChoose: true,
-      oneMatching:[]
+      oneMatching: oneMatching,
+      oriPid:"",
+      curTabs: '',
+      arrone: '',
+      arrotwo: ""
     });
     var uid = that.data.uid;
     var store_id = that.data.store_id;
@@ -284,20 +295,23 @@ Page({
     console.log('quantitys', quantitys)
 
     if ((oriPid != pid) && oneMatching.length == 0){
+      oneMatching.splice(0, oneMatching.length);//清空数组
       for (var k = 0; k < multiattribute.length; k++) {
         for (var g = 0; g < multiattribute[k].length; g++) {
           if (multiattribute[k][g] == arr_gropv) {
             console.log(multiattribute[k], 'g')//获取点击匹配的可选项
             oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
             console.log(oneMatching, '首次push的匹配值')
-            that.setData({
-              oriPid: pid,
-              curTab:pid+vid,
-              numPid:''
-            })
           }
         }
       }
+      that.setData({
+        arrone: '',
+        arrotwo:'',
+        curTabs:pid+vid,
+        oriPid: pid
+      })
+      console.log('执行1')
     } else if ((oriPid == pid) && oneMatching.length != 0){
       oneMatching.splice(0, oneMatching.length);//清空数组
       for (var k = 0; k < multiattribute.length; k++){
@@ -306,13 +320,16 @@ Page({
             console.log(multiattribute[k], 'g')//获取点击匹配的可选项
             oneMatching.push(multiattribute[k]);//重新加入匹配项
             console.log('oneMatching重新匹配', oneMatching)
-            that.setData({
-              curTab: pid + vid,
-              numPid: ''
-            })
           }
         }
       }
+      that.setData({
+        arrone: '',
+        arrotwo: '',
+        curTabs: pid + vid,
+        oriPid: pid
+      })
+      console.log('执行2')
     } else if ((oriPid != pid) && oneMatching.length != 0){//换行选中后
       for (var k = 0; k < multiattribute.length; k++) {
         for (var g = 0; g < multiattribute[k].length; g++) {
@@ -320,19 +337,21 @@ Page({
           if (multiattribute[k][g] == arr_gropv) {
             console.log(multiattribute[k], 'g3')//获取点击匹配的可选项
             console.log(multiattribute[k][g], 'ggg3')//获取点击匹配的可选项
+            console.log('是否执行到这里')
             for (var o = 0; o < oneMatching.length;o++){
               if(oneMatching[o] == multiattribute[k]){
-                // console.log(multiattribute[k],'multiattribute[k]点击匹配项');//设置匹配项颜色
+                console.log(multiattribute[k], quantitys[k],'multiattribute[k]点击匹配项');//设置匹配项颜色
                 console.log(quantitys[k],'quantitys[k]')
+                
                 if (quantitys[k]<=0){
                   wx.showLoading({
                     title: '买完了'
                   });
+                 
                   setTimeout(function () {
                     wx.hideLoading()
                   }, 2000)
                 }else{
-                  console.log(multiattribute[k], 'multiattribute[k]点击匹配项');
                   var arrObj = [];
                   for (var d = 0; d < multiattribute[k].length;d++){
                   console.log(multiattribute[k][d],'multiattribute[k][d]');
@@ -341,7 +360,6 @@ Page({
                   var array =  multiattribute[k][d].split(':');
                   console.log(array,'array')
                   console.log(array[0],'array[0]');
-                 
                 }
                   console.log(arrObj,'arrObj')
                   var objArr = [];
@@ -354,34 +372,22 @@ Page({
                   var arrone = objArr[0] + objArr[1];
                   var arrotwo = objArr[2] + objArr[3];
                   console.log(arrone, 'arrone');
-                  console.log(arrotwo,'arrotwo');
+                  console.log(arrotwo, 'arrotwo');
                   that.setData({
-                    arrone,
-                    arrotwo
-                  })                  
+                    arrone, arrotwo, curTabs: ''
+                  })
+                  console.log('执行3')
+                      
                 }
               }
             }
-            that.setData({
-              oriPid: pid
-            })
+            // that.setData({
+            //   oriPid: pid
+            // })
           }
         }
       }
     }
-
-
-
-
-
-
-
-
-
-    
-
-
-
   },
   /**
  * 显示错误信息
