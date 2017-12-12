@@ -1,0 +1,204 @@
+<scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
+    <view class='wrap'>
+<!--头图  -->
+  <!--未拿到数据前的默认图  -->
+    <swiper wx:if='{{showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
+        <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
+          <image class='header-image' mode='widthFix' src='../../image/header-one.png' />
+        </swiper-item>
+    </swiper>
+    <!--未拿到数据前的拿到数据之后  -->
+    <swiper wx:if='{{!showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
+      <block wx:for='{{dataImg}}' wx:key="{{}}">
+        <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
+          <image class='header-image' mode='widthFix' src='{{item.pic}}' data-destination="0" />
+        </swiper-item>
+      </block>
+    </swiper>
+  <!--信息提示区域  -->
+  <view class='header-message'>
+    <image class='headder-msg-image'  src='../../image/trumpet.png'></image>
+    <text class='header-msg-text'>正品保障 假一赔三 破损包邮 7天无理由退换</text>
+  </view>
+  <!--信息提示区域结束  -->
+  <!--列表选项区域  -->
+  <view class='list-select-area'>
+    <view class="list-select-area-top">
+      <view class='select-list' bindtap="clickGo" data-destination="1">
+        <image class='select-list-image' src='../../image/new-text.png' data-destination="1"></image>
+        <text class='select-list-text' data-destination="1">新品试用</text>
+      </view>
+      <view class='select-list' bindtap="clickGo" data-destination="2">
+        <image class='select-list-image' src='../../image/year20.png' data-destination="2"></image>
+        <text class='select-list-text' data-destination="2">周年巨献</text>
+      </view>
+      <view class='select-list' bindtap="clickGo" data-destination="3">
+        <image class='select-list-image' src='../../image/lotto-area.png' data-destination="3"></image>
+        <text class='select-list-text' data-destination="3">抽奖专区</text>
+      </view>
+      <view class='select-list' bindtap="clickGo" data-destination="4">
+        <image class='select-list-image' src='../../image/infant-mom.png' data-destination="4"></image>
+        <text class='select-list-text' data-destination="4">母婴服务</text>
+      </view>
+      <view class='select-list'  data-destination="5" bindtap='clickGo'>
+        <image class='select-list-image' src='../../image/shop-promotion.png' data-destination="5"></image>
+        <text class='select-list-text' data-destination="5">门店促销</text>
+      </view>
+    </view>
+    <view class="list-select-area-bottom">
+      <view class='select-list' bindtap="clickGoCategory" data-index = '0' data-cat-id='{{cat_list[0].cat_id}}'>
+        <image class='select-list-image' src='{{cat_list[0].cat_pic}}'></image>
+        <text class='select-list-text'>{{cat_list[0].cat_name}}</text>
+      </view>
+      <view class='select-list' bindtap="clickGoCategory" data-index = '1' data-cat-id='{{cat_list[1].cat_id}}'>
+        <image class='select-list-image' src='{{cat_list[1].cat_pic}}'></image>
+        <text class='select-list-text'>{{cat_list[1].cat_name}}</text>
+      </view>
+      <view class='select-list' bindtap="clickGoCategory" data-index = '2' data-cat-id='{{cat_list[2].cat_id}}'>
+        <image class='select-list-image' src='{{cat_list[2].cat_pic}}'></image>
+        <text class='select-list-text'>{{cat_list[2].cat_name}}</text>
+      </view>
+      <view class='select-list' bindtap="clickGoCategory" data-index = '3' data-cat-id='{{cat_list[3].cat_id}}'>
+        <image class='select-list-image' src='{{cat_list[3].cat_pic}}'></image>
+        <text class='select-list-text'>{{cat_list[3].cat_name}}</text>
+      </view>
+      <view class='select-list' bindtap="clickGoCategory" data-index = '4' data-cat-id='{{cat_list[4].cat_id}}'>
+        <image class='select-list-image' src='{{cat_list[4].cat_pic}}'></image>
+        <text class='select-list-text'>{{cat_list[4].cat_name}}</text>
+      </view>
+    </view>
+  </view>
+  <!--列表选项区域结束  -->
+  <!-- 卡包选项区开始 -->
+  <view class='card' bindtap='goCardLists'>
+      <view>
+          <image src="../../image/home_2.png" class='card_img_1'></image>
+          <view class='card_view'>
+            <text class='card_text_1'>我的卡包</text>
+            <text class='card_text_2'>线上线下，领过的券都全部在这里</text>
+            <text class='card_text_3'><text>3</text>张未使用</text>
+           </view>
+      </view>
+      <view>
+          <image src="../../image/right_2.png" class='card_img_2'></image>
+      </view>
+      
+  </view>
+
+
+  <!-- 卡包选项去结束 -->
+  <!--咿呀拼多多区域  -->
+  <view class='yiya-pinduoduo-area'>
+    <!--标题  -->
+    <view class='pinduoduo-title'>
+      <text class='pinduodudo-text-title'>咿呀拼多多</text>
+      <view class='pinduoduo-more' bindtap="clickGoGroup">
+        <text class='more-text'>查看更多</text>
+        <image class='more-image' src='../../image/next-page.png'></image>
+      </view>
+    </view>
+    <!--内容  -->
+    <view class='pinduoduo-content'>
+      <view class='pinduoduo-content-list' wx:for="{{groupData}}" wx:key="{{item}}" bindtap="clickGoGroupProduct" data-prodId="{{item.product_id}}" data-groupbuyId="{{item.tuan_id}}" data-quantity="{{item.quantity}}">
+          <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+          <text class='pinduoduo-content-title'  >{{item.name}}</text>
+          <view class='pinduoduo-content-price' >
+            <text class='pinduoduo-content-current'  >￥{{item.start_price}}</text>
+            <text class='pinduoduo-already' >已团{{item.count}}件</text>
+          </view>
+      </view>
+      
+    </view>
+  </view>
+  <!--咿呀拼多多区域结束  -->
+  
+  <!--限时秒杀区域  -->
+  <view class='yiya-pinduoduo-area' bindtap="clickGoSecKill" data-type="{{type}}" data-index="{{index}}">
+    <!--标题  -->
+    <view class='pinduoduo-title'>
+      <text class='pinduodudo-text-title'>限时秒杀</text>
+      <view class='pinduoduo-more' >
+        <text class='more-text' data-type="{{type}}" data-index="{{index}}">查看更多</text>
+        <image class='more-image' src='../../image/next-page.png' data-type="{{type}}" data-index="{{index}}"></image>
+      </view>
+    </view>
+    <!--内容  -->
+    <view class='miaosha-area'>
+      <view class='miaosha-lasttime-father'>
+        <view class='miaosha-lasttime'>
+          <text class='miaosha-time-now'>{{showTime}}场结束仅剩</text>
+          <text class='miaosha-time-detail'>{{countDown.hour}}</text>
+          <text class='miaosha-time-point'>:</text>
+          <text class='miaosha-time-detail'>{{countDown.minute}}</text>
+          <text class='miaosha-time-point'>:</text>
+          <text class='miaosha-time-detail'>{{countDown.second}}</text>
+        </view>
+      </view>
+      <view class='miaosha-list-father'>
+
+      <view class='miaosha-list-wrap' wx:for="{{secKillData}}" wx:key="{{item}}">
+        <view class='miaosha-list'  data-prodId="{{item.productId}}" data-productPrice="{{item.productPrice}}" data-skPrice="{{item.skPrice}}" data-expireTime="{{expireTime}}"  data-quantity="{{item.quantity}}"    data-pskId="{{item.pskId}}">
+          <image class='miaosha-list-image' src='{{item.productPic}}' data-prodId="{{item.productId}}" data-productPrice="{{item.productPrice}}" data-skPrice="{{item.skPrice}}" data-expireTime="{{expireTime}}"  data-quantity="{{item.quantity}}"  data-pskId="{{item.pskId}}"></image>
+          <text class='miaosha-list-price' data-prodId="{{item.productId}}" data-productPrice="{{item.productPrice}}" data-skPrice="{{item.skPrice}}" data-expireTime="{{expireTime}}"  data-quantity="{{item.quantity}}"  data-pskId="{{item.pskId}}">￥{{item.skPrice}}</text>
+        </view>
+      </view>
+      
+      </view>
+      
+    </view>
+  </view>
+  <!--限时秒杀区域结束  -->
+  <!--热门推荐开始  -->
+  <!--标题  -->
+  <view class='yiya-pinduoduo-area'>
+    <!--标题  -->
+    <view class='pinduoduo-title'>
+      <text class='pinduodudo-text-title'>热门推荐</text>
+      <!-- <view class='pinduoduo-more'>
+        <text class='more-text'>查看更多</text>
+        <image class='more-image' src='../../image/next-page.png'></image>
+      </view> -->
+    </view>
+    <!--标题结束  -->
+    <!--内容开始  -->
+    <view class='hot-recommend'> 
+
+      <view class='hot-recommend-list' wx:for="{{hotData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}" >
+
+        <view class='hot-recommend-image'>
+          <image class='hot-image' src='{{item.productPic}}'></image>
+        </view>
+
+        <view class='hot-recommend-text-list' >
+        <block wx:if="{{item.specialPrice}}">
+          <text class='hot-recomend-title' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">{{item.productName}}</text>
+          <text class='hot-recomend-sell' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">已售{{item.num}}件</text>
+          <text class='hot-recomend-down' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">直降{{item.tag}}元</text>
+          <view class='hot-recomend-price' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">
+            <text class='hot-recomend-cn' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">￥</text>
+            <text class='hot-recomend-current' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">{{item.specialPrice}}</text>
+            <text class='hot-recomend-ever' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">￥{{item.productPrice}}</text>
+          </view>
+        </block>
+        <block wx:else>
+          <text class='hot-recomend-title' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">{{item.productName}}</text>
+          <text class='hot-recomend-sell' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">已售{{item.num}}件</text>
+          <view class='hot-recomend-price' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">
+            <text class='hot-recomend-cn' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">￥</text>
+            <text class='hot-recomend-current' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">{{item.productPrice}}</text>
+          </view>
+        </block>
+        </view>
+
+      </view>
+      
+    </view>
+    <!--内容结束  -->
+  </view>
+  <!--热门推荐结束  -->
+</view>
+</scroll-view>
+
+<!--返回顶部按钮开始  -->
+<image wx:if="{{goTop_show}}" bindtap="goTopFun" class='yiya-top-image' src='../../image/go-to-top.png'></image>
+<!--返回顶部按钮结束  -->

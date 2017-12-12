@@ -1,0 +1,44 @@
+<loading hidden="{{!loading}}">
+	加载中...
+</loading>
+
+<view class="store-detail-containner" wx:if="{{!loading}}">
+    <view class="store-name-view normalText">{{pageData.name}}</view>
+
+    <view class="location-view sp-border navigator" bindtap="seeStreet">
+        <view class="store-detail-title normalText">位置</view>
+        <view class="location-dtl-text-view mText">{{pageData.address}}</view>
+        <view class="cell-right">
+            <text class="store-detail-street mText">街景</text>
+            <text class="fa fa-lg fa-angle-right"/>
+        </view>
+    </view>
+
+    <view class="tel-view sp-border">
+        <text class="store-detail-title normalText">电话</text>
+        <text class="phone-num-text mText grayText">{{pageData.telephone}}</text>
+    </view>
+
+    <view class="photo-view sp-border" bindtap="previewAlbum" data-albums="{{pageData.image}}">
+        <text class="store-detail-title normalText">图集</text>
+        <view class="photo-list-view">
+            <!--<image
+                wx:for="{{pageData.images}}"
+                wx:key="{{index}}"
+                src="{{item}}"
+                mode="widthFix"
+                class="store-image"
+            />-->
+            <image
+                src="{{pageData.image}}"
+                mode="widthFix"
+                class="store-image"
+            />
+        </view>
+    </view>
+
+    <view class="open-time-view sp-border">
+        <text class="store-detail-title normalText">营业时间</text>
+        <text class="phone-num-text mText grayText">{{pageData.workingTime}}</text>
+    </view>
+</view>

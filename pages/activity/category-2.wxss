@@ -1,0 +1,3 @@
+/* pages/activity/category-2.wxss */
+
+@import '../template/retail-activities.wxss';

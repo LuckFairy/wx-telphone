@@ -1,0 +1,119 @@
+<!-- present-apply.wxml -->
+<import src="../template/modal.wxml" />
+
+<scroll-view scroll-y="{{true}}">
+  <view class="tab-container">
+    <view class="container">
+      <view class="modelImage">
+        <image src="{{presentData.image}}" mode="widthFix"  />
+      </view>
+      <view class="modelRightContainer">
+        <view class="description">
+          <text class="titleText title">{{presentData.name || ''}}</text>
+          <!-- subtitle -->
+        </view>
+        <view class="prod-price-view" wx:if="{{productColor}}">
+                颜色：{{productColor}}   尺码：{{productSize}}
+        </view>
+        <view class="info">
+          <view class="priceInfo">
+            <view class="priceInfo">
+              <text class="specialRedText special"><text class="mText">¥</text>{{ presentData.price}}</text>
+              <text class="price grayText">{{'¥' + presentData.basePrice}}</text><!--wx:if="{{presentData.price !== presentData.basePrice}}"-->
+          </view>
+          </view>
+          <view class="controlWrap">
+            <text class="mText">已有<text class="specialRedText">{{presentData.sales}}</text>人使用过</text>
+          </view>
+        </view>
+      </view>
+    </view><!-- 赠品.container -->
+
+    <view class="section-wrap">
+      <text class="section-title">申请表基本资料填写</text>
+    </view><!-- .section-wrap -->
+
+    <form bindsubmit="formSubmit">
+      <!-- 隐藏域 -->
+      <input hidden name="prodId" value="{{presentData.productId}}" /> 
+      <!-- 隐藏域end -->
+      <view class="form">
+        <!-- .user-info -->
+        <view class="sp-border user-info">
+          <label style="margin-bottom: 16rpx">
+            <text>姓名:</text>
+            <input placeholder-style="font-size: 11pt; color: #bbb;" placeholder="请输入您的姓名" name="fullname" />
+          </label>
+          <label>
+            <text>手机号码:</text>
+            <input type="number" placeholder-style="font-size: 11pt; color: #bbb;" placeholder="请输入您的手机号码" name="telephone" />
+          </label>
+        </view><!-- .user-info -->
+        <!-- .option-select-container -->
+        <view class="show-block option-select-container" wx:if="{{presentData.options && presentData.options.length > 0}}">
+          <view class="section-wrap" style="padding-left: 0">
+            <text class="section-title">回答以下问题即有机会获得免费试用的机会</text>
+          </view>
+
+          <view
+            class="option-container"
+            wx:for="{{presentData.options}}" 
+            wx:for-item="option"
+            wx:key="{{option.productOptionId}}"
+          >
+            <text style="margin-top: {{index===0? '0':'48rpx'}}" class="option-title">{{(index + 1) + '、' + option.name}}</text>
+            <radio-group 
+              name="{{option.productOptionId}}"
+              wx:if="{{option.type === 'radio'}}"
+              class="option-group"
+              bindchange="optionChange"
+              data-productoptionid="{{option.productOptionId}}"
+            >
+              <label 
+                class="option-label"
+                wx:for="{{option.productOptionValue}}"
+                wx:key="{{item.productOptionValueId}}"
+              >
+                <radio
+                  class="option"
+                  value="{{item.productOptionValueId}}"
+                  checked="{{item.checked}}"
+                />{{item.name}}
+              </label>
+            </radio-group>
+            
+            <checkbox-group 
+              name="{{option.productOptionId}}"
+              wx:if="{{option.type === 'checkbox'}}"
+              class="option-group"
+              bindchange="optionChange"
+              data-productoptionid="{{option.productOptionId}}"
+            >
+              <label 
+                class="option-label"
+                wx:for="{{option.productOptionValue}}"
+                wx:key="{{item.productOptionValueId}}"
+              >
+                <checkbox
+                  class="option"
+                  value="{{item.productOptionValueId}}"
+                  checked="{{item.checked}}"
+                />{{item.name}}
+              </label>
+            </checkbox-group>
+          </view><!-- .option-container -->
+
+        </view><!-- .option-select-container -->
+
+        <view class="submit-button">
+          <button form-type="submit" class="hotBackgroundColor submit">提交试用</button>
+        </view><!-- .submit-button -->
+        
+      </view><!-- .form -->
+    </form>
+
+  </view>
+</scroll-view>
+
+<template wx:if="{{showModal}}" is="text-comfirm-modal" data="{{...modalConfig}}" />
+<template wx:if="{{showErrModal}}" is="text-error-modal" data="{{...errModalConfig}}" />

@@ -1,0 +1,37 @@
+<view class="wrapper lotteryDraw">
+  <image src="../../image/bg2.png" class='bgImage'></image>
+	<view class="header" wx:if="{{textShow}}" bindtap='enterFreshen'>
+    <text class='header-title'>{{textMsg}}</text>
+	</view>
+	<view class="main">
+    	<view class="canvas-container">
+          <view  animation="{{animationData}}" class="canvas-content" >
+            <image src="../../image/activity-lottery-5.png" style="-webkit-transform: rotate({{}});transform: rotate({{}})"></image>
+          </view>
+          <view bindtap="getLottery" class="canvas-btn {{btnDisabled}}">
+            <image src="../../image/172X200.png"></image>
+          </view>		
+      </view>
+	</view>
+  <view class='prize'>
+    <view class='prize-header'>
+      <view class='prize-header-text'><text >奖项设置</text></view>
+      <view class='prize-header-img'> <image src='../../image/down.png' ></image></view>
+    </view>
+    <view class='prize-explain'>
+      <text class='prize-four' wx:if="{{prizeinfo}}">{{prizeinfo}}</text>
+      <text class='prize-one' wx:if="{{first}}">{{first}}</text>
+      <text class='prize-two' wx:if="{{second}}">{{second}}</text>
+      <text class='prize-three' wx:if="{{third}}">{{third}}</text>
+    
+    </view>
+   
+  </view>
+  <view class='explain'>
+    <view class='explain-header'>
+      <view class='explain-header-text'><text >活动说明</text></view>
+      <view class='explain-header-img'><image src='../../image/down.png' ></image></view>
+    </view>
+    <text class='explain-text'>{{info}}</text>
+  </view>
+</view>

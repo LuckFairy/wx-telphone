@@ -1,0 +1,57 @@
+/* association.wxss */
+
+page {
+	background-color: #f2f2f2;
+}
+
+.wrap {
+  padding-top: 24rpx;
+  display: block;
+}
+
+.container {
+  flex-direction: column;
+  background-color: #fff;
+  margin-bottom: 24rpx;
+}
+
+
+.header {
+  padding: 20rpx;
+  color: #333;
+}
+
+.titleImage {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.info {
+  flex: 1;
+  flex-direction: column;
+  margin-left: 20rpx;
+  justify-content: space-between;
+}
+
+.introduce {
+  line-height: 140%;
+  padding: 16rpx 0;
+}
+
+.numsOfPeople {
+  align-self: flex-start;
+  padding: 6rpx 16rpx; 
+  color: #fff;
+}
+
+.weixin {
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx;
+}
+
+.addWeixinButton {
+  border: 1px solid rgb(250, 30, 30);
+  padding: 13rpx 30rpx;
+  border-radius: 8rpx;
+}

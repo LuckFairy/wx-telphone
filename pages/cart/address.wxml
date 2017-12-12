@@ -1,0 +1,54 @@
+<view class="form-err-view">
+  <text wx:if="{{error}}" class="form-err-text">{{error}}</text>
+</view>
+
+
+<view class="addr-containner">
+    <view class="item-view">
+        <label class="title">收 货 人：</label>
+        <input style="flex:1;" bindinput="bindFullnameChange" value="{{fullname}}" type="text" placeholder="" maxlength="64" />
+    </view>
+    <view class="item-view">
+        <label class="title">手机号码：</label>
+        <input style="flex:1;" bindinput="bindShippingTelephoneChange" value="{{shippingTelephone}}" type="number" placeholder="" maxlength="64" />
+    </view>
+    <view class="item-view">
+        <label class="title">省份：</label>
+        <picker class="picker" bindchange="bindZoneChange" value="{{selectedZoneIndex}}" range="{{zoneList}}" range-key="name">
+          <view class="picker" style="width:520rpx;">
+            <text class="picker-text">{{zoneList[selectedZoneIndex].name}}</text>
+            <i class="fa fa-chevron-right picker-indicator"></i>
+          </view>
+        </picker>
+    </view>
+    <view class="item-view">
+        <label class="title">城市：</label>
+        <picker class="picker" bindchange="bindCityChange" value="{{selectedCityIndex}}" range="{{cityList}}" range-key="name">
+          <view class="picker" style="width:520rpx;">
+            <text class="picker-text">{{cityList[selectedCityIndex].name}}</text>
+            <i class="fa fa-chevron-right picker-indicator"></i>
+          </view>
+        </picker>
+    </view>
+    <view class="item-view">
+        <label class="title">县区：</label>
+        <picker class="picker" bindchange="bindDistrictChange" value="{{selectedDistrictIndex}}" range="{{districtList}}" range-key="name">
+          <view class="picker" style="width:520rpx;">
+            <text class="picker-text">{{districtList[selectedDistrictIndex].name}}</text>
+            <i class="fa fa-chevron-right picker-indicator"></i>
+          </view>
+        </picker>
+    </view>
+    <view class="item-view">
+        <label class="title">详细地址：</label>
+        <input style="flex:1;" bindinput="bindAddressChange" value="{{address}}" type="text" placeholder=""  maxlength="128" />
+    </view>
+    <view class="item-view" bindtap="bindIsDefaultChange">
+        <label class="title">默认地址：</label>
+        <i class="fa fa-lg mText {{isDefault === true? 'fa-check-circle':'fa-circle-thin'}}" />
+    </view>
+
+    <view class="save-btn-view">
+        <text class="save-btn" bindtap="saveAddress">保存</text>
+    </view>
+</view>

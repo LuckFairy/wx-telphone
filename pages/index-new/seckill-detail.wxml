@@ -1,0 +1,144 @@
+<view class='wrap'>
+  <!--轮播图开始  -->
+  <swiper class='swiper-shopping' indicator-dots='true' indicator-active-color='#ff3030' autoplay='true' interval='6000' circular='true'>
+     <swiper-item>
+      <image mode='widthFix' class='swiper-image-list' src='../../image/group_pic.png'></image>
+    </swiper-item>
+    <swiper-item>
+      <image mode='widthFix' class='swiper-image-list' src='../../image/group_pic.png'></image>
+    </swiper-item>
+    <swiper-item>
+      <image mode='widthFix' class='swiper-image-list' src='../../image/group_pic.png'></image>
+    </swiper-item>
+  </swiper> 
+  <!--轮播图结束  -->
+  <!--秒杀倒计时开始  -->
+  <view class='seckill-count-down'>
+    <image class='seckill-count-image' src='../../image/seckill-down.png'></image>
+    <view class='seckill-text-detail'>
+      <text class='seckill-text-hint'>限时秒杀</text>
+      <view class='seckill-text-times'>
+        <text class='sec-list-text sec-list-distance'>距离结束仅剩</text>
+        <text class='sec-list-dyn'>00</text>
+        <text class='sec-list-text'>天</text>
+        <text class='sec-list-dyn'>06</text>
+        <text class='sec-list-text'>时</text>
+        <text class='sec-list-dyn'>22</text>
+        <text class='sec-list-text'>分</text>
+        <text class='sec-list-dyn'>08</text>
+        <text class='sec-list-text'>秒</text>
+      </view>
+    </view>
+  </view>
+  <!--秒杀倒计时结束  -->
+  <!--商品详情区域开始  -->
+  <!--商品详情区域开始  -->
+  <view class="middle-box">
+      <text class="middle-title">dhuhchzkjcxcckjzzhcc重复电话空即是色dhuhchzkjcxcckjzzhcc重复电话空即是色</text>
+      <view class="middle-detail">
+        <view class='mid-list-wrap'>
+          <text class="mid-list-zero">￥</text>      
+          <text class="mid-list-one">332</text>
+          <text class="mid-list-two">￥333</text>
+          <text class="mid-list-three mid-total">大检查</text>
+        </view>
+        <view class='mid-list-wraps-image'>
+          <button class='mid-open-list' open-type='share'></button>
+          <text class="mid-list-six-top">分享给好友</text>
+        </view>
+      </view>
+       <view class='mid-list-wraps'>
+          <text class="mid-list-six">已售</text>
+          <text class="mid-list-seven">3</text>
+          <text class="mid-list-six">件</text>
+        </view> 
+  </view>
+  <!--商品详情区域结束  -->
+  <!--商品详情区域结束  -->
+  <!--多规格区域开始  -->
+  <view class="commodity_attr_list">
+    <!--每组属性-->
+    <view class="attr_box" wx:for="{{attrValueList}}" wx:for-item="attrValueObj" wx:for-index="attrIndex">
+      <!--属性名-->
+      <view class="attr_name">{{attrValueObj.attrKey}}</view>
+      <!--属性值-->
+      <view class="attr_value_box">
+        <!--每个属性值-->
+        <view class="attr_value {{attrIndex==firstIndex || attrValueObj.attrValueStatus[valueIndex]?(value==attrValueObj.selectedValue?'attr_value_active':''):'attr_value_disabled'}}" bindtap="selectAttrValue" data-status="{{attrValueObj.attrValueStatus[valueIndex]}}"
+          data-value="{{value}}" data-key="{{attrValueObj.attrKey}}" data-index="{{attrIndex}}" data-selectedvalue="{{attrValueObj.selectedValue}}" wx:for="{{attrValueObj.attrValues}}" wx:for-item="value" wx:for-index="valueIndex">{{value}}</view>
+      </view>
+
+    </view>
+
+    <view class="attr_box_test" wx:if="{{skuId}}">
+      <view class="attr_name">库存</view>
+      <view class="attr_value_box">{{num}}</view>
+    </view>
+
+    <!-- 数量的增减start -->
+    <block wx:if="{{cateId==76 || cateId==77}}">
+    <view class="stepper" style='display:none' data-cateId='{{cateId}}'>
+      <text class='ste-number'>购买数量</text>
+      <view class='stepper-father'>
+        <!-- 减号 -->
+        <text class="{{minusStatus}} ste-reduce" bindtap="bindMinus">-</text>
+        <!-- 数值 -->
+        <input class='ste-input-num' type="number" bindchange="bindManual" value="{{num}}" />
+        <!-- 加号 -->
+        <text class="normal ste-add" bindtap="bindPlus">+</text>
+      </view>
+    </view>
+    </block>
+
+    <block wx:else>
+    <view class="stepper">
+      <text class='ste-number'>购买数量</text>
+      <view class='stepper-father'>
+        <!-- 减号 -->
+        <text class="{{minusStatus}} ste-reduce" bindtap="bindMinus">-</text>
+        <!-- 数值 -->
+        <input class='ste-input-num' type="number" bindchange="bindManual" value="{{num}}" />
+        <!-- 加号 -->
+        <text class="normal ste-add" bindtap="bindPlus">+</text>
+      </view>
+    </view>
+    </block>
+    <!-- 数量的增减end -->
+  </view>
+  <!--多规格区域结束  -->
+  <!--商品介绍  -->
+<view class="products">
+    <text class='buy-pro'>商品介绍</text>
+  </view>
+<!--商品介绍结束  -->
+<!--下底图片详情  -->
+<view class="bot-image">
+    <image class="bot-img-detail" src="../../image/card.png" mode="aspectFill"></image>
+    <image class="bot-img-detail" src="../../image/card.png" mode="aspectFill"></image>
+    <image class="bot-img-detail" src="../../image/card.png" mode="aspectFill"></image>
+    <image class="bot-img-detail" src="../../image/card.png" mode="aspectFill"></image>
+</view>
+<!--图片详情结束  -->
+</view>
+<!--按钮  -->
+<view class="invite-friend-cluster">
+    <view class='invite-index invite-total'>
+      <image class='invite-index-image' src='../../image/index-list.png'></image>
+      <text class='invite-index-text'>首页</text>
+    </view>
+    <view class='invite-ke-server invite-total'>
+      <image class='invite-ke-server-img' src='../../image/ke-server.png'></image>
+      <text class='invite-ke-server-text'>客服</text>
+    </view>
+    <view class='invite-car invite-total'>
+      <image class='invite-car-img' src='../../image/shoppingcart.png'></image>
+      <text class='invite-car-num'>81</text>
+    </view>
+    <view class='add-invite-car invite-total'>
+      <text class='add-invite-car-child'>加入购物车</text>
+    </view>
+    <view class='current-buying invite-total'>
+      <text class='current-buying-child'>立即购买</text>
+    </view>
+</view>
+<!--按钮结束  -->

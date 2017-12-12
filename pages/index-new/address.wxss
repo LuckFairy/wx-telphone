@@ -1,0 +1,43 @@
+/* pages/shopping/address.wxss */
+
+.addr-containner{
+    flex-direction: column;
+    padding-top: 32px;
+}
+
+.item-view{width:750rpx;padding: 10rpx 0rpx; border-bottom: 1px solid #F5F5F5;font-size:25rpx; align-items: center; height: 80rpx;}
+.title{width: 160rpx; text-align: right; margin-right: 15rpx; color: #666;}
+.picker {flex:1; display: flex; flex-direction: row; align-items: center; height: 50rpx;}
+.picker-text {line-height: 50rpx;flex:1;height:50rpx;}
+.picker-indicator {color: #aaa; font-size: 20rpx;}
+
+.save-btn-view{width:750rpx; flex-direction: row; justify-content: center;margin-top: 30rpx;}
+.save-btn{width:660rpx;font-size: 25rpx;background-color: #FFE546;color:#7D6800;text-align: center;padding:10px;}
+
+
+.form-err-view {
+  height: 32px;
+  line-height: 32px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+}
+
+.form-err-text {
+  background-color: #e64340;
+  color: #fff;
+  font-size: small;
+  height: 32px;
+  line-height: 32px;
+  width: 100%;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: break-all;
+}

@@ -1,0 +1,229 @@
+page{
+  background: #efefef;
+}
+/*拼团成功开始  */
+
+.inv-image {
+  display: inline-block;
+  width: 84rpx;
+  height: 84rpx;
+  border: 1rpx soild #ccc;
+  margin: 30rpx 10rpx 0rpx;
+}
+
+.invite-friend-pho {
+  display: flex;
+  margin: 0rpx auto 0rpx;
+  width: 750rpx;
+  justify-content: center;
+}
+
+.invite-fri-num {
+  display: inline-block;
+  width: 750rpx;
+  text-align: center;
+  margin-top: 32rpx;
+}
+
+.invite-friend-group {
+  display: block;
+  background: #fff;
+  padding-bottom: 30rpx;
+}
+
+.total-peo-number {
+  display: inline-block;
+  font-size: 28rpx;
+  margin-left: 12rpx;
+  vertical-align: baseline;
+}
+
+.peo-number {
+  color: #ff3030;
+}
+
+.invite-friend-cluster {
+  height: 88rpx;
+  width: 750rpx;
+  line-height: 88rpx;
+  margin-top: 32rpx;
+}
+
+.invite-friend-text {
+  font-size: 36rpx;
+  text-align: center;
+  margin: 0rpx 24rpx;
+  display: block;
+  width: 100%;
+  background: #ffe71c;
+}
+
+.peo-group-image {
+  display: inline-block;
+  padding-top: 5rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+
+/*拼团成功结束  */
+/*详情信息模块开始  */
+.commodity-group{
+    display: block;
+    background: #ffffff;
+}
+.commodity-detail{
+    font-size: 30rpx;
+    color: #1b1b1b;
+    padding-left: 24rpx;
+    border-top: 1rpx solid #efefef;
+    height: 88rpx;
+    line-height: 88rpx;
+}
+.com-det{
+    width: 200rpx;
+}
+.com-go{
+  display: inline-block;
+   margin-left: 480rpx;
+   margin-right: 24rpx;
+   width: 13rpx;
+   height: 25rpx;
+   padding-top: 33rpx;
+}
+.group-time{
+     border-top: 1rpx solid #efefef;
+    height: 88rpx;
+    line-height: 88rpx;
+    padding-left: 24rpx;
+}
+.gro-timing{
+    font-size: 30rpx;
+    color: #1b1b1b;
+}
+.time-date,.name-gro-peo,.time-hour{
+    font-size: 28rpx;
+    color: #999999;
+    padding-top: 3rpx;
+}
+.time-date{
+    margin-right: 30rpx;
+    margin-left: 52rpx;
+}
+.name-gro-peo{
+  margin-left: 82rpx;
+}
+.group-notice{
+     border-top: 1rpx solid #efefef;
+    height: 88rpx;
+    line-height: 88rpx;
+    padding-left: 24rpx;
+}
+.gro-not{
+    font-size: 30rpx;
+    color: #1b1b1b;
+}
+.gro-text-known{
+    font-size: 28rpx;
+    color: #999999;
+    margin-left:52rpx; 
+}
+/*详情信息模块结束  */
+
+/*热门推荐开始  */
+/*热门推荐  */
+.hot-list-gro{
+    height: 88rpx;
+    line-height: 88rpx;
+    text-align: center;
+    background: #ffffff;
+    width: 750rpx;
+    margin-top: 16rpx;
+}
+.hot-list-gro-text{
+    text-align: center;
+    display: block;
+     width: 750rpx;
+}
+/*拼团购  */
+.group-shop-father{
+  display: block;
+  width: 750rpx;
+}
+.group-shop{
+  width: 367rpx;
+  display: inline-block;
+  background: #fff;
+  margin-top: 15rpx;
+}
+.group-shop-image{
+  width: 367rpx;
+  height: 367rpx;
+}
+.group-shop-title{
+  width: 335rpx;
+  font-size: 24rpx;
+  display: block;
+  margin: 0 20rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.bac-color{
+   background: #EFEFEF;
+   width: 100%;
+}
+.group-shop:nth-child(2n){
+  margin-left: 16rpx;
+}
+.group-shopping-wraps{
+  display: flex;
+  justify-content: space-between;
+  margin: 10rpx 24rpx;
+}
+.group-shop-num{
+  font-size: 24rpx;
+  display: inline-block;
+  text-align: left;
+}
+.group-shop-num-two{
+  color: #999999;
+}
+.group-shop-bottom{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 65rpx;
+  margin-bottom: 10rpx;
+  padding: 0 24rpx;
+  width: 367rpx;
+}
+.group-shopping-father{
+  font-size: 0rpx;
+  display: inline-block;
+}
+.shopping-go-group{
+  font-size: 26rpx;
+  background: #FF0000;
+  display: inline-block;
+  height: 65rpx;
+  line-height: 65rpx;
+  padding: 0 20rpx;
+  color: #ffffff;
+  border-radius: 5rpx;
+}
+.gro-pre{
+  font-size: 24rpx;
+  display: block;
+}
+.shopping-go-group-end{
+  font-size: 26rpx;
+  background: #999999;
+  display: inline-block;
+  height: 65rpx;
+  line-height: 65rpx;
+  padding: 0 20rpx;
+  color: #ffffff;
+  border-radius: 5rpx;
+}

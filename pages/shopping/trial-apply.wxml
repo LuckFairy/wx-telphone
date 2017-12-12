@@ -1,0 +1,63 @@
+<view class="containner">
+    <view class="order-item-view" >
+        <view class="goods-info-view">
+            <image class="goods-img" src="../../image/card_bg.png" mode="widthFix"></image>
+            <view class="goods-name-view">
+                <text>这一行显示商品名称全名称</text>
+                <view style="flex-direction:row;line-height:100%;">
+                    <text style="color:#F15C63;font-size:20rpx;">￥</text><text style="color:#F15C63;font-size:40rpx;">0</text>
+                    <text style="margin-left:10px;text-decoration: line-through;color:grey;font-size:25rpx;">￥169</text>
+                </view>
+            </view>
+        </view>
+        <view class="goods-price-view">
+            <view style="">已有</view>
+            <view style="color:#D84E52;">1252</view>
+            <view style="">人试用过</view>
+        </view>
+    </view>
+
+    <view class="" style="width:750rpx;padding:10px 0 5px 10px;font-size:25rpx;background-color:#E8E8E8;">
+        <text>申请表基本资料填写</text>
+    </view>
+
+    <view style="width:710rpx;flex-direction:column;">
+        <view style="flex-direction:row;margin-top:10px;">
+            <view style="color:grey;flex:1;font-size:25rpx;flex-direction:row;justify-content:flex-end;align-items:center;">姓名：</view>
+            <view style="flex:4"><input style="background-color:#F4F4F4;width:90%;"  /></view>
+        </view>
+        <view style="flex-direction:row;margin-top:10px;border-bottom:1px solid #F4F4F4;padding-bottom:10px;">
+            <view style="color:grey;flex:1;font-size:25rpx;flex-direction:row;justify-content:flex-end;align-items:center;">手机号码：</view>
+            <view style="flex:4"><input type="number" style="background-color:#F4F4F4;width:90%;"  /></view>
+        </view>
+
+        <view class="" style="font-size:26rpx;font-weight:bold;margin-top:10px;">回答以下问题即有机会获得免费试用机会</view>
+        <block>
+            <view class="classname" style="flex-direction:column;font-size:27rpx;margin-top:30px;">
+                <text>1、这是问题1，请选择？</text>
+                <view style="flex-direction:row; justify-content:space-between;margin-top:10px;padding:0 50rpx 0 10rpx;font-size:25rpx;">
+                    <view><i class="fa fa-lg fa-circle-thin"></i>雀巢</view>
+                    <view><i class="fa fa-lg fa-circle-thin"></i>美赞臣</view>
+                    <view><i class="fa fa-lg fa-circle-thin"></i>惠氏</view>
+                </view>
+            </view>
+        </block>
+    </view>
+    <view style="width:750rpx;height:1px; background-color:#F4F4F4;margin-top:10px;"></view>
+
+    <view style="width:700rpx;background-color:#FFE647;flex-direction:row; justify-content:center;padding:20rpx;font-size:30rpx;margin-top:20px;"
+     data-goods-id="" bindtap="doTrialApply">
+        <text>提交试用</text>
+    </view>
+</view>
+
+<view class="overlay" style="display:{{applySuccess ? 'flex' : 'none' }};">
+    <view class="pop-view">
+        <view class="success-info-view">
+            <text style="margin-bottom:5px;">您的新品试用申请已经收到。</text>
+            <text>我们会在消息通知里告知您结果</text>
+        </view>
+        <navigator open-type="redirect" url="../activity/activity?actIndex=2" class="btn-confirm-view">知道了</navigator>
+    </view>
+    
+</view>

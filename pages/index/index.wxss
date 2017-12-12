@@ -1,0 +1,22 @@
+/**index.wxss**/
+.tab-container {
+  display: block;
+}
+page{
+  background: #efefef;
+}
+.tab-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #f8f8f8;
+}
+
+.market-page {
+  display: flex;
+  padding-bottom: 0rpx;
+  flex-direction: column;
+  width: 100%;
+}
+
+@import '../template/sections.wxss';

@@ -1,0 +1,15 @@
+<template name="summary">
+  <view class="section-summary-list section-summary-containner">
+    <navigator wx:for="{{data}}" wx:key="{{item._key}}" url="{{item.href}}">
+      <view class="section-summary-list" >
+        <view class="section-summary-cover-view">
+            <image class="section-summary-cover-img" src="{{item.image}}" mode="aspectFill"></image>
+        </view>
+        <view class="section-summary-list">
+            <text class="section-summary-title">{{item.title}}</text>
+            <text class="section-summary-desc">{{item.summary}}</text>
+        </view>
+      </view>
+    </navigator>
+  </view>
+</template>

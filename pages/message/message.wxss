@@ -1,0 +1,53 @@
+.container {
+  display: block;
+}
+
+.cell {
+  padding: 24rpx;
+}
+.messageImage {
+  width: 70rpx;
+  margin-right: 20rpx;
+}
+.info {
+  flex: 1;
+  flex-direction: column;
+}
+.addressInfo {
+  background-color: #f2f2f2;
+  margin: 20rpx 0; 
+  padding: 10rpx 18rpx;
+  flex-direction: column;
+}
+.addressInfo>view {
+  justify-content: space-between;
+  margin: 5rpx 0;
+  align-items: center;
+}
+.shop {
+  font-weight: 500;
+}
+.adressImage {
+  width: 40rpx;
+}
+
+.footer {
+  justify-content: space-between;
+  color: #666;
+  align-items: center;
+}
+
+.convertButton {
+  padding: 10rpx 30rpx;
+  text-align: center;
+  min-width: 76rpx;
+  background-color: #ddd;
+  font-weight: 500;
+}
+/* 主题背景颜色 */
+.hotBackgroundColor {
+  background-color: #FFE546;
+}
+.whiteText {
+  color: #fff;
+}

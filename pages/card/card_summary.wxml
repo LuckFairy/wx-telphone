@@ -1,0 +1,81 @@
+<view class="card-summary-containner">
+  <loading hidden="{{!loading}}"> 加载中... </loading>
+  <!--卡券 -->
+  <view class="card-smy-view">
+    <!-- title -->
+    <view class="card-head-view">
+      <view class="card-img-view">
+        <image class="mch-icon" src="{{detailData.mch_imgurl}}" mode="widthFix"></image>
+      </view>
+      <view class="card-title-view" style='color: #a9a9a9'>{{detailData.mch_name}}</view>
+    </view>
+    <!-- 分隔线 -->
+    <view class="split-img-view">
+      <image class="split-img" src="../../image/card-smy-sp-line.png" mode="widthFix" style="width:100%"></image>
+    </view>
+    <!-- 详情信息 -->
+    <view class="summary-detail-view">
+      <view class="card-money-view" style='color: #a9a9a9'>{{detailData.face_money}}元抵用券</view>
+      <view class="card-name-view" style='color: #a9a9a9'>{{detailData.cname}}</view>
+      <view class="card-vlidate-date-view">有效期：{{detailData.start_time_str}}-{{detailData.end_time_str}}</view>
+
+      <view wx:if="{{source!=2}}" class="card-btn-use {{isUsedOrGet ? 'hide': ''}}" data-card-id="" bindtap="showOverlay">立即使用</view>
+      <view wx:if="{{source==2}}" data-activityId='{{activityId}}' data-id='{{id}}' class="card-btn-save {{(isUsedOrGet || cardInfo.exist) ? 'hide': ''}}" data-card-id="{{cardInfo.cardId}}" bindtap="saveCardNew">保存优惠券</view>
+       <view style="margin-bottom:40px;"></view> 
+      <!-- 功能列表区 -->
+      <view bindtap='goCoupon' data-detail='{{detailData.description}}' data-end='{{detailData.end_time_str}}' data-start='{{detailData.start_time_str}}' class="func-list-view" style='color: #a9a9a9'>
+        <view class="mText">优惠券详情</view>
+        <view>
+          <image src="../../image/ma_card_rught.png" mode="widthFix" style="width:15rpx;"></image>
+        </view>
+      </view>
+      <view wx:if="{{cardInfo.mchDesc}}" class="func-list-introduction-view">
+        <text class="mText">品牌介绍</text>
+        <text class="grayText xmText" style="background-color: #fcfcfc; margin-top: 25rpx; padding: 10rpx 5rpx; line-height: 120%">{{cardInfo.mchDesc}}</text>
+      </view>
+      <navigator wx:if="{{qrEntry}}" url="../index-new/index-new" open-type="switchTab" style="width:100%;">
+        <view class="func-list-view">
+          <view class="func-desc-view">去首页</view>
+          <view>
+            <image src="../../image/ma_card_rught.png" mode="widthFix" style="width:15rpx;"></image>
+          </view>
+        </view>
+      </navigator>
+    </view>
+  </view>
+</view>
+<view class="overlay" style="display:{{showOverlay ? 'flex' : 'none'}}">
+  <view class="qr-view">
+    <image src="{{detailData.qrUrl}}" mode="widthFix" style="width:300rpx;margin:40px 10rpx"></image>
+    <text>将二维码出示给门店核销员</text>
+    <text>由门店核销即可</text>
+    <i class="fa fa-times close-icon" catchtap="closeOverlay"></i>
+  </view>
+</view>
+<!-- 首次领券 -->
+<!-- <view class='first_pull_down' wx:if="{{showPopup}}">
+  <view>
+    <view class='first_pull_view'>
+        <text class='pull_down_top'>新用户大礼包</text>
+        <image class='pull_down_img' src="../../image/clear-icon.png" bindtap='colorPopup'></image>
+    </view>
+    <text class='pull_down_bottom'>身份验证后，大量优惠券免费领</text>
+  </view>
+  <form class='first_pull_form'>
+    <view class='first_pull_login'>
+      <label>姓名</label>
+      <input type='text' placeholder='请输入您的姓名'></input>
+    </view>
+    <view class='first_pull_login'>
+      <label >手机</label>
+      <input type='text' placeholder='请输入您的手机号码'></input>
+    </view>
+    <view class='first_pull_login'>
+      <label class='pull_label_3'>验证码</label>
+      <input type='text' class='pull_input_3' placeholder='请输入验证码'></input>
+       <text class='get_code  {{isTrue?"frist":""}}' >获取验证码</text> 
+    </view>
+    <button class='post_code' bindtap='getCards'>提交领券</button>
+    <text class='errMsg' wx:if="{{}}">{{showErrMsg}}</text>
+  </form>
+</view> -->

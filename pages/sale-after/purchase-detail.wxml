@@ -1,0 +1,59 @@
+<view class='service-detail' wx:if='{{dataList.sStatusId==25}}'>
+  <view class='server-detail-number'>
+    <text class='server-number-text'>服务单号:</text>
+    <text class='server-number-order'>{{dataList.orderId}}</text>
+  </view>
+  <view class='server-detail-number server-detail-number-two'>
+    <text class='server-number-text'>审核进度:</text>
+    <text class='server-number-order'>已成功处理</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title'>审核反馈信息</text>
+    <text class='server-feedback-detail'>已经成功处理</text>    
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title-two'>客服微信：</text>
+    <text class='server-feedback-title-two' selectable='true'>yzkf139</text>
+    <text class='server-feedback-detail'>微信号长按可复制</text>
+  </view>
+</view>
+
+<view class='service-detail' wx:elif='{{dataList.sStatusId==26}}'>
+  <view class='server-detail-number'>
+    <text class='server-number-text'>服务单号:</text>
+    <text class='server-number-order'>{{dataList.orderId}}</text>
+  </view>
+  <view class='server-detail-number server-detail-number-two'>
+    <text class='server-number-text'>审核进度:</text>
+    <text class='server-number-order'>已拒绝该申请</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title'>审核反馈信息</text>
+    <text class='server-feedback-detail'>已拒绝该申请</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title-two'>客服微信：</text>
+    <text class='server-feedback-title-two' selectable='true'>yzkf139</text>
+    <text class='server-feedback-detail'>微信号长按可复制</text>
+  </view>
+</view>
+
+<view class='service-detail' wx:else>
+  <view class='server-detail-number'>
+    <text class='server-number-text'>服务单号:</text>
+    <text class='server-number-order'>{{dataList.orderId}}</text>
+  </view>
+  <view class='server-detail-number server-detail-number-two'>
+    <text class='server-number-text'>审核进度:</text>
+    <text class='server-number-order'>正在处理中</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title'>审核反馈信息</text>
+    <text class='server-feedback-detail'>已经电话跟卖家联系，正在处理中...</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title-two'>客服微信：</text>
+    <text class='server-feedback-title-two' selectable='true'>yzkf139</text>
+    <text class='server-feedback-detail'>微信号长按可复制</text>
+  </view>
+</view>
