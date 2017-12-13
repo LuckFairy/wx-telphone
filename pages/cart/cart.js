@@ -161,7 +161,23 @@ Page({
     });
   },
   onShow: function () {
-
+    var that = this;
+    // 获取店铺id shopId
+    var store_id = store_Id.store_Id();
+    Api.signin();//获取以及存储openid、uid
+    // 获取uid
+    var uid = wx.getStorageSync('userUid');
+    console.log(uid, 'uid');
+    console.log(store_id, 'store_id');
+    that.setData({
+      uid, store_id
+    })
+    var store_id = that.data.store_id;
+    var uid = that.data.uid;
+    var params = {
+      store_id, uid
+    }
+    that.refreshList(params);
   },
   onHide: function () {
 

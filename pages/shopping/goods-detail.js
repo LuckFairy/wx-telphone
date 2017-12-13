@@ -47,7 +47,9 @@ Page({
     skuid_list: [],
     sku_id: '',
     product_id: '',
-    is_add_cart: 1
+    is_add_cart: 1,
+    goPayment:false,
+    goAddCard:false
   },
   goStoreServer() {
     wx.navigateTo({
@@ -66,7 +68,6 @@ Page({
   },
   doGoBuy(e) {
     var that = this;
-
     var buyQuantity = e.currentTarget.dataset.buyQuantity;
     var isaddCart = e.currentTarget.dataset.isaddCart;
     var productId = e.currentTarget.dataset.productId;
@@ -174,9 +175,10 @@ Page({
   doBuy: function () {
     var that = this;
     that.setData({
-      moreChoose: true
+      moreChoose: true,
+      goPayment:true,
+      goAddCard: false
     });
-
   },
   goImageClose() {
     var that = this;
@@ -254,6 +256,9 @@ Page({
       })
     }
   },
+  goPayment(){
+    var that = this;
+  },
   //数量增减end
   //加入购物车start w
   addShopCart: function (e) {
@@ -274,7 +279,9 @@ Page({
       curTabs: '',
       arrone: '',
       arrotwo: "",
-      product_id: product_id
+      product_id: product_id,
+      goAddCard:true,
+      goPayment: false
     });
     var uid = that.data.uid;
     var store_id = that.data.store_id;
