@@ -1,15 +1,21 @@
 // pages/qrcode/qr-entry.js
 import { getUrlQueryParam } from '../../utils/util';
+import { Api } from '../../utils/api_2';
 
-var app = getApp();
+var app = getApp(); 
 var qrData = '';
 var checkTimer = null;
+
+
 Page({
     data: {},
     onLoad: function (options) {
         // 页面初始化 options为页面跳转所带来的参数
         let {q} = options;
         let that = this;
+        Api.signin();//获取以及存储uid
+        //获取uid
+        let uid = wx.getStorageSync('userUid');
         if (q) {
             q = decodeURIComponent(q);
             try {
@@ -34,10 +40,15 @@ Page({
                     });
                 }
                 waitTime += intervalTime;
-                if (getApp().hasSignin) {
-                    clearInterval(checkTimer);
-                    that.redirctPageNew();   // 加载数据，关闭定时器
+                // if (getApp().hasSignin) {
+                //     clearInterval(checkTimer);
+                //     that.redirctPageNew();   // 加载数据，关闭定时器
+                // }
+                if (uid) {
+                  clearInterval(checkTimer);
+                  that.redirctPageNew();   // 加载数据，关闭定时器
                 }
+                
             }, intervalTime);
             } catch (e) {
                 wx.switchTab({
