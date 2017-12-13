@@ -17,118 +17,102 @@
         <view class="sp_neb">数量：×{{item.BuyCount}}</view>
         <view class="sp_jg">¥：{{item.Price}}</view>
         <button class="dle" data-card-id="{{item.CartID}}" bindtap="removeShopCard">删除</button>
-        <navigator class="dle" url="../order/pay?productId={{item.ProID}}&cartId={{item.CartID}}&buyCount={{item.BuyCount}}">下单                  </navigator>
+        <navigator class="dle" url="../order/pay?productId={{item.ProID}}&cartId={{item.CartID}}&buyCount={{item.BuyCount}}">下单 </navigator>
       </view>
     </view>
   </view>
   <!--样式-->
-  <view class="container carts-list" wx:if="{{carts==''}}">
+  <view class="container carts-list" wx:if='{{hasShop==0}}'>
     <view class="pp">
-       <image class='pp-null' src='../../image/shop-null.png'></image>
-       <text class='pp-text'>购物车还是空的</text>
-       <view class='pp-goindex' bindtap='goindex'>去逛逛</view>  
-       <!--  <image class="kong" src="../../image/cart.jpg" mode="aspectFill" /> 
-       <view class="cla">购物车空空如也</view> -->
+      <image class='pp-null' src='../../image/shop-null.png'></image>
+      <text class='pp-text'>购物车还是空的</text>
+      <view class='pp-goindex' bindtap='goindex'>去逛逛</view>
     </view>
   </view>
-  <view class="container carts-list">
+  <view class="container carts-list" wx:elif='{{hasShop==1}}'>
     <!--勾-->
-    <view wx:for="{{carts}}" class="carts-item" data-title="{{item.proName}}" id="{{item.id}}" wx:key="{{index}}">
-      <icon wx:if="{{item.selected}}" type="success_circle" size="20" bindtap="bindCheckbox" data-index="{{index}}" />
-      <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-index="{{index}}" />
+    <view wx:for="{{cart_list}}" class="carts-item" data-title="{{item.proName}}" id="{{item.id}}" wx:key="{{index}}">
+      <!--选中  -->
+      <icon wx:if="{{selected}}" type="success_circle" size="20" bindtap="bindCheckbox" data-cardid='{{item.pigcms_id}}'  />
+      <!--未选中  -->
+      <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-cardid='{{item.pigcms_id}}'  />
       <!--img-->
       <view>
-        <image class="carts-image" src="{{item.photoX}}" mode="aspectFill" />
+        <image class="carts-image" src="{{item.image}}" mode="aspectFill" />
       </view>
-      <!--文字-->
-      <!-- <view class="carts-text">
-        <text class="carts-title">{{item.proName}}</text>
-        <text class="carts-size">灰色M码</text>
-        <view class="carts-subtitle">
-          <text class="carts-price">¥ {{item.price}}</text>
-        </view>
-      </view> -->
-      <!--右边-->
-      <!-- <view class="title">
-        <text bindtap="removeShopCard" data-cartid="{{item.id}}" class="modal-close">x</text>
-        <view class="stepper"> -->
-      <!-- 减号 -->
-      <!-- <text class="{{minusStatuses[index]}}" data-index="{{index}}" bindtap="bindMinus" data-cartid="{{item.id}}">-</text> -->
-      <!-- 数值 -->
-      <!-- <input type="number" bindchange="bindManual" value="{{item.num}}" /> -->
-      <!-- 加号 -->
-      <!-- <text class="normal" data-index="{{index}}" bindtap="bindPlus" data-cartid="{{item.id}}">+</text>
-        </view>
-      </view> -->
       <view class="cart-total">
-        <text class="cart-tot-title">{{item.proName}}</text>
+        <text class="cart-tot-title">{{item.name}}</text>
         <view class="cart-size-list">
-          <text class="cart-text-list">{{item.color}}{{item.size}}</text>
-          <image class="cart-img-list" src="../../image/delete.png" bindtap="removeShopCard" data-cartid="{{item.id}}"></image>
+          <view>
+            <text class="cart-text-list" wx:for='{{item.sku_data}}'>{{item.value}}</text>
+          </view>
+          <image class="cart-img-list" src="../../image/delete.png" bindtap="removeShopCard" data-uid='{{uid}}' data-card-id='{{item.pigcms_id}}' data-store-id='{{store_id}}'></image>
         </view>
         <view class="cart-frice-list-far">
           <text class="cart-frice-list">￥{{item.price}}</text>
           <view class="cart-add-reduce">
-            <text class="cart-reduce cart-common" data-index="{{index}}" bindtap="bindMinus" data-cartid="{{item.id}}">-</text>
-            <text class="cart-text-num cart-common" type="number" bindchange="bindManual" value="{{item.num}}">{{item.num}}</text>
-            <text class="cart-add cart-common" data-index="{{index}}" bindtap="bindPlus" data-cartid="{{item.id}}">+</text>
+            <text class="cart-reduce cart-common" bindtap="bindMinus" data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}'>-</text>
+            <text class="cart-text-num cart-common-two" type="number" bindchange="bindManual">{{item.pro_num}}</text>
+            <text class="cart-add cart-common" bindtap="bindPlus" data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}'>+</text>
           </view>
         </view>
       </view>
-
     </view>
   </view>
 </view>
 <!--底部-->
-  <view class="carts-footer" wx:if='{{cartSHow}}'>
-    <view class="total-choose" bindtap="bindSelectAll">
-      <icon wx:if="{{selectedAllStatus}}" type="success_circle" size="24" />
-      <icon wx:else type="circle" size="24" />
-      <text class="total-go">全选</text>
-    </view>
-    <view class="total-price">
-      <text class="total-pri-text">合计{{total}}
-      </text>
-      <!-- <text class="not-wrap-price">不含运费，已优惠￥0.222</text> -->
-    </view>
-    <view class="button" bindtap='bindCheckout'>去结算</view>
+<view class="carts-footer">
+  <view class="total-choose" bindtap="bindSelectAll">
+    <icon wx:if="{{selectedAllStatus}}" type="success_circle" size="24" />
+    <icon wx:else type="circle" size="24" />
+    <text class="total-go">全选</text>
   </view>
-<!-- 热门推荐-->
- <view class="hot-recommend">
-  <text class="hot-com-text">-----热门推荐-----</text>
+  <view class="total-price">
+    <text class="total-pri-text">合计{{total}}
+      </text>
+    <!-- <text class="not-wrap-price">不含运费，已优惠￥0.222</text> -->
+  </view>
+  <view class="button" bindtap='bindCheckout'>去结算</view>
 </view>
+<!-- 热门推荐-->
+<!-- <view class="hot-recommend">
+  <text class="hot-com-text">-----热门推荐-----</text>
+</view> -->
 <!--拼团购  -->
-        <view class="group-shop-father">  
-            <view class="group-shop" wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}" bindtap='goGroupDetail' data-productId='{{item.productId}}' data-groupbyId='{{item.groupbuyId}}' data-sellDetail='{{(item.quantity>0)?1:0}}'>
-                <image class="group-shop-image" src="{{item.productPic}}"></image>
-                <text class="group-shop-title">{{item.productName}}</text>
-                <view class='group-shopping-wraps'>
-                  <text class="group-shop-num">￥{{item.groupbuyPrice}}</text>
-                  <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
-                </view>
-                <!--在售  -->
-               <view class="group-shop-bottom" wx:if='{{item.quantity>0}}'>
-                    <view class='group-shopping-father'>
-                       <text class="gro-pre" style='display:none'>已团{{item.gbnum}}件</text>
-                      <text class="gro-pre">仅剩{{item.quantity}}件</text>
-                    </view>
-                    <text class='shopping-go-group'>去开团</text>
-               </view>
-                <!--在售  -->
-                <!--已售罄  -->
-                <view class="group-shop-bottom" wx:if='{{item.quantity<=0}}'>
-                    <view class='group-shopping-father'>
-                      <text class="gro-pre">{{item.gbnum+item.quantity}}件已售完</text>
-                    </view>
-                    
-                    <text class='shopping-go-group-end'>已售罄</text>
-                </view>
-                <!--已售罄结束  -->
-            </view>
-        </view>
-        <!--拼团购  -->
+<!-- <view class="group-shop-father">
+  <view class="group-shop" wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}" bindtap='goGroupDetail' data-productId='{{item.productId}}' data-groupbyId='{{item.groupbuyId}}' data-sellDetail='{{(item.quantity>0)?1:0}}'>
+    <image class="group-shop-image" src="{{item.productPic}}"></image>
+    <text class="group-shop-title">{{item.productName}}</text>
+    <view class='group-shopping-wraps'>
+      <text class="group-shop-num">￥{{item.groupbuyPrice}}</text>
+      <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
+    </view> -->
+<!--在售  -->
+<!-- <view class="group-shop-bottom" wx:if='{{item.quantity>0}}'>
+      <view class='group-shopping-father'>
+        <text class="gro-pre" style='display:none'>已团{{item.gbnum}}件</text>
+        <text class="gro-pre">仅剩{{item.quantity}}件</text>
+      </view>
+      <text class='shopping-go-group'>去开团</text>
+    </view> -->
+<!--在售  -->
+<!--已售罄  -->
+<!-- <view class="group-shop-bottom" wx:if='{{item.quantity<=0}}'>
+      <view class='group-shopping-father'>
+        <text class="gro-pre">{{item.gbnum+item.quantity}}件已售完</text>
+      </view>
+
+      <text class='shopping-go-group-end'>已售罄</text>
+    </view> -->
+<!--已售罄结束  -->
+<!-- </view>
+</view> -->
+<!--拼团购  -->
 
 
+
+
+<!--222  -->
 <!-- <block wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}">
   <navigator class="goods-item-view" url="../shopping/goods-detail?prodId={{item.prodId}}">
     <view class="hot-img">

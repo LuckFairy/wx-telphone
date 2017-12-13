@@ -25,24 +25,29 @@ Page({
     newCartNum: 0,
     cateId: 0,
     moreChoose: false,
-    product:'',
-    store_id:"",
-    uid:'',
-    activity_err_msg:"",
-    property_list:'',
-    shopNum:1,
-    multiattribute:[],
-    quantitys:[],
-    oneMatching:[],
-    oriPid:'',
+    product: '',
+    store_id: "",
+    uid: '',
+    activity_err_msg: "",
+    property_list: '',
+    shopNum: 1,
+    multiattribute: [],
+    quantitys: [],
+    oneMatching: [],
+    oriPid: '',
     curTabone: '',
-    curTabtwo:'',
-    choTab:'',
-    numPid:'',
-    arrone:'',
-    arrotwo:"",
-    curTabtwos:'',
-    curTabs:''
+    curTabtwo: '',
+    choTab: '',
+    numPid: '',
+    arrone: '',
+    arrotwo: "",
+    curTabtwos: '',
+    curTabs: '',
+    sku_list: '',
+    skuid_list: [],
+    sku_id: '',
+    product_id: '',
+    is_add_cart: 1
   },
   goStoreServer() {
     wx.navigateTo({
@@ -57,6 +62,59 @@ Page({
   goCart() {
     wx.switchTab({
       url: '../cart/cart'
+    });
+  },
+  doGoBuy(e) {
+    var that = this;
+
+    var buyQuantity = e.currentTarget.dataset.buyQuantity;
+    var isaddCart = e.currentTarget.dataset.isaddCart;
+    var productId = e.currentTarget.dataset.productId;
+    var skuId = e.currentTarget.dataset.skuId;
+    var uid = e.currentTarget.dataset.uid;
+    var storeId = e.currentTarget.dataset.storeId;
+    var skuid_list = that.data.skuid_list;
+
+    if (skuid_list.length > 0) {
+      if (!skuId) {
+        wx.showLoading({
+          title: '请选择属性'
+        });
+        setTimeout(function () {
+          wx.hideLoading()
+        }, 2000)
+      } else {
+        // 选择属性之后发送请求添加到购物车
+        that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
+      }
+    } else {
+      // 直接发送请求添加到购物车
+      that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
+    }
+    console.log(e, 'e');
+  },
+  goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId) {
+    var params = {
+      uid,
+      product_id: productId,
+      is_add_cart: isaddCart,
+      quantity: buyQuantity,
+      sku_id: skuId,
+      store_id: storeId
+    }
+    app.api.postApi('wxapp.php?c=cart&a=add', { params }, (err, resp) => {
+      if (err) {
+        return;
+      }
+      if (resp.err_code==0) {
+        wx.showLoading({
+          title: '加入购物车成功'
+        })
+        console.log('加入购物车成功')
+        setTimeout(function () {
+          wx.hideLoading()
+        }, 2000)
+      }
     });
   },
   onLoad: function (options) {
@@ -113,72 +171,6 @@ Page({
       })
     });
   },
-  doGoBuy() {
-    var that = this;
-    var value = [];
-    for (var i = 0; i < this.data.attrValueList.length; i++) {
-      if (!this.data.attrValueList[i].selectedValue) {
-        break;
-      }
-      value.push(this.data.attrValueList[i].selectedValue);
-    }
-    if (i < this.data.attrValueList.length) {
-      wx.showToast({
-        title: '请选择商品属性',
-        icon: 'loading',
-        duration: 1000
-      })
-      return;
-    } else {
-      console.log('选择的属性：' + value.join('-'));
-      wx.setStorage({
-        key: "key",
-        data: value.join('-')
-      })
-      /*
-      wx.showToast({
-        title: '选择的属性：' + value.join('-'),
-        icon: 'sucess',
-        duration: 1000
-      })
-      //return;
-      */
-    }
-    //多规格 end
-    let { prodId, action, skuId, num } = this.data;
-    console.log('支付/赠品之前:');
-    console.log(this.data);
-    console.log('购买的数量:');
-    console.log(num);
-    //console.log('为什么自己断点了··:');
-    //console.log('商品多规格标识'+skuId);
-    if (action === 'present') {
-      //let url = "../present/present-apply?options=" + _params;
-      if (skuId) {
-
-      } else {
-        skuId = 0;
-
-      }
-      let url = "../present/present-apply?options=" + _params + '&prodId=' + prodId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
-      wx.redirectTo({ url });
-    } else {
-      //let url = './buy?prodId=' + prodId +'&attr='+ value.join('-');      
-      if (skuId) {
-        //let url = './buy?prodId=' + prodId + '&skuid=' + skuId;
-      } else {
-        skuId = 0;
-        //let url = './buy?prodId=' + prodId + '&skuid=0';
-      }
-      console.log('支付跳转前,skuid是：');
-      console.log(skuId);
-      let url = './buy?prodId=' + prodId + '&skuid=' + skuId + '&num=' + num + '&groupbuyId=' + groupbuyId;
-      console.log('支付跳转url' + url);
-      //return;
-      wx.navigateTo({ url });
-    }
-  },
-
   doBuy: function () {
     var that = this;
     that.setData({
@@ -189,16 +181,16 @@ Page({
   goImageClose() {
     var that = this;
     var oneMatching = that.data.oneMatching;
-    if (oneMatching.length){
+    if (oneMatching.length) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
     that.setData({
       moreChoose: false,
       oneMatching: oneMatching,
-      curTabs:'',
+      curTabs: '',
       arrone: '',
       arrotwo: "",
-      oriPid:''
+      oriPid: ''
     });
     console.log('222222222')
   },
@@ -212,15 +204,55 @@ Page({
   },
   /* 点击减号 w*/
   bindMinus: function () {
-    
+    var that = this;
+    var shopNum = that.data.shopNum;
+    shopNum--;
+    if (shopNum <= 1) {
+      wx.showLoading({
+        title: '不能再少了',
+      })
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 1000)
+      that.setData({
+        shopNum: 1
+      })
+    } else {
+      that.setData({
+        shopNum
+      })
+    }
+
   },
   /* 点击加号 w*/
   bindPlus: function () {
-    
+    var that = this;
+    var shopNum = that.data.shopNum;
+    shopNum++;
+    that.setData({
+      shopNum
+    })
   },
   /* 输入框事件w */
   bindManual: function (e) {
-    
+    var that = this;
+    console.log(e, '3')
+    var shopNum = e.detail.value;
+    if (shopNum <= 1) {
+      wx.showLoading({
+        title: '不能小于1',
+      })
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 1000)
+      that.setData({
+        shopNum: 1
+      })
+    } else {
+      that.setData({
+        shopNum
+      })
+    }
   },
   //数量增减end
   //加入购物车start w
@@ -229,22 +261,24 @@ Page({
     var multiattribute = that.data.multiattribute;
     var quantitys = that.data.quantitys;
     var oneMatching = that.data.oneMatching;
-    if (oneMatching.length>0) {
+    var skuid_list = that.data.skuid_list;
+    if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
-    console.log('加入购物车',e)
+    console.log('加入购物车', e)
     var product_id = e.currentTarget.dataset.productId;
     that.setData({
       moreChoose: true,
       oneMatching: oneMatching,
-      oriPid:"",
+      oriPid: "",
       curTabs: '',
       arrone: '',
-      arrotwo: ""
+      arrotwo: "",
+      product_id: product_id
     });
     var uid = that.data.uid;
     var store_id = that.data.store_id;
-    var params ={
+    var params = {
       product_id,
       uid,
       store_id
@@ -258,28 +292,32 @@ Page({
       var activity_err_msg = resp.err_msg.product;
       var property_list = resp.err_msg.property_list;
       var sku_list = resp.err_msg.sku_list;
-      for (var i = 0; i < sku_list.length; i++) {
-        console.log(sku_list[i].properties);
-        console.log(sku_list[i].quantity);
+      if (sku_list && sku_list.length > 0) {
+        for (var i = 0; i < sku_list.length; i++) {
+          console.log(sku_list[i].properties);
+          console.log(sku_list[i].quantity);
           console.log(sku_list[i].properties.split(';'));//分割多属性字符串
           multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
           quantitys.push(sku_list[i].quantity);//所有可能库存情况
+          skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
         }
-      console.log(multiattribute,'multiattribute');
+      }
+      console.log(multiattribute, 'multiattribute');
       that.setData({
         activity_err_msg,
         property_list,
         multiattribute,
-        quantitys
+        quantitys,
+        sku_list
       });
     });
   },
-  chooseProperty(e){
-    console.log('e',e)
+  chooseProperty(e) {
+    console.log('e', e)
     var that = this;
     var curTab = that.data.curTab;
     var arr_gropv = [];
-    console.log(e,'多属性点击');
+    console.log(e, '多属性点击');
     var pid = e.currentTarget.dataset.pid;
     var vid = e.currentTarget.dataset.vid;
     console.log('pid', pid)
@@ -291,10 +329,13 @@ Page({
     var quantitys = that.data.quantitys;//所有可能库存情况
     var oneMatching = that.data.oneMatching;//点击之后匹配情况入数组
     console.log(oneMatching.length, '数组情况')
+    var skuid_list = that.data.skuid_list;
+    console.log(skuid_list, 'skuid_list')
+    console.log(skuid_list, 'skuid_list')
     var oriPid = that.data.oriPid;//初始pid
     console.log('quantitys', quantitys)
 
-    if ((oriPid != pid) && oneMatching.length == 0){
+    if ((oriPid != pid) && oneMatching.length == 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
       for (var k = 0; k < multiattribute.length; k++) {
         for (var g = 0; g < multiattribute[k].length; g++) {
@@ -307,16 +348,16 @@ Page({
       }
       that.setData({
         arrone: '',
-        arrotwo:'',
-        curTabs:pid+vid,
+        arrotwo: '',
+        curTabs: pid + vid,
         oriPid: pid
       })
       console.log('执行1')
-    } else if ((oriPid == pid) && oneMatching.length != 0){
+    } else if ((oriPid == pid) && oneMatching.length != 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
-      for (var k = 0; k < multiattribute.length; k++){
-        for (var g = 0; g < multiattribute[k].length; g++){
-          if (multiattribute[k][g] == arr_gropv){
+      for (var k = 0; k < multiattribute.length; k++) {
+        for (var g = 0; g < multiattribute[k].length; g++) {
+          if (multiattribute[k][g] == arr_gropv) {
             console.log(multiattribute[k], 'g')//获取点击匹配的可选项
             oneMatching.push(multiattribute[k]);//重新加入匹配项
             console.log('oneMatching重新匹配', oneMatching)
@@ -330,42 +371,44 @@ Page({
         oriPid: pid
       })
       console.log('执行2')
-    } else if ((oriPid != pid) && oneMatching.length != 0){//换行选中后
+    } else if ((oriPid != pid) && oneMatching.length != 0) {//换行选中后
       for (var k = 0; k < multiattribute.length; k++) {
         for (var g = 0; g < multiattribute[k].length; g++) {
-          console.log(multiattribute[k].length,'multiattribute[k].length3')
+          console.log(multiattribute[k].length, 'multiattribute[k].length3')
           if (multiattribute[k][g] == arr_gropv) {
             console.log(multiattribute[k], 'g3')//获取点击匹配的可选项
             console.log(multiattribute[k][g], 'ggg3')//获取点击匹配的可选项
             console.log('是否执行到这里')
-            for (var o = 0; o < oneMatching.length;o++){
-              if(oneMatching[o] == multiattribute[k]){
-                console.log(multiattribute[k], quantitys[k],'multiattribute[k]点击匹配项');//设置匹配项颜色
-                console.log(quantitys[k],'quantitys[k]')
-                
-                if (quantitys[k]<=0){
+            for (var o = 0; o < oneMatching.length; o++) {
+              if (oneMatching[o] == multiattribute[k]) {
+                console.log(multiattribute[k], quantitys[k], 'multiattribute[k]点击匹配项');//设置匹配项颜色
+                console.log(quantitys[k], 'quantitys[k]')
+                if (quantitys[k] <= 0) {
                   wx.showLoading({
                     title: '买完了'
                   });
-                 
                   setTimeout(function () {
                     wx.hideLoading()
                   }, 2000)
-                }else{
+                } else {
+                  console.log(skuid_list[k], '匹配项的sku_id')
+                  that.setData({
+                    sku_id: skuid_list[k]
+                  });
                   var arrObj = [];
-                  for (var d = 0; d < multiattribute[k].length;d++){
-                  console.log(multiattribute[k][d],'multiattribute[k][d]');
-                  arrObj.push(multiattribute[k][d].split(':'));
-                  console.log(arrObj,'arrObj')
-                  var array =  multiattribute[k][d].split(':');
-                  console.log(array,'array')
-                  console.log(array[0],'array[0]');
-                }
-                  console.log(arrObj,'arrObj')
+                  for (var d = 0; d < multiattribute[k].length; d++) {
+                    console.log(multiattribute[k][d], 'multiattribute[k][d]');
+                    arrObj.push(multiattribute[k][d].split(':'));
+                    console.log(arrObj, 'arrObj')
+                    var array = multiattribute[k][d].split(':');
+                    console.log(array, 'array')
+                    console.log(array[0], 'array[0]');
+                  }
+                  console.log(arrObj, 'arrObj')
                   var objArr = [];
-                  for (var u = 0; u < arrObj.length;u++){
-                    console.log(arrObj[u],'arrObj[u]');
-                    for (var q = 0; q < arrObj[u].length;q++){
+                  for (var u = 0; u < arrObj.length; u++) {
+                    console.log(arrObj[u], 'arrObj[u]');
+                    for (var q = 0; q < arrObj[u].length; q++) {
                       objArr.push(arrObj[u][q]);
                     }
                   }
@@ -377,7 +420,7 @@ Page({
                     arrone, arrotwo, curTabs: ''
                   })
                   console.log('执行3')
-                      
+
                 }
               }
             }

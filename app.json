@@ -1,9 +1,8 @@
 {
   "pages": [
-    "pages/index-new/index-boabao",
     "pages/index-new/index-new",
+    "pages/index-new/index-boabao",
     "pages/card/search-card",
-    
     "pages/index-new/shop-promotion",    
     "pages/index-new/index-mom",
     "pages/shiyan/shiyan",
@@ -18,7 +17,6 @@
     "pages/index-new/myself",
     "pages/index-new/seckill-detail",
     "pages/index-new/baobao-detail",
-    
     "pages/index-new/index-seckill",
     "pages/group-buying/current-buy",
     "pages/present/present",

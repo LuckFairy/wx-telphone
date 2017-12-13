@@ -120,7 +120,6 @@
   </view>
 </block>
 <!--按钮结束  -->
-
 <view class='commodity_attr_list-wrap' wx:if='{{moreChoose}}'>
   <view class="commodity_attr_list">
     <view class='shopping-images-wrap'>
@@ -142,7 +141,7 @@
     </view>
     <!--每组属性-->
     <view class='shopping-property'>
-      <block wx:for='{{property_list}}' wx:for-item='pid' wx:key='{{index}}'>
+      <block wx:if='{{sku_list&&sku_list.length>0}}' wx:for='{{property_list}}' wx:for-item='pid' wx:key='{{index}}'>
         <view class='property-list'>
           <text class='property-title'>{{pid.name}}</text>
           <view class='property-value-list'>
@@ -166,7 +165,7 @@
         <text class="normal ste-add" bindtap="bindPlus">+</text>
       </view>
     </view>
-    <text class='go-confirm' bindtap='doGoBuy' data-status="1">确定</text>
+    <text class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
     <!-- 数量的增减end -->
   </view>
 </view>

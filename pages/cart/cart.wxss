@@ -221,11 +221,12 @@ page{
 .cart-size-list {
   height: 40rpx;
   line-height: 40rpx;
+  display: flex;
+  justify-content: space-between;
 }
 
 .cart-text-list {
   font-size: 24rpx;
-  width: 390rpx;
   margin-left: 10rpx;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -259,6 +260,18 @@ page{
   text-align: center;
   font-size: 30rpx;
   line-height: 40rpx;
+  padding-left: 5rpx;
+  padding-right: 5rpx;
+}
+.cart-common-two {
+  min-width: 50rpx;
+  height: 40rpx;
+  border: 1px solid #939393;
+  text-align: center;
+  font-size: 30rpx;
+  line-height: 40rpx;
+  padding-left: 5rpx;
+  padding-right: 5rpx;
 }
 .cart-reduce,.cart-text-num{
   border-right: none;
