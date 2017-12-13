@@ -106,7 +106,7 @@ Page({
       if (err) {
         return;
       }
-      if (resp.err_code==0) {
+      if (resp.err_code == 0) {
         wx.showLoading({
           title: '加入购物车成功'
         })
