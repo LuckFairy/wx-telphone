@@ -2,6 +2,7 @@
 const log = "index.js --- ";
 import { getUrlQueryParam } from '../../utils/util';
 import { Api } from '../../utils/api_2';
+import { store_Id } from '../../utils/store_id';
 var app = getApp();
 var checkTimer = null;     // 若还没登录，启用定时器
 // import { Api } from '../../utils/api_2';
@@ -14,7 +15,9 @@ Page({
       goTop_show: false,
       //2017年10月11日14:06:09 by leo
       testData: [], //测试数据
-      hotData: [], //热点推荐
+      baoKuanData:[],//爆款专区数据
+      festivalData:[],//节日专区数据
+      hotData: [], //热点推荐数据
       groupData: [], //拼多多
       secKillData: [], //秒杀
       showTime:0, //第几点场
@@ -24,7 +27,8 @@ Page({
       expireTime:0,//活动失效时间
       dataImg:[],
       showhide:true,
-      cat_list:''
+      cat_list:'',
+      shopId: store_Id.shopid,//店铺id
   },
 
   /**
@@ -57,7 +61,9 @@ Page({
     // })
 
     this.loadGroupData();
-    
+    this.loadHotData();
+    //this.loadBaoKuanData();
+    //this.loadFestivalData();
     // this._prepare();    // 等待登录才开始加载数据
   },
   goCardLists(){
@@ -126,7 +132,7 @@ Page({
         //拼团数据
         
         //热门数据
-        // this.loadHotData();
+         //this.loadHotData();
         //this.loadData();    // 加载数据，关闭定时器
         //秒杀数据
         // this.loadSecKillData();
@@ -167,7 +173,7 @@ Page({
       if (rtnCode != 0) {
         return this._showError(rtnMessage);
       }
-      let hotData = data;
+      let hotData  = data;
       this.setData({ hotData });
     });
   },
@@ -301,36 +307,79 @@ Page({
       this.setData({ secKillData, showTime, type, index, expireTime});
     });
   },
-
-  /**
- * 首页热门推荐数据
- */
-  loadHotData() {
-    wx.showLoading({ title: '加载中...', mask: true, });
-    let hotData = [];
-    var product_type=1;  //单品推荐
-    //var product_type = 2;  //拼团商品推荐
-    let url = 'shop/hotLists';   
-    app.api.postApi(url, { product_type }, (err, resp) => {
+  getProductData(categoryid) {
+    var params = { "store_id": store_Id.shopid, "page": "1", "categoryid": categoryid };
+    let url = 'wxapp.php?c=product&a=get_product_list';
+    app.api.postApi(url, { "params": params }, (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('网络出错，请稍候重试');;
       }
-      let { rtnCode, rtnMessage, data = [] } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);
+
+      let { err_code, err_msg: { products: data = [] }  } = resp;
+      if (err_code != 0) {
+        return this._showError(err_msg);
       }
-      this.setData({ hotData:data });
+     data = null ? [] :data;
+      switch(categoryid) {
+        case '100': console.log(`爆款区数据 `, data);this.setData({baoKuanData:data});break;
+        case '101': console.log(`节日区数据 `, data);this.setData({festivalData:data});break;
+        case '102': console.log(`热门推荐数据 `, data); this.setData({ hotData: data });break;
+      }
+      
     });
+  },
+  /**
+* 首页爆款专区数据
+*/
+  loadBaoKuanData() {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    });
+    this.getProductData('100');
+  },
+  /**
+ * 首页爆款专区数据
+ */
+  loadFestivalData() {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    });
+    this.getProductData('101');
+  },
+  /**
+ * 首页热门推荐数据
+ */
+  loadHotData () {
+    wx.showLoading({ title: '加载中...', mask: true, });
+    this.getProductData('102');
+  },
+  //跳到爆款商品页
+  clickGoBaoKuan: function (e) {
+    var { categoryid, page = "1", store_id = store_Id.shopid } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    wx.navigateTo({
+      url: './index-baokuan?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
+    })
+  },
+  //跳到节日商品页
+  clickGoFestival: function (e) {
+    var { categoryid, page = "1", store_id = store_Id.shopid } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    wx.navigateTo({
+      url: './index-festival?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
+    })
   },
   //跳到热门推荐商品页
   clickGoHotProduct: function (e) {
     var prodId = e.currentTarget.dataset.prodid; //商品ID
     var cateId = e.currentTarget.dataset.cateid; //商品分类ID
     wx.navigateTo({
-      url: '../shopping/goods-detail?prodId='+prodId+'&cateId='+cateId   
+      url: '../shopping/goods-detail?prodId='+prodId   
     })
   },
+
+
   /**
    * 倒计时处理
    */

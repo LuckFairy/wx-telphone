@@ -383,11 +383,13 @@
 .hot-recomend-current{
   font-size: 36rpx;
   color: #ff3030;
+  
 }
 .hot-recomend-ever{
   display: block;
   font-size: 24rpx;
   color: #a9a9a9;
+  text-decoration: line-through;
 }
 .hot-recomend-price{
   height: 50rpx;
@@ -419,3 +421,19 @@
   z-index: 99999999999;
 }
 /*返回顶部区域结束  */
+
+/* 爆款，节日 */
+/* 爆款内容 / 节日内容区域开始  */
+.yiya-baokuan-area,.yiya-festival-area{
+  margin-top: 20rpx;
+  overflow: hidden;
+}
+.baokuan-recommend,.festival-recommend{
+  height: 200rpx;
+  width: 100%;
+}
+.baokuan-recommend-image,.festival-recommend-image,.baokuan-image,.festival-image{
+  width:100%;
+  height: 100%;
+}
+/* 爆款内容 / 节日内容区域结束  */

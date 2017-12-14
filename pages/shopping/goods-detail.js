@@ -68,6 +68,7 @@ Page({
   },
   doGoBuy(e) {
     var that = this;
+    
     var buyQuantity = e.currentTarget.dataset.buyQuantity;
     var isaddCart = e.currentTarget.dataset.isaddCart;
     var productId = e.currentTarget.dataset.productId;
@@ -135,7 +136,7 @@ Page({
     _params = params;
     this.loadData(prodId, action);
     this.setData({ 'newCartNum': 0 });
-
+    console.log(`prodId `,prodId);
     var cateId = options.cateId;
     this.setData({ 'cateId': cateId });
   },
@@ -166,10 +167,17 @@ Page({
       console.log(response);
       wx.hideLoading();
       if (err) return;
-      var product = response.err_msg.product;
-      that.setData({
-        product: product
-      })
+      if (response.err_code != 0) {
+        wx.showLoading({
+        title: response.err_msg ,
+      })}else{
+        wx.hideLoading();
+        var product = response.err_msg.product;
+        that.setData({
+          product: product
+        })
+      }
+      
     });
   },
   doBuy: function () {
@@ -256,8 +264,11 @@ Page({
       })
     }
   },
-  goPayment(){
+  goPayment(e){
     var that = this;
+    var { buyQuantity , productId , uid } = e.currentTarget.dataset;
+    var url = './buy?uid=' + uid + '&quantity=' + buyQuantity + '&pid=' + productId;
+    wx.navigateTo({ url });
   },
   //数量增减end
   //加入购物车start w
