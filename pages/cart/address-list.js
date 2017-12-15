@@ -27,10 +27,10 @@ Page({
       uid
     }
     console.log('执行到')
-    app.api.postApi('wxapp.php?c=address&a=index&action=list', { params }, (err, response) => {
-      if (err) return;
-      console.log(response,'response')
-    });
+    // app.api.postApi('wxapp.php?c=address&a=index&action=list', { params }, (err, response) => {
+    //   if (err) return;
+    //   console.log(response,'response')
+    // });
   },
   onReady:function(){
     // 页面渲染完成

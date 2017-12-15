@@ -114,8 +114,8 @@
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}'>
       <text class='add-invite-car-child'>加入购物车</text>
     </view>
-    <view class='current-buying invite-total' bindtap="doBuy" data-status="1">
-      <text class='current-buying-child'>立即购买</text>
+    <view class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
+      <text class='current-buying-child'>立即购买2</text>
     </view>
   </view>
 </block>
