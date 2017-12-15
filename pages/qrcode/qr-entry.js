@@ -1,6 +1,7 @@
 // pages/qrcode/qr-entry.js
 import { getUrlQueryParam } from '../../utils/util';
 import { Api } from '../../utils/api_2';
+import { store_Id } from '../../utils/store_id';
 
 var app = getApp(); 
 var qrData = '';
@@ -8,31 +9,45 @@ var checkTimer = null;
 
 
 Page({
-    data: {},
+    data: {
+      store_id: '',
+      uid: '',
+      locationId:0
+    },
     onLoad: function (options) {
         // 页面初始化 options为页面跳转所带来的参数
         let {q} = options;
         let that = this;
+        var store_id = store_Id.store_Id();//store_id    
+
         Api.signin();//获取以及存储uid
         //获取uid
         let uid = wx.getStorageSync('userUid');
+        console.log('用户的uid：');
+        console.log(uid);
+        wx.showLoading({ title: '加载中...', mask: true, });
         if (q) {
             q = decodeURIComponent(q);
             try {
                 let params = getUrlQueryParam(q, 'data');
                 qrData = JSON.parse(params);
+                let locationId = qrData.location_id;
+                if (!locationId){
+                  locationId =0;
+                }
+                wx.setStorageSync('locationId', locationId);//存储locationId
                 let waitTime = 0;
-                let intervalTime = 200;
+                let intervalTime = 2000;
                 //在登录成功后调用。
                 if (checkTimer) {
                     clearInterval(checkTimer);
                 }
                 checkTimer = setInterval(() => {
-                        if(waitTime > 30000){//超过5秒等待直接跳转到首页。
+                  if(waitTime > 30000){//超过5秒等待直接跳转到首页。
                     clearInterval(checkTimer);
                     wx.showModal({
-                        title: '',
-                        content: '',
+                        title: '请求结果',
+                        content: '等待超时，跳转到首页',
                     });
 
                     wx.switchTab({
@@ -40,13 +55,22 @@ Page({
                     });
                 }
                 waitTime += intervalTime;
-                // if (getApp().hasSignin) {
-                //     clearInterval(checkTimer);
-                //     that.redirctPageNew();   // 加载数据，关闭定时器
-                // }
                 if (uid) {
+                  that.setData({ uid: uid, store_id: store_id, locationId });
                   clearInterval(checkTimer);
+                  wx.hideLoading();
                   that.redirctPageNew();   // 加载数据，关闭定时器
+                } else {
+                  console.log('没有取的用户id，继续请求');
+                  Api.signin();//获取以及存储uid
+                  var uid = wx.getStorageSync('userUid');
+                  if (uid) {
+                    that.setData({ uid: uid, store_id: store_id, locationId });
+                    clearInterval(checkTimer);
+                    wx.hideLoading();
+                    that.redirctPageNew();   // 加载数据，关闭定时器
+                  }
+
                 }
                 
             }, intervalTime);
@@ -160,18 +184,23 @@ Page({
 
     redirctPageNew: function () {
       this.buildRedirctUrlNew();
-      //this.checkUserFirstVisitNew();
+      this.checkUserFirstVisitNew();
     },
-
+    //绑定用户归属门店
     checkUserFirstVisitNew: function () {
-        app.api.postApi('user/checkUserFirstVisit', { locationId: locId }, (err, response) => {
-            if (err) return;
-        let {rtnCode, data} = response;
-        if (rtnCode != 0) {
-        } else {
+        
+        var params = {
+          store_id: this.data.store_id,
+          item_store_id: this.data.locationId,
+          uid: this.data.uid
+
         }
-        return true;
-    });
+        app.api.postApi('screen.php?c=index&a=binding_user', { params }, (err, resp) => {
+
+          if (err) return;
+          
+          return true;
+        });
 
     },
 
