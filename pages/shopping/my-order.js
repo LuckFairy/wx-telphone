@@ -1,5 +1,4 @@
 // pages/shopping/my-order.js
-
 /*
 const ORDER_STATUS_DEFAULT = 0;   // 订单状态 已提交
 const ORDER_STATUS_FINISHED = 1;  // 订单状态 已结单
@@ -16,12 +15,14 @@ const DELIVER_STATUS_UN_SEND = 1;  // 物流状态 未发货
 const DELIVER_STATUS_SEND    = 2;  // 物流状态 已发货
 const DELIVER_STATUS_GOT     = 3;  // 物流状态 已收货
 */
-
+const ORDER_STATUS_MOMENT = 0;    // 临时
 const ORDER_STATUS_PENDING = 1;    // 待处理（待付款）
 const ORDER_STATUS_PROCESSING = 2;    // 处理中（待发货）
 const ORDER_STATUS_SHIPPED = 3;    // 已发货
-const ORDER_STATUS_COMPLETE = 5;    // 已完成
-const ORDER_STATUS_CANCELED = 7;    // 已取消
+const ORDER_STATUS_COMPLETE = 4;    // 已完成
+const ORDER_STATUS_CANCELED = 5;    // 已取消
+const ORDER_STATUS_REFUNDING = 6;   //退款中
+const ORDER_STATUS_GOODSUCCE = 7;   //已收货
 const ORDER_STATUS_DENIED = 8;    // 已拒绝（赠品申请时可拒绝）
 const ORDER_STATUS_FAILED = 10;   // 失败
 const ORDER_STATUS_UNCHECK = 17;   // 待审核（赠品申请时，订单状态为待审核）
@@ -43,8 +44,31 @@ order_status_id	name	name
 15	已处理	   Processed
 16	无效	   Voided
 */
+// 订单分类type
+/*
+order_type  name
+unpay        待付款
+unsend      待发货
+send        待收货
+complete    已完成
+all         全部
+*/
+/*订单状态码id
+order_status_id		name
+0     临时
+1     未支付
+2     未发货
+3     已发货
+4     已完成
+5     已取消
+6     退款中
+7     已收货
+*/
+
 
 const util = require('../../utils/util.js');
+import { Api } from '../../utils/api_2';
+import { store_Id } from '../../utils/store_id';
 var app = getApp();
 
 
@@ -69,7 +93,8 @@ Page({
     groupbuyId:'',
     groupbuyOrderId:'',
     prodId:'',
-
+    uid:'',
+    storeId: store_Id.shopid,
     // 购买成功后的分享，丢弃……
     // groupbuyOrderIdShare:"",
     // groupbuyIdShare:"",
@@ -93,10 +118,15 @@ Page({
     var group = options.group;
     var list = options.list;
     var goodsindex = options.goodsindex;
+
+    Api.signin();//获取以及存储openid、uid
+    // 获取uid
+    let uid = wx.getStorageSync('userUid');
+    // let uid = 7;
     
     // 页面初始化 options为页面跳转所带来的参数
     let { page = 0 } = options;
-    this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId: groupbuyId, groupbuyOrderId: groupbuyOrderId, prodId: prodId});
+    this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId: groupbuyId, groupbuyOrderId: groupbuyOrderId, prodId: prodId , uid: uid});
     wx.getStorage({
       key: 'showclose',
       success: function (res) {
@@ -274,25 +304,29 @@ Page({
   },
 
   /**
-   * 加载订单数据 
+   * 加载订单数据 //加载订单数据，新接口使用post方法
    * onLoaded: 加载成功回调函数
+   * opt是传过来的参数type(类型),page（页码）,store_id（店铺id),uid(用户id)
    */
-  _loadOrderData(onLoaded) {
+  _loadOrderData(onLoaded , opt) {
     wx.showLoading({ title: '加载中...', mask: true, });
-    app.api.fetchApi("order/ls", (err, resp) => {
+    //新方法
+    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.storeId },opt);
+    console.log('params ', params)
+    app.api.postApi("wxapp.php?c=order_v2&a=order_list", { "params": params }  , (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('网络出错，请稍候重试');
       }
-
-      let { rtnCode, rtnMessage, data = [] } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);
+      console.info('订单数据 ',resp)
+      let { err_code, err_msg: { order_list = []} } = resp;
+      if (err_code != 0) {
+        return this._showError(err_msg);
       }
 
       let unpayOrders = [], transOrders = [], finishedOrders = [], uncheckOrders = [], groupOrders = [], groupbuyOrders = [];
-      data.forEach(item => {
-        let status = item.orderStatusId;
+      order_list.forEach(item => {
+        let status = item.status;
         if (status == ORDER_STATUS_PENDING) {
           unpayOrders.push(item);
         } else if (status == ORDER_STATUS_PROCESSING || status == ORDER_STATUS_SHIPPED) {
@@ -318,6 +352,45 @@ Page({
       this.setData({ unpayOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
       typeof onLoaded === 'function' && onLoaded();
     });
+    // app.api.fetchApi("order/ls", (err, resp) => {
+    //   wx.hideLoading();
+    //   if (err) {
+    //     return this._showError('网络出错，请稍候重试');
+    //   }
+
+    //   let { rtnCode, rtnMessage, data = [] } = resp;
+    //   if (rtnCode != 0) {
+    //     return this._showError(rtnMessage);
+    //   }
+
+    //   let unpayOrders = [], transOrders = [], finishedOrders = [], uncheckOrders = [], groupOrders = [], groupbuyOrders = [];
+    //   data.forEach(item => {
+    //     let status = item.orderStatusId;
+    //     if (status == ORDER_STATUS_PENDING) {
+    //       unpayOrders.push(item);
+    //     } else if (status == ORDER_STATUS_PROCESSING || status == ORDER_STATUS_SHIPPED) {
+    //       transOrders.push(item);
+    //     } else if (status == ORDER_STATUS_COMPLETE) {
+    //       finishedOrders.push(item);
+    //     } else if (status == ORDER_STATUS_UNCHECK) {
+    //       item.orderStatusId = 2;
+    //       item.shippingMethod = 'pickup.pickup'
+    //       transOrders.push(item);
+    //     }
+
+    //     let typeOrder = item.groupbuyOrderId;
+    //     if (typeOrder != 0) {
+    //       groupOrders.push(item);
+    //     }
+
+
+    //   });
+    //   //2017年9月18日14:51:15 调用新接口，获取团购订单列表
+    //   this.loadGroupbuyOrder();
+    //   //====end
+    //   this.setData({ unpayOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
+    //   typeof onLoaded === 'function' && onLoaded();
+    // });
   },
 
   /**

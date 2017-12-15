@@ -50,7 +50,7 @@ Page({
     var categoryid = e.currentTarget.dataset.categoryid;
     var productid = e.currentTarget.dataset.productid;
     wx.navigateTo({
-      url: '../shopping/goods-detail?prodId=' + productid
+      url: '../shopping/goods-detail?prodId=' + productid + "&categoryid=" + categoryid
     })
     wx.hideLoading();
   },

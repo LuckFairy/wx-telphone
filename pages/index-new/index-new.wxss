@@ -90,51 +90,63 @@
 
 /* 卡包区域 */
 .card{
-  padding: 28rpx 24rpx 0rpx 34rpx;
-  margin-top: 16rpx;
+  padding: 24rpx 24rpx 0rpx;
+  margin-top: 20rpx;
   background-color: #fff;
   justify-content:space-between;
 }
 .card_img_1{
-  width: 60rpx;
-  height: 60rpx;
-  margin-right: 30rpx;
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 20rpx;
+  margin-bottom: 24rpx;
 }
 .card_img_2{
   width: 12rpx;
   height: 24rpx;
+  vertical-align: middle;
+  
 }
 .card_view{
   flex-direction: column;
 }
 .card_text_1{
   font-size: 30rpx;
-  color: #272727;
-  margin-bottom: 10rpx ;
+  color: #1b1b1b;
+  margin-top: 20rpx;
+  margin-bottom: 16rpx ;
 }
 .card_text_2{
   font-size: 24rpx;
-  color:rgb(153, 153, 153);
+  color:#999;
+  margin-bottom: 40rpx;
 }
 .card_text_3{
-  font-size: 20rpx;
-  color:rgb(27,27,27);
-  margin: 20rpx 0 26rpx 0;
+  font-size: 24rpx;
+  color:#1b1b1b;
+  float:right;
+  margin: 23rpx 0 82rpx 0;
 }
-.card>view:nth-of-type(2){
+.card_text_3_red{
+  font-size: 28rpx;
+  color:#ff6342;
+}
+
+ .card>view:nth-of-type(2){
   width: 50rpxl;
   height: 24rpx;
+  margin-top: 28rpx;
   line-height: 24rpx;
   display:inline-block;
   text-align: right
-}
+} 
 
 /*咿呀拼多多区域  */
 
 /*标题 (拼多多 /秒杀/热门推荐) */
 
 .yiya-pinduoduo-area {
-  margin-top: 16rpx;
+  /* margin-top: 16rpx; */
   padding-bottom: 34rpx;
 }
 
@@ -425,11 +437,11 @@
 /* 爆款，节日 */
 /* 爆款内容 / 节日内容区域开始  */
 .yiya-baokuan-area,.yiya-festival-area{
-  margin-top: 20rpx;
+   margin-top: 20rpx; 
   overflow: hidden;
 }
 .baokuan-recommend,.festival-recommend{
-  height: 200rpx;
+  height: 180rpx;
   width: 100%;
 }
 .baokuan-recommend-image,.festival-recommend-image,.baokuan-image,.festival-image{

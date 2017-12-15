@@ -132,9 +132,9 @@ Page({
       uid, store_id
     })
     // 页面初始化 options为页面跳转所带来的参数
-    let { prodId, action, params } = options;
+    let { prodId, action, params, categoryid = ''} = options;
     _params = params;
-    this.loadData(prodId, action);
+    this.loadData(prodId, action, categoryid);
     this.setData({ 'newCartNum': 0 });
     console.log(`prodId `,prodId);
     var cateId = options.cateId;
@@ -154,10 +154,29 @@ Page({
     // 页面关闭
   },
 
-  loadData(prodId, action) {
+  loadData(prodId, action, categoryid) {
     var that = this;
     wx.showLoading({ title: '加载中' });
-
+    //如果categoryid不等于''，接入新接口
+    if (categoryid != ''){
+      let url = 'wxapp.php?c=product&a=detail_of_product';
+      app.api.postApi(url, { "params": { "product_id": prodId } }, (err, response) => {
+        wx.hideLoading();
+        if (err) return;
+        if (response.err_code != 0) {
+          wx.showLoading({
+            title: response.err_msg,
+          })
+        } else {
+          wx.hideLoading();
+          var product = response.err_msg.product;
+          that.setData({
+            product: product
+          })
+        }
+      })
+      return ;
+    }
     //let url = 'shop/item/' + prodId;
     let url = 'wxapp.php?c=product&a=detail&product_id=' + prodId; //新接口
     console.log('接口url:');

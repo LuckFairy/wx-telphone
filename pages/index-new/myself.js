@@ -1,6 +1,7 @@
 // pages/index-new/myself.js
 var app = getApp();
 import { Api } from '../../utils/api_2';
+
 Page({
 
   /**
@@ -9,6 +10,7 @@ Page({
   data: {
     nickName:'',
     userImg:'',
+    uid:'',
   },
   goSearch (){
     wx.navigateTo({
@@ -54,6 +56,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    //获取uid
+    Api.signin();
+    this.setData({ uid: wx.getStorageSync('userUid')});
+    console.log(`uid `, this.uid);
     var that = this;
     wx.getUserInfo({
       success: function (res) {
@@ -71,8 +77,9 @@ Page({
         })
       }
     })
-    var myself = Api.signin();//获取以及存储openid、uid
-    // 获取uid
+    //var myself = Api.signin();//获取以及存储openid、uid
+
+    
   },
 
   /**
