@@ -83,8 +83,11 @@
     "pages/index-new/address",
     "pages/index-new/address-list",
     "pages/index-new/buy",
+    "pages/index-new/index-baokuan",
+    "pages/index-new/index-festival",
     "pages/list/list",
     "pages/canvas/canvas"
+   
   ],
   "window": {
     "backgroundTextStyle": "light",

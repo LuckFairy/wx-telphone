@@ -74,31 +74,35 @@
       <view>
           <image src="../../image/home_2.png" class='card_img_1'></image>
           <view class='card_view'>
-            <text class='card_text_1'>我的卡包</text>
+            <text class='card_text_1'>我的卡包 </text>
             <text class='card_text_2'>线上线下，领过的券都全部在这里</text>
-            <text class='card_text_3'><text>3</text>张未使用</text>
            </view>
+           
       </view>
-      <view>
+       <text class='card_text_3'>
+              <text class='card_text_3_red'>3</text>张未使用
+        </text>
+
+       <view>
           <image src="../../image/right_2.png" class='card_img_2'></image>
-      </view>
-      
+      </view> 
+     
   </view>
 
 
   <!-- 卡包选项去结束 -->
   <!--咿呀拼多多区域  -->
-  <view class='yiya-pinduoduo-area'>
+   <!-- <view class='yiya-pinduoduo-area '>  -->
     <!--标题  -->
-    <view class='pinduoduo-title'>
+    <!-- <view class='pinduoduo-title'>
       <text class='pinduodudo-text-title'>咿呀拼多多</text>
       <view class='pinduoduo-more' bindtap="clickGoGroup">
         <text class='more-text'>查看更多</text>
         <image class='more-image' src='../../image/next-page.png'></image>
       </view>
-    </view>
-    <!--内容  -->
-    <view class='pinduoduo-content'>
+    </view>  -->
+    <!-- 内容  
+   <view class='pinduoduo-content '>
       <view class='pinduoduo-content-list' wx:for="{{groupData}}" wx:key="{{item}}" bindtap="clickGoGroupProduct" data-prodId="{{item.product_id}}" data-groupbuyId="{{item.tuan_id}}" data-quantity="{{item.quantity}}">
           <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
           <text class='pinduoduo-content-title'  >{{item.name}}</text>
@@ -109,21 +113,21 @@
       </view>
       
     </view>
-  </view>
+  </view> -->
   <!--咿呀拼多多区域结束  -->
   
   <!--限时秒杀区域  -->
-  <view class='yiya-pinduoduo-area' bindtap="clickGoSecKill" data-type="{{type}}" data-index="{{index}}">
+  <!-- <view class='yiya-pinduoduo-area ' bindtap="clickGoSecKill" data-type="{{type}}" data-index="{{index}}"> -->
     <!--标题  -->
-    <view class='pinduoduo-title'>
+    <!-- <view class='pinduoduo-title'>
       <text class='pinduodudo-text-title'>限时秒杀</text>
       <view class='pinduoduo-more' >
         <text class='more-text' data-type="{{type}}" data-index="{{index}}">查看更多</text>
         <image class='more-image' src='../../image/next-page.png' data-type="{{type}}" data-index="{{index}}"></image>
       </view>
-    </view>
+    </view> -->
     <!--内容  -->
-    <view class='miaosha-area'>
+    <!-- <view class='miaosha-area '>
       <view class='miaosha-lasttime-father'>
         <view class='miaosha-lasttime'>
           <text class='miaosha-time-now'>{{showTime}}场结束仅剩</text>
@@ -146,11 +150,76 @@
       </view>
       
     </view>
-  </view>
+   </view>  -->
   <!--限时秒杀区域结束  -->
+
+  <!--爆款专区区域开始  -->
+    <view class='yiya-baokuan-area'>  
+      <!--内容开始  -->
+      <view class='baokuan-recommend'> 
+        
+            <view class='baokuan-recommend-image' bindtap='clickGoBaoKuan' data-categoryid='100'>
+              <image class='baokuan-image' src='../../image/index_baokuan.jpg'></image>
+            </view>
+      </view> 
+   
+    
+   </view>  
+    <!--三列商品陈列开始  -->
+      <view class='yiya-pinduoduo-area'> 
+          <!--标题  -->
+          <!--内容  -->
+        <view class='pinduoduo-content '>
+            <view class='pinduoduo-content-list' wx:for="{{groupData}}" wx:key="{{item}}" bindtap="clickGoGroupProduct" data-prodId="{{item.product_id}}" data-groupbuyId="{{item.tuan_id}}" data-quantity="{{item.quantity}}">
+                <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+                <text class='pinduoduo-content-title'  >{{item.name}}</text>
+                <view class='pinduoduo-content-price' >
+                  <text class='pinduoduo-content-current'  >￥{{item.start_price}}</text>
+                  <text class='pinduoduo-already' >已团{{item.count}}件</text>
+                </view>
+            </view>
+            
+          </view>
+        </view>
+  <!--内容结束  -->
+
+  <!--爆款专区区结束  -->
+  <!--节日专区区域开始  -->
+    <view class='yiya-festival-area'>  
+   <!--内容开始  -->
+    <view class='festival-recommend'> 
+    
+        <view class='baokuan-recommend-image' bindtap='clickGoFestival' data-categoryid='101'>
+          <image class='baokuan-image' src='../../image/index_festival.jpg'></image>
+        </view>
+    
+
+  </view> 
+  <!--内容结束  -->
+   </view>  
+    <!--三列商品陈列开始  -->
+      <view class='yiya-pinduoduo-area'> 
+          <!--标题  -->
+          <!--内容  -->
+        <view class='pinduoduo-content '>
+            <view class='pinduoduo-content-list' wx:for="{{groupData}}" wx:key="{{item}}" bindtap="clickGoGroupProduct" data-prodId="{{item.product_id}}" data-groupbuyId="{{item.tuan_id}}" data-quantity="{{item.quantity}}">
+                <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+                <text class='pinduoduo-content-title'  >{{item.name}}</text>
+                <view class='pinduoduo-content-price' >
+                  <text class='pinduoduo-content-current'  >￥{{item.start_price}}</text>
+                  <text class='pinduoduo-already' >已团{{item.count}}件</text>
+                </view>
+            </view>
+            
+          </view>
+        </view>
+  <!--内容结束  -->
+
+  <!--节日专区区结束  -->
+
   <!--热门推荐开始  -->
   <!--标题  -->
-  <view class='yiya-pinduoduo-area'>
+  <view class='yiya-pinduoduo-area' hidden='hidden'>
     <!--标题  -->
     <view class='pinduoduo-title'>
       <text class='pinduodudo-text-title'>热门推荐</text>
@@ -163,29 +232,29 @@
     <!--内容开始  -->
     <view class='hot-recommend'> 
 
-      <view class='hot-recommend-list' wx:for="{{hotData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}" >
+      <view class='hot-recommend-list' wx:for="{{hotData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
 
         <view class='hot-recommend-image'>
-          <image class='hot-image' src='{{item.productPic}}'></image>
+          <image class='hot-image' src='{{item.image}}'></image>
         </view>
 
         <view class='hot-recommend-text-list' >
-        <block wx:if="{{item.specialPrice}}">
-          <text class='hot-recomend-title' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">{{item.productName}}</text>
-          <text class='hot-recomend-sell' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">已售{{item.num}}件</text>
-          <text class='hot-recomend-down' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">直降{{item.tag}}元</text>
-          <view class='hot-recomend-price' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">
-            <text class='hot-recomend-cn' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">￥</text>
-            <text class='hot-recomend-current' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">{{item.specialPrice}}</text>
-            <text class='hot-recomend-ever' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">￥{{item.productPrice}}</text>
+        <block wx:if="{{item.price}}">
+          <text class='hot-recomend-title' data-prodId="{{item.product_id}}" data-cateId="100">{{item.name}}</text>
+          <text class='hot-recomend-sell' data-prodId="{{item.product_id}}" data-cateId="100">已售{{item.count}}件</text>
+          <text class='hot-recomend-down' data-prodId="{{item.product_id}}" data-cateId="100">直降{{item.original_price-item.price}}元</text>
+          <view class='hot-recomend-price' data-prodId="{{item.product_id}}" data-cateId="100">
+            <text class='hot-recomend-cn' data-prodId="{{item.product_id}}" data-cateId="100">￥</text>
+            <text class='hot-recomend-current' data-prodId="{{item.product_id}}" data-cateId="100">{{item.price}}</text>
+            <text class='hot-recomend-ever' data-prodId="{{item.product_id}}" data-cateId="100">￥{{item.original_price}}</text>
           </view>
         </block>
         <block wx:else>
-          <text class='hot-recomend-title' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">{{item.productName}}</text>
-          <text class='hot-recomend-sell' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">已售{{item.num}}件</text>
-          <view class='hot-recomend-price' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">
-            <text class='hot-recomend-cn' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">￥</text>
-            <text class='hot-recomend-current' data-prodId="{{item.productId}}" data-cateId="{{item.cateId}}">{{item.productPrice}}</text>
+          <text class='hot-recomend-title' data-prodId="{{item.product_id}}" data-cateId="100">{{item.name}}</text>
+          <text class='hot-recomend-sell' data-prodId="{{item.product_id}}" data-cateId="100">已售{{item.num}}件</text>
+          <view class='hot-recomend-price' data-prodId="{{item.product_id}}" data-cateId="100">
+            <text class='hot-recomend-cn' data-prodId="{{item.product_id}}" data-cateId="100">￥</text>
+            <text class='hot-recomend-current' data-prodId="{{item.product_id}}" data-cateId="100">{{item.price}}</text>
           </view>
         </block>
         </view>
