@@ -8,3 +8,6 @@
 <view bindtap='getCoupon'>领取优惠券</view>
 <view bindtap='getPay'>支付</view>
 <view bindtap='getUID'>UID</view>
+<picker mode="selector" range="{{array}}" value="{{index}}" bindchange="listenerPickerSelected">
+    <text>{{array[index]}}ee</text>
+</picker>

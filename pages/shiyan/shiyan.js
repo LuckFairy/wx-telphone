@@ -14,6 +14,8 @@ Page({
     motto: 'Hello World',
     imgurl2: 'https://saas.qutego.com/wxapp.php?c=coupon&a=coupon_qrcode&data={\"resType\":\"card\",\"resId\":\"55\",\"activityId\":\"236\",\"checkCode\":\"YA112736\",\"uid\":\"7\",\"agentId\":\"6\"}',
     qrUrl: '',
+    array: ['Android', 'IOS', 'ReactNativ', 'WeChat', 'Web'],
+    index: 0
   },
   /**
    * 生命周期函数--监听页面加载
@@ -37,7 +39,12 @@ Page({
 
     this.couponDetail();
   },
-  
+  listenerPickerSelected: function (e) {
+    //改变index值，通过setData()方法重绘界面
+    this.setData({
+      index: e.detail.value
+    });
+  }, 
   //优惠券详情
   couponDetail: function() {
     console.log("优惠券详情start")

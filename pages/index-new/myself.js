@@ -30,7 +30,7 @@ Page({
   },
   goaddress (){
     wx.navigateTo({
-      url: '../cart/address-list'
+      url: '../shopping/address-list'
     });
   },
   gogroup (e){

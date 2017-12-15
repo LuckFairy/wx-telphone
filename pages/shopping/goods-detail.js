@@ -199,12 +199,68 @@ Page({
       
     });
   },
-  doBuy: function () {
+  doBuy: function (e) {
     var that = this;
     that.setData({
       moreChoose: true,
       goPayment:true,
       goAddCard: false
+    });
+    var that = this;
+    var multiattribute = that.data.multiattribute;
+    var quantitys = that.data.quantitys;
+    var oneMatching = that.data.oneMatching;
+    var skuid_list = that.data.skuid_list;
+    if (oneMatching.length > 0) {
+      oneMatching.splice(0, oneMatching.length);//清空数组
+    }
+    console.log('加入购物车', e)
+    var product_id = e.currentTarget.dataset.productId;
+    that.setData({
+      moreChoose: true,
+      oneMatching: oneMatching,
+      oriPid: "",
+      curTabs: '',
+      arrone: '',
+      arrotwo: "",
+      product_id: product_id,
+      goAddCard: true,
+      goPayment: false
+    });
+    var uid = that.data.uid;
+    var store_id = that.data.store_id;
+    var params = {
+      product_id,
+      uid,
+      store_id
+    }
+    wx.showLoading({
+      title: '加载中'
+    })
+    app.api.postApi('wxapp.php?c=cart&a=info', { params }, (err, resp) => {
+      wx.hideLoading();
+      console.log(resp, 666666666)
+      var activity_err_msg = resp.err_msg.product;
+      var property_list = resp.err_msg.property_list;
+      var sku_list = resp.err_msg.sku_list;
+      if (sku_list && sku_list.length > 0) {
+        for (var i = 0; i < sku_list.length; i++) {
+          console.log(sku_list[i].properties);
+          console.log(sku_list[i].quantity);
+          console.log(sku_list[i].properties.split(';'));//分割多属性字符串
+          multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
+          quantitys.push(sku_list[i].quantity);//所有可能库存情况
+          skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
+        }
+      }
+      console.log(multiattribute, 'multiattribute');
+      that.setData({
+        activity_err_msg,
+        property_list,
+        multiattribute,
+        quantitys,
+        sku_list
+      });
     });
   },
   goImageClose() {
