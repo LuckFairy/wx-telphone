@@ -22,7 +22,7 @@ const ORDER_STATUS_SHIPPED = 3;    // 已发货
 const ORDER_STATUS_COMPLETE = 4;    // 已完成
 const ORDER_STATUS_CANCELED = 5;    // 已取消
 const ORDER_STATUS_REFUNDING = 6;   //退款中
-const ORDER_STATUS_GOODSUCCE = 7;   //已收货
+const ORDER_STATUS_RECEIVED = 7;   //已收货
 const ORDER_STATUS_DENIED = 8;    // 已拒绝（赠品申请时可拒绝）
 const ORDER_STATUS_FAILED = 10;   // 失败
 const ORDER_STATUS_UNCHECK = 17;   // 待审核（赠品申请时，订单状态为待审核）
@@ -74,14 +74,22 @@ var app = getApp();
 
 Page({
   data: {
-    unpayOrders: [],    // 待支付订单
-    uncheckOrders: [],  // 待审核订单（赠品）
-    transOrders: [],    // 待收货订单
-    finishedOrders: [], // 已完成订单
+    allOrders : [],     //全部订单
+    momentOrders: [],   //临时
+    unpayOrders: [],    //待付款 （待支付订单）
+    //processingOrders:[], //待发货
+    shippedOrders:[],   //已发货
+    finishedOrders: [], // 已完成
+    canceledOrders:[],  //已取消
+    refundingOrders:[],   //退款中
+    ReceivedOrders:[],  //已收货
+    transOrders: [],    // 待收货(已发货)
+
     showOverlay: false, // 弹窗遮掩层
     checkQrImgUrl: null,   // 赠品领用核销二维码url
+    uncheckOrders: [],  // 待审核订单（赠品）
     groupOrders: [], // 团购订单
-    groupbuyOrders: [], // 团购订单 使用新接口获取 如果这个可以的话，就不用groupOrders了
+    groupbuyOrders: [], // 团购订单 使用新接口获取如果这个可以的话，就不用groupOrders了
     currentTab: 0,
     showclose: true,
     waitOrders: [],  //待成团
@@ -319,37 +327,46 @@ Page({
         return this._showError('网络出错，请稍候重试');
       }
       console.info('订单数据 ',resp)
-      let { err_code, err_msg: { order_list = []} } = resp;
+      let { err_code, err_msg: {next_page , order_list = []} } = resp;
       if (err_code != 0) {
         return this._showError(err_msg);
       }
 
-      let unpayOrders = [], transOrders = [], finishedOrders = [], uncheckOrders = [], groupOrders = [], groupbuyOrders = [];
+      let allOrders = [], momentOrders = [], unpayOrders = [], processingOrders = [], shippedOrders = [], finishedOrders = [],
+         canceledOrders = [], refundingOrders = [], uncheckOrders = [], ReceivedOrders = [],groupOrders = [], 
+         groupbuyOrders = [], transOrders = [];
       order_list.forEach(item => {
+        allOrders.push(item);
         let status = item.status;
-        if (status == ORDER_STATUS_PENDING) {
+        if (status == ORDER_STATUS_MOMENT  ){     //临时
+          momentOrders.push(item);
+        } if (status == ORDER_STATUS_PENDING) { //待付款
           unpayOrders.push(item);
-        } else if (status == ORDER_STATUS_PROCESSING || status == ORDER_STATUS_SHIPPED) {
+        } else if (status == ORDER_STATUS_PROCESSING ) {//待发货
+          processingOrders.push(item);
+        }  else if (status == ORDER_STATUS_SHIPPED  ) {//已发货
           transOrders.push(item);
-        } else if (status == ORDER_STATUS_COMPLETE) {
+        } else if (status == ORDER_STATUS_COMPLETE  ){//已完成
           finishedOrders.push(item);
-        } else if (status == ORDER_STATUS_UNCHECK) {
-          item.orderStatusId = 2;
-          item.shippingMethod = 'pickup.pickup'
-          transOrders.push(item);
+        } else if (status == ORDER_STATUS_CANCELED  ){//已取消
+          canceledOrders.push(item);
+        } else if (status == ORDER_STATUS_REFUNDING  ){//退款中
+          refundingOrders.push(item)
+        } else if (status == ORDER_STATUS_RECEIVED ) {// //已收货
+          ReceivedOrders.push(item);
         }
 
-        let typeOrder = item.groupbuyOrderId;
+        let typeOrder = item.groupbuyOrderId;//团购，新接口不使用
         if (typeOrder != 0) {
           groupOrders.push(item);
         }
-
 
       });
       //2017年9月18日14:51:15 调用新接口，获取团购订单列表
       this.loadGroupbuyOrder();
       //====end
-      this.setData({ unpayOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
+      console.log('unpayOrders ', unpayOrders, 'transOrders ', transOrders);
+      this.setData({ allOrders, momentOrders, unpayOrders, processingOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
       typeof onLoaded === 'function' && onLoaded();
     });
     // app.api.fetchApi("order/ls", (err, resp) => {

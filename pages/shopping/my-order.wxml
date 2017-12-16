@@ -2,11 +2,14 @@
   <!-- 头部导航条 -->
   <view scroll-x='true' class="nav-header-view">
     <view class="header-col-view {{curActIndex == '0' ? 'show-border-bottom' : '' }}" data-idx='0' bindtap="swichSwiperItem">
-      <text data-idx='0' bindtap="swichSwiperItem">待付款</text>
+      <text data-idx='0' bindtap="swichSwiperItem">全部</text>
     </view>
     <view class="header-col-view {{curActIndex == '1' ? 'show-border-bottom' : '' }}" data-idx='1' bindtap="swichSwiperItem">
-      <text data-idx='1' bindtap="swichSwiperItem">拼团购</text>
+      <text data-idx='1' bindtap="swichSwiperItem">待付款</text>
     </view>
+    <!-- <view class="header-col-view {{curActIndex == '1' ? 'show-border-bottom' : '' }}" data-idx='1' bindtap="swichSwiperItem">
+      <text data-idx='1' bindtap="swichSwiperItem">拼团购</text>
+    </view> -->
     <view class="header-col-view {{curActIndex == '2' ? 'show-border-bottom' : '' }}" data-idx='2' bindtap="swichSwiperItem">
       <text data-idx='2' bindtap="swichSwiperItem">待收货</text>
     </view>
@@ -26,29 +29,29 @@
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists wait-money'>
-<view wx:if="{{unpayOrders && unpayOrders.length}}" class="order-list-view">
+<view wx:if="{{allOrders && allOrders.length}}" class="order-list-view">
           <!--<block wx:for="{{orderPayList}}" wx:for-item="order" wx:key="{{order.id}}">-->
-          <!--待付款 -->
-          <view wx:for="{{unpayOrders}}" wx:for-item="order" wx:key="{{order.orderId}}" class="order-item-view navigator" data-order-id="{{order.orderId}}" data-product-id="{{order.products[0].productId}}" bindtap="pushToOrderDetail">
-            <view class="goods-info-view" wx:for="{{order.products}}" wx:key="{{item.productId}}">
+          <!--全部 -->
+          <view wx:for="{{allOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.products[0].product_id}}" bindtap="pushToOrderDetail">
+            <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
               <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
               <view class="goods-name-view">
                 <text class="goods-name">{{item.name}}\n
-                  <text style="margin-right: 10rpx;color:grey;" wx:if="{{item.attrinfo['0'].colorName}}"> 颜色：{{item.attrinfo['0'].colorName}} 尺码：{{item.attrinfo['0'].sizeName}}\n x{{item.quantity}}</text>
+                  <text style="margin-right: 10rpx;color:grey;" wx:if="{{item.sku_data}}">{{item.sku_data_arr['0'].name}}：{{item.sku_data_arr['0'].value}}</text>
                 </text>
               </view>
             </view>
             <view class="goods-price-view">
-              <view style="margin-right:25rpx;">共{{order.products.length}}件商品</view>
+              <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
               <view style="">需付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
             <view class="yellow-btn-view">
-              <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
-              <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="pay">去支付</text>
+              <text class="yellow-btn" data-order-id="{{order.order_no}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
+              <text class="yellow-btn" data-order-id="{{order.order_no}}" catchtap="pay">去支付</text>
             </view>
           </view>
-          <!--/待付款-->
+          <!--/全部-->
           <!--</block>-->
           <!-- 没有订单时显示-->
           <view wx:if="{{false}}" class="no-order-view">
@@ -84,10 +87,54 @@
 </scroll-view>
 </swiper-item>
 
+<!--待付款  -->
+<swiper-item> 
+  <scroll-view scroll-y="{{true}}" class='scroll-lists'>
+
+    <view wx:if="{{unpayOrders && unpayOrders.length}}" class="order-list-view">
+      <!--<block wx:for="{{invalidateCardList}}" wx:for-item="card" wx:key="{{card.cardId}}">-->
+      <!--待付款-->
+      <view wx:for="{{unpayOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.products[0].product_id}}" bindtap="pushToOrderDetail">
+        <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
+          <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
+          <view class="goods-name-view">
+            <text class="goods-name">{{item.name}}\n
+              <text style="margin-right: 10rpx;color:grey;" wx:if="{{item.sku_data_arr['0'].sku_data}}"> {{item.sku_data_arr['0'].name}}：{{item.sku_data_arr['0'].value}}</text>
+            </text>
+          </view>
+        </view>
+        <view class="goods-price-view">
+          <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
+          <view style="">实付款：</view>
+          <view style="color:#D84E52;">￥{{order.total}}</view>
+        </view>
+        <view wx:if="{{order.orderStatusId == 3}}" class="yellow-btn-view">
+        <!--catchtap="showExpressInfo"  -->
+          <text class="yellow-btn" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}"  style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text>
+          <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="confirmDeliver">确认收货</text>
+        </view>
+        <view wx:if="{{order.orderStatusId == 2}}" class="yellow-btn-view">
+          <text class='yellow-one' bindtap='goSearch'>查看物流</text>
+          <text wx:if="{{order.shippingMethod == 'pickup.pickup'}}" class="yellow-btn" data-order-id="{{order.orderId}}" data-qr="{{order.qrcodeUrl}}" catchtap="showTrialQRcode">到店取货</text>
+          <view wx:else class='yellow-one yellow-two'>待发货</view>
+        </view>
+      </view>
+      <!--/待付款-->
+      <!--</block>-->
+    </view>
+    <view wx:else class="no-data-view">
+      <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
+      <text class="mText" class="no-data-text">您还没有相关订单哦 赶快去下单吧
+      </text>
+      <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去下单</text>
+    </view>
+  </scroll-view>
+</swiper-item>
+
 
 
 <!--拼团购  -->
-
+<!--
 <swiper-item circular='true'>
   <scroll-view scroll-y="{{true}}" class='scroll-lists scroll-lists-group'>
     <view class="clus-total">
@@ -96,22 +143,22 @@
         <text class="clu-shop-wait clus-list-total {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="switchtap">待成团</text>
         <text class="clu-shop-already clus-list-total {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="switchtap">已成团</text>
         <text class="clu-shop-loser clus-list-total {{currentTab==3 ? 'on' : ''}}" data-current="3" bindtap="switchtap">拼团失败</text>
-      </view>
+      </view>-->
       <!-- 全部 -->
-      <view class="all-list" wx:if="{{currentTab==0}}">
+      <!-- <view class="all-list" wx:if="{{currentTab==0}}"> -->
         <!--无数据时  -->
       <!-- 没有订单时显示-->
-          <view wx:if="{{!groupbuyOrders}}" class="no-order-view" style='background:#f3f3f3;'>
+          <!-- <view wx:if="{{!groupbuyOrders}}" class="no-order-view" style='background:#f3f3f3;'>
             <image style="width:200rpx;height:200rpx;" src="../../image/purchase-image.png"></image>
             <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
-            <view style="">赶快去下单吧</view>
+            <view style="">赶快去下单吧</view>-->
             <!--TODO: 改成切换tab -->
-            <navigator url="../cluster/grouplist" class="gobuy-btn-view">
+            <!-- <navigator url="../cluster/grouplist" class="gobuy-btn-view">
               <text>去下单</text>
             </navigator>
-          </view>
+          </view>  -->
     <!--无数据时  -->
-        <view class="all-list2"  wx:if="{{groupbuyOrders && groupbuyOrders.length}}" wx:for="{{groupbuyOrders}}" wx:key="{{item}}">
+        <!-- <view class="all-list2"  wx:if="{{groupbuyOrders && groupbuyOrders.length}}" wx:for="{{groupbuyOrders}}" wx:key="{{item}}">
           <view class="all-com-fri-det"  bindtap='goSearOrderlist'>
             <view class="all-commodity-img">
               <image class="all-com" src="{{item.productPic}}"></image>
@@ -127,14 +174,14 @@
               <view class="current-price-time">
                 <text class="now-price">现价：</text>
                 <text class="now-pri-text">￥{{item.price}}</text>
-                <text class="count-down"> <!--24:40:44后结束 --></text>
+                <text class="count-down"> <!--24:40:44后结束 --><!--</text>
                 <text class="group-now">{{item.statusText}}</text>
               </view>
             </view>
           </view>
-          <view class="invite-friend-detail">
+          <view class="invite-friend-detail"> -->
             <!--  <text class="invite-friend inv-total">邀请好友参团</text>  -->
-            <block wx:if="{{item.groupbuyOrderStatus==1}}">
+            <!-- <block wx:if="{{item.groupbuyOrderStatus==1}}">
             <button open-type="share" class="invite-friend inv-total"  data-groupbuyId="{{item.groupbuyId}}"  data-groupbuyOrderId="{{item.groupbuyOrderId}}" data-productId="{{item.productId}}" data-productName="{{item.productName}}" data-productPic="{{item.productPic}}" >邀好友参团</button>
             </block>
             <block wx:elif="{{item.groupbuyOrderStatus==2}}">
@@ -146,23 +193,23 @@
             <text class="invite-detail inv-total" bindtap='goSearOrderlist' data-id="{{item.productId}}" data-groupbuyId="{{item.groupbuyId}}"  data-groupbuyOrderId="{{item.groupbuyOrderId}}" data-status="{{item.statusNum}}" data-order="{{item.orderId}}">订单详情</text>
           </view>
         </view>
-      </view>
+      </view> -->
         <!--全部结束  -->
         <!--待成团  -->
-        <view class="all-list" wx:if="{{currentTab==1}}">
+        <!-- <view class="all-list" wx:if="{{currentTab==1}}"> -->
         <!--无数据时  -->
       <!-- 没有订单时显示-->
-          <view wx:if="{{!waitOrders}}" class="no-order-view" style='background:#f3f3f3;'>
+          <!-- <view wx:if="{{!waitOrders}}" class="no-order-view" style='background:#f3f3f3;'>
             <image style="width:200rpx;height:200rpx;" src="../../image/purchase-image.png"></image>
             <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
-            <view style="">赶快去下单吧</view>
+            <view style="">赶快去下单吧</view>-->
             <!--TODO: 改成切换tab -->
-            <navigator url="../cluster/grouplist" class="gobuy-btn-view">
+           <!--  <navigator url="../cluster/grouplist" class="gobuy-btn-view">
               <text>去下单</text>
             </navigator>
-          </view>
+          </view> -->
     <!--无数据时  -->
-        <view class="all-list2" wx:if="{{waitOrders && waitOrders.length}}" wx:for="{{waitOrders}}" wx:key="{{item}}">
+        <!-- <view class="all-list2" wx:if="{{waitOrders && waitOrders.length}}" wx:for="{{waitOrders}}" wx:key="{{item}}">
           <view class="all-com-fri-det">
             <view class="all-commodity-img">
               <image class="all-com" src="{{item.productPic}}"></image>
@@ -178,8 +225,8 @@
               <view class="current-price-time">
                 <text class="now-price">现价：</text>
                 <text class="now-pri-text">￥{{item.price}}</text>
-                <text class="count-down"><!--24:40:44后结束 --></text>
-                <text class="group-now">{{item.statusText}}</text>
+                <text class="count-down"><!--24:40:44后结束 --><!--</text> -->
+               <!-- <text class="group-now">{{item.statusText}}</text>
               </view>
             </view>
           </view>
@@ -188,23 +235,23 @@
             <text class="invite-detail inv-total" bindtap='goSearOrderlist' data-id="{{item.productId}}" data-groupbuyId="{{item.groupbuyId}}" data-groupbuyOrderId="{{item.groupbuyOrderId}}" data-status="{{item.statusNum}}" data-order="{{item.orderId}}">订单详情</text>
           </view>
         </view>
-        </view>
+        </view> -->
         <!--待成团结束  -->
         <!--已成团  -->
-        <view class="all-list" wx:if="{{currentTab==2}}">
+        <!-- <view class="all-list" wx:if="{{currentTab==2}}"> -->
         <!--无数据时  -->
       <!-- 没有订单时显示-->
-          <view wx:if="{{!endOrders}}" class="no-order-view" style='background:#f3f3f3;'>
+          <!-- <view wx:if="{{!endOrders}}" class="no-order-view" style='background:#f3f3f3;'>
             <image style="width:200rpx;height:200rpx;" src="../../image/purchase-image.png"></image>
             <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
-            <view style="">赶快去下单吧</view>
+            <view style="">赶快去下单吧</view> -->
             <!--TODO: 改成切换tab -->
-            <navigator url="../cluster/grouplist" class="gobuy-btn-view">
+            <!-- <navigator url="../cluster/grouplist" class="gobuy-btn-view">
               <text>去下单</text>
             </navigator>
-          </view>
+          </view> -->
     <!--无数据时  -->
-        <view class="all-list2" wx:if="{{endOrders && endOrders.length}}" wx:for="{{endOrders}}" wx:key="{{item}}">
+        <!-- <view class="all-list2" wx:if="{{endOrders && endOrders.length}}" wx:for="{{endOrders}}" wx:key="{{item}}">
           <view class="all-com-fri-det">
             <view class="all-commodity-img">
               <image class="all-com" src="{{item.productPic}}"></image>
@@ -220,7 +267,7 @@
               <view class="current-price-time">
                 <text class="now-price">现价：</text>
                 <text class="now-pri-text">￥{{item.price}}</text>
-                <text class="count-down"><!--24:40:44后结束 --></text>
+                <text class="count-down">24:40:44后结束 </text>
                 <text class="group-now">{{item.statusText}}</text>
               </view>
             </view>
@@ -230,23 +277,23 @@
             <text class="invite-detail inv-total" bindtap='goSearOrderlist' data-groupbuyId="{{item.groupbuyId}}"  data-groupbuyOrderId="{{item.groupbuyOrderId}}" data-status="{{item.statusNum}}" data-id='{{item.productId}}' data-order="{{item.orderId}}">查看订单详情</text>
           </view>
         </view>  
-        </view>
+        </view> -->
         <!--已成团结束  -->
         <!--拼团失败  -->
-        <view class="all-list" wx:if="{{currentTab==3}}">
+        <!-- <view class="all-list" wx:if="{{currentTab==3}}"> -->
         <!--无数据时  -->
       <!-- 没有订单时显示-->
-          <view wx:if="{{!failOrders}}" class="no-order-view" style='background:#f3f3f3;'>
+          <!-- <view wx:if="{{!failOrders}}" class="no-order-view" style='background:#f3f3f3;'>
             <image style="width:200rpx;height:200rpx;" src="../../image/purchase-image.png"></image>
             <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
             <view style="">赶快去下单吧</view>
             <!--TODO: 改成切换tab -->
-            <navigator url="../cluster/grouplist" class="gobuy-btn-view">
+           <!-- <navigator url="../cluster/grouplist" class="gobuy-btn-view">
               <text>去下单</text>
             </navigator>
-          </view>
+          </view> -->
     <!--无数据时  -->
-        <view class="all-list2" wx:if="{{failOrders && failOrders.length}}" wx:for="{{failOrders}}" wx:key="{{item}}">
+        <!-- <view class="all-list2" wx:if="{{failOrders && failOrders.length}}" wx:for="{{failOrders}}" wx:key="{{item}}">
           <view class="all-com-fri-det">
             <view class="all-commodity-img">
               <image class="all-com" src="{{item.productPic}}"></image>
@@ -262,7 +309,7 @@
               <view class="current-price-time">
                 <text class="now-price">现价：</text>
                 <text class="now-pri-text">￥{{item.price}}</text>
-                <text class="count-down"><!--24:40:44后结束 --></text>
+                <text class="count-down">24:40:44后结束 </text>
                 <text class="group-now">{{item.statusText}}</text>
               </view>
             </view>
@@ -272,12 +319,12 @@
             <text class="invite-detail inv-total" bindtap='goSearOrderlist' data-groupbuyId="{{item.groupbuyId}}"  data-groupbuyOrderId="{{item.groupbuyOrderId}}" data-status="{{item.statusNum}}" data-id="{{item.productId}}" data-order="{{item.orderId}}">查看订单详情</text>
           </view>
         </view>  
-        </view>
+        </view> -->
         <!--拼团失败结束  -->
-
+<!-- 
       </view>
   </scroll-view>
-</swiper-item>
+</swiper-item> -->zzzzzzzzzz
 
 <!--拼团购结束  -->
 
@@ -289,17 +336,17 @@
     <view wx:if="{{transOrders && transOrders.length}}" class="order-list-view">
       <!--<block wx:for="{{invalidateCardList}}" wx:for-item="card" wx:key="{{card.cardId}}">-->
       <!--待收货-->
-      <view wx:for="{{transOrders}}" wx:for-item="order" wx:key="{{order.orderId}}" class="order-item-view navigator" data-order-id="{{order.orderId}}" data-product-id="{{order.products[0].productId}}" bindtap="pushToOrderDetail">
-        <view class="goods-info-view" wx:for="{{order.products}}" wx:key="{{item.productId}}">
+      <view wx:for="{{transOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.products[0].product_id}}" bindtap="pushToOrderDetail">
+        <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
           <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
           <view class="goods-name-view">
             <text class="goods-name">{{item.name}}\n
-              <text style="margin-right: 10rpx;color:grey;" wx:if="{{item.attrinfo['0'].colorName}}"> 颜色：{{item.attrinfo['0'].colorName}} 尺码：{{item.attrinfo['0'].sizeName}}\n x{{item.quantity}}</text>
+              <text style="margin-right: 10rpx;color:grey;" wx:if="{{item.attrinfo['0'].sku_data}}"> {{item.sku_data_arr['0'].name}}：{{item.sku_data_arr['0'].value}}</text>
             </text>
           </view>
         </view>
         <view class="goods-price-view">
-          <view style="margin-right:25rpx;">共{{order.products.length}}件商品</view>
+          <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
           <view style="">实付款：</view>
           <view style="color:#D84E52;">￥{{order.total}}</view>
         </view>
@@ -332,8 +379,8 @@
     <view wx:if="{{finishedOrders && finishedOrders.length}}" class="order-list-view">
       <!--<block wx:for="{{usedCardList}}" wx:for-item="card" wx:key="{{card.cardId}}">-->
       <!--已收货-->
-      <view wx:for="{{finishedOrders}}" wx:for-item="order" wx:key="{{order.orderId}}" class="order-item-view navigator" data-order-id="{{order.orderId}}" data-product-id="{{order.products[0].productId}}" bindtap="pushToOrderDetail">
-        <view class="goods-info-view" wx:for="{{order.products}}" wx:key="{{item.productId}}">
+      <view wx:for="{{finishedOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].product_id}}" bindtap="pushToOrderDetail">
+        <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
           <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
           <view class="goods-name-view">
             <text class="goods-name">{{item.name}}\n
@@ -342,7 +389,7 @@
           </view>
         </view>
         <view class="goods-price-view">
-          <view style="margin-right:25rpx;">共{{order.products.length}}件商品</view>
+          <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
           <view style="">实付款：</view>
           <view style="color:#D84E52;">￥{{order.total}}</view>
         </view>
