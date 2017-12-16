@@ -2,7 +2,7 @@
 var app = getApp();
 const log = 'order-detail.js --- ';
 
-const orderUrl = 'order/info/';    // 订单详情接口
+const orderUrl = 'wxapp.php?c=order&a=mydetail';    // 订单详情接口
 const logisticsUrl = 'order/track/';  // 订单物流查询接口
 let _orderId = '';
 let _kuaidiCompanyCode , _kuaidiNumber, _kuaidiCompanyName;
@@ -24,17 +24,17 @@ Page({
       productId: productId
     })
     // 检测是否已经提交过申请
-    app.api.postApi('order/checkReturn', { "order_id": orderId}, (err, resp) => {
-      if (err) {
-        return this._showError('网络出错，请稍候重试');
-      }
-      var rtnCode = resp.rtnCode;
-      if (rtnCode==-1){
-        that.setData({
-          rtnCode: rtnCode
-        })
-      }
-    });
+    // app.api.postApi('order/checkReturn', { "order_id": orderId}, (err, resp) => {
+    //   if (err) {
+    //     return this._showError('网络出错，请稍候重试');
+    //   }
+    //   var rtnCode = resp.rtnCode;
+    //   if (rtnCode==-1){
+    //     that.setData({
+    //       rtnCode: rtnCode
+    //     })
+    //   }
+    // });
     // 检测是否已经提交过申请结束
     
     if(orderId) {
@@ -192,36 +192,59 @@ Page({
    * 获取订单详情数据
    */
   _loadData(orderId) {
-    app.api.fetchApi(orderUrl + orderId, (err, data) => {   // 赠品领用提交
-      if(!err && data.rtnCode == 0) {
-        let {kuaidiCompanyCode, kuaidiNumber, kuaidiCompanyName} = data.data;
-        [_kuaidiCompanyCode, _kuaidiNumber, _kuaidiCompanyName] = [kuaidiCompanyCode, kuaidiNumber, kuaidiCompanyName];
+    // app.api.fetchApi(orderUrl + orderId, (err, data) => {   // 赠品领用提交
+    //   if(!err && data.rtnCode == 0) {
+    //     let {kuaidiCompanyCode, kuaidiNumber, kuaidiCompanyName} = data.data;
+    //     [_kuaidiCompanyCode, _kuaidiNumber, _kuaidiCompanyName] = [kuaidiCompanyCode, kuaidiNumber, kuaidiCompanyName];
 
-        if(kuaidiCompanyCode && kuaidiNumber) {
-          app.api.postApi(logisticsUrl, {kuaidiCompanyCode, kuaidiNumber}, (err, kuaidiData) => {
-            wx.hideLoading();
-            if(!err && kuaidiData.rtnCode == 0) {
-              this.setData({
-                orderData: data.data,
-                kuaidiData: kuaidiData.data
-              });
-            } else {
-              this.setData({
-                orderData: data.data,
-                kuaidiData: null
-              });
-            }
-          });
-        } else {
-          wx.hideLoading();
-          this.setData({
-            orderData: data.data,
-            kuaidiData: null
-          });
-        }
-      } else {
+    //     if(kuaidiCompanyCode && kuaidiNumber) {
+    //       app.api.postApi(logisticsUrl, {kuaidiCompanyCode, kuaidiNumber}, (err, kuaidiData) => {
+    //         wx.hideLoading();
+    //         if(!err && kuaidiData.rtnCode == 0) {
+    //           this.setData({
+    //             orderData: data.data,
+    //             kuaidiData: kuaidiData.data
+    //           });
+    //         } else {
+    //           this.setData({
+    //             orderData: data.data,
+    //             kuaidiData: null
+    //           });
+    //         }
+    //       });
+    //     } else {
+    //       wx.hideLoading();
+    //       this.setData({
+    //         orderData: data.data,
+    //         kuaidiData: null
+    //       });
+    //     }
+    //   } else {
+    //   }
+    // });
+
+    //2017-12-16amy
+    var self = this;
+    var pages = getCurrentPages();
+    console.log('pages ',pages);
+    app.api.postApi(orderUrl, { "params": { "order_no": orderId } },(err,rep) => {
+      wx.hideLoading();
+      if (rep.err_code != 0){
+        wx.showToast({
+         title : rep.err_msg,
+        })
+        setTimeout(function () {
+          wx.navigateBack();
+        }, 2000)
+        
       }
-    });
+      if(!err && rep.err_code==0){
+        let { orderdata } = rep.err_msg;
+        this.setData({
+          " orderData": orderdata,
+        });
+      }
+    })
   },
   
   /**

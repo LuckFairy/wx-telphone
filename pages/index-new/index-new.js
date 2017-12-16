@@ -17,6 +17,7 @@ Page({
       testData: [], //测试数据
       baoKuanData:[],//爆款专区数据
       festivalData:[],//节日专区数据
+      
       hotData: [], //热点推荐数据
       groupData: [], //拼多多
       secKillData: [], //秒杀

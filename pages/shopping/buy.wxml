@@ -225,7 +225,7 @@
       <text class='actual-pay-one'>实付款: </text>
       <text class='actual-pay-two'> {{totals.total.text}}</text>
     </view>
-    <view class='current-buying invite-total' bindtap="submitOrder">
+    <view class='current-buying invite-total' bindtap="submitOrder"  data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>
       <text class='current-buying-child'>立即购买</text>
     </view>
 </view> 

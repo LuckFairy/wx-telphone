@@ -193,25 +193,25 @@ Page({
     wx.showLoading({
       title: '加载中'
     })
-    app.api.postApi('order/listOfReturn', {}, (err, resp) => {
-      if (resp) {
-        if (resp.rtnCode == 0) {
-          wx.hideLoading();
-          var dataList = resp.data;
-          var dataList = [];
-          dataList.push(resp.data)
-          that.setData({
-            showSale: false,
-            dataList: dataList
-          })
-        } else {
-          that.setData({
-            showSale: true
-          })
-        }
+    // app.api.postApi('order/listOfReturn', {}, (err, resp) => {
+    //   if (resp) {
+    //     if (resp.rtnCode == 0) {
+    //       wx.hideLoading();
+    //       var dataList = resp.data;
+    //       var dataList = [];
+    //       dataList.push(resp.data)
+    //       that.setData({
+    //         showSale: false,
+    //         dataList: dataList
+    //       })
+    //     } else {
+    //       that.setData({
+    //         showSale: true
+    //       })
+    //     }
 
-      }
-    });
+    //   }
+    // });
   },
   goDetail(e){
     var theId = e.target.dataset.theId;
@@ -696,31 +696,31 @@ Page({
  * 团购订单列表
  */
   loadGroupbuyOrder() {
-    wx.showLoading({ title: '加载中...', mask: true, });
+    // wx.showLoading({ title: '加载中...', mask: true, });
     
-    let groupbuyOrders = [], waitOrders = [], endOrders = [], failOrders = [];
-    app.api.fetchApi("order/OrderList", (err, resp) => {
-      wx.hideLoading();
-      if (err) {
-        return this._showError('网络出错，请稍候重试');
-      }
-      let { rtnCode, rtnMessage, data = [] } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);
-      }
-      let groupbuyOrders = data;
-      data.forEach(item => {
-        let status = item.groupbuyOrderStatus;
-        if (status == 1) {
-          waitOrders.push(item);
-        } else if (status == 2) {
-          endOrders.push(item);
-        } else {
-          failOrders.push(item);
-        }
-      });
-      this.setData({ groupbuyOrders, waitOrders, endOrders, failOrders });
-    });
+    // let groupbuyOrders = [], waitOrders = [], endOrders = [], failOrders = [];
+    // app.api.fetchApi("order/OrderList", (err, resp) => {
+    //   wx.hideLoading();
+    //   if (err) {
+    //     return this._showError('网络出错，请稍候重试');
+    //   }
+    //   let { rtnCode, rtnMessage, data = [] } = resp;
+    //   if (rtnCode != 0) {
+    //     return this._showError(rtnMessage);
+    //   }
+    //   let groupbuyOrders = data;
+    //   data.forEach(item => {
+    //     let status = item.groupbuyOrderStatus;
+    //     if (status == 1) {
+    //       waitOrders.push(item);
+    //     } else if (status == 2) {
+    //       endOrders.push(item);
+    //     } else {
+    //       failOrders.push(item);
+    //     }
+    //   });
+    //   this.setData({ groupbuyOrders, waitOrders, endOrders, failOrders });
+    // });
   },
 
   //处理分享的数据

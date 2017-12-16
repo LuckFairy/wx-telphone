@@ -165,8 +165,8 @@
         <text class="normal ste-add" bindtap="bindPlus">+</text>
       </view>
     </view>
-    <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
-     <text wx:if='{{goPayment}}' data-uid='{{uid}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' class='go-confirm'  bindtap='goPayment'>去下单</text> 
+     <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text> 
+     <text wx:else data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'class='go-confirm'  bindtap='goPayment'>去下单</text> 
     <!-- 数量的增减end -->
   </view>
 </view>

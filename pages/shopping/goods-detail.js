@@ -48,7 +48,7 @@ Page({
     sku_id: '',
     product_id: '',
     is_add_cart: 1,
-    goPayment:false,
+    goPayment:false,//立即下单，增加立即下单
     goAddCard:false
   },
   goStoreServer() {
@@ -138,7 +138,7 @@ Page({
     this.setData({ 'newCartNum': 0 });
     console.log(`prodId `,prodId);
     var cateId = options.cateId;
-    this.setData({ 'cateId': cateId });
+    this.setData({ 'cateId': cateId, 'product_id': prodId });
   },
   onReady: function () {
     // 页面渲染完成
@@ -216,17 +216,17 @@ Page({
     }
     console.log('加入购物车', e)
     var product_id = e.currentTarget.dataset.productId;
-    that.setData({
-      moreChoose: true,
-      oneMatching: oneMatching,
-      oriPid: "",
-      curTabs: '',
-      arrone: '',
-      arrotwo: "",
-      product_id: product_id,
-      goAddCard: true,
-      goPayment: false
-    });
+    // that.setData({
+    //   moreChoose: true,
+    //   oneMatching: oneMatching,
+    //   oriPid: "",
+    //   curTabs: '',
+    //   arrone: '',
+    //   arrotwo: "",
+    //   product_id: product_id,
+    //   goAddCard: true,
+    //   goPayment: false
+    // });
     var uid = that.data.uid;
     var store_id = that.data.store_id;
     var params = {
@@ -341,8 +341,8 @@ Page({
   },
   goPayment(e){
     var that = this;
-    var { buyQuantity , productId , uid } = e.currentTarget.dataset;
-    var url = './buy?uid=' + uid + '&quantity=' + buyQuantity + '&pid=' + productId;
+    var { buyQuantity , productId , uid , storeId ,skuId} = e.currentTarget.dataset;
+    var url = './buy?uid=' + uid + '&quantity=' + buyQuantity + '&pid=' + productId + '&skuId=' + skuId + '&storeId=' + storeId  ;
     wx.navigateTo({ url });
   },
   //数量增减end

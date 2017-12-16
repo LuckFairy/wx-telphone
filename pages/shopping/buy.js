@@ -1,12 +1,15 @@
 // pages/shopping/buy.js 
 
-const util = require('../../utils/util.js');
-var app = getApp();
+const app = getApp();
+import {util}  from '../../utils/util';
+import { Api } from '../../utils/api_2';
 const log = 'buy.js --- ';
 
 const AddressSettingURL = 'buy/address';   // 设置售货地址
-const ListURL = 'store/ls';          // 门店列表
+const ListURL = 'wxapp.php?c=order_v2&a=add';          // 门店列表
 const DetailURL = 'store/detail';    // 门店详情
+const addressList = 'c=address&a=index&action=list'; //地址详情
+const orderList = 'wxapp.php?c=order_v2&a=order_list';//订单详情
 
 var checkTimer = null;
 let _prodId;                          // 记录商品 id
@@ -28,6 +31,8 @@ Page({
     shippingMethods: [],    // 有效的配送方式
     hasFlatShip: false,
     hasPickupShip: false,
+    // 2017-12-16amy 增加订单id
+    orderId : '',
 
     address: null,    // 存放当前收货地址数据
     addressId: 0,     // 选择的收货地址id
@@ -56,7 +61,29 @@ Page({
     productSize: '',   // 商品尺码
     matteShow:false  //购买成功弹窗
   },
+  showOrderList (opt) {
+    let that = this;
+    app.api.postApi('wxapp.php?c=order_v2&a=order_list',{"params": {
+      "uid":opt.uid ,"store_id":opt.storeId
+    }}, (err,rep) => {
+      if(err){ console.log('err ',err); return}
+      var { err_code, err_msg:{order_list=[]}} = rep;
+      if(err_code != 0){ console.log(err_msg);return }
+      that.setData({ "shopListData": order_list});
+    })
+  },
   onLoad: function (options) {
+    let {  uid, pid, skuId, storeId, qrEntry } = options;
+    quantity = options.quantity;
+    //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
+    if (skuId || skuId.length > 0) {
+       skuid = skuId;
+    } 
+    //显示订单列表
+    this.showOrderList({uid, storeId});
+    //生成订单
+    //this._loadShopData({"uid":uid ,"quantity":quantity,"product_id":pid,"store_id":storeId});
+
     //2017年8月17日13:46:50 处理选择后的多属性
     var attrData = wx.getStorageSync('key') || [];
     if (attrData.length > 0) {
@@ -66,27 +93,28 @@ Page({
     } else {
       skuid = 0;
     }
-    //商品的数量
-    quantity = options.num;
-    this.setData({ quantity: quantity });
-    let { prodId, qrEntry } = options;
+
+    
+    //quantity商品的数量
+    //this.setData({ quantity: quantity });
+    
     // this._prepareOrder(prodId);
-    _prodId = prodId;       // 记录商品 id
+    _prodId = pid;       // 记录商品 id
 
     // this._prepare(prodId);
-    if (qrEntry) {
-      this.setData({ qrEntry: qrEntry });
-    }
+    // if (qrEntry) {
+    //   this.setData({ qrEntry: qrEntry });
+    // }
 
     // 加载门店列表数据
-    this._loadShopData();
+   // this._loadShopData();
   },
   onReady: function () {
     // 页面渲染完成
   },
   onShow: function () {
     // 页面显示
-    this._prepare(_prodId, skuid, quantity, groupbuyId);
+   // this._prepare(_prodId, skuid, quantity, groupbuyId);
   },
   onHide: function () {
     // 页面隐藏
@@ -566,14 +594,16 @@ Page({
    * 获取门店列表数据
    */
   _loadShopData() {
-    app.api.fetchApi(ListURL, (err, res) => {   // 获取门店列表数据
-      if (!err && res.rtnCode == 0) {
-        let { data: shopListData } = res;
-        this._loadShopDetailData(shopListData[0]);   // 默认加载第一个门店的详情数据
-        this.setData({ shopListData });
-      } else {
-      }
-    });
+    // app.api.fetchApi(ListURL, (err, res) => {   // 获取门店列表数据
+    //   if (!err && res.rtnCode == 0) {
+    //     let { data: shopListData } = res;
+    //     this._loadShopDetailData(shopListData[0]);   // 默认加载第一个门店的详情数据
+    //     this.setData({ shopListData });
+    //   } else {
+    //   }
+    // });
+    
+    
   },
 
   /**

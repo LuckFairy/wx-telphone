@@ -1,24 +1,24 @@
 <view class="containner" wx:if="{{orderData}}">
     <view class="order-no-view">
         <view class='order-list-wrap'>
-          <view class="mText order-number-one">订单号：{{orderData.orderId}}</view>
-          <view class="mText order-number-two grayText">{{orderData.histories[orderData.histories.length - 1].status}}</view>
+          <view class="mText order-number-one">订单号：{{orderData.order_id}}</view>
+          <!-- <view class="mText order-number-two grayText">{{orderData.histories[orderData.histories.length - 1].status}}</view> -->
         </view>
     </view>
     <!-- //快递到达某地   -->
-    <view wx:if="{{kuaidiData}}" bindtap="pushToKuaiDi" class="express-sts-view mText navigator">{{kuaidiData[kuaidiData.length - 1].acceptstation}}</view>
+    <!-- <view wx:if="{{kuaidiData}}" bindtap="pushToKuaiDi" class="express-sts-view mText navigator">{{kuaidiData[kuaidiData.length - 1].acceptstation}}</view> -->
 
     <view class="order-info-view item-area">
         <view class="name-phone-view">
             <view class="mText address-order-list">
             <image class='address-image' src='../../image/address-image.png'></image>
-            {{orderData.fullname}}
+            {{orderData.address_user}}
             </view>
-            <view wx:if="orderData.telephone" class="mText address-order-list">{{orderData.shippingTelephone}}</view>
+            <view wx:if="orderData.telephone" class="mText address-order-list">{{orderData.address_tel}}</view>
         </view>
-        <view class="addr-view">{{orderData.shippingAddress}}</view>
+        <view class="addr-view">{{orderData.address.province}}{{orderData.address.city}}{{orderData.address.area}}{{orderData.address.address}}{orderData.address.address_id}}</view>
     </view>
-    <view wx:for="{{orderData.products}}" wx:key="{{index}}" class="goods-info-view">
+    <view wx:for="{{orderData.product}}" wx:key="{{index}}" class="goods-info-view">
         <image src="{{item.image}}" class="goods-img"></image>
         <view class="goods-name-view-wrap">
           <text class='goods-title-name'>{{item.name}}</text>
@@ -28,7 +28,7 @@
           </view>
           <view class='goods-price-number'>
             <text class='goods-price'>￥{{item.total}}</text>
-            <text class='goods-number'>X{{item.quantity}}</text>
+            <text class='goods-number'>X{{item.pro_num}}</text>
           </view>
         </view>
     </view>
