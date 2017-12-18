@@ -92,12 +92,12 @@
   <image class='shadow-color' src='../../image/shadow-color.png'></image>
   <text class='shadow-bg'></text>
 </view>
-<view wx:if="{{!isLoading}}" class="buy-containner">
+<view  class="buy-containner">
   <view class="content-view">
     <view class="goods-section" wx:for="{{products}}" wx:key="{{item.productId}}">
       <view class="goods-view border-bottom">
         <view class="goods-icon-view">
-          <image class="goods-image" src="{{item.thumb}}" style="width:100%;;" mode="widthFix"></image>
+          <image class="goods-image" src="{{item.image}}" style="width:100%;;" mode="widthFix"></image>
         </view>
         <view class="order-info-view">
           <view class="goods-name-view">
@@ -116,10 +116,10 @@
           </block>
 
           <view class="prod-price-view pro-yet-price">
-            <view class="money-text">{{item.totalText}}</view>
-            <view class="base-price" style="margin-left: 20rpx;">{{item.basePriceText}}</view>
+            <view class="money-text">{{item.pro_price}}</view>
+            <view class="base-price" style="margin-left: 20rpx;">{{item.pro_price}}</view>
             <view style="flex: 1"></view>
-            <view class="amount">x{{item.num}}</view>
+            <view class="amount">x{{item.pro_num}}</view>
           </view>
         </view>
       </view>
@@ -168,13 +168,13 @@
 <view class='discount discount-list'>
   <text class='discount-text'>商品金额</text>
   <view class='discount-father'>
-    <text class='discount-ticket-price discount-color-red'>{{totals.total.text}}</text>
+    <text class='discount-ticket-price discount-color-red'>{{sub_total}}</text>
   </view>
 </view>
 <view class='discount discount-list'>
   <text class='discount-text'>运费</text>
   <view class='discount-father'>
-    <text class='discount-ticket-price discount-color-red'>{{totals.shipping.text}}</text>
+    <text class='discount-ticket-price discount-color-red'>{{postage_int}}</text>
   </view>
 </view>
 <!--公众号开始 
