@@ -4,6 +4,7 @@ const app = getApp();
 
 import { util, formatTime}  from '../../utils/util';
 import { Api } from '../../utils/api_2';
+import { store_Id } from '../../utils/store_id';
 const log = 'buy.js --- ';
 
 const AddressSettingURL = 'buy/address';   // 设置售货地址
@@ -64,7 +65,7 @@ Page({
     // 2017-12-16amy 增加订单id
    orderData:'',//订单数据
    orderId :'',//订单号
-   storeId :'',//商店id
+   storeId: store_Id.shopid,//商店id
    uid : '',//用户id
    address: null,    // 存放当前收货地址数据
    addressList:[],  //地址列表
@@ -72,20 +73,31 @@ Page({
    pickupStoreId: 0, // 自提门店id
    productList:null,//产品列表
    fee:0,//运费
-   lastPay:0//实付
+   lastPay:0,//实付
+   //2017年12月18日18:25:21 by leo
+   orderId:'',
+   shipping_method: 'express',
+   addressId: 0,
+   postage_list: "",
+   user_coupon_id: 0,
+   is_app: false,
+   payType: 'weixin'
+
   },
   /*
   *订单详情列表
   */
   showOrderList (opt) {
     let that = this;
+    let orderId = opt.orderId ;
+
     app.api.postApi('wxapp.php?c=order&a=mydetail',{"params": {
       "order_no":opt.orderId 
     }}, (err,rep) => {
       if(err){ console.log('err ',err); return;}
       var { err_code, err_msg: { orderdata}} = rep;
       if(err_code != 0){ return;}
-      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int) });
+      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int), orderId, postage_list: orderdata.postage_list});
     })
   },
   /*
@@ -120,7 +132,7 @@ Page({
     quantity = options.quantity;
     //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
     
-    this.setData({ orderId});
+    this.setData({ orderId, uid});
     //显示订单列表
     this.showOrderList({ orderId });
     this.getAddress(uid);
@@ -284,44 +296,51 @@ Page({
    * 提交订单
    */
   submitOrder: function (event) {
-    var getOpenId = wx.getStorageSync('userOpenid');//获取到存储的openid  
-    console.log(getOpenId, "88888888888888888888888888888888888")
+    
     var that = this;
     // 显示公众号复制提示
     that.setData({
       showwechat: true
     })
-    //if (this.data.error) return false;
+
 
     if (!this.checkAddress()) return false;
 
     // 收货地址
-    let params = this.buildAddressParams();
-    params.skuId = skuid;
-    params.quantity = quantity;
-    //return;
-    wx.showLoading({ title: '加载中...', mask: true, });
-    app.api.postApi("wxapp_saveorder.php?action=pay_xcx", params, (err, resp) => {
+    let address_params= this.buildAddressParams();
+    let address_id = address_params.addressId;
+    console.log('地址id是=' + address_id);
+    //let address_id = 47;
+    let payType = this.data.payType;
+    let is_app = this.data.is_app;
+    //let postage_list = this.data.postage_list;
+    let postage_list = "a:1:{i:6;d:0;}";
+    let uid = this.data.uid;
+    let store_id = this.data.storeId;
+    let user_coupon_id = this.data.user_coupon_id;
+    let shipping_method = this.data.shipping_method;
+    let orderId = this.data.orderId;
+
+    var params = {
+      payType: payType,
+      orderNo: orderId,
+      is_app: is_app,
+      postage_list: postage_list,
+      shipping_method: shipping_method,
+      address_id: address_id,
+      uid: uid,
+      store_id: store_id,
+      user_coupon_id: 0,
+    }
+    //console.log(params);return;
+
+    app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
-      if (err) {
-        return this._showError('提交订单失败，请重试');;
-      }
-
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);
-      }
-      let { orderId, needPay, payParams } = data;
-
-      // 不需要支付
-      if (!needPay) {
-        return this._onSubmitNoPay();
-      }
-
-      // 需要支付
-      if (payParams) {
-        this._startPay(payParams);
-      }
+      console.log(resp, 344444)
+      var data = resp.err_msg;
+      console.log(data);
+      // 调起微信支付
+      this._startPay(data);
     });
 
     
@@ -336,7 +355,8 @@ Page({
     let param = {
       timeStamp: payParams.timeStamp + "",
       nonceStr: payParams.nonceStr,
-      "package": "prepay_id=" + payParams.prepayId,
+      //"package": "prepay_id=" + payParams.prepayId,
+      "package": payParams.package,
       signType: 'MD5',
       paySign: payParams.paySign,
       success: res => this._onPaySuccess(res),
