@@ -85,7 +85,7 @@ Page({
       if(err){ console.log('err ',err); return;}
       var { err_code, err_msg: { orderdata}} = rep;
       if(err_code != 0){ return;}
-      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int,lastPay:orderdata.last_pay });
+      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int) });
     })
   },
   /*
