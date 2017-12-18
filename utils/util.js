@@ -1,5 +1,6 @@
 const md5 = require('./md5.js');
 function formatTime(date) {
+  var date = new Date(date * 1000);//如果date为10位不需要乘1000
   var year = date.getFullYear()
   var month = date.getMonth() + 1
   var day = date.getDate()

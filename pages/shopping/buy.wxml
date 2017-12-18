@@ -27,13 +27,13 @@
           <view class='address-list'>
             <image class='address-image' src='../../image/address.png'></image>
           </view>
-           <view wx:if="{{addrList.length}}" class="addr-item-view">
-              <view class="name-phone-view">
-                  <view class="people-name">{{address.fullname}}: </view>
-                  <view class="people-name">{{address.shippingTelephone}}</view>
+           <view wx:if="{{address}}" class="addr-item-view">
+              <view class="name-phone-view" >
+                  <view class="people-name">{{address.name}}: </view>
+                  <view class="people-name">{{address.tel}}</view>
                   <view class='people-default'>默认</view>
               </view>
-              <view class="addr-dtl-view">收货地址： {{address.zone + address.city + address.district + address.address}}</view>
+              <view class="addr-dtl-view">收货地址： {{address.province_txt + address.city_txt + address.area_txt + address.address}}</view>
           </view>
           <view wx:else class="addressNew">
               新建收货地址
@@ -61,27 +61,28 @@
   
         </view>
       </scroll-view>
+
     </swiper-item>
     <swiper-item wx:if="{{hasPickupShip}}">
       <scroll-view style="height:100%" scroll-y="{{true}}">
         <radio-group bindchange="onStoreSelected">
-          <view class="store-list-containner" wx:for="{{shopListData}}" wx:key="{{item.storeId}}">
+          <view class="store-list-containner" wx:for="{{shopListData}}" wx:key="{{item.store_id}}">
             <view class="list-view-wrap">
               <view class="list-item-view sp-border" data-index="{{index}}">
                 <view class="list-item-dtl-select-view">
-                  <radio value="{{item.storeId}}" checked="{{pickupStoreId == item.storeId}}" />
+                  <radio value="{{item.store_id}}" checked="{{pickupStoreId == item.store_id}}" />
                 </view>
-                <view class="list-item-dtl-left-view" bindtap="bindStoreTap" data-store-id="{{item.storeId}}">
-                  <text class="list-item-title-view normalText">{{item.name}}</text>
-                  <text class="list-item-addr-view mText grayText">{{item.address}}</text>
-                </view>
-                <navigator class="list-item-dtl-select-view" url="{{'../store/store-detail?storeId=' + item.storeId}}">
+                  <view class="list-item-dtl-left-view" bindtap="bindStoreTap" data-store-id="{{item.store_id}}"> -->
+                   <text class="list-item-title-view normalText">{{item.product.name}}</text> 
+                   <text class="list-item-addr-view mText grayText">{{item.product.address}}</text> 
+               </view>   
+                <navigator class="list-item-dtl-select-view" url="{{'../store/store-detail?storeId=' + item.store_id}}">
                   <i class="fa fa-chevron-right" style="color: #ccc;" />
                 </navigator>
-                <!--<view class="list-item-dtl-right-view">
-                                    <text class="list-item-location-dist-view xmText">5.6公里</text>
-                                    <i class="list-item-location-icon-view fa fa-lg fa-map-marker hotTextColor" />
-                                </view>-->
+                <view class="list-item-dtl-right-view"> 
+                    <text class="list-item-location-dist-view xmText">5.6公里</text>
+                    <i class="list-item-location-icon-view fa fa-lg fa-map-marker hotTextColor" />
+                </view>
               </view>
             </view>
           </view>
@@ -91,6 +92,26 @@
   </swiper>
   <!-- swiper -->
 </view>
+
+<!--订单列表开始  -->
+
+ 
+    <view wx:for="{{shopListData.product}}" wx:key="{{item}}" class="goods-info-view">
+        <image src="{{item.image}}" class="goods-img"></image>
+        <view class="goods-name-view-wrap">
+          <text class='goods-title-name'>{{item.name}}</text>
+          <view class='goods-size-name'>
+            <text wx:if="{{item.attrinfo['0'].colorName}}" class='goods-color-name'>颜色：{{item.attrinfo['0'].colorName}}</text>
+            <text wx:if="{{item.attrinfo['0'].colorName}}" class='goods-footage-name'>尺码：{{item.attrinfo['0'].sizeName}}</text>
+          </view>
+          <view class='goods-price-number'>
+            <text class='goods-price'>￥{{item.pro_price}}</text>
+            <text class='goods-number'>X{{item.pro_num}}</text>
+          </view>
+        </view>
+    </view>
+<!--订单列表结束  -->
+
 <!--阴影  -->
 <view class='shadow-list'>
   <image class='shadow-color' src='../../image/shadow-color.png'></image>
@@ -98,10 +119,10 @@
 </view>
 <view wx:if="{{!isLoading}}" class="buy-containner">
   <view class="content-view">
-    <view class="goods-section" wx:for="{{products}}" wx:key="{{item.productId}}">
+    <view class="goods-section" wx:for="{{productList}}" wx:key="{{index}}">
       <view class="goods-view border-bottom">
         <view class="goods-icon-view">
-          <image class="goods-image" src="{{item.thumb}}" style="width:100%;;" mode="widthFix"></image>
+          <image class="goods-image" src="{{item.image}}" style="width:100%;;" mode="widthFix"></image>
         </view>
         <view class="order-info-view">
           <view class="goods-name-view">
@@ -109,21 +130,21 @@
             <view style="font-size:20rpx;color:grey;margin-bottom:5px;"></view>
           </view>
           <block wx:if="{{productColor}}">
-            <view class="prod-price-view">
+             <view class="prod-price-view">
               颜色：{{productColor}} 尺码：{{productSize}}
-            </view>
+            </view> 
           </block>
           <block wx:else>
             <view class="prod-price-view">
-              数量：{{quantity}}
+              数量：{{item.pro_num}}
             </view>
           </block>
 
           <view class="prod-price-view pro-yet-price">
-            <view class="money-text">{{item.totalText}}</view>
-            <view class="base-price" style="margin-left: 20rpx;">{{item.basePriceText}}</view>
+            <view class="money-text">{{shopListData.sub_total}}</view>
+            <view class="base-price" style="margin-left: 20rpx;">{{item.pro_price}}</view>
             <view style="flex: 1"></view>
-            <view class="amount">x{{item.quantity}}</view>
+            <view class="amount">x{{item.pro_num}}</view>
           </view>
         </view>
       </view>
@@ -172,13 +193,13 @@
 <view class='discount discount-list'>
   <text class='discount-text'>商品金额</text>
   <view class='discount-father'>
-    <text class='discount-ticket-price discount-color-red'>{{totals.total.text}}</text>
+    <text class='discount-ticket-price discount-color-red'>{{totals}}</text>
   </view>
 </view>
 <view class='discount discount-list'>
   <text class='discount-text'>运费</text>
   <view class='discount-father'>
-    <text class='discount-ticket-price discount-color-red'>{{totals.shipping.text}}</text>
+    <text class='discount-ticket-price discount-color-red'>{{fee}}</text>
   </view>
 </view>
 <!--公众号开始 
@@ -223,7 +244,7 @@
  <view class="invite-friend-cluster">
     <view class='invite-total actual-payment'>
       <text class='actual-pay-one'>实付款: </text>
-      <text class='actual-pay-two'> {{totals.total.text}}</text>
+      <text class='actual-pay-two'> {{lastPay}}</text>
     </view>
     <view class='current-buying invite-total' bindtap="submitOrder"  data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>
       <text class='current-buying-child'>立即购买</text>

@@ -342,9 +342,38 @@ Page({
   goPayment(e){
     var that = this;
     var { buyQuantity , productId , uid , storeId ,skuId} = e.currentTarget.dataset;
-    var url = './buy?uid=' + uid + '&quantity=' + buyQuantity + '&pid=' + productId + '&skuId=' + skuId + '&storeId=' + storeId  ;
-    wx.navigateTo({ url });
+    var opts = {
+      uid,
+      product_id: productId,
+      store_id: storeId,
+      quantity: buyQuantity
+
+    };
+    this.getOrderId(opts);
   },
+  /*
+  *生成订单
+  *
+  */
+  getOrderId(opts){
+    var { quantity, product_id, uid, store_id } = opts;
+    var url = 'wxapp.php?c=order_v2&a=add';
+    app.api.postApi( url , {
+      "params": {
+        uid,
+        product_id,
+        store_id,
+        quantity
+      }
+    }, (err, rep) => {
+      if (err) { console.log('err ', err); return }
+      var { err_code, err_msg } = rep;
+      if (err_code != 0) { console.log(err_msg); return }
+      var url = './buy?orderId=' + err_msg.order_no + '&uid=' + uid;
+      wx.navigateTo({ url });
+    })
+  },
+ 
   //数量增减end
   //加入购物车start w
   addShopCart: function (e) {

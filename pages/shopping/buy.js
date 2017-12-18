@@ -1,15 +1,16 @@
 // pages/shopping/buy.js 
 
 const app = getApp();
-import {util}  from '../../utils/util';
+
+import { util, formatTime}  from '../../utils/util';
 import { Api } from '../../utils/api_2';
 const log = 'buy.js --- ';
 
 const AddressSettingURL = 'buy/address';   // 设置售货地址
 const ListURL = 'wxapp.php?c=order_v2&a=add';          // 门店列表
 const DetailURL = 'store/detail';    // 门店详情
-const addressList = 'c=address&a=index&action=list'; //地址详情
-const orderList = 'wxapp.php?c=order_v2&a=order_list';//订单详情
+const addressList = ''; //地址详情
+const orderList = '';//订单详情
 
 var checkTimer = null;
 let _prodId;                          // 记录商品 id
@@ -19,11 +20,11 @@ let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 Page({
   data: {
     // cardList: [],
-    addrList: [],
+
     // fee: null,
     error: false,
     products: [],
-    totals: [],
+    totals: [],//商品总价
     isLoading: true,
     showwechat: false,
 
@@ -31,12 +32,11 @@ Page({
     shippingMethods: [],    // 有效的配送方式
     hasFlatShip: false,
     hasPickupShip: false,
-    // 2017-12-16amy 增加订单id
-    orderId : '',
+  
 
-    address: null,    // 存放当前收货地址数据
-    addressId: 0,     // 选择的收货地址id
-    pickupStoreId: 0, // 自提门店id
+    //address: null,    // 存放当前收货地址数据
+    //addressId: 0,     // 选择的收货地址id
+   // pickupStoreId: 0, // 自提门店id
 
     showAreaPicer: false,
     areaText: '',   // 区域
@@ -59,40 +59,84 @@ Page({
     //2017年8月17日16:21:58
     productColor: '',   // 商品颜色
     productSize: '',   // 商品尺码
-    matteShow:false  //购买成功弹窗
+    matteShow:false,  //购买成功弹窗
+
+    // 2017-12-16amy 增加订单id
+   orderData:'',//订单数据
+   orderId :'',//订单号
+   storeId :'',//商店id
+   uid : '',//用户id
+   address: null,    // 存放当前收货地址数据
+   addressList:[],  //地址列表
+   addressId: 0,     // 选择的收货地址id
+   pickupStoreId: 0, // 自提门店id
+   productList:null,//产品列表
+   fee:0,//运费
+   lastPay:0//实付
   },
+  /*
+  *订单详情列表
+  */
   showOrderList (opt) {
     let that = this;
-    app.api.postApi('wxapp.php?c=order_v2&a=order_list',{"params": {
-      "uid":opt.uid ,"store_id":opt.storeId
+    app.api.postApi('wxapp.php?c=order&a=mydetail',{"params": {
+      "order_no":opt.orderId 
     }}, (err,rep) => {
-      if(err){ console.log('err ',err); return}
-      var { err_code, err_msg:{order_list=[]}} = rep;
-      if(err_code != 0){ console.log(err_msg);return }
-      that.setData({ "shopListData": order_list});
+      if(err){ console.log('err ',err); return;}
+      var { err_code, err_msg: { orderdata}} = rep;
+      if(err_code != 0){ return;}
+      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int,lastPay:orderdata.last_pay });
     })
   },
+  /*
+  *地址详情列表
+  */
+  getAddress(uid){
+    var url = 'wxapp.php?c=address&a=MyAddress';
+    var that = this;
+    app.api.postApi(url,{"params": { uid }} , (err, rep) => {
+      if(!err && rep.err_code == 0){
+        this.setData({
+          "addressList": rep.err_msg,
+          "addressId": rep.err_msg[0].address_id
+        });
+        //设置默认地址
+        for ( var i in rep.err_msg ){
+          if (rep.err_msg[i].default == 1){
+            this.setData({
+              address: rep.err_msg[i]
+            })
+          }
+        }
+        
+       
+      }
+    })
+  },
+  
+
   onLoad: function (options) {
-    let {  uid, pid, skuId, storeId, qrEntry } = options;
+    let {  uid, pid, skuId, storeId, qrEntry ,orderId } = options;
     quantity = options.quantity;
     //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
-    if (skuId || skuId.length > 0) {
-       skuid = skuId;
-    } 
+    
+    this.setData({ orderId});
     //显示订单列表
-    this.showOrderList({uid, storeId});
+    this.showOrderList({ orderId });
+    this.getAddress(uid);
+
     //生成订单
     //this._loadShopData({"uid":uid ,"quantity":quantity,"product_id":pid,"store_id":storeId});
 
     //2017年8月17日13:46:50 处理选择后的多属性
-    var attrData = wx.getStorageSync('key') || [];
-    if (attrData.length > 0) {
-      var attrArr = attrData.split('-');
-      this.setData({ productColor: attrArr['0'], productSize: attrArr['1'] });
-      skuid = options.skuid;
-    } else {
-      skuid = 0;
-    }
+    // var attrData = wx.getStorageSync('key') || [];
+    // if (attrData.length > 0) {
+    //   var attrArr = attrData.split('-');
+    //   this.setData({ productColor: attrArr['0'], productSize: attrArr['1'] });
+    //   skuid = options.skuid;
+    // } else {
+    //   skuid = 0;
+    // }
 
     
     //quantity商品的数量
@@ -257,7 +301,7 @@ Page({
     params.quantity = quantity;
     //return;
     wx.showLoading({ title: '加载中...', mask: true, });
-    app.api.postApi("buy/submit_new", params, (err, resp) => {
+    app.api.postApi("wxapp_saveorder.php?action=pay_xcx", params, (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('提交订单失败，请重试');;

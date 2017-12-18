@@ -1,4 +1,5 @@
 // pages/shopping/order-detail.js
+import { formatTime } from '../../utils/util';
 var app = getApp();
 const log = 'order-detail.js --- ';
 
@@ -12,7 +13,8 @@ Page({
     orderData: null, // 订单数据
     orderId:'',
     productId:'',
-    rtnCode:''            
+    rtnCode:'' ,
+     orderTime:'',        
   },
   onLoad:function(options){
     var that = this;
@@ -225,9 +227,15 @@ Page({
 
     //2017-12-16amy
     var self = this;
-    var pages = getCurrentPages();
-    console.log('pages ',pages);
-    app.api.postApi(orderUrl, { "params": { "order_no": orderId } },(err,rep) => {
+    // var pages = getCurrentPages();
+    // console.log('pages ',pages);
+    var params = orderId;
+    if (! orderId.includes('PIG')){
+       params = 'PIG' + orderId;
+    }
+    app.api.postApi(orderUrl, {
+      "params": {
+        "order_no": params } },(err,rep) => {
       wx.hideLoading();
       if (rep.err_code != 0){
         wx.showToast({
@@ -239,10 +247,12 @@ Page({
         
       }
       if(!err && rep.err_code==0){
-        let { orderdata } = rep.err_msg;
-        this.setData({
-          " orderData": orderdata,
+  
+        self.setData({
+          orderData: rep.err_msg.orderdata,
+          orderTime: formatTime(rep.err_msg.orderdata.add_time)
         });
+        
       }
     })
   },

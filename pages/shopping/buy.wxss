@@ -738,3 +738,71 @@ page {
 }
 
 /*购买成功提示结束  */
+/*商品列表  */
+.goods-info-view {
+  height: 210rpx;
+  /* display: block; */
+  width: 750rpx;
+  background: #ffffff;
+  margin-top: 10px;
+}
+
+.goods-img {
+  display: inline-block;
+  width: 160rpx;
+  height: 160rpx;
+  margin-top: 25rpx;
+  margin-left: 24rpx;
+}
+
+.goods-name-view-wrap {
+  display: inline-block;
+  font-size: 0rpx;
+  width: 548rpx;
+}
+
+.goods-name-view {
+  flex: 1;
+  flex-direction: column;
+}
+.goods-title-name{
+  font-size: 28rpx;
+  color: #1b1b1b;
+  display: block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp: 1;
+  margin-left: 18rpx;
+  margin-right: 24rpx;
+  margin-top: 34rpx;
+}
+.goods-size-name{
+  font-size: 0rpx;
+  height: 75rpx;
+  line-height: 75rpx;
+}
+.goods-color-name,.goods-footage-name{
+  font-size: 28rpx;
+  color: #1b1b1b;
+  margin-left: 18rpx;
+  display: inline-block;
+}
+.goods-number{
+  font-size: 24rpx;
+  color: #b3b1b1;
+}
+.goods-price-number{
+  font-size: 0rpx;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 18rpx;
+  margin-right: 24rpx;
+  align-items: flex-end;
+}
+.goods-price{
+  display: inline-block;
+  font-size: 28rpx;
+  color: #1b1b1b;
+}
