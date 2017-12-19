@@ -1,6 +1,8 @@
 // pages/shopping/buy.js
 
 const util = require('../../utils/util.js');
+import { Api } from '../../utils/api_2';
+import { store_Id } from '../../utils/store_id';
 var app = getApp();
 const log = 'buy.js --- ';
 
@@ -53,38 +55,35 @@ Page({
     //2017年8月17日16:21:58
     productColor: '',   // 商品颜色
     productSize: '',   // 商品尺码
-    matteShow: false  //购买成功弹窗
+    matteShow: false,  //购买成功弹窗
+
+
+    //2017年12月18日17:22:02
+    order_no: '',
+    postage_int: 0,
+    sub_total: 0
+
   },
   onLoad: function (options) {
-    //2017年8月17日13:46:50 处理选择后的多属性
-    var attrData = wx.getStorageSync('key') || [];
 
-    if (attrData.length > 0) {
-      var attrArr = attrData.split('-');
-      skuid = options.skuid;
-    } else {
-      skuid = 0;
-    }
-    //商品的数量
-    quantity = options.num;
-    this.setData({ quantity: quantity });
-    let { prodId, qrEntry} = options; //2017年9月4日20:10:12 购物车ID，不需要其他
-    _prodId = prodId;       // 记录商品 id
-    cartId = options.cartId;
-    // this._prepare(prodId);
-    if (qrEntry) {
-      this.setData({ qrEntry: qrEntry });
-    }
+    var order_no = options.order_no;
+    this.setData({ order_no: order_no });
+    //console.log('传递过来的订单号是=' + order_no);return;  
 
     // 加载门店列表数据
-    this._loadShopData();
+    //this._loadShopData();
   },
   onReady: function () {
     // 页面渲染完成
   },
   onShow: function () {
     // 页面显示
-    this._prepare(_prodId, skuid, quantity, cartId);
+    //this._prepare(_prodId, skuid, quantity, cartId);
+    //商品数据
+    var order_no = this.data.order_no;
+    //console.log('onShow的订单号是=' + order_no); return; 
+    this._prepare(order_no);
+
   },
   onHide: function () {
     // 页面隐藏
@@ -93,13 +92,27 @@ Page({
     // 页面关闭
   },
 
-  _prepare(prodId, skuid, quantity, cartId) {
-    checkTimer = setInterval(() => {
-      if (getApp().hasSignin) {
-        clearInterval(checkTimer);
-        this._prepareOrder(prodId, skuid, quantity, cartId);
+  _prepare(order_no) {
+    var params = {
+      order_no: order_no
+
+    }
+    app.api.postApi('wxapp.php?c=order&a=mydetail', { params }, (err, resp) => {
+      if (err) {
+        console.log(11111111111111);
+        return;
       }
-    }, 100);
+      if (resp.err_code == 0) {
+        console.log(resp, 2222222222);
+        let orderdata = resp.err_msg.orderdata;
+        var products = resp.err_msg.orderdata.product; //购物车的商品
+        var sub_total = resp.err_msg.orderdata.sub_total; //商品金额
+        var postage_int = resp.err_msg.orderdata.postage_int; //运费
+        //console.log(resp.err_msg.product,'商品信息');
+        console.log(products, '33333');
+        this.setData({ products: products, postage_int, sub_total });
+      }
+    });
   },
 
   addAddr: function (event) {
@@ -359,7 +372,7 @@ Page({
   /**
    * 组装地址参数
    */
-  buildAddressParams() {  
+  buildAddressParams() {
     let { addressId, zoneId, cityId, districtId, fullname, shippingTelephone, location, shippingMethod, pickupStoreId } = this.data;
     let params;
     if (shippingMethod == 'flat.flat') {
@@ -559,6 +572,7 @@ Page({
    */
   _loadShopDetailData(options, loading = false) {
     if (loading) wx.showLoading({ title: '请稍等...' });
+    //const DetailURL = 'store/detail';    // 门店详情
     app.api.fetchApi(DetailURL + '/' + options.storeId, (err, res) => {    // 获取门店详情数据
       if (!err && res.rtnCode == 0) {
         let { data: ShopDetailData } = res;
