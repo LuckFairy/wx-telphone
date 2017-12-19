@@ -176,21 +176,24 @@ Page({
       })
       return ;
     }
+    //这里是严选
     //let url = 'shop/item/' + prodId;
-    let url = 'wxapp.php?c=product&a=detail&product_id=' + prodId; //新接口
-    console.log('接口url:');
-    console.log(url);
-    app.api.fetchApi(url, (err, response) => {
+    //let url = 'wxapp.php?c=product&a=detail&product_id=' + prodId; //新接口
+    let url = 'wxapp.php?c=product&a=detail_of_product';
+    var params = {
+      "product_id": prodId
+    }
+    app.api.postApi(url, { params }, (err, resp) => {
       console.log("错误解决方法");
-      console.log(response);
+      console.log(resp);
       wx.hideLoading();
       if (err) return;
-      if (response.err_code != 0) {
+      if (resp.err_code != 0) {
         wx.showLoading({
-        title: response.err_msg ,
+          title: resp.err_msg ,
       })}else{
         wx.hideLoading();
-        var product = response.err_msg.product;
+        var product = resp.err_msg.product;
         that.setData({
           product: product
         })

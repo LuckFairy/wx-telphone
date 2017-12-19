@@ -57,7 +57,7 @@ Page({
     var params = {
       page, store_id
     }
-    app.api.postApi('wxapp.php?c=product&a=get_product_by_catid&categoryId=98', { params}, (err, response) => {
+    app.api.postApi('wxapp.php?c=product&a=get_product_by_catid', { params}, (err, response) => {
       wx.hideLoading();
       if (err) return;
       var products = response.err_msg.products
