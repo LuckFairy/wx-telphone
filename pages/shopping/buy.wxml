@@ -72,7 +72,7 @@
                 <view class="list-item-dtl-select-view">
                   <radio value="{{item.store_id}}" checked="{{pickupStoreId == item.store_id}}" />
                 </view>
-                  <view class="list-item-dtl-left-view" bindtap="bindStoreTap" data-store-id="{{item.store_id}}"> -->
+                  <view class="list-item-dtl-left-view" bindtap="bindStoreTap" data-store-id="{{item.store_id}}"> 
                    <text class="list-item-title-view normalText">{{item.product.name}}</text> 
                    <text class="list-item-addr-view mText grayText">{{item.product.address}}</text> 
                </view>   

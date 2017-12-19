@@ -19,18 +19,35 @@ Page({
     that.setData({
       uid
     })
-    this.addressList(that);
+    this.addrLists();
   },
-  addressList(that){
-    var uid = that.data.uid;
+  addrLists(e) {
+    var that = this;
+    Api.signin();//获取以及存储openid、uid
+    // 获取uid
+    var uid = wx.getStorageSync('userUid');
+    that.setData({
+      uid
+    })
     var params = {
       uid
     }
-    console.log('执行到')
-    // app.api.postApi('wxapp.php?c=address&a=index&action=list', { params }, (err, response) => {
-    //   if (err) return;
-    //   console.log(response,'response')
-    // });
+    wx.showLoading({
+      title: '加载中'
+    })
+    app.api.postApi('wxapp.php?c=address&a=MyAddress', { params }, (err, resp) => {
+      wx.hideLoading();
+      if (err) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        console.log(resp.err_msg, 'resp.err_msg列表');
+        var addrList = resp.err_msg;
+        that.setData({
+          addrList
+        })
+      }
+    });
   },
   onReady:function(){
     // 页面渲染完成

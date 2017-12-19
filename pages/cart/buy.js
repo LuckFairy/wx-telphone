@@ -18,7 +18,7 @@ let cartId;
 Page({
   data: {
     // cardList: [],
-    addrList: [],
+    //addrList: [],
     // fee: null,
     error: false,
     products: [],
@@ -44,10 +44,10 @@ Page({
     selectedCityIndex: 0,
     cityId: 0,
     selectedDistrictIndex: 0,
-    districtId: 0,
-    fullname: '',
-    shippingTelephone: '',
-    location: '',
+    districtId: 0,//区域id
+    fullname: '',//收货人
+    shippingTelephone: '',//电话
+    location: '',//当地地址
 
     curActIndex: 0,        // swiper 下标指示
     shopListData: null,    // 商店列表数据
@@ -61,17 +61,63 @@ Page({
     //2017年12月18日17:22:02
     order_no:'',
     postage_int:0,
-    sub_total:0
+    sub_total:0,
 
+
+    //2017-12-19
+    uid:'',//用户id
+    addressId:'',//地址id
+    addressList:[],//地址列表
+    address:'',//默认地址
   },
+  /*
+  *地址详情列表
+  */
+  getAddress() {
+
+    Api.signin();//获取以及存储openid、uid
+    // 获取uid
+    var uid = wx.getStorageSync('userUid');
+    this.setData({ uid });
+    var url = 'wxapp.php?c=address&a=MyAddress';
+    var that = this;
+    app.api.postApi(url, { "params": { uid } }, (err, rep) => {
+      if (!err && rep.err_code == 0) {
+        this.setData({
+          "addressList": rep.err_msg,
+          "addressId": rep.err_msg[0].address_id,
+          "fullname": rep.err_msg[0].name,
+          "shippingTelephone": rep.err_msg[0].tel,
+          "areaText": rep.err_msg[0].area_txt,
+          "location": rep.err_msg[0].province_txt + rep.err_msg[0].city_txt + rep.err_msg[0].area_txt + rep.err_msg[0].address ,
+        });
+        //设置默认地址
+        for (var i in rep.err_msg) {
+          if (rep.err_msg[i].default == 1) {
+            this.setData({
+              address: rep.err_msg[i]
+            })
+          }
+        }
+      }
+    });
+    console.log('this.address ',this.address);
+    
+  },
+  
   onLoad: function (options) {
 
     var order_no = options.order_no;
-    this.setData({ order_no: order_no });
+    this.setData({ order_no: order_no  });
+   
+
+    
     //console.log('传递过来的订单号是=' + order_no);return;  
 
     // 加载门店列表数据
     //this._loadShopData();
+
+    this.getAddress();
   },
   onReady: function () {
     // 页面渲染完成
@@ -79,6 +125,7 @@ Page({
   onShow: function () {
     // 页面显示
     //this._prepare(_prodId, skuid, quantity, cartId);
+  
     //商品数据
     var order_no = this.data.order_no;
     //console.log('onShow的订单号是=' + order_no); return; 
@@ -181,7 +228,7 @@ Page({
         }
       }
     } else if (!zoneList | !zoneList.length) {
-      this.loadZone();
+     // this.loadZone();
     }
 
     let hasFlatShip = false, hasPickupShip = false;
