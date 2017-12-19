@@ -85,6 +85,8 @@
     "pages/index-new/buy",
     "pages/index-new/index-baokuan",
     "pages/index-new/index-festival",
+    "pages/index-new/index-goods",
+    "pages/index-new/index-hotsale",
     "pages/list/list",
     "pages/canvas/canvas"
    
