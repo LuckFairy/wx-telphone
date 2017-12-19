@@ -16,8 +16,10 @@ Page({
       //2017年10月11日14:06:09 by leo
       testData: [], //测试数据
       baoKuanData:[],//爆款专区数据
-      festivalData:[],//节日专区数据
-      
+      hotSaleData:[],//节日专区数据
+      goodsData: [],//节日专区数据
+      festivalData: [],//节日专区数据
+
       hotData: [], //热点推荐数据
       groupData: [], //拼多多
       secKillData: [], //秒杀
@@ -61,10 +63,12 @@ Page({
     //    }
     // })
 
-    this.loadGroupData();
-    this.loadHotData();
-    //this.loadBaoKuanData();
-    //this.loadFestivalData();
+    //this.loadGroupData();
+    //this.loadHotData();
+    this.loadBaoKuanData();
+    this.loadHotSaleData();
+    this.loadGoodsData();
+    this.loadFestivalData();
     // this._prepare();    // 等待登录才开始加载数据
   },
   goCardLists(){
@@ -310,7 +314,7 @@ Page({
   },
   getProductData(categoryid) {
     var params = { "store_id": store_Id.shopid, "page": "1", "categoryid": categoryid };
-    let url = 'wxapp.php?c=product&a=get_product_list';
+    let url = 'wxapp.php?c=product&a=get_product_list_3';
     app.api.postApi(url, { "params": params }, (err, resp) => {
       wx.hideLoading();
       if (err) {
@@ -323,9 +327,10 @@ Page({
       }
      data = null ? [] :data;
       switch(categoryid) {
-        case '100': console.log(`爆款区数据 `, data);this.setData({baoKuanData:data});break;
-        case '101': console.log(`节日区数据 `, data);this.setData({festivalData:data});break;
-        case '102': console.log(`热门推荐数据 `, data); this.setData({ hotData: data });break;
+        case '100': console.log(`爆款区（9.9元）数据 `, data);this.setData({baoKuanData:data});break;
+        case '101': console.log(`热销（母婴热销榜）区数据 `, data);this.setData({hotSaleData:data});break;
+        case '102': console.log(`百货数据 `, data); this.setData({ goodsData: data });break;
+        case '105': console.log(`精选好奶粉数据 `, data); this.setData({ festivalData: data }); break;
       }
       
     });
@@ -343,13 +348,36 @@ Page({
   /**
  * 首页爆款专区数据
  */
-  loadFestivalData() {
+  loadHotSaleData() {
     wx.showLoading({
       title: '加载中...',
       mask: true
     });
     this.getProductData('101');
   },
+  /**
+* 首页爆款专区数据
+*/
+  loadGoodsData() {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    });
+    this.getProductData('102');
+  },
+  /**
+ * 首页爆款专区数据
+ */
+  loadFestivalData() {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    });
+    this.getProductData('105');
+  },
+
+
+
   /**
  * 首页热门推荐数据
  */
@@ -364,13 +392,37 @@ Page({
       url: './index-baokuan?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
     })
   },
-  //跳到节日商品页
+  //跳到热销商品页
+  clickGoHotSale: function (e) {
+    var { categoryid, page = "1", store_id = store_Id.shopid } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    wx.navigateTo({
+      url: './index-hotsale?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
+    })
+  },
+  //跳到百货商品页
+  clickGoGoods: function (e) {
+    var { categoryid, page = "1", store_id = store_Id.shopid } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    wx.navigateTo({
+      url: './index-goods?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
+    })
+  },
+  //跳到活动（节日）商品页
   clickGoFestival: function (e) {
     var { categoryid, page = "1", store_id = store_Id.shopid } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
     wx.navigateTo({
       url: './index-festival?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
     })
   },
+
+
+
+
+
+
+
+
+
+
   //跳到热门推荐商品页
   clickGoHotProduct: function (e) {
     var prodId = e.currentTarget.dataset.prodid; //商品ID

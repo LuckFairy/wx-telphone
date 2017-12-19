@@ -159,7 +159,7 @@
       <view class='baokuan-recommend'> 
         
             <view class='baokuan-recommend-image' bindtap='clickGoBaoKuan' data-categoryid='100'>
-              <image class='baokuan-image' src='../../image/index_baokuan.jpg'></image>
+              <image class='baokuan-image' src='../../image/index_99.png'></image>
             </view>
       </view> 
    
@@ -170,12 +170,12 @@
           <!--标题  -->
           <!--内容  -->
         <view class='pinduoduo-content '>
-            <view class='pinduoduo-content-list' wx:for="{{hotData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
+            <view class='pinduoduo-content-list' wx:for="{{baoKuanData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
                 <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
                   <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
-                  <text class='pinduoduo-already' >已售{{item.num}}件</text>
+                  <text class='pinduoduo-already' >已售{{item.count}}件</text>
                 </view>
             </view>
             
@@ -184,13 +184,13 @@
   <!--内容结束  -->
 
   <!--爆款专区区结束  -->
-  <!--节日专区区域开始  -->
+  <!--热销专区区域开始  -->
     <view class='yiya-festival-area'>  
    <!--内容开始  -->
     <view class='festival-recommend'> 
-    
-        <view class='baokuan-recommend-image' bindtap='clickGoFestival' data-categoryid='101'>
-          <image class='baokuan-image' src='../../image/index_festival.jpg'></image>
+     
+        <view class='baokuan-recommend-image' bindtap='clickGoHotSale' data-categoryid='101'>
+          <image class='baokuan-image' src='../../image/index_hotsale.png'></image>
         </view>
     
 
@@ -202,12 +202,12 @@
           <!--标题  -->
           <!--内容  -->
         <view class='pinduoduo-content '>
-            <view class='pinduoduo-content-list' wx:for="{{hotData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
+            <view class='pinduoduo-content-list' wx:for="{{hotSaleData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
                 <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
                   <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
-                  <text class='pinduoduo-already' >已售{{item.num}}件</text>
+                  <text class='pinduoduo-already' >已售{{item.count}}件</text>
                 </view>
             </view>
             
@@ -215,7 +215,95 @@
         </view>
   <!--内容结束  -->
 
-  <!--节日专区区结束  -->
+  <!--热销专区区结束  -->
+
+  <!--活动专区区域开始  -->
+    <view class='yiya-festival-area'>  
+   <!--内容开始  -->
+    <view class='festival-recommend'> 
+    
+        <view class='baokuan-recommend-image' bindtap='clickGoFestival' data-categoryid='105'>
+          <image class='baokuan-image' src='../../image/index_select.png'></image>
+        </view>
+    
+
+  </view> 
+  <!--内容结束  -->
+   </view>  
+    <!--三列商品陈列开始  -->
+      <view class='yiya-pinduoduo-area'> 
+          <!--标题  -->
+          <!--内容  -->
+        <view class='pinduoduo-content '>
+            <view class='pinduoduo-content-list' wx:for="{{festivalData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
+                <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+                <text class='pinduoduo-content-title'  >{{item.name}}</text>
+                <view class='pinduoduo-content-price' >
+                  <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
+                  <text class='pinduoduo-already' >已售{{item.count}}件</text>
+                </view>
+            </view>
+            
+          </view>
+        </view>
+  <!--内容结束  -->
+
+  <!--活动专区区结束  -->
+
+<!--百货专区区域开始  -->
+    <view class='yiya-festival-area'>  
+   <!--内容开始  -->
+    <view class='festival-recommend'> 
+    
+        <view class='baokuan-recommend-image' bindtap='clickGoGoods' data-categoryid='102'>
+          <image class='baokuan-image' src='../../image/index_goods.png'></image>
+        </view>
+    
+
+  </view> 
+  <!--内容结束  -->
+   </view>  
+    <!--三列商品陈列开始  -->
+      <view class='yiya-pinduoduo-area'> 
+          <!--标题  -->
+          <!--内容  -->
+        <view class='pinduoduo-content '>
+            <view class='pinduoduo-content-list' wx:for="{{goodsData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
+                <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+                <text class='pinduoduo-content-title'  >{{item.name}}</text>
+                <view class='pinduoduo-content-price' >
+                  <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
+                  <text class='pinduoduo-already' >已售{{item.count}}件</text>
+                </view>
+            </view>
+            
+          </view>
+        </view>
+  <!--内容结束  -->
+
+  <!--百货专区区结束  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <!--热门推荐开始  -->
   <!--标题  -->
