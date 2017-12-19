@@ -59,9 +59,9 @@ Page({
 
 
     //2017年12月18日17:22:02
-    order_no: '',
-    postage_int: 0,
-    sub_total: 0
+    order_no:'',
+    postage_int:0,
+    sub_total:0
 
   },
   onLoad: function (options) {
@@ -95,7 +95,7 @@ Page({
   _prepare(order_no) {
     var params = {
       order_no: order_no
-
+      
     }
     app.api.postApi('wxapp.php?c=order&a=mydetail', { params }, (err, resp) => {
       if (err) {
@@ -103,14 +103,14 @@ Page({
         return;
       }
       if (resp.err_code == 0) {
-        console.log(resp, 2222222222);
+        console.log(resp,2222222222);
         let orderdata = resp.err_msg.orderdata;
         var products = resp.err_msg.orderdata.product; //购物车的商品
         var sub_total = resp.err_msg.orderdata.sub_total; //商品金额
         var postage_int = resp.err_msg.orderdata.postage_int; //运费
         //console.log(resp.err_msg.product,'商品信息');
-        console.log(products, '33333');
-        this.setData({ products: products, postage_int, sub_total });
+        console.log(products,'33333');
+        this.setData({ products: products, postage_int, sub_total});
       }
     });
   },
@@ -372,7 +372,7 @@ Page({
   /**
    * 组装地址参数
    */
-  buildAddressParams() {
+  buildAddressParams() {  
     let { addressId, zoneId, cityId, districtId, fullname, shippingTelephone, location, shippingMethod, pickupStoreId } = this.data;
     let params;
     if (shippingMethod == 'flat.flat') {
