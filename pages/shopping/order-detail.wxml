@@ -18,32 +18,32 @@
         </view>
         <view wx:if="{{orderData.address.length > 0}}" class="addr-view">{{orderData.address.province}}{{orderData.address.city}}{{orderData.address.area}}{{orderData.address.address}}{orderData.address.address_id}}</view>
     </view>
-    <view wx:if="{{orderData.product}}" class="goods-info-view">
-        <image src="{{orderData.product.image}}" class="goods-img"></image>
+    <view wx:for="{{orderData.product}}" class="goods-info-view">
+        <image src="{{item.image}}" class="goods-img"></image>
         <view class="goods-name-view-wrap">
-          <text class='goods-title-name'>{{orderData.product.name}}</text>
+          <text class='goods-title-name'>{{item.name}}</text>
           <view class='goods-size-name'>
             <text wx:if="{{item.attrinfo['0'].colorName}}" class='goods-color-name'>颜色：{{item.attrinfo['0'].colorName}}</text>
             <text wx:if="{{item.attrinfo['0'].colorName}}" class='goods-footage-name'>尺码：{{item.attrinfo['0'].sizeName}}</text>
           </view>
           <view class='goods-price-number'>
-            <text class='goods-price'>￥{{orderData.product.total}}</text>
-            <text class='goods-number'>X{{orderData.product.pro_num}}</text>
+            <text class='goods-price'>￥{{item.pro_price}}</text>
+            <text class='goods-number'>X{{item.pro_num}}</text>
           </view>
         </view>
     </view>
     <view class="price-view">
         <view class="price-text-view">
             <view class="mText grayText">商品总价</view>
-            <view class="mText">￥{{orderData.product.total}}</view>
+            <view class="mText">￥{{orderData.sub_total}}</view>
         </view>
     </view>
     <view class="pending-pay-view">
         <view style="flex-direction:row;justify-content:space-between;width:100%;">
             <view class="mText">需付款</view>
-            <view class="titleText specialRedText">￥{{orderData.totals[2].value || 0}}</view>
+            <view class="titleText specialRedText">￥{{orderData.last_pay || 0}}</view>
         </view>
-        <view class="order-time-view xmText grayText">下单时间：{{orderTime}}</view>
+        <view class="order-time-view xmText grayText">下单时间：{{orderData.add_time_str}}</view>
     </view>
     <!-- orderType -->
     <view wx:if="{{(orderData.status === '2' || orderData.status === '3' || orderData.status === '4')&& (orderData.orderType !=2)}}" class="bottom-btn-view mText">
