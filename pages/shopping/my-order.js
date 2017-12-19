@@ -466,12 +466,14 @@ Page({
    */
   delOrder: function (event) {
     let orderId = event.currentTarget.dataset.orderId;
+    console.log("event ",event);
     wx.showModal({
       title: '删除订单',
       // content: "确定要删除该宝贝吗？\r\n还差一步\r\n宝贝就可以直接带回家了哦\r\n\r\n",
       content: "确定要删除该宝贝吗？",
       success: (res) => {
         if (res.confirm) {
+          
           this._doDelOrder(orderId);
         }
       }

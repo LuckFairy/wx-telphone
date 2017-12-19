@@ -170,7 +170,7 @@
           <!--标题  -->
           <!--内容  -->
         <view class='pinduoduo-content '>
-            <view class='pinduoduo-content-list' wx:for="{{baoKuanData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
+            <view class='pinduoduo-content-list' wx:for="{{baoKuanData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
                 <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
@@ -202,7 +202,7 @@
           <!--标题  -->
           <!--内容  -->
         <view class='pinduoduo-content '>
-            <view class='pinduoduo-content-list' wx:for="{{hotSaleData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
+            <view class='pinduoduo-content-list' wx:for="{{hotSaleData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
                 <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
@@ -235,7 +235,7 @@
           <!--标题  -->
           <!--内容  -->
         <view class='pinduoduo-content '>
-            <view class='pinduoduo-content-list' wx:for="{{festivalData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
+            <view class='pinduoduo-content-list' wx:for="{{festivalData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
                 <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
@@ -268,7 +268,7 @@
           <!--标题  -->
           <!--内容  -->
         <view class='pinduoduo-content '>
-            <view class='pinduoduo-content-list' wx:for="{{goodsData}}" wx:key="{{item}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
+            <view class='pinduoduo-content-list' wx:for="{{goodsData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
                 <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >

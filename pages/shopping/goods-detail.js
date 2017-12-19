@@ -76,7 +76,7 @@ Page({
     var uid = e.currentTarget.dataset.uid;
     var storeId = e.currentTarget.dataset.storeId;
     var skuid_list = that.data.skuid_list;
-
+  
     if (skuid_list.length > 0) {
       if (!skuId) {
         wx.showLoading({
@@ -93,7 +93,7 @@ Page({
       // 直接发送请求添加到购物车
       that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
     }
-    console.log(e, 'e');
+    console.log('e' ,e);
   },
   goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId) {
     var params = {
@@ -126,8 +126,7 @@ Page({
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
-    console.log(uid, 'uid');
-    console.log(store_id, 'store_id');
+  
     that.setData({
       uid, store_id
     })
@@ -136,7 +135,7 @@ Page({
     _params = params;
     this.loadData(prodId, action, categoryid);
     this.setData({ 'newCartNum': 0 });
-    console.log(`prodId `,prodId);
+    
     var cateId = options.cateId;
     this.setData({ 'cateId': cateId, 'product_id': prodId });
   },
@@ -277,7 +276,7 @@ Page({
       arrotwo: "",
       oriPid: ''
     });
-    console.log('222222222')
+    
   },
   gotoCart: function () {
     let url = "../cart/cart";
@@ -341,29 +340,54 @@ Page({
   },
   goPayment(e){
     var that = this;
-    var { buyQuantity , productId , uid , storeId ,skuId} = e.currentTarget.dataset;
+    var { buyQuantity, productId, uid, storeId, skuId} = e.currentTarget.dataset;
+    var skuid_list = that.data.skuid_list;
     var opts = {
       uid,
       product_id: productId,
       store_id: storeId,
-      quantity: buyQuantity
-
+      quantity: buyQuantity,
     };
-    this.getOrderId(opts);
+    
+    if (skuid_list.length > 0) {
+
+      if (!skuId) {//有无多属性skuid
+        
+        wx.showLoading({
+          title: '请选择属性'
+        });
+        setTimeout(function () {
+          wx.hideLoading()
+        }, 2000)
+      } else {
+        //添加skui_id多属性id
+        opts.sku_id = skuId;
+        // 选择属性之后发送请求添加到订单上
+        that.getOrderId(opts);
+      }
+    } else {
+      
+      // 直接下订单
+      that.getOrderId(opts);
+    }
+
+    
+    
   },
   /*
   *生成订单
   *
   */
   getOrderId(opts){
-    var { quantity, product_id, uid, store_id } = opts;
+    var { quantity, product_id, uid, store_id, sku_id } = opts;
     var url = 'wxapp.php?c=order_v2&a=add';
     app.api.postApi( url , {
       "params": {
         uid,
         product_id,
         store_id,
-        quantity
+        quantity,
+        sku_id
       }
     }, (err, rep) => {
       if (err) { console.log('err ', err); return }

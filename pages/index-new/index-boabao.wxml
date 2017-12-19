@@ -17,7 +17,7 @@
 </scroll-view>
 <!--用品  -->
 <view class='rush-baobao-box' wx:if="{{tabList==0}}">
-    <block wx:for="{{dataList}}">
+    <block wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
@@ -37,7 +37,7 @@
 </view>
 <!--饮食  -->
 <view class='rush-baobao-box' wx:if="{{tabList==1}}">
-    <block wx:for="{{dataList}}">
+    <block wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
@@ -57,7 +57,7 @@
 </view>
 <!--潮搭  -->
 <view class='rush-baobao-box' wx:if="{{tabList==2}}">
-    <block wx:for="{{dataList}}">
+    <block wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
@@ -77,7 +77,7 @@
 </view>
 <!--成长  -->
 <view class='rush-baobao-box' wx:if="{{tabList==3}}">
-    <block wx:for="{{dataList}}">
+    <block wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
@@ -97,7 +97,7 @@
 </view>
 <!--专区  -->
 <view class='rush-baobao-box' wx:if="{{tabList==4}}">
-    <block wx:for="{{dataList}}">
+    <block wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
