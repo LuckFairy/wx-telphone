@@ -6,7 +6,8 @@ Page({
   data: {
     hasShop: 0,
     cart_list: '',
-    selected:false
+    selected:false,
+    ids:[]
   },
   goindex: function () {
     // var url = "../index-new/index-new";
@@ -69,11 +70,30 @@ Page({
   },
 
   bindSelectAll: function () {
-
+      console.log('点击全选按钮');
+      this.setData({ ids: [81, 82] });
   },
   //去结算
   bindCheckout: function () {
 
+
+
+    var ids = this.data.ids;
+    console.log('购物车选择提交的id=' + ids);//return;
+    if (ids === undefined ||ids.length == 0){
+      wx.showToast({
+        title: '请选择要结算的商品！',
+        duration: 2000
+      });
+      return false;
+    }
+
+    //console.log('购物车选择提交的id=' + ids); return;
+    //下订单
+    let order_no ="PIG20171218171451388818";
+    //下完订单，取的订单id
+    let url = './buy?&order_no=' + order_no;
+    wx.navigateTo({ url });
   },
 
   bindToastChange: function () {
@@ -81,6 +101,7 @@ Page({
     //    toastHidden: true
     //  });
   },
+  
   onLoad: function (options) {
     var that = this;
     // 获取店铺id shopId
