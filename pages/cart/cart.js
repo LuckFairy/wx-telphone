@@ -1,4 +1,4 @@
-var app = getApp();
+var app = getApp(); 
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
 
@@ -7,7 +7,9 @@ Page({
     hasShop: 0,
     cart_list: '',
     selected:false,
-    ids:[]
+    //2017年12月19日14:55:05
+    ids:[],
+    carts: [],
   },
   goindex: function () {
     // var url = "../index-new/index-new";
@@ -71,7 +73,26 @@ Page({
 
   bindSelectAll: function () {
       console.log('点击全选按钮');
-      this.setData({ ids: [81, 82] });
+      var that = this;
+      // 环境中目前已选状态
+      var selectedAllStatus = this.data.selectedAllStatus;
+      // 取反操作
+      selectedAllStatus = !selectedAllStatus;
+      // 购物车数据，关键是处理selected值
+      var carts = this.data.carts;
+      // 遍历
+      for (var i = 0; i < carts.length; i++) {
+        carts[i].selected = selectedAllStatus;
+      }
+      console.log(selectedAllStatus,111111111111111111111111);
+      console.log(carts,2222222222222);
+
+
+
+
+
+
+      //this.setData({ ids: [81, 82] });
   },
   //去结算
   bindCheckout: function () {

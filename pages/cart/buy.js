@@ -1,4 +1,4 @@
-// pages/shopping/buy.js
+// pages/shopping/buy.js 
 
 const util = require('../../utils/util.js');
 import { Api } from '../../utils/api_2';
@@ -69,6 +69,15 @@ Page({
     addressId:'',//地址id
     addressList:[],//地址列表
     address:'',//默认地址
+
+    //2017年12月19日13:43:56
+    storeId: store_Id.shopid,//商店id
+    shipping_method: 'express',
+    //addressId: 0,
+    postage_list: "",
+    user_coupon_id: 0,
+    is_app: false,
+    payType: 'weixin'
   },
   /*
   *地址详情列表
@@ -269,31 +278,43 @@ Page({
    * 提交订单
    */
   submitOrder: function (event) {
-    let params = this.buildAddressParams();
-    params.cartId = cartId;
-    wx.showLoading({ title: '加载中...', mask: true, });
-    app.api.postApi("buy/submit_cart", params, (err, resp) => {
+    //let params = this.buildAddressParams();
+    //params.cartId = cartId;
+    //wx.showLoading({ title: '加载中...', mask: true, });
+    //收货地址
+    let address_params = this.buildAddressParams();
+    let address_id = address_params.addressId;
+    console.log('地址id是=' + address_id);
+    //let address_id = 47;
+    let payType = this.data.payType;
+    let is_app = this.data.is_app;
+    //let postage_list = this.data.postage_list;
+    let postage_list = "a:1:{i:6;d:0;}";
+    let uid = this.data.uid;
+    let store_id = this.data.storeId;
+    let user_coupon_id = this.data.user_coupon_id;
+    let shipping_method = this.data.shipping_method;
+    let orderId = this.data.order_no; //注意是order_no
+
+    var params = {
+      payType: payType,
+      orderNo: orderId,
+      is_app: is_app,
+      postage_list: postage_list,
+      shipping_method: shipping_method,
+      address_id: address_id,
+      uid: uid,
+      store_id: store_id,
+      user_coupon_id: 0,
+    }
+    //console.log(params);return;
+    app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
-      if (err) {
-        return this._showError('提交订单失败，请重试');;
-      }
-
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);;
-      }
-
-      let { orderId, needPay, payParams } = data;
-
-      // 不需要支付
-      if (!needPay) {
-        return this._onSubmitNoPay();
-      }
-
-      // 需要支付
-      if (payParams) {
-        this._startPay(payParams);
-      }
+      console.log(resp, 344444)
+      var data = resp.err_msg;
+      console.log(data);
+      // 调起微信支付
+      this._startPay(data);
     });
   },
 
@@ -304,7 +325,8 @@ Page({
     let param = {
       timeStamp: payParams.timeStamp + "",
       nonceStr: payParams.nonceStr,
-      "package": "prepay_id=" + payParams.prepayId,
+      //"package": "prepay_id=" + payParams.prepayId,
+      "package": payParams.package,
       signType: 'MD5',
       paySign: payParams.paySign,
       success: res => this._onPaySuccess(res),
