@@ -77,7 +77,7 @@ Page({
     allOrders : [],     //全部订单
     momentOrders: [],   //临时
     unpayOrders: [],    //待付款 （待支付订单）
-    //processingOrders:[], //待发货
+    processingOrders:[], //待发货
     shippedOrders:[],   //已发货
     finishedOrders: [], // 已完成
     canceledOrders:[],  //已取消
@@ -324,14 +324,15 @@ Page({
   _loadOrderData(onLoaded , opt) {
     wx.showLoading({ title: '加载中...', mask: true, });
     //新方法
-    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.storeId },opt);
-    console.log('params ', params)
+    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.storeId,type:"all" },opt);
+    
+    console.log('请求的参数params ', params)
     app.api.postApi("wxapp.php?c=order_v2&a=order_list", { "params": params }  , (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('网络出错，请稍候重试');
       }
-      console.info('订单数据 ',resp)
+      //console.info('订单数据 ',resp)
       let { err_code, err_msg: {next_page , order_list = []} } = resp;
       if (err_code != 0) {
         return this._showError(err_msg);
@@ -343,13 +344,24 @@ Page({
       order_list.forEach(item => {
         allOrders.push(item);
         let status = item.status;
+        // const ORDER_STATUS_MOMENT = 0;    // 临时
+        // const ORDER_STATUS_PENDING = 1;    // 待处理（待付款）
+        // const ORDER_STATUS_PROCESSING = 2;    // 处理中（待发货）
+        // const ORDER_STATUS_SHIPPED = 3;    // 已发货
+        // const ORDER_STATUS_COMPLETE = 4;    // 已完成
+        // const ORDER_STATUS_CANCELED = 5;    // 已取消
+        // const ORDER_STATUS_REFUNDING = 6;   //退款中
+        // const ORDER_STATUS_RECEIVED = 7;   //已收货
+        // const ORDER_STATUS_DENIED = 8;    // 已拒绝（赠品申请时可拒绝）
+        // const ORDER_STATUS_FAILED = 10;   // 失败
+        // const ORDER_STATUS_UNCHECK = 17;   // 待审核（赠品申请时，订单状态为待审核）
         if (status == ORDER_STATUS_MOMENT  ){     //临时
+          //console.log('临时订单数据', item);
           momentOrders.push(item);
         } if (status == ORDER_STATUS_PENDING) { //待付款
+          //console.log('待付款订单数据', item);
           unpayOrders.push(item);
-        } else if (status == ORDER_STATUS_PROCESSING ) {//待发货
-          processingOrders.push(item);
-        }  else if (status == ORDER_STATUS_SHIPPED  ) {//已发货
+        }else if (status == ORDER_STATUS_PROCESSING || status == ORDER_STATUS_SHIPPED) {
           transOrders.push(item);
         } else if (status == ORDER_STATUS_COMPLETE  ){//已完成
           finishedOrders.push(item);
@@ -370,8 +382,15 @@ Page({
       //2017年9月18日14:51:15 调用新接口，获取团购订单列表
       //this.loadGroupbuyOrder();
       //====end
+      //console.log('所有的订单数据='); console.log(allOrders);
+      
+      //console.log('所有的订单数据=', allOrders);
+      //console.log('待付款的订单数据=', unpayOrders);
+      console.log('待发货订单数据', transOrders);
+
+
       console.log('unpayOrders ', unpayOrders, 'transOrders ', transOrders);
-      this.setData({ allOrders, momentOrders, unpayOrders, processingOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
+      this.setData({ allOrders, momentOrders, unpayOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
       typeof onLoaded === 'function' && onLoaded();
     });
     // app.api.fetchApi("order/ls", (err, resp) => {
@@ -506,12 +525,13 @@ Page({
    */
   pay(event) {
     let orderId = event.currentTarget.dataset.orderId;
-    let address_id = event.currentTarget.dataset.addressId;
+    let addressId = event.currentTarget.dataset.addressId;
     let postage_list = event.currentTarget.dataset.fx_postage;
-    //console.log('address_id=' + address_id);
-    console.log('postage_list=' + postage_list);
-    this.setData(address_id, postage_list);
-    let pigOrderId = "PIG" + orderId;
+    //console.log('addressId=' + addressId); return;
+    
+    //console.log('postage_list=' + postage_list);
+    this.setData({ addressId, postage_list });
+    //let pigOrderId = "PIG" + orderId;
     wx.showModal({
       title: '订单付款',
       content: `确认为订单[${orderId}]进行支付？`,
@@ -521,16 +541,16 @@ Page({
       confirmText: '马上支付',
       success: (res) => {
         if (res.confirm) {
-          //this._doPrePay(orderId);
-          this._doPrePay(pigOrderId);
+          this._doPrePay(orderId);
+          //this._doPrePay(pigOrderId);
         }
       },
     });
   },
   _doPrePay(orderId) {
     
-    let address_id = this.data.address_id;
-    //let address_id = 47;
+    let addressId = this.data.addressId;
+    //let addressId = 47;
     let payType = this.data.payType;
     let is_app = this.data.is_app;
     //let postage_list = this.data.postage_list;
@@ -539,18 +559,19 @@ Page({
     let store_id = this.data.storeId;
     let user_coupon_id = this.data.user_coupon_id;
     let shipping_method = this.data.shipping_method;
-
+    //console.log('22222-addressId=' + addressId); //return;
     var params = {
       payType: payType,
       orderNo: orderId,
       is_app: is_app,
       postage_list: postage_list,
       shipping_method: shipping_method,
-      address_id: address_id,
+      address_id: addressId,
       uid: uid,
       store_id: store_id,
       user_coupon_id: 0,
     }
+    //console.log('支付的请求参数=', params);return;
     app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
       console.log(resp, 344444)
@@ -646,9 +667,10 @@ Page({
     this.setData({ error: errorMsg });
   },
 
+  //购物车为空，去下单
   goToHotSale() {
     wx.navigateTo({
-      url: '../activity/hotsale'
+      url: '../index-new/index-new'
     });
   },
 

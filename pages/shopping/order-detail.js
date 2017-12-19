@@ -1,5 +1,6 @@
 // pages/shopping/order-detail.js
 import { formatTime } from '../../utils/util';
+import { store_Id } from '../../utils/store_id';
 var app = getApp();
 const log = 'order-detail.js --- ';
 
@@ -11,10 +12,18 @@ let _kuaidiCompanyCode , _kuaidiNumber, _kuaidiCompanyName;
 Page({
   data:{
     orderData: null, // 订单数据
-    orderId:'',
+    order_no:'',
     productId:'',
     rtnCode:'' ,
-     orderTime:'',        
+    orderTime:'',
+    uid: '',
+    storeId: store_Id.shopid,
+    shipping_method: 'express',
+    addressId: 0,
+    postage_list: "",
+    user_coupon_id: 0,
+    is_app: false,
+    payType: 'weixin'        
   },
   onLoad:function(options){
     var that = this;
@@ -93,8 +102,12 @@ Page({
       
     });
   },
+  /**
+ * 付款
+ */
   pay(event) {
     let orderId = event.currentTarget.dataset.orderId;
+    
     wx.showModal({
       title: '订单付款',
       content: `确认为订单[${orderId}]进行支付？`,
@@ -105,27 +118,45 @@ Page({
       success: (res) => {
         if (res.confirm) {
           this._doPrePay(orderId);
+          //this._doPrePay(pigOrderId);
         }
       },
     });
   },
   _doPrePay(orderId) {
-    let url = 'order/pay/' + orderId;
-    wx.showLoading({ title: '请稍候...', mask: true, });
-    app.api.postApi(url, null, (err, resp) => {
+
+    let addressId = this.data.addressId;
+    //let addressId = 47;
+    let payType = this.data.payType;
+    let is_app = this.data.is_app;
+    //let postage_list = this.data.postage_list;
+    let postage_list = "a:1:{i:6;d:0;}";
+    let uid = this.data.uid;
+    let store_id = this.data.storeId;
+    let user_coupon_id = this.data.user_coupon_id;
+    let shipping_method = this.data.shipping_method;
+    //console.log('22222-addressId=' + addressId); //return;
+    var params = {
+      payType: payType,
+      orderNo: orderId,
+      is_app: is_app,
+      postage_list: postage_list,
+      shipping_method: shipping_method,
+      address_id: addressId,
+      uid: uid,
+      store_id: store_id,
+      user_coupon_id: 0,
+    }
+    //console.log('支付的请求参数=', params);return;
+    app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
-      if (err) {
-        return this._showError('网络出错，请稍候重试');;
-      }
-
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);;
-      }
-
+      console.log(resp, 344444)
+      var data = resp.err_msg;
+      console.log(data);
       // 调起微信支付
       this._startPay(data);
     });
+
   },
 
   /**
@@ -233,9 +264,7 @@ Page({
     if (! orderId.includes('PIG')){
        params = 'PIG' + orderId;
     }
-    app.api.postApi(orderUrl, {
-      "params": {
-        "order_no": params } },(err,rep) => {
+    app.api.postApi(orderUrl, {"params": {"order_no": params } },(err,rep) => {
       wx.hideLoading();
       if (rep.err_code != 0){
         wx.showToast({
@@ -250,7 +279,13 @@ Page({
   
         self.setData({
           orderData: rep.err_msg.orderdata,
-          orderTime: formatTime(rep.err_msg.orderdata.add_time)
+          orderTime: formatTime(rep.err_msg.orderdata.add_time),
+          uid: rep.err_msg.orderdata.uid,
+          addressId: rep.err_msg.orderdata.address.address_id,
+          postage_list: rep.err_msg.orderdata.postage,
+          order_no: rep.err_msg.orderdata.order_no,
+          shipping_method: rep.err_msg.orderdata.shipping_method,
+          user_coupon_id: rep.err_msg.orderdata.user_coupon_id
         });
         
       }

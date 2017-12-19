@@ -49,7 +49,7 @@
             <view class="yellow-btn-view">
               <text class="yellow-btn" data-order-id="{{order.order_no}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
 
-              <text wx:if="{{order.status==1}}" class="yellow-btn" data-order-id="{{order.order_no}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
+              <text wx:if="{{order.status==1}}" class="yellow-btn" data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
 
 
             </view>
@@ -123,7 +123,7 @@
           
         </view>
         <view  class="yellow-btn-view">
-           <text wx:if="{{order.status==1}}" class="yellow-btn" data-order-id="{{order.order_no}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
+           <text wx:if="{{order.status==1}}" class="yellow-btn" data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
         </view>
       </view>
       <!--/待付款-->
