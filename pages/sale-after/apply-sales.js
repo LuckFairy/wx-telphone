@@ -28,7 +28,7 @@ Page({
       orderProductId: orderProductId,
       uid: uid
     })
-    //order/info 拿到订单数据
+
     var params = {
       "order_no": orderId,
       "pigcms_id": orderProductId,
@@ -58,10 +58,12 @@ Page({
   goSubmit(e){
     var that = this;
     var turnStatus = e.target.dataset.status;
-    var orderId = e.target.dataset.orderId;
-    var productId = e.target.dataset.productId;
+    //var orderId = this.data.orderId;
+    var orderProductId = this.data.orderProductId;
+    var orderId = this.data.orderId;
+    var uid = this.data.uid;
     console.log("提交申请之后");
-    console.log(turnStatus, orderId,productId)
+    console.log(turnStatus, orderId, orderProductId, uid);
     if (turnStatus==null){
       wx.showToast({
         title: '请选择服务类型',
@@ -69,7 +71,15 @@ Page({
         duration: 2000
       })
     }else{
-      app.api.postApi('order/doReturn', { 'order_id': orderId, 'product_id': productId, 'c_status_id': turnStatus }, (err, resp) => {
+      var params = {
+        "order_no": orderId,
+        "pigcms_id": orderProductId,
+        "uid": uid,
+        "type": turnStatus
+      };
+      console.log('请求参数', params);
+      var url = 'wxapp.php?c=return&a=doReturn';
+      app.api.postApi(url, { params }, (err, resp) => {
         if (resp) {
           console.log("提交申请之后", resp);
           wx.showModal({

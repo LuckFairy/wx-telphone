@@ -426,18 +426,18 @@
     <block wx:for='{{dataList[0]}}'>
     <view class='purchase-data-total' wx:if='{{!showSale}}'>
       <view class='purchase-data-sd'>
-        <text class='purchase-data-number'>服务单号：{{item.orderId}}</text>
-        <text wx:if='{{item.cStatusId==1}}' class='purchase-data-back'>退货</text>
-        <text wx:if='{{item.cStatusId==2}}' class='purchase-data-back'>换货</text>
-        <text wx:if='{{item.cStatusId==3}}' class='purchase-data-back'>维修</text>
-        <text wx:if='{{item.cStatusId==4}}' class='purchase-data-back'>补发商品</text>
+        <text class='purchase-data-number'>服务单号：{{item.order_no}}</text>
+        <text wx:if='{{item.type==1}}' class='purchase-data-back'>退货</text>
+        <text wx:if='{{item.type==2}}' class='purchase-data-back'>换货</text>
+        <text wx:if='{{item.type==3}}' class='purchase-data-back'>维修</text>
+        <text wx:if='{{item.type==4}}' class='purchase-data-back'>补发商品</text>
       </view>
       <view class='purchase-shop-list'>
         <image class='purchase-shop-image' src='{{item.image}}'></image>
         <view class='purchase-shop-detail'>
           <view class='purchase-shop-text'>
             <text class='purchase-shop-title'>{{item.name}}</text>
-            <text class='purchase-shop-num'>X{{item.quantity}}</text>
+            <text class='purchase-shop-num'>X{{item.pro_num}}</text>
           </view>
           <!-- <text class='purchase-color-size'>蓝色L码</text> -->
           <!-- <view class='purchase-money-list'>
@@ -452,7 +452,7 @@
           <image class='purchase-status-image' src='../../image/pur-success.png'></image>
           <text class='purchase-status-text'>已完成</text>
         </view>
-        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情</text>
+        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情1</text>
       </view>
       <!--已完成  -->
       <!--已拒绝  -->
@@ -461,7 +461,7 @@
           <image class='purchase-status-image' src='../../image/pur-defeat.png'></image>
           <text class='purchase-status-text'>已拒绝</text>
         </view>
-        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情</text>
+        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情2</text>
       </view>
       <!--已拒绝  -->
       <!--处理中  -->
@@ -470,7 +470,7 @@
           <image class='purchase-status-image' src='../../image/pur-wait.png'></image>
           <text class='purchase-status-text'>处理中</text>
         </view>
-        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情</text>
+        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' >查看详情3</text>
       </view>
       <!--处理中  -->
     </view>

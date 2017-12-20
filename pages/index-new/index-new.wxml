@@ -25,12 +25,12 @@
   <view class='list-select-area'>
     <view class="list-select-area-top">
       <view class='select-list' bindtap="clickGo" data-destination="1">
-        <image class='select-list-image' src='../../image/new-text.png' data-destination="1"></image>
+        <image class='select-list-image' src='../../image/new-text1.png' data-destination="1"></image>
         <text class='select-list-text' data-destination="1">新品试用</text>
       </view>
       <view class='select-list' bindtap="clickGo" data-destination="2">
-        <image class='select-list-image' src='../../image/year20.png' data-destination="2"></image>
-        <text class='select-list-text' data-destination="2">周年巨献</text>
+        <image class='select-list-image' src='../../image/yiya-yanxuan.png' data-destination="2"></image>
+        <text class='select-list-text' data-destination="2">咿呀严选</text>
       </view>
       <view class='select-list' bindtap="clickGo" data-destination="3">
         <image class='select-list-image' src='../../image/lotto-area.png' data-destination="3"></image>
@@ -41,7 +41,7 @@
         <text class='select-list-text' data-destination="4">母婴服务</text>
       </view>
       <view class='select-list'  data-destination="5" bindtap='clickGo'>
-        <image class='select-list-image' src='../../image/shop-promotion.png' data-destination="5"></image>
+        <image class='select-list-image' src='../../image/shop-promotion1.png' data-destination="5"></image>
         <text class='select-list-text' data-destination="5">门店促销</text>
       </view>
     </view>
