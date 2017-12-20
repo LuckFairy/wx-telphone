@@ -470,7 +470,7 @@
           <image class='purchase-status-image' src='../../image/pur-wait.png'></image>
           <text class='purchase-status-text'>处理中</text>
         </view>
-        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' >查看详情3</text>
+        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' data-order-status='{{item.status}}'>查看详情3</text>
       </view>
       <!--处理中  -->
     </view>

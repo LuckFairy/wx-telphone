@@ -6,7 +6,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    dataList:''
+    dataList:'',
+    theId: '',
+    order_no: '',
+    status:'',
+    statustxt: ''
   },
 
   /**
@@ -15,16 +19,11 @@ Page({
   onLoad: function (options) {
     var that = this;
     console.log(options,"传过来的某某id");
+    var order_no = options.order_no;
     var theId = options.theId;
-    app.api.postApi('order/detailOfReturn', { "id": theId}, (err, resp) => {
-      if (resp) {
-        console.log(resp.data)
-        console.log("传过去id后的返回");
-        that.setData({
-          dataList:resp.data[0]
-        })
-      }
-    });
+    var status = options.status;
+    var statustxt = options.statustxt;
+    this.setData({ theId, order_no, status,statustxt})
   },
 
   /**
