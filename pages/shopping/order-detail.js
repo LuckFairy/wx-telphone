@@ -73,10 +73,43 @@ Page({
   goSales(e){
     var that =this;
     var orderId = e.currentTarget.dataset.orderId;
-    var productId = e.currentTarget.dataset.productId;
-    var rtnCode = e.currentTarget.dataset.rtnCode;
+    var orderProductId = e.currentTarget.dataset.orderProductId;
+
+    console.log('orderId', orderId);
+    console.log('orderProductId', orderProductId);
+    var uid = this.data.uid;
+
+    wx.navigateTo({
+      url: '../sale-after/apply-sales?orderId=' + orderId + '&orderProductId=' + orderProductId + '&uid=' + uid
+    })
+    return;  //后面不用了
+
+    var params = {
+      "order_no": orderId, 
+      "pigcms_id": orderProductId, 
+      "uid": uid  
+    };
+    console.log('请求参数', params);
+    var url = 'wxapp.php?c=return&a=applyReturn';
+    app.api.postApi(url, { params }, (err, resp) => {
+      if (err) return;
+      if (response.err_code != 0) {
+        wx.showLoading({
+          title: response.err_msg,
+        })
+      } else {
+        wx.hideLoading();
+        var product = response.err_msg.product;
+        that.setData({
+          product: product
+        })
+      }
+    });
+    return;
+
     // 检测是否已经提交过申请
     app.api.postApi('order/checkReturn', { "order_id": orderId }, (err, resp) => {
+
       if (err) {
         return this._showError('网络出错，请稍候重试');
       }

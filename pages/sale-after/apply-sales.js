@@ -21,23 +21,38 @@ Page({
     var that = this;
     console.log(options,334433);
     var orderId = options.orderId;
-    var productId = options.productId;
-    var rtnCode = options.rtnCode;
+    var orderProductId = options.orderProductId;
+    var uid = options.uid;
     that.setData({
       orderId: orderId,
-      productId: productId,
-      rtnCode: rtnCode
+      orderProductId: orderProductId,
+      uid: uid
     })
     //order/info 拿到订单数据
-    app.api.fetchApi("order/info/" + orderId, (err, resp) => {
-            if (resp) {
-              var dataList = resp.data.products[0];
-              that.setData({
-                dataList: dataList
-              })
-              console.log(dataList,555555);
-            }
-          })
+    var params = {
+      "order_no": orderId,
+      "pigcms_id": orderProductId,
+      "uid": uid
+    };
+    console.log('请求参数', params);
+    var url = 'wxapp.php?c=return&a=applyReturn';
+    app.api.postApi(url, { params }, (err, response) => {
+      console.log('applyReturn接口返回数据=', response);
+      if (err) return;
+      if (response.err_code != 0) {
+        wx.showLoading({
+          title: response.err_msg,
+        })
+      } else {
+        wx.hideLoading();
+        var product = response.err_msg.returndata;
+        console.log('商品信息', product);
+        that.setData({
+          dataList: product
+        })
+      }
+    });
+
   },
   // 提交申请
   goSubmit(e){
