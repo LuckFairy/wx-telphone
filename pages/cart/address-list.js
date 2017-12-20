@@ -5,20 +5,11 @@ import { Api } from '../../utils/api_2';
 Page({
   data:{
     addrList: [],
-    uid:''
+    uid:'',
+    addressId:'',
   },
   onLoad:function(options){
-    console.log(2222)
-    
-    // 页面初始化 options为页面跳转所带来的参数
-    var that = this;
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    console.log('uid', uid)
-    that.setData({
-      uid
-    })
+    this.setData({ addressId: options.addressId});
     this.addrLists();
   },
   addrLists(e) {
@@ -79,6 +70,7 @@ Page({
    */
   changeAdress(e) {
     let {addressId} = e.currentTarget.dataset;
+    var _addressId = this.data.addressId;
 
     if(_addressId == addressId) return wx.navigateBack();
     
@@ -133,16 +125,21 @@ Page({
    * 修改默认地址
    */
   changeDefaultAdress(e) {
- 
-    let {addressId, isDefault} = e.currentTarget.dataset;
-    if(isDefault) return;
-    app.api.postApi(SetDefaultURL, {addressId}, (err, res) => {  // 修改默认地址
-      if(!err && res.rtnCode == 0) {
-   
-        this.loadAddr();
-      } else {
-     
+    var that = this;
+    var uid = that.data.uid;
+    console.log(e, 'eeee')
+    var address_id = e.currentTarget.dataset.addressId;
+    var params = {
+      uid, address_id
+    }
+    app.api.postApi('wxapp.php?c=address&a=SetDefault', { params }, (err, resp) => {
+      if (err) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        console.log(resp.err_msg, 'moren')
+        that.addrLists();
       }
     });
-  }
+  },
 })

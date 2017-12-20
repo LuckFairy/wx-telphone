@@ -96,6 +96,7 @@ Page({
     console.log('e' ,e);
   },
   goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId) {
+    var that = this;
     var params = {
       uid,
       product_id: productId,
@@ -114,8 +115,10 @@ Page({
         })
         console.log('加入购物车成功')
         setTimeout(function () {
-          wx.hideLoading()
-        }, 2000)
+          wx.hideLoading();
+          var moreChoose = false;
+          that.setData({ moreChoose});
+        }, 1000)
       }
     });
   },

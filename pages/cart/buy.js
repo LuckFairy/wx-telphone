@@ -69,6 +69,7 @@ Page({
     addressId:'',//地址id
     addressList:[],//地址列表
     address:'',//默认地址
+ 
 
     //2017年12月19日13:43:56
     storeId: store_Id.shopid,//商店id
@@ -115,10 +116,11 @@ Page({
   },
   
   onLoad: function (options) {
+    //单商品生成订单
+      var order_no = options.order_no;
+      this.setData({ order_no: order_no  });
+  
 
-    var order_no = options.order_no;
-    this.setData({ order_no: order_no  });
-   
 
     
     //console.log('传递过来的订单号是=' + order_no);return;  
@@ -562,7 +564,7 @@ Page({
         selectedZoneIndex: val[0],
         zoneId: zoneId,
       });
-      this.loadCity(zoneId);
+     // this.loadCity(zoneId);
     } else if (val[1] != selectedCityIndex) {
       if (!cityList.length) return;
       let { cityId } = cityList[val[1]];

@@ -10,7 +10,7 @@ Page({
     //carts: [],//购物车列表
 
     cart_list: '',//购物车列表
-    selectedAllStatus:false,//默认不全选
+    selectedAllStatus:true,//默认不全选
     total:0,//结算合计金额
     cartSHow:false,//是否显示底部结算
   },
@@ -145,13 +145,15 @@ Page({
   },
   //去结算
   bindCheckout: function () {
-    // 初始化toastStr字符串
-    var ids = '';
+    // 初始化字符串
+    var ids = '', len = this.data.cart_list.length;
     // 遍历取出已勾选的cid
-    for (var i = 0; i < this.data.cart_list.length; i++) {
+    for (var i = 0; i < len; i++) {
       if (this.data.cart_list[i].selected) {
         ids += this.data.cart_list[i].product_id;
-        ids += ',';
+        if(i < len-1){
+          ids += ',';
+        }
       }
     }
     if (ids === undefined ||ids.length == 0){
@@ -161,13 +163,20 @@ Page({
       });
       return false;
     }
-
-    console.log('购物车选择提交的id=' + ids); 
-    //下订单
-    let order_no ="PIG20171218171451388818";
-    //下完订单，取的订单id
-    var url = './buy?id=' + ids;
-    wx.navigateTo({ url });
+    console.log('购物车选择提交的ids' + ids); 
+    Api.signin();//获取以及存储openid、uid
+    var uid = wx.getStorageSync('userUid'),store_id = store_Id.store_Id();
+    //多商品下订单
+    var shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';
+    app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop:'0'} }, (err, rep) => {
+      if (!err && rep.err_code == 0) {
+        var  order_no = rep.err_msg.order_no;
+        //下完订单，取的订单id
+        var url = './buy?order_no=' + order_no;
+        wx.navigateTo({ url });
+      }
+    });
+   
   },
 
 
