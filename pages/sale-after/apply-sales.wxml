@@ -5,12 +5,12 @@
     <view class='apply-shopping-detail'>
       <view class='apply-shopping-title'>
         <text class='apply-shopping-text'>{{dataList.name}}</text>
-        <text class='apply-shopping-num'>X{{dataList.quantity}}</text>
+        <text class='apply-shopping-num'>X{{dataList.pro_num}}</text>
       </view>
       <text class='apply-shopping-size'>蓝色K码</text>
       <view class='apply-shopping-money'>
         <text class='apply-shopping-money-text'>金额：</text>
-        <text class='apply-shopping-money-num'>￥{{dataList.total}}</text>
+        <text class='apply-shopping-money-num'>￥{{dataList.pro_price}}</text>
       </view>
     </view>
   </view>

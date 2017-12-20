@@ -16,10 +16,7 @@ page {
   padding-top: 10px;
 }
 
-.addr-sec-lists {
-  background: #fff;
-  height: 168rpx;
-}
+
 
 .content-view {
   flex: 1;
@@ -110,6 +107,16 @@ page {
   font-size: 25rpx;
   margin-top: 10px;
 }
+.ship-method-item {
+  margin-right: 50rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.addr-sec-lists {
+  background: #fff;
+  height: 168rpx;
+}
 
 .addr-section {
   background-color: #fff;
@@ -124,13 +131,6 @@ page {
   flex-direction: row;
   font-size: 25rpx;
   margin: 10px 0px;
-}
-
-.ship-method-item {
-  margin-right: 50rpx;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }
 
 .addr-list-view {

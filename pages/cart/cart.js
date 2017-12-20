@@ -145,15 +145,18 @@ Page({
   },
   //去结算
   bindCheckout: function () {
+    var that = this;
     // 初始化字符串
-    var ids = '', len = this.data.cart_list.length;
+    var ids = [], len = this.data.cart_list.length;
     // 遍历取出已勾选的cid
     for (var i = 0; i < len; i++) {
       if (this.data.cart_list[i].selected) {
-        ids += this.data.cart_list[i].product_id;
-        if(i < len-1){
-          ids += ',';
-        }
+        // ids += this.data.cart_list[i].product_id;
+        // if(i < len-1){
+        //   ids += ',';
+        // }
+        var id = parseInt(this.data.cart_list[i].pigcms_id);
+        ids.push(id);
       }
     }
     if (ids === undefined ||ids.length == 0){
@@ -163,6 +166,8 @@ Page({
       });
       return false;
     }
+   //ids = '['+ids +']';
+   //ids = JSON.stringify(ids);
     console.log('购物车选择提交的ids' + ids); 
     Api.signin();//获取以及存储openid、uid
     var uid = wx.getStorageSync('userUid'),store_id = store_Id.store_Id();
@@ -174,11 +179,16 @@ Page({
         //下完订单，取的订单id
         var url = './buy?order_no=' + order_no;
         wx.navigateTo({ url });
-      }
+      }else{
+        var msg = err || rep.err_msg;
+        that._showError(msg);
+      }     
     });
    
   },
-
+  goindex(){
+    wx.reLaunch({ url:'../index-new/index-new'});
+  },
 
   
   onLoad: function (options) {
@@ -190,11 +200,11 @@ Page({
     var uid = wx.getStorageSync('userUid');
     that.setData({
       uid, store_id
-    })
-    var params = {
-      uid, store_id
+    });
+    var params ={
+      store_id,
+      uid
     }
-    
     app.api.postApi('wxapp.php?c=cart&a=number', { params }, (err, resp) => {
       if (err) {
         return;
@@ -202,20 +212,38 @@ Page({
       if (resp) {
         if (resp.err_msg == 1) {
           // 有商品
+          that.loadList(params);
           that.setData({
-            hasShop: 1
+            hasShop: 1,
+            cartSHow:true
           })
         } else {
           // 无商品
           that.setData({
-            hasShop: 0
+            hasShop: 0,
+            cartSHow:false
           })
         }
       }
 
     });
-    that.loadList(params);
     
+  },
+  onShow: function () {
+   var that = this;
+   var hasShop = that.data.hasShop;//有无商品
+   if(hasShop == 1){//有商品的时候加载
+      var store_id = that.data.store_id;
+      var uid = that.data.uid;
+      var params = {
+        store_id, uid
+      }
+      //that.refreshList(params);
+      
+   }
+  },
+  onHide: function () {
+
   },
   refreshList(params){
     var that = this;
@@ -318,28 +346,7 @@ Page({
       }
     });
   },
-  onShow: function () {
-    var that = this;
-    // 获取店铺id shopId
-    var store_id = store_Id.store_Id();
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    console.log(uid, 'uid');
-    console.log(store_id, 'store_id');
-    that.setData({
-      uid, store_id
-    })
-    var store_id = that.data.store_id;
-    var uid = that.data.uid;
-    var params = {
-      store_id, uid
-    }
-    //that.refreshList(params);
-  },
-  onHide: function () {
 
-  },
   removeShopCard: function (e) {
     console.log(e, 'eeee');
     var that = this;
@@ -389,5 +396,13 @@ Page({
   },
   onShareAppMessage(res) {
     // return { title: '', path: '' }
-  }
+  },
+  /**
+   * 显示错误信息
+   */
+  _showError(errorMsg) {
+    wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
+    this.setData({ error: errorMsg });
+  },
+
 })

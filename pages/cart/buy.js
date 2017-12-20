@@ -69,7 +69,7 @@ Page({
     addressId:'',//地址id
     addressList:[],//地址列表
     address:'',//默认地址
- 
+    lastPay:'￥0' ,//实付款
 
     //2017年12月19日13:43:56
     storeId: store_Id.shopid,//商店id
@@ -153,24 +153,25 @@ Page({
   },
 
   _prepare(order_no) {
+    var that = this;
     var params = {
       order_no: order_no
       
     }
     app.api.postApi('wxapp.php?c=order&a=mydetail', { params }, (err, resp) => {
       if (err) {
-        console.log(11111111111111);
+        that._showError(err);
         return;
       }
       if (resp.err_code == 0) {
-        console.log(resp,2222222222);
+        
         let orderdata = resp.err_msg.orderdata;
         var products = resp.err_msg.orderdata.product; //购物车的商品
         var sub_total = resp.err_msg.orderdata.sub_total; //商品金额
         var postage_int = resp.err_msg.orderdata.postage_int; //运费
-        //console.log(resp.err_msg.product,'商品信息');
-        console.log(products,'33333');
-        this.setData({ products: products, postage_int, sub_total});
+        var lastPay = "￥"+ resp.err_msg.orderdata.last_pay;//实付款
+        
+        this.setData({ products: products, postage_int, sub_total, lastPay});
       }
     });
   },
