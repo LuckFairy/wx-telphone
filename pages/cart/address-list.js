@@ -115,9 +115,13 @@ Page({
    * 更新地址
    */
   updateAddress(e) {
-    let {address} = e.currentTarget.dataset;
+    console.log('点击编辑的时候',e)
+    var that = this;
+    var uid = that.data.uid;
+    console.log(e, 'eeee')
+    var address_id = e.currentTarget.dataset.addressId;
     wx.redirectTo({
-      url: `./address?type=update&address=${JSON.stringify(address)}`,
+      url: './address?revamp=1&uid=' + uid + '&address_id=' + address_id
     })
   },
   

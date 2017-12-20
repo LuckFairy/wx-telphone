@@ -84,7 +84,6 @@ Page({
   *地址详情列表
   */
   getAddress() {
-
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
@@ -93,22 +92,25 @@ Page({
     var that = this;
     app.api.postApi(url, { "params": { uid } }, (err, rep) => {
       if (!err && rep.err_code == 0) {
-        this.setData({
-          "addressList": rep.err_msg,
-          "addressId": rep.err_msg[0].address_id,
-          "fullname": rep.err_msg[0].name,
-          "shippingTelephone": rep.err_msg[0].tel,
-          "areaText": rep.err_msg[0].area_txt,
-          "location": rep.err_msg[0].province_txt + rep.err_msg[0].city_txt + rep.err_msg[0].area_txt + rep.err_msg[0].address ,
-        });
-        //设置默认地址
-        for (var i in rep.err_msg) {
-          if (rep.err_msg[i].default == 1) {
-            this.setData({
-              address: rep.err_msg[i]
-            })
-          }
+        if (rep.err_msg && err_msg.length > 0){
+          this.setData({
+            "addressList": rep.err_msg,
+            "addressId": rep.err_msg[0].address_id,
+            "fullname": rep.err_msg[0].name,
+            "shippingTelephone": rep.err_msg[0].tel,
+            "areaText": rep.err_msg[0].area_txt,
+            "location": rep.err_msg[0].province_txt + rep.err_msg[0].city_txt + rep.err_msg[0].area_txt + rep.err_msg[0].address,
+          });
+          //设置默认地址
+          for (var i in rep.err_msg) {
+            if (rep.err_msg[i].default == 1) {
+              this.setData({
+                address: rep.err_msg[i]
+              })
+            }
+          };
         }
+        
       }
     });
     console.log('this.address ',this.address);
@@ -564,7 +566,7 @@ Page({
         selectedZoneIndex: val[0],
         zoneId: zoneId,
       });
-     // this.loadCity(zoneId);
+      this.loadCity(zoneId);
     } else if (val[1] != selectedCityIndex) {
       if (!cityList.length) return;
       let { cityId } = cityList[val[1]];

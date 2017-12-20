@@ -333,7 +333,7 @@ Page({
         return this._showError('网络出错，请稍候重试');
       }
       //console.info('订单数据 ',resp)
-      let { err_code, err_msg: {next_page , order_list = []} } = resp;
+      let { err_code, err_msg: { order_list = []} } = resp;
       if (err_code != 0) {
         return this._showError(err_msg);
       }
