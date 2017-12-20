@@ -451,6 +451,7 @@ page{
   /* margin-top: -20rpx; */
   font-size: 30rpx;
   margin-left: 30rpx;
+  color: red;
 }
 .hot-rec-text-wrap:last-child{
   margin-bottom: 100rpx;
@@ -679,3 +680,4 @@ page{
   color: #ffffff;
   border-radius: 5rpx;
 }
+
