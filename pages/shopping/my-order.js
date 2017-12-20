@@ -111,7 +111,7 @@ Page({
     // imgName:"",
     // imgUrl:"",
     // showSale:true,
-    // dataList:''
+    dataList:[],
     shipping_method: 'express',
     addressId: 0,
     postage_list:"",
@@ -191,37 +191,49 @@ Page({
     // 确认收货跳转
     this.setData({ curSwiperIdx: goodsindex, curActIndex: goodsindex});
     // 退换售后开始
-    //that.listReturnFun();
+    that.listReturnFun();
   },
   listReturnFun:function(){
     var that = this;
     wx.showLoading({
       title: '加载中'
     })
-    // app.api.postApi('order/listOfReturn', {}, (err, resp) => {
-    //   if (resp) {
-    //     if (resp.rtnCode == 0) {
-    //       wx.hideLoading();
-    //       var dataList = resp.data;
-    //       var dataList = [];
-    //       dataList.push(resp.data)
-    //       that.setData({
-    //         showSale: false,
-    //         dataList: dataList
-    //       })
-    //     } else {
-    //       that.setData({
-    //         showSale: true
-    //       })
-    //     }
+    var params = {
+      "uid": this.data.uid,
+      "page ": 1,
+      "store_id": this.data.storeId
+    };
+    console.log('售后数据请求参数', params);
+    var url = 'wxapp.php?c=return&a=listOfReturn';
+    app.api.postApi(url, { params }, (err, resp) => {
+      console.log('售后数据请求参数', resp.err_msg.return_list);
+      if (resp) {
+        if (resp.err_code == 0) {
+          wx.hideLoading();
+          var dataList = resp.err_msg.return_list;
+          var dataList = [];
+          dataList.push(resp.err_msg.return_list)
+          that.setData({
+            showSale: false,
+            dataList: dataList
+          })
+        } else {
+          that.setData({
+            showSale: true
+          })
+        }
 
-    //   }
-    // });
+      }
+      console.log('售后数据', dataList);
+    });
   },
   goDetail(e){
     var theId = e.target.dataset.theId;
+    var order_no = e.target.dataset.orderNo;
+    var statustxt = e.target.dataset.orderStatus_txt;
+
     wx.navigateTo({
-      url: '../sale-after/purchase-detail?theId=' + theId
+      url: '../sale-after/purchase-detail?theId=' + theId + '&order_no=' + order_no + '&statustxt=' + statustxt
     })
   },
   onReady: function () {
@@ -243,7 +255,7 @@ Page({
       curActIndex: event.detail.current
     });
     if (event.detail.current==4){
-      //that.listReturnFun();
+      that.listReturnFun();
     }
   },
   swichSwiperItem: function (event) {
@@ -253,7 +265,7 @@ Page({
       curActIndex: event.target.dataset.idx
     });
     if (event.detail.current == 4) {
-      //that.listReturnFun();
+      that.listReturnFun();
     }
   },
   // showExpressInfo: function (e) {
@@ -333,7 +345,7 @@ Page({
         return this._showError('网络出错，请稍候重试');
       }
       //console.info('订单数据 ',resp)
-      let { err_code, err_msg: { order_list = []} } = resp;
+      let { err_code, err_msg: {next_page , order_list = []} } = resp;
       if (err_code != 0) {
         return this._showError(err_msg);
       }
