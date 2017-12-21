@@ -62,7 +62,7 @@
             <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
             <view style="">赶快去下单吧</view>
             <!--TODO: 改成切换tab -->
-            <navigator url="../activity/activity?actIndex=1" class="gobuy-btn-view">
+            <navigator url="../index-new/index-new" class="gobuy-btn-view">
               <text>去下单</text>
             </navigator>
           </view>
@@ -111,19 +111,20 @@
           <view style="">实付款：</view>
           <view style="color:#D84E52;">￥{{order.total}}</view>
         </view>
-        <view wx:if="{{order.orderStatusId == 3}}" class="yellow-btn-view">
+        <view wx:if="{{order.status == 3}}" class="yellow-btn-view">
         <!--catchtap="showExpressInfo"  -->
           <text class="yellow-btn" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}"  style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text>
           <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="confirmDeliver">确认收货</text>
         </view>
-        <view wx:if="{{order.orderStatusId == 2}}" class="yellow-btn-view">
+        <view wx:if="{{order.status == 2}}" class="yellow-btn-view">
           <text class='yellow-one' bindtap='goSearch'>查看物流</text>
           <text wx:if="{{order.shippingMethod == 'pickup.pickup'}}" class="yellow-btn" data-order-id="{{order.orderId}}" data-qr="{{order.qrcodeUrl}}" catchtap="showTrialQRcode">到店取货</text>
           <view wx:else class='yellow-one yellow-two'>待发货</view>
           
         </view>
-        <view  class="yellow-btn-view">
-           <text wx:if="{{order.status==1}}" class="yellow-btn" data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
+        <view  wx:if="{{order.status==1}}" class="yellow-btn-view" >
+          <text class="yellow-btn" data-order-id="{{order.order_no}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
+           <text  class="yellow-btn" data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
         </view>
       </view>
       <!--/待付款-->
@@ -331,7 +332,7 @@
 <!-- 
       </view>
   </scroll-view>
-</swiper-item> -->zzzzzzzzzz
+</swiper-item> -->
 
 <!--拼团购结束  -->
 
@@ -344,28 +345,33 @@
       <!--<block wx:for="{{invalidateCardList}}" wx:for-item="card" wx:key="{{card.cardId}}">-->
       <!--待收货-->
       <view wx:for="{{transOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.products[0].product_id}}" bindtap="pushToOrderDetail">
+
         <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
           <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
-          <view class="goods-name-view">
-            <text class="goods-name">{{item.name}}\n
-              <text style="margin-right: 10rpx;color:grey;" wx:if="{{item.attrinfo['0'].sku_data}}"> {{item.sku_data_arr['0'].name}}：{{item.sku_data_arr['0'].value}}</text>
+          <view class="goods-name-view"> 
+            <text class="goods-name">{{item.name}}</text>
+            <text style="margin-left: 0rpx;"  wx:if="{{item.sku_data_arr}}" wx:for="{{item.sku_data_arr}}" wx:for-index="index" wx:for-item="item2">
+            {{item2.value}}
             </text>
+            <text style="margin-right: 10rpx;">x{{item.pro_num}}</text>
           </view>
         </view>
+
+
+
         <view class="goods-price-view">
           <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
           <view style="">实付款：</view>
           <view style="color:#D84E52;">￥{{order.total}}</view>
         </view>
-        <view wx:if="{{order.orderStatusId == 3}}" class="yellow-btn-view">
+        <!-- 1 未支付 2 未发货 3已发货 -->
+        <view wx:if="{{order.status == 3}}" class="yellow-btn-view">
         <!--catchtap="showExpressInfo"  -->
           <text class="yellow-btn" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}"  style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text>
           <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="confirmDeliver">确认收货</text>
         </view>
-        <view wx:if="{{order.orderStatusId == 2}}" class="yellow-btn-view">
-          <text class='yellow-one' bindtap='goSearch'>查看物流</text>
-          <text wx:if="{{order.shippingMethod == 'pickup.pickup'}}" class="yellow-btn" data-order-id="{{order.orderId}}" data-qr="{{order.qrcodeUrl}}" catchtap="showTrialQRcode">到店取货</text>
-          <view wx:else class='yellow-one yellow-two'>待发货</view>
+        <view wx:if="{{order.status == 2}}" class="yellow-btn-view">
+          <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="confirmDeliver">确认收货</text>
         </view>
       </view>
       <!--/待收货-->
@@ -446,31 +452,32 @@
           </view> -->
         </view>
       </view>
+      <!-- status 1 处理中   3商家审核不通  6已完成-->
       <!--已完成  -->
-      <view class='purchase-satus' wx:if='{{item.sStatusId==25}}'>
+      <view class='purchase-satus' wx:if='{{item.status==6}}'>
         <view class='purchase-image-text'>
           <image class='purchase-status-image' src='../../image/pur-success.png'></image>
-          <text class='purchase-status-text'>已完成</text>
+          <text class='purchase-status-text'>{{item.status_txt}}</text>
         </view>
-        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情1</text>
+        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情</text>
       </view>
       <!--已完成  -->
       <!--已拒绝  -->
-      <view class='purchase-satus' wx:elif='{{item.sStatusId==26}}'>
+      <view class='purchase-satus' wx:elif='{{item.sStatusId==3}}'>
         <view class='purchase-image-text'>
           <image class='purchase-status-image' src='../../image/pur-defeat.png'></image>
-          <text class='purchase-status-text'>已拒绝</text>
+          <text class='purchase-status-text'>{{item.status_txt}}</text>
         </view>
-        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情2</text>
+        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情</text>
       </view>
       <!--已拒绝  -->
       <!--处理中  -->
       <view class='purchase-satus' wx:else>
         <view class='purchase-image-text'>
           <image class='purchase-status-image' src='../../image/pur-wait.png'></image>
-          <text class='purchase-status-text'>处理中</text>
+          <text class='purchase-status-text'>{{item.status_txt}}</text>
         </view>
-        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' data-order-status='{{item.status}}'>查看详情3</text>
+        <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' data-order-status='{{item.status}}'>查看详情</text>
       </view>
       <!--处理中  -->
     </view>

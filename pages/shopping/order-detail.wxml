@@ -25,17 +25,25 @@
         <view class="goods-name-view-wrap">
           <text class='goods-title-name'>{{item.name}}</text>
           <view class='goods-size-name'>
-            <text wx:if="{{item.attrinfo['0'].colorName}}" class='goods-color-name'>颜色：{{item.attrinfo['0'].colorName}}</text>
-            <text wx:if="{{item.attrinfo['0'].colorName}}" class='goods-footage-name'>尺码：{{item.attrinfo['0'].sizeName}}</text>
+
+            <text class='goods-color-name' wx:if="{{item.sku_data}}" wx:for="{{item.sku_data}}" wx:for-index="index" wx:for-item="item2">
+            {{item2.value}}
+            </text>
+            
           </view>
           <view class='goods-price-number'>
             <text class='goods-price'>￥{{item.pro_price}}</text>
             <text class='goods-number'>X{{item.pro_num}}</text>
           </view>
         </view>
-        <view  bindtap='goSales'  data-order-id="{{order_no}}"  data-order-product-id='{{item.pigcms_id}}' >
+        <!-- return_id 是否申请售后：-1参数错误，0已申请，1未申请 -->
+        <view wx:if="{{item.return_id==1}}"  bindtap='goSales'  data-order-id="{{order_no}}"  data-order-product-id='{{item.pigcms_id}}' >
           <text  class="yellow-btn" style="background-color:yellow;" >申请售后</text>
         </view>
+        <view wx:if="{{item.return_id==0}}"  bindtap='searchSales'  data-order-id="{{order_no}}"  data-order-product-id='{{item.pigcms_id}}' >
+          <text  class="yellow-btn" style="background-color:yellow;" >查看售后</text>
+        </view>
+
     </view>
     <view class="price-view">
         <view class="price-text-view">
@@ -54,9 +62,9 @@
 
     <!-- orderType -->
     <view wx:if="{{(orderData.status === '2' || orderData.status === '3' || orderData.status === '4')}}" class="bottom-btn-view mText">
-        <text  class="yellow-btn" style="background-color:white;border:1rpx solid #C0C0C0;margin-right:24rpx;" bindtap='goSales' data-order-id='{{orderId}}' data-product-id='{{productId}}' data-rtn-code='{{rtnCode}}'>申请售后</text> 
+        
         <!-- <text wx:if='{{rtnCode!=-1}}' class="yellow-btn" style="background-color:white;border:1rpx solid #C0C0C0;margin-right:24rpx;" bindtap='searchSales' data-order-id='{{orderId}}' data-product-id='{{productId}}' data-rtn-code='{{rtnCode}}'>查看售后</text>-->   
-        <!-- <text class="yellow-btn" style="background-color:white;border:1rpx solid #C0C0C0;margin-right:30rpx;" bindtap='timesBuy'>再次购买</text> -->
+        <!-- <text class="yellow-btn" style="background-color:white;border:1rpx solid #C0C0C0;margin-right:30rpx;" bindtap='timesBuy'>再次购买</text> -->     <text class="yellow-btn" data-product-id='{{productId}}' data-order-id='{{orderId}}'>查看物流</text>
         <text wx:if='{{orderData.status != "7"}}' class="yellow-btn" data-product-id='{{productId}}' data-order-id='{{orderId}}'>确认收货</text>
     </view>
 
