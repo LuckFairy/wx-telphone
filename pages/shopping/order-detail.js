@@ -78,34 +78,32 @@ Page({
     console.log('orderId', orderId);
     console.log('orderProductId', orderProductId);
     var uid = this.data.uid;
-
-    wx.navigateTo({
-      url: '../sale-after/apply-sales?orderId=' + orderId + '&orderProductId=' + orderProductId + '&uid=' + uid
-    })
-    return;  //后面不用了
-
+    //判断是否能申请售后，如果可以才跳到售后界面
     var params = {
       "order_no": orderId, 
       "pigcms_id": orderProductId, 
       "uid": uid  
     };
     console.log('请求参数', params);
-    var url = 'wxapp.php?c=return&a=applyReturn';
-    app.api.postApi(url, { params }, (err, resp) => {
+    var url = 'wxapp.php?c=return&a=checkReturn';
+    app.api.postApi(url, { params }, (err, response) => {
       if (err) return;
       if (response.err_code != 0) {
-        wx.showLoading({
-          title: response.err_msg,
-        })
+        wx.showModal({
+          title: '错误提示',
+          content: response.err_msg.err_log,
+          showCancel: true,
+          cancelText: '取消',
+          cancelColor: '#FF0000',
+          confirmText: '好的',
+        });
       } else {
-        wx.hideLoading();
-        var product = response.err_msg.product;
-        that.setData({
-          product: product
+        wx.navigateTo({
+          url: '../sale-after/apply-sales?orderId=' + orderId + '&orderProductId=' + orderProductId + '&uid=' + uid
         })
       }
     });
-    return;
+    return; //后面是老的代码
 
     // 检测是否已经提交过申请
     app.api.postApi('order/checkReturn', { "order_id": orderId }, (err, resp) => {

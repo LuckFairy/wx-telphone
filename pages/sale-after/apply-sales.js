@@ -40,9 +40,17 @@ Page({
       console.log('applyReturn接口返回数据=', response);
       if (err) return;
       if (response.err_code != 0) {
-        wx.showLoading({
-          title: response.err_msg,
-        })
+
+        wx.showModal({
+          title: '错误提示',
+          content: response.err_msg.err_log,
+          showCancel: true,
+          cancelText: '取消',
+          cancelColor: '#FF0000',
+          confirmText: '好的',
+        });
+
+
       } else {
         wx.hideLoading();
         var product = response.err_msg.returndata;
