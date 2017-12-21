@@ -69,14 +69,15 @@ Page({
    * 改变收货地址，回退到上一页面 
    */
   changeAdress(e) {
-    let {addressId} = e.currentTarget.dataset;
+    let { addressId } = e.currentTarget.dataset;
     var _addressId = this.data.addressId;
+    var uid = this.data.uid;
 
-    if(_addressId == addressId) return wx.navigateBack();
-    
+    if (_addressId == addressId) return wx.navigateBack();
+
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2];  //上一个页面
-    prevPage.changeAddress(addressId);
+    prevPage.changeAddress(uid);
     wx.navigateBack();
   },
 
@@ -118,7 +119,6 @@ Page({
     console.log('点击编辑的时候',e)
     var that = this;
     var uid = that.data.uid;
-    console.log(e, 'eeee')
     var address_id = e.currentTarget.dataset.addressId;
     wx.redirectTo({
       url: './address?revamp=1&uid=' + uid + '&address_id=' + address_id
@@ -131,18 +131,28 @@ Page({
   changeDefaultAdress(e) {
     var that = this;
     var uid = that.data.uid;
-    console.log(e, 'eeee')
+    var addrList = that.data.addrList;
     var address_id = e.currentTarget.dataset.addressId;
+    var index = parseInt(e.currentTarget.dataset.index);
+    var def = addrList[index].default;
+    
+    //取反操作
+    if(def ==0){def = 1;}else{def = 0;}
+    addrList[index].default = def;
+    that.setData({
+      addrList
+    });
     var params = {
       uid, address_id
     }
+
     app.api.postApi('wxapp.php?c=address&a=SetDefault', { params }, (err, resp) => {
       if (err) {
         return;
       }
       if (resp.err_code == 0) {
         console.log(resp.err_msg, 'moren')
-        that.addrLists();
+        //that.addrLists();
       }
     });
   },

@@ -75,7 +75,6 @@ Page({
    //2017年12月18日18:25:21 by leo
    orderId:'',
    shipping_method: 'express',
-   addressId: 0,
    postage_list: "",
    user_coupon_id: 0,
    is_app: false,
@@ -111,12 +110,12 @@ Page({
         var addressList = rep.err_msg.addresslist;
         if (addressList.length){
           if (addressList.length>0){
+            console.log('地址列表 ', addressList);
             //设置默认地址
             for (var i in addressList) {
               if (addressList[i].default == 1) {
+                console.log('默认地址 ', addressList[i]);
                 address = addressList[i];
-              }else{
-                address = addressList[0];
               }
             } 
             this.setData({
@@ -148,6 +147,7 @@ Page({
   
 
   onLoad: function (options) {
+    console.log('页面load');
     let {  uid, pid, skuId, storeId, qrEntry ,orderId } = options;
     quantity = options.quantity;
     //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
@@ -191,18 +191,22 @@ Page({
    // this._loadShopData();
   },
   onReady: function () {
+    console.log('页面渲染完成');
     // 页面渲染完成
   },
   onShow: function () {
+    console.log('页面显示');
     var uid = this.data.uid;
     this.getAddress(uid);
     // 页面显示
    // this._prepare(_prodId, skuid, quantity, groupbuyId);
   },
   onHide: function () {
+    console.log('页面隐藏');
     // 页面隐藏
   },
   onUnload: function () {
+    console.log('页面关闭');
     // 页面关闭
   },
 
@@ -225,14 +229,44 @@ Page({
    * 设置收货地址
    * 设置完成后需重新刷新订单
    */
-  changeAddress(addressId) {
-    wx.showLoading({ title: '加载中...', mask: true, });
-    app.api.postApi(AddressSettingURL, { addressId }, (err, res) => {  // 设置收货地址
-      wx.hideLoading();
-      if (!err && res.rtnCode == 0) {
-        this._handleData(res);
-      } else {
-        this._showError('加载数据出错，请重试');
+  changeAddress(uid) {
+    var url = 'wxapp.php?c=address&a=MyAddress';
+    var that = this;
+    var address = that.data.address;
+
+    app.api.postApi(url, { "params": { uid } }, (err, rep) => {
+      if (!err && rep.err_code == 0) {
+        var addressList = rep.err_msg.addresslist;
+        if (addressList.length) {
+          if (addressList.length > 0) {
+            //设置默认地址
+            for (var i in addressList) {
+              if (addressList[i].default == 1) {
+                address = addressList[i];
+              } 
+            }
+            this.setData({
+              "address": address,
+              "addressList": addressList,
+              "addressId": addressList[0].address_id
+            });
+          }
+        } else {
+          wx.showModal({
+            title: '请先设置收货地址',
+            content: '你还没有设置收货地址，请点击这里设置！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: './address-list',
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
+
       }
     });
   },

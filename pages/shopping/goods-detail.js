@@ -22,7 +22,8 @@ Page({
     //skuId:'', //多属性标识
     skuId: 0, //修改 2017年8月31日16:34:42
     attrPrice: '', //多属性的价格
-    newCartNum: 0,
+    newCartNum: 0,//读取后台购物车数量多少件
+    //cartNum :0,//购物车初始化0件
     cateId: 0,
     moreChoose: false,
     product: '',
