@@ -11,6 +11,13 @@ page {
   font-size: 25rpx;
 }
 
+/*内容框架  */
+.order-info-view {
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  padding: 15px 24rpx;
+}
 .item-area {
   width: 100%;
   background-color: white;
@@ -47,12 +54,7 @@ page {
   border-bottom: 1rpx solid #efefef;
   justify-content: space-between;
 }
-.order-info-view {
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-  padding: 15px 24rpx;
-}
+
 
 .name-phone-view {
   flex-direction: row;
@@ -76,7 +78,11 @@ page {
 .address-order-list{
   font-size: 30rpx;
 }
-
+/*商品列表goods  */
+.goods-info-block{
+  display: flex;
+  flex-direction: column;
+}
 .goods-info-view {
   height: 210rpx;
   /* display: block; */
@@ -196,4 +202,23 @@ page {
   border-radius: 5rpx;
   line-height: 100%;
   margin: 10rpx 24rpx 10rpx 10rpx;
+}
+
+/*修改2017-12-21  */
+.yellow-btn-view{
+  margin:0;
+  background-color: #fff;
+  height: 79rpx;
+  border-top: 1px solid #e8e8e8;
+}
+.yellow-btn{
+  margin:10rpx 0;
+  border-radius: 5rpx;
+  border:2rpx solid #b5b5b5;
+  padding:16rpx 25rpx;
+  color:#1b1b1b;
+  background:inherit;
+}
+.goods-info-block{
+  background: #fff;
 }

@@ -6,7 +6,7 @@ import { store_Id } from '../../utils/store_id';
 var app = getApp();
 const log = 'buy.js --- ';
 
-const AddressSettingURL = 'buy/address';   // 设置售货地址
+const AddressSettingURL = 'wxapp.php?c=address&a=MyAddress';   // 设置售货地址
 const ListURL = 'store/ls';          // 门店列表
 const DetailURL = 'store/detail';    // 门店详情
 
@@ -97,9 +97,7 @@ Page({
             for (var i in addressList) {
               if (addressList[i].default == 1) {
                 address = addressList[i];
-              } else {
-                address = addressList[0];
-              }
+              } 
             }
             this.setData({
               "address": address,
@@ -200,22 +198,50 @@ Page({
   },
 
   /**
-   * 设置收货地址
-   * 设置完成后需重新刷新订单
-   */
-  changeAddress(addressId) {
-    wx.showLoading({ title: '加载中...', mask: true, });
+  * 设置收货地址
+  * 设置完成后需重新刷新订单
+  */
+  changeAddress(uid) {
+    var url = 'wxapp.php?c=address&a=MyAddress';
+    var that = this;
+    var address = that.data.address;
 
-    app.api.postApi(AddressSettingURL, { addressId }, (err, res) => {  // 设置收货地址
-      wx.hideLoading();
-      if (!err && res.rtnCode == 0) {
-        this._handleData(res);
-      } else {
-        this._showError('加载数据出错，请重试');
+    app.api.postApi(url, { "params": { uid } }, (err, rep) => {
+      if (!err && rep.err_code == 0) {
+        var addressList = rep.err_msg.addresslist;
+        if (addressList.length) {
+          if (addressList.length > 0) {
+            //设置默认地址
+            for (var i in addressList) {
+              if (addressList[i].default == 1) {
+                address = addressList[i];
+              } 
+            }
+            this.setData({
+              "address": address,
+              "addressList": addressList,
+              "addressId": addressList[0].address_id
+            });
+          }
+        } else {
+          wx.showModal({
+            title: '请先设置收货地址',
+            content: '你还没有设置收货地址，请点击这里设置！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: './address-list',
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
+
       }
     });
   },
-
   /**
    * 准备订单信息
    */
@@ -531,9 +557,10 @@ Page({
       "address[city_id]": cityList[selectedCityIndex].cityId,
       "address[district_id]": districtList[selectedDistrictIndex].districtId,
     }
+    console.log('隐藏地区选择器');
     app.api.postApi('buy/address', params, (err, resp) => {
       if (err) {
-        return this._showError('加载数据出错，请重试');
+       // return this._showError('加载数据出错，请重试');
       }
       let { rtnCode, rtnMessage, data } = resp;
       if (rtnCode != 0) {

@@ -47,7 +47,7 @@
   </view>
   <!-- 代付款、待成团... -->
   <!--拼团、卡包、指南、客服 -->
-  <view class='my-detail-msg' bindtap='gogroup' data-group='0'>
+  <view class='my-detail-msg' bindtap='gogroup' hidden='hidden' data-group='0'>
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../image/my-group.png'></image>
       <text class='my-gro-text'>我的拼团</text>
