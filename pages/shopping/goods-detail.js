@@ -114,6 +114,24 @@ Page({
           title: '加入购物车成功'
         })
         console.log('加入购物车成功')
+        //更新购物车的数量
+        var params = {
+          uid,
+          store_id: storeId
+        }
+        app.api.postApi('wxapp.php?c=cart&a=cart_list', { params }, (err, resp) => {
+          if (err || resp.err_code != 0) {
+            return;
+          }
+          if (resp.err_code == 0) {
+            console.log('购物车的数量是', resp.err_msg.cart_list_number);
+            that.setData({
+              newCartNum: resp.err_msg.cart_list_number
+            });
+          }
+        });
+
+
         setTimeout(function () {
           wx.hideLoading();
           var moreChoose = false;
@@ -137,10 +155,26 @@ Page({
     let { prodId, action, params, categoryid = ''} = options;
     _params = params;
     this.loadData(prodId, action, categoryid);
-    this.setData({ 'newCartNum': 0 });
+
+    //this.setData({ 'newCartNum': 0 });
     
     var cateId = options.cateId;
     this.setData({ 'cateId': cateId, 'product_id': prodId });
+
+    //购物车的数量
+    app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
+      if (err || resp.err_code != 0) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        console.log('购物车的数量是', resp.err_msg.cart_list_number);
+        that.setData({
+          newCartNum: resp.err_msg.cart_list_number
+        });
+      }
+    });
+
+
   },
   onReady: function () {
     // 页面渲染完成
