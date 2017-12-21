@@ -433,7 +433,22 @@ Page({
     }, (err, rep) => {
       if (err) { console.log('err ', err); return }
       var { err_code, err_msg } = rep;
-      if (err_code != 0) { console.log(err_msg); return }
+      //if (err_code != 0) { console.log(err_msg); return }
+	  if (err_code != 0) { 
+        
+        wx.showModal({
+          //title: '错误提示',
+          content: err_msg,
+          showCancel: true,
+          cancelText: '取消',
+          cancelColor: '#FF0000',
+          confirmText: '好的',
+        });
+
+        console.log(err_msg);   
+        return 
+      }
+
       var url = './buy?orderId=' + err_msg.order_no + '&uid=' + uid;
       wx.navigateTo({ url });
     })
