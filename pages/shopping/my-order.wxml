@@ -36,9 +36,11 @@
             <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
               <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
               <view class="goods-name-view">
-                <text class="goods-name">{{item.name}}\n
-                  <text style="margin-right: 10rpx;color:grey;" wx:if="{{item.sku_data}}">{{item.sku_data_arr['0'].name}}：{{item.sku_data_arr['0'].value}}</text>
+                <text class="goods-name">{{item.name}}</text>
+                <text style="margin-left: 0rpx;"  wx:if="{{item.sku_data_arr}}" wx:for="{{item.sku_data_arr}}" wx:for-index="index" wx:for-item="item2">
+                 {{item2.value}}
                 </text>
+                <text style="margin-right: 10rpx;">x{{item.pro_num}}</text>
               </view>
             </view>
             <view class="goods-price-view">
@@ -47,7 +49,7 @@
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
             <view class="yellow-btn-view">
-              <text class="yellow-btn" data-order-id="{{order.order_no}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
+              <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
 
               <text wx:if="{{order.status==1}}" class="yellow-btn" data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
 
@@ -101,9 +103,12 @@
         <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
           <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
           <view class="goods-name-view">
-            <text class="goods-name">{{item.name}}\n
-              <text style="margin-right: 10rpx;color:grey;" wx:if="{{item.sku_data_arr['0'].sku_data}}"> {{item.sku_data_arr['0'].name}}：{{item.sku_data_arr['0'].value}}</text>
+            <text class="goods-name">{{item.name}}</text>
+            <text style="margin-left: 0rpx;"  wx:if="{{item.sku_data_arr}}" wx:for="{{item.sku_data_arr}}" wx:for-index="index" wx:for-item="item2">
+            {{item2.value}}
             </text>
+            <text style="margin-right: 10rpx;">x{{item.pro_num}}</text>
+
           </view>
         </view>
         <view class="goods-price-view">
@@ -114,7 +119,7 @@
         <view wx:if="{{order.status == 3}}" class="yellow-btn-view">
         <!--catchtap="showExpressInfo"  -->
           <text class="yellow-btn" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}"  style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text>
-          <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="confirmDeliver">确认收货</text>
+          <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
         </view>
         <view wx:if="{{order.status == 2}}" class="yellow-btn-view">
           <text class='yellow-one' bindtap='goSearch'>查看物流</text>
@@ -123,7 +128,7 @@
           
         </view>
         <view  wx:if="{{order.status==1}}" class="yellow-btn-view" >
-          <text class="yellow-btn" data-order-id="{{order.order_no}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
+          <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
            <text  class="yellow-btn" data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
         </view>
       </view>
@@ -368,10 +373,10 @@
         <view wx:if="{{order.status == 3}}" class="yellow-btn-view">
         <!--catchtap="showExpressInfo"  -->
           <text class="yellow-btn" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}"  style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text>
-          <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="confirmDeliver">确认收货</text>
+          <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
         </view>
         <view wx:if="{{order.status == 2}}" class="yellow-btn-view">
-          <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="confirmDeliver">确认收货</text>
+          <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
         </view>
       </view>
       <!--/待收货-->
@@ -396,8 +401,9 @@
         <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
           <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
           <view class="goods-name-view">
-            <text class="goods-name">{{item.name}}\n
-              <text style="margin-right: 10rpx;color:grey;" wx:if="{{item.attrinfo['0'].colorName}}"> 颜色：{{item.attrinfo['0'].colorName}} 尺码：{{item.attrinfo['0'].sizeName}}\n x{{item.quantity}}</text>
+            <text class="goods-name">{{item.name}}</text>
+            <text style="margin-left: 0rpx;"  wx:if="{{item.sku_data_arr}}" wx:for="{{item.sku_data_arr}}" wx:for-index="index" wx:for-item="item2">
+            {{item2.value}}
             </text>
           </view>
         </view>
@@ -444,12 +450,11 @@
           <view class='purchase-shop-text'>
             <text class='purchase-shop-title'>{{item.name}}</text>
             <text class='purchase-shop-num'>X{{item.pro_num}}</text>
+
           </view>
-          <!-- <text class='purchase-color-size'>蓝色L码</text> -->
-          <!-- <view class='purchase-money-list'>
-            <text class='purchase-money-text'>金额:</text>
-            <text class='purchase-money-price'>￥33344</text>
-          </view> -->
+          <text class='purchase-color-size'  wx:if="{{item.sku_data_arr}}" wx:for="{{item.sku_data_arr}}" wx:for-index="index" wx:for-item="item2">
+            {{item2.value}}
+          </text>
         </view>
       </view>
       <!-- status 1 处理中   3商家审核不通  6已完成-->
