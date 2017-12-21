@@ -35,9 +35,7 @@ Page({
     hasPickupShip: false,
   
 
-    //address: null,    // 存放当前收货地址数据
-    //addressId: 0,     // 选择的收货地址id
-   // pickupStoreId: 0, // 自提门店id
+
 
     showAreaPicer: false,
     areaText: '',   // 区域
@@ -106,24 +104,46 @@ Page({
   getAddress(uid){
     var url = 'wxapp.php?c=address&a=MyAddress';
     var that = this;
+    var address = that.data.address;
+    
     app.api.postApi(url,{"params": { uid }} , (err, rep) => {
       if(!err && rep.err_code == 0){
-        this.setData({
-          "addressList": rep.err_msg,
-          "addressId": rep.err_msg[0].address_id
-        });
-        //设置默认地址
-        for ( var i in rep.err_msg ){
-          if (rep.err_msg[i].default == 1){
+        var addressList = rep.err_msg.addresslist;
+        if (addressList.length){
+          if (addressList.length>0){
+            //设置默认地址
+            for (var i in addressList) {
+              if (addressList[i].default == 1) {
+                address = addressList[i];
+              }else{
+                address = addressList[0];
+              }
+            } 
             this.setData({
-              address: rep.err_msg[i]
-            })
+              "address":address,
+              "addressList": addressList,
+              "addressId": addressList[0].address_id
+            });
           }
+        }else{
+          wx.showModal({
+            title: '请先设置收货地址',
+            content: '你还没有设置收货地址，请点击这里设置！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: './address-list',
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
         }
-        
-       
+         
       }
-    })
+    });
+ 
   },
   
 
@@ -136,6 +156,11 @@ Page({
     //显示订单列表
     this.showOrderList({ orderId });
     this.getAddress(uid);
+    
+   
+  
+
+
 
     //生成订单
     //this._loadShopData({"uid":uid ,"quantity":quantity,"product_id":pid,"store_id":storeId});
@@ -169,6 +194,8 @@ Page({
     // 页面渲染完成
   },
   onShow: function () {
+    var uid = this.data.uid;
+    this.getAddress(uid);
     // 页面显示
    // this._prepare(_prodId, skuid, quantity, groupbuyId);
   },

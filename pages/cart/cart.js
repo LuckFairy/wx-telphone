@@ -204,43 +204,41 @@ Page({
     var params ={
       store_id,
       uid
-    }
-    app.api.postApi('wxapp.php?c=cart&a=number', { params }, (err, resp) => {
-      if (err) {
-        return;
-      }
-      if (resp) {
-        if (resp.err_msg == 1) {
-          // 有商品
-          that.loadList(params);
-          that.setData({
-            hasShop: 1,
-            cartSHow:true
-          })
-        } else {
-          // 无商品
-          that.setData({
-            hasShop: 0,
-            cartSHow:false
-          })
-        }
-      }
-
-    });
+    };
+    that.loadList(params);
+    
+    // app.api.postApi('wxapp.php?c=cart&a=number', { params }, (err, resp) => {
+    //   if (err) {
+    //     return;
+    //   }
+    //   if (resp) {
+    //     if (resp.err_msg == 1) {
+    //       // 有商品
+    //       that.setData({
+    //         hasShop: 1,
+    //         cartSHow:true
+    //       })
+    //     } else {
+    //       // 无商品
+    //       that.setData({
+    //         hasShop: 0,
+    //         cartSHow:false
+    //       })
+    //     }
+    //   }
+    // });
     
   },
   onShow: function () {
    var that = this;
    var hasShop = that.data.hasShop;//有无商品
-   if(hasShop == 1){//有商品的时候加载
+ 
       var store_id = that.data.store_id;
       var uid = that.data.uid;
       var params = {
         store_id, uid
       }
-      //that.refreshList(params);
-      
-   }
+      that.loadList(params);
   },
   onHide: function () {
 
@@ -285,13 +283,17 @@ Page({
         }
         var selectedAllStatus = that.data.selectedAllStatus;
         var cartSHow = that.cartSHow;
+        var hasShop = that.hasShop;
         if (cart_list.length <=0){
+          hasShop = 0;
           cartSHow = false;
         }else{
+          hasShop = 1;
           cartSHow = true;
         };
         that.setData({
           cart_list,
+          hasShop,
           selectedAllStatus,
           cartSHow
         });

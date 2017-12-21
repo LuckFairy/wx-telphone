@@ -33,7 +33,7 @@ Page({
       }
       if (resp.err_code == 0) {
         console.log(resp.err_msg, 'resp.err_msg列表');
-        var addrList = resp.err_msg;
+        var addrList = resp.err_msg.addresslist;
         that.setData({
           addrList
         })

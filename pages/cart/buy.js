@@ -81,48 +81,63 @@ Page({
     payType: 'weixin'
   },
   /*
-  *地址详情列表
-  */
-  getAddress() {
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    this.setData({ uid });
+ *地址详情列表
+ */
+  getAddress(uid) {
     var url = 'wxapp.php?c=address&a=MyAddress';
     var that = this;
+    var address = that.data.address;
+
     app.api.postApi(url, { "params": { uid } }, (err, rep) => {
       if (!err && rep.err_code == 0) {
-        if (rep.err_msg && err_msg.length > 0){
-          this.setData({
-            "addressList": rep.err_msg,
-            "addressId": rep.err_msg[0].address_id,
-            "fullname": rep.err_msg[0].name,
-            "shippingTelephone": rep.err_msg[0].tel,
-            "areaText": rep.err_msg[0].area_txt,
-            "location": rep.err_msg[0].province_txt + rep.err_msg[0].city_txt + rep.err_msg[0].area_txt + rep.err_msg[0].address,
-          });
-          //设置默认地址
-          for (var i in rep.err_msg) {
-            if (rep.err_msg[i].default == 1) {
-              this.setData({
-                address: rep.err_msg[i]
-              })
+        var addressList = rep.err_msg.addresslist;
+        if (addressList.length) {
+          if (addressList.length > 0) {
+            //设置默认地址
+            for (var i in addressList) {
+              if (addressList[i].default == 1) {
+                address = addressList[i];
+              } else {
+                address = addressList[0];
+              }
             }
-          };
+            this.setData({
+              "address": address,
+              "addressList": addressList,
+              "addressId": addressList[0].address_id
+            });
+          }
+        } else {
+          wx.showModal({
+            title: '请先设置收货地址',
+            content: '你还没有设置收货地址，请点击这里设置！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: './address-list',
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
         }
-        
+
       }
     });
-    console.log('this.address ',this.address);
-    
+
   },
+
   
   onLoad: function (options) {
     //单商品生成订单
       var order_no = options.order_no;
       this.setData({ order_no: order_no  });
-  
-
+      Api.signin();//获取以及存储openid、uid
+      // 获取uid
+      var uid = wx.getStorageSync('userUid');
+      this.setData({ uid });
+      this.getAddress(uid);
 
     
     //console.log('传递过来的订单号是=' + order_no);return;  
@@ -136,6 +151,8 @@ Page({
     // 页面渲染完成
   },
   onShow: function () {
+    var uid = this.data.uid;
+    this.getAddress(uid);
     // 页面显示
     //this._prepare(_prodId, skuid, quantity, cartId);
   
@@ -169,7 +186,7 @@ Page({
         var products = resp.err_msg.orderdata.product; //购物车的商品
         var sub_total = resp.err_msg.orderdata.sub_total; //商品金额
         var postage_int = resp.err_msg.orderdata.postage_int; //运费
-        var lastPay = "￥"+ resp.err_msg.orderdata.last_pay;//实付款
+        var lastPay = "￥" + (resp.err_msg.orderdata.sub_total - resp.err_msg.orderdata.postage_int).toFixed(2);//实付款
         
         this.setData({ products: products, postage_int, sub_total, lastPay});
       }
