@@ -32,6 +32,10 @@ Page({
       showhide:true,
       cat_list:'',
       shopId: store_Id.shopid,//店铺id
+      //2017年12月21日18:50:42 by leo
+      card_num:0,
+      uid:'',
+      storeId: store_Id.shopid,
   },
 
   /**
@@ -42,7 +46,8 @@ Page({
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
-    console.log(uid,'3333')
+    console.log(uid,'用户uid')
+    this.setData({ uid});
     // 获取宝宝5个tab的数据
     app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
       wx.hideLoading();
@@ -70,6 +75,8 @@ Page({
     this.loadGoodsData();
     this.loadFestivalData();
     // this._prepare();    // 等待登录才开始加载数据
+
+    this.loadMyCardNumData(); //我的卡包数量
   },
   goCardLists(){
     wx.navigateTo({
@@ -376,7 +383,21 @@ Page({
     this.getProductData('105');
   },
 
-
+  loadMyCardNumData: function () {
+    wx.showLoading({ title: '加载中' });
+    var params = {
+      uid: this.data.uid,
+      store_id: this.data.storeId,
+    }
+    console.log('my_card_num 接口参数',params);
+    app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {  
+      wx.hideLoading();
+      if (err) return;
+      var card_num = response.err_msg.card_num;
+      console.log('卡包的数量', card_num);
+      this.setData({ card_num });
+    });
+  },
 
   /**
  * 首页热门推荐数据

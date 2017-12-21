@@ -25,7 +25,7 @@ Page({
     ex_image: '',
     use_image: '',
     showHide: true,
-    typeText: '线下券',
+    typeText: '门店券',
     category: 3,
     selectCardone: 0,
     selectCardtwo: 0,
@@ -66,7 +66,7 @@ Page({
       that.loadData3(that);
     } else if (indexSelect == 1) {
       this.setData({
-        typeText: '线下券',
+        typeText: '门店券',
         showHide: true,
         category: 3,
         pagesone: 1,
@@ -76,7 +76,7 @@ Page({
         selectCardtwo: 1,
         selectCardthree: 1 // 判断是否切换
       });
-      console.log(that.data.normal.length, '是否点击线下券normal数据')
+      console.log(that.data.normal.length, '是否点击门店券normal数据')
       that.loadData1(that);
       that.loadData2(that);
       that.loadData3(that);
@@ -204,6 +204,7 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
+    console.log('loadData1');
     var selectCardone = that.data.selectCardone;//0/1之间判断切换
     console.log('判断是否切换线上线下1为已经切换', selectCardone)
     var msgList = that.data.msgList;//空数组
@@ -249,6 +250,7 @@ Page({
     });
   },
   loadData2: function (that) {
+    console.log('loadData2');
     var selectCardtwo = that.data.selectCardtwo;
     var expiredMsg = that.data.expiredMsg;//空数组
     if (selectCardtwo == 1) {
@@ -281,6 +283,7 @@ Page({
     });
   },
   loadData3: function (that) {
+    console.log('loadData3');
     var selectCardthree = that.data.selectCardthree;
     var usedMsg = that.data.usedMsg;
     if (selectCardthree == 1) {
@@ -320,7 +323,7 @@ Page({
     var id = e.currentTarget.dataset.id;
     var _type = e.currentTarget.dataset.type;
     if (_type == 3) {
-      // 线下券
+      // 门店券
       wx.navigateTo({
         url: './card_summary?id=' + id + '&distinguish=' + distinguish
       })

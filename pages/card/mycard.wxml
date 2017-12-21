@@ -24,7 +24,7 @@
     </view>
     <view class='wait-choose' hidden='{{showHide}}' bindtap='goChooseCard'>
       <text class='online-card online-offline' data-select='0'>线上券</text>
-      <text class='offline-card online-offline'  data-select='1'>线下券</text>
+      <text class='offline-card online-offline'  data-select='1'>门店券</text>
     </view>
   </view>  
  </view>
@@ -41,7 +41,7 @@
                             <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
                             <view class="card-title-text">{{card.cname}}</view>
                         </view>
-                        <view class="card-info-text-normal">满{{card.limit_money}}方可使用</view>
+                        <view class="card-info-text-normal" style='display:none'>满{{card.limit_money}}方可使用</view>
                         <view class="card-info-text-small">有效期:{{card.start_time_str}}至{{card.end_time_str}}</view>
                         <view class="card-info-text-small">优惠券编码: {{card.card_no}}</view>
                     </navigator>
@@ -77,7 +77,7 @@
                         <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
                         <view class="card-title-text">{{card.cname}}</view>
                         </view>
-                        <view class="card-info-text-normal">满{{card.limit_money}}方可使用</view>
+                        <view class="card-info-text-normal"  style='display:none'>满{{card.limit_money}}方可使用</view>
                         <view class="card-info-text-small">有效期: {{card.start_time_str}}至{{card.end_time_str}}</view>
                     </navigator>
                     <view class="card-item-right card-bg-disable">
@@ -110,7 +110,7 @@
                         <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
                         <view class="card-title-text">{{card.cname}}</view>
                         </view>
-                        <view class="card-info-text-normal">满{{card.limit_money}}方可使用</view>
+                        <view class="card-info-text-normal"  style='display:none'>满{{card.limit_money}}方可使用</view>
                         <view class="card-info-text-small">有效期: {{card.start_time_str}}至{{card.end_time_str}}</view>
                     </navigator>
                     

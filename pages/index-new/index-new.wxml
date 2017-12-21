@@ -80,7 +80,7 @@
            
       </view>
        <text class='card_text_3'>
-              <text class='card_text_3_red'>3</text>张未使用
+              <text class='card_text_3_red'>{{card_num}}</text>张未使用
         </text>
 
        <view>

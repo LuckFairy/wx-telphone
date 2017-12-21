@@ -681,9 +681,9 @@ Page({
 
   //购物车为空，去下单
   goToHotSale() {
-    wx.navigateTo({
-      url: '../index-new/index-new'
-    });
+    console.log('购物车为空，去下单');
+    wx.reLaunch({ url: '../index-new/index-new' });
+
   },
 
   //分享功能
