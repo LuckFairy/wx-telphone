@@ -451,6 +451,10 @@ Page({
    */
   confirmDeliver(event) {
     let orderId = event.currentTarget.dataset.orderId;
+    let uid= this.data.uid;
+
+    console.log('确认收货订单号和用户id',orderId,uid);//return;
+
     wx.showModal({
       title: '确认收货',
       // content: `确认您的订单[${orderId}]已收到货了？`,
@@ -461,7 +465,7 @@ Page({
       confirmText: '确定收货',
       success: (res) => {
         if (res.confirm) {
-          this._doConfirmDeliver(orderId);
+          this._doConfirmDeliver(orderId, uid);
         }
       },
     });
@@ -471,24 +475,23 @@ Page({
       currentTab: e.currentTarget.dataset.current
     })
   },
-  _doConfirmDeliver(orderId) {
-    let url = 'order/complete/' + orderId;
+  _doConfirmDeliver(orderId, uid) {
+
     wx.showLoading({ title: '请稍候...', mask: true, });
-    app.api.fetchApi(url, (err, resp) => {
+    app.api.postApi('wxapp.php?c=order&a=receive', { "params": { "uid": uid, "order_no": orderId } }, (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('网络出错，请稍候重试');;
       }
-
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
+      let rtnMessage = resp.err_msg.err_log;
+      if (resp.err_code != 0) {
         return this._showError(rtnMessage);
       }
-
       // 跳转到已收货页面
       this.setData({ curSwiperIdx: 2, curActIndex: 2 });
       // 刷新订单数据
       this._loadOrderData();
+
     });
   },
 
@@ -497,7 +500,9 @@ Page({
    */
   delOrder: function (event) {
     let orderId = event.currentTarget.dataset.orderId;
-    console.log("event ",event);
+    let uid=this.data.uid;
+
+   // console.log("请求的参数", orderId, uid); return;
     wx.showModal({
       title: '删除订单',
       // content: "确定要删除该宝贝吗？\r\n还差一步\r\n宝贝就可以直接带回家了哦\r\n\r\n",
@@ -505,30 +510,25 @@ Page({
       success: (res) => {
         if (res.confirm) {
           
-          this._doDelOrder(orderId);
+          this._doDelOrder(orderId, uid);
         }
       }
     });
   },
 
-  _doDelOrder(orderId) {
-    let url = 'order/cancel/' + orderId;
+  _doDelOrder(orderId, uid) {
     wx.showLoading({ title: '请稍候...', mask: true, });
-    app.api.fetchApi(url, (err, resp) => {
+    app.api.postApi('wxapp.php?c=order_v2&a=cancel', { "params": { "uid": uid, "order_no": orderId } }, (err, resp) => {
       wx.hideLoading();
-      if (err) {
-        return this._showError('网络出错，请稍候重试');;
-      }
-
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);;
+      if (err || resp.err_code != 0) {
+        return;
       }
 
       // 刷新订单数据
       this._loadOrderData(() => {
         wx.showToast({ title: "删除订单成功！", icon: "success", duration: 1000 });
       });
+
     });
   },
 

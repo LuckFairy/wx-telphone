@@ -107,8 +107,11 @@
     </view>
     <view class='invite-car invite-total' bindtap='goCart'>
       <image class='invite-car-img' src='../../image/shop-cart2.png'></image>
+
+      <!-- <text class='invite-car-num' wx:if="{{newCartNum}}">{{newCartNum}}</text>
+      <text class='invite-car-num' wx:else>{{data.cartcount}}</text> -->
       <text class='invite-car-num' >{{newCartNum}}</text>
-      <!-- <text class='invite-car-num' wx:else>{{cartNum}}</text> -->
+
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}'>
