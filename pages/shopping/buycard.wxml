@@ -2,13 +2,10 @@
   <!-- 头部导航条 -->
   <view class="nav-header-view">
     <view data-status='0' class="header-col-view {{curActIndex == '0' ? 'show-border-bottom' : '' }}" data-idx='0' bindtap="swichSwiperItem">
-      <text data-idx='0' >待使用</text>
+      <text data-idx='0' >可用优惠券({{normal_coupon_count}})</text>
     </view>
     <view data-status='1' class="header-col-view {{curActIndex == '1' ? 'show-border-bottom' : '' }}" data-idx='1' bindtap="swichSwiperItem">
-      <text data-idx='1'  >已过期</text>
-    </view>
-    <view data-status='2' class="header-col-view {{curActIndex == '2' ? 'show-border-bottom' : '' }}" data-idx='2' bindtap="swichSwiperItem">
-      <text data-idx='2'  >已使用</text>
+      <text data-idx='1'  >不可用优惠券({{unnormal_coupon_count}})</text>
     </view>
   </view>
 
@@ -17,23 +14,24 @@
     <swiper-item>
       <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadone'  lower-threshold='0' scroll-top="{{scrollTop}}">
           <view wx:if="{{normal && normal.length}}" class="card-list-view">
-            <block wx:for="{{normal}}" wx:for-item="card" wx:key="{{card.cardId}}">
+            <block wx:for="{{normal}}" wx:for-item="card" wx:key="{{card.id}}">
                 <!--正常活动卡券-->
                 <view class="card-item-view" >
-                    <navigator class="card-item-left" style="display:flex;" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' catchtap="gotoDetail" bindlongtap="deleteCard">
+                    <navigator class="card-item-left" style="display:flex;" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' >
                         <view class="card-item-title-view">
                             <image src="{{card.mchImgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
-                            <view class="card-title-text">{{card.cardName}}</view>
+                            <view class="card-title-text">{{card.cname}}</view>
                         </view>
-                        <view class="card-info-text-normal">{{card.cardMoney}}</view>
-                        <view class="card-info-text-small">有效期: {{card.cardValidity}}</view>
-                        <view class="card-info-text-small" wx:if="{{card.efstockDtlCode}}">优惠券编码: {{card.stockDtlCode}}</view>
+                        <view class="card-info-text-normal" style='display:none'>{{card.face_money}}</view>
+                        <view class="card-info-text-small">券id: {{card.id}}</view>
+                        <view class="card-info-text-small">有效期: {{card.start_time_str}}-{{card.end_time_str}}</view>
+                        
                     </navigator>
                     
-                    <view class="card-item-right card-bg-available" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' catchtap="gotoDetail" bindlongtap="deleteCard">
+                    <view class="card-item-right card-bg-available" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' >
                         <view class="card-item-value">
                           <text style="font-size:25rpx;">￥</text>
-                          <text>{{card.value/100}}</text>
+                          <text>{{card.face_money/100}}</text>
                         </view>
                         <view class="card-item-btn-view" >
                             <text style="text-align:right;" data-qr-image-url="{{card.qrUrl}}" >立即使用</text>
@@ -60,15 +58,15 @@
                     <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.recId}}" bindlongtap="deleteCard">
                         <view class="card-item-title-view">
                         <image src="{{card.mchImgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
-                        <view class="card-title-text">{{card.cardName}}</view>
+                        <view class="card-title-text">{{card.cname}}</view>
                         </view>
-                        <view class="card-info-text-normal">{{card.cardMoney}}</view>
-                        <view class="card-info-text-small">有效期: {{card.cardValidity}}</view>
+                        <view class="card-info-text-small">券id: {{card.id}}</view>
+                        <view class="card-info-text-small">有效期: {{card.start_time_str}}-{{card.end_time_str}}</view>
                     </navigator>
                     
                     <view class="card-item-right card-bg-disable">
                         <view class="card-item-value">
-                        <text style="font-size:25rpx;">￥</text><text>{{card.value/100}}</text>
+                        <text style="font-size:25rpx;">￥</text><text>{{card.face_money/100}}</text>
                         </view>
                         <view class="card-item-btn-view">
                             <text style="text-align:right;">已过期</text>

@@ -15,7 +15,10 @@ Page({
     pagesone: 1,
     pagestwo: 1,
     pagesthree:1,
-    dataStatus:0
+    dataStatus:0,
+    //2017年12月22日16:50:36
+    normal_coupon_count:0, //可用优惠券数量
+    unnormal_coupon_count: 0 //不可用优惠券数量
   },
   pullUpLoadone(e) {
     wx.showLoading({
@@ -83,15 +86,17 @@ Page({
         })  
       }
     })
-    that.loadData1(that);
-    that.loadData2(that);
-    that.loadData3(that);
+    that.loadCouponData();
+    //that.loadData1(that);
+    //that.loadData2(that);
+    //that.loadData3(that);
 
     var userOpenid = wx.getStorageSync("userOpenid");
+    var uid = wx.getStorageSync('userUid');
     if (!userOpenid){
       that.loadData1(that);
-      that.loadData2(that);
-      that.loadData3(that);
+      //that.loadData2(that);
+      //that.loadData3(that);
     }
 
   },
@@ -142,30 +147,109 @@ Page({
     });
   },
   //加载页面数据
+
   loadData1: function (that){
+    var that = this;
+    wx.showLoading({
+      title: '加载中'
+    })
+    var params = {
+      "uid": 91,
+      "store_id": 6,
+      "product_id": 23,
+      "total_price": "79"
+    };
+
+    console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
     var allMsg = that.data.msgList;
     var pagesone = that.data.pagesone;
-    console.log(pagesone,"111111111111111111111111111111111111111111111")
-    var userOpenid = wx.getStorageSync("userOpenid");
-    app.api.postApi('card/my_newer', { page: pagesone, perPage: 10, dataStatus: 0, userOpenid: userOpenid}, (err, response) => {
-      if (err) return;
-      var rtnCode = response.rtnCode;
-      var normalList = response.data.normal;
-      if (rtnCode != 0) return;
-      for (var j = 0; j < normalList.length; j++) {
-        allMsg.push(normalList[j]);
-      }
-      //更新数据
-      that.setData({
-        loading: false,
-        normal: allMsg
-      });
+    var url = 'wxapp.php?c=coupon&a=store_coupon_use';
+    app.api.postApi(url, { params }, (err, resp) => {
       wx.hideLoading();
-    }); 
+      
+      if (resp) {
+        
+        if (resp.err_code == 0) {
+          console.log('resp.err_code == 0');
+          if (resp.err_msg.coupon_list) {
+            console.log('resp.err_msg.coupon_list存在');
+
+            var normalList = resp.err_msg.coupon_list['normal_coupon_list'];
+              console.log('normalList', normalList);
+              for (var j = 0; j < normalList.length; j++) {
+                allMsg.push(normalList[j]);
+              }
+              //更新数据
+              that.setData({
+                loading: false,
+                normal: allMsg,
+                normal_coupon_count: resp.err_msg.normal_coupon_count,
+                unnormal_coupon_count: resp.err_msg.unnormal_coupon_count
+              });
+              
+          }
+        } else {
+          console.log('resp.err_code ！= 0');
+          return;
+        }
+
+      }
+      console.log('normal', this.data.normal);
+    });  
   },
     loadData2: function (that) {
+      var that = this;
+      wx.showLoading({
+        title: '加载中'
+      })
+      var params = {
+        "uid": 91,
+        "store_id": 6,
+        "product_id": 23,
+        "total_price": "79"
+      };
+
+      console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
       var expiredMsg = that.data.expiredMsg;
       var pagestwo = that.data.pagestwo;
+      var url = 'wxapp.php?c=coupon&a=store_coupon_use';
+      app.api.postApi(url, { params }, (err, resp) => {
+        wx.hideLoading();
+
+        if (resp) {
+
+          if (resp.err_code == 0) {
+            console.log('resp.err_code == 0');
+            if (resp.err_msg.coupon_list) {
+              console.log('resp.err_msg.coupon_list存在');
+
+              var normalList = resp.err_msg.coupon_list['normal_coupon_list'];
+              console.log('normalList', normalList);
+              for (var j = 0; j < normalList.length; j++) {
+                allMsg.push(normalList[j]);
+              }
+              //更新数据
+              that.setData({
+                loading: false,
+                normal: allMsg,
+                normal_coupon_count: resp.err_msg.normal_coupon_count,
+                unnormal_coupon_count: resp.err_msg.unnormal_coupon_count
+              });
+
+            }
+          } else {
+            console.log('resp.err_code ！= 0');
+            return;
+          }
+
+        }
+        console.log('normal', this.data.normal);
+      }); 
+
+
+
+
+
       console.log(pagestwo, "2222222222222222222222222222222222222222222222")
       var userOpenid = wx.getStorageSync("userOpenid");
       app.api.postApi('card/my_newer', { page: pagestwo, perPage: 10, dataStatus: 1, userOpenid: userOpenid}, (err, response) => {
@@ -345,7 +429,54 @@ Page({
     //     console.log(res.errMsg)
     //   }
     // });
-  }
+  },
+  loadCouponData: function (that) {
+    var that = this;
+    wx.showLoading({
+      title: '加载中'
+    })
+    var params = {
+      "uid": 91,
+      "store_id": 6,
+      "product_id": 23,
+      "total_price": "79"
+    };
 
+    console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
+
+    var url = 'wxapp.php?c=coupon&a=store_coupon_use';
+    app.api.postApi(url, { params }, (err, resp) => {
+      wx.hideLoading();
+
+      if (resp) {
+
+        if (resp.err_code == 0) {
+          console.log('resp.err_code == 0');
+          if (resp.err_msg.coupon_list) {
+            console.log('resp.err_msg.coupon_list存在');
+
+            var normal = resp.err_msg.coupon_list['normal_coupon_list'];
+            var expired = resp.err_msg.coupon_list['unnormal_coupon_list'];
+            
+
+            //更新数据
+            that.setData({
+              loading: false,
+              normal: normal,
+              expired: expired,
+              normal_coupon_count: resp.err_msg.normal_coupon_count,
+              unnormal_coupon_count: resp.err_msg.unnormal_coupon_count
+            });
+
+          }
+        } else {          
+          return;
+        }
+
+      }
+      console.log('normal', this.data.normal);
+      console.log('expired', this.data.expired);
+    });
+  }
 
 })

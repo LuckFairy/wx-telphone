@@ -800,5 +800,11 @@ Page({
     let { idx: curActIndex, method } = e.currentTarget.dataset;
     this.setData({ curActIndex });
     this.setShippingMethod(method);
-  }
+  },
+  //2017年12月22日15:58:39 选择优惠券
+  changeCoupon: function (event) {
+    wx.redirectTo({
+      url: './buycard'
+    });
+  },
 })
