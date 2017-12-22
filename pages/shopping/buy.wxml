@@ -182,6 +182,7 @@
     <text class="navigator specialRedText areaButton" catchtap="hideAreaPickerView" style="z-index: 100000000;">确定</text>
   </view>
 </view>
+<!--优惠券选择  -->
  <view class='discount' bindtap='changeCoupon'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
@@ -191,6 +192,7 @@
     <image class='discount-go' src='../../image/address-go.png'></image>
   </view>
 </view> 
+<!--优惠券选择结束  -->
 <view class="item-split-line"></view>
 <view class='discount discount-list'>
   <text class='discount-text'>商品金额</text>
