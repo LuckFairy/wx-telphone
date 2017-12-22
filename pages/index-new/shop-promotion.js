@@ -49,8 +49,9 @@ Page({
   goDetail(e){
     var id = e.currentTarget.dataset.id;
     var source = e.currentTarget.dataset.source;
+    var activityId = e.currentTarget.dataset.activityId;
     wx.navigateTo({
-      url: '../card/card_summary?id=' + id + '&source=' + source
+      url: '../card/card_summary?id=' + id + '&source=' + source + '&activityId=' + activityId
     })
   },
 

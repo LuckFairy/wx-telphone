@@ -97,7 +97,7 @@ Page({
       var that = this;
       var store_id = store_Id.store_Id();
       var uid = wx.getStorageSync('userUid');
-      var activityId = e.currentTarget.dataset.activityId;
+      var activityId = e.currentTarget.dataset.activityid;
       var id = e.currentTarget.dataset.id;
       var params = {
         activityId,
@@ -105,6 +105,7 @@ Page({
         store_id,
         uid
       }
+      //console.log('获取优惠券的请求参数', params);return;
       // 小猪新数据
       app.api.postApi('wxapp.php?c=coupon&a=get_coupon', { params }, (err, resp) => {
         wx.hideLoading();
