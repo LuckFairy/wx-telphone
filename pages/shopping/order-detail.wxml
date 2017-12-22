@@ -2,7 +2,7 @@
   <view class="order-no-view">
     <view class='order-list-wrap'>
       <view class="mText order-number-one">订单号：{{orderData.order_no}}</view>
-      <view class="mText order-number-two grayText">订单状态：{{orderData.status_str}}</view>
+      <view class="mText order-number-two grayText">{{orderData.status_str}}</view>
       <!-- <view class="mText order-number-two grayText">{{orderData.histories[orderData.histories.length - 1].status}}</view> -->
       <!-- <view class="mText order-number-two grayText">{{orderData.histories[orderData.histories.length - 1].status}}</view> -->
     </view>
@@ -10,41 +10,41 @@
   <!-- //快递到达某地   -->
   <!-- <view wx:if="{{kuaidiData}}" bindtap="pushToKuaiDi" class="express-sts-view mText navigator">{{kuaidiData[kuaidiData.length - 1].acceptstation}}</view> -->
 
-  <view class="order-info-view item-area">
+  <view class="order-info-view item-area" style='margin-top:0;'>
     <view class="name-phone-view">
       <view class="mText address-order-list">
         <image class='address-image' src='../../image/address-image.png'></image>
         收货人：{{orderData.address_user}}
       </view>
-      <view wx:if="{{orderData.address_tel}}" class="mText address-order-list">{{orderData.address_tel}}</view>
+      <view wx:if="{{orderData.address_tel}}" class="mText address-order-list">{{userTel}}</view>
     </view>
-    <view wx:if="{{orderData.address}}" class="addr-view">{{orderData.address.province}}{{orderData.address.city}}{{orderData.address.area}}{{orderData.address.address}}{orderData.address.address_id}}</view>
+    <view wx:if="{{orderData.address}}" class="addr-view">{{orderData.address.province}}{{orderData.address.city}}{{orderData.address.area}}{{orderData.address.address}}{{orderData.address.address_id}}</view>
   </view>
- <!--商品列表开始  -->
-<view wx:for="{{orderData.product}}" wx:key="{{index}}" class="goods-info-block">
-  <view  class="goods-info-view">
-    <image src="{{item.image}}" class="goods-img"></image>
-    <view class="goods-name-view-wrap">
-      <text class='goods-title-name'>{{item.name}}</text>
-      <view class='goods-size-name' wx:if="{{item.sku_data}}"  >
-        <text wx:if="{{item.sku_data[0].name}}" class='goods-color-name'>颜色：{{item.sku_data[0].name}}</text>
-        <text wx:if="{{item.sku_data[0].value}}" class='goods-footage-name'>尺码：{{item.sku_data[0].value}}</text>
+  <!--商品列表开始  -->
+  <view wx:for="{{orderData.product}}" wx:key="{{index}}" class="goods-info-block">
+    <view class="goods-info-view">
+      <image src="{{item.image}}" class="goods-img"></image>
+      <view class="goods-name-view-wrap">
+        <text class='goods-title-name'>{{item.name}}</text>
+        <view class='goods-size-name'>
+          <text wx:if="{{item.sku_data[0].name}}" class='goods-color-name'>颜色：{{item.sku_data[0].name}}</text>
+          <text wx:if="{{item.sku_data[0].value}}" class='goods-footage-name'>尺码：{{item.sku_data[0].value}}</text>
 
+        </view>
+        <view class='goods-price-number'>
+          <text class='goods-price'>￥{{item.pro_price}}</text>
+          <text class='goods-number'>X{{item.pro_num}}</text>
+        </view>
       </view>
-      <view class='goods-price-number'>
-        <text class='goods-price'>￥{{item.pro_price}}</text>
-        <text class='goods-number'>X{{item.pro_num}}</text>
-      </view>
+
     </view>
-
-  </view>
-   <!-- return_id 是否申请售后：-1参数错误，0已申请，1未申请 -->
-    <view  bindtap='goSales' data-order-id="{{order_no}}" data-order-product-id='{{item.pigcms_id}}' class="yellow-btn-view">
+    <!-- return_id 是否申请售后：-1参数错误，0已申请，1未申请 -->
+    <view bindtap='goSales' data-order-id="{{order_no}}" data-order-product-id='{{item.pigcms_id}}' class="yellow-btn-view">
       <text wx:if="{{item.return_id==1}}" class="yellow-btn">申请售后</text>
-      <text  wx:if="{{item.return_id==0}}" class="yellow-btn">查看售后</text>
+      <text wx:if="{{item.return_id==0}}" class="yellow-btn">查看售后</text>
     </view>
-    
-</view>
+
+  </view>
 
   <!--商品列表结束  -->
   <view class="price-view">
@@ -52,26 +52,30 @@
       <view class="mText grayText">商品总价</view>
       <view class="mText">￥{{orderData.sub_total}}</view>
     </view>
-  </view>
-  <view class="pending-pay-view">
-    <view style="flex-direction:row;justify-content:space-between;width:100%;">
-      <view class="mText">需付款</view>
-      <view class="titleText specialRedText">￥{{orderData.last_pay || 0}}</view>
+    <view class="pending-pay-view">
+      <view style="flex-direction:row;justify-content:space-between;width:100%;">
+        <view class="mText">需付款</view>
+        <view class="titleText specialRedText">￥{{orderData.last_pay || 0}}</view>
+      </view>
+      <view class="order-time-view xmText grayText">下单时间：{{orderData.add_time_str}}</view>
     </view>
-    <view class="order-time-view xmText grayText">下单时间：{{orderData.add_time_str}}</view>
   </view>
 
 
+
+</view>
+<view>
+    
   <!-- orderType -->
   <view wx:if="{{(orderData.status === '2' || orderData.status === '3' || orderData.status === '4')}}" class="bottom-btn-view mText">
 
     <!-- <text wx:if='{{rtnCode!=-1}}' class="yellow-btn" style="background-color:white;border:1rpx solid #C0C0C0;margin-right:24rpx;" bindtap='searchSales' data-order-id='{{orderId}}' data-product-id='{{productId}}' data-rtn-code='{{rtnCode}}'>查看售后</text>-->
     <!-- <text class="yellow-btn" style="background-color:white;border:1rpx solid #C0C0C0;margin-right:30rpx;" bindtap='timesBuy'>再次购买</text> -->
     <text class="yellow-btn" data-product-id='{{productId}}' data-order-id='{{orderId}}'>查看物流</text>
-    <text wx:if='{{orderData.status != "7"}}' class="yellow-btn" data-product-id='{{productId}}' data-order-id='{{orderId}}'>确认收货</text>
+    <text wx:if='{{orderData.status != "7"}}' class="yellow-btn" data-product-id='{{productId}}' data-order-id='{{orderId}}' style='background:#fae53b'>确认收货</text>
   </view>
 
   <view catchtap="pay" data-order-id="{{order_no}}" wx:if="{{orderData.status === '1'}}" class="bottom-btn-view mText">
-    <text class="yellow-btn">确认支付</text>
+    <text class="yellow-btn" style='background:#fae53b'>确认支付</text>
   </view>
-</view>
+</view> 

@@ -205,6 +205,10 @@ page {
 }
 
 /*修改2017-12-21  */
+/*内容框  */
+.containner{
+ 
+}
 .yellow-btn-view{
   margin:0;
   background-color: #fff;
@@ -221,4 +225,43 @@ page {
 }
 .goods-info-block{
   background: #fff;
+  margin-bottom: 20rpx;
+}
+/*收货地址  */
+.item-area{
+  margin-bottom: 20rpx;
+}
+/*价格区域 */
+.price-view{
+  margin-top: 0;
+  margin-bottom: 138rpx;
+}
+/*底部按钮区域  */
+.bottom-btn-view {
+  height: 98rpx;
+  background: #fff;
+  padding:0 24rpx;
+  border-top: 1rpx solid #efefef;
+}
+.yellow-btn{
+  font-size: 28rpx;
+  padding:16rpx 25rpx;
+  margin: 19rpx 0;
+  background: #fff;
+  border-radius: 8rpx;
+}
+.yellow-btn:first-child{
+  margin-right: 30rpx;
+}
+/*商品列表按钮  */
+.yellow-btn-view{
+  height: 80rpx;
+
+}
+.yellow-btn-view .yellow-btn{
+  margin:10rpx 0;
+}
+/*地址  */
+.addr-view{
+  
 }

@@ -752,6 +752,12 @@ display: -webkit-box;
 .scroll-lists-back{
   margin-bottom: 80rpx;
 }
-/*有数据时  */
-/*  */
-/*退换售后结束  */
+
+/*无数据区域  */
+.no-data-image{
+  width: 164rpx;
+  margin-bottom: 38rpx;
+}
+.no-data-text{
+  color:rgb(27, 27, 27);
+}

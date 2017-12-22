@@ -182,13 +182,13 @@
     <text class="navigator specialRedText areaButton" catchtap="hideAreaPickerView" style="z-index: 100000000;">确定</text>
   </view>
 </view>
-<!-- <view class='discount'>
+ <view class='discount'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
     <text class='discount-ticket'>无可用</text>
     <image class='discount-go' src='../../image/address-go.png'></image>
   </view>
-</view> -->
+</view> 
 <view class="item-split-line"></view>
 <view class='discount discount-list'>
   <text class='discount-text'>商品金额</text>

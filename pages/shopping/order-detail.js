@@ -23,7 +23,8 @@ Page({
     postage_list: "",
     user_coupon_id: 0,
     is_app: false,
-    payType: 'weixin'        
+    payType: 'weixin',
+    userTel:'',//收货人电话号码        
   },
   onLoad:function(options){
     var that = this;
@@ -307,7 +308,7 @@ Page({
         
       }
       if(!err && rep.err_code==0){
-  
+        var tel = rep.err_msg.orderdata.address_tel.substring(0, 3) + "****" + rep.err_msg.orderdata.address_tel.substring(8, 11);
         self.setData({
           orderData: rep.err_msg.orderdata,
           orderTime: formatTime(rep.err_msg.orderdata.add_time),
@@ -316,7 +317,8 @@ Page({
           postage_list: rep.err_msg.orderdata.postage,
           order_no: rep.err_msg.orderdata.order_no,
           shipping_method: rep.err_msg.orderdata.shipping_method,
-          user_coupon_id: rep.err_msg.orderdata.user_coupon_id
+          user_coupon_id: rep.err_msg.orderdata.user_coupon_id,
+          userTel: tel
         });
         
       }

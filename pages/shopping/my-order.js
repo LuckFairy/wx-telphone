@@ -110,7 +110,7 @@ Page({
     // flag:"",
     // imgName:"",
     // imgUrl:"",
-    // showSale:true,
+     showSale:true,//售后是否无数据，true无，false有
     dataList:[],
     shipping_method: 'express',
     addressId: 0,
@@ -206,17 +206,18 @@ Page({
     console.log('售后数据请求参数', params);
     var url = 'wxapp.php?c=return&a=listOfReturn';
     app.api.postApi(url, { params }, (err, resp) => {
-      console.log('售后数据请求参数', resp.err_msg.return_list);
+      wx.hideLoading();
       if (resp) {
         if (resp.err_code == 0) {
-          wx.hideLoading();
-          var dataList = resp.err_msg.return_list;
-          var dataList = [];
-          dataList.push(resp.err_msg.return_list)
-          that.setData({
-            showSale: false,
-            dataList: dataList
-          })
+          if (resp.err_msg.return_list){
+            if (resp.err_msg.return_list.length > 0){
+              var dataList = resp.err_msg.return_list;
+              that.setData({
+                showSale: false,
+                dataList: dataList
+              })
+            }
+          }
         } else {
           that.setData({
             showSale: true
@@ -224,7 +225,7 @@ Page({
         }
 
       }
-      console.log('售后数据', dataList);
+   
     });
   },
   goDetail(e){
