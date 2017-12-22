@@ -40,7 +40,12 @@
     </view>
   </view>
   <!--商品详情区域结束  -->
-
+  <!-- 商品优惠券区域  is_get 是否可以领取 1可以领取 0不可以领取 -->
+  <view class="goods-detail-view">
+    <view class="detail-img">共{{shopCoupon.coupon_count}}张 </view>
+    <view wx:for="{{shopCoupon.coupon_value}}"  wx:for-index="index" wx:for-item="item2"  class="detail-img">{{item2}}</view>
+    <view wx:for="{{shopCoupon.coupon_list}}"  wx:key="{{list}}"  class="detail-img">{{item.name}}</view>
+  </view>
 
   <view class="goods-detail-view">
     <image wx:for="{{product.info}}" wx:key="{{index}}" src="{{item}}" mode="widthFix" class="detail-img"></image>

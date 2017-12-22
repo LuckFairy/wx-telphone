@@ -50,7 +50,8 @@ Page({
     product_id: '',
     is_add_cart: 1,
     goPayment:false,//立即下单，增加立即下单
-    goAddCard:false
+    goAddCard:false,
+    shopCoupon: [], //线上优惠券
   },
   goStoreServer() {
     wx.navigateTo({
@@ -174,7 +175,19 @@ Page({
         });
       }
     });
-
+    
+    //线上优惠券信息
+    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
+      if (err || resp.err_code != 0) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        console.log('线上优惠券信息', resp.err_msg);
+        that.setData({
+          shopCoupon: resp.err_msg
+        });
+      }
+    });   
 
   },
   onReady: function () {
