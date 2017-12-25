@@ -447,7 +447,7 @@
         </view> -->
         <!--无数据时  -->
         <!--有数据时  -->
-        <block wx:for='{{dataList[0]}}'>
+        <block wx:for='{{dataList}}'>
           <view class='purchase-data-total' wx:if='{{!showSale}}'>
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>服务单号：{{item.order_no}}</text>
