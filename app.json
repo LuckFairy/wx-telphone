@@ -30,7 +30,7 @@
     "pages/shopping/list",
     "pages/shopping/order-express",
     "pages/shopping/order-detail",
-    
+    "pages/shopping/buycard",
     "pages/shopping/buy",
     "pages/store/store-list",
     "pages/store/store-detail",

@@ -18,9 +18,12 @@ Page({
     dataStatus:0,
     //2017年12月22日16:50:36
     normal_coupon_count:0, //可用优惠券数量
-    unnormal_coupon_count: 0 //不可用优惠券数量
+    unnormal_coupon_count: 0, //不可用优惠券数量
+    //2017年12月25日10:43:12
+    c:[],
   },
   pullUpLoadone(e) {
+    return ;//不需要这个东西 2017年12月25日10:01:39 by leo
     wx.showLoading({
       title: '加载中',
     })
@@ -477,6 +480,30 @@ Page({
       console.log('normal', this.data.normal);
       console.log('expired', this.data.expired);
     });
-  }
+  },
+  //选择优惠券
+  selectCoupon(e) {
+    let that = this;
+    let recId = e.currentTarget.dataset.recid;
+    let couponid = e.currentTarget.dataset.couponid;
+    let cname = e.currentTarget.dataset.cname;
+    let face_money = e.currentTarget.dataset.face_money;
+    var couponInfo = [];
+    couponInfo.push(couponid);
+    couponInfo.push(cname);
+    couponInfo.push(face_money);
+
+    // couponInfo['couponid'] = couponid;
+    // couponInfo['cname'] = cname;
+    // couponInfo['face_money'] = face_money;
+    that.setData({
+      couponInfo: couponInfo
+    })
+    console.log('选择的优惠券信息',couponInfo);
+    
+    //wx.setStorageSync('couponInfo', couponInfo);//存储选择的优惠券的信息couponInfo
+    //console.log('88888888', this.data.couponInfo);
+    wx.setStorageSync('couponInfo', this.data.couponInfo)
+  },
 
 })

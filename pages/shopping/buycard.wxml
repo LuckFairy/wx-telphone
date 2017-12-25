@@ -16,8 +16,8 @@
           <view wx:if="{{normal && normal.length}}" class="card-list-view">
             <block wx:for="{{normal}}" wx:for-item="card" wx:key="{{card.id}}">
                 <!--正常活动卡券-->
-                <view class="card-item-view" >
-                    <navigator class="card-item-left" style="display:flex;" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' >
+                <view class="card-item-view" catchtap="selectCoupon" data-recid="{{card.id}}" data-couponid="{{card.coupon_id}}" data-cname="{{card.cname}}" data-face_money="{{card.face_money}}">
+                    <navigator class="card-item-left" style="display:flex;" data-recid="{{card.id}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' >
                         <view class="card-item-title-view">
                             <image src="{{card.mchImgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
                             <view class="card-title-text">{{card.cname}}</view>
@@ -28,7 +28,7 @@
                         
                     </navigator>
                     
-                    <view class="card-item-right card-bg-available" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' >
+                    <view class="card-item-right card-bg-available" data-recid="{{card.id}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' >
                         <view class="card-item-value">
                           <text style="font-size:25rpx;">￥</text>
                           <text>{{card.face_money/100}}</text>
@@ -55,7 +55,7 @@
             <block wx:for="{{expired}}" wx:for-item="card" wx:key="{{card.cardId}}">
                 <!--过期卡券-->
                 <view class="card-item-view">
-                    <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.recId}}" bindlongtap="deleteCard">
+                    <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.id}}" bindlongtap="deleteCard">
                         <view class="card-item-title-view">
                         <image src="{{card.mchImgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
                         <view class="card-title-text">{{card.cname}}</view>
@@ -89,7 +89,7 @@
             <block wx:for="{{used}}" wx:for-item="card" wx:key="{{card.cardId}}">
                 <!--已经使用过的卡券-->
                 <view class="card-item-view" >
-                    <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.recId}}" bindlongtap="deleteCard">
+                    <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.id}}" bindlongtap="deleteCard">
                         <view class="card-item-title-view">
                         <image src="{{card.mchImgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
                         <view class="card-title-text">{{card.cardName}}</view>
