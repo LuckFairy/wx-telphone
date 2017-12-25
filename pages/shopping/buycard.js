@@ -182,6 +182,7 @@ Page({
               for (var j = 0; j < normalList.length; j++) {
                 allMsg.push(normalList[j]);
               }
+              console.log('数据数据', allMsg)
               //更新数据
               that.setData({
                 loading: false,
