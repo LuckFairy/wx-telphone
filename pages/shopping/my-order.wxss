@@ -38,6 +38,7 @@ text {
 
 .nav-header-view {
   width: 750rpx;
+  height:80rpx;
   display: -webkit-box;
   white-space: nowrap;
   overflow: hidden;
@@ -51,6 +52,7 @@ text {
   z-index: 99999999999;
   opacity: 1;
   background: #ffffff;
+  border-bottom:1rpx solid #efefef;
 }
 .scroll-lists{
   margin-top: 80rpx;
@@ -74,7 +76,7 @@ text {
   align-items: center;
   width: 750rpx;
   padding-bottom: 80rpx;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 .order-item-view {
   flex-direction: column;
@@ -231,6 +233,8 @@ text {
   flex-direction: column;
   align-items: center;
   padding-top: 150rpx;
+  padding-bottom:300rpx;
+  background: #fff;
 }
 
 .no-data-image {
@@ -692,10 +696,9 @@ display: -webkit-box;
   font-size: 28rpx;
   color: rgb(169, 169, 169);
 }
-.purchase-color-size{
-  font-size: 24rpx;
-  color: rgb(169, 169, 169);
+.purchase-value{
   margin-left: 32rpx;
+  display: block;
 }
 .purchase-money-list{
   display: flex;
@@ -760,4 +763,25 @@ display: -webkit-box;
 }
 .no-data-text{
   color:rgb(27, 27, 27);
+}
+/*退换售后  */
+.gray{
+  display: inline;
+  font-size:24rpx;
+  color:rgb(169, 169, 169);
+}
+.purchase-price{
+  margin-left:32rpx;
+  text-align: right;
+  color:inherit;
+  font-size: 32rpx;
+  padding-right: 24rpx;
+}
+.purchase-image-text{
+  align-items: center;
+}
+.purchase-value{
+  margin-left: 32rpx;
+  display: block;
+  min-height: 19px;
 }

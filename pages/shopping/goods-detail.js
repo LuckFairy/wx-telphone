@@ -167,7 +167,7 @@ Page({
           return;
       }
       if (resp.err_code == 0) {
-        console.log('领取购物券', resp.err_msg);
+        
         var coupon_list = that.data.coupon_list;
         coupon_list[index].is_get = 0;
         that.setData({
@@ -691,7 +691,7 @@ Page({
  */
   _showError(errorMsg) {
     wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
-    this.setData({ error: errorMsg });
+    //this.setData({ error: errorMsg });
     return false;
   }
   //加入购物车end
