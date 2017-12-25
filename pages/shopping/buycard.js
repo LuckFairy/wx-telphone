@@ -489,7 +489,7 @@ Page({
     let cname = e.currentTarget.dataset.cname;
     let face_money = e.currentTarget.dataset.face_money;
     var couponInfo = [];
-    couponInfo.push(couponid);
+    couponInfo.push(recId); //要是的我的优惠券记录id而不是优惠券的id
     couponInfo.push(cname);
     couponInfo.push(face_money);
 

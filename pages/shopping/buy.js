@@ -97,7 +97,8 @@ Page({
       if(err){ console.log('err ',err); return;}
       var { err_code, err_msg: { orderdata}} = rep;
       if(err_code != 0){ return;}
-      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int), orderId, postage_list: orderdata.postage_list});
+      console.log('订单详情列表', orderdata);
+      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int), orderId, postage_list: orderdata.postage});
     })
   },
   /*
@@ -194,8 +195,17 @@ Page({
    // this._loadShopData();
 
     //2017年12月25日11:55:40
-    var couponInfo = wx.getStorageSync('couponInfo') || [] ;
-    console.log('onLoad优惠券信息', couponInfo);
+    
+    var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo'): [] ;
+    //console.log('onLoad优惠券信息', couponInfo);
+    if (couponInfo.length>0){
+      var user_coupon_id = [] ;  //23  ['23']
+      user_coupon_id.push(couponInfo[0]);
+      //console.log(user_coupon_id,'user_coupon_idooooooooooooo')
+      this.setData({
+        user_coupon_id: user_coupon_id
+      })
+    }
     this.setData({
       couponInfo: couponInfo
     })
@@ -214,8 +224,16 @@ Page({
     // 页面显示
    // this._prepare(_prodId, skuid, quantity, groupbuyId);
    //2017年12月25日12:00:37 
-    var couponInfo = wx.getStorageSync('couponInfo') || [];
-    console.log('onShow优惠券信息', couponInfo);
+    var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
+    //console.log('onShow优惠券信息', couponInfo);
+    if (couponInfo.length > 0) {
+      var user_coupon_id = [];  //23  ['23']
+      user_coupon_id.push(couponInfo[0]);
+      //console.log(user_coupon_id, 'user_coupon_idooooooooooooo')
+      this.setData({
+        user_coupon_id: user_coupon_id
+      })
+    }
     this.setData({
       couponInfo: couponInfo
     })
@@ -393,8 +411,8 @@ Page({
     //let address_id = 47;
     let payType = this.data.payType;
     let is_app = this.data.is_app;
-    //let postage_list = this.data.postage_list;
-    let postage_list = "a:1:{i:6;d:0;}";
+    let postage_list = this.data.postage_list;
+    //let postage_list = "a:1:{i:6;d:0;}";
     let uid = this.data.uid;
     let store_id = this.data.storeId;
     let user_coupon_id = this.data.user_coupon_id;
@@ -410,9 +428,9 @@ Page({
       address_id: address_id,
       uid: uid,
       store_id: store_id,
-      user_coupon_id: 0,
+      user_coupon_id: user_coupon_id,
     }
-    //console.log(params);return;
+    //console.log('支付请求参数',params);return;
 
     app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
@@ -474,6 +492,7 @@ Page({
    * 支付成功
    */
   _onPaySuccess(res) {
+    wx.removeStorageSync('couponInfo');
     var that = this;
     // 支付成功弹窗
     that.setData({
