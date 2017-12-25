@@ -78,8 +78,11 @@ Page({
    postage_list: "",
    user_coupon_id: 0,
    is_app: false,
-   payType: 'weixin'
-
+   payType: 'weixin',
+    //2017年12月25日11:54:53
+    couponInfo: [], //选择的优惠券信息
+    //2017年12月25日12:18:49
+    normal_coupon_count:0, //可用的优惠券数量
   },
   /*
   *订单详情列表
@@ -189,6 +192,16 @@ Page({
 
     // 加载门店列表数据
    // this._loadShopData();
+
+    //2017年12月25日11:55:40
+    var couponInfo = wx.getStorageSync('couponInfo') || [] ;
+    console.log('onLoad优惠券信息', couponInfo);
+    this.setData({
+      couponInfo: couponInfo
+    })
+    //2017年12月25日12:27:38 获取优惠券的数量
+    this.loadCouponData();
+
   },
   onReady: function () {
     console.log('页面渲染完成');
@@ -200,6 +213,12 @@ Page({
     this.getAddress(uid);
     // 页面显示
    // this._prepare(_prodId, skuid, quantity, groupbuyId);
+   //2017年12月25日12:00:37 
+    var couponInfo = wx.getStorageSync('couponInfo') || [];
+    console.log('onShow优惠券信息', couponInfo);
+    this.setData({
+      couponInfo: couponInfo
+    })
   },
   onHide: function () {
     console.log('页面隐藏');
@@ -803,8 +822,52 @@ Page({
   },
   //2017年12月22日15:58:39 选择优惠券
   changeCoupon: function (event) {
-    wx.redirectTo({
+    console.log('点击进入优惠券选择界面');
+    //navigateTo  redirectTo
+    wx.navigateTo({
       url: './buycard'
     });
   },
+  //优惠券的数量
+  loadCouponData: function () {
+    var that = this;
+    var params = {
+      "uid": 91,
+      "store_id": 6,
+      "product_id": 23,
+      "total_price": "79"
+    };
+
+    console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
+
+    var url = 'wxapp.php?c=coupon&a=store_coupon_use';
+    app.api.postApi(url, { params }, (err, resp) => {
+      if (resp) {
+
+        if (resp.err_code == 0) {
+          
+          if (resp.err_msg.coupon_list) {
+            console.log('resp.err_msg.coupon_list存在');
+
+            //var normal = resp.err_msg.coupon_list['normal_coupon_list'];
+            //var expired = resp.err_msg.coupon_list['unnormal_coupon_list'];
+
+
+            //更新数据
+            that.setData({
+              normal_coupon_count: resp.err_msg.normal_coupon_count,
+
+            });
+
+          }
+        } else {
+          return;
+        }
+
+      }
+      console.log('normal_coupon_count', this.data.normal_coupon_count);
+
+    });
+  },
+
 })

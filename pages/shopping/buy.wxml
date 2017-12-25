@@ -186,9 +186,15 @@
  <view class='discount' bindtap='changeCoupon'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
+  <block wx:if="{{couponInfo.length}}">
+    <text class='discount-ticket'>选择优惠券：{{couponInfo[1]}}</text>
+  </block>
+  <block wx:elif="{{normal_coupon_count}}">
+    <text class='discount-ticket'>有{{normal_coupon_count}}张可用</text>
+  </block>
+  <block wx:else>
     <text class='discount-ticket'>无可用</text>
-    <text class='discount-ticket'>有{{}}张可用</text>
-    <text class='discount-ticket'>{{}}</text>
+  </block>
     <image class='discount-go' src='../../image/address-go.png'></image>
   </view>
 </view> 

@@ -31,7 +31,7 @@
                     <view class="card-item-right card-bg-available" data-recid="{{card.id}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' >
                         <view class="card-item-value">
                           <text style="font-size:25rpx;">￥</text>
-                          <text>{{card.face_money/100}}</text>
+                          <text>{{card.face_money}}</text>
                         </view>
                         <view class="card-item-btn-view" >
                             <text style="text-align:right;" data-qr-image-url="{{card.qrUrl}}" >立即使用</text>
@@ -66,7 +66,7 @@
                     
                     <view class="card-item-right card-bg-disable">
                         <view class="card-item-value">
-                        <text style="font-size:25rpx;">￥</text><text>{{card.face_money/100}}</text>
+                        <text style="font-size:25rpx;">￥</text><text>{{card.face_money}}</text>
                         </view>
                         <view class="card-item-btn-view">
                             <text style="text-align:right;">已过期</text>

@@ -20,7 +20,7 @@ Page({
     normal_coupon_count:0, //可用优惠券数量
     unnormal_coupon_count: 0, //不可用优惠券数量
     //2017年12月25日10:43:12
-    c:[],
+    couponInfo:[],
   },
   pullUpLoadone(e) {
     return ;//不需要这个东西 2017年12月25日10:01:39 by leo
