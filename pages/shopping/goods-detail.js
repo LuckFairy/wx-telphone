@@ -52,6 +52,9 @@ Page({
     goPayment:false,//立即下单，增加立即下单
     goAddCard:false,
     shopCoupon: [], //线上优惠券
+    coupon_value:[],//线上优惠券面值数组
+    coupon_list:[],//线上优惠券数组
+    showList:false,//是否显示优惠券列表
   },
   goStoreServer() {
     wx.navigateTo({
@@ -70,7 +73,6 @@ Page({
   },
   doGoBuy(e) {
     var that = this;
-    
     var buyQuantity = e.currentTarget.dataset.buyQuantity;
     var isaddCart = e.currentTarget.dataset.isaddCart;
     var productId = e.currentTarget.dataset.productId;
@@ -142,6 +144,39 @@ Page({
       }
     });
   },
+  showCoupon(){
+      var showList = this.data.showList;
+      showList = !showList;
+      this.setData({
+        showList
+      })
+  },
+  // 领取优惠券
+  getCoupon(e){
+    var that = this;
+    var index = e.currentTarget.dataset.index;
+    var params= {
+        "uid": that.data.uid,
+        "store_id":that.data.store_id,
+        "id": e.currentTarget.dataset.couponId
+    };
+    app.api.postApi('wxapp.php?c=coupon&a=get_coupon', { params }, (err, resp) => {
+      if (err || resp.err_code != 0) {
+        var error = err || resp.err_msg;
+        that._showError(error);
+          return;
+      }
+      if (resp.err_code == 0) {
+        console.log('领取购物券', resp.err_msg);
+        var coupon_list = that.data.coupon_list;
+        coupon_list[index].is_get = 0;
+        that.setData({
+          coupon_list
+        })
+        that._showError(err_msg);
+      }
+    });
+  },
   onLoad: function (options) {
     var that = this;
     // 获取店铺id shopId
@@ -169,7 +204,6 @@ Page({
         return;
       }
       if (resp.err_code == 0) {
-        console.log('购物车的数量是', resp.err_msg.cart_list_number);
         that.setData({
           newCartNum: resp.err_msg.cart_list_number
         });
@@ -182,9 +216,14 @@ Page({
         return;
       }
       if (resp.err_code == 0) {
-        console.log('线上优惠券信息', resp.err_msg);
+        var coupon_value = [];
+        for(var i=0;i<2;i++){
+          coupon_value.push(resp.err_msg.coupon_value[i]);
+        }
         that.setData({
-          shopCoupon: resp.err_msg
+          shopCoupon: resp.err_msg,
+          coupon_list: resp.err_msg.coupon_list,
+          coupon_value: coupon_value
         });
       }
     });   

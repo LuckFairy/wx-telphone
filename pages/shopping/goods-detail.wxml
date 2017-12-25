@@ -41,11 +41,36 @@
   </view>
   <!--商品详情区域结束  -->
   <!-- 商品优惠券区域  is_get 是否可以领取 1可以领取 0不可以领取 -->
-  <view class="goods-detail-view">
-    <view class="detail-img">共{{shopCoupon.coupon_count}}张 </view>
-    <view wx:for="{{shopCoupon.coupon_value}}"  wx:for-index="index" wx:for-item="item2"  class="detail-img">{{item2}}</view>
-    <view wx:for="{{shopCoupon.coupon_list}}"  wx:key="{{list}}"  class="detail-img">{{item.name}}</view>
-  </view>
+  <block wx:if="{{shopCoupon.coupon_count>0}}">
+    <view class='discount-area'>
+      <view class='discount' bindtap='changeCoupon'>
+        <view class='discount-left'>
+          <text class='discount-text'>领券</text>
+          <view class='discount-imglist' wx:for="{{coupon_value}}">
+              <view class='discount-img1'>￥{{item}}</view>
+          </view>
+           <text wx:if="{{shopCoupon.coupon_count>2}}" style="color:#ff3030;margin-left:28rpx;" >...</text>
+        </view>
+          <image wx:if="{{showList}}" class='discount-go' bindtap='showCoupon'  src='../../image/coupon_up.png'></image>
+          <image wx:else class='discount-go' bindtap='showCoupon' src='../../image/coupon_down.png'></image>
+        </view>
+    
+      <!--优惠券列表  -->
+      
+      <view wx:if="{{showList}}" class='discount-list' wx:for="{{coupon_list}}"  wx:for-index="idx">
+        <view class='discount-left'>
+            <view class='discount-img2'>￥{{item.face_money}}</view>
+            <view class='discount-list-text'>
+              <text class='discount-name'>{{item.name}}</text>
+              <text class='discount-time'>有效期：{{item.end_time_str}}</text>
+            </view>
+        </view>
+        <text wx:if="{{item.is_get == 1}}" class='discount-btn' bindtap='getCoupon' data-coupon-id="item.coupon_id" data-index="{{idx}}" >立即领取</text>
+        <text wx:if="{{item.is_get == 0}}" class='discount-btn-no'  >已领取</text>
+      </view>
+    </view>
+  </block>
+  <!-- 商品优惠券区域结束  -->
 
   <view class="goods-detail-view">
     <image wx:for="{{product.info}}" wx:key="{{index}}" src="{{item}}" mode="widthFix" class="detail-img"></image>
@@ -115,7 +140,7 @@
 
       <!-- <text class='invite-car-num' wx:if="{{newCartNum}}">{{newCartNum}}</text>
       <text class='invite-car-num' wx:else>{{data.cartcount}}</text> -->
-      <text class='invite-car-num' >{{newCartNum}}</text>
+      <text class='invite-car-num'>{{newCartNum}}</text>
 
       <text class='cart-ke-server-text'>购物车</text>
     </view>
@@ -153,7 +178,8 @@
         <view class='property-list'>
           <text class='property-title'>{{pid.name}}</text>
           <view class='property-value-list'>
-            <text wx:for='{{pid.values}}' wx:for-item='vid' wx:key='{{index}}' data-pid='{{pid.pid}}' data-vid='{{vid.vid}}' class='pro-val-list  {{curTabs ==(pid.pid+vid.vid) || arrotwo==(pid.pid+vid.vid) || arrone==(pid.pid+vid.vid) ? "chooseTab" : ""}}' bindtap='chooseProperty' data-pidvid='{{pid.pid+vid.vid}}'>{{vid.value}}</text>
+            <text wx:for='{{pid.values}}' wx:for-item='vid' wx:key='{{index}}' data-pid='{{pid.pid}}' data-vid='{{vid.vid}}' class='pro-val-list  {{curTabs ==(pid.pid+vid.vid) || arrotwo==(pid.pid+vid.vid) || arrone==(pid.pid+vid.vid) ? "chooseTab" : ""}}' bindtap='chooseProperty'
+              data-pidvid='{{pid.pid+vid.vid}}'>{{vid.value}}</text>
           </view>
         </view>
       </block>
@@ -173,8 +199,8 @@
         <text class="normal ste-add" bindtap="bindPlus">+</text>
       </view>
     </view>
-     <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text> 
-     <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'class='go-confirm'  bindtap='goPayment'>去下单</text> 
+    <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
+    <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>去下单</text>
     <!-- 数量的增减end -->
   </view>
 </view>
