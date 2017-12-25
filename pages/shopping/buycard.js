@@ -159,7 +159,7 @@ Page({
     var params = {
       "uid": 91,
       "store_id": 6,
-      "product_id": ['23'],
+      "product_id": ["23"],
       "total_price": "79"
     };
 
@@ -208,7 +208,7 @@ Page({
       var params = {
         "uid": 91,
         "store_id": 6,
-        "product_id": 23,
+        "product_id": ["23"],
         "total_price": "79"
       };
 
@@ -441,7 +441,7 @@ Page({
     var params = {
       "uid": 91,
       "store_id": 6,
-      "product_id": 23,
+      "product_id": ["23"],
       "total_price": "79"
     };
 
