@@ -20,7 +20,14 @@ Page({
     normal_coupon_count:0, //可用优惠券数量
     unnormal_coupon_count: 0, //不可用优惠券数量
     //2017年12月25日10:43:12
-    couponInfo:[],
+    thetype: false,
+    borId:'',
+    cname:'',
+    couponid:'',
+    face_money:'',
+    index:'',
+    recid:'',
+    couponInfo:''
   },
   pullUpLoadone(e) {
     return ;//不需要这个东西 2017年12月25日10:01:39 by leo
@@ -103,7 +110,59 @@ Page({
     }
 
   },
-  
+  goChooseCard(e){
+    var that = this;
+    console.log(e,'e')
+    var index = e.currentTarget.dataset.index;
+    let recId = e.currentTarget.dataset.recid;
+    var  normal = that.data.normal;
+    var borId = normal[index].id;
+    let couponid = e.currentTarget.dataset.couponid;
+    let cname = e.currentTarget.dataset.cname;
+    let face_money = e.currentTarget.dataset.face_money;
+    that.setData({
+      borId,
+      recid: recId,
+      index: index,
+      face_money: face_money,
+      cname: cname,
+      couponid: couponid
+    })
+    
+  },
+  goConfirm(e){
+    var that = this;
+    console.log('点击确定',e)
+    var cname = e.currentTarget.dataset.cname;
+    var couponid = e.currentTarget.dataset.couponid;
+    var face_money = e.currentTarget.dataset.face_money;
+    var index = e.currentTarget.dataset.index;
+    var recid = e.currentTarget.dataset.recid;
+    var couponInfo = [];
+    couponInfo.push(recid); //要是的我的优惠券记录id而不是优惠券的id
+    couponInfo.push(cname);
+    couponInfo.push(face_money);
+    wx.setStorageSync('couponInfo', couponInfo)
+    that.setData({
+      couponInfo: couponInfo
+    })
+    wx:wx.navigateBack({
+      delta: 1,
+    })
+  },
+  goDetails(){
+    wx.showModal({
+      title: '优惠券使用说明',
+      content: '1.通用券和指定券不能同时使用;2.当券的金额大于订单应付金额时，差额不予退还',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
   onReady: function () {
     // 页面渲染完成
   },
@@ -445,24 +504,17 @@ Page({
       "product_id": ["23"],
       "total_price": "79"
     };
-
     console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
-
     var url = 'wxapp.php?c=coupon&a=store_coupon_use';
     app.api.postApi(url, { params }, (err, resp) => {
       wx.hideLoading();
-
       if (resp) {
-
         if (resp.err_code == 0) {
           console.log('resp.err_code == 0');
           if (resp.err_msg.coupon_list) {
             console.log('resp.err_msg.coupon_list存在');
-
             var normal = resp.err_msg.coupon_list['normal_coupon_list'];
             var expired = resp.err_msg.coupon_list['unnormal_coupon_list'];
-            
-
             //更新数据
             that.setData({
               loading: false,
@@ -481,30 +533,6 @@ Page({
       console.log('normal', this.data.normal);
       console.log('expired', this.data.expired);
     });
-  },
-  //选择优惠券
-  selectCoupon(e) {
-    let that = this;
-    let recId = e.currentTarget.dataset.recid;
-    let couponid = e.currentTarget.dataset.couponid;
-    let cname = e.currentTarget.dataset.cname;
-    let face_money = e.currentTarget.dataset.face_money;
-    var couponInfo = [];
-    couponInfo.push(recId); //要是的我的优惠券记录id而不是优惠券的id
-    couponInfo.push(cname);
-    couponInfo.push(face_money);
-
-    // couponInfo['couponid'] = couponid;
-    // couponInfo['cname'] = cname;
-    // couponInfo['face_money'] = face_money;
-    that.setData({
-      couponInfo: couponInfo
-    })
-    console.log('选择的优惠券信息',couponInfo);
-    
-    //wx.setStorageSync('couponInfo', couponInfo);//存储选择的优惠券的信息couponInfo
-    //console.log('88888888', this.data.couponInfo);
-    wx.setStorageSync('couponInfo', this.data.couponInfo)
-  },
+  }
 
 })

@@ -67,7 +67,7 @@ text{
     width:750rpx;
     padding-bottom:15px;
     /* margin-top:10px; */
-    margin-bottom: 110rpx;
+    margin-bottom: 206rpx;
     align-items: center;
     font-size: 0rpx;
     margin-left: 20rpx;
@@ -288,4 +288,23 @@ width: 430rpx;
 .bottom-fixed{
   position: fixed;
   bottom: 0rpx;
+  height: 96rpx;
+  width: 750rpx;
+  background: #ffffff;
+  z-index: 99999999;
+}
+.bottom-fixed-left{
+  width: 450rpx;
+  line-height: 96rpx;
+  font-size: 28rpx;
+  text-align: left;
+  justify-content: flex-end;
+  margin-right: 28rpx;
+}
+.bottom-fixed-go{
+  width: 300rpx;
+  background: #FFE71C;
+  line-height: 96rpx;
+  font-size: 30rpx;
+  color: #1b1b1b;
 }

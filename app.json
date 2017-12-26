@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/shopping/buycard",
+    
     "pages/index-new/index-new",
+    "pages/shopping/buycard",
     "pages/shopping/address-list",
     "pages/shopping/address",
     "pages/index-new/index-boabao",
