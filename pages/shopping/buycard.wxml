@@ -2,124 +2,98 @@
   <!-- 头部导航条 -->
   <view class="nav-header-view">
     <view data-status='0' class="header-col-view {{curActIndex == '0' ? 'show-border-bottom' : '' }}" data-idx='0' bindtap="swichSwiperItem">
-      <text data-idx='0' >可用优惠券({{normal_coupon_count}})</text>
+      <text data-idx='0'>可用优惠券({{normal_coupon_count}})</text>
     </view>
     <view data-status='1' class="header-col-view {{curActIndex == '1' ? 'show-border-bottom' : '' }}" data-idx='1' bindtap="swichSwiperItem">
-      <text data-idx='1'  >不可用优惠券({{unnormal_coupon_count}})</text>
+      <text data-idx='1'>不可用优惠券({{unnormal_coupon_count}})</text>
     </view>
   </view>
-
+  <view class='use-ruler'>
+    <image class='use-ruler-image' src='../../image/use-ruler.png'></image>
+    <text class='use-ruler-text'>使用规则</text>
+  </view>
   <!-- nav详细内容展示区-->
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
     <swiper-item>
-      <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadone'  lower-threshold='0' scroll-top="{{scrollTop}}">
-          <view wx:if="{{normal && normal.length}}" class="card-list-view">
-            <block wx:for="{{normal}}" wx:for-item="card" wx:key="{{card.id}}">
-                <!--正常活动卡券-->
-                <view class="card-item-view" catchtap="selectCoupon" data-recid="{{card.id}}" data-couponid="{{card.coupon_id}}" data-cname="{{card.cname}}" data-face_money="{{card.face_money}}">
-                    <navigator class="card-item-left" style="display:flex;" data-recid="{{card.id}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' >
-                        <view class="card-item-title-view">
-                            <image src="{{card.mchImgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
-                            <view class="card-title-text">{{card.cname}}</view>
-                        </view>
-                        <view class="card-info-text-normal" style='display:none'>{{card.face_money}}</view>
-                        <view class="card-info-text-small">券id: {{card.id}}</view>
-                        <view class="card-info-text-small">有效期: {{card.start_time_str}}-{{card.end_time_str}}</view>
-                        
-                    </navigator>
-                    
-                    <view class="card-item-right card-bg-available" data-recid="{{card.id}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' >
-                        <view class="card-item-value">
-                          <text style="font-size:25rpx;">￥</text>
-                          <text>{{card.face_money}}</text>
-                        </view>
-                        <view class="card-item-btn-view" >
-                            <text style="text-align:right;" data-qr-image-url="{{card.qrUrl}}" >立即使用</text>
-                        </view>
-                    </view>
-                </view><!--/正常活动卡券-->
-            </block>
-            <!-- <view class='go-add'>下拉加载更多</view> -->
+      <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px; background:#efefef;" bindscrolltolower='pullUpLoadone' lower-threshold='0' scroll-top="{{scrollTop}}">
+        <view wx:if="{{normal && normal.length}}" class="card-list-view">
+          <view class='rules-wraps' wx:for="{{normal}}" wx:for-item="card" wx:key="{{card.id}}">
+            <view class='normal-block' wx:if='{{card.is_all_product==0}}'>
+              <icon class='icon-ruler' size="20" type="circle" />
+              <view class='cards-use-list'>
+                <view class='rulers-text-list'>
+                  <text class='rulers-text-title'>{{card.cname}}</text>
+                  <text class='rulers-text-date'>期限:{{card.start_time_str}}-{{card.end_time_str}}</text>
+                  <text class='rulers-text-id'>券ID:{{card.id}}</text>
+                </view>
+                <view>
+                  <text class='rulers-prices'>￥{{card.face_money}}</text>
+                </view>
+              </view>
+            </view>
+            <view class='normal-block' wx:else>
+              <icon class='icon-ruler' size="20" type="circle" />
+              <view class='cards-use-list-two'>
+                <view class='rulers-text-list'>
+                  <text class='rulers-text-title'>{{card.cname}}</text>
+                  <text class='rulers-text-date'>期限:{{card.start_time_str}}-{{card.end_time_str}}</text>
+                  <text class='rulers-text-id'>券ID:{{card.id}}</text>
+                </view>
+                <view>
+                  <text class='rulers-prices'>￥{{card.face_money}}</text>
+                </view>
+              </view>
+            </view>
+
+
           </view>
-          <view wx:else class="no-data-view">
-            <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
-            <text class="mText" class="no-data-text">还没有可以用的优惠券
+        </view>
+        <view wx:else class="no-data-view">
+          <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+          <text class="mText" class="no-data-text">还没有可以用的优惠券
             赶紧去领一个吧</text>
-          </view>
+        </view>
       </scroll-view>
     </swiper-item>
 
     <swiper-item>
-      <scroll-view  scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadtwo'  lower-threshold='0' scroll-top="{{scrollTop}}">
+      <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadtwo' lower-threshold='0' scroll-top="{{scrollTop}}">
         <view wx:if="{{expired && expired.length}}" class="card-list-view">
-            <block wx:for="{{expired}}" wx:for-item="card" wx:key="{{card.cardId}}">
-                <!--过期卡券-->
-                <view class="card-item-view">
-                    <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.id}}" bindlongtap="deleteCard">
-                        <view class="card-item-title-view">
-                        <image src="{{card.mchImgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
-                        <view class="card-title-text">{{card.cname}}</view>
-                        </view>
-                        <view class="card-info-text-small">券id: {{card.id}}</view>
-                        <view class="card-info-text-small">有效期: {{card.start_time_str}}-{{card.end_time_str}}</view>
-                    </navigator>
-                    
-                    <view class="card-item-right card-bg-disable">
-                        <view class="card-item-value">
-                        <text style="font-size:25rpx;">￥</text><text>{{card.face_money}}</text>
-                        </view>
-                        <view class="card-item-btn-view">
-                            <text style="text-align:right;">已过期</text>
-                        </view>
-                    </view>
-                </view><!--/过期卡券-->
-            </block>
-          </view>
-          <view wx:else class="no-data-view">
-            <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
-            <text class="mText" class="no-data-text">还没有可以用的优惠券
-            赶紧去领一个吧</text>
-          </view>
-      </scroll-view >
-    </swiper-item>
+          <block wx:for="{{expired}}" wx:for-item="card" wx:key="{{card.cardId}}">
+            <!--过期卡券-->
+            <view class="card-item-view">
+              <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.id}}" bindlongtap="deleteCard">
+                <view class="card-item-title-view">
+                  <view class="card-title-text">{{card.cname}}</view>
+                </view>
+                <view class="card-info-text-small">券id: {{card.id}}</view>
+                <view class="card-info-text-small">有效期: {{card.start_time_str}}-{{card.end_time_str}}</view>
+              </navigator>
 
-    <swiper-item>
-      <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadthree'  lower-threshold='0' scroll-top="{{scrollTop}}">
-        <view wx:if="{{used && used.length}}" class="card-list-view">
-            <block wx:for="{{used}}" wx:for-item="card" wx:key="{{card.cardId}}">
-                <!--已经使用过的卡券-->
-                <view class="card-item-view" >
-                    <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.id}}" bindlongtap="deleteCard">
-                        <view class="card-item-title-view">
-                        <image src="{{card.mchImgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
-                        <view class="card-title-text">{{card.cardName}}</view>
-                        </view>
-                        <view class="card-info-text-normal">{{card.cardMoney}}</view>
-                        <view class="card-info-text-small">有效期: {{card.cardValidity}}</view>
-                    </navigator>
-                    
-                    <view class="card-item-right card-bg-disable">
-                        <view class="card-item-value">
-                        <text style="font-size:25rpx;">￥</text><text>{{card.value/100}}</text>
-                        </view>
-                        <navigator class="card-item-btn-view" url="../card/card_detail?cardId={{card.cardId}}">
-                        <text style="text-align:right;">已使用</text>
-                        </navigator>
-                    </view>
-                </view><!--/已经使用过的卡券-->
-            </block>
-          </view>
-          <view wx:else class="no-data-view">
-            <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
-            <text class="mText" class="no-data-text">还没有可以用的优惠券
+              <view class="card-item-right card-bg-disable">
+                <view class="card-item-value">
+                  <text style="font-size:25rpx;">￥</text>
+                  <text>{{card.face_money}}</text>
+                </view>
+                <view class="card-item-btn-view">
+                  <text style="text-align:right;">已过期</text>
+                </view>
+              </view>
+            </view>
+            <!--/过期卡券-->
+          </block>
+        </view>
+        <view wx:else class="no-data-view">
+          <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+          <text class="mText" class="no-data-text">还没有可以用的优惠券
             赶紧去领一个吧</text>
-          </view>
-      </scroll-view >
+        </view>
+      </scroll-view>
     </swiper-item>
   </swiper>
 </view>
 
-<view class="overlay" style="display:{{showOverlay ? 'flex' : 'none'}}" >
+<!-- <view class="overlay" style="display:{{showOverlay ? 'flex' : 'none'}}" >
     <view class="qr-view">
         <image src="{{qrImageUrl}}" class="qr-image" mode="widthFix"></image>
         <text>将二维码出示给门店核销员</text>
@@ -127,4 +101,12 @@
         <i class="fa fa-times close-icon" catchtap="closeOverlay"></i>
     </view>
     
+</view> -->
+<view class='bottom-fixed'>
+  <view class='bottom-fixed-left'>
+    <text class='bottom-fixed-num'>已选1张，可抵扣</text>
+    <text class='bottom-fixed-price'>80</text>
+    <text class='bottom-fixed-yuan'>元</text>
+  </view>
+  <text class='bottom-fixed-go'>确定</text>
 </view>

@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index-new/index-new",
+    "pages/shopping/buycard",
     "pages/shopping/address-list",
     "pages/shopping/address",
     "pages/index-new/index-boabao",
@@ -30,7 +31,7 @@
     "pages/shopping/list",
     "pages/shopping/order-express",
     "pages/shopping/order-detail",
-    "pages/shopping/buycard",
+   
     "pages/shopping/buy",
     "pages/store/store-list",
     "pages/store/store-detail",
@@ -92,10 +93,10 @@
    
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
     "navigationBarTitleText": "婴众趣购",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#7f8389",

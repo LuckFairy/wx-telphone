@@ -806,3 +806,13 @@ page {
   font-size: 28rpx;
   color: #1b1b1b;
 }
+
+.discount-ticket-checked{
+  color:inherit;
+}
+discount-ticket-have{
+  color:orange;
+}
+.discount-ticket-no{
+  color:#a9a9a9;
+}

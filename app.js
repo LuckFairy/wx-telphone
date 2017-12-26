@@ -25,6 +25,7 @@ App({
   globalData:{
     userInfo: "",
     TOKEN_ID: "",
+    image: { mode:"aspectFit",lazyLoad:"true"},
   },
   d: {
     hostUrl: 'https://wxplus.paoyeba.com/index.php',
