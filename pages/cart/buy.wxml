@@ -240,6 +240,17 @@
     <text class='discount-ticket-price discount-color-red'>{{postage_int}}</text>
   </view>
 </view>
+<view class='discount discount-list'>
+  <text class='discount-text'>优惠券</text>
+  <view class='discount-father'>
+    <block wx:if="{{couponInfo.length}}">
+    <text class='discount-ticket-price discount-color-red'>{{couponInfo[2]}}</text>
+    </block>
+    <block wx:else>
+    <text class='discount-ticket-price discount-color-red'>0</text>
+    </block>
+  </view>
+</view>
 <!--公众号开始 
 <view wx:if="{{showAreaPicer}}" catchtap="hideAreaPickerView" class="overlayer"></view>
 

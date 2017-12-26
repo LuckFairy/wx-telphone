@@ -78,7 +78,10 @@ Page({
     postage_list: "",
     user_coupon_id: 0,
     is_app: false,
-    payType: 'weixin'
+    payType: 'weixin',
+    //2017年12月26日13:44:11
+    couponInfo: [], //选择的优惠券信息
+    normal_coupon_count: 0, //可用的优惠券数量
   },
   /*
  *地址详情列表
@@ -144,6 +147,22 @@ Page({
     //this._loadShopData();
 
     this.getAddress();
+
+    //2017年12月26日13:45:20
+    var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
+    //console.log('onLoad优惠券信息', couponInfo);
+    if (couponInfo.length > 0) {
+      var user_coupon_id = [];  //23  ['23']
+      user_coupon_id.push(couponInfo[0]);
+      //console.log(user_coupon_id,'user_coupon_idooooooooooooo')
+      this.setData({
+        user_coupon_id: user_coupon_id
+      })
+    }
+    this.setData({
+      couponInfo: couponInfo
+    })
+    this.loadCouponData();
   },
   onReady: function () {
     // 页面渲染完成
@@ -158,6 +177,21 @@ Page({
     var order_no = this.data.order_no;
     //console.log('onShow的订单号是=' + order_no); return; 
     this._prepare(order_no);
+
+    //2017年12月26日13:46:22
+    var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
+    //console.log('onShow优惠券信息', couponInfo);
+    if (couponInfo.length > 0) {
+      var user_coupon_id = [];  //23  ['23']
+      user_coupon_id.push(couponInfo[0]);
+      //console.log(user_coupon_id, 'user_coupon_idooooooooooooo')
+      this.setData({
+        user_coupon_id: user_coupon_id
+      })
+    }
+    this.setData({
+      couponInfo: couponInfo
+    })
 
   },
   onHide: function () {
@@ -752,5 +786,55 @@ Page({
     let { idx: curActIndex, method } = e.currentTarget.dataset;
     this.setData({ curActIndex });
     this.setShippingMethod(method);
-  }
+  },
+  //2017年12月26日13:57:43
+  changeCoupon: function (event) {
+    console.log('点击进入优惠券选择界面');
+    //navigateTo  redirectTo
+    wx.navigateTo({
+      url: '../shopping/buycard'
+    });
+  },
+  //优惠券的数量
+  loadCouponData: function () {
+    var that = this;
+    var params = {
+      "uid": 91,
+      "store_id": 6,
+      "product_id": ["23"],
+      "total_price": "79"
+    };
+
+    console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
+
+    var url = 'wxapp.php?c=coupon&a=store_coupon_use';
+    app.api.postApi(url, { params }, (err, resp) => {
+      if (resp) {
+
+        if (resp.err_code == 0) {
+
+          if (resp.err_msg.coupon_list) {
+            console.log('resp.err_msg.coupon_list存在');
+
+            //var normal = resp.err_msg.coupon_list['normal_coupon_list'];
+            //var expired = resp.err_msg.coupon_list['unnormal_coupon_list'];
+
+
+            //更新数据
+            that.setData({
+              normal_coupon_count: resp.err_msg.normal_coupon_count,
+
+            });
+
+          }
+        } else {
+          return;
+        }
+
+      }
+      console.log('normal_coupon_count', this.data.normal_coupon_count);
+
+    });
+  },
+
 })
