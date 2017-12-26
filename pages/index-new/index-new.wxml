@@ -46,6 +46,10 @@
       </view>
     </view>
     <view class="list-select-area-bottom">
+      <view class='select-list' bindtap="clickGoCategory" data-index = '4' data-cat-id='{{cat_list[4].cat_id}}'>
+        <image class='select-list-image' src='{{cat_list[4].cat_pic}}'></image>
+        <text class='select-list-text'>{{cat_list[4].cat_name}}</text>
+      </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '0' data-cat-id='{{cat_list[0].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[0].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[0].cat_name}}</text>
@@ -62,10 +66,6 @@
         <image class='select-list-image' src='{{cat_list[3].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[3].cat_name}}</text>
       </view>
-      <view class='select-list' bindtap="clickGoCategory" data-index = '4' data-cat-id='{{cat_list[4].cat_id}}'>
-        <image class='select-list-image' src='{{cat_list[4].cat_pic}}'></image>
-        <text class='select-list-text'>{{cat_list[4].cat_name}}</text>
-      </view>
     </view>
   </view>
   <!--列表选项区域结束  -->
@@ -75,12 +75,12 @@
           <image src="../../image/home_2.png" class='card_img_1'></image>
           <view class='card_view'>
             <text class='card_text_1'>我的卡包 </text>
-            <text class='card_text_2'>线上线下，领过的券都全部在这里</text>
+            <text class='card_text_2'>线上线下，领过的券全部在这里</text>
            </view>
            
       </view>
        <text class='card_text_3'>
-              <text class='card_text_3_red'>{{card_num}}</text>张未使用
+              <text class='card_text_3_red'>{{card_num}}</text> 张未使用
         </text>
 
        <view>
@@ -104,7 +104,7 @@
     <!-- 内容  
    <view class='pinduoduo-content '>
       <view class='pinduoduo-content-list' wx:for="{{groupData}}" wx:key="{{item}}" bindtap="clickGoGroupProduct" data-prodId="{{item.product_id}}" data-groupbuyId="{{item.tuan_id}}" data-quantity="{{item.quantity}}">
-          <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+          <image class='pinduoduo-content-image' mode='{{mode}}' lazy-load='{{lazyLoad}}' src='{{item.image}}' ></image>
           <text class='pinduoduo-content-title'  >{{item.name}}</text>
           <view class='pinduoduo-content-price' >
             <text class='pinduoduo-content-current'  >￥{{item.start_price}}</text>
@@ -158,8 +158,8 @@
       <!--内容开始  -->
       <view class='baokuan-recommend'> 
         
-            <view class='baokuan-recommend-image' bindtap='clickGoBaoKuan' data-categoryid='100'>
-              <image class='baokuan-image' src='../../image/index_99.png'></image>
+            <view class='baokuan-recommend-image baokuan-image-1' bindtap='clickGoBaoKuan' data-categoryid='100'>
+              <!-- <image class='baokuan-image baokuan-image-1' src='../../image/index_99.png'></image> -->
             </view>
       </view> 
    
@@ -171,7 +171,7 @@
           <!--内容  -->
         <view class='pinduoduo-content '>
             <view class='pinduoduo-content-list' wx:for="{{baoKuanData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
-                <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+                <image class='pinduoduo-content-image' mode='{{mode}}' lazy-load='{{lazyLoad}}' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
                   <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
@@ -189,8 +189,8 @@
    <!--内容开始  -->
     <view class='festival-recommend'> 
      
-        <view class='baokuan-recommend-image' bindtap='clickGoHotSale' data-categoryid='101'>
-          <image class='baokuan-image' src='../../image/index_hotsale.png'></image>
+        <view class='baokuan-recommend-image baokuan-image-2 bindtap='clickGoHotSale' data-categoryid='101'>
+          <!-- <image class='baokuan-image baokuan-image-2' src='../../image/index_hotsale.png'></image> -->
         </view>
     
 
@@ -203,7 +203,7 @@
           <!--内容  -->
         <view class='pinduoduo-content '>
             <view class='pinduoduo-content-list' wx:for="{{hotSaleData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
-                <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+                <image class='pinduoduo-content-image' mode='{{mode}}' lazy-load='{{lazyLoad}}' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
                   <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
@@ -222,8 +222,8 @@
    <!--内容开始  -->
     <view class='festival-recommend'> 
     
-        <view class='baokuan-recommend-image' bindtap='clickGoFestival' data-categoryid='105'>
-          <image class='baokuan-image' src='../../image/index_select.png'></image>
+        <view class='baokuan-recommend-image baokuan-image-3 bindtap='clickGoFestival' data-categoryid='105'>
+          <!-- <image class='baokuan-image baokuan-image-3' src='../../image/index_select.png'></image> -->
         </view>
     
 
@@ -236,7 +236,7 @@
           <!--内容  -->
         <view class='pinduoduo-content '>
             <view class='pinduoduo-content-list' wx:for="{{festivalData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
-                <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+                <image class='pinduoduo-content-image' mode='{{mode}}' lazy-load='{{lazyLoad}}' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
                   <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
@@ -255,8 +255,8 @@
    <!--内容开始  -->
     <view class='festival-recommend'> 
     
-        <view class='baokuan-recommend-image' bindtap='clickGoGoods' data-categoryid='102'>
-          <image class='baokuan-image' src='../../image/index_goods.png'></image>
+        <view class='baokuan-recommend-image baokuan-image-4 bindtap='clickGoGoods' data-categoryid='102'>
+          <!-- <image class='baokuan-image' src='../../image/index_goods.png'></image> -->
         </view>
     
 
@@ -269,7 +269,7 @@
           <!--内容  -->
         <view class='pinduoduo-content '>
             <view class='pinduoduo-content-list' wx:for="{{goodsData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
-                <image class='pinduoduo-content-image' src='{{item.image}}' ></image>
+                <image class='pinduoduo-content-image' mode='{{mode}}' lazy-load='{{lazyLoad}}' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
                   <text class='pinduoduo-content-current'  >￥{{item.price}}</text>

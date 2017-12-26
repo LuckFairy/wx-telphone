@@ -7,6 +7,7 @@ let _params = null;
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 Page({
   data: {
+    mode: app.globalData.image.mode,//图片缩放模式
     loading: false,
     data: null,
     prodId: null,
@@ -166,14 +167,13 @@ Page({
         that._showError(error);
           return;
       }
-      if (resp.err_code == 0) {
-        console.log('领取购物券', resp.err_msg);
+      if (resp.err_code == 0) {  
         var coupon_list = that.data.coupon_list;
         coupon_list[index].is_get = 0;
         that.setData({
           coupon_list
         })
-        that._showError(err_msg);
+        that._showError(resp.err_msg);
       }
     });
   },
@@ -691,7 +691,7 @@ Page({
  */
   _showError(errorMsg) {
     wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
-    this.setData({ error: errorMsg });
+    //this.setData({ error: errorMsg });
     return false;
   }
   //加入购物车end
