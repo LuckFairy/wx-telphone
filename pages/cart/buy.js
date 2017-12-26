@@ -81,7 +81,8 @@ Page({
     payType: 'weixin',
     //2017年12月26日13:44:11
     couponInfo: [], //选择的优惠券信息
-    normal_coupon_count: 0, //可用的优惠券数量
+    normal_coupon_count: '', //可用的优惠券数量
+    totalId:[]
   },
   /*
  *地址详情列表
@@ -145,9 +146,6 @@ Page({
 
     // 加载门店列表数据
     //this._loadShopData();
-
-    this.getAddress();
-
     //2017年12月26日13:45:20
     var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
     //console.log('onLoad优惠券信息', couponInfo);
@@ -180,7 +178,7 @@ Page({
 
     //2017年12月26日13:46:22
     var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
-    //console.log('onShow优惠券信息', couponInfo);
+    console.log('onShow优惠券信息', couponInfo);
     if (couponInfo.length > 0) {
       var user_coupon_id = [];  //23  ['23']
       user_coupon_id.push(couponInfo[0]);
@@ -218,10 +216,19 @@ Page({
         var products = resp.err_msg.orderdata.product; //购物车的商品
         var sub_total = resp.err_msg.orderdata.sub_total; //商品金额
         var postage_int = resp.err_msg.orderdata.postage_int; //运费
-        var lastPay = "￥" + (resp.err_msg.orderdata.sub_total - resp.err_msg.orderdata.postage_int).toFixed(2);//实付款
-        
-        this.setData({ products: products, postage_int, sub_total, lastPay});
+        var lastPay = (resp.err_msg.orderdata.sub_total - resp.err_msg.orderdata.postage_int).toFixed(2);//实付款
+        var orderdata = resp.err_msg.orderdata;
+        console.log('商品详情但事实上所所', orderdata);
+        var product = orderdata.product;
+        var totalId = [];
+        for (var i = 0; i < product.length;i++){
+          totalId.push(product[i].product_id);//总id
+        }
+        this.setData({ products: products, postage_int, sub_total, lastPay, totalId});
       }
+
+
+
     });
   },
 
@@ -789,18 +796,20 @@ Page({
   },
   //2017年12月26日13:57:43
   changeCoupon: function (event) {
-    console.log('点击进入优惠券选择界面');
+    console.log('点击进入优惠券选择界面', event);
     //navigateTo  redirectTo
+    var pro_price = event.currentTarget.dataset.sub_total;
+    var product_id = event.currentTarget.dataset.total_id;
     wx.navigateTo({
-      url: '../shopping/buycard'
+      url: '../shopping/buycard?product_id=' + product_id + '&pro_price=' + pro_price
     });
   },
   //优惠券的数量
   loadCouponData: function () {
     var that = this;
     var params = {
-      "uid": 91,
-      "store_id": 6,
+      "uid": that.data.uid,
+      "store_id": that.data.storeId,
       "product_id": ["23"],
       "total_price": "79"
     };

@@ -78,7 +78,9 @@ Page({
     couponInfo: [], //选择的优惠券信息
     //2017年12月25日12:18:49
     normal_coupon_count:'', //可用的优惠券数量
-    discounts:0
+    discounts:0,
+    product_id:'',
+    pro_price:''
   },
   /*
   *订单详情列表
@@ -94,8 +96,16 @@ Page({
       var { err_code, err_msg: { orderdata}} = rep;
       if(err_code != 0){ return;}
       console.log('订单详情列表', orderdata);
-      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int), orderId, postage_list: orderdata.postage});
+      var product_id = orderdata.product[0].product_id;
+      console.log('产品id', product_id);
+      var pro_price = orderdata.product[0].pro_price;
+      console.log('产品价格', pro_price);
+      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int), orderId, postage_list: orderdata.postage, product_id: product_id, pro_price: pro_price});
+      that.loadCouponData(pro_price, product_id);
     })
+    
+    //2017年12月25日12:27:38 获取优惠券的数量
+    
   },
   /*
   *地址详情列表
@@ -162,41 +172,7 @@ Page({
     this.showOrderList({ orderId });
     this.getAddress(uid);
     
-   
-  
-
-
-
-    //生成订单
-    //this._loadShopData({"uid":uid ,"quantity":quantity,"product_id":pid,"store_id":storeId});
-
-    //2017年8月17日13:46:50 处理选择后的多属性
-    // var attrData = wx.getStorageSync('key') || [];
-    // if (attrData.length > 0) {
-    //   var attrArr = attrData.split('-');
-    //   this.setData({ productColor: attrArr['0'], productSize: attrArr['1'] });
-    //   skuid = options.skuid;
-    // } else {
-    //   skuid = 0;
-    // }
-
-    
-    //quantity商品的数量
-    //this.setData({ quantity: quantity });
-    
-    // this._prepareOrder(prodId);
-    _prodId = pid;       // 记录商品 id
-
-    // this._prepare(prodId);
-    // if (qrEntry) {
-    //   this.setData({ qrEntry: qrEntry });
-    // }
-
-    // 加载门店列表数据
-   // this._loadShopData();
-
-    //2017年12月25日11:55:40
-    
+    _prodId = pid;      
     var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo'): [] ;
     //console.log('onLoad优惠券信息', couponInfo);
     if (couponInfo.length>0){
@@ -211,8 +187,7 @@ Page({
     this.setData({
       couponInfo: couponInfo
     })
-    //2017年12月25日12:27:38 获取优惠券的数量
-    this.loadCouponData();
+    
 
   },
   onReady: function () {
@@ -843,20 +818,26 @@ Page({
   },
   //2017年12月22日15:58:39 选择优惠券
   changeCoupon: function (event) {
-    console.log('点击进入优惠券选择界面');
+    console.log('点击进入优惠券选择界面',event);
     //navigateTo  redirectTo
+    var pro_price = event.currentTarget.dataset.pro_price;
+    var product_id = event.currentTarget.dataset.product_id;
     wx.navigateTo({
-      url: './buycard'
+      url: './buycard?product_id=' + product_id + '&pro_price=' + pro_price
     });
   },
   //优惠券的数量
-  loadCouponData: function () {
-    var that = this;
+  loadCouponData: function (pro_price, product_id) {
+    var that =this;
+    
+    var product_id = [];
+    product_id.push(that.data.product_id);
+    console.log(pro_price, product_id, '发发号施令上分好发给谁了')
     var params = {
-      "uid": 91,
-      "store_id": 6,
-      "product_id": ["23"],
-      "total_price": "79"
+      "uid": that.data.uid,
+      "store_id": that.data.storeId ,
+      "product_id": product_id ,
+      "total_price": pro_price
     };
 
     console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
