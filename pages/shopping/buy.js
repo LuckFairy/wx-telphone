@@ -77,7 +77,7 @@ Page({
     //2017年12月25日11:54:53
     couponInfo: [], //选择的优惠券信息
     //2017年12月25日12:18:49
-    normal_coupon_count:0, //可用的优惠券数量
+    normal_coupon_count:'', //可用的优惠券数量
     discounts:0
   },
   /*
@@ -869,25 +869,16 @@ Page({
           
           if (resp.err_msg.coupon_list) {
             console.log('resp.err_msg.coupon_list存在');
-
-            //var normal = resp.err_msg.coupon_list['normal_coupon_list'];
-            //var expired = resp.err_msg.coupon_list['unnormal_coupon_list'];
-
-
             //更新数据
             that.setData({
               normal_coupon_count: resp.err_msg.normal_coupon_count,
-
             });
-
           }
         } else {
           return;
         }
-
       }
       console.log('normal_coupon_count', this.data.normal_coupon_count);
-
     });
   },
 
