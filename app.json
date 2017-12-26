@@ -1,6 +1,9 @@
 {
   "pages": [
+<<<<<<< HEAD
     
+=======
+>>>>>>> 7b9900aeb945c62a542a094c26a27383f5b29a09
     "pages/index-new/index-new",
     "pages/shopping/buycard",
     "pages/shopping/address-list",
@@ -93,10 +96,10 @@
    
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
     "navigationBarTitleText": "婴众趣购",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#7f8389",

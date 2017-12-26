@@ -2,7 +2,7 @@
   <view class="goods-banner-view">
     <swiper class="goods-banner-swiper" indicator-dots="{{true}}" indicator-color="lightgrey" indicator-active-color="white" autoplay="{{true}}">
       <swiper-item wx:for="{{product.product_image_list}}" wx:for-item="src" wx:key="{{index}}">
-        <image src="{{src.image}}" mode="aspectFit" class="banner-img"></image>
+        <image src="{{src.image}}" mode="{{mode}}" class="banner-img"></image>
       </swiper-item>
     </swiper>
   </view>
@@ -65,7 +65,7 @@
               <text class='discount-time'>有效期：{{item.end_time_str}}</text>
             </view>
         </view>
-        <text wx:if="{{item.is_get == 1}}" class='discount-btn' bindtap='getCoupon' data-coupon-id="item.coupon_id" data-index="{{idx}}" >立即领取</text>
+        <text wx:if="{{item.is_get == 1}}" class='discount-btn' bindtap='getCoupon' data-coupon-id="{{item.coupon_id}}" data-index="{{idx}}" >立即领取</text>
         <text wx:if="{{item.is_get == 0}}" class='discount-btn-no'  >已领取</text>
       </view>
     </view>
@@ -153,7 +153,7 @@
   </view>
 </block>
 <!--按钮结束  -->
-<view class='commodity_attr_list-wrap' wx:if='{{moreChoose}}'>
+<view class='commodity_attr_list-wrap' wx:if='{{moreChoose}}' bindtap='goImageClose'>
   <view class="commodity_attr_list">
     <view class='shopping-images-wrap'>
       <view class='shopping-images'>
@@ -200,7 +200,7 @@
       </view>
     </view>
     <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
-    <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>去下单</text>
+    <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>确定</text>
     <!-- 数量的增减end -->
   </view>
 </view>

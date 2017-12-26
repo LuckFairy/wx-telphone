@@ -37,9 +37,9 @@
               <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
               <view class="goods-name-view">
                 <text class="goods-name">{{item.name}}</text>
-                <text style="margin-left: 0rpx;" wx:if="{{item.sku_data_arr}}" wx:for="{{item.sku_data_arr}}" wx:for-index="index" wx:for-item="item2">
-                 {{item2.value}}
-                </text>
+               
+                  <text wx:if="{{item.sku_data_arr.length > 0 }}">{{item.sku_data_arr[1].value}}{{item.sku_data_arr[0].value}}码</text>
+               
                 <text style="margin-right: 10rpx;">x{{item.pro_num}}</text>
               </view>
             </view>
@@ -105,11 +105,10 @@
               <view class="goods-name-view">
                 <text class="goods-name">{{item.name}}</text>
 
-              </view>
-              <view class='goods-size-name' wx:if="{{item.sku_data_arr}}">
-                <text wx:if="{{item.sku_data_arr[0].name}}" class='goods-color-name'>颜色：{{item.sku_data_arr[0].name}}</text>
-                <text wx:if="{{item.sku_data_arr[0].value}}" class='goods-footage-name'>尺码：{{item.sku_data_arr[0].value}}</text>
+                <view class='goods-size-name'>
+                  <text style='display:inline;' wx:if="{{item.sku_data_arr.length > 0 }}">{{item.sku_data_arr[1].value}}{{item.sku_data_arr[0].value}}码</text>
 
+                </view>
               </view>
 
               <view class='goods-price-number'>
@@ -437,14 +436,14 @@
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists-back'>
         <!--无数据时  -->
-         <view class='purchase-null' wx:if='{{showSale}}'>
+         <!-- <view class='purchase-null' wx:if='{{showSale}}'>
           <image class='purchase-image' src='../../image/purchase-image.png'></image>
           <text class='purchase-text'>暂无任何数据</text>
-        </view> 
-        <!-- <view  class="no-data-view" wx:if='{{showSale}}'>
+        </view>  -->
+         <view  class="no-data-view" style='margin-top:80rpx;' wx:if='{{showSale}}'>
           <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
           <text class="mText" class="no-data-text">暂无任何数据 </text>
-        </view> -->
+        </view> 
         <!--无数据时  -->
         <!--有数据时  -->
         <block wx:for='{{dataList}}'>
@@ -464,39 +463,24 @@
                   <text class='purchase-shop-num'>X{{item.pro_num}}</text>
 
                 </view>
-                <text class='purchase-color-size' wx:if="{{item.sku_data_arr}}" wx:for="{{item.sku_data_arr}}" wx:for-index="index" wx:for-item="item2">
-            {{item2.value}}
-          </text>
+                <text class='gray purchase-value' >
+                  <text style='display:inline;' wx:if="{{item.sku_data_arr.length > 0 }}">{{item.sku_data_arr[1].value}}{{item.sku_data_arr[0].value}}码</text>
+                </text>
+                <text class='purchase-price'><text class='gray'>金额：</text>{{item.pro_price}}</text>
               </view>
             </view>
             <!-- status 1 处理中   3商家审核不通  6已完成-->
             <!--已完成  -->
-            <view class='purchase-satus' wx:if='{{item.status==6}}'>
+            <view class='purchase-satus'>
               <view class='purchase-image-text'>
-                <image class='purchase-status-image' src='../../image/pur-success.png'></image>
+                <image wx:if="{{item.status == 6}}" class='purchase-status-image' src='../../image/pur-success.png'></image>
+                <image wx:if="{{item.status == 3}}" class='purchase-status-image' src='../../image/pur-defeat.png'></image>
+                <image wx:else class='purchase-status-image' src='../../image/pur-wait.png'></image>
                 <text class='purchase-status-text'>{{item.status_txt}}</text>
               </view>
-              <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情</text>
+              <text class='purchase-status-detail' bindtap='goDetail'  data-the-id='{{item.id}}' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' data-order-status='{{item.status}}'>查看详情</text>
             </view>
-            <!--已完成  -->
-            <!--已拒绝  -->
-            <view class='purchase-satus' wx:elif='{{item.sStatusId==3}}'>
-              <view class='purchase-image-text'>
-                <image class='purchase-status-image' src='../../image/pur-defeat.png'></image>
-                <text class='purchase-status-text'>{{item.status_txt}}</text>
-              </view>
-              <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}'>查看详情</text>
-            </view>
-            <!--已拒绝  -->
-            <!--处理中  -->
-            <view class='purchase-satus' wx:else>
-              <view class='purchase-image-text'>
-                <image class='purchase-status-image' src='../../image/pur-wait.png'></image>
-                <text class='purchase-status-text'>{{item.status_txt}}</text>
-              </view>
-              <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' data-order-status='{{item.status}}'>查看详情</text>
-            </view>
-            <!--处理中  -->
+            
           </view>
         </block>
         <!--有数据时  -->

@@ -199,7 +199,7 @@ Page({
       title: '加载中'
     })
     var params = {
-      "uid": this.data.uid,
+      "uid": 91,
       "page ": 1,
       "store_id": this.data.storeId
     };

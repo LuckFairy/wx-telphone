@@ -169,8 +169,8 @@
           </block>
 
           <view class="prod-price-view pro-yet-price">
-            <view class="money-text">{{item.pro_price}}</view>
-            <view class="base-price" style="margin-left: 20rpx;">{{item.pro_price}}</view>
+            <view class="money-text">￥{{item.pro_price}}</view>
+            <view class="base-price" style="margin-left: 20rpx;">￥{{item.pro_price}}</view>
             <view style="flex: 1"></view>
             <view class="amount">x{{item.pro_num}}</view>
           </view>
@@ -214,10 +214,16 @@
  <view class='discount' bindtap='changeCoupon'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
-    <text class='discount-ticket'>无可用</text>
-    <text class='discount-ticket'>有{{}}张可用</text>
-    <text class='discount-ticket'>{{}}</text>
-    <image class='discount-go' src='../../image/address-go.png'></image>
+  <block wx:if="{{couponInfo.length}}">
+    <text class='discount-ticket  discount-ticket-checked'>{{couponInfo[1]}}</text>
+  </block>
+  <block wx:elif="{{normal_coupon_count}}">
+    <text class='discount-ticket'>有<span class="discount-ticket-have">{{normal_coupon_count}}</span>张可用</text>
+  </block>
+  <block wx:else>
+    <text class='discount-ticket discount-ticket-no'>无可用</text>
+  </block>
+    <image class='discount-go ' src='../../image/address-go.png'></image>
   </view>
 </view> 
 <!--优惠券选择结束  -->

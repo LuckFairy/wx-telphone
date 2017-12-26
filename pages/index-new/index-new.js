@@ -11,6 +11,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    mode: app.globalData.image.mode,
+    lazyLoad: app.globalData.image.lazyLoad,
       scroll_top: 0,
       goTop_show: false,
       //2017年10月11日14:06:09 by leo
@@ -384,17 +386,14 @@ Page({
   },
 
   loadMyCardNumData: function () {
-    wx.showLoading({ title: '加载中' });
     var params = {
       uid: this.data.uid,
       store_id: this.data.storeId,
     }
     console.log('my_card_num 接口参数',params);
     app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {  
-      wx.hideLoading();
-      if (err) return;
+      if (err || response.err_code != 0 ) return;
       var card_num = response.err_msg.card_num;
-      console.log('卡包的数量', card_num);
       this.setData({ card_num });
     });
   },
