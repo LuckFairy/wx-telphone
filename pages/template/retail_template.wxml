@@ -17,7 +17,7 @@
                         <!--<navigator url=""><image src="../../image/dialog.png" mode="widthFix" style="width:50rpx;margin-top:5px;"></image></navigator>-->                        
                         <navigator url="../cart/cart" open-type="reLaunch">
                           <view class="the-cart">
-                            <image class="cart-image" src="../../image/shop-cart.png"></image>
+                            <image class="cart-image" src="../../image/shop-cart2.png"></image>
                             <text class="cart-text">{{data.cartcount ? data.cartcount : 0}}</text>
                           </view>
                         </navigator>

@@ -38,12 +38,12 @@
                 <view class="card-item-view" bindtap='goDetail' data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.id}}' data-distinguish='{{0}}'>
                     <navigator class="card-item-left" style="display:flex;" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' bindlongtap="deleteCard">
                         <view class="card-item-title-view">
-                            <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
+                            <!-- <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image> -->
                             <view class="card-title-text">{{card.cname}}</view>
                         </view>
                         <view class="card-info-text-normal" style='display:none'>满{{card.limit_money}}方可使用</view>
-                        <view class="card-info-text-small">有效期:{{card.start_time_str}}至{{card.end_time_str}}</view>
-                        <view class="card-info-text-small">优惠券编码: {{card.card_no}}</view>
+                        <view class="card-info-text-small">期限:{{card.start_time_str}}至{{card.end_time_str}}</view>
+                        <view class="card-info-text-small">券ID: {{card.card_no}}</view>
                     </navigator>
                     
                     <view class="card-item-right card-bg-available" data-recid="{{card.coupon_id}}" data-url-param="cardId={{card.coupon_id}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}'>
@@ -60,8 +60,8 @@
           </view>
           <view wx:else class="no-data-view">
             <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
-            <text class="mText" class="no-data-text">还没有可以用的优惠券
-            赶紧去领一个吧</text>
+            <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
+            <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
           </view>
       </scroll-view>
     </swiper-item>
@@ -74,11 +74,11 @@
                 <view class="card-item-view">
                     <navigator class="card-item-left" style="display:flex;" data-recid="{{card.coupon_id}}" bindlongtap="deleteCard">
                         <view class="card-item-title-view">
-                        <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
+                        <!-- <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image> -->
                         <view class="card-title-text">{{card.cname}}</view>
                         </view>
                         <view class="card-info-text-normal"  style='display:none'>满{{card.limit_money}}方可使用</view>
-                        <view class="card-info-text-small">有效期: {{card.start_time_str}}至{{card.end_time_str}}</view>
+                        <view class="card-info-text-small">期限: {{card.start_time_str}}至{{card.end_time_str}}</view>
                     </navigator>
                     <view class="card-item-right card-bg-disable">
                         <view class="card-item-value">
@@ -93,8 +93,8 @@
           </view>
           <view wx:else class="no-data-view">
             <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
-            <text class="mText" class="no-data-text">还没有可以用的优惠券
-            赶紧去领一个吧</text>
+           <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
+            <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
           </view>
       </scroll-view >
     </swiper-item>
@@ -107,11 +107,11 @@
                 <view class="card-item-view" >
                     <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.coupon_id}}" bindlongtap="deleteCard">
                         <view class="card-item-title-view">
-                        <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
+                        <!-- <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image> -->
                         <view class="card-title-text">{{card.cname}}</view>
                         </view>
                         <view class="card-info-text-normal"  style='display:none'>满{{card.limit_money}}方可使用</view>
-                        <view class="card-info-text-small">有效期: {{card.start_time_str}}至{{card.end_time_str}}</view>
+                        <view class="card-info-text-small">期限: {{card.start_time_str}}至{{card.end_time_str}}</view>
                     </navigator>
                     
                     <view class="card-item-right card-bg-disable">
@@ -127,8 +127,8 @@
           </view>
           <view wx:else class="no-data-view">
             <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
-            <text class="mText" class="no-data-text">还没有可以用的优惠券
-            赶紧去领一个吧</text>
+           <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
+            <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
           </view>
       </scroll-view>
     </swiper-item>

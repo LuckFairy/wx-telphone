@@ -401,10 +401,10 @@
     <swiper-item class='swiper-wrap'>
       <scroll-view class="" scroll-y="{{true}}" class='scroll-lists'>
 
-        <view wx:if="{{finishedOrders && finishedOrders.length}}" class="order-list-view">
+        <view wx:if="{{ReceivedOrders && ReceivedOrders.length}}" class="order-list-view">
           <!--<block wx:for="{{usedCardList}}" wx:for-item="card" wx:key="{{card.cardId}}">-->
           <!--已收货-->
-          <view wx:for="{{finishedOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].product_id}}" bindtap="pushToOrderDetail">
+          <view wx:for="{{ReceivedOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].product_id}}" bindtap="pushToOrderDetail">
             <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
               <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
               <view class="goods-name-view">
@@ -418,6 +418,9 @@
               <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
               <view style="">实付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
+            </view>
+            <view class="yellow-btn-view">
+              <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
             </view>
           </view>
           <!--/已收货-->

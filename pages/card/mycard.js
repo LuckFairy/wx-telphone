@@ -32,6 +32,11 @@ Page({
     selectCardthree: 0
 
   },
+  getCoupon(){
+    wx.navigateTo({
+      url: '../index-new/shop-promotion',
+    })
+  },
   // 点击弹出选择券类型
   goSelect() {
     this.setData({

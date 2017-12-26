@@ -133,6 +133,9 @@ Page({
   
   onLoad: function (options) {
     //单商品生成订单
+    console.log('获取存储', wx.getStorageSync('couponInfo'));
+    wx.removeStorageSync('couponInfo');
+    console.log('移除之后', wx.getStorageSync('couponInfo'));
       var order_no = options.order_no;
       this.setData({ order_no: order_no  });
       Api.signin();//获取以及存储openid、uid
@@ -140,7 +143,6 @@ Page({
       var uid = wx.getStorageSync('userUid');
       this.setData({ uid });
       this.getAddress(uid);
-
     
     //console.log('传递过来的订单号是=' + order_no);return;  
 

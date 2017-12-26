@@ -399,11 +399,11 @@ Page({
       
       //console.log('所有的订单数据=', allOrders);
       //console.log('待付款的订单数据=', unpayOrders);
-      console.log('待发货订单数据', transOrders);
-
+      //console.log('待发货订单数据', transOrders);
+      console.log('已收货订单数据', ReceivedOrders);
 
       console.log('unpayOrders ', unpayOrders, 'transOrders ', transOrders);
-      this.setData({ allOrders, momentOrders, unpayOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
+      this.setData({ allOrders, momentOrders, unpayOrders, transOrders, ReceivedOrders,finishedOrders, uncheckOrders, groupOrders });
       typeof onLoaded === 'function' && onLoaded();
     });
     // app.api.fetchApi("order/ls", (err, resp) => {

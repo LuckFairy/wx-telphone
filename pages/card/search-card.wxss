@@ -16,7 +16,8 @@ swiper {
 scroll-view {
   height: 100%;
   display: block;
-  background-color: #ecf2f9;
+  /* background-color: #ecf2f9; */
+   background-color: #eee; 
   _padding-top: 10px;
 }
 

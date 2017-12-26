@@ -4,7 +4,8 @@
   <!--未拿到数据前的默认图  -->
     <swiper wx:if='{{showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
         <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
-          <image class='header-image' mode='widthFix' src='../../image/header-one.png' />
+        <view class='header-image'></view>
+           
         </swiper-item>
     </swiper>
     <!--未拿到数据前的拿到数据之后  -->
