@@ -190,7 +190,7 @@
     <text class='discount-ticket  discount-ticket-checked'>{{couponInfo[1]}}</text>
   </block>
   <block wx:elif="{{normal_coupon_count}}">
-    <text class='discount-ticket'>有<span class="discount-ticket-have">{{normal_coupon_count}}</span>张可用</text>
+    <text class='discount-ticket'>有<text class="discount-ticket-have">{{normal_coupon_count}}</text>张可用</text>
   </block>
   <block wx:else>
     <text class='discount-ticket discount-ticket-no'>无可用</text>
@@ -265,12 +265,13 @@
  <view class="invite-friend-cluster">
     <view class='invite-total actual-payment'>
       <text class='actual-pay-one'>实付款: </text>
-      <text class='actual-pay-two'> ￥{{lastPay}}</text>
+      <text class='actual-pay-two' wx:if='{{couponInfo[2]}}'>￥ {{lastPay - couponInfo[2]}}</text>
+      <text class='actual-pay-two' wx:else>￥ {{lastPay}}</text>
     </view>
     <view class='current-buying invite-total' bindtap="submitOrder"  data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>
       <text class='current-buying-child'>立即购买</text>
     </view>
-</view> 
+</view>
 <!--购买成功之后弹窗  -->
 <view class='matte-hint-father' wx:if='{{matteShow}}'>
   <view class='matte-hint'>

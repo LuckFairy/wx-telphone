@@ -28,15 +28,10 @@ Page({
     totals: [],//商品总价
     isLoading: true,
     showwechat: false,
-
     shippingMethod: 'flat.flat',  // 邮寄方式，默认平邮   flat.flat-平邮  pickup.pickup 到店自提
     shippingMethods: [],    // 有效的配送方式
     hasFlatShip: false,
     hasPickupShip: false,
-  
-
-
-
     showAreaPicer: false,
     areaText: '',   // 区域
     zoneList: [],
@@ -83,6 +78,7 @@ Page({
     couponInfo: [], //选择的优惠券信息
     //2017年12月25日12:18:49
     normal_coupon_count:0, //可用的优惠券数量
+    discounts:0
   },
   /*
   *订单详情列表
@@ -151,11 +147,16 @@ Page({
   
 
   onLoad: function (options) {
-    console.log('页面load');
+    console.log('获取存储', wx.getStorageSync('couponInfo'));
+    wx.removeStorageSync('couponInfo');
+    console.log('移除之后', wx.getStorageSync('couponInfo'));
+    wx.removeStorageSync('recid')
+    wx.removeStorageSync('cname')
+    wx.removeStorageSync('face_money')
+    console.log('页面load',options);
     let {  uid, pid, skuId, storeId, qrEntry ,orderId } = options;
     quantity = options.quantity;
     //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
-    
     this.setData({ orderId, uid});
     //显示订单列表
     this.showOrderList({ orderId });
@@ -203,7 +204,8 @@ Page({
       user_coupon_id.push(couponInfo[0]);
       //console.log(user_coupon_id,'user_coupon_idooooooooooooo')
       this.setData({
-        user_coupon_id: user_coupon_id
+        user_coupon_id: user_coupon_id,
+        discounts: couponInfo[2]
       })
     }
     this.setData({

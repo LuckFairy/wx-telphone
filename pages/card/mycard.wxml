@@ -60,8 +60,8 @@
           </view>
           <view wx:else class="no-data-view">
             <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
-            <text class="mText" class="no-data-text">还没有可以用的优惠券
-            赶紧去领一个吧</text>
+            <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
+            <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
           </view>
       </scroll-view>
     </swiper-item>

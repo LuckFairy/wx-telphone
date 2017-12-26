@@ -13,7 +13,7 @@
   <view class="order-info-view item-area" style='margin-top:0;'>
     <view class="name-phone-view">
       <view class="mText address-order-list">
-        <image class='address-image' src='../../image/address-image.png'></image>
+        <image class='address-image' src='../../image/address.png'></image>
         收货人：{{orderData.address_user}}
       </view>
       <view wx:if="{{orderData.address_tel}}" class="mText address-order-list">{{userTel}}</view>

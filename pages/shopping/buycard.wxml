@@ -8,7 +8,7 @@
       <text data-idx='1'>不可用优惠券({{unnormal_coupon_count}})</text>
     </view>
   </view>
-  <view class='use-ruler'>
+  <view class='use-ruler' bindtap='goDetails'>
     <image class='use-ruler-image' src='../../image/use-ruler.png'></image>
     <text class='use-ruler-text'>使用规则</text>
   </view>
@@ -18,8 +18,8 @@
       <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px; background:#efefef;" bindscrolltolower='pullUpLoadone' lower-threshold='0' scroll-top="{{scrollTop}}">
         <view wx:if="{{normal && normal.length}}" class="card-list-view">
           <view class='rules-wraps' wx:for="{{normal}}" wx:for-item="card" wx:key="{{card.id}}">
-            <view class='normal-block' wx:if='{{card.is_all_product==0}}'>
-              <icon class='icon-ruler' size="20" type="circle" />
+            <view class='normal-block' wx:if='{{card.is_all_product==0}}' bindtap='goChooseCard' data-recid="{{card.id}}" data-couponid="{{card.coupon_id}}" data-cname="{{card.cname}}" data-face_money="{{card.face_money}}" data-index='{{index}}'>
+              <icon class='icon-ruler' size="20" type="{{(borId==card.id)?'success':'circle'}}" />
               <view class='cards-use-list'>
                 <view class='rulers-text-list'>
                   <text class='rulers-text-title'>{{card.cname}}</text>
@@ -31,8 +31,8 @@
                 </view>
               </view>
             </view>
-            <view class='normal-block' wx:else>
-              <icon class='icon-ruler' size="20" type="circle" />
+            <view class='normal-block' wx:else bindtap='goChooseCard' data-recid="{{card.id}}" data-couponid="{{card.coupon_id}}" data-cname="{{card.cname}}" data-face_money="{{card.face_money}}" data-index='{{index}}'>
+              <icon class='icon-ruler' size="20" type="{{(borId==card.id)?'success':'circle'}}" />
               <view class='cards-use-list-two'>
                 <view class='rulers-text-list'>
                   <text class='rulers-text-title'>{{card.cname}}</text>
@@ -44,8 +44,6 @@
                 </view>
               </view>
             </view>
-
-
           </view>
         </view>
         <view wx:else class="no-data-view">
@@ -105,8 +103,8 @@
 <view class='bottom-fixed'>
   <view class='bottom-fixed-left'>
     <text class='bottom-fixed-num'>已选1张，可抵扣</text>
-    <text class='bottom-fixed-price'>80</text>
+    <text class='bottom-fixed-price' style='color:red'> {{face_money}} </text>
     <text class='bottom-fixed-yuan'>元</text>
   </view>
-  <text class='bottom-fixed-go'>确定</text>
+  <text class='bottom-fixed-go' bindtap='goConfirm' data-recid='{{recid}}' data-index='{{index}}' data-face_money='{{face_money}}' data-cname='{{cname}}' data-couponid='{{couponid}}'>确定</text>
 </view>
