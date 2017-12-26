@@ -76,7 +76,47 @@ Page({
     this.loadFestivalData();
     // this._prepare();    // 等待登录才开始加载数据
 
-    this.loadMyCardNumData(); //我的卡包数量
+    //this.loadMyCardNumData(); //我的卡包数量
+
+    //兼容 用户授权问题
+    let waitTime = 0;
+    let intervalTime = 2000;
+    //在登录成功后调用。
+    if (checkTimer) {
+      clearInterval(checkTimer);
+    }
+    checkTimer = setInterval(() => {
+      if (waitTime > 30000) {//超过5秒等待直接跳转到首页。
+        clearInterval(checkTimer);
+        wx.showModal({
+          title: '请求结果',
+          content: '等待超时，跳转到首页',
+        });
+
+        wx.switchTab({
+          url: '../index-new/index-new',
+        });
+      }
+      waitTime += intervalTime;
+      if (uid) {
+        //that.setData({ uid: uid, store_id: store_id, locationId });
+        clearInterval(checkTimer);
+        this.loadMyCardNumData(); //我的卡包数量
+      } else {
+        Api.signin();//获取以及存储uid
+        var uid = wx.getStorageSync('userUid');
+        if (uid) {
+          that.setData({ uid: uid });
+          clearInterval(checkTimer);
+          this.loadMyCardNumData(); //我的卡包数量
+        }
+
+      }
+
+    }, intervalTime);
+
+
+
   },
   goCardLists(){
     wx.navigateTo({
