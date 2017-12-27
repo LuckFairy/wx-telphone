@@ -183,7 +183,7 @@
   </view>
 </view>
 <!--优惠券选择  -->
- <view class='discount' bindtap='changeCoupon'>
+ <view class='discount' bindtap='changeCoupon' data-product_id='{{product_id}}' data-pro_price='{{pro_price}}'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
   <block wx:if="{{couponInfo.length}}">
