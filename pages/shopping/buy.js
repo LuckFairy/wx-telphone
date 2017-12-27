@@ -414,8 +414,16 @@ Page({
       console.log(resp, 344444)
       var data = resp.err_msg;
       console.log(data);
-      // 调起微信支付
-      this._startPay(data);
+      if (resp.err_dom){
+          console.log('不需要支付');
+          wx.navigateTo({
+            url: './my-order?goodsindex=' + 2
+          })
+      }else{
+          console.log('需要支付');
+          // 调起微信支付
+          this._startPay(data);
+      }
     });
 
     
