@@ -190,7 +190,7 @@
    <!--内容开始  -->
     <view class='festival-recommend'> 
      
-        <view class='baokuan-recommend-image baokuan-image-2 bindtap='clickGoHotSale' data-categoryid='101'>
+        <view class='baokuan-recommend-image baokuan-image-2' bindtap='clickGoHotSale' data-categoryid='101'>
           <!-- <image class='baokuan-image baokuan-image-2' src='../../image/index_hotsale.png'></image> -->
         </view>
     
@@ -223,7 +223,7 @@
    <!--内容开始  -->
     <view class='festival-recommend'> 
     
-        <view class='baokuan-recommend-image baokuan-image-3 bindtap='clickGoFestival' data-categoryid='105'>
+        <view class='baokuan-recommend-image baokuan-image-3' bindtap='clickGoFestival' data-categoryid='105'>
           <!-- <image class='baokuan-image baokuan-image-3' src='../../image/index_select.png'></image> -->
         </view>
     
@@ -256,7 +256,7 @@
    <!--内容开始  -->
     <view class='festival-recommend'> 
     
-        <view class='baokuan-recommend-image baokuan-image-4 bindtap='clickGoGoods' data-categoryid='102'>
+        <view class='baokuan-recommend-image baokuan-image-4' bindtap='clickGoGoods' data-categoryid='102'>
           <!-- <image class='baokuan-image' src='../../image/index_goods.png'></image> -->
         </view>
     
