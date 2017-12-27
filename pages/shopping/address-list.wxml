@@ -23,7 +23,7 @@
           <i class="fa fa-lg fa-pencil-square-o"></i>
           <text class="navigator" style="margin-left:5px;margin-right:10px;">编辑</text>
         </view>
-        <view style="line-height:100%;" bindtap="bindDelAddr" data-address-id="{{item.address_id}}">
+        <view style="line-height:100%;" bindtap="bindDelAddr" data-index="{{index}}" data-address-id="{{item.address_id}}">
           <i class="fa fa-lg fa-trash-o"></i>
           <text style="margin-left:5px;margin-right:10px;">删除</text>
         </view>

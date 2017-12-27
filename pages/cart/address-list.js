@@ -7,6 +7,7 @@ Page({
     addrList: [],
     uid:'',
     addressId:'',
+    error:false
   },
   onLoad:function(options){
     this.setData({ addressId: options.addressId});
@@ -85,27 +86,32 @@ Page({
    * 删除地址
    */
   bindDelAddr(e) {
+    var that = this;
     wx.showModal({
       title: '确认操作',
       content: '是否确认删除地址？',
       success: res => {
-     
-        if(res.confirm) {
-          let addrId = e.currentTarget.dataset.addrId;
+
+        if (res.confirm) {
+          let addrId = e.currentTarget.dataset.addressId;
+          var params = { "uid": that.data.uid, "address_id": addrId }
+          var index = e.currentTarget.dataset.index;
+          var addrList = that.data.addrList;
           wx.showLoading({ title: '正在删除地址' });
-          app.api.fetchApi('address/remove/' + addrId, (err, response) => {
+          app.api.postApi('wxapp.php?c=address&a=DelAddress', { params }, (err, reps) => {
             wx.hideLoading();
-
             if (err) {
-              return this._showError('操作失败，请重试');
+              return that._showError('操作失败，请重试');
             }
-
-            let {rtnCode, rtnMessage, data} = response;
-            if (rtnCode != 0) {
-              return this._showError(rtnMessage);;
+            if (reps.err_code != 0) {
+              return that._showError(result);;
             }
+            if (reps.err_code == 0){
 
-            this.loadAddr();
+              addrList.splice(index, 1);
+              that.setData({ addrList });
+            }
+            
           });
         }
       }
@@ -155,5 +161,13 @@ Page({
         //that.addrLists();
       }
     });
+  },
+  /**
+   * 显示错误信息
+   */
+  _showError(errorMsg) {
+    wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
+    this.setData({ error: errorMsg });
+    return false;
   },
 })

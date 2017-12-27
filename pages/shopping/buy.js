@@ -109,21 +109,22 @@ Page({
       if(!err && rep.err_code == 0){
         var addressList = rep.err_msg.addresslist;
         if (addressList.length){
-          if (addressList.length>0){
-            console.log('地址列表 ', addressList);
+          if (addressList.length>1){
             //设置默认地址
             for (var i in addressList) {
               if (addressList[i].default == 1) {
                 console.log('默认地址 ', addressList[i]);
                 address = addressList[i];
               }
-            } 
-            this.setData({
-              "address":address,
-              "addressList": addressList,
-              "addressId": addressList[0].address_id
-            });
+            }
+          } else if (addressList.length == 1){
+            address = addressList[0];
           }
+          this.setData({
+            "address": address,
+            "addressList": addressList,
+            "addressId": addressList[0].address_id
+          });
         }else{
           wx.showModal({
             title: '请先设置收货地址',

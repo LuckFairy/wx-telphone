@@ -1,6 +1,11 @@
 // pages/present/present.js
+import { Api } from '../../utils/api_2';
+Api.signin();//获取以及存储openid、uid
+import { store_Id } from '../../utils/store_id';
 var app = getApp();
 const log = 'present.js --- ';
+const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url
+
 let errModalConfig = {   // {image?: string, title: stirng}
   image: '../../image/error.png',
   title: "您已经申请过啦，试试申请别的吧"
@@ -20,6 +25,8 @@ Page({
     successModalConfig,          // 模态框设置
     loading: true,            // 是否正在加载
     presentData: null,        // 页面数据
+    uid: wx.getStorageSync('userUid'),//用户id
+    store_id: store_Id.shopid,//店铺id 
   },
   onLoad:function(options){
     // 生命周期函数--监听页面加载
@@ -29,8 +36,10 @@ Page({
   },
 
   onShow:function(){
-    // 生命周期函数--监听页面显示
+   // 生命周期函数--监听页面显示
+ 
     this.loadData();
+   
   },
   onHide:function(){
     // 生命周期函数--监听页面加载
@@ -59,16 +68,22 @@ Page({
   },
 
   _loadListDataNew() {
-      let url = 'trial/ls';
-        app.api.fetchApi(url, (err, response) => {
-            if (err) {
+    var that = this;
+    var params = {
+      "cid": "106",//分类id
+      "sid": that.data.store_id,
+      "uid": that.data.uid,
+      // "page_size": "5",
+      // "page_num": "1",
+    };
+    app.api.postApi(trialProductListUrl, { params}, (err, rep) => {
+            if (err || rep.err_code!=0) {
                 this.setData({loading: false});
                 return;
             }
-            let {data} = response;
             this.setData({
                 loading: false,
-                presentData: data
+                presentData: rep.err_msg.list
             });
         });
   },

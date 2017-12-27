@@ -1,7 +1,7 @@
 <template name="present-list">
 	<view
 		wx:for="{{presentData}}"
-		wx:key="{{item.productId}}"
+		wx:key="{{item.product_id}}"
 		class="page {{item.hasTrial? '':'navigator'}}"
 		data-options="{{item}}"
 		bindtap="{{item.hasTrial ? '':'applyForPresent'}}"
@@ -21,7 +21,7 @@
 				<view class="info">
 					<view class="priceInfo">
             <text class="specialRedText special"><text class="mText">¥</text>{{item.price}}</text>
-            <text class="grayText price">{{'¥' + item.basePrice}}</text><!--wx:if="{{item.price !== item.basePrice}}"-->
+            <text class="grayText price">{{'¥' + item.original_price}}</text><!--wx:if="{{item.price !== item.basePrice}}"-->
           </view>
 					<view class="controlWrap">
 						<view wx:if="{{item.quantity > 0 && item.quantity < 1000}}" class="badgeWrap">
