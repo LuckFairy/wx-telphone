@@ -72,7 +72,7 @@
             <block wx:for="{{expired}}" wx:for-item="card" wx:key="{{index}}">
                 <!--过期卡券-->
                 <view class="card-item-view">
-                    <navigator class="card-item-left" style="display:flex;" data-recid="{{card.coupon_id}}" bindlongtap="deleteCard">
+                    <navigator class="card-item-left" style="display:flex;" data-recid="{{card.coupon_id}}">
                         <view class="card-item-title-view">
                         <!-- <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image> -->
                         <view class="card-title-text">{{card.cname}}</view>
@@ -105,7 +105,7 @@
             <block wx:for="{{used}}" wx:for-item="card" wx:key="{{index}}">
                 <!--已经使用过的卡券-->
                 <view class="card-item-view" >
-                    <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.coupon_id}}" bindlongtap="deleteCard">
+                    <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.coupon_id}}" >
                         <view class="card-item-title-view">
                         <!-- <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image> -->
                         <view class="card-title-text">{{card.cname}}</view>

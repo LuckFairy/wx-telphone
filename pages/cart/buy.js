@@ -144,8 +144,7 @@ Page({
       this.setData({ uid });
       this.getAddress(uid);
     
-    //console.log('传递过来的订单号是=' + order_no);return;  
-
+    //console.log('传递过来的订单号是=' + order_no);return;
     // 加载门店列表数据
     //this._loadShopData();
     //2017年12月26日13:45:20
