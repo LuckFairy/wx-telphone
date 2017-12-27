@@ -160,7 +160,7 @@ Page({
   goDetails(){
     wx.showModal({
       title: '优惠券使用说明',
-      content: '1.通用券和指定券不能同时使用;2.当券的金额大于订单应付金额时，差额不予退还',
+      content: '1.通用券和指定券不能同时使用; 2.当券的金额大于订单应付金额时，差额不予退还; 3.通用券和指定券都不能叠加使用',
       success: function (res) {
         if (res.confirm) {
           console.log('用户点击确定')

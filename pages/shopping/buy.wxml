@@ -203,23 +203,23 @@
 <view class='discount discount-list'>
   <text class='discount-text'>商品金额</text>
   <view class='discount-father'>
-    <text class='discount-ticket-price discount-color-red'>{{totals}}</text>
+    <text class='discount-ticket-price discount-color-red'>￥{{totals}}</text>
   </view>
 </view>
 <view class='discount discount-list'>
   <text class='discount-text'>运费</text>
   <view class='discount-father'>
-    <text class='discount-ticket-price discount-color-red'>{{fee}}</text>
+    <text class='discount-ticket-price discount-color-red'>+￥{{fee}}</text>
   </view>
 </view>
 <view class='discount discount-list'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
     <block wx:if="{{couponInfo.length}}">
-    <text class='discount-ticket-price discount-color-red'>{{couponInfo[2]}}</text>
+    <text class='discount-ticket-price discount-color-red'>-￥{{couponInfo[2]}}</text>
     </block>
     <block wx:else>
-    <text class='discount-ticket-price discount-color-red'>0</text>
+    <text class='discount-ticket-price discount-color-red'>-￥0.00</text>
     </block>
   </view>
 </view>
