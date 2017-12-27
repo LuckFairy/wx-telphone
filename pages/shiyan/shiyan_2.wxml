@@ -1,2 +1,2 @@
-<!-- <web-view src="https://saas.qutego.com/wap/home.php?id=6"></web-view> -->
- <web-view src="https://saas.qutego.com/wap/lottery.php?action=detail&id=2&fromuid=8"></web-view> 
+ <!-- <web-view src="https://saas.qutego.com/wap/home.php?id=6"></web-view>  -->
+  <web-view src="https://saas.qutego.com/wap/lottery.php?action=detail&id=9&store_id=6">11111</web-view>  

@@ -269,5 +269,11 @@ Page({
    */
   onShareAppMessage: function () {
   
-  }
+  },
+  testWeb: function () {
+    console.log('shiyan_2');
+    wx.navigateTo({
+      url: '../shiyan/shiyan_2',
+    })
+  },
 })
