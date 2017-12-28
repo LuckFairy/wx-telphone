@@ -38,7 +38,8 @@ Page({
   },
   goCanvas:function(){
       wx.navigateTo({
-        url: '../shiyan/shiyan_2',
+        //url: '../shiyan/shiyan_2',
+        url: '../lottery/dazhuanpan',
       })
   },
   onReady:function(){
