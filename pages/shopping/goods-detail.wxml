@@ -153,7 +153,9 @@
   </view>
 </block>
 <!--按钮结束  -->
-<view class='commodity_attr_list-wrap' wx:if='{{moreChoose}}' bindtap='goImageClose'>
+<!-- <view  wx:if='{{moreChoose}}' class='commodity_attr_list-wrap' > -->
+<view  wx:if='{{moreChoose}}' >
+  <view class='commodity_attr_list-wrap'  bindtap='goImageClose'></view>
   <view class="commodity_attr_list">
     <view class='shopping-images-wrap'>
       <view class='shopping-images'>
