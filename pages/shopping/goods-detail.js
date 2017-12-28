@@ -142,6 +142,14 @@ Page({
           var moreChoose = false;
           that.setData({ moreChoose});
         }, 1000)
+      }else{
+        wx.showModal({
+          title: '商品提示',
+          content: resp.err_msg,
+          success: function(res) {},
+          fail: function(res) {},
+          complete: function(res) {},
+        })
       }
     });
   },

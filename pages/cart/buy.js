@@ -808,7 +808,6 @@ changeCurActIndex(e) {
   this.setData({ curActIndex });
   this.setShippingMethod(method);
 },
-//2017年12月26日13:57:43
 changeCoupon: function (event) {
   console.log('点击进入优惠券选择界面', event);
   //navigateTo  redirectTo

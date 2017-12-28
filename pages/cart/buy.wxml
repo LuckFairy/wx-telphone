@@ -236,7 +236,6 @@
       <text class='current-buying-child'>立即购买</text>
     </view>
 </view> 
-
 <!--购买成功之后弹窗  -->
 <view class='matte-hint-father' wx:if='{{matteShow}}'>
   <view class='matte-hint'>
