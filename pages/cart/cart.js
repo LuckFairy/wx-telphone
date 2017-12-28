@@ -376,7 +376,7 @@ Page({
               var params = {
                 store_id, uid
               }
-              //that.refreshList(params);
+              that.refreshList(params);
               
               that.numList(index);
 

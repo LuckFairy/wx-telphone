@@ -47,10 +47,6 @@
       </view>
     </view>
     <view class="list-select-area-bottom">
-      <view class='select-list' bindtap="clickGoCategory" data-index = '4' data-cat-id='{{cat_list[4].cat_id}}'>
-        <image class='select-list-image' src='{{cat_list[4].cat_pic}}'></image>
-        <text class='select-list-text'>{{cat_list[4].cat_name}}</text>
-      </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '0' data-cat-id='{{cat_list[0].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[0].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[0].cat_name}}</text>
@@ -66,6 +62,10 @@
       <view class='select-list' bindtap="clickGoCategory" data-index = '3' data-cat-id='{{cat_list[3].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[3].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[3].cat_name}}</text>
+      </view>
+      <view class='select-list' bindtap="clickGoCategory" data-index = '4' data-cat-id='{{cat_list[4].cat_id}}'>
+        <image class='select-list-image' src='{{cat_list[4].cat_pic}}'></image>
+        <text class='select-list-text'>{{cat_list[4].cat_name}}</text>
       </view>
     </view>
   </view>
@@ -190,7 +190,7 @@
    <!--内容开始  -->
     <view class='festival-recommend'> 
      
-        <view class='baokuan-recommend-image baokuan-image-2 bindtap='clickGoHotSale' data-categoryid='101'>
+        <view class='baokuan-recommend-image baokuan-image-2' bindtap='clickGoHotSale' data-categoryid='101'>
           <!-- <image class='baokuan-image baokuan-image-2' src='../../image/index_hotsale.png'></image> -->
         </view>
     
@@ -223,7 +223,7 @@
    <!--内容开始  -->
     <view class='festival-recommend'> 
     
-        <view class='baokuan-recommend-image baokuan-image-3 bindtap='clickGoFestival' data-categoryid='105'>
+        <view class='baokuan-recommend-image baokuan-image-3' bindtap='clickGoFestival' data-categoryid='105'>
           <!-- <image class='baokuan-image baokuan-image-3' src='../../image/index_select.png'></image> -->
         </view>
     
@@ -256,7 +256,7 @@
    <!--内容开始  -->
     <view class='festival-recommend'> 
     
-        <view class='baokuan-recommend-image baokuan-image-4 bindtap='clickGoGoods' data-categoryid='102'>
+        <view class='baokuan-recommend-image baokuan-image-4' bindtap='clickGoGoods' data-categoryid='102'>
           <!-- <image class='baokuan-image' src='../../image/index_goods.png'></image> -->
         </view>
     

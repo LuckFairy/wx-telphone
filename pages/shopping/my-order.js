@@ -376,13 +376,13 @@ Page({
           unpayOrders.push(item);
         }else if (status == ORDER_STATUS_PROCESSING || status == ORDER_STATUS_SHIPPED) {
           transOrders.push(item);
-        } else if (status == ORDER_STATUS_COMPLETE  ){//已完成
-          finishedOrders.push(item);
+        // } else if (status == ORDER_STATUS_COMPLETE  ){//已完成
+        //   finishedOrders.push(item);
         } else if (status == ORDER_STATUS_CANCELED  ){//已取消
           canceledOrders.push(item);
         } else if (status == ORDER_STATUS_REFUNDING  ){//退款中
           refundingOrders.push(item)
-        } else if (status == ORDER_STATUS_RECEIVED ) {// //已收货
+        } else if (status == ORDER_STATUS_RECEIVED || status == ORDER_STATUS_COMPLETE) {// //已收货
           ReceivedOrders.push(item);
         }
 
@@ -399,11 +399,11 @@ Page({
       
       //console.log('所有的订单数据=', allOrders);
       //console.log('待付款的订单数据=', unpayOrders);
-      console.log('待发货订单数据', transOrders);
-
+      //console.log('待发货订单数据', transOrders);
+      console.log('已收货订单数据', ReceivedOrders);
 
       console.log('unpayOrders ', unpayOrders, 'transOrders ', transOrders);
-      this.setData({ allOrders, momentOrders, unpayOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
+      this.setData({ allOrders, momentOrders, unpayOrders, transOrders, ReceivedOrders,finishedOrders, uncheckOrders, groupOrders });
       typeof onLoaded === 'function' && onLoaded();
     });
     // app.api.fetchApi("order/ls", (err, resp) => {

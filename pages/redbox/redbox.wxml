@@ -33,11 +33,9 @@
     <!--<image src="../../image/ap_home_rp_flow.png" mode="widthFix" style="width:40rpx;margin-right:5px;"></image>-->
     <!--<navigator url="./mydata" class="btn-myflow">我的流量</navigator>-->
     <!--</view>-->
-    <image class='prize' src='../../image/prize.gif' bindtap="goCanvas">
-
-    </image>
-    <view>
-        <!-- <web-view src="https://saas.qutego.com/wap/lottery.php?action=detail&id=2&fromuid=8">ssss</web-view> -->
-    </view>
+    <image class='prize' src='https://saas.qutego.com/upload/images/prize.gif' bindtap="goCanvas"></image>
+    <!-- <view>
+        <web-view src="https://saas.qutego.com/wap/lottery.php?action=detail&id=9&store_id=6">ssss</web-view>
+    </view> -->
     
 </view>

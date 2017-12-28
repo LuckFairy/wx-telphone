@@ -81,7 +81,8 @@ Page({
     payType: 'weixin',
     //2017年12月26日13:44:11
     couponInfo: [], //选择的优惠券信息
-    normal_coupon_count: 0, //可用的优惠券数量
+    normal_coupon_count: '', //可用的优惠券数量
+    totalId:[]
   },
   /*
  *地址详情列表
@@ -132,68 +133,72 @@ Page({
   },
 
   
-onLoad: function (options) {
-  //单商品生成订单
-  var order_no = options.order_no;
-  this.setData({ order_no: order_no });
-  Api.signin();//获取以及存储openid、uid
-  // 获取uid
-  var uid = wx.getStorageSync('userUid');
-  this.setData({ uid });
-  this.getAddress(uid);
+
+  onLoad: function (options) {
+    //单商品生成订单
+    console.log('获取存储', wx.getStorageSync('couponInfo'));
+    wx.removeStorageSync('couponInfo');
+    console.log('移除之后', wx.getStorageSync('couponInfo'));
+      var order_no = options.order_no;
+      this.setData({ order_no: order_no  });
+      Api.signin();//获取以及存储openid、uid
+      // 获取uid
+      var uid = wx.getStorageSync('userUid');
+      this.setData({ uid });
+      this.getAddress(uid);
+    
+    //console.log('传递过来的订单号是=' + order_no);return;
+    // 加载门店列表数据
+    //this._loadShopData();
+    //2017年12月26日13:45:20
+    var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
+    //console.log('onLoad优惠券信息', couponInfo);
+    if (couponInfo.length > 0) {
+      var user_coupon_id = [];  //23  ['23']
+      user_coupon_id.push(couponInfo[0]);
+      //console.log(user_coupon_id,'user_coupon_idooooooooooooo')
+      this.setData({
+        user_coupon_id: user_coupon_id
+      })
+    }
 
 
-  //console.log('传递过来的订单号是=' + order_no);return;  
-
-  // 加载门店列表数据
-  //this._loadShopData();
-
-  this.getAddress();
-
-  //2017年12月26日13:45:20
-  var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
-  //console.log('onLoad优惠券信息', couponInfo);
-  if (couponInfo.length > 0) {
-    var user_coupon_id = [];  //23  ['23']
-    user_coupon_id.push(couponInfo[0]);
-    //console.log(user_coupon_id,'user_coupon_idooooooooooooo')
-    this.setData({
-      user_coupon_id: user_coupon_id
-    })
-  }
   this.setData({
     couponInfo: couponInfo
   })
   this.loadCouponData();
 },
-onReady: function () {
-  // 页面渲染完成
-},
-onShow: function () {
-  var uid = this.data.uid;
-  this.getAddress(uid);
-  // 页面显示
-  //this._prepare(_prodId, skuid, quantity, cartId);
 
-  //商品数据
-  var order_no = this.data.order_no;
-  //console.log('onShow的订单号是=' + order_no); return; 
-  this._prepare(order_no);
+  onReady: function () {
+    // 页面渲染完成
+  },
+  onShow: function () {
+    var uid = this.data.uid;
+    this.getAddress(uid);
+    // 页面显示
+    //this._prepare(_prodId, skuid, quantity, cartId);
+  
+    //商品数据
+    var order_no = this.data.order_no;
+    //console.log('onShow的订单号是=' + order_no); return; 
+    this._prepare(order_no);
 
-  //2017年12月26日13:46:22
-  var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
-  //console.log('onShow优惠券信息', couponInfo);
-  if (couponInfo.length > 0) {
-    var user_coupon_id = [];  //23  ['23']
-    user_coupon_id.push(couponInfo[0]);
-    //console.log(user_coupon_id, 'user_coupon_idooooooooooooo')
-    this.setData({
-      user_coupon_id: user_coupon_id
-    })
-  }
+    //2017年12月26日13:46:22
+    var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
+    console.log('onShow优惠券信息', couponInfo);
+    if (couponInfo.length > 0) {
+      var user_coupon_id = [];  //23  ['23']
+      user_coupon_id.push(couponInfo[0]);
+      //console.log(user_coupon_id, 'user_coupon_idooooooooooooo')
+      this.setData({
+        user_coupon_id: user_coupon_id
+      })
+    }
+
   this.setData({
     couponInfo: couponInfo
   })
+  this.loadCouponData();
 
 },
 onHide: function () {
@@ -209,23 +214,33 @@ _prepare(order_no) {
     order_no: order_no
 
   }
-  app.api.postApi('wxapp.php?c=order&a=mydetail', { params }, (err, resp) => {
-    if (err) {
-      that._showError(err);
-      return;
-    }
-    if (resp.err_code == 0) {
+ 
+    app.api.postApi('wxapp.php?c=order&a=mydetail', { params }, (err, resp) => {
+      if (err) {
+        that._showError(err);
+        return;
+      }
+      if (resp.err_code == 0) {
+        
+        let orderdata = resp.err_msg.orderdata;
+        var products = resp.err_msg.orderdata.product; //购物车的商品
+        var sub_total = resp.err_msg.orderdata.sub_total; //商品金额
+        var postage_int = resp.err_msg.orderdata.postage_int; //运费
+        var lastPay = (resp.err_msg.orderdata.sub_total - resp.err_msg.orderdata.postage_int).toFixed(2);//实付款
+        var orderdata = resp.err_msg.orderdata;
+        console.log('商品详情但事实上所所', orderdata);
+        var product = orderdata.product;
+        var totalId = [];
+        for (var i = 0; i < product.length;i++){
+          totalId.push(product[i].product_id);//总id
+        }
+        this.setData({ products: products, postage_int, sub_total, lastPay, totalId});
+      }
 
-      let orderdata = resp.err_msg.orderdata;
-      var products = resp.err_msg.orderdata.product; //购物车的商品
-      var sub_total = resp.err_msg.orderdata.sub_total; //商品金额
-      var postage_int = resp.err_msg.orderdata.postage_int; //运费
-      var lastPay = "￥" + (resp.err_msg.orderdata.sub_total - resp.err_msg.orderdata.postage_int).toFixed(2);//实付款
 
-      this.setData({ products: products, postage_int, sub_total, lastPay });
-    }
-  });
-},
+
+    });
+  },
 
 addAddr: function (event) {
   wx.navigateTo({
@@ -762,6 +777,7 @@ loadShopDetailData(e) {
  */
 seeStreet() {
 },
+
 
 /**
  * 点击查看图集

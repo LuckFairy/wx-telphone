@@ -76,6 +76,7 @@ Page({
       if (err) return;
       var cat_list = response.err_msg.cat_list;
       console.log("53423233423", cat_list);
+      console.log("333333333", options);
       this.setData({ cat_list: cat_list });
     });
     // 5个tab数据结束

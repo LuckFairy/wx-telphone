@@ -11,3 +11,4 @@
 <picker mode="selector" range="{{array}}" value="{{index}}" bindchange="listenerPickerSelected">
     <text>{{array[index]}}ee</text>
 </picker>
+<view bindtap='testWeb'>web-view测试</view>

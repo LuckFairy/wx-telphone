@@ -158,7 +158,6 @@ Page({
             }
           }
         } 
-  
         addrList[index].default = def;
         that.setData({
           addrList

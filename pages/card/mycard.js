@@ -299,8 +299,9 @@ Page({
     var uid = that.data.uid;
     var category = that.data.category;
     var params = {
-      page: pagesthree, store_id: store_id, uid: uid, type: 'used', category: category
+      page: pagesthree, store_id: store_id, uid: uid, type: 'use', category: category
     }
+    console.log('params',params)
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, response) => {
       if (err) return;
       console.log('res3', response);
@@ -333,7 +334,9 @@ Page({
         url: './card_summary?id=' + id + '&distinguish=' + distinguish
       })
     } else {
-      // 线上券跳到某个商品详情
+      wx.navigateTo({
+        url: '../index-new/index-boabao'
+      })
     }
   },
   /**
