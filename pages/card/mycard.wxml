@@ -36,7 +36,7 @@
             <block wx:for="{{normal}}" wx:for-item="card" wx:key="{{index}}">
                 <!--正常活动卡券-->
                 <view class="card-item-view" bindtap='goDetail' data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.id}}' data-distinguish='{{0}}'>
-                    <navigator class="card-item-left" style="display:flex;" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' bindlongtap="deleteCard">
+                    <navigator class="card-item-left" style="display:flex;" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}'>
                         <view class="card-item-title-view">
                             <!-- <image src="{{card.mch_imgurl}}" mode="widthFix" class="card-item-mch-icon"></image> -->
                             <view class="card-title-text">{{card.cname}}</view>
