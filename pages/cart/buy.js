@@ -808,12 +808,13 @@ changeCurActIndex(e) {
   this.setData({ curActIndex });
   this.setShippingMethod(method);
 },
-//2017年12月26日13:57:43
 changeCoupon: function (event) {
-  console.log('点击进入优惠券选择界面');
+  console.log('点击进入优惠券选择界面', event);
   //navigateTo  redirectTo
+  var pro_price = event.currentTarget.dataset.sub_total;
+  var product_id = event.currentTarget.dataset.total_id;
   wx.navigateTo({
-    url: '../shopping/buycard'
+    url: '../shopping/buycard?product_id=' + product_id + '&pro_price=' + pro_price
   });
 },
 //优惠券的数量
