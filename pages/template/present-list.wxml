@@ -15,6 +15,7 @@
 			<view class="modelRightContainer">
 				<view class="description">
 					<text class="titleText title">{{item.name || ''}}</text>
+					<text class="titleText title2">{{item.name || ''}}</text>
 					<!-- subtitle -->
 				</view>
        

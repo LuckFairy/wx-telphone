@@ -11,7 +11,7 @@ const ListURL = 'store/ls';          // 门店列表
 const DetailURL = 'store/detail';    // 门店详情
 
 var checkTimer = null;
-let _prodId;                          // 记录商品 id
+let _prodId;                          // 记录商品id
 let skuid;                          // 记录商品多属性标识 id
 let quantity;                          // 购买商品的数量
 let cartId;
@@ -810,10 +810,12 @@ changeCurActIndex(e) {
 },
 //2017年12月26日13:57:43
 changeCoupon: function (event) {
-  console.log('点击进入优惠券选择界面');
+  console.log('点击进入优惠券选择界面', event);
   //navigateTo  redirectTo
+  var pro_price = event.currentTarget.dataset.sub_total;
+  var product_id = event.currentTarget.dataset.total_id;
   wx.navigateTo({
-    url: '../shopping/buycard'
+    url: '../shopping/buycard?product_id=' + product_id + '&pro_price=' + pro_price
   });
 },
 //优惠券的数量

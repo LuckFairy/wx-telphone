@@ -86,3 +86,8 @@
   border-radius: 10rpx;
 
 }
+/* amy */
+.title2{
+  color:#999;
+  font-size: 24rpx;
+}

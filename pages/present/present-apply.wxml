@@ -19,7 +19,7 @@
           <view class="priceInfo">
             <view class="priceInfo">
               <text class="specialRedText special"><text class="mText">¥</text>{{ presentData.price}}</text>
-              <text class="price grayText">{{'¥' + presentData.basePrice}}</text><!--wx:if="{{presentData.price !== presentData.basePrice}}"-->
+              <text class="price grayText">{{'¥' + presentData.original_price}}</text><!--wx:if="{{presentData.price !== presentData.basePrice}}"-->
           </view>
           </view>
           <view class="controlWrap">
@@ -35,7 +35,7 @@
 
     <form bindsubmit="formSubmit">
       <!-- 隐藏域 -->
-      <input hidden name="prodId" value="{{presentData.productId}}" /> 
+      <input hidden name="prodId" value="{{presentData.product_id}}" /> 
       <!-- 隐藏域end -->
       <view class="form">
         <!-- .user-info -->

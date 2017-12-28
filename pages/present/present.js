@@ -92,11 +92,10 @@ Page({
    * 进入赠品申请页面
    */
   applyForPresent(e) {
-    
     let {options} = e.currentTarget.dataset;
     wx.navigateTo({
       	// url:"./present-apply?options=" + JSON.stringify(options)
-        url: `../shopping/goods-detail?prodId=${options.productId}&action=present&params=${encodeURIComponent(JSON.stringify(options))}`
+      url: `../shopping/goods-detail?prodId=${options.product_id}&action=present&params=${encodeURIComponent(JSON.stringify(options))}`
     });
   },
   
