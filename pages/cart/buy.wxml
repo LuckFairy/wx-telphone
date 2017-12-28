@@ -228,7 +228,8 @@
  <view class="invite-friend-cluster">
     <view class='invite-total actual-payment'>
       <text class='actual-pay-one'>实付款: </text>
-       <text class='actual-pay-two' wx:if='{{couponInfo[2]}}'>￥ {{lastPay - couponInfo[2]}}</text>
+       <text class='actual-pay-two' wx:if='{{(lastPay-couponInfo[2]>0)&&couponInfo[2]}}'>￥ {{lastPay - couponInfo[2]}}</text>
+       <text class='actual-pay-two' wx:elif='{{(lastPay-couponInfo[2]<=0)&&couponInfo[2]}}'>￥ {{lastPay - couponInfo[2]}}</text>
       <text class='actual-pay-two' wx:else>￥ {{lastPay}}</text>
     </view>
     <view class='current-buying invite-total' bindtap="submitOrder">

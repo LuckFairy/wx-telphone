@@ -47,10 +47,6 @@
       </view>
     </view>
     <view class="list-select-area-bottom">
-      <view class='select-list' bindtap="clickGoCategory" data-index = '4' data-cat-id='{{cat_list[4].cat_id}}'>
-        <image class='select-list-image' src='{{cat_list[4].cat_pic}}'></image>
-        <text class='select-list-text'>{{cat_list[4].cat_name}}</text>
-      </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '0' data-cat-id='{{cat_list[0].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[0].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[0].cat_name}}</text>
@@ -66,6 +62,10 @@
       <view class='select-list' bindtap="clickGoCategory" data-index = '3' data-cat-id='{{cat_list[3].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[3].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[3].cat_name}}</text>
+      </view>
+      <view class='select-list' bindtap="clickGoCategory" data-index = '4' data-cat-id='{{cat_list[4].cat_id}}'>
+        <image class='select-list-image' src='{{cat_list[4].cat_pic}}'></image>
+        <text class='select-list-text'>{{cat_list[4].cat_name}}</text>
       </view>
     </view>
   </view>

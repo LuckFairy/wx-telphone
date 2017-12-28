@@ -63,6 +63,7 @@ text {
   line-height: 80rpx;
   text-align: center;
   display: inline-block;
+  color: #808080;
 }
 
 .show-border-bottom {
