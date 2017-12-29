@@ -6,7 +6,7 @@ page{
   display: block;
 }
 .myself-top{
-  height: 160rpx;
+  height: 170rpx;
   width: 750rpx;
   background: #FFE71C; 
 }
@@ -76,13 +76,14 @@ page{
 .myself-order-list{
   font-size: 30rpx;
   display: inline-block;
-  color: #999;
+  color: #1b1b1b;
 }
 .myself-order-going{
   font-size: 26rpx;
   color: #1b1b1b;
   display: inline-block;
   margin-right: 10rpx;
+  color: #999999;
 }
 /*个人信息  */
 /*代付款、待成团..  */

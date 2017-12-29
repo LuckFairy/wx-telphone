@@ -24,7 +24,7 @@ scroll-view {
 text {
   display: block;
   overflow: hidden;
-  font-size: 28rpx;
+  font-size: 30rpx;
   background-color: FFE546;
   margin: 0px;
   padding: 0px;
