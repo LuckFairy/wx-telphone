@@ -92,7 +92,11 @@
   </swiper>
   <!-- swiper -->
 </view>
-
+<!--阴影  -->
+<view class='shadow-list'>
+  <image class='shadow-color' src='../../image/shadow-color.png'></image>
+  <text class='shadow-bg'></text>
+</view>
 <!--订单列表开始  -->
 
  
@@ -111,11 +115,7 @@
     </view>
 <!--订单列表结束  -->
 
-<!--阴影  -->
-<view class='shadow-list'>
-  <image class='shadow-color' src='../../image/shadow-color.png'></image>
-  <text class='shadow-bg'></text>
-</view>
+
 <view wx:if="{{!isLoading}}" class="buy-containner">
   <view class="content-view">
     <view class="goods-section" wx:for="{{productList}}" wx:key="{{index}}">

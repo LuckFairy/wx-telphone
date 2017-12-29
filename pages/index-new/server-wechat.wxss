@@ -1,7 +1,10 @@
+page{
+  background: #efefef;
+}
 .server{
   display: block;
   width: 750rpx;
-  background: #ffffff;
+  background: #EFEFEF;
   font-size: 0rpx;
 }
 .server-image{

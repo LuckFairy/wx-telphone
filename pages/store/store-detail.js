@@ -1,6 +1,5 @@
 // pages/store/store-detail.js
 var app = getApp();
-const log = 'store-detail.js --- ';
 
 const DetailURL = 'store/detail';    // 门店详情
 
@@ -8,17 +7,27 @@ Page({
   data:{
     loading: true,         // 正在加载数据
     pageData: null,        // 门店详情数据
+    physical_detail:''
   },
   onLoad:function(options){
-    // 页面初始化 options为页面跳转所带来的参数
-    app.api.fetchApi(DetailURL + '/' + options.storeId, (err, res) => {
-      if (!err && res.rtnCode == 0) {
-        let {data:pageData} = res;
-        this.setData({
-          loading: false,
-          pageData
-        });
+    console.log(options,'options')
+    var that = this;
+    var phy_id = options.phy_id;
+    var params = {
+      phy_id
+    }
+    app.api.postApi('wxapp.php?c=address&a=physical_detail', { params }, (err, resp) => {
+      // 列表数据
+      console.log(resp, 344444)
+      if (resp) {
+        if (resp.err_code == 0) {
+          var physical_detail = resp.err_msg.physical_detail;
+          that.setData({
+            physical_detail
+          })
+        }
       } else {
+        //  错误
       }
     });
   },
@@ -41,12 +50,13 @@ Page({
    * 点击查看图集
    */
   previewAlbum(e) {
-    let {albums} = e.currentTarget.dataset;
-  
+    console.log(e,'eeeeee')
+    var index = e.target.dataset.index;
+    var imgs = e.currentTarget.dataset.imgs;
     wx.previewImage({
-      current: albums, // 当前显示图片的http链接
-      urls: [albums] // 需要预览的图片http链接列表
-    });
+      current: imgs[index], 
+      urls: [imgs][0]
+    })
   },
   
   onReady:function(){
