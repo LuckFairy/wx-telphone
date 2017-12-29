@@ -30,8 +30,6 @@ Page({
       })
 
     });
-
-
   },
 
   /**
@@ -81,5 +79,29 @@ Page({
    */
   onShareAppMessage: function () {
   
-  }
+  },
+  /**
+   * 测试方法
+   */
+  storeList: function () {
+    wx.showLoading({ title: '加载中...', mask: true, });
+    var params = {
+      store_id: this.data.storeId,
+      page: 1,
+    };
+    app.api.postApi('wxapp.php?c=address&a=physical_list', { params }, (err, resp) => {
+      if (err) return;
+      if (response.err_code != 0) {
+        wx.showLoading({
+          title: response.err_msg,
+        })
+      } else {
+        wx.hideLoading();
+        console.log(resp, 1111111)
+        var data = resp.err_msg;
+        console.log(data);
+
+      }
+    });
+  },
 })
