@@ -38,12 +38,16 @@ Page({
       card_num:0,
       uid:'',
       storeId: store_Id.shopid,
+      iconOne:[],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    //2017年12月29日17:57:39 by leo 第一行图标使用读取服务器方法==
+    this.getIconLineOne();
+    //=====
     var that = this;
     Api.signin();//获取以及存储openid、uid
     // 获取uid
@@ -529,5 +533,27 @@ Page({
 
     return { day, hour, minute, second };
   },
-
+  /**
+   * 获取第一行的图标
+   */
+  getIconLineOne: function () {
+    wx.showLoading({ title: '加载中...', mask: true, });
+    var params = {
+      store_id: this.data.storeId
+    };
+    app.api.postApi('wxapp.php?c=index&a=get_icon', { params }, (err, resp) => {
+      if (err) return;
+      if (resp.err_code != 0) {
+        wx.showLoading({
+          title: resp.err_msg,
+        })
+      } else {
+        wx.hideLoading();
+        console.log(resp, 1111111)
+        var data = resp.err_msg;
+        console.log('获取第一行的图标',data);
+        this.setData({ iconOne: data });
+      }
+    });
+  },
 })
