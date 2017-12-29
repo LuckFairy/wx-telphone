@@ -452,7 +452,6 @@ Page({
     };
     
     if (skuid_list.length > 0) {
-
       if (!skuId) {//有无多属性skuid 
         wx.showLoading({
           title: '请选择属性'
@@ -462,7 +461,7 @@ Page({
         }, 2000)
       } else {
         if(action == 'present'){
-          let url = "../present/present-apply?options=" + _params + '&prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
+          let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
           wx.redirectTo({ url });
         }else{
 
@@ -474,7 +473,7 @@ Page({
       }
     } else {
       if (action == 'present') {
-        let url = "../present/present-apply?options=" + _params + '&prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
+        let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
         wx.redirectTo({ url });
       } else {
       // 直接下订单

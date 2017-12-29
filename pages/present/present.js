@@ -95,7 +95,8 @@ Page({
     let {options} = e.currentTarget.dataset;
     wx.navigateTo({
       	// url:"./present-apply?options=" + JSON.stringify(options)
-      url: `../shopping/goods-detail?prodId=${options.product_id}&action=present&params=${encodeURIComponent(JSON.stringify(options))}`
+      // url: `../shopping/goods-detail?prodId=${options.product_id}&action=present&params=${encodeURIComponent(JSON.stringify(options))}`
+      url: `../shopping/goods-detail?prodId=${options.product_id}&action=present`
     });
   },
   

@@ -50,12 +50,12 @@
           </label>
         </view><!-- .user-info -->
         <!-- .option-select-container -->
-        <view class="show-block option-select-container" wx:if="{{presentData.options && presentData.options.length > 0}}">
+        <view class="show-block option-select-container" wx:if="{{questionList && questionList.length > 0}}">
           <view class="section-wrap" style="padding-left: 0">
             <text class="section-title">回答以下问题即有机会获得免费试用的机会</text>
           </view>
 
-          <view
+          <!-- <view
             class="option-container"
             wx:for="{{presentData.options}}" 
             wx:for-item="option"
@@ -99,6 +99,55 @@
                   value="{{item.productOptionValueId}}"
                   checked="{{item.checked}}"
                 />{{item.name}}
+              </label>
+            </checkbox-group>
+          </view> .option-container  -->
+           <view
+            class="option-container"
+            wx:for="{{questionList}}" 
+            wx:for-item="option"
+            wx:key="{{option.id}}"
+          >
+
+            <text style="margin-top: {{index===0? '0':'48rpx'}}" class="option-title">{{(index + 1) + '、' + option.title}}</text>
+            <input class='option-input' maxlength="50" wx:if="{{option.type === 'text'}}" placeholder='{{option.content}}' />
+            <radio-group 
+              name="{{option.id}}"
+              wx:if="{{option.type === 'radio'}}"
+              class="option-group"
+              bindchange="optionChange"
+              data-productoptionid="{{option.id}}"
+            >
+              <label 
+                class="option-label"
+                wx:for="{{option.item}}"
+                wx:key="{{item.id}}"
+              >
+                <radio
+                  class="option"
+                  value="{{item}}"
+                  checked="{{item.checked}}"
+                />{{item.name}}
+              </label>
+            </radio-group>
+            
+            <checkbox-group 
+              name="{{option.id}}"
+              wx:if="{{option.type === 'checkbox'}}"
+              class="option-group"
+              bindchange="optionChange"
+              data-productoptionid="{{option.id}}"
+            >
+              <label 
+                class="option-label"
+                wx:for="{{option.item}}"
+                wx:key="{{item.id}}"
+              >
+                <checkbox
+                  class="option"
+                  value="{{item}}"
+                  checked="{{item.checked}}"
+                />{{item}}
               </label>
             </checkbox-group>
           </view><!-- .option-container -->

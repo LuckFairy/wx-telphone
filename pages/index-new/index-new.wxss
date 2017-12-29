@@ -93,7 +93,7 @@
 /* 卡包区域 */
 .card{
   padding: 24rpx 24rpx 0rpx;
-  margin-top: 20rpx;
+  margin-top: 24rpx;
   background-color: #fff;
   justify-content:space-between;
 }
@@ -438,7 +438,7 @@
 /* 爆款，节日 */
 /* 爆款内容 / 节日内容区域开始  */
 .yiya-baokuan-area,.yiya-festival-area{
-   margin-top: 20rpx; 
+   margin-top: 24rpx; 
   overflow: hidden;
 }
 .baokuan-recommend,.festival-recommend{

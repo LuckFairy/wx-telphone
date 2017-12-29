@@ -1,9 +1,14 @@
 // present-apply.js
+import { Api } from '../../utils/api_2';
 let app = getApp();
 const util = require('../../utils/util.js');
 const log = 'present-apply.js --- ';
+Api.signin();//获取以及存储openid、uid
+import { store_Id } from '../../utils/store_id';
 
-const SubmitURL = 'trial/submit';       // 赠品领用提交接口
+const SubmitURL = 'wxapp.php?c=product_v2&a=trial_product_question_list';       // 赠品领用提交接口
+const QuestionURL = 'wxapp.php?c=product_v2&a=trial_product_question_list';     //问题列表接口
+const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url
 let modalConfig = {
   firstText: '申请成功',
   // secondText: '赠品申请已提交，请到[订单-待审核]列表里查询，如果审核通过，将会出现在[订单-待收货]里',
@@ -23,31 +28,93 @@ Page({
     showErrModal: false,         // 是否显示模态框
     modalConfig,                 // 模态框配置 
     presentData: null,           // 页面数据
+    questionList:null,//问题列表
     qrEntry: false,
+    product_id:null,//商品id
+    uid: wx.getStorageSync('userUid'),//用户id
+    store_id: store_Id.shopid,//店铺id
   },
   onLoad:function(options){
     //2017年8月17日13:46:50 处理选择后的多属性
     var attrData = wx.getStorageSync('key') || [];
     if (attrData.length > 0) {
       var attrArr = attrData.split('-');
-      this.setData({ productColor: attrArr['0'], productSize: attrArr['1'] });
+      this.setData({ productColor: attrArr['0'], productSize: attrArr['1']});
       skuid = options.skuid;
     } else {
       skuid=0;
     }    
     // 页面初始化 options为页面跳转所带来的参数
     let {qrEntry} = options;
-    try {
-      options = JSON.parse(decodeURIComponent(options.options));
-      console.log('optionssssss',options);
-      this.setData({
-        presentData: options,
-        qrEntry
-      });
-    } catch(e) {
+    // try {
+    //   options = JSON.parse(decodeURIComponent(options.options));
+      
+    //   console.log('options ',options);
+    //   this.setData({
+    //     presentData: options,
+    //     product_id: options.product_id,
+    //     qrEntry
+    //   });
+    //   this.loadQuestion();
+    // } catch(e) {
+      
+    // }
+    try{
+        this.setData({
+           product_id:options.prodId
+        });
+        this.loadQuestion();
+        this.loadListDataNew();
+    } catch(e){
+      console.log('e ',e)
     }
   },
-
+  /*
+* 问题列表
+  */
+  loadQuestion(){
+    var that = this;
+    var params = {
+      "pid": that.data.product_id,
+      "sid": that.data.store_id,
+      "uid": that.data.uid
+    };
+    app.api.postApi(QuestionURL, { params }, (err, rep) => {   // 赠品领用提交
+      wx.hideLoading();
+      if (!err && rep.err_code == 0) {
+          that.setData({
+            questionList:rep.err_msg
+          })
+      } else{
+          that.submitError({ image: '../../image/error.png', title: err });
+      }
+     
+    });
+  },
+  loadListDataNew() {
+    var that = this;
+    var params = {
+      "cid": "106",//分类id
+      "sid": that.data.store_id,
+      "uid": that.data.uid,
+      // "page_size": "5",
+      // "page_num": "1",
+    };
+    app.api.postApi(trialProductListUrl, { params }, (err, rep) => {
+      if (err || rep.err_code != 0) {
+        this.setData({ loading: false });
+        return;
+      }
+      for (var i in rep.err_msg.list){
+        if (rep.err_msg.list[i].product_id == that.data.product_id){
+          this.setData({
+            presentData: rep.err_msg.list[i]
+          });
+        }
+      }
+      
+    });
+  },
   /**
    * 提交表单
    */
@@ -80,13 +147,14 @@ Page({
     /**
      * 开始请求
      */
+   
     wx.showLoading({
       title: '正在提交',
       mask: true
     });
-    app.api.postApi(SubmitURL, post, (err, data) => {   // 赠品领用提交
+    app.api.postApi(SubmitURL, {params}, (err, data) => {   // 赠品领用提交
       wx.hideLoading();
-      if(!err && data.rtnCode == 0) {
+      if(!err && data.err_msg == 0) {
         if (this.data.qrEntry) {
           wx.showModal({
             title: '申请成功',
