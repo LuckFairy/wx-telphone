@@ -140,36 +140,50 @@ Page({
     // 上拉加载结束
   },
   onLoad: function (options) {
-    // 扫码跳转判断
     var that = this;
-    var num = 1;
-    if (num < 5) {
-      setTimeout(function () {
-
-        var store_id = store_Id.store_Id();//store_id
-        Api.signin();//获取以及存储openid、uid
-        // 获取uid
-        var uid = wx.getStorageSync('userUid');
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          windowHeight: res.windowHeight,
+          windowWidth: res.windowWidth
+        })
+      }
+    })
+    var store_id = store_Id.store_Id();//store_id
+    var checkTime = null;
+    var time = 0;
+    Api.signin();//获取以及存储openid、uid
+    // 获取uid
+    var uid = wx.getStorageSync('userUid');
+    checkTime = setInterval(function () {
+      if (uid) {
         console.log(uid, store_id);
         that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
         // 自动获取手机宽高
-        wx.getSystemInfo({
-          success: function (res) {
-            that.setData({
-              windowHeight: res.windowHeight,
-              windowWidth: res.windowWidth
-            })
-          }
-        })
         that.loadData1(that);
         that.loadData2(that);
         that.loadData3(that);
-        num++;
-      }, 2000)
-    }
-
-
-
+        clearInterval(checkTime);
+      } else {
+        Api.signin();//获取以及存储openid、uid
+        // 获取uid
+        var uid = wx.getStorageSync('userUid');
+        if (uid) {
+          console.log(uid, store_id);
+          that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
+          // 自动获取手机宽高
+          that.loadData1(that);
+          that.loadData2(that);
+          that.loadData3(that);
+          clearInterval(checkTime);
+        }
+      }
+      time += 1000;
+      if (time > 20000) {
+        // 大于20秒不授权就清除计时器
+        clearInterval(checkTime);
+      }
+    }, 1000)
   },
 
   onReady: function () {
