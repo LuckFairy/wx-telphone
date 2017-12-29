@@ -125,7 +125,7 @@
               >
                 <radio
                   class="option"
-                  value="{{item}}"
+                  value="{{item.name}}"
                   checked="{{item.checked}}"
                 />{{item.name}}
               </label>
@@ -145,7 +145,7 @@
               >
                 <checkbox
                   class="option"
-                  value="{{item}}"
+                  value="{{item.name}}"
                   checked="{{item.checked}}"
                 />{{item}}
               </label>
