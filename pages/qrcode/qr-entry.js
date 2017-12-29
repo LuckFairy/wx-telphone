@@ -251,6 +251,8 @@ Page({
           url = '../group-buying/group-buying?prodId=' + resId + '&groupbuyId=' + groupbuyId + '&groupbuyOrderId=' + groupbuyOrderId + '&qrEntry=1';
         } else if (resType == 'seckill') { //去秒杀
           url = '../index-new/goods-detail?prodId=' + resId + '&productPrice=' + price + '&skPrice=' + skPrice + '&activityStatus=' + status + '&expireTime=' + expire_time + '&hadnum=' + hadnum + '&pskid=' + pskId + '&qrEntry=1';
+        } else if (resType == 'dazhuanpan') { //去秒杀
+          url = '../lottery/dazhuanpan?qrEntry=1';
         }
         if(url){
             wx.redirectTo({
