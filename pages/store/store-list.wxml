@@ -1,11 +1,7 @@
-<loading hidden="{{!loading}}">
-  加载中...
-</loading>
-
-<scroll-view wx:if="{{!loading}}">
-  <view class="store-list-containner" wx:for="{{pageData}}" wx:key="{{item.storeId}}">
+<scroll-view lower-threshold='0px' scroll-y='true' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='gobottom'>
+  <view class="store-list-containner" wx:for="{{physical_list}}">
     <view class="list-view-wrap">
-      <navigator class="list-item-view sp-border" url="{{'./store-detail?storeId=' + item.storeId}}">
+      <navigator class="list-item-view sp-border" url="{{'./store-detail?phy_id=' + item.phy_id}}">
         <view class="list-item-dtl-left-view">
           <text class="list-item-title-view normalText">{{item.name}}</text>
           <text class="list-item-addr-view mText grayText">{{item.address}}</text>

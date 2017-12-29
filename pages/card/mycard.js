@@ -2,7 +2,7 @@
 var app = getApp();
 var _tapLock = false;    // 点击锁
 import { Api } from '../../utils/api_2';
-import { store_Id} from '../../utils/store_id';
+import { store_Id } from '../../utils/store_id';
 Page({
   data: {
     loading: true,
@@ -32,7 +32,7 @@ Page({
     selectCardthree: 0
 
   },
-  getCoupon(){
+  getCoupon() {
     wx.navigateTo({
       url: '../index-new/shop-promotion',
     })
@@ -140,27 +140,36 @@ Page({
     // 上拉加载结束
   },
   onLoad: function (options) {
+    // 扫码跳转判断
     var that = this;
-    var store_id = store_Id.store_Id();//store_id
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    console.log(uid, store_id);
-    that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
-    // 自动获取手机宽高
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          windowHeight: res.windowHeight,
-          windowWidth: res.windowWidth
+    var num = 1;
+    if (num < 5) {
+      setTimeout(function () {
+
+        var store_id = store_Id.store_Id();//store_id
+        Api.signin();//获取以及存储openid、uid
+        // 获取uid
+        var uid = wx.getStorageSync('userUid');
+        console.log(uid, store_id);
+        that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
+        // 自动获取手机宽高
+        wx.getSystemInfo({
+          success: function (res) {
+            that.setData({
+              windowHeight: res.windowHeight,
+              windowWidth: res.windowWidth
+            })
+          }
         })
-      }
-    })
-    that.loadData1(that);
-    that.loadData2(that);
-    that.loadData3(that);
-    // 页面初始化 options为页面跳转所带来的参数
-    // wx.showLoading({ title: '加载中' });
+        that.loadData1(that);
+        that.loadData2(that);
+        that.loadData3(that);
+        num++;
+      }, 2000)
+    }
+
+
+
   },
 
   onReady: function () {
@@ -301,7 +310,7 @@ Page({
     var params = {
       page: pagesthree, store_id: store_id, uid: uid, type: 'use', category: category
     }
-    console.log('params',params)
+    console.log('params', params)
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, response) => {
       if (err) return;
       console.log('res3', response);

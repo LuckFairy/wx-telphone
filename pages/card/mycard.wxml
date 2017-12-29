@@ -31,7 +31,7 @@
   <!-- nav详细内容展示区-->
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
     <swiper-item>
-      <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadone'  lower-threshold='0' scroll-top="{{scrollTop}}">
+      <scroll-view scroll-y="true"  bindscrolltolower='pullUpLoadone'  lower-threshold='0' scroll-top="{{scrollTop}}">
           <view wx:if="{{normal && normal.length}}" class="card-list-view">
             <block wx:for="{{normal}}" wx:for-item="card" wx:key="{{index}}">
                 <!--正常活动卡券-->

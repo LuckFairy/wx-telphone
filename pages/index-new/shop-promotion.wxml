@@ -6,7 +6,7 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <text class='mon-price'>满{{item.is_original_price}}元可用</text>
+          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
           <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
         </view>
       </view>
@@ -25,7 +25,7 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <text class='mon-price'>满{{item.is_original_price}}元可用</text>
+          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
           <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
         </view>
       </view> 
