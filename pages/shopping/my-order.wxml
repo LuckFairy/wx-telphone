@@ -36,13 +36,15 @@
             <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
               <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
               <view class="goods-name-view">
-                <text class="goods-name">{{item.name}}</text>
-               
-                  <text wx:if="{{item.sku_data_arr.length > 0 }}">{{item.sku_data_arr[1].value}}{{item.sku_data_arr[0].value}}码</text>
-               
+                <view>
+                    <text class="goods-name">{{item.name}}</text>
+                    <text wx:if="{{item.sku_data_arr.length > 0 }}" wx:for="{{item.sku_data_arr}}" wx:for-item="{{item2}}">{{item2.sku_data_arr.name}}{{item2.sku_data_arr.value}} </text>
+                </view>
+                <!-- <text wx:if="{{item.sku_data_arr.length > 0 }}" wx:for="{{item.sku_data_arr}}" wx:for-item="{{item2}}">{{item2.sku_data_arr.name}}{{item2.sku_data_arr.value}} </text> -->
                 <text style="margin-right: 10rpx;">x{{item.pro_num}}</text>
               </view>
             </view>
+           
             <view class="goods-price-view">
               <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
               <view style="">需付款：</view>
@@ -439,14 +441,14 @@
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists-back'>
         <!--无数据时  -->
-         <!-- <view class='purchase-null' wx:if='{{showSale}}'>
+        <!-- <view class='purchase-null' wx:if='{{showSale}}'>
           <image class='purchase-image' src='../../image/purchase-image.png'></image>
           <text class='purchase-text'>暂无任何数据</text>
         </view>  -->
-         <view  class="no-data-view" style='margin-top:80rpx;' wx:if='{{showSale}}'>
+        <view class="no-data-view" style='margin-top:80rpx;' wx:if='{{showSale}}'>
           <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
           <text class="mText" class="no-data-text">暂无任何数据 </text>
-        </view> 
+        </view>
         <!--无数据时  -->
         <!--有数据时  -->
         <block wx:for='{{dataList}}'>
@@ -466,7 +468,7 @@
                   <text class='purchase-shop-num'>X{{item.pro_num}}</text>
 
                 </view>
-                <text class='gray purchase-value' >
+                <text class='gray purchase-value'>
                   <text style='display:inline;' wx:if="{{item.sku_data_arr.length > 0 }}">{{item.sku_data_arr[1].value}}{{item.sku_data_arr[0].value}}码</text>
                 </text>
                 <text class='purchase-price'><text class='gray'>金额：</text>{{item.pro_price}}</text>
@@ -481,9 +483,9 @@
                 <image wx:else class='purchase-status-image' src='../../image/pur-wait.png'></image>
                 <text class='purchase-status-text'>{{item.status_txt}}</text>
               </view>
-              <text class='purchase-status-detail' bindtap='goDetail'  data-the-id='{{item.id}}' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' data-order-status='{{item.status}}'>查看详情</text>
+              <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' data-order-status='{{item.status}}'>查看详情</text>
             </view>
-            
+
           </view>
         </block>
         <!--有数据时  -->

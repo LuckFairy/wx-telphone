@@ -92,16 +92,21 @@
             <view class="">{{item.name}}</view>
             <view style="font-size:20rpx;color:grey;margin-bottom:5px;"></view>
           </view>
-          <block wx:if="{{productColor}}">
+          <block >
+            <view >
+              <text class='goods-color-name' wx:if="{{item.sku_data.length > 0}}" wx:for="{{item.sku_data}}" wx:for-item="item2">{{item2.name}}:{{item2.value}} </text>     
+            </view>
+          </block> 
+          <!-- <block wx:if="{{productColor}}">
             <view class="prod-price-view">
               颜色：{{productColor}} 尺码：{{productSize}}
             </view>
-          </block>
-          <block wx:else>
+          </block> -->
+          <!-- <block wx:else>
             <view class="prod-price-view">
               数量：{{num}}
             </view>
-          </block>
+          </block> -->
 
           <view class="prod-price-view pro-yet-price">
             <view class="money-text">￥{{item.pro_price}}</view>
