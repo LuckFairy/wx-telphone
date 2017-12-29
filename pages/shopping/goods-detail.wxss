@@ -1107,6 +1107,7 @@ button[type="warn"] {
   width: 750rpx;
   display: block;
   background: #fff;
+  position: relative;
 }
 
 .middle-detail {
@@ -1159,6 +1160,9 @@ button[type="warn"] {
   padding-top: 5rpx;
   text-align: center;
   padding-left: 24rpx;
+  position:absolute;
+top:160rpx;
+
 }
 
 .mid-list-wraps-image {
@@ -1252,7 +1256,7 @@ button[type="warn"] {
   display: inline-block;
   top: 65rpx;
   color: #999;
-  left: -30rpx;
+  left: -15rpx;
 }
 
 .mid-list-seven {

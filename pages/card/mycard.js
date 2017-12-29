@@ -182,6 +182,10 @@ Page({
       if (time > 20000) {
         // 大于20秒不授权就清除计时器
         clearInterval(checkTime);
+        // 20秒不授权 去首页
+        wx.switchTab({
+          url: '../index-new/index-new',
+        })
       }
     }, 1000)
   },

@@ -26,9 +26,9 @@
       <image src="{{item.image}}" class="goods-img"></image>
       <view class="goods-name-view-wrap">
         <text class='goods-title-name'>{{item.name}}</text>
-        <view class='goods-size-name'>
-          <text wx:if="{{item.sku_data[0].name}}" class='goods-color-name'>颜色：{{item.sku_data[0].name}}</text>
-          <text wx:if="{{item.sku_data[0].value}}" class='goods-footage-name'>尺码：{{item.sku_data[0].value}}</text>
+        <view class='goods-size-name' >
+          <text  wx:if="{{item.sku_data.length > 0 }}" wx:for="{{item.sku_data}}" wx:for-item="item2" class='goods-color-name'>{{item2.name}}:{{item2.value}} </text>
+          
 
         </view>
         <view class='goods-price-number'>
