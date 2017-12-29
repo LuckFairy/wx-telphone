@@ -220,6 +220,8 @@ Page({
         let expire_time = qrData.expire_time; //活动结束时间（其实已经用不上了）
         let hadnum = qrData.hadnum; //商品数量
         let pskId = qrData.pskId; //秒杀产品ID
+        //2017年12月29日17:07:24 by leo 新品试用
+        let action = qrData.action; //
 
 
 
@@ -229,7 +231,12 @@ Page({
           url = '../card/card_summary?id=' + resId + '&source=2'+ '&qrEntry=1';
         } else if (resType == 'goods') {//商品详情页面
             //url = '../shopping/buy?prodId=' + resId + '&qrEntry=1';
+          if (action =='present'){
+            url = '../shopping/goods-detail?prodId=' + resId + '&action=present' + '&qrEntry=1';
+          }else{
             url = '../shopping/goods-detail?prodId=' + resId + '&qrEntry=1';
+          }
+            
         } else if (resType == 'trial') {//赠品领取页面
             url = '../present/present-apply?qrEntry=1&options=';
             app.api.fetchApi('trial/item/' + resId, (err, response) => {

@@ -43,8 +43,11 @@ page {
   background-color: #fff;
   padding: 20rpx 0;
 }
-
+.user-info label text{
+  color: #000;
+}
 label {
+  margin-right: 10rpx;
   display: flex;
   align-items: center;
   font-size: 11pt;
@@ -93,7 +96,7 @@ label input {
 
 .option-group {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .option-label {
@@ -109,4 +112,9 @@ label input {
   font-size: 12pt;
   border-radius: 0;
   color: '#333'
+}
+/*问题框样式  */
+.option-input{
+  border:1px solid #999;
+  text-indent: 4px;
 }
