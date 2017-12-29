@@ -97,7 +97,10 @@
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style='visibility:hidden'>
       <text class='add-invite-car-child'>加入购物车</text>
     </view>
-    <view class='current-buying invite-total' bindtap="doBuy" data-status="1">
+    <!-- <view class='current-buying invite-total' bindtap="doBuy" data-status="1">
+      <text class='current-buying-child'>申请试用</text>
+    </view> -->
+    <view class='current-buying invite-total'  data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'  bindtap="goPreApply" >
       <text class='current-buying-child'>申请试用</text>
     </view>
   </view>
@@ -202,6 +205,7 @@
       </view>
     </view>
     <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
+     <text wx:elif='{{action == "present"}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPreApply'>确定</text>
     <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>确定</text>
     <!-- 数量的增减end -->
   </view>

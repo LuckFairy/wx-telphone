@@ -460,29 +460,57 @@ Page({
           wx.hideLoading()
         }, 2000)
       } else {
-        if(action == 'present'){
-          let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
-          wx.redirectTo({ url });
-        }else{
-
           //添加skui_id多属性id
           opts.sku_id = skuId;
           // 选择属性之后发送请求添加到订单上
-          that.getOrderId(opts);
-        }
+          that.getOrderId(opts); 
       }
-    } else {
-      if (action == 'present') {
-        let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
-        wx.redirectTo({ url });
-      } else {
+    } else {  
       // 直接下订单
       that.getOrderId(opts);
-      }
+      
     }
 
     
     
+  },
+  /*
+  *申请试用
+  */
+  goPreApply(e){
+    var that = this;
+    var { buyQuantity, productId, uid, storeId, skuId } = e.currentTarget.dataset;
+    var skuid_list = that.data.skuid_list;
+    var { action } = that.data;
+    var opts = {
+      uid,
+      product_id: productId,
+      store_id: storeId,
+      quantity: buyQuantity,
+    };
+    if (skuid_list.length > 0 ){
+      if ( !skuId ) {//有无多属性skuid 
+          wx.showLoading({
+            title: '请选择属性'
+          });
+          setTimeout(function () {
+            wx.hideLoading()
+          }, 2000)
+        } else {
+          //添加skui_id多属性id
+          opts.sku_id = skuId;
+          let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
+          wx.redirectTo({ url });
+        }
+      
+    }else{
+      //添加skui_id多属性id
+      opts.sku_id = skuId;
+      let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
+      wx.redirectTo({ url });
+    }
+    
+
   },
   /*
   *生成订单
