@@ -2,9 +2,9 @@
 	<view
 		wx:for="{{presentData}}"
 		wx:key="{{item.product_id}}"
-		class="page {{item.hasTrial? '':'navigator'}}"
+		class="page {{item.buy_status? '':'navigator'}}"
 		data-options="{{item}}"
-		bindtap="{{item.hasTrial ? '':'applyForPresent'}}"
+		bindtap="{{item.buy_status ? '':'applyForPresent'}}"
 	>
 		<view 
 			class="{{index === presentData.length - 1? 'no-border':' '}} container"
@@ -15,7 +15,7 @@
 			<view class="modelRightContainer">
 				<view class="description">
 					<text class="titleText title">{{item.name || ''}}</text>
-					<text class="titleText title2">{{item.name || ''}}</text>
+					<!-- <text class="titleText title2">{{item.name || ''}}</text> -->
 					<!-- subtitle -->
 				</view>
        
@@ -29,7 +29,7 @@
 							<text class="mText">剩余<text class="specialRedText">{{item.quantity}}</text></text>
 						</view>
 						<view wx:else style="flex: 1;"></view>
-						<text class="getButton {{item.hasTrial ? 'grayBackgroundColor':'specialRedBackgroundColor'}}">{{item.hasTrial ? '已申请过' : '立即领取'}}</text>
+						<text class="getButton {{item.hasTrial ? 'grayBackgroundColor':'specialRedBackgroundColor'}}">{{item.buy_status ? '已申请过' : '立即领取'}}</text>
 					</view>
           
 				</view>

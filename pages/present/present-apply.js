@@ -39,7 +39,7 @@ Page({
     let {qrEntry} = options;
     try {
       options = JSON.parse(decodeURIComponent(options.options));
-      
+      console.log('optionssssss',options);
       this.setData({
         presentData: options,
         qrEntry
