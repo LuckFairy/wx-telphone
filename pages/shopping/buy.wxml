@@ -104,8 +104,8 @@
         <image src="{{item.image}}" class="goods-img"></image>
         <view class="goods-name-view-wrap">
           <text class='goods-title-name'>{{item.name}}</text>
-          <view class='goods-size-name' wx:if="{{item.sku_data}}" wx:for="{{item.sku_data}}" wx:for-item="item2">
-            <text class='goods-color-name'>{{item2.name}}:{{item2.value}}</text>           
+          <view class='goods-size-name' >
+            <text class='goods-color-name' wx:if="{{item.sku_data.length > 0}}" wx:for="{{item.sku_data}}" wx:for-item="item2">{{item2.name}}:{{item2.value}} </text>           
           </view>
           <view class='goods-price-number'>
             <text class='goods-price'>￥{{item.pro_price}}</text>
