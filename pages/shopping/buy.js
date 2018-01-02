@@ -80,7 +80,8 @@ Page({
     normal_coupon_count:'', //可用的优惠券数量
     discounts:0,
     product_id:'',
-    pro_price:''
+    pro_price:'',
+    baokuan_action:'',//判断是否为闪购严选
   },
   /*
   *订单详情列表
@@ -165,7 +166,7 @@ Page({
     wx.removeStorageSync('cname')
     wx.removeStorageSync('face_money')
     console.log('页面load',options);
-    let {  uid, pid, skuId, storeId, qrEntry ,orderId } = options;
+    let { uid, pid, skuId, storeId, qrEntry, orderId,baokuan_action } = options;
     quantity = options.quantity;
     //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
     this.setData({ orderId, uid});
@@ -186,7 +187,8 @@ Page({
       })
     }
     this.setData({
-      couponInfo: couponInfo
+      couponInfo: couponInfo,
+      baokuan_action: baokuan_action
     })
     
 

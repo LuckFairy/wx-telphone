@@ -10,7 +10,7 @@
     </swiper>
     <!--拿到数据前的拿到数据之后  -->
     <swiper wx:if='{{!showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
-      <block wx:for='{{dataImg}}' wx:key="{{}}">
+      <block wx:for='{{dataImg}}' wx:key="{{index}}">
         <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
           <image class='header-image' mode='widthFix' src='{{item.pic}}' data-destination="0" />
         </swiper-item>

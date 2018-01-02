@@ -25,7 +25,7 @@
   <view class="container carts-list" wx:if='{{hasShop==0}}'>
     <view class="pp">
       <image class='pp-null' src='../../image/shop-null.png'></image>
-      <text class='pp-text'>购物车还是空的</text>
+      <text class='pp-text'>购物车还是空的哦</text>
       <view class='pp-goindex' bindtap='goindex'>去逛逛</view>
     </view>
   </view>
