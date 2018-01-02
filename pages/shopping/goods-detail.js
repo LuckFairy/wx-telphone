@@ -389,8 +389,10 @@ Page({
     return { title: '', path: '' }
   },
   /* 点击减号 w*/
-  bindMinus: function () {
+  bindMinus: function (e) {
+    console.log('点击减号',e)
     var that = this;
+    var actions = e.currentTarget.dataset.actions;
     var shopNum = that.data.shopNum;
     shopNum--;
     if (shopNum <= 1) {
@@ -411,13 +413,29 @@ Page({
 
   },
   /* 点击加号 w*/
-  bindPlus: function () {
+  bindPlus: function (e) {
     var that = this;
+    var actions = e.currentTarget.dataset.actions;
     var shopNum = that.data.shopNum;
-    shopNum++;
-    that.setData({
-      shopNum
-    })
+    if (actions){
+      // 虚拟商品限购
+      wx.showModal({
+        title: '提示',
+        content: '虚拟商品限购，您只可以购买1件',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }else{
+      shopNum++;
+      that.setData({
+        shopNum
+      })
+    }
   },
   /* 输入框事件w */
   bindManual: function (e) {
@@ -442,6 +460,8 @@ Page({
   },
   goPayment(e){
     var that = this;
+    console.log('e判断是否从严选、闪购过来',e);
+    var baokuan_action = e.target.dataset.baokuan_action;
     var { buyQuantity, productId, uid, storeId, skuId} = e.currentTarget.dataset;
     var skuid_list = that.data.skuid_list;
     var {action } = that.data;
@@ -450,6 +470,7 @@ Page({
       product_id: productId,
       store_id: storeId,
       quantity: buyQuantity,
+      baokuan_action: baokuan_action
     };
     
     if (skuid_list.length > 0) {
@@ -518,7 +539,8 @@ Page({
   *
   */
   getOrderId(opts){
-    var { quantity, product_id, uid, store_id, sku_id } = opts;
+    console.log('opts', opts)
+    var { quantity, product_id, uid, store_id, sku_id, baokuan_action } = opts;
     var url = 'wxapp.php?c=order_v2&a=add';
     app.api.postApi( url , {
       "params": {
@@ -547,7 +569,7 @@ Page({
         return 
       }
 
-      var url = './buy?orderId=' + err_msg.order_no + '&uid=' + uid;
+    var url = './buy?orderId=' + err_msg.order_no + '&uid=' + uid + '&baokuan_action=' + baokuan_action;
       wx.navigateTo({ url });
     })
   },
