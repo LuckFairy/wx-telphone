@@ -137,6 +137,7 @@ page{
   display: flex;
   flex-direction: column;
   background: #fff;
+  margin-bottom: 100rpx;
 }
 
 /*每行单元格*/
