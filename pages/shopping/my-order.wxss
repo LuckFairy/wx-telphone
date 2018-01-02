@@ -162,6 +162,8 @@ text {
   align-items: center;
   padding-top: 40px;
   font-size: 25rpx;
+  /*amy  */
+  background: #f3f3f3;
 }
 
 .gobuy-btn-view {
