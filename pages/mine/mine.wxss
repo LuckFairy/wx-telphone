@@ -1,5 +1,0 @@
-.container {
-  display: block;
-}
-
-@import '../template/simple-row.wxss';

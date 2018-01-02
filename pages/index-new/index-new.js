@@ -46,7 +46,7 @@ Page({
    */
   onLoad: function (options) {
     //2017年12月29日17:57:39 by leo 第一行图标使用读取服务器方法==
-    this.getIconLineOne();
+    //this.getIconLineOne();
     //=====
     var that = this;
     Api.signin();//获取以及存储openid、uid

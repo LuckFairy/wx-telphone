@@ -1,7 +1,5 @@
 {
   "pages": [
-    
-  
     "pages/index-new/index-new",
     "pages/shopping/buycard",
     "pages/shopping/address-list",
@@ -10,8 +8,6 @@
     "pages/card/search-card",
     "pages/index-new/shop-promotion",    
     "pages/index-new/index-mom",
-    "pages/shiyan/shiyan",
-    "pages/shiyan/shiyan_2",
     "pages/sale-after/apply-sales",
     "pages/sale-after/purchase-refund",
     "pages/sale-after/purchase-detail",
@@ -52,10 +48,6 @@
     "pages/credit/recharge",
     "pages/message/message",
     "pages/message/no-conform",
-    "pages/mine/mine",
-    "pages/mine/change-name",
-    "pages/mine/my-baby",
-    "pages/mine/babies-info",
     "pages/redbox/redbox",
     "pages/redbox/open-result",
     "pages/redbox/mydata",
