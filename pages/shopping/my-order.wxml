@@ -27,11 +27,11 @@
 
   <!-- nav详细内容展示区-->
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
+  <!--全部 -->
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists wait-money'>
-        <view wx:if="{{allOrders && allOrders.length}}" class="order-list-view">
+        <view wx:if="{{allOrders && allOrders.length > 0}}" class="order-list-view">
           <!--<block wx:for="{{orderPayList}}" wx:for-item="order" wx:key="{{order.id}}">-->
-          <!--全部 -->
           <view wx:for="{{allOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.products[0].product_id}}" bindtap="pushToOrderDetail">
             <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
               <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
@@ -93,7 +93,8 @@
         </view>
       </scroll-view>
     </swiper-item>
-
+    
+<!--全部  -->
     <!--待付款  -->
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists'>
