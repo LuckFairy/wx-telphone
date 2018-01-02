@@ -41,7 +41,7 @@
                     <text wx:if="{{item.sku_data_arr.length > 0 }}" wx:for="{{item.sku_data_arr}}" wx:for-item="{{item2}}">{{item2.sku_data_arr.name}}{{item2.sku_data_arr.value}} </text>
                 </view>
                 <!-- <text wx:if="{{item.sku_data_arr.length > 0 }}" wx:for="{{item.sku_data_arr}}" wx:for-item="{{item2}}">{{item2.sku_data_arr.name}}{{item2.sku_data_arr.value}} </text> -->
-                <text style="margin-right: 10rpx;">x{{item.pro_num}}</text>
+                <text style="margin-right: 10rpx;margin-left: 10rpx;color:#999;">x{{item.pro_num}}</text>
               </view>
             </view>
            
@@ -62,12 +62,12 @@
           <!--</block>-->
           <!-- 没有订单时显示-->
           <view wx:if="{{false}}" class="no-order-view">
-            <image style="width:200rpx;" src="../../image/card_bg.png" mode="widthFix"></image>
-            <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
-            <view style="">赶快去下单吧</view>
+            <image style="width:200rpx;" src="../../image/order-icon2.png" mode="widthFix"></image>
+            <view style="margin-top:15px;margin-bottom:5px;">暂时没有订单哦</view>
+            <view style="">去逛逛</view>
             <!--TODO: 改成切换tab -->
             <navigator url="../index-new/index-new" class="gobuy-btn-view">
-              <text>去下单</text>
+              <text>去逛逛</text>
             </navigator>
           </view>
           <!-- 未付款订单删除确认框 -->
@@ -87,9 +87,9 @@
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
-          <text class="mText" class="no-data-text">您还没有相关订单哦 赶快去下单吧
+          <text class="mText" class="no-data-text">暂时没有订单哦
   </text>
-          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去下单</text>
+          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
         </view>
       </scroll-view>
     </swiper-item>
@@ -144,9 +144,9 @@
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
-          <text class="mText" class="no-data-text">您还没有相关订单哦 赶快去下单吧
+          <text class="mText" class="no-data-text">暂时没有订单哦
       </text>
-          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去下单</text>
+          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
         </view>
       </scroll-view>
     </swiper-item>
@@ -171,10 +171,10 @@
     <!-- <view wx:if="{{!groupbuyOrders}}" class="no-order-view" style='background:#f3f3f3;'>
             <image style="width:200rpx;height:200rpx;" src="../../image/purchase-image.png"></image>
             <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
-            <view style="">赶快去下单吧</view>-->
+            <view style="">赶快去逛逛吧</view>-->
     <!--TODO: 改成切换tab -->
     <!-- <navigator url="../cluster/grouplist" class="gobuy-btn-view">
-              <text>去下单</text>
+              <text>去逛逛</text>
             </navigator>
           </view>  -->
     <!--无数据时  -->
@@ -223,10 +223,10 @@
     <!-- <view wx:if="{{!waitOrders}}" class="no-order-view" style='background:#f3f3f3;'>
             <image style="width:200rpx;height:200rpx;" src="../../image/purchase-image.png"></image>
             <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
-            <view style="">赶快去下单吧</view>-->
+            <view style="">赶快去逛逛吧</view>-->
     <!--TODO: 改成切换tab -->
     <!--  <navigator url="../cluster/grouplist" class="gobuy-btn-view">
-              <text>去下单</text>
+              <text>去逛逛</text>
             </navigator>
           </view> -->
     <!--无数据时  -->
@@ -266,10 +266,10 @@
     <!-- <view wx:if="{{!endOrders}}" class="no-order-view" style='background:#f3f3f3;'>
             <image style="width:200rpx;height:200rpx;" src="../../image/purchase-image.png"></image>
             <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
-            <view style="">赶快去下单吧</view> -->
+            <view style="">赶快去逛逛吧</view> -->
     <!--TODO: 改成切换tab -->
     <!-- <navigator url="../cluster/grouplist" class="gobuy-btn-view">
-              <text>去下单</text>
+              <text>去逛逛</text>
             </navigator>
           </view> -->
     <!--无数据时  -->
@@ -308,10 +308,10 @@
     <!-- <view wx:if="{{!failOrders}}" class="no-order-view" style='background:#f3f3f3;'>
             <image style="width:200rpx;height:200rpx;" src="../../image/purchase-image.png"></image>
             <view style="margin-top:15px;margin-bottom:5px;">您还没有相关订单哦</view>
-            <view style="">赶快去下单吧</view>
+            <view style="">赶快去逛逛吧</view>
             <!--TODO: 改成切换tab -->
     <!-- <navigator url="../cluster/grouplist" class="gobuy-btn-view">
-              <text>去下单</text>
+              <text>去逛逛</text>
             </navigator>
           </view> -->
     <!--无数据时  -->
@@ -393,9 +393,9 @@
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
-          <text class="mText" class="no-data-text">您还没有相关订单哦 赶快去下单吧
+          <text class="mText" class="no-data-text">暂时没有订单哦
       </text>
-          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去下单</text>
+          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
         </view>
       </scroll-view>
     </swiper-item>
@@ -430,9 +430,9 @@
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
-          <text class="mText" class="no-data-text">您还没有相关订单哦 赶快去下单吧
+          <text class="mText" class="no-data-text">暂时没有订单哦
       </text>
-          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去下单</text>
+          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
         </view>
       </scroll-view>
     </swiper-item>

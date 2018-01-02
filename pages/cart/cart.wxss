@@ -376,32 +376,41 @@ page{
   display: block;
   justify-content: center;
   width: 750rpx;
+  /*amy  */
+  background:#efefef;
 }
 .pp-null{
   display: block;
   padding-top: 60rpx;
-  width: 162rpx;
-  height: 162rpx;
+  width: 160rpx;
+  height: 160rpx;
   margin: auto;
 }
 .pp-text{
    display: block;
   padding-top: 38rpx;
   font-size: 28rpx;
-  color: #1b1b1b;
+  /* color: #1b1b1b; */
+  color:#999;
   margin:auto;
   text-align: center;
 }
 .pp-goindex{
   display: block;
-  width: 580rpx;
+  /* width: 580rpx;
   height: 88rpx;
   line-height: 88rpx;
   margin: 60rpx  auto;
-  font-size: 36rpx;
+  font-size: 36rpx; */
   color: #1b1b1b;
   background-color: #FFE61C;
   text-align: center;
+
+  /*amy  */
+  width:160rpx;
+  padding:18rpx 0;
+  margin:38rpx auto;
+  font-size:28rpx;
 }
 .cla {
   font-family: '微软雅黑';

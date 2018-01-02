@@ -68,6 +68,7 @@ text {
 
 .show-border-bottom {
   border-bottom: 2px solid #ffcc3c;
+  color:#1b1b1b;
 }
 
 /*  -------------订单列表-------------------- */

@@ -250,6 +250,7 @@ Page({
 
   //点击事件cdd
   clickGo: function (e) {
+   
     var destination = e.target.dataset.destination;
     if (destination == 0) {
       //优惠券 /门店促销
@@ -271,10 +272,11 @@ Page({
       var url = './shop-promotion';
     } else {
       //单独购买
-      var url = '';
+      var url = './index-baokuan';
     }
+    console.log('url',url)
     if(url){
-      wx.navigateTo({ url });
+      wx.navigateTo({ url: url + '?categoryid=100&page=1&store_id=' + this.data.shopId});
     }
     
   },

@@ -62,6 +62,8 @@ text {
 
 .show-border-bottom {
   border-bottom-color: #ffcc3c;
+  /*amy  */
+  color:#1b1b1b;
 }
 
 /*  -------------优惠券-------------------- */
@@ -271,7 +273,7 @@ text {
 .search-text {
   position: absolute;
   font-size: 26rpx;
-  color: #b1b1b1;
+  color: #1b1b1b;
   left: 60rpx;
   display: inline-block;
   width: 450rpx;
