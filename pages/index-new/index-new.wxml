@@ -24,11 +24,14 @@
   <!--信息提示区域结束  -->
   <!--列表选项区域  -->
   <view class='list-select-area'>
+
     <view class="list-select-area-top">
+    
       <view class='select-list' bindtap="clickGo" data-destination="1">
         <image class='select-list-image' src='../../image/new-text1.png' data-destination="1"></image>
         <text class='select-list-text' data-destination="1">新品试用</text>
       </view>
+
       <view class='select-list' bindtap="clickGo" data-destination="2">
         <image class='select-list-image' src='../../image/yiya-yanxuan.png' data-destination="2"></image>
         <text class='select-list-text' data-destination="2">咿呀严选</text>
@@ -46,6 +49,7 @@
         <text class='select-list-text' data-destination="5">门店促销</text>
       </view>
     </view>
+
     <view class="list-select-area-bottom">
       <view class='select-list' bindtap="clickGoCategory" data-index = '0' data-cat-id='{{cat_list[0].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[0].cat_pic}}'></image>
