@@ -95,7 +95,7 @@
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style='visibility:hidden'>
-      <text class='add-invite-car-child'>加入购物车1</text>
+      <text class='add-invite-car-child'>加入购物车</text>
     </view>
     <!-- <view class='current-buying invite-total' bindtap="doBuy" data-status="1">
       <text class='current-buying-child'>申请试用</text>
@@ -122,7 +122,7 @@
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style='visibility:hidden'>
-      <text class='add-invite-car-child'>加入购物车1</text>
+      <text class='add-invite-car-child'>加入购物车</text>
     </view>
     <view class='current-buying invite-total no-goods' >
       <text class='current-buying-child'>已售罄</text>
@@ -146,7 +146,7 @@
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" style='visibility:hidden' data-product-id='{{product.product_id}}'>
-      <text class='add-invite-car-child'>加入购物车2</text>
+      <text class='add-invite-car-child'>加入购物车</text>
     </view>
     <view class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
       <text class='current-buying-child'>立即购买2</text>
@@ -173,7 +173,7 @@
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}'>
-      <text class='add-invite-car-child'>加入购物车3</text>
+      <text class='add-invite-car-child'>加入购物车</text>
     </view>
     <view class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
       <text class='current-buying-child'>立即购买</text>
@@ -230,13 +230,13 @@
       </view>
     </view>
     <!--购物车  -->
-    <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定1</text>
+    <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
     <!--新品试用  -->
-     <text wx:elif='{{action == "present"}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPreApply'>确定2</text>
+     <text wx:elif='{{action == "present"}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPreApply'>确定</text>
      <!--严选、闪购  -->
-     <text wx:elif='{{action == 1}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment' data-baokuan_action='{{action}}'>确定3</text>
+     <text wx:elif='{{action == 1}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment' data-baokuan_action='{{action}}'>确定</text>
      <!--一般购买  -->
-    <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>确定4</text>
+    <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>确定</text>
     <!-- 数量的增减end -->
   </view>
 </view>
