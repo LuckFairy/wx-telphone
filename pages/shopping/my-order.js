@@ -84,7 +84,8 @@ Page({
     refundingOrders:[],   //退款中
     ReceivedOrders:[],  //已收货
     transOrders: [],    // 待收货(已发货)
-
+    sku_arr:[],//多属性列表
+    
     showOverlay: false, // 弹窗遮掩层
     checkQrImgUrl: null,   // 赠品领用核销二维码url
     uncheckOrders: [],  // 待审核订单（赠品）
@@ -402,7 +403,7 @@ Page({
       //console.log('待发货订单数据', transOrders);
       console.log('已收货订单数据', ReceivedOrders);
 
-      console.log('unpayOrders ', unpayOrders, 'transOrders ', transOrders);
+      console.log('unpayOrders ', unpayOrders, 'transOrders ', transOrders, 'allOrders', allOrders);
       this.setData({ allOrders, momentOrders, unpayOrders, transOrders, ReceivedOrders,finishedOrders, uncheckOrders, groupOrders });
       typeof onLoaded === 'function' && onLoaded();
     });

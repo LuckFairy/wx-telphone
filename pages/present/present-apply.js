@@ -6,7 +6,7 @@ const log = 'present-apply.js --- ';
 Api.signin();//获取以及存储openid、uid
 import { store_Id } from '../../utils/store_id';
 
-const SubmitURL = 'wxapp.php?c=product_v2&a=trial_product_question_list';       // 赠品领用提交接口
+const SubmitURL = 'wxapp.php?c=order_v2&a=trial_product_pay';       // 赠品领用提交接口
 const QuestionURL = 'wxapp.php?c=product_v2&a=trial_product_question_list';     //问题列表接口
 const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url
 let modalConfig = {
@@ -31,12 +31,13 @@ Page({
     questionList:null,//问题列表
     qrEntry: false,
     product_id:null,//商品id
-    uid: wx.getStorageSync('userUid'),//用户id
+    uid: null,//用户id
     store_id: store_Id.shopid,//店铺id
   },
   onLoad:function(options){
     //2017年8月17日13:46:50 处理选择后的多属性
     var attrData = wx.getStorageSync('key') || [];
+    var uid = wx.getStorageSync('userUid');
     if (attrData.length > 0) {
       var attrArr = attrData.split('-');
       this.setData({ productColor: attrArr['0'], productSize: attrArr['1']});
@@ -61,7 +62,8 @@ Page({
     // }
     try{
         this.setData({
-           product_id:options.prodId
+           product_id:options.prodId,
+           uid,
         });
         this.loadQuestion();
         this.loadListDataNew();
@@ -119,10 +121,16 @@ Page({
    * 提交表单
    */
   formSubmit(e) {
+    var that = this;
     let {value: submit} = e.detail;
-    //return;
-    let post = {};
-    let option = '';
+    let question = [];//问题列表
+    for (let [key, value] of Object.entries(submit)) {
+      question.push({ key:value })
+    }
+    question = question.splice(-2, 2);
+    
+    // let post = {};
+    // let option = '';
     
     let {fullname, telephone} = submit;
     let [name, phone] = [fullname.trim(), telephone.trim()];
@@ -133,50 +141,72 @@ Page({
       return this.submitError({image: '../../image/error.png', title: '请输入正确的手机号码'});
     }
     
-    for(let i in submit) {
-      if(+i >= 0) {
-        post[`option[${i}]`] = submit[i] + '';
-      } else {
-        post[i] = submit[i];
-      }
-    }
-    post['fullname'] = name;
-    post['telephone'] = phone;
-    post['skuid'] = skuid;
+    // for(let i in submit) {
+    //   if(+i >= 0) {
+    //     post[`option[${i}]`] = submit[i] + '';
+    //   } else {
+    //     post[i] = submit[i];
+    //   }
+    // }
+    // post['fullname'] = name;
+    // post['telephone'] = phone;
+    // post['skuid'] = skuid;
     //return;
     /**
      * 开始请求
      */
-   
+
     wx.showLoading({
       title: '正在提交',
       mask: true
     });
-    app.api.postApi(SubmitURL, {params}, (err, data) => {   // 赠品领用提交
-      wx.hideLoading();
-      if(!err && data.err_msg == 0) {
-        if (this.data.qrEntry) {
-          wx.showModal({
-            title: '申请成功',
-            content: '赠品申请已提交，请到[订单-待审核]列表里查询，如果审核通过，将会出现在[订单-待收货]里',
-            showCancel: false,
-            confirmText: '好的',
-            success: function (res) {
-              wx.switchTab({
-                url: '../index/index',
-              })
-            },
-          });
-        } else {
-          this.showModal('success');
-        }
-      } else {
-        this.submitError({image: '../../image/error.png', title: data.rtnMessage});
+    // 生成订单号
+    app.api.postApi('wxapp.php?c=order_v2&a=add', {
+      "params": {
+        "uid": that.data.uid,
+        "quantity": 1,
+        "product_id": that.data.product_id,
+        "store_id": that.data.store_id
       }
-    });
+    } ,(err,rep) => {
+        if(!err && rep.err_code == 0){
+          var order_no = rep.err_msg.order_no;
+          var params = {
+            "oid": order_no,
+            "uid": that.data.uid,
+            "question": question
+          };
+         that.submitData(params);
+   
+        }
+    })
     
   },
-  
+  submitData(params){
+    app.api.postApi(SubmitURL, { params }, (err, data) => {   // 赠品领用提交
+      wx.hideLoading();
+      if (!err && data.err_code == 0) {
+        this.showModal('success');
+        // if (this.data.qrEntry) {
+        //   wx.showModal({
+        //     title: '申请成功',
+        //     content: '赠品申请已提交，请到[订单-待审核]列表里查询，如果审核通过，将会出现在[订单-待收货]里',
+        //     showCancel: false,
+        //     confirmText: '知道了',
+        //     success: function (res) {
+        //       wx.switchTab({
+        //         url: '../index/index',
+        //       })
+        //     },
+        //   });
+        // } else {
+        //   this.showModal('success');
+        // }
+      } else {
+        this.submitError({ image: '../../image/error.png', title: data.err_msg });
+      }
+    });
+  },
   /**
    * 显示模态框
    */

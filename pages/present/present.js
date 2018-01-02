@@ -25,11 +25,13 @@ Page({
     successModalConfig,          // 模态框设置
     loading: true,            // 是否正在加载
     presentData: null,        // 页面数据
-    uid: wx.getStorageSync('userUid'),//用户id
+    uid: null,//用户id
     store_id: store_Id.shopid,//店铺id 
   },
   onLoad:function(options){
-    // 生命周期函数--监听页面加载
+    var uid = wx.getStorageSync('userUid');
+    this.setData({uid});
+    this.loadData();//页面加载
   },
   onUnload:function(){
     // 生命周期函数--监听页面卸载
@@ -37,8 +39,8 @@ Page({
 
   onShow:function(){
    // 生命周期函数--监听页面显示
- 
-    this.loadData();
+    this.loadData();//页面加载
+    
    
   },
   onHide:function(){

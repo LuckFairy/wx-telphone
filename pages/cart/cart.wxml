@@ -44,7 +44,8 @@
         <text class="cart-tot-title">{{item.name}}</text>
         <view class="cart-size-list">
           <view>
-            <text class="cart-text-list" wx:for='{{item.sku_data}}'>{{item.value}}</text>
+            
+            <text class='cart-text-list' wx:if="{{item.sku_data.length > 0}}" wx:for="{{item.sku_data}}" wx:for-item="item2">{{item2.name}}:{{item2.value}} </text>    
           </view>
           <image class="cart-img-list" src="../../image/delete.png" bindtap="removeShopCard" data-uid='{{uid}}' data-card-id='{{item.pigcms_id}}' data-store-id='{{store_id}}' data-index='{{index}}'></image>
         </view>
