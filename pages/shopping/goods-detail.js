@@ -417,7 +417,7 @@ Page({
     var that = this;
     var actions = e.currentTarget.dataset.actions;
     var shopNum = that.data.shopNum;
-    if (actions){
+    if (actions && (actions!=0)){
       // 虚拟商品限购
       wx.showModal({
         title: '提示',
