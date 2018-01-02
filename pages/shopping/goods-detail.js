@@ -186,6 +186,7 @@ Page({
     });
   },
   onLoad: function (options) {
+    console.log('是否有虚拟商品类型',options)
     var that = this;
     // 获取店铺id shopId
     var store_id = store_Id.store_Id();
