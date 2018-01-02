@@ -35,7 +35,7 @@
 
     <form bindsubmit="formSubmit">
       <!-- 隐藏域 -->
-      <input hidden name="prodId" value="{{presentData.product_id}}" /> 
+      <!-- <input hidden name="prodId" value="{{presentData.product_id}}" />  -->
       <!-- 隐藏域end -->
       <view class="form">
         <!-- .user-info -->
@@ -110,13 +110,13 @@
           >
 
             <text style="margin-top: {{index===0? '0':'48rpx'}}" class="option-title">{{(index + 1) + '、' + option.title}}</text>
-            <input class='option-input' maxlength="50" wx:if="{{option.type === 'text'}}" placeholder='{{option.content}}' />
+            <input class='option-input'  name="{{option.id}}" maxlength="50" wx:if="{{option.type === 'text'}}" placeholder='{{option.content}}' data-id="{{option.id}}"  bindchange="optionChange"/>
             <radio-group 
               name="{{option.id}}"
               wx:if="{{option.type === 'radio'}}"
               class="option-group"
               bindchange="optionChange"
-              data-productoptionid="{{option.id}}"
+              data-id="{{option.id}}"
             >
               <label 
                 class="option-label"
@@ -136,7 +136,7 @@
               wx:if="{{option.type === 'checkbox'}}"
               class="option-group"
               bindchange="optionChange"
-              data-productoptionid="{{option.id}}"
+              data-id="{{option.id}}"
             >
               <label 
                 class="option-label"

@@ -95,7 +95,7 @@
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style='visibility:hidden'>
-      <text class='add-invite-car-child'>加入购物车</text>
+      <text class='add-invite-car-child'>加入购物车1</text>
     </view>
     <!-- <view class='current-buying invite-total' bindtap="doBuy" data-status="1">
       <text class='current-buying-child'>申请试用</text>
@@ -105,7 +105,7 @@
     </view>
   </view>
 </block>
-<block wx:elif='{{cateId==77 || cateId==78 || cateId==84 || cateId==85 || cateId==86 || cateId==87 || cateId==88 || cateId==89 || cateId==90 || cateId==91 || cateId==92}}'>
+<block wx:elif='{{action==1}}'>
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
       <image class='invite-index-image' src='../../image/go-index.png'></image>
@@ -121,10 +121,10 @@
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" style='visibility:hidden' data-product-id='{{product.product_id}}'>
-      <text class='add-invite-car-child'>加入购物车</text>
+      <text class='add-invite-car-child'>加入购物车2</text>
     </view>
-    <view class='current-buying invite-total' bindtap="doBuy" data-status="1">
-      <text class='current-buying-child'>立即购买</text>
+    <view class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
+      <text class='current-buying-child'>立即购买2</text>
     </view>
   </view>
 </block>
@@ -148,7 +148,7 @@
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}'>
-      <text class='add-invite-car-child'>加入购物车</text>
+      <text class='add-invite-car-child'>加入购物车3</text>
     </view>
     <view class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
       <text class='current-buying-child'>立即购买</text>
@@ -157,7 +157,7 @@
 </block>
 <!--按钮结束  -->
 <!-- <view  wx:if='{{moreChoose}}' class='commodity_attr_list-wrap' > -->
-<view  wx:if='{{moreChoose}}' >
+<view  wx:if='{{moreChoose}}'>
   <view class='commodity_attr_list-wrap'  bindtap='goImageClose'></view>
   <view class="commodity_attr_list">
     <view class='shopping-images-wrap'>
@@ -197,11 +197,11 @@
       <text class='ste-number'>购买数量</text>
       <view class='stepper-father'>
         <!-- 减号 -->
-        <text class="ste-reduce" bindtap="bindMinus">-</text>
+        <text class="ste-reduce" bindtap="bindMinus" data-actions='{{action}}'>-</text>
         <!-- 数值 -->
         <input class='ste-input-num' type="number" bindchange="bindManual" value="{{shopNum}}" />
         <!-- 加号 -->
-        <text class="normal ste-add" bindtap="bindPlus">+</text>
+        <text class="normal ste-add" bindtap="bindPlus" data-actions='{{action}}'>+</text>
       </view>
     </view>
     <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
