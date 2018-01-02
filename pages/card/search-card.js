@@ -221,6 +221,9 @@ Page({
       })
     } else {
       // 线上券跳到某个商品详情
+      wx.navigateTo({
+        url: '../index-new/index-boabao'
+      })
     }
   },
   /**
