@@ -1571,3 +1571,6 @@ top:160rpx;
   color:#999;
   border-color: #999;
 }
+.no-goods{
+  background-color: #ccc;
+}

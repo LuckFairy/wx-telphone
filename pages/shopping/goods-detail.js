@@ -32,7 +32,7 @@ Page({
     uid: '',
     activity_err_msg: "",
     property_list: '',
-    shopNum: 1,
+    shopNum: 1,//购买数量
     multiattribute: [],
     quantitys: [],
     oneMatching: [],
