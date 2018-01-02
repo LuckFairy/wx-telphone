@@ -58,6 +58,7 @@ text {
   border-bottom-color: rgba(1, 1, 1, 0);
   height: 80rpx;
   padding-top: 10rpx;
+  font-size: 30rpx;
 }
 
 .show-border-bottom {

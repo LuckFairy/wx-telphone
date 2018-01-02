@@ -12,7 +12,7 @@
     </view>
     <view class='wait-choose' hidden='{{showHide}}' bindtap='goChooseCard'>
       <text class='online-card online-offline' data-select='0'>线上券</text>
-      <text class='offline-card online-offline'  data-select='1'>线下券</text>
+      <text class='offline-card online-offline'  data-select='1'>门店券</text>
     </view>
   </view>  
  </view>
@@ -36,7 +36,7 @@
           <text class='money-right-cn'>￥</text>
           <text class='money-right-text'>{{card.face_money}}</text>
         </view>
-        <text class='mon-right-go'>立即领取</text>
+        <text class='mon-right-go'>立即使用</text>
       </view> 
     </view>
 <!--two  -->
