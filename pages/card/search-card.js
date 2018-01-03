@@ -30,7 +30,9 @@ Page({
     selectCardone: 0,
     selectCardtwo: 0,
     selectCardthree: 0,
-    searchValue: ''
+    searchValue: '',
+    onlinecard:'',
+    mendiancard:''
 
   },
   // 搜索卡包
@@ -79,13 +81,15 @@ Page({
         pagesthree: 1,
         selectCardone: 1,
         selectCardtwo: 1,
-        selectCardthree: 1
+        selectCardthree: 1,
+        onlinecard:'trues',
+        mendiancard: ''
       });
       console.log(that.data.normal.length, '线上券normal数据')
       that.loadData1(that);
     } else if (indexSelect == 1) {
       this.setData({
-        typeText: '线下券',
+        typeText: '门店券',
         showHide: true,
         category: 3,
         pagesone: 1,
@@ -93,7 +97,9 @@ Page({
         pagesthree: 1,
         selectCardone: 1,
         selectCardtwo: 1,
-        selectCardthree: 1 // 判断是否切换
+        selectCardthree: 1, // 判断是否切换
+        mendiancard:'mendiancard',
+        onlinecard: '',
       });
       console.log(that.data.normal.length, '是否点击线下券normal数据')
       that.loadData1(that);
@@ -118,6 +124,9 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
+    that.setData({
+      mendiancard: 'mendiancard'
+    })
     var store_id = store_Id.store_Id();//store_id
     Api.signin();//获取以及存储openid、uid
     // 获取uid

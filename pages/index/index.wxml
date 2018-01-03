@@ -1,9 +1,0 @@
-<!--index.wxml-->
-<import src="../template/sections.wxml" />
-<view class="tab-container">
-  <loading hidden="{{!loading}}">
-        加载中...
-  </loading>
-  <template wx:if="{{!loading}}" is="sections" data="{{sections: indexData}}" />
-</view>
-<view style="position:fixed;bottom:0px;left:0px;width:750rpx;height:1px;background-color:lightgrey;"></view>

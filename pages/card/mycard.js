@@ -29,8 +29,9 @@ Page({
     category: 3,
     selectCardone: 0,
     selectCardtwo: 0,
-    selectCardthree: 0
-
+    selectCardthree: 0,
+    mendiancard:'',
+    onlinecard:''
   },
   getCoupon() {
     wx.navigateTo({
@@ -63,7 +64,9 @@ Page({
         pagesthree: 1,
         selectCardone: 1,
         selectCardtwo: 1,
-        selectCardthree: 1
+        selectCardthree: 1,
+        onlinecard:'onlinecard',
+        mendiancard:''
       });
       console.log(that.data.normal.length, '线上券normal数据')
       that.loadData1(that);
@@ -79,7 +82,9 @@ Page({
         pagesthree: 1,
         selectCardone: 1,
         selectCardtwo: 1,
-        selectCardthree: 1 // 判断是否切换
+        selectCardthree: 1, // 判断是否切换
+        mendiancard: 'mendiancard',
+        onlinecard: ''
       });
       console.log(that.data.normal.length, '是否点击门店券normal数据')
       that.loadData1(that);
@@ -141,6 +146,9 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
+    that.setData({
+      mendiancard:'mendiancard'
+    })
     wx.getSystemInfo({
       success: function (res) {
         that.setData({

@@ -56,7 +56,7 @@
             <block>
               <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
                 <view class='purchase-shop-list'>
-                  <image class='purchase-shop-image' src='{{item.image}}'></image>
+                  <image class='purchase-shop-image' mode='aspectFit' src='{{item.image}}'></image>
                   <view class='purchase-shop-detail'>
                     <view class='purchase-shop-text'>
                       <text class='purchase-shop-title'>{{item.name}}</text>
@@ -493,7 +493,7 @@
               <text wx:if='{{item.type==4}}' class='purchase-data-back'>补发商品</text>
             </view>
             <view class='purchase-shop-list'>
-              <image class='purchase-shop-image' src='{{item.image}}'></image>
+              <image class='purchase-shop-image' mode='aspectFit' src='{{item.image}}'></image>
               <view class='purchase-shop-detail'>
                 <view class='purchase-shop-text'>
                   <text class='purchase-shop-title'>{{item.name}}</text>

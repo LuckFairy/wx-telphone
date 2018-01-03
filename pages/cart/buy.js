@@ -466,6 +466,7 @@ closeBtn() {
  * 支付成功
  */
 _onPaySuccess(res) {
+  wx.removeStorageSync('couponInfo');
   var that = this;
   // 支付成功弹窗
   that.setData({

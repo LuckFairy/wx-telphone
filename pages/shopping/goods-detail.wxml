@@ -130,7 +130,7 @@
   </view>
 </block>
 <!--已经售罄  -->
-<block wx:elif='{{action==1}}'>
+<block wx:elif='{{action && (action!=0)}}'>
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
       <image class='invite-index-image' src='../../image/go-index.png'></image>
@@ -149,7 +149,7 @@
       <text class='add-invite-car-child'>加入购物车</text>
     </view>
     <view class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
-      <text class='current-buying-child'>立即购买2</text>
+      <text class='current-buying-child'>立即购买</text>
     </view>
   </view>
 </block>
@@ -234,7 +234,7 @@
     <!--新品试用  -->
      <text wx:elif='{{action == "present"}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPreApply'>确定</text>
      <!--严选、闪购  -->
-     <text wx:elif='{{action == 1}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment' data-baokuan_action='{{action}}'>确定</text>
+     <text wx:elif='{{(action != 0) && action }}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment' data-baokuan_action='{{action}}'>确定</text>
      <!--一般购买  -->
     <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>确定</text>
     <!-- 数量的增减end -->

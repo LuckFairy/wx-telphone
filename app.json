@@ -1,7 +1,5 @@
 {
   "pages": [
-    "pages/shopping/my-order",
-    
     "pages/index-new/index-new",
     "pages/shopping/buycard",
     "pages/shopping/address-list",
@@ -13,8 +11,7 @@
     "pages/sale-after/apply-sales",
     "pages/sale-after/purchase-refund",
     "pages/sale-after/purchase-detail",
-   
-    "pages/index/index",
+    "pages/shopping/my-order",
     "pages/index-new/server-wechat",
     "pages/index-new/detail-shopping",
     "pages/index-new/myself",
@@ -41,8 +38,6 @@
     "pages/card/mycard",
     "pages/score/score",
     "pages/present/present-apply",
-    "pages/association/association",
-    "pages/association/association-detail",
     "pages/credit/credit",
     "pages/credit/credit-rule",
     "pages/credit/in-ex-details",

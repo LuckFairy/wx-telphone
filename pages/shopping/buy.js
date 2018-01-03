@@ -486,7 +486,8 @@ Page({
     that.setData({
       matteShow:true
     });
-    
+    //2018年1月2日18:44:25
+    this.giveCard(this.data.orderId);
   },
 
   /**
@@ -871,6 +872,29 @@ Page({
         }
       }
       console.log('normal_coupon_count', this.data.normal_coupon_count);
+    });
+  },
+  /**
+ * 购买给卡包
+ */
+  giveCard: function (order_no) {
+    
+    var params = {
+      order_no: order_no
+    };
+    app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
+      // if (err) return;
+      // if (resp.err_code != 0) {
+      //   wx.showLoading({
+      //     title: resp.err_msg,
+      //   })
+      // } else {
+      //   wx.hideLoading();
+      //   console.log(resp, 1111111)
+      //   var data = resp.err_msg;
+      //   console.log('获取第一行的图标', data);
+      //   this.setData({ iconOne: data });
+      // }
     });
   },
 
