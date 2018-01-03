@@ -638,15 +638,22 @@ Page({
       confirmText: '好的',
     });
   },
-
+  /*
+  * 再次购买
+  */
+  againBuy (e) {
+    let { proId } = e.currentTarget.dataset;
+    wx.reLaunch({
+      url: './goods-detail?prodId='+ proId
+    })
+  },
   /**
    * 查看订单详情 
    */
   pushToOrderDetail(e) {
-    let { orderId } = e.currentTarget.dataset;
-    let { productId } = e.currentTarget.dataset;
+    let { orderId, productId , status } = e.currentTarget.dataset;
     wx.navigateTo(
-      { url: './order-detail?orderId=' + orderId + '&productId=' + productId}
+      { url: './order-detail?orderId=' + orderId + '&productId=' + productId + '&status=' + status}
     );
   },
 

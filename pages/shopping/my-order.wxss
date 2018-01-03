@@ -5,7 +5,7 @@ page {
 }
 
 view {
-  display: flex;
+   display: flex; 
 }
 
 swiper {
@@ -28,6 +28,7 @@ text {
   background-color: FFE546;
   margin: 0px;
   padding: 0px;
+  
 }
 
 .main-container {
@@ -238,7 +239,7 @@ text {
   align-items: center;
   padding-top: 150rpx;
   padding-bottom:300rpx;
-  background: #fff;
+  /* background: #fff; */
 }
 
 .no-data-image {
@@ -638,17 +639,16 @@ button::after {
   background: #ffffff;
   margin-bottom: 16rpx;
 }
-.purchase-data-total:first-child{
-  padding-top: 80rpx;
-}
+
 .purchase-data-sd{
-  display: block;
+  /* display: block; */
   font-size: 0rpx;
   margin: 0 24rpx;
   display: flex;
   justify-content: space-between;
   height: 80rpx;
   line-height: 80rpx;
+  width: 700rpx;
 }
 .purchase-data-number{
   font-size: 26rpx;
@@ -665,7 +665,9 @@ button::after {
   font-size: 0rpx;
   background: #fafafa;
   height: 180rpx;
+  border-top: 1px solid #ececec;
 }
+
 .purchase-shop-image{
   display: inline-block;
   width: 160rpx;
@@ -727,6 +729,7 @@ display: -webkit-box;
   justify-content: space-between;
   align-items: center;
   margin: 0 24rpx;
+  width:700rpx;
 }
 .purchase{
   font-size: 0rpx;
@@ -755,6 +758,7 @@ display: -webkit-box;
   text-align: center;
   line-height: 56rpx;
   border-radius: 8rpx;
+  margin-left: 10rpx;
 }
 .scroll-lists-back{
   margin-bottom: 80rpx;
@@ -788,4 +792,11 @@ display: -webkit-box;
   margin-left: 32rpx;
   display: block;
   min-height: 19px;
+}
+
+.goods-pro-price{
+  text-align: left;
+}
+.goods-satus{
+  justify-content:flex-end;
 }
