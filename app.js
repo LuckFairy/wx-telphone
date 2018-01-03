@@ -37,6 +37,7 @@ App({
     //ceshiUrl:'https://wxplus.paoyeba.com/index.php',
     ceshiUrl: 'http://leoxcxshop.com/index.php',
   },
+  store_id:6, //2018年1月3日15:20:33 店铺id by leo
 })
 
 

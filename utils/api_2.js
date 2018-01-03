@@ -1,3 +1,4 @@
+var app = getApp();
 var Api = {
   /*用户登陆授权*/
   signin: function(callback, tryTimes = 3) {
@@ -59,7 +60,8 @@ var Api = {
     function _doSignin(jscode,userInfo) {
       let params = {
         jscode: jscode,
-        userInfo: userInfo
+        userInfo: userInfo,
+        store_id: app.store_id
       }
       console.log('开始服务端配置信息！', params); 
       // 'X-Agent-Id': AGENT_ID
