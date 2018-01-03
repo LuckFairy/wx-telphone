@@ -592,7 +592,16 @@ Page({
       var data = resp.err_msg;
       console.log(data);
       // 调起微信支付
-      this._startPay(data);
+      if (resp.err_dom) {
+        console.log('不需要支付');
+        wx.navigateTo({
+          url: './my-order?goodsindex=' + 2
+        })
+      } else {
+        console.log('需要支付');
+        // 调起微信支付
+        this._startPay(data);
+      }
     });
 
   },
@@ -619,6 +628,9 @@ Page({
    */
   _onPaySuccess(res) {
     wx.showToast({ title: "订单支付成功", icon: "success", duration: 1000 });
+    //2018年1月3日09:52:02
+    wx.removeStorageSync('couponInfo');
+    this.giveCard(this.data.orderId);
 
     setTimeout(() => {
       // 跳转到待收货页面
@@ -794,6 +806,29 @@ Page({
   listClick: function (event) {
     var groupbuyOrderId = event.currentTarget.groupbuyOrderId
 
-  }
+  },
+  /**
+* 购买给卡包
+*/
+  giveCard: function (order_no) {
+
+    var params = {
+      order_no: order_no
+    };
+    app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
+      // if (err) return;
+      // if (resp.err_code != 0) {
+      //   wx.showLoading({
+      //     title: resp.err_msg,
+      //   })
+      // } else {
+      //   wx.hideLoading();
+      //   console.log(resp, 1111111)
+      //   var data = resp.err_msg;
+      //   console.log('获取第一行的图标', data);
+      //   this.setData({ iconOne: data });
+      // }
+    });
+  },
 
 })
