@@ -220,7 +220,7 @@ Page({
     });
     
     //线上优惠券信息
-    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
+    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid": this.data.uid, "store_id": this.data.store_id, "product_id": this.data.product_id } }, (err, resp) => {
       if (err || resp.err_code != 0) {
         return;
       }
