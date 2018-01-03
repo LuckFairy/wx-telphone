@@ -14,13 +14,13 @@
       <text class='online-card online-offline' data-select='0'>线上券</text>
       <text class='offline-card online-offline'  data-select='1'>门店券</text>
     </view>
-  </view>  
+  </view>
  </view>
   <!-- nav详细内容展示区-->
 <!--one  -->
   <scroll-view  scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadone'  lower-threshold='0' scroll-top="{{scrollTop}}">
     <block  wx:for='{{normal}}' wx:for-item="card">
-    <view wx:if='{{(card.is_use==0)&&(card.is_expired==0)}}' data-distinguish='{{0}}'  class='mom-list' bindtap='goDetail'  data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.id}}'>
+    <view wx:if='{{(card.is_use==0)&&(card.is_expired==0)}}' data-distinguish='{{0}}'  class='mom-list {{onlinecard?onlinecard:""}} {{mendiancard?mendiancard:""}}' bindtap='goDetail'  data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.id}}'>
       <view class='mon-list-left'>
         <view class='mon-image-title'>
           <text class='mon-title'>{{card.cname}}</text>
@@ -37,7 +37,7 @@
           <text class='money-right-text'>{{card.face_money}}</text>
         </view>
         <text class='mon-right-go'>立即使用</text>
-      </view> 
+      </view>
     </view>
 <!--two  -->
     <view wx:elif='{{(card.is_use==0)&&(card.is_expired==1)}}' class='mom-list-two' data-activity-id='{{card.activity_id}}' data-id='{{card.id}}'>

@@ -182,7 +182,7 @@
   </view>
 </view>
 <!--优惠券选择  -->
- <view class='discount' bindtap='changeCoupon' data-product_id='{{product_id}}' data-pro_price='{{pro_price}}' wx:if='{{baokuan_action ==0}}'>
+ <view class='discount' bindtap='changeCoupon' data-product_id='{{product_id}}' data-pro_price='{{pro_price}}' wx:if='{{(baokuan_action ==0) || (baokuan_action =="undefined")}}'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
   <block wx:if="{{couponInfo.length}}">
@@ -211,7 +211,7 @@
     <text class='discount-ticket-price discount-color-red'>+￥{{fee}}</text>
   </view>
 </view>
-<view class='discount discount-list' wx:if='{{baokuan_action ==0}}'>
+<view class='discount discount-list' wx:if='{{(baokuan_action ==0) || (baokuan_action =="undefined")}}'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
     <block wx:if="{{couponInfo.length}}">
