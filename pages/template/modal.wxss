@@ -22,3 +22,15 @@
 	width: 1px;
 	background-color: #EAEAEA;
 }
+
+/************** 订单领用新品点击确认取货的弹出框 **************/
+.overlay-right {
+	position: absolute;
+  right: 0;
+  top:0;
+  width:30rpx;
+  height: auto;
+}
+.mode-right-image{
+  width: 100%;
+}

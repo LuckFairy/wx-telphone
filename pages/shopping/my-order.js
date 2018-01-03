@@ -70,7 +70,10 @@ const util = require('../../utils/util.js');
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
 var app = getApp();
-
+let errModalConfig = {
+  image: '../../image/ma_icon_store_1.png',
+  title: '将二维码出示给门店核销员由门店员核销即可',
+};
 
 Page({
   data: {
@@ -87,6 +90,7 @@ Page({
     sku_arr:[],//多属性列表
     
     showOverlay: false, // 弹窗遮掩层
+    showErrModal:false,//错误模式层
     checkQrImgUrl: null,   // 赠品领用核销二维码url
     uncheckOrders: [],  // 待审核订单（赠品）
     groupOrders: [], // 团购订单
@@ -659,6 +663,14 @@ Page({
       url: './goods-detail?prodId='+ proId
     })
   },
+  /*新品试用，确认取货
+  *
+  */
+  confirmNewGoods (){
+    this.setData({ showErrModal: true});
+    this.showModal('err',errModalConfig);
+  },
+
   /**
    * 查看订单详情 
    */
@@ -837,5 +849,34 @@ Page({
       // }
     });
   },
+  /**
+  * 显示模态框
+  */
+  showModal(type = 'err', config) {  // type: success||err
+    if (type === 'success') {
+      this.setData({
+        successModalConfig: config || successModalConfig,
+        showSuccessModal: true
+      });
+    } else {
+      this.setData({
+        errModalConfig: config || errModalConfig,
+        showErrModal: true
+      });
+    }
+  },
 
+  /**
+   * 点击隐藏模态框(错误模态框)
+   */
+  tabModal() {
+    this.setData({ showErrModal: false });
+  },
+
+  /**
+   * 点击模态框的确定(关闭确定模态框)
+   */
+  tabConfirm() {
+    this.setData({ showSuccessModal: false });
+  },
 })

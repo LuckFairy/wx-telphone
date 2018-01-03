@@ -1,3 +1,7 @@
+<import src="../template/modal.wxml" />
+<template wx:if="{{showErrModal}}" is="text-erwei-modal" data="{{...errModalConfig}}" />
+
+
 <view class="main-container">
   <!-- 头部导航条 -->
   <view scroll-x='true' class="nav-header-view">
