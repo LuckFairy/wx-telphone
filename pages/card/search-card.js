@@ -32,7 +32,9 @@ Page({
     selectCardthree: 0,
     searchValue: '',
     onlinecard:'',
-    mendiancard:''
+    mendiancard:'',
+    onlinecard: '',
+    shopCard: ''
 
   },
   // 搜索卡包
@@ -83,7 +85,9 @@ Page({
         selectCardtwo: 1,
         selectCardthree: 1,
         onlinecard:'trues',
-        mendiancard: ''
+        mendiancard: '',
+        xianshangCard: 'xianshangCard',
+        shopCard: ''
       });
       console.log(that.data.normal.length, '线上券normal数据')
       that.loadData1(that);
@@ -100,6 +104,8 @@ Page({
         selectCardthree: 1, // 判断是否切换
         mendiancard:'mendiancard',
         onlinecard: '',
+        xianshangCard: '',
+        shopCard: 'shopCard'
       });
       console.log(that.data.normal.length, '是否点击线下券normal数据')
       that.loadData1(that);
@@ -125,7 +131,8 @@ Page({
   onLoad: function (options) {
     var that = this;
     that.setData({
-      mendiancard: 'mendiancard'
+      mendiancard: 'mendiancard',
+      shopCard: "shopCard"
     })
     var store_id = store_Id.store_Id();//store_id
     Api.signin();//获取以及存储openid、uid

@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index-new/index-new",
+    "pages/card/mycard",
     "pages/shopping/buycard",
     "pages/shopping/address-list",
     "pages/shopping/address",
@@ -35,7 +36,7 @@
     "pages/card/card_detail",
     "pages/activity/activity",
     "pages/activity/hotsale",
-    "pages/card/mycard",
+    
     "pages/score/score",
     "pages/present/present-apply",
     "pages/credit/credit",

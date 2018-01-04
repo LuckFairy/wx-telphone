@@ -10,12 +10,12 @@
       <text class='search-current-text'>{{typeText}}</text>
       <text class='search-current-trangle'></text>
     </view>
-    <view class='wait-choose' hidden='{{showHide}}' bindtap='goChooseCard'>
-      <text class='online-card online-offline' data-select='0'>线上券</text>
-      <text class='offline-card online-offline'  data-select='1'>门店券</text>
-    </view>
   </view>
  </view>
+ <view class='wait-choose' hidden='{{showHide}}' bindtap='goChooseCard'>
+      <text class='online-card online-offline {{xianshangCard?xianshangCard:""}}' data-select='0'>线上券</text>
+      <text class='offline-card online-offline {{shopCard?shopCard:""}}'  data-select='1'>门店券</text>
+  </view>
   <!-- nav详细内容展示区-->
 <!--one  -->
   <scroll-view  scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadone'  lower-threshold='0' scroll-top="{{scrollTop}}">
@@ -33,8 +33,8 @@
       </view>
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{card.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{card.face_money}}</text>
         </view>
         <text class='mon-right-go'>立即使用</text>
       </view>
@@ -54,8 +54,8 @@
       </view> 
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{card.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{card.face_money}}</text>
         </view>
         <text class='mon-right-go'>已使用</text>
       </view> 
@@ -75,8 +75,8 @@
       </view> 
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{card.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{card.face_money}}</text>
         </view>
         <text class='mon-right-go'>已过期</text>
       </view> 
