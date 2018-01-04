@@ -44,12 +44,12 @@
     </view>
   </view>
 </view>
-<view class="overlay" style="display:{{showOverlay ? 'flex' : 'none'}}">
+<view class="overlay" catchtap="closeOverlay" style="display:{{showOverlay ? 'flex' : 'none'}}">
   <view class="qr-view">
     <image src="{{detailData.qrUrl}}" mode="widthFix" style="width:300rpx;margin:40px 10rpx"></image>
     <text>将二维码出示给门店核销员</text>
     <text>由门店核销即可</text>
-    <i class="fa fa-times close-icon" catchtap="closeOverlay"></i>
+    <i class="fa fa-times close-icon" ></i>
   </view>
 </view>
 <!-- 首次领券 -->

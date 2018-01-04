@@ -22,12 +22,12 @@
       <text class='search-current-text'>{{typeText}}</text>
       <text class='search-current-trangle'></text>
     </view>
-    <view class='wait-choose' hidden='{{showHide}}' bindtap='goChooseCard'>
-      <text class='online-card online-offline' data-select='0'>线上券</text>
-      <text class='offline-card online-offline'  data-select='1'>门店券</text>
-    </view>
   </view>  
  </view>
+ <view class='wait-choose' hidden='{{showHide}}' bindtap='goChooseCard'>
+      <text class='online-card online-offline {{xianshangCard?xianshangCard:""}}' data-select='0'>线上券</text>
+      <text class='offline-card online-offline {{shopCard?shopCard:""}}'  data-select='1'>门店券</text>
+  </view>
   <!-- nav详细内容展示区-->
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
     <swiper-item>
@@ -49,7 +49,7 @@
                     
                     <view class="card-item-right card-bg-available" data-recid="{{card.coupon_id}}" data-url-param="cardId={{card.coupon_id}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}'>
                         <view class="card-item-value">
-                          <text style="font-size:25rpx;">￥</text>
+                          <text>￥</text>
                           <text>{{card.face_money}}</text>
                         </view>
                         <view class="card-item-btn-view" >
@@ -119,9 +119,9 @@
                         <view class="card-item-value">
                         <text style="font-size:25rpx;">￥</text><text>{{card.face_money}}</text>
                         </view>
-                        <navigator class="card-item-btn-view">
+                        <view class="card-item-btn-view">
                         <text style="text-align:right;">已使用</text>
-                        </navigator>
+                        </view>
                     </view>
                 </view><!--/已经使用过的卡券-->
             </block>

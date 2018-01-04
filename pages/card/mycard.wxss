@@ -42,7 +42,6 @@ text {
   align-items: flex-end;
   width: 750rpx;
   height: 80rpx;
-  font-size: 25rpx;
   color: grey;
   _box-shadow: 0px 5px 10px rgba(1, 1, 1, 0.2);
   z-index: 2;
@@ -74,11 +73,9 @@ text {
   justify-content: center;
   flex-wrap: wrap;
   width: 750rpx;
-  /* padding-bottom: 15px; */
   margin-top: 10px;
-  /* margin-bottom: 118rpx; */
+   margin-bottom: 150rpx; 
 }
-
 .card-ad-view {
   display: flex;
   flex-direction: row;
@@ -138,10 +135,10 @@ background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAsYAAAC0CAY
 }
 
 .card-title-text {
-  font-size: 35rpx;
-  font-weight: bold;
+  font-size: 30rpx;
   white-space: nowrap;
   overflow: hidden;
+  color: #1b1b1b;
 }
 
 .card-info-text-normal {
@@ -151,8 +148,8 @@ background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAsYAAAC0CAY
 }
 
 .card-info-text-small {
-  color: grey;
-  font-size: 23rpx;
+  color: #1b1b1b;
+  font-size: 24rpx;
   height: 34rpx;
 }
 
@@ -173,20 +170,22 @@ background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAsYAAAC0CAY
 
 .card-item-value {
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-end;
   width: 100%;
-  color: white;
-  font-size: 30rpx;
+  color: #ffffff;
+  font-size: 50rpx;
 }
 
 .card-item-btn-view {
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-end;
   width: 100%;
-  color: white;
-  font-size: 20rpx;
+  color: #ffffff;
+  font-size: 28rpx;
+  border: 1rpx solid #ffffff;
+  border-radius: 6rpx;
 }
 
 .overlay {
@@ -293,7 +292,6 @@ background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAsYAAAC0CAY
   width: 450rpx;
   height: 60rpx;
 }
-
 .search-select {
   position: relative;
   height: 80rpx;
@@ -326,15 +324,16 @@ background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAsYAAAC0CAY
   margin-left: 18rpx;
 }
 .wait-choose{
-  position: absolute;
-  top: 15rpx;
-  left: -20rpx;
+  position: fixed;
+  top: 138rpx;
   z-index: 999999999;
   background: #ffffff;
-  width: 110rpx;
+  width: 750rpx;
   font-size: 0rpx;
   display: block;
-  height: 112rpx;
+  height: 108rpx;
+  line-height: 108rpx;
+  padding-top: 23rpx;
 }
 .tranClass{
   height: 112rpx;
@@ -342,9 +341,19 @@ background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAsYAAAC0CAY
   -webkit-transition:width 2s; 
 }
 .online-offline{
-  display: block;
+  display: inline-block;
   font-size: 28rpx;
-  height: 56rpx;
-  line-height: 56rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  width: 160rpx;
+  border: 1rpx solid #efefef;
+  border-radius: 50rpx;
+  margin-left: 24rpx;
+}
+.shopCard{
+  background: rgb(255, 231, 28);
+}
+.xianshangCard{
+  background: rgb(255, 231, 28);
 }
 /*搜索区域结束  */

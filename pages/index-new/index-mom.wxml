@@ -25,14 +25,14 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
-          <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
+           <text class='mon-price'>满{{item.is_original_price}}元可用</text> 
+          <text class='mon-day'>有效期：{{item.start_time_str}} - {{item.end_time_str}}</text>
         </view>
       </view>
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{item.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
         </view>
         <text class='mon-right-go'>立即领取</text>
       </view> 
@@ -44,14 +44,14 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
-          <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
+           <text class='mon-price'>满{{item.is_original_price}}元可用</text> 
+          <text class='mon-day'>有效期：{{item.start_time_str}} - {{item.end_time_str}}</text>
         </view>
       </view> 
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{item.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
         </view>
         <text class='mon-right-go'>已领取</text>
       </view> 
@@ -65,14 +65,14 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
+           <text class='mon-price'>满{{item.is_original_price}}元可用</text> 
           <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
         </view>
       </view> 
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{item.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
         </view>
         <text class='mon-right-go'>立即领取</text>
       </view> 
@@ -84,14 +84,14 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
+           <text class='mon-price'>满{{item.is_original_price}}元可用</text> 
           <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
         </view>
       </view> 
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{item.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
         </view>
         <text class='mon-right-go'>已领取</text>
       </view> 
@@ -105,14 +105,14 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
+           <text class='mon-price'>满{{item.is_original_price}}元可用</text> 
           <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
         </view>
       </view> 
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{item.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
         </view>
         <text class='mon-right-go'>立即领取</text>
       </view> 
@@ -124,14 +124,14 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
+           <text class='mon-price'>满{{item.is_original_price}}元可用</text> 
           <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
         </view>
       </view> 
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{item.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
         </view>
         <text class='mon-right-go'>已领取</text>
       </view> 
@@ -145,14 +145,14 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
+           <text class='mon-price'>满{{item.is_original_price}}元可用</text> 
           <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
         </view>
       </view> 
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{item.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
         </view>
         <text class='mon-right-go'>立即领取</text>
       </view> 
@@ -164,14 +164,14 @@
           <text class='mon-title'>{{item.name}}</text>
         </view>
         <view class='mon-price-day'>
-          <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text> -->
+           <text class='mon-price'>满{{item.is_original_price}}元可用</text> 
           <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
         </view>
       </view> 
       <view class='mon-list-right'>
         <view class='mon-money-right'>
-          <text class='money-right-cn'>￥</text>
-          <text class='money-right-text'>{{item.face_money}}</text>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
         </view>
         <text class='mon-right-go'>已领取</text>
       </view> 
