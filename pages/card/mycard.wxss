@@ -73,11 +73,9 @@ text {
   justify-content: center;
   flex-wrap: wrap;
   width: 750rpx;
-  /* padding-bottom: 15px; */
   margin-top: 10px;
    margin-bottom: 150rpx; 
 }
-
 .card-ad-view {
   display: flex;
   flex-direction: row;
