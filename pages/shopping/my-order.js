@@ -74,6 +74,10 @@ let errModalConfig = {
   image: '../../image/ma_icon_store_1.png',
   title: '将二维码出示给门店核销员由门店员核销即可',
 };
+let successModalConfig = {
+  firstText:'提示',
+  confirmText:'确认'
+}
 
 Page({
   data: {
@@ -91,6 +95,7 @@ Page({
     
     showOverlay: false, // 弹窗遮掩层
     showErrModal:false,//错误模式层
+    showSuccessModal: false ,//确认模式层
     checkQrImgUrl: null,   // 赠品领用核销二维码url
     uncheckOrders: [],  // 待审核订单（赠品）
     groupOrders: [], // 团购订单
@@ -122,7 +127,8 @@ Page({
     postage_list:"",
     user_coupon_id: 0,
     is_app: false,
-    payType: 'weixin'
+    payType: 'weixin',
+    isShow:true,//是否显示,默认全部显示
   },
   onLoad: function (options) {
     var that = this;
@@ -360,6 +366,7 @@ Page({
          canceledOrders = [], refundingOrders = [], uncheckOrders = [], ReceivedOrders = [],groupOrders = [], 
          groupbuyOrders = [], transOrders = [];
       order_list.forEach(item => {
+        
         allOrders.push(item);
         let status = item.status;
         // const ORDER_STATUS_MOMENT = 0;    // 临时
@@ -506,8 +513,8 @@ Page({
    */
   delOrder: function (event) {
     let orderId = event.currentTarget.dataset.orderId;
+    let index = event.currentTarget.dataset.index;
     let uid=this.data.uid;
-
    // console.log("请求的参数", orderId, uid); return;
     wx.showModal({
       title: '删除订单',
@@ -515,19 +522,22 @@ Page({
       content: "确定要删除该宝贝吗？",
       success: (res) => {
         if (res.confirm) {
-          
-          this._doDelOrder(orderId, uid);
+          this._doDelOrder(orderId, uid ,index);
         }
       }
     });
   },
 
-  _doDelOrder(orderId, uid) {
+  _doDelOrder(orderId, uid ,index) {
     wx.showLoading({ title: '请稍候...', mask: true, });
     app.api.postApi('wxapp.php?c=order_v2&a=cancel', { "params": { "uid": uid, "order_no": orderId } }, (err, resp) => {
       wx.hideLoading();
       if (err || resp.err_code != 0) {
-        return;
+        //不能删除的订单，直接隐藏
+        this.showModal('success', {
+          firstText:resp.err_msg
+        });
+         return;
       }
 
       // 刷新订单数据
@@ -667,7 +677,6 @@ Page({
   *
   */
   confirmNewGoods (){
-    this.setData({ showErrModal: true});
     this.showModal('err',errModalConfig);
   },
 
@@ -675,9 +684,9 @@ Page({
    * 查看订单详情 
    */
   pushToOrderDetail(e) {
-    let { orderId, productId , status } = e.currentTarget.dataset;
+    let { orderId, productId , status , newTrial } = e.currentTarget.dataset;
     wx.navigateTo(
-      { url: './order-detail?orderId=' + orderId + '&productId=' + productId + '&status=' + status}
+      { url: './order-detail?orderId=' + orderId + '&productId=' + productId + '&newTrial=' + newTrial}
     );
   },
 
@@ -854,13 +863,15 @@ Page({
   */
   showModal(type = 'err', config) {  // type: success||err
     if (type === 'success') {
+      successModalConfig = Object.assign(successModalConfig,config);
       this.setData({
-        successModalConfig: config || successModalConfig,
+        successModalConfig: successModalConfig,
         showSuccessModal: true
       });
     } else {
+      errModalConfig = Object.assign(errModalConfig , config);
       this.setData({
-        errModalConfig: config || errModalConfig,
+        errModalConfig: errModalConfig,
         showErrModal: true
       });
     }

@@ -1,5 +1,7 @@
 <import src="../template/modal.wxml" />
 <template wx:if="{{showErrModal}}" is="text-erwei-modal" data="{{...errModalConfig}}" />
+<template wx:if="{{showSuccessModal}}" is="text-comfirm-modal" data="{{...successModalConfig}}" />
+
 
 
 <view class="main-container">
@@ -44,7 +46,7 @@
         <!--有数据时  -->
         <!-- 0  临时订单 1 未支付 2 未发货 3已发货（对应待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中）-->
         <block wx:else>
-          <view wx:for='{{allOrders}}' wx:for-item="order" wx:key="{{order.order_no_txt}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" bindtap="pushToOrderDetail" class='purchase-data-total'>
+          <view wx:for='{{allOrders}}'  wx:for-item="order" wx:key="{{order.order_no_txt}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-status='{{order.status}}' data-new-trial="{{order.is_trial_product}}" bindtap="pushToOrderDetail" class='purchase-data-total' >
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>
               <text wx:if='{{order.status==1}}' class='purchase-data-back'>未支付</text>
@@ -52,7 +54,7 @@
 
               <text wx:if='{{order.status==2}}' class='purchase-data-back'>
                   <text wx:if="{{order.is_trial_product==1}}">待收货</text>
-                  <text wx:if="{{order.is_trial_product==0}}">未发货</text>
+              <text wx:if="{{order.is_trial_product==0}}">未发货</text>
               </text>
               <text wx:if='{{order.status==3}}' class='purchase-data-back'>待收货</text>
               <text wx:if='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
@@ -72,16 +74,20 @@
                     <text class='purchase-price goods-pro-price'><text class='gray'>金额：</text>￥{{item.pro_price}}</text>
                   </view>
                 </view>
-                <view class='purchase-satus goods-satus' wx:if='{{order.status==4 ||order.status==7}}'>
+                <!-- <view class='purchase-satus goods-satus' wx:if='{{order.status==4 ||order.status==7}}'>
                   <text class='purchase-status-detail' data-pro-id='{{item.id}}' catchtap='againBuy'>再次购买</text>
-                </view>
+                </view> -->
               </view>
             </block>
-
+            <view class="goods-price-view">
+              <!-- <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view> -->
+              <view style="">实付款：</view>
+              <view style="color:#D84E52;">￥{{order.total}}</view>
+            </view>
             <!-- status 1 未支付 2 未发货 3已发货（对应待收货） 4 已完成 、7 已收货（已收货）-->
             <!--新品试用  -->
             <view class='purchase-satus goods-satus' wx:if="{{order.is_trial_product == 1 && order.status == 2 }}">
-                <text class='purchase-status-detail' data-isnewprod='{{order.is_trial_product}}' catchtap='confirmNewGoods'>确认取货</text>
+              <text class='purchase-status-detail' data-isnewprod='{{order.is_trial_product}}' catchtap='confirmNewGoods'>确认取货</text>
             </view>
             <!--新品试用  -->
 
@@ -95,10 +101,11 @@
               <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
             </view>
 
-             <!-- <view class='purchase-satus goods-satus' wx:if="{{order.status == 4 || order.status == 7}}">
-               <text class='purchase-status-detail'  data-order-id="{{order.order_no_txt}}" catchtap="delOrder" >删除订单</text> 
-            </view>  -->
-            
+            <view class='purchase-satus goods-satus' wx:if="{{order.status == 4 || order.status == 7}}">
+              <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
+              <text class='purchase-status-detail' data-pro-id='{{order.order_product_list[0].id}}' catchtap='againBuy'>再次购买</text>
+            </view>
+
 
           </view>
         </block>
@@ -115,32 +122,37 @@
         <view wx:if="{{unpayOrders && unpayOrders.length}}" class="order-list-view">
 
           <!--待付款-->
-          <view wx:for="{{unpayOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" bindtap="pushToOrderDetail">
+          <view wx:for="{{unpayOrders}}"  wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-status='{{order.status}}' data-new-trial="{{order.is_trial_product}}" bindtap="pushToOrderDetail">
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>
               <text wx:if='{{order.status==1}}' class='purchase-data-back'>未支付</text>
               <text wx:if='{{order.status==2}}' class='purchase-data-back'>未发货</text>
               <text wx:if='{{order.status==3}}' class='purchase-data-back'>待收货</text>
               <text wx:if='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
+              <text wx:if='{{order.status==5}}' class='purchase-data-back'>已取消</text>
             </view>
-            <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
-              <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
-              <view class="goods-name-view">
-                <text class="goods-name">{{item.name}}</text>
-
-                <view class='goods-size-name'>
-                  <text style='display:inline;' wx:if="{{item.sku_data_arr.length > 0 }}">{{item.sku_data_arr[1].value}}{{item.sku_data_arr[0].value}}码</text>
-
+           <block>
+              <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
+                <view class='purchase-shop-list'>
+                  <image class='purchase-shop-image' mode='aspectFit' src='{{item.image}}'></image>
+                  <view class='purchase-shop-detail'>
+                    <view class='purchase-shop-text'>
+                      <text class='purchase-shop-title'>{{item.name}}</text>
+                      <text class='purchase-shop-num'>x{{item.pro_num}}</text>
+                    </view>
+                    <text class='gray purchase-value'>
+                  <text style='display:inline;' wx:if="{{item.sku_data_arr.length > 0 }}" wx:for="{{item.sku_data_arr}}" wx:for-item="{{item2}}">{{item2.name}}{{item.value}} </text>
+                    </text>
+                    <text class='purchase-price goods-pro-price'><text class='gray'>金额：</text>￥{{item.pro_price}}</text>
+                  </view>
                 </view>
+                <!-- <view class='purchase-satus goods-satus' wx:if='{{order.status==4 ||order.status==7}}'>
+                  <text class='purchase-status-detail' data-pro-id='{{item.id}}' catchtap='againBuy'>再次购买</text>
+                </view> -->
               </view>
-
-              <view class='goods-price-number'>
-                <!-- <text class='goods-price'>￥{{item.pro_price}}</text> -->
-                <text class='purchase-shop-num'>x{{item.pro_num}}</text>
-              </view>
-            </view>
+            </block>
             <view class="goods-price-view">
-              <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
+              <!-- <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view> -->
               <view style="">实付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
@@ -155,9 +167,9 @@
               <view wx:else class='yellow-one yellow-two'>待发货</view>
 
             </view>
-            <view wx:if="{{order.status==1}}" class="yellow-btn-view">
-              <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
-              <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
+            <view wx:if="{{order.status==1}}" class="purchase-satus goods-satus">
+              <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除</text>
+              <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
             </view>
           </view>
           <!--/待付款-->
@@ -379,32 +391,42 @@
         <view wx:if="{{transOrders && transOrders.length}}" class="order-list-view">
 
           <!--待收货-->
-          <view wx:for="{{transOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" bindtap="pushToOrderDetail">
+          <view wx:for="{{transOrders}}"  wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-status='{{order.status}}' data-new-trial="{{order.is_trial_product}}" bindtap="pushToOrderDetail">
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>
               <text wx:if='{{order.status==1}}' class='purchase-data-back'>未支付</text>
               <text wx:if='{{order.status==2}}' class='purchase-data-back'>
                  <text wx:if="{{order.is_trial_product==1}}">待收货</text>
-                 <text wx:if="{{order.is_trial_product==0}}">未发货</text>
+              <text wx:if="{{order.is_trial_product==0}}">未发货</text>
               </text>
               <text wx:if='{{order.status==3}}' class='purchase-data-back'>待收货</text>
               <text wx:if='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
             </view>
-            <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
-              <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
-              <view class="goods-name-view">
-                <text class="goods-name">{{item.name}}</text>
-                <text style="margin-left: 0rpx;" wx:if="{{item.sku_data_arr}}" wx:for="{{item.sku_data_arr}}" wx:for-index="index" wx:for-item="item2">
-            {{item2.value}}
-            </text>
-                <text class='purchase-shop-num'>x{{item.pro_num}}</text>
+            <block>
+              <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
+                <view class='purchase-shop-list'>
+                  <image class='purchase-shop-image' mode='aspectFit' src='{{item.image}}'></image>
+                  <view class='purchase-shop-detail'>
+                    <view class='purchase-shop-text'>
+                      <text class='purchase-shop-title'>{{item.name}}</text>
+                      <text class='purchase-shop-num'>x{{item.pro_num}}</text>
+                    </view>
+                    <text class='gray purchase-value'>
+                  <text style='display:inline;' wx:if="{{item.sku_data_arr.length > 0 }}" wx:for="{{item.sku_data_arr}}" wx:for-item="{{item2}}">{{item2.name}}{{item.value}}</text>
+                    </text>
+                    <text class='purchase-price goods-pro-price'><text class='gray'>金额：</text>￥{{item.pro_price}}</text>
+                  </view>
+                </view>
+                <!-- <view class='purchase-satus goods-satus' wx:if='{{order.status==4 ||order.status==7}}'>
+                  <text class='purchase-status-detail' data-pro-id='{{item.id}}' catchtap='againBuy'>再次购买</text>
+                </view> -->
               </view>
-            </view>
+            </block>
 
 
 
             <view class="goods-price-view">
-               <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view> 
+              <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
               <view style="">实付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
@@ -442,23 +464,42 @@
 
         <view wx:if="{{ReceivedOrders && ReceivedOrders.length}}" class="order-list-view">
           <!--已收货-->
-          <view wx:for="{{ReceivedOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].product_id}}" bindtap="pushToOrderDetail">
-            <view class="goods-info-view" wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
-              <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
-              <view class="goods-name-view">
-                <text class="goods-name">{{item.name}}</text>
-                <text style="margin-left: 0rpx;" wx:if="{{item.sku_data_arr}}" wx:for="{{item.sku_data_arr}}" wx:for-index="index" wx:for-item="item2">
-            {{item2.value}}
-            </text>
-              </view>
+          <view wx:for="{{ReceivedOrders}}"  wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].product_id}}" data-status='{{order.status}}' data-new-trial="{{order.is_trial_product}}" bindtap="pushToOrderDetail">
+            <view class='purchase-data-sd'>
+              <text class='purchase-data-number'>{{order.add_time}}</text>
+              <text wx:if='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
             </view>
+
+           <block>
+              <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
+                <view class='purchase-shop-list'>
+                  <image class='purchase-shop-image' mode='aspectFit' src='{{item.image}}'></image>
+                  <view class='purchase-shop-detail'>
+                    <view class='purchase-shop-text'>
+                      <text class='purchase-shop-title'>{{item.name}}</text>
+                      <text class='purchase-shop-num'>x{{item.pro_num}}</text>
+                    </view>
+                    <text class='gray purchase-value'>
+                  <text style='display:inline;' wx:if="{{item.sku_data_arr.length > 0 }}" wx:for="{{item.sku_data_arr}}" wx:for-item="{{item2}}">{{item2.name}}{{item.value}}</text>
+                    </text>
+                    <text class='purchase-price goods-pro-price'><text class='gray'>金额：</text>￥{{item.pro_price}}</text>
+                  </view>
+                </view>
+                <!-- <view class='purchase-satus goods-satus' wx:if='{{order.status==4 ||order.status==7}}'>
+                  <text class='purchase-status-detail' data-pro-id='{{item.id}}' catchtap='againBuy'>再次购买</text>
+                </view> -->
+              </view>
+            </block>
+
+
             <view class="goods-price-view">
-              <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
+              <!-- <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view> -->
               <view style="">实付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
-            <view class="yellow-btn-view">
-              <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
+            <view class="purchase-satus goods-satus">
+              <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除</text>
+              <text class='purchase-status-detail' data-pro-id='{{order.order_product_list[0].id}}' catchtap='againBuy'>再次购买</text>
             </view>
           </view>
           <!--/已收货-->

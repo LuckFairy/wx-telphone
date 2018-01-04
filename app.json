@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/shopping/my-order",
+    
     "pages/index-new/index-new",
     "pages/shopping/buycard",
     "pages/shopping/address-list",
@@ -11,7 +13,7 @@
     "pages/sale-after/apply-sales",
     "pages/sale-after/purchase-refund",
     "pages/sale-after/purchase-detail",
-    "pages/shopping/my-order",
+    
     "pages/index-new/server-wechat",
     "pages/index-new/detail-shopping",
     "pages/index-new/myself",

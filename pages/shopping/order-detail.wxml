@@ -1,3 +1,7 @@
+<import src="../template/modal.wxml" />
+<template wx:if="{{showErrModal}}" is="text-erwei-modal" data="{{...errModalConfig}}" />
+
+
 <view class="containner" wx:if="{{orderData}}">
   <view class="order-no-view">
     <view class='order-list-wrap'>
@@ -12,7 +16,7 @@
 
   <view class="order-info-view item-area" style='margin-top:0;'>
     <view class="name-phone-view">
-      <view class="mText address-order-list">
+      <view wx:if="{{newType != 1}}" class="mText address-order-list">
         <image class='address-image' src='../../image/address.png'></image>
         收货人：{{orderData.address_user}}
       </view>
@@ -23,7 +27,7 @@
   <!--商品列表开始  -->
   <view wx:for="{{orderData.product}}" wx:key="{{index}}" class="goods-info-block">
     <view class="goods-info-view">
-      <image src="{{item.image}}" class="goods-img"></image>
+      <image src="{{item.image}}" mode='aspectFit' class="goods-img"></image>
       <view class="goods-name-view-wrap">
         <text class='goods-title-name'>{{item.name}}</text>
         <view class='goods-size-name' >
@@ -39,11 +43,12 @@
 
     </view>
     <!-- return_id 是否申请售后：-1参数错误，0已申请，1未申请 -->
+    <block wx:if="{{newType != 1}}">
     <view  class="yellow-btn-view" wx:if="{{orderData.status==2 || orderData.status==3 || orderData.status==7}}">
       <text wx:if="{{item.return_id==1}}" class="yellow-btn" bindtap='goSales' data-order-id="{{order_no}}" data-order-product-id='{{item.pigcms_id}}'>申请售后</text>
       <text wx:if="{{item.return_id==0}}" class="yellow-btn" bindtap='showSales' data-order-id="{{order_no}}" data-order-product-id='{{item.pigcms_id}}'>查看售后</text>
     </view>
-
+    </block>
   </view>
 
   <!--商品列表结束  -->
@@ -67,6 +72,12 @@
 <view>
     
   <!-- orderType -->
+  <block wx:if="{{ newType == 1}}">
+  <view class='bottom-btn-view mText'>
+       <text  catchtap="confirmNewGoods"  class="yellow-btn" data-product-id='{{productId}}' data-order-id="{{orderData.order_no}}" style='background:#fae53b'>确认取货</text>
+  </view>
+  </block>
+  <block wx:else >
   <view wx:if="{{(orderData.status === '2' || orderData.status === '3' || orderData.status === '4')}}" class="bottom-btn-view mText">
 
     <!-- <text wx:if='{{rtnCode!=-1}}' class="yellow-btn" style="background-color:white;border:1rpx solid #C0C0C0;margin-right:24rpx;" bindtap='searchSales' data-order-id='{{orderId}}' data-product-id='{{productId}}' data-rtn-code='{{rtnCode}}'>查看售后</text>-->
@@ -78,4 +89,6 @@
   <view catchtap="pay" data-order-id="{{order_no}}" wx:if="{{orderData.status === '1'}}" class="bottom-btn-view mText">
     <text class="yellow-btn" style='background:#fae53b'>确认支付</text>
   </view>
+  </block>
+ 
 </view> 

@@ -83,12 +83,13 @@ page {
   display: flex;
   flex-direction: column;
 }
+
 .goods-info-view {
   height: 210rpx;
   /* display: block; */
   width: 750rpx;
   background: #ffffff;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 
 .goods-img {
@@ -225,7 +226,7 @@ page {
 }
 .goods-info-block{
   background: #fff;
-  margin-bottom: 20rpx;
+ 
 }
 /*收货地址  */
 .item-area{
@@ -233,7 +234,7 @@ page {
 }
 /*价格区域 */
 .price-view{
-  margin-top: 0;
+  margin-top: 20rpx;
   margin-bottom: 138rpx;
 }
 /*底部按钮区域  */

@@ -8,6 +8,10 @@ const orderUrl = 'wxapp.php?c=order&a=mydetail';    // 订单详情接口
 const logisticsUrl = 'order/track/';  // 订单物流查询接口
 let _orderId = '';
 let _kuaidiCompanyCode , _kuaidiNumber, _kuaidiCompanyName;
+let errModalConfig = {
+  image: '../../image/ma_icon_store_1.png',
+  title: '将二维码出示给门店核销员由门店员核销即可',
+};
 
 Page({
   data:{
@@ -24,16 +28,19 @@ Page({
     user_coupon_id: 0,
     is_app: false,
     payType: 'weixin',
-    userTel:'',//收货人电话号码        
+    showErrModal: false,//错误模式层
+    userTel:'',//收货人电话号码
+    newType:1,//是否新品试用，1是，0否        
   },
   onLoad:function(options){
     var that = this;
     // 页面初始化 options为页面跳转所带来的参数
-    let { orderId } = options;
+    let { orderId, newTrial } = options;
     let { productId } = options;
     that.setData({
       orderId: orderId,
-      productId: productId
+      productId: productId,
+      newType: newTrial
     })
     // 检测是否已经提交过申请
     // app.api.postApi('order/checkReturn', { "order_id": orderId}, (err, resp) => {
@@ -369,6 +376,21 @@ Page({
       },
     });
   },
+  /*新品试用，确认取货
+  *
+  */
+  confirmNewGoods() {
+    this.setData({ showErrModal: true });
+    this.showModal('err', errModalConfig);
+  },
+  //查看 售后
+  showSales() {
+    console.log('购物车为空，去下单');
+    //wx.reLaunch({ url: '../index-new/index-new' });
+    wx.navigateTo({
+      url: './my-order?goodsindex=' + 4
+    })
+  },
   _doConfirmDeliver(orderId, uid) {
 
     wx.showLoading({ title: '请稍候...', mask: true, });
@@ -399,15 +421,37 @@ Page({
     wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
     this.setData({ error: errorMsg });
   },
-  //查看 售后
-  showSales() {
-    console.log('购物车为空，去下单');
-    //wx.reLaunch({ url: '../index-new/index-new' });
-    wx.navigateTo({
-      url: './my-order?goodsindex=' + 4
-    }) 
-  },
   
+  /**
+ * 显示模态框
+ */
+  showModal(type = 'err', config) {  // type: success||err
+    if (type === 'success') {
+      this.setData({
+        successModalConfig: config || successModalConfig,
+        showSuccessModal: true
+      });
+    } else {
+      this.setData({
+        errModalConfig: config || errModalConfig,
+        showErrModal: true
+      });
+    }
+  },
+
+  /**
+   * 点击隐藏模态框(错误模态框)
+   */
+  tabModal() {
+    this.setData({ showErrModal: false });
+  },
+
+  /**
+   * 点击模态框的确定(关闭确定模态框)
+   */
+  tabConfirm() {
+    this.setData({ showSuccessModal: false });
+  },
   
 
 })

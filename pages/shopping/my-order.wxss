@@ -664,7 +664,8 @@ button::after {
   /* display: block; */
   font-size: 0rpx;
   background: #fafafa;
-  height: 180rpx;
+  /* height: 180rpx; */
+  height: 210rpx;
   border-top: 1px solid #ececec;
 }
 
@@ -695,7 +696,8 @@ button::after {
 text-overflow:ellipsis;
 display: -webkit-box;
 -webkit-box-orient:vertical;
--webkit-line-clamp: 1;
+/* -webkit-line-clamp: 1; */
+-webkit-line-clamp: 2;
 }
 .purchase-shop-num{
   display: inline-block;
