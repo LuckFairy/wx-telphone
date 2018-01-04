@@ -230,12 +230,15 @@ Page({
             //url = '../card/card_summary?cardId=' + resId + '&activityId=' + activityId + '&qrEntry=1';
           url = '../card/card_summary?id=' + resId + '&source=2'+ '&qrEntry=1';
         } else if (resType == 'goods') {//商品详情页面
-            //url = '../shopping/buy?prodId=' + resId + '&qrEntry=1';
-          if (action =='present'){
-            url = '../shopping/goods-detail?prodId=' + resId + '&action=present' + '&qrEntry=1';
-          }else{
-            url = '../shopping/goods-detail?prodId=' + resId + '&qrEntry=1';
-          }
+          //url = '../shopping/buy?prodId=' + resId + '&qrEntry=1';
+
+          // if (action =='present'){
+          //   url = '../shopping/goods-detail?prodId=' + resId + '&action=present' + '&qrEntry=1';
+          // }else{
+          //   url = '../shopping/goods-detail?prodId=' + resId + '&qrEntry=1';
+          // }
+
+          url = '../shopping/buy?prodId=' + resId + '&action=' + action + '&qrEntry=1';
             
         } else if (resType == 'trial') {//赠品领取页面
             url = '../present/present-apply?qrEntry=1&options=';
