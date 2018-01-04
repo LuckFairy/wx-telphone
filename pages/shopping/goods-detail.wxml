@@ -65,7 +65,7 @@
               <text class='discount-time'>有效期：{{item.end_time_str}}</text>
             </view>
         </view>
-        <text wx:if="{{item.is_get == 1}}" class='discount-btn' bindtap='getCoupon' data-coupon-id="{{item.coupon_id}}" data-index="{{idx}}" >立即领取</text>
+        <text wx:if="{{item.is_get == 1}}" class='discount-btn' catchtap='getCoupon' data-coupon-id="{{item.coupon_id}}" data-index="{{idx}}" >立即领取</text>
         <text wx:if="{{item.is_get == 0}}" class='discount-btn-no'  >已领取</text>
       </view>
     </view>

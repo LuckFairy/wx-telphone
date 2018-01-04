@@ -1,5 +1,7 @@
 {
   "pages": [
+      "pages/cart/cart",
+      
     "pages/index-new/index-new",
     "pages/shopping/buycard",
     "pages/shopping/address-list",
@@ -48,7 +50,7 @@
     "pages/redbox/redbox",
     "pages/redbox/open-result",
     "pages/redbox/mydata",
-    "pages/cart/cart",
+  
     "pages/cart/buy",
     "pages/cart/address",
     "pages/cart/address-list",

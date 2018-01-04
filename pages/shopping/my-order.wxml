@@ -58,6 +58,7 @@
               </text>
               <text wx:if='{{order.status==3}}' class='purchase-data-back'>待收货</text>
               <text wx:if='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
+              <text wx:if='{{order.status==5}}' class='purchase-data-back'>已取消</text>
             </view>
             <block>
               <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
@@ -129,7 +130,7 @@
               <text wx:if='{{order.status==2}}' class='purchase-data-back'>未发货</text>
               <text wx:if='{{order.status==3}}' class='purchase-data-back'>待收货</text>
               <text wx:if='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
-              <text wx:if='{{order.status==5}}' class='purchase-data-back'>已取消</text>
+              
             </view>
            <block>
               <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>

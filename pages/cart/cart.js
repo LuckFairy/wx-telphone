@@ -13,6 +13,51 @@ Page({
     selectedAllStatus:true,//默认不全选
     total:0,//结算合计金额
     cartSHow:false,//是否显示底部结算
+    baokuanList: [], //爆款列表
+
+  },
+  /**
+* 首页爆款专区数据
+*/
+  loadBaoKuanData(categoryid) {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    });
+    this.getProductData(categoryid);
+  },
+  /**
+   * 加载热门推荐爆款数据
+   */
+  getProductData(opt) {
+    var params = { "store_id": store_Id.shopid, "page": 1, "categoryid": 100 };
+    let url = 'wxapp.php?c=product&a=get_product_list';
+    app.api.postApi(url, { "params": params }, (err, resp) => {
+      wx.hideLoading();
+      if (err) {
+        return this._showError('网络出错，请稍候重试');;
+      }
+
+      let { err_code, err_msg: { products: data = [] } } = resp;
+      if (err_code != 0) {
+        return this._showError(err_msg);
+      }
+      data = null ? [] : data;
+      this.setData({ baokuanList: data });
+
+    });
+  },
+  //爆款专区点击事件
+  goDetails(e) {
+    wx.showLoading({
+      title: '加载中'
+    })
+    var categoryid = e.currentTarget.dataset.categoryid;
+    var productid = e.currentTarget.dataset.productid;
+    wx.navigateTo({
+      url: '../shopping/goods-detail?prodId=' + productid + "&categoryid=" + categoryid
+    })
+    wx.hideLoading();
   },
   bindMinus: function (e) {
     // 减少数量
@@ -206,7 +251,7 @@ Page({
       uid
     };
     that.loadList(params);
-    
+    that.loadBaoKuanData();
     // app.api.postApi('wxapp.php?c=cart&a=number', { params }, (err, resp) => {
     //   if (err) {
     //     return;
