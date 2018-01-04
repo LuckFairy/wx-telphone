@@ -2,15 +2,15 @@
   <!-- 头部导航条 -->
   <view class="nav-header-view">
     <view data-status='0' class="header-col-view {{curActIndex == '0' ? 'show-border-bottom' : '' }}" data-idx='0' bindtap="swichSwiperItem">
-      <text data-idx='0'>可用优惠券({{normal_coupon_count}})</text>
+      <text data-idx='0' class='keyong-card'>可用优惠券({{normal_coupon_count}})</text>
     </view>
     <view data-status='1' class="header-col-view {{curActIndex == '1' ? 'show-border-bottom' : '' }}" data-idx='1' bindtap="swichSwiperItem">
-      <text data-idx='1'>不可用优惠券({{unnormal_coupon_count}})</text>
+      <text data-idx='1' class='keyong-card'>不可用优惠券({{unnormal_coupon_count}})</text>
     </view>
   </view>
   <view class='use-ruler' bindtap='goDetails'>
     <image class='use-ruler-image' src='../../image/use-ruler.png'></image>
-    <text class='use-ruler-text'>使用规则</text>
+    <text class='use-ruler-text' class='keyong-card'>使用规则</text>
   </view>
   <!-- nav详细内容展示区-->
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
@@ -20,14 +20,14 @@
           <view class='rules-wraps' wx:for="{{normal}}" wx:for-item="card" wx:key="{{card.id}}">
             <view class='normal-block' wx:if='{{card.is_all_product==0}}' bindtap='goChooseCard' data-recid="{{card.id}}" data-couponid="{{card.coupon_id}}" data-cname="{{card.cname}}" data-face_money="{{card.face_money}}" data-index='{{index}}'>
               <icon class='icon-ruler' size="20" type="{{(borId==card.id)?'success':'circle'}}" />
-              <view class='cards-use-list'>
+              <view class='cards-use-list {{(card.is_all_product)==0?"common":"dedicated"}}'>
                 <view class='rulers-text-list'>
                   <text class='rulers-text-title'>{{card.cname}}</text>
                   <text class='rulers-text-date'>期限:{{card.start_time_str}}-{{card.end_time_str}}</text>
                   <text class='rulers-text-id'>券ID:{{card.id}}</text>
                 </view>
                 <view>
-                  <text class='rulers-prices'>￥{{card.face_money}}</text>
+                  <text class='rulers-prices'>￥{{card.face_money}} </text>
                 </view>
               </view>
             </view>
@@ -40,7 +40,7 @@
                   <text class='rulers-text-id'>券ID:{{card.id}}</text>
                 </view>
                 <view>
-                  <text class='rulers-prices'>￥{{card.face_money}}</text>
+                  <text class='rulers-prices'>￥{{card.face_money}} </text>
                 </view>
               </view>
             </view>
