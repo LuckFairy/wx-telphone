@@ -238,8 +238,9 @@ Page({
           //   url = '../shopping/goods-detail?prodId=' + resId + '&qrEntry=1';
           // }
 
-          url = '../shopping/buy?prodId=' + resId + '&action=' + action + '&qrEntry=1';
-            
+          //url = '../shopping/buy?prodId=' + resId + '&action=' + action + '&qrEntry=1';
+          url = '../shopping/goods-detail?prodId=' + resId + '&action=' + action + + '&qrEntry=1';  
+          
         } else if (resType == 'trial') {//赠品领取页面
             url = '../present/present-apply?qrEntry=1&options=';
             app.api.fetchApi('trial/item/' + resId, (err, response) => {
