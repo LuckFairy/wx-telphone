@@ -631,6 +631,7 @@ Page({
       "address[city_id]": cityList[selectedCityIndex].cityId,
       "address[district_id]": districtList[selectedDistrictIndex].districtId,
     }
+    console.log('paramsssss',params)
     app.api.postApi('buy/address', params, (err, resp) => {
       if (err) {
         return this._showError('加载数据出错，请重试');

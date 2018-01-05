@@ -37,18 +37,18 @@ margin-bottom: 20rpx;
   font-size: 0rpx;
 }
 .mon-image{
-  width: 70rpx;
-  height: 70rpx;
+  width: 60rpx;
+  height: 60rpx;
   display: inline-block;
   margin-top: 20rpx;
   margin-left: 36rpx;
 }
 .mon-title{
   display: inline-block;
-  font-size: 32rpx;
+  font-size: 30rpx;
   color: #1b1b1b;
   vertical-align: top;
-  margin-top: 40rpx;
+  margin-top: 31rpx;
   margin-left: 20rpx;
   width: 400rpx;
   overflow:hidden;
@@ -61,35 +61,41 @@ margin-bottom: 20rpx;
   margin-top: 28rpx;
 }
 .mon-price,.mon-day{
-  font-size: 28rpx;
-  color: #a9a9a9;
+  font-size: 24rpx;
+  color: #999999;
   margin-left: 40rpx;
   display: block;
 }
 .mon-list-right{
   display: block;
-  margin-right: 42rpx;
+  width: 210rpx;
 }
 .mon-money-right{
   font-size: 0rpx;
   display: block;
+  margin-top: 30rpx;
 }
 .money-right-cn{
   display: inline-block;
-  font-size: 40rpx;
+  font-size: 50rpx;
   color: #ffffff;
-  margin-top: 15rpx;
 }
 .money-right-text{
-  display: inline-block;
-  font-size: 40rpx;
+  display: block;
+  font-size: 50rpx;
   color: #ffffff;
+  width: 175rpx;
+  text-align: center;
 }
 .mon-right-go{
   font-size: 28rpx;
   color: #ffffff;
   display: block;
-  margin-top: 68rpx;
-  text-align: right;
+  text-align: center;
+  margin-top: 20rpx;
+  border: 1rpx solid #efefef;
+  border-radius: 6rpx;
+  width: 140rpx;
+  margin-left: 20rpx;
 }
 /*列表数据  */

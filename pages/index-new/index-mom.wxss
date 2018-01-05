@@ -17,14 +17,16 @@
   text-align: center;
   display: flex;
   justify-content: center;
+  color: #999999;
 }
 .child-list-text{
   font-size: 30rpx;
-  color: #1b1b1b;
+  
 }
 /*选中  */
 .current{
   border-bottom: 4rpx solid #ffe71c;
+  color:#1b1b1b;
 }
 /*选中  */
 /*顶部tab结束  */
@@ -59,18 +61,18 @@ margin-bottom: 20rpx;
   font-size: 0rpx;
 }
 .mon-image{
-  width: 70rpx;
-  height: 70rpx;
+  width: 60rpx;
+  height: 60rpx;
   display: inline-block;
   margin-top: 20rpx;
   margin-left: 36rpx;
 }
 .mon-title{
   display: inline-block;
-  font-size: 32rpx;
+  font-size: 30rpx;
   color: #1b1b1b;
   vertical-align: top;
-  margin-top: 40rpx;
+  margin-top: 30rpx;
   margin-left: 20rpx;
   width: 400rpx;
   overflow:hidden;
@@ -93,25 +95,34 @@ margin-bottom: 20rpx;
   margin-right: 42rpx;
 }
 .mon-money-right{
-  font-size: 0rpx;
-  display: block;
+  font-size:0rpx;
+display:block;
+margin-top:30rpx;
+
 }
 .money-right-cn{
   display: inline-block;
-  font-size: 40rpx;
+  font-size: 50rpx;
   color: #ffffff;
   margin-top: 15rpx;
 }
 .money-right-text{
-  display: inline-block;
-  font-size: 40rpx;
-  color: #ffffff;
+display:block;
+font-size:50rpx;
+color:#ffffff;
+width:175rpx;
+text-align:center;
 }
 .mon-right-go{
-  font-size: 28rpx;
-  color: #ffffff;
-  display: block;
-  margin-top: 68rpx;
-  text-align: right;
+  font-size:28rpx;
+color:#ffffff;
+display:block;
+text-align:center;
+margin-top:20rpx;
+border:1rpx solid #efefef;
+border-radius:6rpx;
+width:140rpx;
+margin-left:20rpx;
+
 }
 /*列表数据  */
