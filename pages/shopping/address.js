@@ -9,7 +9,7 @@ Page({
     fullname:'',
     phonename:'',
     address:'',
-    store_id:'',
+    store_id: store_Id.shopid,
     uid:'',
     provicens_list:'',
     provicens_id:'',
@@ -129,7 +129,8 @@ Page({
         city: cit_id,
         area: ar_id,
         address: address,
-        uid: uid
+        uid: uid,
+        store_id: that.data.store_id
       }
       app.api.postApi('wxapp.php?c=address&a=AddAddress', { params }, (err, resp) => {
         if (err) {

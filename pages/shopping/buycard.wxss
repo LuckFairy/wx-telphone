@@ -171,8 +171,7 @@ width:180rpx;
 width:180rpx;
 text-align:center;
 display:block;
-margin-top:28rpx;
-
+margin-top:55rpx;
 }
 
 .card-item-btn-view {

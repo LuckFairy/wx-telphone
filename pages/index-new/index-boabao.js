@@ -44,7 +44,7 @@ Page({
     })
     wx.showLoading({ title: '加载中...', mask: true, });
     var params = {
-      categoryId: catId
+      categoryId: catId, store_id: that.data.store_id
     }
     app.api.postApi('wxapp.php?c=product&a=babyCategory', { params }, (err, resp) => {
       wx.hideLoading();
@@ -103,7 +103,7 @@ Page({
       category_id = catId
     }
     var params = {
-      categoryId: category_id
+      categoryId: catId, store_id: that.data.store_id
     }
     wx.showLoading({ title: '加载中...', mask: true, });
     app.api.postApi('wxapp.php?c=product&a=babyCategory', { params }, (err, resp) => {
