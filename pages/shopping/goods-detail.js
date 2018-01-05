@@ -421,7 +421,7 @@ Page({
       // 虚拟商品限购
       wx.showModal({
         title: '提示',
-        content: '虚拟商品限购，您只可以购买1件',
+        content: '商品限购，请修改购买数量，您还可以购买0件',
         success: function (res) {
           if (res.confirm) {
             console.log('用户点击确定')

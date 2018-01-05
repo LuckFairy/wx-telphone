@@ -222,6 +222,10 @@ Page({
         that.setData({
           nullList:true
         })
+      }else{
+        that.setData({
+          nullList: false
+        })
       }
       that.setData({
         loading: false,
