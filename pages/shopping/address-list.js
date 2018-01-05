@@ -2,11 +2,13 @@
 
 const app = getApp();
 import { Api } from '../../utils/api_2';
+import { store_Id } from '../../utils/store_id';
 Page({
   data: {
     addrList: [],
     uid: '',
     addressId: '',
+    store_id: store_Id.shopid
   },
   onLoad: function (options) {
     this.setData({ addressId: options.addressId });
@@ -21,11 +23,12 @@ Page({
       uid
     })
     var params = {
-      uid
+      uid, store_id: that.data.store_id
     }
     wx.showLoading({
       title: '加载中'
     })
+    console.log(params,'params')
     app.api.postApi('wxapp.php?c=address&a=MyAddress', { params }, (err, resp) => {
       wx.hideLoading();
       if (err) {
