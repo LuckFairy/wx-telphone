@@ -38,7 +38,7 @@ Page({
     var categoryid = e.currentTarget.dataset.categoryid;
     var productid = e.currentTarget.dataset.productid;
     wx.navigateTo({
-      url: '../shopping/goods-detail?prodId=' + productid + "&categoryid=" + categoryid
+      url: '../shopping/goods-detail?prodId=' + productid 
     })
     wx.hideLoading();
   },

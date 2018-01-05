@@ -2,8 +2,6 @@
 <template wx:if="{{showErrModal}}" is="text-erwei-modal" data="{{...errModalConfig}}" />
 <template wx:if="{{showSuccessModal}}" is="text-comfirm-modal" data="{{...successModalConfig}}" />
 
-
-
 <view class="main-container">
   <!-- 头部导航条 -->
   <view scroll-x='true' class="nav-header-view">

@@ -29,7 +29,7 @@
       <view class='pp-goindex' bindtap='goindex'>去逛逛</view>
     </view>
   </view>
-  <view class="container carts-list" wx:elif='{{hasShop==1}}'>
+  <view class="container carts-list" wx:elif='{{hasShop > 0}}'>
     <!--勾-->
     <view wx:for="{{cart_list}}" class="carts-item" data-title="{{item.name}}" id="{{item.product_id}}" wx:key="{{index}}">
       <!--选中  -->
