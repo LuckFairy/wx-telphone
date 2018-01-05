@@ -1,12 +1,11 @@
 {
   "pages": [
-      "pages/cart/cart",
-      
     "pages/index-new/index-new",
     "pages/card/mycard",
     "pages/shopping/buycard",
     "pages/shopping/address-list",
     "pages/shopping/address",
+    "pages/cart/cart",
     "pages/index-new/index-boabao",
     "pages/card/search-card",
     "pages/index-new/shop-promotion",    

@@ -285,3 +285,35 @@ margin-left:24rpx;
 }
 
 /*列表数据  */
+/*无数据区域  */
+.no-data-view {
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100rpx;
+}
+
+.no-data-image {
+  width: 148rpx;
+  height: 162rpx;
+  margin-bottom: 60rpx;
+}
+
+.no-data-text {
+  text-align: center;
+  color: #999;
+  line-height: 130%;
+  font-size: 28rpx;
+}
+.no-data-btn{
+  width: 176rpx;
+  height: 60rpx;
+  margin-top: 38rpx;
+  text-align: center;
+  background: #ffe71c;
+  border-radius: 6rpx;
+  font-size: 28rpx;
+  line-height: 60rpx;
+}
+.go-add {
+  font-size: 22rpx;
+}
