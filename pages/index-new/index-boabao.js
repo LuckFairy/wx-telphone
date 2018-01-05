@@ -1,5 +1,6 @@
 // pages/index-new/index-boabao.js
 var app = getApp();
+import { store_Id } from '../../utils/store_id';
 Page({
 
   /**
@@ -9,7 +10,8 @@ Page({
     currentTab:0,
     tabList:0,
     dataList:{},
-    cat_list:''
+    cat_list:'',
+    store_id: store_Id.shopid,//店铺id
   },
   goToList(e){
     console.log(e,33443333)

@@ -34,7 +34,8 @@ Page({
     onlinecard:'',
     mendiancard:'',
     onlinecard: '',
-    shopCard: ''
+    shopCard: '',
+    nullList:false
 
   },
   // 搜索卡包
@@ -61,6 +62,11 @@ Page({
       });
       that.loadData1(that);
     }
+  },
+  getCoupon() {
+    wx.navigateTo({
+      url: '../index-new/shop-promotion',
+    })
   },
   // 点击弹出选择券类型
   goSelect() {
@@ -211,6 +217,16 @@ Page({
       }
       console.log('push之后msgList长度', msgList.length)
       //更新数据
+      if (!msgList.length){
+        // 不为真
+        that.setData({
+          nullList:true
+        })
+      }else{
+        that.setData({
+          nullList: false
+        })
+      }
       that.setData({
         loading: false,
         normal: msgList,
