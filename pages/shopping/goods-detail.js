@@ -256,28 +256,9 @@ Page({
     var that = this;
     wx.showLoading({ title: '加载中' });
     //如果categoryid不等于''，接入新接口
-    if (categoryid != ''){
-      let url = 'wxapp.php?c=product&a=detail_of_product';
-      app.api.postApi(url, { "params": { "product_id": prodId } }, (err, response) => {
-        wx.hideLoading();
-        if (err) return;
-        if (response.err_code != 0) {
-          wx.showLoading({
-            title: response.err_msg,
-          })
-        } else {
-          wx.hideLoading();
-          var product = response.err_msg.product;
-          that.setData({
-            product: product
-          })
-        }
-      })
-      return ;
-    }
+    
     //这里是严选
-    //let url = 'shop/item/' + prodId;
-    //let url = 'wxapp.php?c=product&a=detail&product_id=' + prodId; //新接口
+    
     let url = 'wxapp.php?c=product&a=detail_of_product';
     var params = {
       "product_id": prodId

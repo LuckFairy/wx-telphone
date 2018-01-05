@@ -494,7 +494,7 @@ Page({
     var prodId = e.currentTarget.dataset.prodid; //商品ID
     var cateId = e.currentTarget.dataset.cateid; //商品分类ID
     wx.navigateTo({
-      url: '../shopping/goods-detail?prodId=' + prodId + '&categoryid=' + cateId  
+      url: '../shopping/goods-detail?prodId=' + prodId 
     })
   },
 

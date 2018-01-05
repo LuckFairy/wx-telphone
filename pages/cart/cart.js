@@ -4,7 +4,7 @@ import { store_Id } from '../../utils/store_id';
 
 Page({
   data: {
-    hasShop: 0,
+    hasShop: 0,//购物车数量
  
     //2017年12月19日14:55:05
     //carts: [],//购物车列表
@@ -298,14 +298,18 @@ Page({
         console.log('购物车列表', resp);
         var cart_list = resp.err_msg.cart_list;
         var cartSHow = that.cartSHow;
-        if (cart_list.length <= 0) {
+        var hasShop = cart_list.length;
+        if (cart_list.length < 1) {
+          console.log('false')
           cartSHow = false;
         } else {
+          console.log('true')
           cartSHow = true;
         };
         that.setData({
           cart_list,
-          cartSHow
+          cartSHow,
+          hasShop
         });
         //计算金额
         that.sum();
