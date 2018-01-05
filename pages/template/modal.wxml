@@ -70,6 +70,35 @@
 		</view>
 	</view>
 </template>
+<!-- ************* 使用优惠券中使用规则的弹出框 ************* -->
+<!--
+	有一个图片
+	一行title文字
+  一行内容firstText
+  
+-->
+<!--
+  tabCancel:  一个确认按钮
+-->
+<!--
+	
+-->
+<template name="text-coupon-modal">
+	<view data-id="{{id}}" bindtap="tabModal" class="overlay">
+		<view class="overlay-content coupon-content" bindtap="tabConfirm">
+     <view class='overlay-center' >
+        <image class='mode-center-image' src="{{image? image:'../../image/error.png'}}"></image>
+      </view>
+			<view class="overlay-body coupon-body">
+				<text wx:if="{{title}}" class="modal-titleText">{{title}}</text>
+				<text wx:if="{{firstText}}" class="modal-text">{{firstText}}</text>
+				<text wx:if="{{secondText}}" class="modal-text">{{secondText}}</text>
+				<text wx:if="{{threeText}}" class="modal-text">{{threeText}}</text>
+			</view>
+			<button data-id="{{id}}" bindtap="tabConfirm" class="overlay-bottom-button btn-yellow">{{confirmText}}</button>
+		</view>
+	</view>
+</template>
 
 <!-- ************* 积分页面积分不够时的弹出框 **************-->
 <!--

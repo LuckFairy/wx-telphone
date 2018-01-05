@@ -1,3 +1,7 @@
+<import src="../template/modal.wxml" />
+<template wx:if="{{showErrModal}}" is="text-error-modal" data="{{...errModalConfig}}" />
+<template wx:if="{{showSuccessModal}}" is="text-coupon-modal" data="{{...successModalConfig}}" />
+
 <view wx:if="{{!loading}}" class="main-container">
   <!-- 头部导航条 -->
   <view class="nav-header-view">

@@ -31,7 +31,8 @@ Page({
     recid:'',
     couponInfo:'',
     uid:'',
-    store_id: store_Id.shopid
+    store_id: store_Id.shopid,
+    showSuccessModal:false,//显示成功模态框
   },
   pullUpLoadone(e) {
     return ;//不需要这个东西 2017年12月25日10:01:39 by leo
@@ -158,17 +159,18 @@ Page({
     })
   },
   goDetails(){
-    wx.showModal({
-      title: '优惠券使用说明',
-      content: '1.通用券和指定券不能同时使用; 2.当券的金额大于订单应付金额时，差额不予退还; 3.通用券和指定券都不能叠加使用',
-      success: function (res) {
-        if (res.confirm) {
-          console.log('用户点击确定')
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
+    // wx.showModal({
+    //   title: '优惠券使用说明',
+    //   content: '1.通用券和指定券不能同时使用; 2.当券的金额大于订单应付金额时，差额不予退还; 3.通用券和指定券都不能叠加使用',
+    //   success: function (res) {
+    //     if (res.confirm) {
+    //       console.log('用户点击确定')
+    //     } else if (res.cancel) {
+    //       console.log('用户点击取消')
+    //     }
+    //   }
+    // })
+    this.showModal('success');
   },
   onReady: function () {
     // 页面渲染完成
@@ -323,6 +325,45 @@ Page({
       console.log('normal', this.data.normal);
       console.log('expired', this.data.expired);
     });
-  }
+  },
+  /**
+  * 显示模态框
+  */
+  showModal(type = 'err', config) {  // type: success||err
+    var successModalConfig = {
+      image:'../../image/conupon-img.png',
+      title:'优惠券使用说明',
+      firstText:'1、通用券和指定券不能同时使用',
+      secondText: '2、当全的金额大于订单应付金额时，差额不予退还。',
+      threeText:'3、通用券和指定券都不能叠加使用。',
+      confirmText:'确定'
+    }
+    if (type === 'success') {
+      successModalConfig = Object.assign(successModalConfig, config);
+      this.setData({
+        successModalConfig: successModalConfig,
+        showSuccessModal: true
+      });
+    } else {
+      errModalConfig = Object.assign(errModalConfig, config);
+      this.setData({
+        errModalConfig: errModalConfig,
+        showErrModal: true
+      });
+    }
+  },
 
+  /**
+   * 点击隐藏模态框(错误模态框)
+   */
+  tabModal() {
+    this.setData({ showErrModal: false });
+  },
+
+  /**
+   * 点击模态框的确定(关闭确定模态框)
+   */
+  tabConfirm() {
+    this.setData({ showSuccessModal: false });
+  },
 })

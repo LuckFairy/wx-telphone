@@ -1,5 +1,5 @@
 /* pages/card/mycard.wxss */
-
+@import "../template/modal.wxss";
 page {
   width: 100%;
   height: 100%;
