@@ -147,9 +147,9 @@ text {
 }
 
 .card-item-right {
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
+ display: block;
+width:180rpx;
+
 }
 
 .card-bg-available {
@@ -167,21 +167,20 @@ text {
 } 
 
 .card-item-value {
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
-  width: 100%;
-  color: white;
-  font-size: 30rpx;
+  font-size:50rpx;
+width:180rpx;
+text-align:center;
+display:block;
+margin-top:28rpx;
+
 }
 
 .card-item-btn-view {
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
-  width: 100%;
-  color: white;
-  font-size: 20rpx;
+  font-size:28rpx;
+width:180rpx;
+margin-left:48rpx;
+margin-top: 15rpx;
+
 }
 
 .overlay {
