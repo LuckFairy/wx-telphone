@@ -1,6 +1,4 @@
 //app.js
-// import {Api} from './utils/api';
-// import { Api } from './utils/api_2';
 import { Api } from './utils/api_3';
 App({
   api: Api,

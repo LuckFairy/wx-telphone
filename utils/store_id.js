@@ -1,5 +1,6 @@
+var app = getApp();
 var store_Id = {
-  shopid:6,
+  shopid: app.store_id,
   store_Id:function (){
     return this.shopid
   }

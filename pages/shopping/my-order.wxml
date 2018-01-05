@@ -54,7 +54,7 @@
 
               <text wx:if='{{order.status==2}}' class='purchase-data-back'>
                   <text wx:if="{{order.is_trial_product==1}}">待收货</text>
-              <text wx:if="{{order.is_trial_product==0}}">未发货</text>
+                  <text wx:if="{{order.is_trial_product==0}}">未发货</text>
               </text>
               <text wx:if='{{order.status==3}}' class='purchase-data-back'>待收货</text>
               <text wx:if='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>

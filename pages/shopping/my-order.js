@@ -670,7 +670,8 @@ Page({
   againBuy (e) {
     let { proId } = e.currentTarget.dataset;
     wx.reLaunch({
-      url: './goods-detail?prodId='+ proId
+      // url: './goods-detail?prodId=' + proId
+      url: '../index-new/index-new'
     })
   },
   /*新品试用，确认取货

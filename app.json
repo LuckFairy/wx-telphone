@@ -5,7 +5,6 @@
     "pages/shopping/buycard",
     "pages/shopping/address-list",
     "pages/shopping/address",
-    "pages/cart/cart",
     "pages/index-new/index-boabao",
     "pages/card/search-card",
     "pages/index-new/shop-promotion",    
@@ -23,7 +22,7 @@
     "pages/group-buying/current-buy",
     "pages/present/present",
     "pages/activity/category-1",
-    "pages/activity/category-2",
+   
     "pages/qrcode/qr-entry",
     "pages/shopping/trial-apply",
     "pages/shopping/goods-detail",
@@ -37,7 +36,7 @@
     "pages/card/card_detail",
     "pages/activity/activity",
     "pages/activity/hotsale",
-    
+    "pages/cart/cart",
     "pages/score/score",
     "pages/present/present-apply",
     "pages/credit/credit",

@@ -82,7 +82,7 @@
 
     <!-- <text wx:if='{{rtnCode!=-1}}' class="yellow-btn" style="background-color:white;border:1rpx solid #C0C0C0;margin-right:24rpx;" bindtap='searchSales' data-order-id='{{orderId}}' data-product-id='{{productId}}' data-rtn-code='{{rtnCode}}'>查看售后</text>-->
     <!-- <text class="yellow-btn" style="background-color:white;border:1rpx solid #C0C0C0;margin-right:30rpx;" bindtap='timesBuy'>再次购买</text> -->
-    <text class="yellow-btn" data-product-id='{{productId}}' data-order-id='{{orderId}}'>查看物流</text>
+    <!-- <text class="yellow-btn" data-product-id='{{productId}}' data-order-id='{{orderId}}'>查看物流</text> -->
     <text  catchtap="confirmDeliver" wx:if='{{orderData.status != "7"}}' class="yellow-btn" data-product-id='{{productId}}' data-order-id="{{orderData.order_no}}" style='background:#fae53b'>确认收货</text>
   </view>
 
