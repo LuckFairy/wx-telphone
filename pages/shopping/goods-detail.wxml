@@ -195,9 +195,9 @@
             <text class='shopping-detail-text'>{{activity_err_msg.name}}</text>
             <image bindtap='goImageClose' class='shopping-detail-image' src='../../image/choose-close.png'></image>
           </view>
-          <text wx:if="{{product.special}}" class='shopping-detail-price'>价格a{{activity_err_msg.price}}</text>
-          <text wx:elif="{{product.price}}" class='shopping-detail-price'>价格b{{activity_err_msg.price}}</text>
-          <text wx:else class='shopping-detail-price'>价格c{{activity_err_msg.original_price}}</text>
+          <text wx:if="{{product.special}}" class='shopping-detail-price'>价格{{activity_err_msg.price}}</text>
+          <text wx:elif="{{product.price}}" class='shopping-detail-price'>价格{{activity_err_msg.price}}</text>
+          <text wx:else class='shopping-detail-price'>价格{{activity_err_msg.original_price}}</text>
           <text class='shopping-detail-have'>库存{{activity_err_msg.quantity}}件</text>
         </view>
       </view>
