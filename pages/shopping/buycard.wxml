@@ -105,7 +105,7 @@
 </view> -->
 <view class='bottom-fixed'>
   <view class='bottom-fixed-left'>
-    <text class='bottom-fixed-num'>已选1张，可抵扣</text>
+    <text class='bottom-fixed-num'>已选{{zhang}}张，可抵扣</text>
     <text class='bottom-fixed-price' style='color:red'> {{face_money}} </text>
     <text class='bottom-fixed-yuan'>元</text>
   </view>

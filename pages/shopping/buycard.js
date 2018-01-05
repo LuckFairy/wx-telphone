@@ -26,13 +26,14 @@ Page({
     borId:'',
     cname:'',
     couponid:'',
-    face_money:'',
+    face_money:0,
     index:'',
     recid:'',
     couponInfo:'',
     uid:'',
     store_id: store_Id.shopid,
     showSuccessModal:false,//显示成功模态框
+    zhang:0
   },
   pullUpLoadone(e) {
     return ;//不需要这个东西 2017年12月25日10:01:39 by leo
@@ -134,7 +135,8 @@ Page({
       index: index,
       face_money: face_money,
       cname: cname,
-      couponid: couponid
+      couponid: couponid,
+      zhang:1
     })
     
   },
