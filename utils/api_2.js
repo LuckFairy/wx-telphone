@@ -20,7 +20,6 @@ var Api = {
       wx.getUserInfo({
         success: (resp) => {
           console.log('wx.getUserInfo()获取用户信息成功!',resp);
-          console.log(resp.userInfo,"111111111111111")
           // let {userInfo, rawData, signature, encryptedData, iv} = resp;
               let {userInfo} = resp;
           // 进入第3步

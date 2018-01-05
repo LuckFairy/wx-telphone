@@ -1,7 +1,5 @@
 {
   "pages": [
-      "pages/cart/cart",
-      
     "pages/index-new/index-new",
     "pages/card/mycard",
     "pages/shopping/buycard",
@@ -24,7 +22,7 @@
     "pages/group-buying/current-buy",
     "pages/present/present",
     "pages/activity/category-1",
-    "pages/activity/category-2",
+   
     "pages/qrcode/qr-entry",
     "pages/shopping/trial-apply",
     "pages/shopping/goods-detail",
@@ -38,7 +36,7 @@
     "pages/card/card_detail",
     "pages/activity/activity",
     "pages/activity/hotsale",
-    
+    "pages/cart/cart",
     "pages/score/score",
     "pages/present/present-apply",
     "pages/credit/credit",
