@@ -27,7 +27,7 @@
               <view class='cards-use-list {{(card.is_all_product)==0?"common":"dedicated"}}'>
                 <view class='rulers-text-list'>
                   <text class='rulers-text-title'>{{card.cname}}</text>
-                  <text class='rulers-text-date'>期限:{{card.start_time_str}}-{{card.end_time_str}}</text>
+                  <text class='rulers-text-date'>期限:{{card.start_time_str}} - {{card.end_time_str}}</text>
                   <text class='rulers-text-id'>券ID:{{card.id}}</text>
                 </view>
                 <view>
@@ -40,7 +40,7 @@
               <view class='cards-use-list-two'>
                 <view class='rulers-text-list'>
                   <text class='rulers-text-title'>{{card.cname}}</text>
-                  <text class='rulers-text-date'>期限:{{card.start_time_str}}-{{card.end_time_str}}</text>
+                  <text class='rulers-text-date'>期限:{{card.start_time_str}} - {{card.end_time_str}}</text>
                   <text class='rulers-text-id'>券ID:{{card.id}}</text>
                 </view>
                 <view>
@@ -69,13 +69,12 @@
                   <view class="card-title-text">{{card.cname}}</view>
                 </view>
                 <view class="card-info-text-small">券id: {{card.id}}</view>
-                <view class="card-info-text-small">有效期: {{card.start_time_str}}-{{card.end_time_str}}</view>
+                <view class="card-info-text-small">有效期: {{card.start_time_str}} - {{card.end_time_str}}</view>
               </navigator>
 
               <view class="card-item-right card-bg-disable">
                 <view class="card-item-value">
-                  <text style="font-size:25rpx;">￥</text>
-                  <text>{{card.face_money}}</text>
+                  <text>￥{{card.face_money}}</text>
                 </view>
                 <view class="card-item-btn-view">
                   <text style="text-align:right;">已过期</text>
