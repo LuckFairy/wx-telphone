@@ -88,13 +88,11 @@ Page({
  *地址详情列表
  */
   getAddress(uid) {
-    var that = this;
     var url = 'wxapp.php?c=address&a=MyAddress';
+    var that = this;
     var address = that.data.address;
-    var params = {
-      store_id: that.data.storeId,uid
-    }
-    app.api.postApi(url, { params}, (err, rep) => {
+
+    app.api.postApi(url, { "params": { uid } }, (err, rep) => {
       if (!err && rep.err_code == 0) {
         var addressList = rep.err_msg.addresslist;
         if (addressList.length) {

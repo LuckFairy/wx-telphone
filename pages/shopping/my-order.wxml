@@ -36,7 +36,8 @@
       <scroll-view scroll-y="{{true}}" class='scroll-lists wait-money'>
         <!--无数据时  -->
         <view class="no-data-view" wx:if='{{!allOrders || allOrders.length < 1}}'>
-          <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
+          <!-- <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
+           <view  class="no-data-image"> </view>
           <text class="mText" class="no-data-text">暂时没有订单哦 </text>
           <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
         </view>
@@ -175,7 +176,8 @@
           <!--</block>-->
         </view>
         <view wx:else class="no-data-view">
-          <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
+          <!-- <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
+          <view  class="no-data-image"> </view>
           <text class="mText" class="no-data-text">暂时没有订单哦
       </text>
           <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
@@ -450,7 +452,8 @@
           <!--</block>-->
         </view>
         <view wx:else class="no-data-view">
-          <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
+          <!-- <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
+          <view  class="no-data-image"> </view>
           <text class="mText" class="no-data-text">暂时没有订单哦
       </text>
           <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
@@ -505,7 +508,8 @@
           <!--</block>-->
         </view>
         <view wx:else class="no-data-view">
-          <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
+          <!-- <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
+          <view  class="no-data-image"> </view>
           <text class="mText" class="no-data-text">暂时没有订单哦
       </text>
           <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
@@ -522,7 +526,8 @@
           <text class='purchase-text'>暂无任何数据</text>
         </view>  -->
         <view class="no-data-view" style='margin-top:80rpx;' wx:if='{{showSale}}'>
-          <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" />
+          <!-- <image src="../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
+          <view  class="no-data-image"> </view>
           <text class="mText" class="no-data-text">暂无任何数据 </text>
         </view>
         <!--无数据时  -->

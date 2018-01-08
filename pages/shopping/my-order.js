@@ -112,8 +112,6 @@ Page({
     groupbuyOrderId:'',
     prodId:'',
     uid:'',
-    windowHeight: '',
-    windowWidth: '',
     storeId: store_Id.shopid,
     // 购买成功后的分享，丢弃……
     // groupbuyOrderIdShare:"",

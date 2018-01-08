@@ -48,6 +48,7 @@
     "pages/redbox/redbox",
     "pages/redbox/open-result",
     "pages/redbox/mydata",
+  
     "pages/cart/buy",
     "pages/cart/address",
     "pages/cart/address-list",
@@ -85,7 +86,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
-    "navigationBarTitleText": "中亿优选",
+    "navigationBarTitleText": "婴众趣购",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

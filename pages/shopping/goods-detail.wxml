@@ -8,7 +8,6 @@
   </view>
   <!--商品详情区域开始  -->
   <view class="middle-box">
-  <!--{{product.name}}-  -->
     <text class="middle-title">{{product.name}}</text>
     <view class="middle-detail">
       <view class='mid-list-wrap'>
@@ -44,7 +43,7 @@
   <!-- 商品优惠券区域  is_get 是否可以领取 1可以领取 0不可以领取 -->
   <block wx:if="{{shopCoupon.coupon_count>0 && action != 'present'}}">
     <view class='discount-area'>
-      <view class='discount' >
+      <view class='discount' catchtap='showCoupon'>
         <view class='discount-left'>
           <text class='discount-text'>领券</text>
           <view class='discount-imglist' wx:for="{{coupon_value}}">
@@ -52,8 +51,8 @@
           </view>
            <text wx:if="{{shopCoupon.coupon_count>2}}" style="color:#ff3030;margin-left:28rpx;" >...</text>
         </view>
-          <image wx:if="{{showList}}" catchtap='showCoupon' class='discount-go'  src='../../image/coupon_up.png'></image>
-          <image wx:else class='discount-go' catchtap='showCoupon'  src='../../image/coupon_down.png'></image>
+          <image wx:if="{{showList}}"  class='discount-go'  src='../../image/coupon_up.png'></image>
+          <image wx:else class='discount-go' src='../../image/coupon_down.png'></image>
         </view>
     
       <!--优惠券列表  -->
