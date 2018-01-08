@@ -46,9 +46,9 @@
 </view>
 <view class="overlay" catchtap="closeOverlay" style="display:{{showOverlay ? 'flex' : 'none'}}">
   <view class="qr-view">
-    <image src="{{detailData.qrUrl}}" mode="widthFix" style="width:300rpx;margin:40px 10rpx"></image>
-    <text>将二维码出示给门店核销员</text>
-    <text>由门店核销即可</text>
+    <image src="{{detailData.qrUrl}}" mode="widthFix" style="display:inline-block; width:480rpx;height: 480rpx;margin:80rpx 80rpx 74rpx 80rpx"></image>
+    <text class='qrcode-list'>将二维码出示给门店核销员由门店核销即可</text>
+    <!-- <text>由门店核销即可</text> -->
     <i class="fa fa-times close-icon" ></i>
   </view>
 </view>

@@ -257,16 +257,12 @@ text {
   margin-top: 60rpx;
   padding: 20rpx 0;
   text-align: center;
-  width: 426rpx;
+  width: 160rpx;
 }
 
 /*拼团购  */
 
 /* pages/cluster/cluster-in.wxss */
-
-page {
-  /* background: #efefef; */
-}
 
 .clus-total {
   background: #efefef;
@@ -772,7 +768,7 @@ display: -webkit-box;
   margin-bottom: 38rpx;
 }
 .no-data-text{
-  color:rgb(27, 27, 27);
+  color:#999;
 }
 /*退换售后  */
 .gray{

@@ -131,12 +131,11 @@ view{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width:500rpx;
     background-color: white;
     color:grey;
-    font-size: 25rpx;
-    padding-bottom: 20px;
+    font-size: 26rpx;
     position:relative;
+    margin-top:-165rpx;
 }
 .close-icon{
     position: absolute;
@@ -258,4 +257,11 @@ color: #c7c7c7;
 {
 from {left:5rpx;}
 to {left: 50rpx;}
+}
+
+.qrcode-list{
+  color: #999999;
+  font-size: 26rpx;
+  margin-bottom: 80rpx;
+  display: block;
 }

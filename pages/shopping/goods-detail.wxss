@@ -1,4 +1,4 @@
-/* pages/shopping/goods-detail.wxss */
+ /* pages/shopping/goods-detail.wxss  */
 
 page {
   width: 750rpx;
@@ -1124,9 +1124,12 @@ button[type="warn"] {
   width: 712rpx;
   display: block;
   padding: 26rpx 24rpx 42rpx;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow:hidden;
+text-overflow:ellipsis;
+display: -webkit-box;
+-webkit-box-orient:vertical;
+-webkit-line-clamp: 2;
+height: 88rpx;
 }
 
 .mid-list-zero {
@@ -1161,7 +1164,7 @@ button[type="warn"] {
   text-align: center;
   padding-left: 24rpx;
   position:absolute;
-top:160rpx;
+top:200rpx;
 
 }
 

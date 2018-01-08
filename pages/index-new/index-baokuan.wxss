@@ -1,4 +1,7 @@
 /*商品列表开始  */
+page{
+  background: #efefef;
+}
 .rush-baobao-list{
   background: #ececec;
   margin-top: 16rpx;

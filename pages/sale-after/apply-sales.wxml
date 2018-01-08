@@ -32,7 +32,7 @@
     <text class='apply-applications-hint'>注:提交申请后,请再联系客服微信辅助完成</text>
     <view class='apply-applications-wechat'>
       <text class='apply-applications-text'>客服微信：</text>
-      <text class='apply-applications-rem' selectable='true'>yzkf139</text>
+      <text class='apply-applications-rem' selectable='true'>zyyytxwd</text>
     </view>
     <text class='apply-applications-copy'>长按微信号可复制</text>
     <text class='apply-applications-submit apply-applications-submit-total' bindtap='goSubmit' data-order-id='{{orderId}}' data-status='{{turnStatus}}' data-product-id='{{productId}}' wx:if='{{showHide}}'>提交申请</text>
