@@ -41,7 +41,7 @@
   </view>
   <!--商品详情区域结束  -->
   <!-- 商品优惠券区域  is_get 是否可以领取 1可以领取 0不可以领取 -->
-  <block wx:if="{{shopCoupon.coupon_count>0 && action != 'present'}}">
+  <block wx:if="{{shopCoupon.coupon_count > 0 && action != 'present'}}">
     <view class='discount-area'>
       <view class='discount' catchtap='showCoupon'>
         <view class='discount-left'>
