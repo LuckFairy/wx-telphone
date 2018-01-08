@@ -34,7 +34,7 @@
 
       <view class='select-list' bindtap="clickGo" data-destination="2">
         <image class='select-list-image' src='../../image/yiya-yanxuan.png' data-destination="2"></image>
-        <text class='select-list-text' data-destination="2">咿呀严选</text>
+        <text class='select-list-text' data-destination="2">中亿严选</text>
       </view>
       <view class='select-list' bindtap="clickGo" data-destination="3">
         <image class='select-list-image' src='../../image/lotto-area.png' data-destination="3"></image>

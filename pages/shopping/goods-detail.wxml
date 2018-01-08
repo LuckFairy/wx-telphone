@@ -8,6 +8,7 @@
   </view>
   <!--商品详情区域开始  -->
   <view class="middle-box">
+  <!--{{product.name}}-  -->
     <text class="middle-title">{{product.name}}</text>
     <view class="middle-detail">
       <view class='mid-list-wrap'>

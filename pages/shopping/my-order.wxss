@@ -15,7 +15,6 @@ swiper {
 }
 
 scroll-view {
-  height: 100%;
   display: block;
   background-color: #f3f3f3;
   _padding-top: 10px;
@@ -639,7 +638,6 @@ button::after {
   background: #ffffff;
   margin-bottom: 16rpx;
 }
-
 .purchase-data-sd{
   /* display: block; */
   font-size: 0rpx;
