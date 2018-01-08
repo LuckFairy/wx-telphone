@@ -1,7 +1,7 @@
 /* pages/shopping/my-order.wxss */
 
 page {
-  width: 100%;
+  overflow-y: auto;
 }
 
 view {

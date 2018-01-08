@@ -32,7 +32,7 @@
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
 
     <!--全部  -->
-    <swiper-item>
+    <swiper-item style='overflow-y: auto'>
       <scroll-view scroll-y="{{true}}" class='scroll-lists wait-money'>
         <!--无数据时  -->
         <view class="no-data-view" wx:if='{{!allOrders || allOrders.length < 1}}'>
