@@ -2,20 +2,19 @@
 .rush-baobao-list{
   background: #ececec;
   margin-top: 16rpx;
-
   display: block;
 }
 .rush-baobao-box{
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  background: #ececec;
+  /* background: #ececec; */
 }
 .rush-baobao-image{
   display: inline-block;
   background: #ffffff;
   margin-bottom: 16rpx;
-  height: 560rpx;
+  height: 500rpx;
 }
 .rush-bobao-child{
   width: 368rpx;
