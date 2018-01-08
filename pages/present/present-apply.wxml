@@ -39,7 +39,7 @@
       <!-- 隐藏域end -->
       <view class="form">
         <!-- .user-info -->
-        <view class="sp-border user-info">
+        <!-- <view class="sp-border user-info">
           <label style="margin-bottom: 16rpx">
             <text>姓名:</text>
             <input placeholder-style="font-size: 11pt; color: #bbb;" placeholder="请输入您的姓名" name="fullname" />
@@ -48,11 +48,20 @@
             <text>手机号码:</text>
             <input type="number" placeholder-style="font-size: 11pt; color: #bbb;" placeholder="请输入您的手机号码" name="telephone" />
           </label>
-        </view><!-- .user-info -->
+        </view> -->
+      
+        <view class="sp-border user-info" wx:if="{{upList && upList.length > 0}}"  wx:for="{{upList}}" wx:for-item="option" wx:key="{{option.id}}">
+          <label style="margin-bottom: 16rpx">
+            <text>{{option.title}}:</text>
+            <input placeholder-style="font-size: 11pt; color: #bbb;" placeholder="{{option.content}}" name="{{option.id}}" />
+          </label>
+        </view>
+       
+        <!-- .user-info -->
         <!-- .option-select-container -->
         <view class="show-block option-select-container" wx:if="{{questionList && questionList.length > 0}}">
           <view class="section-wrap" style="padding-left: 0">
-            <text class="section-title">回答以下问题即有机会获得免费试用的机会</text>
+            <text class="section-title">填写或回答以下问题即能获得免费试用的机会</text>
           </view>
 
           <!-- <view

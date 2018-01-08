@@ -226,7 +226,8 @@ Page({
       }
       if (resp.err_code == 0) {
         var coupon_value = [];
-        for(var i=0;i<2;i++){
+        var len = resp.err_msg.coupon_count > 2 ? 2 : resp.err_msg.coupon_count;
+        for(var i=0;i<len;i++){
           coupon_value.push(resp.err_msg.coupon_value[i]);
         }
         that.setData({

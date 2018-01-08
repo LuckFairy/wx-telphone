@@ -28,13 +28,15 @@ Page({
     showErrModal: false,         // 是否显示模态框
     modalConfig,                 // 模态框配置 
     presentData: null,           // 页面数据
-    questionList:null,//问题列表
+    questionList:[],//问题列表
+    upList:[],//上面必填问题列表
     qrEntry: false,
     product_id:null,//商品id
     uid: null,//用户id
     store_id: store_Id.shopid,//店铺id
   },
   onLoad:function(options){
+    console.log('123');
     //2017年8月17日13:46:50 处理选择后的多属性
     var attrData = wx.getStorageSync('key') || [];
     var uid = wx.getStorageSync('userUid');
@@ -60,6 +62,7 @@ Page({
     // } catch(e) {
       
     // }
+ 
     try{
         this.setData({
            product_id:options.prodId,
@@ -83,9 +86,21 @@ Page({
     };
     app.api.postApi(QuestionURL, { params }, (err, rep) => {   // 赠品领用提交
       wx.hideLoading();
+      var questionList = that.data.questionList;
+      var upList = that.data.upList;
       if (!err && rep.err_code == 0) {
+          //遍历rep.err_msg，找出required == 1的
+        for (var value of rep.err_msg) {
+          if(value.required == 1){
+           upList.push(value);
+          }else{
+            questionList.push(value);
+          }
+        }
+        console.log(questionList, upList);
           that.setData({
-            questionList:rep.err_msg
+            questionList,
+            upList
           })
       } else{
           that.submitError({ image: '../../image/error.png', title: err });
@@ -123,23 +138,29 @@ Page({
   formSubmit(e) {
     var that = this;
     let {value: submit} = e.detail;
+   
     let question = [];//问题列表
     for (let [key, value] of Object.entries(submit)) {
+      if(value.length == 0){
+        return this.submitError({ image: '../../image/error.png', title: '没有填写完，请填写完整' });
+      }
       question.push({ key:value })
     }
-    question = question.splice(-2, 2);
+    console.log("question", question);
+    // question = question.splice(-2, 2);
     
     // let post = {};
     // let option = '';
+    // console.log('submit',submit,'question',question);
     
-    let {fullname, telephone} = submit;
-    let [name, phone] = [fullname.trim(), telephone.trim()];
-    if(!name) {
-      return this.submitError({image: '../../image/error.png', title: '请输入姓名'});
-    } 
-    if (!util.checkMobile(phone)) {
-      return this.submitError({image: '../../image/error.png', title: '请输入正确的手机号码'});
-    }
+    // let {fullname, telephone} = submit;
+    // let [name, phone] = [fullname.trim(), telephone.trim()];
+    // if(!name) {
+    //   return this.submitError({image: '../../image/error.png', title: '请输入姓名'});
+    // } 
+    // if (!util.checkMobile(phone)) {
+    //   return this.submitError({image: '../../image/error.png', title: '请输入正确的手机号码'});
+    // }
     
     // for(let i in submit) {
     //   if(+i >= 0) {
