@@ -56,6 +56,9 @@ Page({
     coupon_value:[],//线上优惠券面值数组
     coupon_list:[],//线上优惠券数组
     showList:false,//是否显示优惠券列表
+    price:[],      //所有价格列表
+    choPrice:'',
+    choQuantity:''
   },
   goStoreServer() {
     wx.navigateTo({
@@ -294,6 +297,7 @@ Page({
     var quantitys = that.data.quantitys;
     var oneMatching = that.data.oneMatching;
     var skuid_list = that.data.skuid_list;
+    var price = that.data.price;
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
@@ -334,6 +338,7 @@ Page({
           multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
           quantitys.push(sku_list[i].quantity);//所有可能库存情况
           skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
+          price.push(sku_list[i].price);
         }
       }
       console.log(multiattribute, 'multiattribute');
@@ -564,6 +569,7 @@ Page({
     var quantitys = that.data.quantitys;
     var oneMatching = that.data.oneMatching;
     var skuid_list = that.data.skuid_list;
+    var price = that.data.price;
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
@@ -604,6 +610,7 @@ Page({
           multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
           quantitys.push(sku_list[i].quantity);//所有可能库存情况
           skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
+          price.push(sku_list[i].price);//s所有价格情况
         }
       }
       console.log(multiattribute, 'multiattribute');
@@ -631,6 +638,9 @@ Page({
     console.log('arr_gropv', arr_gropv)
     var multiattribute = that.data.multiattribute;//多属性所有可能选项列表
     var quantitys = that.data.quantitys;//所有可能库存情况
+    console.log("所有库存啊啊啊", quantitys)
+    var price = that.data.price;//所有可能价格情况
+    console.log("所有价格啊啊啊",price)
     var oneMatching = that.data.oneMatching;//点击之后匹配情况入数组
     console.log(oneMatching.length, '数组情况')
     var skuid_list = that.data.skuid_list;
@@ -697,7 +707,9 @@ Page({
                 } else {
                   console.log(skuid_list[k], '匹配项的sku_id')
                   that.setData({
-                    sku_id: skuid_list[k]
+                    sku_id: skuid_list[k],
+                    choPrice: price[k],
+                    choQuantity: quantitys[k]
                   });
                   var arrObj = [];
                   for (var d = 0; d < multiattribute[k].length; d++) {
