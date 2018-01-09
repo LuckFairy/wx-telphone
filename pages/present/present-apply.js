@@ -138,15 +138,17 @@ Page({
   formSubmit(e) {
     var that = this;
     let {value: submit} = e.detail;
-   
+   console.log(submit);
     let question = [];//问题列表
-    for (let [key, value] of Object.entries(submit)) {
+    for (let [name, value] of Object.entries(submit)) {
       if(value.length == 0){
         return this.submitError({ image: '../../image/error.png', title: '没有填写完，请填写完整' });
       }
-      question.push({ key:value })
+      question.push({ "qid":name,"value":value});
     }
-    console.log("question", question);
+    
+    console.log("question ",question)
+   
     // question = question.splice(-2, 2);
     
     // let post = {};

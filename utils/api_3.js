@@ -60,7 +60,7 @@ var Api = {
     Network.postApi(url, params, header, callback);
   }
   
-}
+};
 
 
 // module.exports.Api = Api;

@@ -156,7 +156,7 @@
                   class="option"
                   value="{{item.name}}"
                   checked="{{item.checked}}"
-                />{{item}}
+                />{{item.name}}
               </label>
             </checkbox-group>
           </view><!-- .option-container -->

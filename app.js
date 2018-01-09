@@ -35,7 +35,22 @@ App({
     //ceshiUrl:'https://wxplus.paoyeba.com/index.php',
     ceshiUrl: 'http://leoxcxshop.com/index.php',
   },
-  store_id:6, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺
+  /*
+  *首次打开小程序事件
+  *
+  */
+  firstOpen(){
+    var hasFirst = wx.getStorageSync('hasFirst');
+    if (hasFirst) {
+      wx.setStorageSync('hasFirst', 'true');
+    } else {
+      wx.showToast({
+        title: '首次打开小程序成功！',
+      })
+      wx.setStorageSync('hasFirst', 'true');
+    }
+  },
+  store_id:6, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购
 })
 
 

@@ -28,6 +28,8 @@ var Api = {
           // 进入第3步
               //_doSignin(jscode, userInfo);
               _doSignin(jscode, rawData, encryptedData, iv, userInfo);
+              //首次打开小程序事件
+              app.firstOpen();
           },
         fail: (resp) => {
               let autTip = '您已拒绝小程序程序授权，请删除小程序后重新进入，并在提示授权时，点击“允许”按钮。';
@@ -100,7 +102,7 @@ var Api = {
     }
     /* 4、登录成功，保存tokenId, secretKey*/
     function _onSignin(data) {
-      getApp().hasSignin = true;
+      app.hasSignin = true; 
     }
     /*尝试再次登录*/
     function _tryAgain(err) {
@@ -114,6 +116,8 @@ var Api = {
       console.log('正在尝试第 %d 次登录...', (4 - tryTimes));
       that.signin(callback, tryTimes);
     }
+    
   },
+  
 };
 module.exports = {Api};
