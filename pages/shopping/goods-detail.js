@@ -81,10 +81,12 @@ Page({
     var isaddCart = e.currentTarget.dataset.isaddCart;
     var productId = e.currentTarget.dataset.productId;
     var skuId = e.currentTarget.dataset.skuId;
+    console.log("是否拿到skuId", skuId);
     var uid = e.currentTarget.dataset.uid;
     var storeId = e.currentTarget.dataset.storeId;
     var skuid_list = that.data.skuid_list;
-  
+    var the_length = that.data.property_list.length;
+    console.log(the_length,'the_lengthddhdddd')
     if (skuid_list.length > 0) {
       if (!skuId) {
         wx.showLoading({
@@ -569,6 +571,7 @@ Page({
     var quantitys = that.data.quantitys;
     var oneMatching = that.data.oneMatching;
     var skuid_list = that.data.skuid_list;
+    console.log(skuid_list,'sku_id的情况点点滴滴')
     var price = that.data.price;
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
@@ -610,6 +613,7 @@ Page({
           multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
           quantitys.push(sku_list[i].quantity);//所有可能库存情况
           skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
+          console.log(skuid_list,'skuid_list所有sku_id的情况')
           price.push(sku_list[i].price);//s所有价格情况
         }
       }
@@ -637,6 +641,7 @@ Page({
     arr_gropv.push(gropv);//点击选择属性的id选项组合
     console.log('arr_gropv', arr_gropv)
     var multiattribute = that.data.multiattribute;//多属性所有可能选项列表
+    console.log("所有多属性啊啊啊", multiattribute)
     var quantitys = that.data.quantitys;//所有可能库存情况
     console.log("所有库存啊啊啊", quantitys)
     var price = that.data.price;//所有可能价格情况
@@ -644,109 +649,158 @@ Page({
     var oneMatching = that.data.oneMatching;//点击之后匹配情况入数组
     console.log(oneMatching.length, '数组情况')
     var skuid_list = that.data.skuid_list;
+    console.log(skuid_list,'选择之后的skuid_list的sku_id')
     console.log(skuid_list, 'skuid_list')
     console.log(skuid_list, 'skuid_list')
     var oriPid = that.data.oriPid;//初始pid
     console.log('quantitys', quantitys)
-
-    if ((oriPid != pid) && oneMatching.length == 0) {
-      oneMatching.splice(0, oneMatching.length);//清空数组
-      for (var k = 0; k < multiattribute.length; k++) {
-        for (var g = 0; g < multiattribute[k].length; g++) {
-          if (multiattribute[k][g] == arr_gropv) {
-            console.log(multiattribute[k], 'g')//获取点击匹配的可选项
-            oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
-            console.log(oneMatching, '首次push的匹配值')
+    var theLength = that.data.property_list.length;//多属性种类
+    if (theLength==1){
+      if ((oriPid != pid) && oneMatching.length == 0) {
+        oneMatching.splice(0, oneMatching.length);//清空数组
+        for (var k = 0; k < multiattribute.length; k++) {
+          for (var g = 0; g < multiattribute[k].length; g++) {
+            if (multiattribute[k][g] == arr_gropv) {
+              console.log(multiattribute[k], 'g')//获取点击匹配的可选项
+              oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
+              console.log(oneMatching, '首次push的匹配值')
+            }
+          }
+          that.setData({
+            sku_id: skuid_list[k]
+          })
+        }
+        that.setData({
+          arrone: '',
+          arrotwo: '',
+          curTabs: pid + vid,
+          oriPid: pid
+        })
+        console.log('fffffffff')
+      } else if ((oriPid == pid) && oneMatching.length != 0) {
+        oneMatching.splice(0, oneMatching.length);//清空数组
+        for (var k = 0; k < multiattribute.length; k++) {
+          for (var g = 0; g < multiattribute[k].length; g++) {
+            if (multiattribute[k][g] == arr_gropv) {
+              console.log(multiattribute[k], 'g')//获取点击匹配的可选项
+              oneMatching.push(multiattribute[k]);//重新加入匹配项
+              console.log('oneMatching重新匹配', oneMatching)
+            }
+          }
+          that.setData({
+            sku_id: skuid_list[k]
+          })
+        }
+        that.setData({
+          arrone: '',
+          arrotwo: '',
+          curTabs: pid + vid,
+          oriPid: pid
+        })
+        console.log('ttttttttttt')
+      } 
+    } else if (theLength == 2){
+      if ((oriPid != pid) && oneMatching.length == 0) {
+        oneMatching.splice(0, oneMatching.length);//清空数组
+        for (var k = 0; k < multiattribute.length; k++) {
+          for (var g = 0; g < multiattribute[k].length; g++) {
+            if (multiattribute[k][g] == arr_gropv) {
+              console.log(multiattribute[k], 'g')//获取点击匹配的可选项
+              oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
+              console.log(oneMatching, '首次push的匹配值')
+            }
           }
         }
-      }
-      that.setData({
-        arrone: '',
-        arrotwo: '',
-        curTabs: pid + vid,
-        oriPid: pid
-      })
-      console.log('执行1')
-    } else if ((oriPid == pid) && oneMatching.length != 0) {
-      oneMatching.splice(0, oneMatching.length);//清空数组
-      for (var k = 0; k < multiattribute.length; k++) {
-        for (var g = 0; g < multiattribute[k].length; g++) {
-          if (multiattribute[k][g] == arr_gropv) {
-            console.log(multiattribute[k], 'g')//获取点击匹配的可选项
-            oneMatching.push(multiattribute[k]);//重新加入匹配项
-            console.log('oneMatching重新匹配', oneMatching)
+        that.setData({
+          arrone: '',
+          arrotwo: '',
+          curTabs: pid + vid,
+          oriPid: pid
+        })
+        console.log('执行1')
+      } else if ((oriPid == pid) && oneMatching.length != 0) {
+        oneMatching.splice(0, oneMatching.length);//清空数组
+        for (var k = 0; k < multiattribute.length; k++) {
+          for (var g = 0; g < multiattribute[k].length; g++) {
+            if (multiattribute[k][g] == arr_gropv) {
+              console.log(multiattribute[k], 'g')//获取点击匹配的可选项
+              oneMatching.push(multiattribute[k]);//重新加入匹配项
+              console.log('oneMatching重新匹配', oneMatching)
+            }
           }
         }
-      }
-      that.setData({
-        arrone: '',
-        arrotwo: '',
-        curTabs: pid + vid,
-        oriPid: pid
-      })
-      console.log('执行2')
-    } else if ((oriPid != pid) && oneMatching.length != 0) {//换行选中后
-      for (var k = 0; k < multiattribute.length; k++) {
-        for (var g = 0; g < multiattribute[k].length; g++) {
-          console.log(multiattribute[k].length, 'multiattribute[k].length3')
-          if (multiattribute[k][g] == arr_gropv) {
-            console.log(multiattribute[k], 'g3')//获取点击匹配的可选项
-            console.log(multiattribute[k][g], 'ggg3')//获取点击匹配的可选项
-            console.log('是否执行到这里')
-            for (var o = 0; o < oneMatching.length; o++) {
-              if (oneMatching[o] == multiattribute[k]) {
-                console.log(multiattribute[k], quantitys[k], 'multiattribute[k]点击匹配项');//设置匹配项颜色
-                console.log(quantitys[k], 'quantitys[k]')
-                if (quantitys[k] <= 0) {
-                  wx.showLoading({
-                    title: '买完了'
-                  });
-                  setTimeout(function () {
-                    wx.hideLoading()
-                  }, 2000)
-                } else {
-                  console.log(skuid_list[k], '匹配项的sku_id')
-                  that.setData({
-                    sku_id: skuid_list[k],
-                    choPrice: price[k],
-                    choQuantity: quantitys[k]
-                  });
-                  var arrObj = [];
-                  for (var d = 0; d < multiattribute[k].length; d++) {
-                    console.log(multiattribute[k][d], 'multiattribute[k][d]');
-                    arrObj.push(multiattribute[k][d].split(':'));
-                    console.log(arrObj, 'arrObj')
-                    var array = multiattribute[k][d].split(':');
-                    console.log(array, 'array')
-                    console.log(array[0], 'array[0]');
-                  }
-                  console.log(arrObj, 'arrObj')
-                  var objArr = [];
-                  for (var u = 0; u < arrObj.length; u++) {
-                    console.log(arrObj[u], 'arrObj[u]');
-                    for (var q = 0; q < arrObj[u].length; q++) {
-                      objArr.push(arrObj[u][q]);
+        that.setData({
+          arrone: '',
+          arrotwo: '',
+          curTabs: pid + vid,
+          oriPid: pid
+        })
+        console.log('执行2')
+      } else if ((oriPid != pid) && oneMatching.length != 0) {//换行选中后
+        for (var k = 0; k < multiattribute.length; k++) {
+          for (var g = 0; g < multiattribute[k].length; g++) {
+            console.log(multiattribute[k].length, 'multiattribute[k].length3')
+            if (multiattribute[k][g] == arr_gropv) {
+              console.log(multiattribute[k], 'g3')//获取点击匹配的可选项
+              console.log(multiattribute[k][g], 'ggg3')//获取点击匹配的可选项
+              console.log('是否执行到这里')
+              for (var o = 0; o < oneMatching.length; o++) {
+                if (oneMatching[o] == multiattribute[k]) {
+                  console.log(multiattribute[k], quantitys[k], 'multiattribute[k]点击匹配项');//设置匹配项颜色
+                  console.log(quantitys[k], 'quantitys[k]')
+                  if (quantitys[k] <= 0) {
+                    wx.showLoading({
+                      title: '卖完了'
+                    });
+                    setTimeout(function () {
+                      wx.hideLoading()
+                    }, 2000)
+                  } else {
+                    console.log(skuid_list[k], '匹配项的sku_id')
+                    that.setData({
+                      sku_id: skuid_list[k],
+                      choPrice: price[k],
+                      choQuantity: quantitys[k]
+                    });
+                    var arrObj = [];
+                    for (var d = 0; d < multiattribute[k].length; d++) {
+                      console.log(multiattribute[k][d], 'multiattribute[k][d]');
+                      arrObj.push(multiattribute[k][d].split(':'));
+                      console.log(arrObj, 'arrObj')
+                      var array = multiattribute[k][d].split(':');
+                      console.log(array, 'array')
+                      console.log(array[0], 'array[0]');
                     }
-                  }
-                  var arrone = objArr[0] + objArr[1];
-                  var arrotwo = objArr[2] + objArr[3];
-                  console.log(arrone, 'arrone');
-                  console.log(arrotwo, 'arrotwo');
-                  that.setData({
-                    arrone, arrotwo, curTabs: ''
-                  })
-                  console.log('执行3')
+                    console.log(arrObj, 'arrObj')
+                    var objArr = [];
+                    for (var u = 0; u < arrObj.length; u++) {
+                      console.log(arrObj[u], 'arrObj[u]');
+                      for (var q = 0; q < arrObj[u].length; q++) {
+                        objArr.push(arrObj[u][q]);
+                      }
+                      console.log(objArr, 'objArr啊啊啊啊啊啊')
+                    }
+                    var arrone = objArr[0] + objArr[1];
+                    var arrotwo = objArr[2] + objArr[3];
+                    console.log(arrone, 'arrone');
+                    console.log(arrotwo, 'arrotwo');
+                    that.setData({
+                      arrone, arrotwo, curTabs: ''
+                    })
+                    console.log('执行3')
 
+                  }
                 }
               }
+              // that.setData({
+              //   oriPid: pid
+              // })
             }
-            // that.setData({
-            //   oriPid: pid
-            // })
           }
         }
       }
     }
+    
   },
   /**
  * 显示错误信息
