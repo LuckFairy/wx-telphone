@@ -1118,7 +1118,6 @@ button[type="warn"] {
   justify-content: space-between;
   padding: 0 24rpx;
 }
-
 .middle-title {
   font-size: 34rpx;
   width: 712rpx;
@@ -1266,6 +1265,7 @@ top:200rpx;
   font-size: 24rpx;
   color: #ff1d33;
   line-height: 60rpx;
+  margin: 0 10rpx;
 }
 
 /*商品详情区域结束  */

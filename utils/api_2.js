@@ -20,7 +20,6 @@ var Api = {
       wx.getUserInfo({
         success: (resp) => {
           console.log('wx.getUserInfo()获取用户信息成功!',resp);
-
           console.log(resp.userInfo,"111111111111111")
           let {userInfo, rawData, signature, encryptedData, iv} = resp;
               //let {userInfo} = resp;
@@ -28,8 +27,7 @@ var Api = {
           // 进入第3步
               //_doSignin(jscode, userInfo);
               _doSignin(jscode, rawData, encryptedData, iv, userInfo);
-              //首次打开小程序事件
-              app.firstOpen();
+              
           },
         fail: (resp) => {
               let autTip = '您已拒绝小程序程序授权，请删除小程序后重新进入，并在提示授权时，点击“允许”按钮。';

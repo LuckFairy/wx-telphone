@@ -18,12 +18,16 @@ App({
     // Api.signin();
   },
   onShow: function () {
-    console.log('App onShow() ...')
+    
   },
   globalData:{
     userInfo: "",
     TOKEN_ID: "",
-    image: { mode:"aspectFit",lazyLoad:"true"},
+    image: { mode:"aspectFit",lazyLoad:"true"},//图片定义模式
+    uid:"",//用户id
+    sid:"",//商店id
+    openid:"",//用户openid
+    formIds: [],//formId数组
   },
   d: {
     hostUrl: 'https://wxplus.paoyeba.com/index.php',
@@ -36,21 +40,76 @@ App({
     ceshiUrl: 'http://leoxcxshop.com/index.php',
   },
   /*
-  *首次打开小程序事件
-  *
+  *推送消息
+  *formId  获取form提交生活的form的id
   */
-  firstOpen(){
-    var hasFirst = wx.getStorageSync('hasFirst');
-    if (hasFirst) {
-      wx.setStorageSync('hasFirst', 'true');
-    } else {
-      wx.showToast({
-        title: '首次打开小程序成功！',
+  pushId(e){
+    console.log('app.hasSignin', this.hasSignin);
+    var that = this;
+    //用户登录成功,获取uid,sid,openid
+    if(that.hasSignin){
+      that.globalData = Object.assign(that.globalData,{
+        uid: wx.getStorageSync('userUid'),
+        sid: that.store_id,
+        openid: wx.getStorageSync('userOpenid')
       })
-      wx.setStorageSync('hasFirst', 'true');
+    }else{ return;}
+    console.log('form提交 ',e.detail);
+    let { timeStamp, detail: { formId = [] } } = e;
+    if (formId.includes('formId')){
+      wx.showToast({
+        title: '请用手机调试',
+        icon: 'loading',
+        duration: 2000
+      });
+      return;
+    };
+    let ids = that.globalData.formIds;
+    ids.push({
+      timeStamp,
+      token:formId,
+    })
+    that.globalData.formIds = ids;
+    //提交订单
+    that.submit();
+  },
+  /**
+   * 提交订单
+   */
+  submit: function () {
+    var that = this;
+    if (that.globalData.formIds.length == 0){
+      wx.showToast({title: '没有formid值，请点击菜单获取',});
+      return;
+    };
+    var params = {
+      "uid": that.globalData.uid,
+      "sid": that.globalData.sid,
+      "tokens": that.globalData.formIds
     }
+    console.log('submit params', params);
+    that.api.postApi('wxapp.php?c=product_v2&a=test_save', {params}, (err, rep) => {
+      console.log('submit ', rep);
+      wx.showToast({ title: rep.err_msg,});
+      if(!err && rep.err_code == 0){
+        that.globalData.formIds = [];
+        that.send();
+      }
+    });
+  },
+  send: function (e) {
+    var that = this;
+    var params = {
+      "uid": that.globalData.uid,
+      "sid": that.globalData.sid,
+    };
+    console.log('send ',params);
+    that.api.postApi('wxapp.php?c=product_v2&a=test_send', { params } , (err, rep) => {
+      wx.showToast({ title: rep.err_msg, });
+    })
   },
   store_id:6, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购
 })
+
 
 

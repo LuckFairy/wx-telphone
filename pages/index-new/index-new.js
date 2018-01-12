@@ -40,7 +40,15 @@ Page({
       storeId: store_Id.shopid,
       iconOne:[],
   },
-
+  sub(e){
+    app.pushId(e);
+  },
+  submit(){
+    app.submit();
+  },
+  send(){
+    app.send();
+  },
   /**
    * 生命周期函数--监听页面加载
    */

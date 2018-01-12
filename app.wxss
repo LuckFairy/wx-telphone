@@ -326,3 +326,13 @@ no-border {
 .modal-secondText-erwei{
   margin-top: 20rpx;
 }
+/*表单样式  */
+.sub-button{
+  position: absolute;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  width: 100;
+  height: 100%;
+  opacity: 0;
+}

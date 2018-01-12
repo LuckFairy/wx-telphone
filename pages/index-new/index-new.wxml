@@ -23,56 +23,70 @@
   </view>
   <!--信息提示区域结束  -->
   <!--列表选项区域  -->
+  <form bindsubmit='sub' report-submit='true'>
   <view class='list-select-area'>
 
     <view class="list-select-area-top">
     
-      <view class='select-list' bindtap="clickGo" data-destination="1">
+      <view class='select-list' bindtap="clickGo"  data-destination="1">
         <image class='select-list-image' src='../../image/new-text1.png' data-destination="1"></image>
         <text class='select-list-text' data-destination="1">新品试用</text>
+         <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
 
-      <view class='select-list' bindtap="clickGo" data-destination="2">
+      <view class='select-list' bindtap="clickGo"  data-destination="2">
         <image class='select-list-image' src='../../image/yiya-yanxuan.png' data-destination="2"></image>
         <text class='select-list-text' data-destination="2">中亿严选</text>
+        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGo" data-destination="3">
         <image class='select-list-image' src='../../image/lotto-area.png' data-destination="3"></image>
         <text class='select-list-text' data-destination="3">抽奖专区</text>
+        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGo" data-destination="4">
         <image class='select-list-image' src='../../image/infant-mom.png' data-destination="4"></image>
         <text class='select-list-text' data-destination="4">母婴服务</text>
+        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list'  data-destination="5" bindtap='clickGo'>
         <image class='select-list-image' src='../../image/shop-promotion1.png' data-destination="5"></image>
         <text class='select-list-text' data-destination="5">门店促销</text>
+        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
     </view>
+    
 
     <view class="list-select-area-bottom">
       <view class='select-list' bindtap="clickGoCategory" data-index = '0' data-cat-id='{{cat_list[0].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[0].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[0].cat_name}}</text>
+        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '1' data-cat-id='{{cat_list[1].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[1].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[1].cat_name}}</text>
+        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '2' data-cat-id='{{cat_list[2].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[2].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[2].cat_name}}</text>
+        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '3' data-cat-id='{{cat_list[3].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[3].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[3].cat_name}}</text>
+        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '4' data-cat-id='{{cat_list[4].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[4].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[4].cat_name}}</text>
+        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
     </view>
   </view>
+  
+  </form>
   <!--列表选项区域结束  -->
   <!-- 卡包选项区开始 -->
   <view class='card' bindtap='goCardLists'>
