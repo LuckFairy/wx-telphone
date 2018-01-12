@@ -70,6 +70,7 @@ App({
       token:formId,
     })
     that.globalData.formIds = ids;
+    console.log('formIds......', formId);
     //提交订单
     that.submit();
   },
@@ -93,7 +94,7 @@ App({
       wx.showToast({ title: rep.err_msg,});
       if(!err && rep.err_code == 0){
         that.globalData.formIds = [];
-        that.send();
+        //that.send();
       }
     });
   },

@@ -1,5 +1,6 @@
 <scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
     <view class='wrap'>
+    
 <!--头图  -->
   <!--未拿到数据前的默认图  -->
     <swiper wx:if='{{showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
@@ -25,34 +26,31 @@
   <!--列表选项区域  -->
   <form bindsubmit='sub' report-submit='true'>
   <view class='list-select-area'>
-
     <view class="list-select-area-top">
-    
       <view class='select-list' bindtap="clickGo"  data-destination="1">
         <image class='select-list-image' src='../../image/new-text1.png' data-destination="1"></image>
         <text class='select-list-text' data-destination="1">新品试用</text>
-         <button form-type='submit' class='sub-button'>按钮1</button>
+         <button form-type='submit' class='sub-button' data-destination="1">按钮1</button>
       </view>
-
       <view class='select-list' bindtap="clickGo"  data-destination="2">
         <image class='select-list-image' src='../../image/yiya-yanxuan.png' data-destination="2"></image>
         <text class='select-list-text' data-destination="2">中亿严选</text>
-        <button form-type='submit' class='sub-button'>按钮1</button>
+        <button form-type='submit' class='sub-button' data-destination="2">按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGo" data-destination="3">
         <image class='select-list-image' src='../../image/lotto-area.png' data-destination="3"></image>
         <text class='select-list-text' data-destination="3">抽奖专区</text>
-        <button form-type='submit' class='sub-button'>按钮1</button>
+        <button form-type='submit' class='sub-button' data-destination="3">按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGo" data-destination="4">
         <image class='select-list-image' src='../../image/infant-mom.png' data-destination="4"></image>
         <text class='select-list-text' data-destination="4">母婴服务</text>
-        <button form-type='submit' class='sub-button'>按钮1</button>
+        <button form-type='submit' class='sub-button' data-destination="4">按钮1</button>
       </view>
       <view class='select-list'  data-destination="5" bindtap='clickGo'>
         <image class='select-list-image' src='../../image/shop-promotion1.png' data-destination="5"></image>
         <text class='select-list-text' data-destination="5">门店促销</text>
-        <button form-type='submit' class='sub-button'>按钮1</button>
+        <button form-type='submit' class='sub-button' data-destination="5">按钮1</button>
       </view>
     </view>
     
@@ -85,6 +83,7 @@
       </view>
     </view>
   </view>
+  
   
   </form>
   <!--列表选项区域结束  -->

@@ -262,8 +262,8 @@ Page({
 
   //点击事件cdd
   clickGo: function (e) {
-   
     var destination = e.target.dataset.destination;
+    console.log('destination', destination);
     if (destination == 0) {
       //优惠券 /门店促销
       var url = '../activity/category-1';

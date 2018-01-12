@@ -230,7 +230,7 @@
         <!-- 减号 -->
         <text class="ste-reduce" bindtap="bindMinus" data-actions='{{action}}'>-</text>
         <!-- 数值 -->
-        <input class='ste-input-num' type="number" bindchange="bindManual" value="{{shopNum}}" />
+        <input class='ste-input-num' type="number" disabled='true' bindchange="bindManual" value="{{shopNum}}" />
         <!-- 加号 -->
         <text class="normal ste-add" bindtap="bindPlus" data-actions='{{action}}'>+</text>
       </view>
