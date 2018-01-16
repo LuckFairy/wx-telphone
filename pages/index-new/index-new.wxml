@@ -1,11 +1,12 @@
 <scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
     <view class='wrap'>
-    
 <!--头图  -->
   <!--未拿到数据前的默认图  -->
-    <swiper wx:if='{{showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
+    <swiper wx:if='{{showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#fff' interval='3000' circular='true'>
         <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
-        <view class='header-image'></view>
+        <view class='header-image'>
+          <image src='https://saas.qutego.com/upload/wxapp/banner/index.jpg' mode='aspectFit' lazyLoad="true"></image>
+        </view>
            
         </swiper-item>
     </swiper>
@@ -13,7 +14,7 @@
     <swiper wx:if='{{!showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
       <block wx:for='{{dataImg}}' wx:key="{{index}}">
         <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
-          <image class='header-image' mode='widthFix' src='{{item.pic}}' data-destination="0" />
+          <image class='header-image' mode='widthFix' lazyLoad="true" src='{{item.pic}}' data-destination="0" />
         </swiper-item>
       </block>
     </swiper>
@@ -24,68 +25,56 @@
   </view>
   <!--信息提示区域结束  -->
   <!--列表选项区域  -->
-  <form bindsubmit='sub' report-submit='true'>
   <view class='list-select-area'>
+
     <view class="list-select-area-top">
-      <view class='select-list' bindtap="clickGo"  data-destination="1">
+    
+      <view class='select-list' bindtap="clickGo" data-destination="1">
         <image class='select-list-image' src='../../image/new-text1.png' data-destination="1"></image>
         <text class='select-list-text' data-destination="1">新品试用</text>
-         <button form-type='submit' class='sub-button' data-destination="1">按钮1</button>
       </view>
-      <view class='select-list' bindtap="clickGo"  data-destination="2">
+
+      <view class='select-list' bindtap="clickGo" data-destination="2">
         <image class='select-list-image' src='../../image/yiya-yanxuan.png' data-destination="2"></image>
         <text class='select-list-text' data-destination="2">中亿严选</text>
-        <button form-type='submit' class='sub-button' data-destination="2">按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGo" data-destination="3">
         <image class='select-list-image' src='../../image/lotto-area.png' data-destination="3"></image>
         <text class='select-list-text' data-destination="3">抽奖专区</text>
-        <button form-type='submit' class='sub-button' data-destination="3">按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGo" data-destination="4">
         <image class='select-list-image' src='../../image/infant-mom.png' data-destination="4"></image>
         <text class='select-list-text' data-destination="4">母婴服务</text>
-        <button form-type='submit' class='sub-button' data-destination="4">按钮1</button>
       </view>
       <view class='select-list'  data-destination="5" bindtap='clickGo'>
         <image class='select-list-image' src='../../image/shop-promotion1.png' data-destination="5"></image>
         <text class='select-list-text' data-destination="5">门店促销</text>
-        <button form-type='submit' class='sub-button' data-destination="5">按钮1</button>
       </view>
     </view>
-    
 
     <view class="list-select-area-bottom">
       <view class='select-list' bindtap="clickGoCategory" data-index = '0' data-cat-id='{{cat_list[0].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[0].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[0].cat_name}}</text>
-        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '1' data-cat-id='{{cat_list[1].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[1].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[1].cat_name}}</text>
-        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '2' data-cat-id='{{cat_list[2].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[2].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[2].cat_name}}</text>
-        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '3' data-cat-id='{{cat_list[3].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[3].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[3].cat_name}}</text>
-        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
       <view class='select-list' bindtap="clickGoCategory" data-index = '4' data-cat-id='{{cat_list[4].cat_id}}'>
         <image class='select-list-image' src='{{cat_list[4].cat_pic}}'></image>
         <text class='select-list-text'>{{cat_list[4].cat_name}}</text>
-        <button form-type='submit' class='sub-button'>按钮1</button>
       </view>
     </view>
   </view>
-  
-  
-  </form>
   <!--列表选项区域结束  -->
   <!-- 卡包选项区开始 -->
   <view class='card' bindtap='goCardLists'>
@@ -177,7 +166,7 @@
       <view class='baokuan-recommend'> 
         
             <view class='baokuan-recommend-image baokuan-image-1' bindtap='clickGoBaoKuan' data-categoryid='100'>
-              <!-- <image class='baokuan-image baokuan-image-1' src='../../image/index_99.png'></image> -->
+               <image class='baokuan-image baokuan-image-1' src='{{indexImage[0].image}}' lazyLoad="true"></image> 
             </view>
       </view> 
    
@@ -190,10 +179,14 @@
         <view class='pinduoduo-content '>
             <view class='pinduoduo-content-list' wx:for="{{baoKuanData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
                 <image class='pinduoduo-content-image' mode='{{mode}}' lazy-load='{{lazyLoad}}' src='{{item.image}}' ></image>
-                <text class='pinduoduo-content-title'  >{{item.name}}</text>
+                <text class='pinduoduo-content-title'>{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
-                  <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
-                  <text class='pinduoduo-already' >已售{{item.count}}件</text>
+                  <text class='pinduoduo-content-current'>￥{{item.price}}</text>
+                  <text class='pinduoduo-already' >￥{{item.original_price}}</text>
+                </view>
+                <view class='pinduoduo-content-price'>
+                  <text class='inherit'>已售</text>
+                  <text class='pinduoduo-red'>{{item.count}} 件</text>
                 </view>
             </view>
             
@@ -208,7 +201,7 @@
     <view class='festival-recommend'> 
      
         <view class='baokuan-recommend-image baokuan-image-2' bindtap='clickGoHotSale' data-categoryid='101'>
-          <!-- <image class='baokuan-image baokuan-image-2' src='../../image/index_hotsale.png'></image> -->
+           <image class='baokuan-image baokuan-image-2' src='{{indexImage[1].image}}' lazyLoad="true"></image> 
         </view>
     
 
@@ -225,7 +218,11 @@
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
                   <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
-                  <text class='pinduoduo-already' >已售{{item.count}}件</text>
+                  <text class='pinduoduo-already' >￥{{item.original_price}}</text>
+                </view>
+                <view class='pinduoduo-content-price' >
+                <text class='inherit'>已售</text>
+                  <text class='pinduoduo-red'>{{item.count}} 件</text>
                 </view>
             </view>
             
@@ -241,7 +238,7 @@
     <view class='festival-recommend'> 
     
         <view class='baokuan-recommend-image baokuan-image-3' bindtap='clickGoFestival' data-categoryid='105'>
-          <!-- <image class='baokuan-image baokuan-image-3' src='../../image/index_select.png'></image> -->
+           <image class='baokuan-image baokuan-image-3' src='{{indexImage[2].image}}'></image> 
         </view>
     
 
@@ -256,9 +253,13 @@
             <view class='pinduoduo-content-list' wx:for="{{festivalData}}" wx:key="{{index}}" bindtap="clickGoHotProduct" data-prodId="{{item.product_id}}" data-cateId="100" >
                 <image class='pinduoduo-content-image' mode='{{mode}}' lazy-load='{{lazyLoad}}' src='{{item.image}}' ></image>
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
-                <view class='pinduoduo-content-price' >
+               <view class='pinduoduo-content-price' >
                   <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
-                  <text class='pinduoduo-already' >已售{{item.count}}件</text>
+                  <text class='pinduoduo-already' >￥{{item.original_price}}</text>
+                </view>
+                <view class='pinduoduo-content-price' >
+                  <text class='inherit'>已售</text>
+                  <text class='pinduoduo-red'> {{item.count}} 件</text>
                 </view>
             </view>
             
@@ -274,10 +275,8 @@
     <view class='festival-recommend'> 
     
         <view class='baokuan-recommend-image baokuan-image-4' bindtap='clickGoGoods' data-categoryid='102'>
-          <!-- <image class='baokuan-image' src='../../image/index_goods.png'></image> -->
+           <image class='baokuan-image' src='{{indexImage[3].image}}'></image> 
         </view>
-    
-
   </view> 
   <!--内容结束  -->
    </view>  
@@ -291,7 +290,11 @@
                 <text class='pinduoduo-content-title'  >{{item.name}}</text>
                 <view class='pinduoduo-content-price' >
                   <text class='pinduoduo-content-current'  >￥{{item.price}}</text>
-                  <text class='pinduoduo-already' >已售{{item.count}}件</text>
+                  <text class='pinduoduo-already' >￥{{item.original_price}}</text>
+                </view>
+                <view class='pinduoduo-content-price' >
+                <text class='inherit'>已售</text>
+                  <text class='pinduoduo-red'>{{item.count}} 件</text>
                 </view>
             </view>
             
@@ -372,8 +375,53 @@
   </view>
   <!--热门推荐结束  -->
 </view>
+ <!-- <view>
+ <navigator url="/pages/test/index" hover-class="navigator-hover">跳转test页面</navigator>  
+</view>  -->
 </scroll-view>
 
 <!--返回顶部按钮开始  -->
 <image wx:if="{{goTop_show}}" bindtap="goTopFun" class='yiya-top-image' src='../../image/go-to-top.png'></image>
 <!--返回顶部按钮结束  -->
+
+<!-- ************* 首页新用户领券的弹出框 **************-->
+<!--
+		券列表
+    两个按钮
+-->
+<!-- 
+	couponCancel:  点击取消按钮
+  couponConfirm: 点击确认按钮
+ -->
+
+	<view wx:if="{{showModel}}" bindtap="getCoupon" class="overlay" >
+		<view class="overlay-content getCoupon-content">
+			<view class="getCoupon-title">
+				<text class="modal-firstText">新用户专享券</text>
+			</view>
+      <view class='couponlist-wrap'>
+        <block wx:if="{{couponList.length > 0}}" wx:for="{{couponList}}">
+        <view class='couponlist-item' bindtap='getItem'>
+        <view class='coupon-list-item-left'>
+          <text class='list-title'>中意见面礼</text>
+          <text class='list-time'>有效期到2011-5-22</text>
+        </view>
+          <view class='coupon-list-item-right'>
+              <view class='list-up'>
+              ￥ 
+               <text class='big'>5</text>
+              </view>
+              <view>
+                <button>抵扣券</button>
+              </view>
+          </view>
+        </view>
+</block>
+
+      </view>
+			<view class="getcoupon-bottom-button-wrap">
+          <button class='couponConfirm' bindtap='getItem'>立即领取</button>
+			</view>
+      <icon class='couponCancel' catchtap='cancelCoupon' type='cancel' size='30' color='#fff'></icon>
+		</view>
+	</view>

@@ -210,7 +210,7 @@ Page({
       title: '加载中'
     })
     var params = {
-      "uid": 91,
+      "uid": this.data.uid,
       "page ": 1,
       "store_id": this.data.storeId
     };
@@ -581,8 +581,8 @@ Page({
     //let addressId = 47;
     let payType = this.data.payType;
     let is_app = this.data.is_app;
-    //let postage_list = this.data.postage_list;
-    let postage_list = "a:1:{i:6;d:0;}";
+    let postage_list = this.data.postage_list;
+    //let postage_list = "a:1:{i:6;d:0;}";
     let uid = this.data.uid;
     let store_id = this.data.storeId;
     let user_coupon_id = this.data.user_coupon_id;
@@ -600,21 +600,32 @@ Page({
       user_coupon_id: 0,
     }
     //console.log('支付的请求参数=', params);return;
+    wx.showLoading({ title: '请稍候...', mask: true, });
     app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
-      console.log(resp, 344444)
+      //console.log(resp, 344444)
       var data = resp.err_msg;
-      console.log(data);
+      //console.log(data);
       // 调起微信支付
-      if (resp.err_dom) {
-        console.log('不需要支付');
-        wx.navigateTo({
-          url: './my-order?goodsindex=' + 2
-        })
+      if (resp.err_code != 0) {
+        //console.log('不能支付，原因是：', data)
+        wx.showModal({
+          title: '支付失败',
+          content: data,
+          confirmText: '好的',
+        });
       } else {
-        console.log('需要支付');
         // 调起微信支付
-        this._startPay(data);
+        if (resp.err_dom) {
+          //console.log('不需要支付');
+          wx.navigateTo({
+            url: './my-order?goodsindex=' + 2
+          })
+        } else {
+          //console.log('需要支付');
+          // 调起微信支付
+          this._startPay(data);
+        }
       }
     });
 

@@ -20,6 +20,7 @@ var Api = {
       wx.getUserInfo({
         success: (resp) => {
           console.log('wx.getUserInfo()获取用户信息成功!',resp);
+
           console.log(resp.userInfo,"111111111111111")
           let {userInfo, rawData, signature, encryptedData, iv} = resp;
               //let {userInfo} = resp;
@@ -27,7 +28,6 @@ var Api = {
           // 进入第3步
               //_doSignin(jscode, userInfo);
               _doSignin(jscode, rawData, encryptedData, iv, userInfo);
-              
           },
         fail: (resp) => {
               let autTip = '您已拒绝小程序程序授权，请删除小程序后重新进入，并在提示授权时，点击“允许”按钮。';
@@ -100,7 +100,7 @@ var Api = {
     }
     /* 4、登录成功，保存tokenId, secretKey*/
     function _onSignin(data) {
-      app.hasSignin = true; 
+      getApp().hasSignin = true;
     }
     /*尝试再次登录*/
     function _tryAgain(err) {
@@ -114,8 +114,6 @@ var Api = {
       console.log('正在尝试第 %d 次登录...', (4 - tryTimes));
       that.signin(callback, tryTimes);
     }
-    
   },
-  
 };
 module.exports = {Api};

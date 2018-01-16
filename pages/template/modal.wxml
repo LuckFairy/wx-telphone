@@ -10,16 +10,19 @@
 -->
 <!-- 
 	tabConfirm: 点击按钮
-	
+	tabCancel:取消按钮
  -->
 <template name="text-comfirm-modal">
-	<view data-id="{{id}}" bindtap="tabModal" class="overlay">
+	<view data-id="{{id}}" bindtap="tabCancel" class="overlay">
 		<view class="overlay-content">
 			<view class="overlay-body sp-border">
 				<text wx:if="{{firstText}}" class="modal-firstText">{{firstText}}</text>
 				<text wx:if="{{secondText}}" class="modal-secondText">{{secondText}}</text>
 			</view>
-			<Text data-id="{{id}}" bindtap="tabConfirm" class="overlay-bottom-button">{{confirmText}}</Text>
+      <view>
+			  <Text wx:if="{{cancelText}}" data-id="{{id}}" bindtap="tabCancel"  class="overlay-bottom-button" style="border-right:1px solid #eee;">{{cancelText}}</Text>
+			  <Text wx:if="{{confirmText}}" data-id="{{id}}" bindtap="tabConfirm"  class="overlay-bottom-button">{{confirmText}}</Text>
+      </view>
 		</view>
 	</view>
 </template>
@@ -151,3 +154,4 @@
 		</view>
 	</view>
 </template>
+

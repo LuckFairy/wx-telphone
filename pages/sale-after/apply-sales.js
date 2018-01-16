@@ -13,7 +13,9 @@ Page({
     rtnCode:'',
     showHide:true
   },
-
+  calling(){
+    app.calling();
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -92,7 +94,7 @@ Page({
           console.log("提交申请之后", resp);
           wx.showModal({
             title: '提交申请成功',
-            content: '加客服微信可加快处理速度哦',
+            content: '拨打客服电话可加快处理速度哦',
             success: function (res) {
               if (res.confirm) {
                 that.setData({

@@ -57,11 +57,9 @@ Page({
     coupon_list:[],//线上优惠券数组
     showList:false,//是否显示优惠券列表
     price:[],      //所有价格列表
-
     choPrice:'',//单品价格
     choQuantity:'',//单品库存
     tabCheck:false,//多属性是否选中
-
   },
   goStoreServer() {
     wx.navigateTo({
@@ -88,10 +86,8 @@ Page({
     var uid = e.currentTarget.dataset.uid;
     var storeId = e.currentTarget.dataset.storeId;
     var skuid_list = that.data.skuid_list;
-
     //var the_length = that.data.property_list.length;
     console.log(skuid_list,'skuid_listddddddddddddd')
-
     if (skuid_list.length > 0) {
       if (!skuId) {
         wx.showLoading({
@@ -328,39 +324,7 @@ Page({
       uid,
       store_id
     }
-
     that.loadCartInfo(params);
-
-    // wx.showLoading({
-    //   title: '加载中'
-    // })
-    // app.api.postApi('wxapp.php?c=cart&a=info', { params }, (err, resp) => {
-    //   wx.hideLoading();
-    //   console.log(resp, 666666666)
-    //   var activity_err_msg = resp.err_msg.product;
-    //   var property_list = resp.err_msg.property_list;
-    //   var sku_list = resp.err_msg.sku_list;
-    //   if (sku_list && sku_list.length > 0) {
-    //     for (var i = 0; i < sku_list.length; i++) {
-    //       console.log(sku_list[i].properties);
-    //       console.log(sku_list[i].quantity);
-    //       console.log(sku_list[i].properties.split(';'));//分割多属性字符串
-    //       multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
-    //       quantitys.push(sku_list[i].quantity);//所有可能库存情况
-    //       skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
-    //       price.push(sku_list[i].price);
-    //     }
-    //   }
-    //   console.log(multiattribute, 'multiattribute');
-    //   that.setData({
-    //     activity_err_msg,
-    //     property_list,
-    //     multiattribute,
-    //     quantitys,
-    //     sku_list
-    //   });
-    // });
-
   },
   goImageClose() {
     var that = this;
@@ -622,9 +586,6 @@ Page({
     var quantitys = that.data.quantitys;
     var oneMatching = that.data.oneMatching;
     var skuid_list = that.data.skuid_list;
-
-    console.log(skuid_list,'sku_id的情况点点滴滴')
-
     var price = that.data.price;
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
@@ -649,40 +610,7 @@ Page({
       uid,
       store_id
     }
-
     that.loadCartInfo(params);
-
-    // wx.showLoading({
-    //   title: '加载中'
-    // })
-    // app.api.postApi('wxapp.php?c=cart&a=info', { params }, (err, resp) => {
-    //   wx.hideLoading();
-    //   console.log(resp, 666666666)
-    //   var activity_err_msg = resp.err_msg.product;
-    //   var property_list = resp.err_msg.property_list;
-    //   var sku_list = resp.err_msg.sku_list;
-    //   if (sku_list && sku_list.length > 0) {
-    //     for (var i = 0; i < sku_list.length; i++) {
-    //       console.log(sku_list[i].properties);
-    //       console.log(sku_list[i].quantity);
-    //       console.log(sku_list[i].properties.split(';'));//分割多属性字符串
-    //       multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
-    //       quantitys.push(sku_list[i].quantity);//所有可能库存情况
-    //       skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
-    //       console.log(skuid_list,'skuid_list所有sku_id的情况')
-    //       price.push(sku_list[i].price);//s所有价格情况
-    //     }
-    //   }
-    //   console.log(multiattribute, 'multiattribute');
-    //   that.setData({
-    //     activity_err_msg,
-    //     property_list,
-    //     multiattribute,
-    //     quantitys,
-    //     sku_list
-    //   });
-    // });
-
   },
   chooseProperty(e) {
     console.log('e', e)

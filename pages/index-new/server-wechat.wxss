@@ -22,6 +22,7 @@ page{
   margin-top: 34rpx;
 }
 .server-text{
+  display: inherit;
   font-size: 30rpx;
   color: #1b1b1b;
   text-align: center;

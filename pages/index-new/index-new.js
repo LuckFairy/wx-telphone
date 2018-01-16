@@ -1,9 +1,9 @@
-// pages/index-new/index-new.js 
+       // pages/index-new/index-new.js 
 const log = "index.js --- ";
 import { getUrlQueryParam } from '../../utils/util';
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
-var app = getApp();
+let app = getApp();
 var checkTimer = null;     // 若还没登录，启用定时器
 // import { Api } from '../../utils/api_2';
 Page({
@@ -33,21 +33,57 @@ Page({
       dataImg:[],
       showhide:true,
       cat_list:'',
-      shopId: store_Id.shopid,//店铺id
+      shopId: app.shopid,//店铺id
       //2017年12月21日18:50:42 by leo
       card_num:0,
-      uid:'',
-      storeId: store_Id.shopid,
+      uid:null,//用户id
+      storeId: app.store_id,
       iconOne:[],
+      indexImage:null,//4个大图图片列表
+      showModel:false,//是否显示弹窗模板
+      couponList:[1,2,3,4,5],//专用券列表
   },
-  sub(e){
-    app.pushId(e);
+  /*
+  *首次打开小程序事件
+  *
+  */
+  firstOpen() {
+    //wx.removeStorageSync('hasFirst');
+    var that = this;
+    if(that.data.uid){//用户登录成功
+      var hasFirst = wx.getStorageSync('hasFirst');
+      if (hasFirst) {
+        wx.setStorageSync('hasFirst', 'true');
+      } else {
+       //显示弹窗
+        that.setData({ showModel:true});
+        wx.setStorageSync('hasFirst', 'true');
+      }
+    }
+    
   },
-  submit(){
-    app.submit();
+  /**
+   * 新用户领券
+   */
+  getCoupon(){
+    this.setData({ showModel:false});
+    wx.showModal({
+      title: '恭喜',
+      content: '刚领取的所有券已放到“我的——卡包”',
+      cancelText:'我知道了',
+      confirmText:'去查看',
+      success: function (res) {
+        if (res.confirm) {
+          wx.navigateTo({ url: '../card/mycard' });
+        } else if (res.cancel) {
+          
+        }
+      }
+    })
+    
   },
-  send(){
-    app.send();
+  cancelCoupon(){
+    this.setData({showModel:false})
   },
   /**
    * 生命周期函数--监听页面加载
@@ -60,8 +96,9 @@ Page({
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
-    console.log(uid,'用户uid')
     this.setData({ uid});
+    /******首页弹窗 */
+    //this.firstOpen();
     // 获取宝宝5个tab的数据
     app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
       wx.hideLoading();
@@ -81,7 +118,17 @@ Page({
     //     })
     //    }
     // })
-
+    //indexImage获取
+    var params = {
+     "store_id": app.store_id
+    }
+    app.api.postApi('wxapp.php?c=index&a=get_image', {params},(err,rep) => {
+      if(!err && rep.err_code==0){
+        this.setData({
+          indexImage:rep.err_msg.icon_list
+        })
+      }
+    })
     //this.loadGroupData();
     //this.loadHotData();
     this.loadBaoKuanData();
@@ -262,8 +309,8 @@ Page({
 
   //点击事件cdd
   clickGo: function (e) {
+   
     var destination = e.target.dataset.destination;
-    console.log('destination', destination);
     if (destination == 0) {
       //优惠券 /门店促销
       var url = '../activity/category-1';
@@ -284,7 +331,7 @@ Page({
       var url = './shop-promotion';
     } else {
       //单独购买
-      var url = './index-baokuan';
+      var url = '../activity/hotsale';
     }
     console.log('url',url)
     if(url){

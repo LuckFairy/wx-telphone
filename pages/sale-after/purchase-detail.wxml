@@ -52,8 +52,8 @@
     <text class='server-feedback-detail'>{{statustxt}}</text>
   </view>
   <view class='server-feedback'>
-    <text class='server-feedback-title-two'>客服微信：</text>
-    <text class='server-feedback-title-two' selectable='true'>yzkf139</text>
+    <text class='server-feedback-title-two'>客服电话：</text>
+    <text class='server-feedback-title-two' catchtap='calling'  class='calling'>400-6088-520</text>
     <text class='server-feedback-detail'>微信号长按可复制</text>
   </view>
 </view>

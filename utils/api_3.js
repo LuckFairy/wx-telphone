@@ -22,6 +22,7 @@ var Network = {
     })
   },
   postApi(url, params, header, callback) {
+ 
     url = SERVER_URL + url;
     wx.request({
       url,
@@ -60,8 +61,7 @@ var Api = {
     Network.postApi(url, params, header, callback);
   }
   
-};
-
+}
 
 // module.exports.Api = Api;
 module.exports = { Api, Network};

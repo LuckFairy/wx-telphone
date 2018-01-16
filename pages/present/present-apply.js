@@ -146,35 +146,6 @@ Page({
       }
       question.push({ "qid":name,"value":value});
     }
-    
-    console.log("question ",question)
-   
-    // question = question.splice(-2, 2);
-    
-    // let post = {};
-    // let option = '';
-    // console.log('submit',submit,'question',question);
-    
-    // let {fullname, telephone} = submit;
-    // let [name, phone] = [fullname.trim(), telephone.trim()];
-    // if(!name) {
-    //   return this.submitError({image: '../../image/error.png', title: '请输入姓名'});
-    // } 
-    // if (!util.checkMobile(phone)) {
-    //   return this.submitError({image: '../../image/error.png', title: '请输入正确的手机号码'});
-    // }
-    
-    // for(let i in submit) {
-    //   if(+i >= 0) {
-    //     post[`option[${i}]`] = submit[i] + '';
-    //   } else {
-    //     post[i] = submit[i];
-    //   }
-    // }
-    // post['fullname'] = name;
-    // post['telephone'] = phone;
-    // post['skuid'] = skuid;
-    //return;
     /**
      * 开始请求
      */
