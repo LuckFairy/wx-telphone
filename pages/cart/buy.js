@@ -430,6 +430,7 @@ submitOrder: function (event) {
       });
     } else {
       // 调起微信支付
+
       if (resp.err_dom) {
         //console.log('不需要支付');
         wx.navigateTo({
@@ -443,6 +444,7 @@ submitOrder: function (event) {
     }
   });
 },
+
 
 /**
  * 调起微信支付
