@@ -134,7 +134,6 @@ page {
 }
 .apply-applications-wechat{
   display: flex;
-  font-size: 0rpx;
   justify-content: center;
   padding-top: 34rpx;
 }
@@ -142,6 +141,7 @@ page {
   font-size: 30rpx;
   color: #999999;
 }
+.calling{font-size: 30rpx;}
 .apply-applications-copy{
   padding-top: 12rpx;
   width: 750rpx;

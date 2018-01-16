@@ -25,7 +25,7 @@ Page({
     ex_image: '',
     use_image: '',
     showHide: true,
-    typeText: '线下券',
+    typeText: '门店券',
     category: 3,
     selectCardone: 0,
     selectCardtwo: 0,

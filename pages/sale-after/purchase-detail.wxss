@@ -51,3 +51,4 @@ page{
   display: block;
   padding-top: 26rpx;
 }
+.calling{font-size: 28rpx;}

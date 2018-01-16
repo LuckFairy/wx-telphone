@@ -41,7 +41,7 @@
 	<view data-id="{{id}}" bindtap="tabModal" class="overlay">
 		<view class="overlay-content">
 			<view class="overlay-body">
-				<image wx:if="{{image}}" class="modal-image" src="{{image? image:'../../image/error.png'}}" mode="widthFix" />
+				<image  class="modal-image" src="{{image? image:'../../image/error.png'}}" mode="widthFix" />
 				<text wx:if="{{title}}" class="modal-secondText">{{title}}</text>
 			</view>
 		</view>
@@ -67,7 +67,7 @@
         <image class='mode-right-image' src='../../image/order-success-close.png' ></image>
       </view>
 			<view class="overlay-body">
-				<image wx:if="{{image}}" class="modal-image-erwei" src="{{image? image:'../../image/error.png'}}" mode="aspectFit" />
+				<image wx:if="{{image}}" class="modal-image-erwei" src="{{image? image:'../../image/error.png'}}" mode="widthFix" />
 				<text wx:if="{{title}}" class="modal-secondText-erwei">{{title}}</text>
 			</view>
 		</view>

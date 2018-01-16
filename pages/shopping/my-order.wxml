@@ -86,7 +86,7 @@
             <!-- status 1 未支付 2 未发货 3已发货（对应待收货） 4 已完成 、7 已收货（已收货）-->
             <!--新品试用  -->
             <view class='purchase-satus goods-satus' wx:if="{{order.is_trial_product == 1 && order.status == 2 }}">
-              <text class='purchase-status-detail' data-isnewprod='{{order.is_trial_product}}' catchtap='confirmNewGoods'>确认取货</text>
+              <text class='purchase-status-detail' data-isnewprod='{{order.is_trial_product}}' data-qrcode='{{order.trial_product_qrcode}}' catchtap='confirmNewGoods'>确认取货</text>
             </view>
             <!--新品试用  -->
 
@@ -442,7 +442,7 @@
             <block wx:else>
               <!--新品试用  -->
               <view class="purchase-satus goods-satus">
-                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" data-isnewprod="{{order.is_trial_product}}" catchtap="confirmNewGoods">确认取货</text>
+                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" data-qrcode='{{order.trial_product_qrcode}}' data-isnewprod="{{order.is_trial_product}}" catchtap="confirmNewGoods">确认取货</text>
               </view>
             </block>
           </view>

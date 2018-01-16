@@ -30,7 +30,7 @@ var Network = {
       method: 'POST',
       header: header,
       success(res) {
-        typeof callback === 'function' && callback(null, res.data)
+        typeof callback === 'function' && callback(null, res.data, res.statusCode)
         console.log(res.data)
       },
       fail(e) {

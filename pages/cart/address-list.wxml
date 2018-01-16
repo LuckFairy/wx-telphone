@@ -1,4 +1,4 @@
-<!--pages/shopping/address-list.wxml-->
+  <!--pages/shopping/address-list.wxml-->
 <view class="addr-list-view">
   <view wx:for="{{addrList}}" wx:key="{{index}}" class="addr-item-view">
     <view class="navigator" style="flex-direction: column; width: 100%" bindtap="changeAdress">

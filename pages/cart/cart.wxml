@@ -1,4 +1,7 @@
 <!--pages/cart/cart.wxml-->
+<import src="../template/modal.wxml" />
+<template wx:if="{{showErrModal}}" is="text-error-modal" data="{{...errModalConfig}}" />
+
 <import src="../template/count-down.wxml" />
 <view wx:if="{{false}}" class="full-reduce">
   <text class="full-rec-text">满减</text>

@@ -70,9 +70,7 @@
   padding: 24rpx;
   flex-direction: column;
 }
-.form {
 
-}
 .form .numInput {
   padding: 12rpx 18rpx;
   background-color: #f4f4f4;
@@ -145,4 +143,4 @@
 }
 
 
-@import '../template/modal.wxss';
+/* @import '../template/modal.wxss'; */

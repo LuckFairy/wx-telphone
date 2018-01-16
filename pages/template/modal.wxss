@@ -24,6 +24,7 @@
 }
 
 /************** 订单领用新品点击确认取货的弹出框 **************/
+
 .overlay-right {
 	position: absolute;
   right: 30rpx;

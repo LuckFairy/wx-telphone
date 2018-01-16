@@ -4,8 +4,9 @@ import { getUrlQueryParam } from '../../utils/util';
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
 let app = getApp();
+let couponUrl = 'wxapp.php?c=activity&a=new_user_coupon';//领取优惠券接口
 var checkTimer = null;     // 若还没登录，启用定时器
-// import { Api } from '../../utils/api_2';
+
 Page({
   /**
    * 页面的初始数据
@@ -41,25 +42,49 @@ Page({
       iconOne:[],
       indexImage:null,//4个大图图片列表
       showModel:false,//是否显示弹窗模板
-      couponList:[1,2,3,4,5],//专用券列表
+      couponList:[],//专用券列表
   },
   /*
   *首次打开小程序事件
   *
   */
   firstOpen() {
-    //wx.removeStorageSync('hasFirst');
     var that = this;
-    if(that.data.uid){//用户登录成功
-      var hasFirst = wx.getStorageSync('hasFirst');
-      if (hasFirst) {
-        wx.setStorageSync('hasFirst', 'true');
-      } else {
-       //显示弹窗
-        that.setData({ showModel:true});
-        wx.setStorageSync('hasFirst', 'true');
+    var params = {
+      "uid": that.data.uid,
+      "store_id": that.data.storeId,
+      "page": 1
+    };
+    app.api.postApi(couponUrl, { params }, (err, rep, statusCode) => {
+      console.log('优惠券data', rep);
+      if (statusCode!=200){
+        console.log('服务器有错，请联系后台人员');return;
       }
-    }
+      var showModel = that.data.showModel;
+      var couponList = that.data.couponList;
+      if(!err && rep.err_code == 0){
+       showModel= rep.err_msg.is_show==1?true:false;
+        couponList = rep.err_msg.list;
+      }else{
+        showModel = false;
+        wx.showModal({
+          title: '提示',
+          content: err || rep.err_msg,
+        })
+      }
+      that.setData({ showModel, couponList});
+    })
+    //wx.removeStorageSync('hasFirst');
+    // if(that.data.uid){//用户登录成功
+    //   var hasFirst = wx.getStorageSync('hasFirst');
+    //   if (hasFirst) {
+    //     wx.setStorageSync('hasFirst', 'true');
+    //   } else {
+    //    //显示弹窗
+    //     that.setData({ showModel:true});
+    //     wx.setStorageSync('hasFirst', 'true');
+    //   }
+    // }
     
   },
   /**
@@ -83,7 +108,21 @@ Page({
     
   },
   cancelCoupon(){
-    this.setData({showModel:false})
+    var that = this;
+    that.setData({showModel:false})
+    var url = 'wxapp.php?c=activity&a=set_show';
+    var params = {
+      "uid": that.data.uid,
+      "store_id": that.data.storeId,
+    };
+    app.api.postApi(url, { params }, (err, rep, statusCode) => {
+      if (statusCode != 200) {
+        console.log('服务器有错，请联系后台人员'); return;
+      }
+      if (!err && rep.err_code == 0) {
+        console.log("取消成功");
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -98,7 +137,7 @@ Page({
     var uid = wx.getStorageSync('userUid');
     this.setData({ uid});
     /******首页弹窗 */
-    //this.firstOpen();
+    this.firstOpen();
     // 获取宝宝5个tab的数据
     app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
       wx.hideLoading();

@@ -697,8 +697,9 @@ Page({
   /*新品试用，确认取货
   *
   */
-  confirmNewGoods (){
-    this.showModal('err',errModalConfig);
+  confirmNewGoods (e){
+    var trial_product_qrcode = e.currentTarget.dataset.qrcode;
+    this.showModal('err', { image: trial_product_qrcode});
   },
 
   /**

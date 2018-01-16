@@ -6,6 +6,7 @@ Page({
   data:{
     addrList: [],
     uid:'',
+    store_id: app.store_id,
     addressId:'',
     error:false
   },
@@ -22,7 +23,8 @@ Page({
       uid
     })
     var params = {
-      uid
+      uid,
+      store_id: that.data.store_id
     }
     wx.showLoading({
       title: '加载中'

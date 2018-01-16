@@ -58,7 +58,7 @@
   </view>
   <view class="overlay" style="display:{{templateData.showOverlay=='1' ? 'flex;' : 'none;'}}" bindtap="hideOverlay">
     <view class="activity-overlay-tip-view">
-      <image src="../../image/ma_gift_attention.png" mode="widthFix" style="width:100rpx;margin-top:20px;"></image>
+      <image src="../../image/error.png" mode="widthFix" style="width:100rpx;margin-top:20px;"></image>
       <view class="activity-overlay-tip-text-view">{{templateData.overlayText}}</view>
     </view>
   </view>

@@ -48,7 +48,7 @@ Page({
       this.setData({ isDefault: isDefault });
     }
     //==============test end==============
-    this.loadZone();
+    //this.loadZone();
   },
   onReady:function(){
     // 页面渲染完成

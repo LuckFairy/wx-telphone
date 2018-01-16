@@ -1,7 +1,9 @@
 var app = getApp(); 
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
-
+let errModalConfig = {
+  title: '有错误！',
+};
 Page({
   data: {
     hasShop: 0,//购物车数量
@@ -14,7 +16,7 @@ Page({
     total:0,//结算合计金额
     cartSHow:false,//是否显示底部结算
     baokuanList: [], //爆款列表
-
+    showErrModal:false,
   },
   /**
 * 首页爆款专区数据
@@ -205,10 +207,11 @@ Page({
       }
     }
     if (ids === undefined ||ids.length == 0){
-      wx.showToast({
-        title: '请选择要结算的商品！',
-        duration: 2000
-      });
+      that.showModel({ title: "请选择要结算的商品"})
+      // wx.showToast({
+      //   title: '请选择要结算的商品！',
+      //   duration: 2000
+      // });
       return false;
     }
    //ids = '['+ids +']';
@@ -226,7 +229,8 @@ Page({
         wx.navigateTo({ url });
       }else{
         var msg = err || rep.err_msg;
-        that._showError(msg);
+        that.showModel({ title: msg})
+        // that._showError(msg);
       }     
     });
    
@@ -455,5 +459,21 @@ Page({
     wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
     this.setData({ error: errorMsg });
   },
+  /**
+    * 显示模态框
+    */
+  showModel(config) {  // type: success||err
+      errModalConfig = Object.assign(errModalConfig, config);
+      this.setData({
+        errModalConfig: errModalConfig,
+        showErrModal: true
+      });
+  },
 
+  /**
+   * 点击隐藏模态框(错误模态框)
+   */
+  tabModal() {
+    this.setData({ showErrModal: false });
+  },
 })

@@ -394,7 +394,7 @@
   couponConfirm: 点击确认按钮
  -->
 
-	<view wx:if="{{showModel}}" bindtap="getCoupon" class="overlay" >
+	<view wx:if="{{showModel}}" bindtap="cancelCoupon" class="overlay" >
 		<view class="overlay-content getCoupon-content">
 			<view class="getCoupon-title">
 				<text class="modal-firstText">新用户专享券</text>
@@ -403,13 +403,13 @@
         <block wx:if="{{couponList.length > 0}}" wx:for="{{couponList}}">
         <view class='couponlist-item' bindtap='getItem'>
         <view class='coupon-list-item-left'>
-          <text class='list-title'>中意见面礼</text>
-          <text class='list-time'>有效期到2011-5-22</text>
+          <text class='list-title'>{{item.name}}</text>
+          <text class='list-time'>有效期到{{item.end_time_str}}</text>
         </view>
           <view class='coupon-list-item-right'>
               <view class='list-up'>
               ￥ 
-               <text class='big'>5</text>
+               <text class='big'>{{item.face_money}}</text>
               </view>
               <view>
                 <button>抵扣券</button>
@@ -420,7 +420,7 @@
 
       </view>
 			<view class="getcoupon-bottom-button-wrap">
-          <button class='couponConfirm' bindtap='getItem'>立即领取</button>
+          <button class='couponConfirm' catchtap='getCoupon'>立即领取</button>
 			</view>
       <icon class='couponCancel' catchtap='cancelCoupon' type='cancel' size='30' color='#fff'></icon>
 		</view>

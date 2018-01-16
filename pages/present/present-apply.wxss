@@ -1,7 +1,7 @@
 /**present-apply.wxss**/
 
 @import '../template/present-list.wxss';
-@import '../template/modal.wxss';
+
 
 page {
 	background-color: #f2f2f2;
