@@ -123,7 +123,7 @@ App({
       wx.showToast({ title: rep.err_msg, });
     })
   },
-  store_id:63, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购
+  store_id:6, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购
 })
 
 
