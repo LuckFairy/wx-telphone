@@ -44,6 +44,18 @@ Page({
       showModel:false,//是否显示弹窗模板
       couponList:[],//专用券列表
   },
+  /**
+   * 消息推送
+   */
+  sub(e) {
+    app.pushId(e);
+  },
+  submit() {
+    app.submit();
+  },
+  send() {
+    app.send();
+  },
   /*
   *首次打开小程序事件
   *
@@ -137,7 +149,7 @@ Page({
     var uid = wx.getStorageSync('userUid');
     this.setData({ uid});
     /******首页弹窗 */
-    this.firstOpen();
+    // this.firstOpen();
     // 获取宝宝5个tab的数据
     app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
       wx.hideLoading();

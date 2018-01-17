@@ -1,7 +1,7 @@
 
 <!-- 爆款  -->
-<view class='rush-baobao-box'>
     <block wx:if="{{dataList && dataList.length>0}}" >
+<view class='rush-baobao-box'>
     <view wx:for="{{dataList}}"  wx:key="{{item}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='100' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
@@ -19,6 +19,7 @@
       </view>
     </view>
     </view>
+</view>
   </block>
   <block wx:else>
   <view class='no-data'>
@@ -26,4 +27,3 @@
     <view class='no-data-txt'>暂无内容</view>
   </view>
   </block>
-</view>

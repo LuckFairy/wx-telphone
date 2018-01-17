@@ -4,7 +4,9 @@
 /* 定义全局样式变量 */
 
 /* 缺省字体颜色 */
-
+page{
+  background-color: #eee;
+}
 view {
     display: flex;
     position: relative;
@@ -328,4 +330,14 @@ no-border {
 .calling{
   color: blue;
   text-decoration: underline;
+}
+/*表单样式  */
+.sub-button{
+  position: absolute;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  width: 100;
+  height: 100%;
+  opacity: 0;
 }
