@@ -435,3 +435,5 @@
     <icon class='couponCancel' catchtap='cancelCoupon' type='cancel' size='30' color='#fff'></icon>
   </view>
 </view>
+
+

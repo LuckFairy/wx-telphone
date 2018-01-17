@@ -1,0 +1,4 @@
+<view>
+<button catchtap='saoma'>扫码</button>
+<button catchtap='dingwei'>定位</button>
+</view>
