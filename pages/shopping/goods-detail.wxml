@@ -82,7 +82,7 @@
 </view>
 
 <!--按钮  -->
-<block wx:if="{{action =='present'}}">
+<block wx:if="{{action =='present' && product.quantity > 1}}">
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
       <image class='invite-index-image' src='../../image/go-index.png'></image>

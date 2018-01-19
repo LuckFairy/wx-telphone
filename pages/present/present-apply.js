@@ -163,6 +163,7 @@ Page({
         "store_id": that.data.store_id
       }
     } ,(err,rep) => {
+        wx.hideLoading();
         if(!err && rep.err_code == 0){
           var order_no = rep.err_msg.order_no;
           var params = {
@@ -172,6 +173,8 @@ Page({
           };
          that.submitData(params);
    
+        }else{
+          this.submitError({ image: '../../image/error.png', title: rep.err_msg });
         }
     })
     

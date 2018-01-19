@@ -62,13 +62,16 @@ Page({
   *
   */
   firstOpen() {
+    wx.showLoading({});
     var that = this;
     var params = {
       "uid": that.data.uid,
       "store_id": that.data.storeId,
       "page": 1
     };
+
     app.api.postApi(couponUrl, { params }, (err, rep, statusCode) => {
+      wx.hideLoading();
       console.log('优惠券data', rep);
       if (statusCode != 200) {
         console.log('服务器有错，请联系后台人员'); return;
