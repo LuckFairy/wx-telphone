@@ -8,7 +8,8 @@
 
 <view class="swiper-main-container">
   <!-- 头部导航条 -->
-  <view class="nav-header-view normalText" wx:if='{{false}}'>
+  <block wx:if='{{false}}'>
+  <view class="nav-header-view normalText" >
     <view class="ship-method-item" data-idx="0" data-method="flat.flat" wx:if="{{hasFlatShip}}" bindtap="changeCurActIndex">
       <i class="fa fa-lg {{curActIndex == 0? 'fa-check-circle':'fa-circle-thin'}}" />
       <text style="margin-left: 12rpx">邮寄</text>
@@ -18,8 +19,10 @@
       <text style="margin-left: 12rpx">自提</text>
     </view>
   </view>
+  </block>
   <!-- .nav-header-view -->
   <!-- nav详细内容展示区-->
+  <block wx:else>
   <swiper class="nav-body-view" bindchange="swiperChange" current="{{curActIndex}}" duration="300">
   <swiper-item>
   <scroll-view class='addr-sec-lists' scroll-y="{{true}}">
@@ -72,6 +75,7 @@
       </scroll-view>
     </swiper-item>
   </swiper>
+  </block>
   <!-- swiper -->
 </view>
     

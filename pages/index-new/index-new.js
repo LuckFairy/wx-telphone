@@ -169,8 +169,8 @@ Page({
     this.setData({ uid });
     /******首页弹窗 */
     // this.firstOpen();
-    // 获取宝宝5个tab的数据
-    app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
+    // tab的数据
+    app.api.postApi('wxapp.php?c=category&a=get_category_by_pid', { "params": { "categoryId": "96", "store_id": that.data.store_id } }, (err, response) => {
       wx.hideLoading();
       if (err) return;
       var cat_list = response.err_msg.cat_list;

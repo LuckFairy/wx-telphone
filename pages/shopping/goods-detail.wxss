@@ -7,9 +7,7 @@ page {
   overflow-x: hidden;
 }
 
-view {
-  /* display: flex; *//* width: 750rpx; */
-}
+
 
 .goods-detail-containner {
   flex-direction: column;

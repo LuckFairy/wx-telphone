@@ -37,6 +37,7 @@ Page({
    */
   seeStreet() {
     let geoCode = this.data.pageData.geocode;
+    if (!geoCode){console.log('后台没有返回门店经纬度');return;}
     let geoCodeArray = geoCode.split(",");
     if (geoCodeArray.length == 2){
         wx.openLocation({

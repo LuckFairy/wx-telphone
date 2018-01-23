@@ -107,20 +107,18 @@ Page({
   },
   scanCode: function () {
     var that = this;
-    // 环境中目前已选状态
-    var selectedAllStatus = this.data.selectedAllStatus;
-    // 取反操作
-    selectedAllStatus = !selectedAllStatus;
-    // 购物车数据，关键是处理selected值
-    var cart_list = this.data.cart_list;
-    // 遍历
-    for (var i = 0; i < cart_list.length; i++) {
-      cart_list[i].selected = selectedAllStatus;
-
-    }
-
-    that.setData({ selectedAllStatus, cart_list });
-    that.sum();
+    // 只允许从相机扫码
+    wx.scanCode({
+      onlyFromCamera: true,
+      success: (res) => {
+        console.log('扫码成功data...',res);
+        var params = {
+          store_id,
+          uid:that.data.uid
+        };
+        that.loadList(params);
+      }
+    })
   },
   //计算金额
   sum() {
@@ -156,27 +154,16 @@ Page({
     // 遍历取出已勾选的cid
     for (var i = 0; i < len; i++) {
       if (this.data.cart_list[i].selected) {
-        // ids += this.data.cart_list[i].product_id;
-        // if(i < len-1){
-        //   ids += ',';
-        // }
         var id = parseInt(this.data.cart_list[i].pigcms_id);
         ids.push(id);
       }
     }
     if (ids === undefined || ids.length == 0) {
-      that.showModel({ title: "请选择要结算的商品" })
-      // wx.showToast({
-      //   title: '请选择要结算的商品！',
-      //   duration: 2000
-      // });
       return false;
     }
-    //ids = '['+ids +']';
-    //ids = JSON.stringify(ids);
     console.log('购物车选择提交的ids' + ids);
-    Api.signin();//获取以及存储openid、uid
-    var uid = wx.getStorageSync('userUid'), store_id = store_Id;
+   
+    var uid = that.data.uid;
     //多商品下订单
     var shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';
     app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop: '0' } }, (err, rep) => {
@@ -216,10 +203,6 @@ Page({
     };
     that.loadList(params);
  
- 
-  
-  
-
   },
   onShow: function () {
     var that = this;

@@ -1,0 +1,38 @@
+<!--pages/saoma/coupon-list.wxml-->
+<!-- 商品优惠券区域  is_get 是否可以领取 1可以领取 0不可以领取 -->
+<block wx:if="{{shopCoupon.coupon_count > 0 }}">
+  <view class='discount-area'>
+    <!-- <view class='discount' catchtap='showCoupon'>
+      <view class='discount-left'>
+        <text class='discount-text'>领券</text>
+        <view class='discount-imglist' wx:for="{{coupon_value}}">
+          <view class='discount-img1'>￥{{item}}</view>
+        </view>
+        <text wx:if="{{shopCoupon.coupon_count>2}}" style="color:#ff3030;margin-left:28rpx;">...</text>
+      </view>
+      <image wx:if="{{showList}}" class='discount-go' src='../../image/coupon_up.png'></image>
+      <image wx:else class='discount-go' src='../../image/coupon_down.png'></image>
+    </view> -->
+
+    <!--优惠券列表  -->
+
+    <view wx:if="{{showList}}" class='discount-list' wx:for="{{coupon_list}}" wx:for-index="idx">
+      <view class='discount-left'>
+        <view class='discount-img2'>￥{{item.face_money}}</view>
+        <view class='discount-list-text'>
+          <text class='discount-name'>{{item.name}}</text>
+          <text class='discount-time'>有效期：{{item.end_time_str}}</text>
+        </view>
+      </view>
+      <text wx:if="{{item.is_get == 1}}" class='discount-btn' catchtap='getCoupon' data-coupon-id="{{item.coupon_id}}" data-index="{{idx}}">立即领取</text>
+      <text wx:if="{{item.is_get == 0}}" class='discount-btn-no'>已领取</text>
+    </view>
+  </view>
+</block>
+<block wx:else>
+  <view class='no-data'>
+    <image src='../../image/no-data.png'></image>
+    <view class='no-data-txt'>暂无内容</view>
+  </view>
+</block>
+<!-- 商品优惠券区域结束  -->
