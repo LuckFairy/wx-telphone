@@ -73,7 +73,8 @@ var Api = {
       console.log('开始服务端配置信息！', params); 
       // 'X-Agent-Id': AGENT_ID
       wx.request({
-        url: "https://saas.qutego.com/wxapp.php?c=wechatapp&a=login_new",
+        //url: "https://saas.qutego.com/wxapp.php?c=wechatapp&a=login_new",
+        url: "https://api.ljxhlaw.com/wxapp.php?c=wechatapp&a=login_new",
         data: {
           params
         },
