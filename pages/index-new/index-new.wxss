@@ -55,11 +55,11 @@ color:#1b1b1b;
 }
 
 .list-select-area {
-  display: block;
   width: 750rpx;
   background: #fff;
   padding: 28rpx 0;
-  /* padding-bottom: 28rpx; */
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .list-select-area-bottom, .list-select-area-top {
@@ -70,9 +70,7 @@ color:#1b1b1b;
   margin: 0 25rpx;
 }
 
-.list-select-area-bottom {
-  margin-top: 28rpx;
-}
+
 
 .select-list {
   display: inline-block;
