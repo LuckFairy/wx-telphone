@@ -33,7 +33,7 @@ Page({
     qrEntry: false,
     product_id:null,//商品id
     uid: null,//用户id
-    store_id: store_Id.shopid,//店铺id
+    store_id: app.store_id,//店铺id
   },
   onLoad:function(options){
     console.log('123');
@@ -68,6 +68,9 @@ Page({
            product_id:options.prodId,
            uid,
         });
+        wx.showLoading({
+          title: '正在加载...',
+        })
         this.loadQuestion();
         this.loadListDataNew();
     } catch(e){
@@ -103,7 +106,7 @@ Page({
             upList
           })
       } else{
-          that.submitError({ image: '../../image/error.png', title: err });
+        that.submitError({ image: '../../image/error.png', title: rep.err_msg });
       }
      
     });
@@ -118,6 +121,7 @@ Page({
       // "page_num": "1",
     };
     app.api.postApi(trialProductListUrl, { params }, (err, rep) => {
+      wx.hideLoading();
       if (err || rep.err_code != 0) {
         this.setData({ loading: false });
         return;

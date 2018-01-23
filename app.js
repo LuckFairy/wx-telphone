@@ -104,7 +104,6 @@ App({
     console.log('submit params', params);
     that.api.postApi('wxapp.php?c=product_v2&a=test_save', { params }, (err, rep) => {
       console.log('submit ', rep);
-      wx.showToast({ title: rep.err_msg, });
       if (!err && rep.err_code == 0) {
         that.globalData.formIds = [];
         that.send();
@@ -120,7 +119,6 @@ App({
     console.log('send ', params);
     that.api.postApi('wxapp.php?c=product_v2&a=test_send', { params }, (err, rep) => {
       console.log('send....rep',rep);
-      wx.showToast({ title: rep.err_msg, });
     })
   },
   store_id:6, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购

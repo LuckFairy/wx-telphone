@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index-new/index-new",
-    "pages/test/test-saoma",
     "pages/card/mycard",
     "pages/shopping/buycard",
     "pages/shopping/address-list",

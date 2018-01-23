@@ -33,7 +33,7 @@ Page({
     expireTime: 0,//活动失效时间
     dataImg: [],
     showhide: true,
-    cat_list: '',
+    cat_list: [],
     shopId: app.shopid,//店铺id
     //2017年12月21日18:50:42 by leo
     card_num: 0,
@@ -62,16 +62,13 @@ Page({
   *
   */
   firstOpen() {
-    wx.showLoading({});
     var that = this;
     var params = {
       "uid": that.data.uid,
       "store_id": that.data.storeId,
       "page": 1
     };
-
     app.api.postApi(couponUrl, { params }, (err, rep, statusCode) => {
-      wx.hideLoading();
       console.log('优惠券data', rep);
       if (statusCode != 200) {
         console.log('服务器有错，请联系后台人员'); return;
@@ -167,14 +164,14 @@ Page({
     var uid = wx.getStorageSync('userUid');
     this.setData({ uid });
     /******首页弹窗 */
-    this.firstOpen();
+    // this.firstOpen();
     // 获取宝宝5个tab的数据
     app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
       wx.hideLoading();
       if (err) return;
       var cat_list = response.err_msg.cat_list;
       var cat_id = response.err_msg.cat_id;
-      console.log("53423233423", cat_list);
+      console.log("宝宝5个tab数据......", cat_list);
       this.setData({ cat_list: cat_list });
     });
     // 顶部轮播图

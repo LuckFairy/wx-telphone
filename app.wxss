@@ -1,30 +1,29 @@
 @import "./fa.wxss";
-@import "./pages/template/modal.wxss";
+ @import "./pages/template/modal.wxss"; 
 
 /* 定义全局样式变量 */
 
 /* 缺省字体颜色 */
-
-page {
+page{
   background-color: #eee;
 }
-
 view {
-  display: flex;
-  position: relative;
-  box-sizing: border-box;
+    display: flex;
+    position: relative;
+    box-sizing: border-box;
+    
 }
 
 .show-block {
-  display: block;
+    display: block;
 }
 
 .show-flex {
-  display: flex;
+    display: flex;
 }
 
 .hide {
-  display: none;
+    display: none;
 }
 
 /*.section-container {
@@ -186,161 +185,154 @@ view {
 }*/
 
 page {
-  height: 100%;
+    height: 100%;
 }
 
 .xmText {
-  font-size: 10pt;
+    font-size: 10pt;
 }
 
 .mText {
-  font-size: 24rpx;
+    font-size: 24rpx;
 }
 
 .normalText {
-  font-size: 12pt;
+    font-size: 12pt;
 }
 
 .titleText {
-  font-size: 13pt;
-  font-weight: 500;
+    font-size: 13pt;
+    font-weight: 500;
 }
 
 .numberText {
-  font-size: 23pt;
-  font-weight: bold;
+    font-size: 23pt;
+    font-weight: bold;
 }
 
 .grayText {
-  color: #909090;
+    color: #909090;
 }
 
 .grayBackgroundColor {
-  background-color: #909090;
+    background-color: #909090;
 }
 
 .center {
-  text-align: center;
+    text-align: center;
 }
 
 /* 模块框 */
 
 .overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 750rpx;
-  height: 100%;
-  background-color: rgba(10, 10, 10, 0.3);
-  z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 750rpx;
+    height: 100%;
+    background-color: rgba(10, 10, 10, 0.3);
+    z-index: 10000;
 }
 
 .overlay-content {
-  width: 72%;
-  border-radius: 5pt;
-  background-color: #fff;
-  flex-direction: column;
+    width: 72%;
+    border-radius: 5pt;
+    background-color: #fff;
+    flex-direction: column;
 }
 
 .overlay-body {
-  padding: 22pt;
-  text-align: center;
-  font-size: 12pt;
-  flex-direction: column;
+    padding: 22pt;
+    text-align: center;
+    font-size: 12pt;
+    flex-direction: column;
 }
 
 .overlay-bottom-button {
-  flex: 1;
-  font-size: 12pt;
-  text-align: center;
-  padding: 8pt 0;
+    flex: 1;
+    font-size: 12pt;
+    text-align: center;
+    padding: 8pt 0;
 }
 
 .overlay-bottom-button:active {
-  opacity: 0.6;
+    opacity: 0.6;
 }
 
 /** 列表分割线 **/
 
 .sp-line {
-  height: 1px;
-  width: 100%;
-  background-color: #eaeaea;
+    height: 1px;
+    width: 100%;
+    background-color: #eaeaea;
 }
 
 /* 无分割线 */
 
 no-border {
-  border-width: 0;
+    border-width: 0;
 }
 
 /* 有分割线 */
 
 .sp-border {
-  border-width: 0;
-  border-bottom-width: 1px;
-  border-color: #eaeaea;
-  border-style: solid;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-color: #eaeaea;
+    border-style: solid;
 }
 
 /* 模拟点击 */
 
 .navigator:active {
-  opacity: 0.6;
+    opacity: 0.6;
 }
 
 .specialRedText {
-  color: rgb(250, 50, 50);
+    color: rgb(250, 50, 50);
 }
 
 .specialRedBackgroundColor {
-  background-color: rgb(250, 50, 30);
+    background-color: rgb(250, 50, 30);
 }
 
 /* 主题颜色 */
 
 .hotTextColor {
-  color: #ffd23c;
+    color: #ffd23c;
 }
 
 /* 主题背景颜色 */
 
 .hotBackgroundColor {
-  background-color: #ffe546;
+    background-color: #ffe546;
 }
 
 /*没有数据的时候  */
-
-.no-data {
+.no-data{
   flex-direction: column;
   align-items: center;
 }
-
-.no-data image {
+.no-data image{
   width: 160rpx;
   height: 160rpx;
   margin-top: 100rpx;
 }
-
-.no-data-txt {
+.no-data-txt{
   margin-top: 60rpx;
-  color: #999;
+  color:#999;
   font-size: 28rpx;
 }
-
 /*电话号码样式  */
-
-.calling {
+.calling{
   color: blue;
   text-decoration: underline;
 }
-
 /*表单样式  */
-
-.sub-button {
+.sub-button{
   position: absolute;
   top: 0;
   margin: 0;
