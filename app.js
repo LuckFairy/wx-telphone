@@ -4,7 +4,6 @@ App({
   api: Api,
   onLaunch: function () {
     console.log('App onLaunch');
-
     //处理兼容高频使用的高版本方法。
     if (!wx.showLoading){
         wx.showLoading = (obj) => { console.log('mock wx.showLoading. do nothing...');}
@@ -16,6 +15,25 @@ App({
     // wx.clearStorageSync();
     this.systemInfo = wx.getSystemInfoSync();
     // Api.signin();
+    var logLat = wx.getStorageSync('logLat') ? wx.getStorageSync('logLat') : null;
+    var that = this;
+    wx.getLocation({
+      success: (res) => {
+        var latitude = res.latitude //维度
+        var longitude = res.longitude //经度
+        var speed = res.speed //速度，浮点数，单位m/s
+        var accuracy = res.accuracy  //位置的精确度
+        logLat = [longitude, latitude];
+        wx.setStorageSync('logLat', logLat);
+      },
+      fail: () => {
+        if (this.fail()) { console.log('获取位置失败'); return null; }
+        this.success();
+      },
+      cancel: () => {
+        console.log('用户拒绝授权获取地理位置')
+      }
+    })
   },
   onShow: function () {
     console.log('App onShow() ...')
@@ -39,6 +57,35 @@ App({
     //ceshiUrl:'https://wxplus.paoyeba.com/index.php',
     ceshiUrl: 'http://leoxcxshop.com/index.php',
   },
+  /**
+   * 获取位置
+   * 
+   */
+  getLocation: function (){
+    var logLat = wx.getStorageSync('logLat') ? wx.getStorageSync('logLat'):null;
+    var that = this;
+    wx.getLocation({
+      success: (res) => {
+        var latitude = res.latitude //维度
+        var longitude = res.longitude //经度
+        var speed = res.speed //速度，浮点数，单位m/s
+        var accuracy = res.accuracy  //位置的精确度
+         logLat = [longitude,latitude];
+         wx.setStorageSync('logLat',logLat);
+      },
+      fail:()=>{
+          if(this.fail()){console.log('获取位置失败');return null;}
+          this.success();
+      },
+      cancel:()=>{
+        console.log('用户拒绝授权获取地理位置')
+      }
+    })
+    
+  },
+  /**
+   * 拨打电话
+   */
   calling: function (phone = '4006088520') {
     wx.makePhoneCall({
       phoneNumber: phone, 
@@ -104,7 +151,6 @@ App({
     console.log('submit params', params);
     that.api.postApi('wxapp.php?c=product_v2&a=test_save', { params }, (err, rep) => {
       console.log('submit ', rep);
-      wx.showToast({ title: rep.err_msg, });
       if (!err && rep.err_code == 0) {
         that.globalData.formIds = [];
         that.send();
@@ -120,7 +166,6 @@ App({
     console.log('send ', params);
     that.api.postApi('wxapp.php?c=product_v2&a=test_send', { params }, (err, rep) => {
       console.log('send....rep',rep);
-      wx.showToast({ title: rep.err_msg, });
     })
   },
   store_id:6, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购

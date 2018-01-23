@@ -27,7 +27,7 @@
             <text class="grayText price">{{'¥' + item.original_price}}</text><!--wx:if="{{item.price !== item.basePrice}}"-->
           </view>
 					<view class="controlWrap">
-						<view wx:if="{{item.quantity > 0}}" class="badgeWrap">
+						<view wx:if="{{item.quantity >= 0}}" class="badgeWrap">
 							<text class="mText">剩余<text class="specialRedText">{{item.quantity}}</text></text>
 						</view>
 						<view wx:else style="flex: 1;"></view>

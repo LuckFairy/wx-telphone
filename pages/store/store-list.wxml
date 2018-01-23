@@ -1,16 +1,39 @@
-<scroll-view lower-threshold='0px' scroll-y='true' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='gobottom'>
-  <view class="store-list-containner" wx:for="{{physical_list}}">
-    <view class="list-view-wrap">
-      <navigator class="list-item-view sp-border" url="{{'./store-detail?phy_id=' + item.phy_id}}">
-        <view class="list-item-dtl-left-view">
-          <text class="list-item-title-view normalText">{{item.name}}</text>
-          <text class="list-item-addr-view mText grayText">{{item.address}}</text>
-        </view>
-        <!--<view class="list-item-dtl-right-view">
+<block wx:if="{{!checkModel}}">
+
+  <scroll-view lower-threshold='0px' scroll-y='true' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='gobottom'>
+    <view class="store-list-containner" wx:for="{{physical_list}}">
+      <view class="list-view-wrap">
+        <navigator class="list-item-view sp-border" url="{{'./store-detail?phy_id=' + item.phy_id}}">
+          <view class="list-item-dtl-left-view">
+            <text class="list-item-title-view normalText">{{item.name}}</text>
+            <text class="list-item-addr-view mText grayText">{{item.address}}</text>
+          </view>
+          <!--<view class="list-item-dtl-right-view">
                     <text class="list-item-location-dist-view xmText">5.6公里</text>
                     <i class="list-item-location-icon-view fa fa-lg fa-map-marker hotTextColor" />
                 </view>-->
-      </navigator>
+        </navigator>
+      </view>
     </view>
-  </view>
-</scroll-view>
+  </scroll-view>
+</block>
+
+<block wx:else>
+  <scroll-view lower-threshold='0px' scroll-y='true' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='gobottom'>
+    <view class="store-list-containner" wx:for="{{physical_list}}">
+      <view class="list-view-wrap">
+        <navigator class="list-item-view sp-border" url="{{'./store-detail?phy_id=' + item.phy_id}}">
+          <view class='list-item-dtl-icon-view'>
+          <icon wx:if="{{item.default==1}}" type='success' color='green' size='20'></icon>
+          <icon wx:else type='success' color='#eee' size='20'></icon>
+          </view>
+          <view class="list-item-dtl-left-view">
+          
+            <text class="list-item-title-view normalText">{{item.name}}</text>
+            <text class="list-item-addr-view mText grayText">{{item.address}}</text>
+          </view>
+        </navigator>
+      </view>
+    </view>
+  </scroll-view>
+</block>

@@ -699,6 +699,7 @@ Page({
   */
   confirmNewGoods (e){
     var trial_product_qrcode = e.currentTarget.dataset.qrcode;
+    trial_product_qrcode = trial_product_qrcode.replace(/\\/g,'');
     this.showModal('err', { image: trial_product_qrcode});
   },
 

@@ -33,7 +33,7 @@ Page({
     expireTime: 0,//活动失效时间
     dataImg: [],
     showhide: true,
-    cat_list: '',
+    cat_list: [],
     shopId: app.shopid,//店铺id
     //2017年12月21日18:50:42 by leo
     card_num: 0,
@@ -44,6 +44,7 @@ Page({
     showModel: false,//是否显示弹窗模板
     couponList: [],//专用券列表
     coupon_id_arr: [],//优惠券id
+    logLat:[],//位置信息
   },
   /**
    * 消息推送
@@ -62,16 +63,13 @@ Page({
   *
   */
   firstOpen() {
-    wx.showLoading({});
     var that = this;
     var params = {
       "uid": that.data.uid,
       "store_id": that.data.storeId,
       "page": 1
     };
-
     app.api.postApi(couponUrl, { params }, (err, rep, statusCode) => {
-      wx.hideLoading();
       console.log('优惠券data', rep);
       if (statusCode != 200) {
         console.log('服务器有错，请联系后台人员'); return;
@@ -103,6 +101,7 @@ Page({
    */
   getCoupon() {
     var that = this;
+   
     that.setData({ showModel: false });
     var url = 'wxapp.php?c=activity&a=get_coupon';
     if (that.data.coupon_id_arr.length < 1){wx.showToast({
@@ -158,6 +157,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var logLat = wx.getStorageSync('logLat');
+    console.log('logLat....', logLat)
     //2017年12月29日17:57:39 by leo 第一行图标使用读取服务器方法==
     //this.getIconLineOne();
     //=====
@@ -167,14 +168,14 @@ Page({
     var uid = wx.getStorageSync('userUid');
     this.setData({ uid });
     /******首页弹窗 */
-    this.firstOpen();
+    // this.firstOpen();
     // 获取宝宝5个tab的数据
     app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
       wx.hideLoading();
       if (err) return;
       var cat_list = response.err_msg.cat_list;
       var cat_id = response.err_msg.cat_id;
-      console.log("53423233423", cat_list);
+      console.log("宝宝5个tab数据......", cat_list);
       this.setData({ cat_list: cat_list });
     });
     // 顶部轮播图
@@ -378,35 +379,14 @@ Page({
 
   //点击事件cdd
   clickGo: function (e) {
-
-    var destination = e.target.dataset.destination;
-    if (destination == 0) {
-      //优惠券 /门店促销
-      var url = '../activity/category-1';
-    } else if (destination == 1) {
-      //新品试用 /赠品领用
-      var url = '../present/present';
-    } else if (destination == 2) {
-      //展会购券/爆款闪购/咿呀严选
-      var url = '../activity/hotsale';
-    } else if (destination == 3) {
-      //抽奖专区
-      var url = '../redbox/redbox';
-    } else if (destination == 4) {
-      //母婴服务
-      var url = './index-mom';
-    } else if (destination == 5) {
-      //门店促销 /优惠券
-      var url = './shop-promotion';
-    } else {
-      //单独购买
-      var url = '../activity/hotsale';
+  
+    var index = e.currentTarget.dataset.index - 5;
+    //跳链数组，新品试用，严选，抽奖，母婴，门店，单独购买
+    var url = ['../present/present', '../activity/hotsale', '../redbox/redbox', './index-mom', './shop-promotion','../activity/hotsale'];
+    console.log(url[index]);
+    if (url[index]) {
+      wx.navigateTo({ url: url[index] + '?categoryid=100&page=1&store_id=' + this.data.shopId });
     }
-    console.log('url', url)
-    if (url) {
-      wx.navigateTo({ url: url + '?categoryid=100&page=1&store_id=' + this.data.shopId });
-    }
-
   },
   //跳到拼多多列表页
   clickGoGroup: function () {

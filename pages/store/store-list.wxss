@@ -1,4 +1,7 @@
 /* pages/store/store-list.wxss */
+.list-item-dtl-icon-view{
+  margin-right: 10rpx;
+}
 .store-list-containner{
     flex-direction: column;
     background-color: #fff;

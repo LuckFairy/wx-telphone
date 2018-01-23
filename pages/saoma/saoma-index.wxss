@@ -1,0 +1,11 @@
+/* pages/saoma/saoma-index.wxss */
+@import "../cart/cart.wxss";
+.carts-footer{
+  background: #fff;
+}
+.carts-footer .gray{
+  background-color: #eee;
+}
+.yellow{
+  background-color: #ffe546;
+}

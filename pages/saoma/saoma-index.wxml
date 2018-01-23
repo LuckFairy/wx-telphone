@@ -1,0 +1,88 @@
+<!--pages/saoma/saoma-index.wxml-->
+
+<import src="../template/modal.wxml" />
+<template wx:if="{{showErrModal}}" is="text-error-modal" data="{{...errModalConfig}}" />
+
+<import src="../template/count-down.wxml" />
+<view wx:if="{{false}}" class="full-reduce">
+  <text class="full-rec-text">满减</text>
+  <text class="full-rec-tedetail">dkdkdds.ffssf分级阅读等多个机构</text>
+  <text class="full-rec-mer">去凑单</text>
+  <text class="full-rec-lar">></text>
+</view>
+<view class="page-list">
+  <view class="shop df" wx:for="{{productData}}" wx:key="{{index}}">
+    <image class="sh_slt" src="{{item.ImgUrl}}"></image>
+    <view class="df_1">
+      <view class="sp_text">
+        <navigator url="../index/detail?productId={{item.ProID}}">
+          <view class="sp_tit ovh1">{{item.ProductName}}</view>
+        </navigator>
+        <view class="sp_neb">数量：×{{item.BuyCount}}</view>
+        <view class="sp_jg">¥：{{item.Price}}</view>
+        <button class="dle" data-card-id="{{item.CartID}}" bindtap="removeShopCard" data-index="{{index}}">删除</button>
+        <navigator class="dle" url="../order/pay?productId={{item.ProID}}&cartId={{item.CartID}}&buyCount={{item.BuyCount}}">下单 </navigator>
+      </view>
+    </view>
+  </view>
+  <!--样式-->
+  <view class="container carts-list" wx:if='{{hasShop==0}}'>
+    <!--  切换门店区域 -->
+    <navigator  url="../store/store-list?check=true" class='shop-area'>
+        <icon>地图</icon>
+        <text>message</text>
+        <icon>建标</icon>
+    </navigator>
+    <!--  切换门店区域结束 -->
+    <view class="pp">
+      <image class='pp-null' src='../../image/shop-null.png'></image>
+      <text class='pp-text'>还没有加入商品，快去门店扫描商品吧</text>
+      <view class='pp-goindex' bindtap='inputBarcode'>手动输入条码</view>
+    </view>
+  </view>
+  <view class="container carts-list" wx:elif='{{hasShop > 0}}'>
+    <!--勾-->
+    <view wx:for="{{cart_list}}" class="carts-item" data-title="{{item.name}}" id="{{item.product_id}}" wx:key="{{index}}">
+      <!--选中  -->
+      <icon wx:if="{{item.selected}}" type="success_circle" size="20" bindtap="bindCheckbox" data-cardid='{{item.pigcms_id}}' data-index="{{index}}" />
+      <!--未选中  -->
+      <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-cardid='{{item.pigcms_id}}' data-index="{{index}}" />
+      <!--img-->
+      <view>
+        <image class="carts-image" src="{{item.image}}" mode="aspectFill" />
+      </view>
+      <view class="cart-total">
+        <text class="cart-tot-title">{{item.name}}</text>
+        <view class="cart-size-list">
+          <view>
+
+            <text class='cart-text-list' wx:if="{{item.sku_data.length > 0}}" wx:for="{{item.sku_data}}" wx:for-item="item2">{{item2.name}}:{{item2.value}} </text>
+          </view>
+          <image class="cart-img-list" src="../../image/delete.png" bindtap="removeShopCard" data-uid='{{uid}}' data-card-id='{{item.pigcms_id}}' data-store-id='{{store_id}}' data-index='{{index}}'></image>
+        </view>
+        <view class="cart-frice-list-far">
+          <text class="cart-frice-list">￥{{item.price}}</text>
+          <view class="cart-add-reduce">
+            <text class="cart-reduce cart-common" bindtap="bindMinus" data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}' data-index="{{index}}">-</text>
+            <text class="cart-text-num cart-common-two" type="number" bindchange="bindManual">{{item.pro_num}}</text>
+            <text class="cart-add cart-common" bindtap="bindPlus" data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}' data-index="{{index}}">+</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<!--底部-->
+<view class="carts-footer">
+  <view class="total-choose" bindtap="scanCode">
+    <icon wx:if="{{selectedAllStatus}}" type="success_circle" size="24" />
+    <icon wx:else type="circle" size="24" />
+    <text class="total-go">扫商品</text>
+  </view>
+  <view class="total-price">
+    <text class="total-pri-text">合计 {{total}}
+      </text>
+    <!-- <text class="not-wrap-price">不含运费，已优惠￥0.222</text> -->
+  </view>
+  <view class="button {{cartSHow ? 'yellow':'gray'}}" bindtap='bindCheckout'>去结算</view>
+</view>

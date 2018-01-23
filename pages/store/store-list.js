@@ -8,9 +8,12 @@ Page({
     page: 1,
     windowHeight:'',
     windowWidth:'',
-    physical_list:[]
+    physical_list:[],
+    checkModel:false,//默认是门店指南模块
   },
   onLoad:function(options){
+    var {check} = options;
+    if(check){this.setData({checkModel:true})};
     var that = this;
     // 页面初始化 options为页面跳转所带来的参数
     // 自动获取手机宽高

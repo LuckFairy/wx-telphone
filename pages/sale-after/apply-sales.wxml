@@ -19,6 +19,7 @@
   </view>
   <!--顶部商品信息结束  -->
   <!--服务类型选项开始  -->
+  
   <view class='apply-type'>
     <text class='apply-type-title'>服务类型</text>
     <view class='apply-type-detail' bindtap='turnColor'>
