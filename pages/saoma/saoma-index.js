@@ -9,15 +9,36 @@ let errModalConfig = {
 Page({
   data: {
     hasShop: 0,//购物车数量
-    //2017年12月19日14:55:05
-    //carts: [],//购物车列表
-
     cart_list: '',//购物车列表
     selectedAllStatus: true,//默认不全选
-    total: 0,//结算合计金额
+    total: "0.00",//结算合计金额
     cartSHow: false,//是否显示底部结算
     baokuanList: [], //爆款列表
     showErrModal: false,
+    input:false,//不是输入弹窗
+    coupon_value: [],//线上优惠券面值数组
+  },
+  /**
+   * 加载优惠券面值
+   */
+  loadCoupon:function(){
+    let that = this;
+    //线上优惠券信息
+    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid": that.data.uid, "store_id": that.data.store_id, "product_id": that.data.product_id } }, (err, resp) => {
+      if (err || resp.err_code != 0) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        var coupon_value = that.data.coupon_value;
+        var len = resp.err_msg.coupon_count > 2 ? 2 : resp.err_msg.coupon_count;
+        for (var i = 0; i < len; i++) {
+          coupon_value.push(resp.err_msg.coupon_value[i]);
+        }
+        that.setData({
+          coupon_value: coupon_value
+        });
+      }
+    });   
   },
   bindMinus: function (e) {
     // 减少数量
@@ -53,7 +74,6 @@ Page({
   bindPlus: function (e) {
     // 增加数量
     var that = this;
-
     var cardId = e.currentTarget.dataset.cardId;
     var index = parseInt(e.currentTarget.dataset.index);
     var shopNumber = e.currentTarget.dataset.number;
@@ -174,19 +194,41 @@ Page({
         wx.navigateTo({ url });
       } else {
         var msg = err || rep.err_msg;
-        that.showModel({ title: msg })
-        // that._showError(msg);
+        that._showError({ title: msg })
+        
       }
     });
 
   },
+  /**
+   * 手动输入条形码
+   */
   inputBarcode() {
+    this.setData({ showErrModal:true,input:true});
+  },
+/**
+ * 确定按钮
+ */
+  tabConfirm(e){
+    this.setData({ showErrModal: false, input: false });
+    let that = this;
+    //var value = event.detail.value;
     wx.showModal({
-      title: '输入条形码',
-      content: '',
+      title: '条形码',
+      content: '该条形码识别不出匹配商品',
+      showCancel:true,
+      cancelText:'扫码',
+      confirmText:'输入条码',
+      confirmColor:'#1b1b1b',
+      success: function (res) {
+        if (res.confirm) {
+          that.inputBarcode();
+        } else if (res.cancel) {
+          that.scanCode();
+        }
+      }
     })
   },
-
 
   onLoad: function (options) {
     var that = this;
@@ -207,8 +249,6 @@ Page({
   onShow: function () {
     var that = this;
     var hasShop = that.data.hasShop;//有无商品
-
-
     var uid = that.data.uid;
     var params = {
       store_id, uid
@@ -382,7 +422,7 @@ Page({
    * 显示错误信息
    */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
+    wx.showToast({ title: errorMsg, image: '../../image/group-mes.png.png', mask: true });
     this.setData({ error: errorMsg });
   },
   /**

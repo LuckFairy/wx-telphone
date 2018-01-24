@@ -4,7 +4,9 @@ import { getUrlQueryParam } from '../../utils/util';
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
 let app = getApp();
+let store_id = app.store_id;
 let couponUrl = 'wxapp.php?c=activity&a=new_user_coupon';//领取优惠券接口
+let tabUrl = 'wxapp.php?c=category&a=get_category_by_pid_new';//tab接口地址
 var checkTimer = null;     // 若还没登录，启用定时器
 
 Page({
@@ -38,13 +40,140 @@ Page({
     //2017年12月21日18:50:42 by leo
     card_num: 0,
     uid: null,//用户id
-    storeId: app.store_id,
+    storeId: store_id,
     iconOne: [],
     indexImage: null,//4个大图图片列表
     showModel: false,//是否显示弹窗模板
     couponList: [],//专用券列表
     coupon_id_arr: [],//优惠券id
-    logLat:[],//位置信息
+    logLat:[],//位置经纬度
+    location:null,//门店信息
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    var logLat = wx.getStorageSync('logLat');
+    console.log('logLat....', logLat)
+    //2017年12月29日17:57:39 by leo 第一行图标使用读取服务器方法==
+    //this.getIconLineOne();
+    //=====
+    var that = this;
+    Api.signin();//获取以及存储openid、uid
+    // 获取uid
+    var uid = wx.getStorageSync('userUid');
+    this.setData({ uid });
+    /******首页弹窗 */
+    // this.firstOpen();
+    // tab的数据
+    app.api.postApi(tabUrl, { "params": { "categoryId": "96", "store_id": that.data.storeId } }, (err, response) => {
+      wx.hideLoading();
+      if (err) return;
+      var cat_list = response.err_msg.cat_list;
+      var cat_id = response.err_msg.cat_id;
+      console.log("宝宝5个tab数据......", cat_list);
+      this.setData({ cat_list: cat_list });
+    });
+    // 顶部轮播图
+    // app.api.fetchApi("focuspic/showfouctPic", (err, resp) => {
+    //    if(resp){
+    //      var dataImg = resp.data;
+    //     that.setData({
+    //       dataImg: dataImg,
+    //       showhide: false
+    //     })
+    //    }
+    // })
+    //indexImage获取
+    var params = {
+      "store_id": app.store_id
+    }
+    app.api.postApi('wxapp.php?c=index&a=get_image', { params }, (err, rep) => {
+      if (!err && rep.err_code == 0) {
+        this.setData({
+          indexImage: rep.err_msg.icon_list
+        })
+      }
+    })
+    //this.loadGroupData();
+    //this.loadHotData();
+    this.loadBaoKuanData();
+    this.loadHotSaleData();
+    this.loadGoodsData();
+    this.loadFestivalData();
+    // this._prepare();    // 等待登录才开始加载数据
+
+    //this.loadMyCardNumData(); //我的卡包数量
+
+    //兼容 用户授权问题
+    let waitTime = 0;
+    let intervalTime = 2000;
+    //在登录成功后调用。
+    if (checkTimer) {
+      clearInterval(checkTimer);
+    }
+    checkTimer = setInterval(() => {
+      if (waitTime > 30000) {//超过5秒等待直接跳转到首页。
+        clearInterval(checkTimer);
+        wx.showModal({
+          title: '请求结果',
+          content: '等待超时，跳转到首页',
+        });
+
+        wx.switchTab({
+          url: '../index-new/index-new',
+        });
+      }
+      waitTime += intervalTime;
+      if (uid) {
+        //that.setData({ uid: uid, store_id: store_id, locationId });
+        clearInterval(checkTimer);
+        this.loadMyCardNumData(); //我的卡包数量
+      } else {
+        Api.signin();//获取以及存储uid
+        var uid = wx.getStorageSync('userUid');
+        if (uid) {
+          that.setData({ uid: uid });
+          clearInterval(checkTimer);
+          this.loadMyCardNumData(); //我的卡包数量
+        }
+
+      }
+
+    }, intervalTime);
+
+
+
+  },
+  /**
+   * 获取当前门店位置
+   */
+  loadLocation(phy_id){
+    wx.showLoading({
+      title: '加载中'
+    });
+    app.api.postApi('wxapp.php?c=address&a=physical_list', { params }, (err, resp) => {
+      // 列表数据
+      if (resp) {
+        wx.hideLoading();
+        if (resp.err_code == 0) {
+          for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
+            that.data.physical_list.push(resp.err_msg.physical_list[j])
+          }
+          that.setData({
+            physical_list: that.data.physical_list
+          })
+        } else {
+          wx.showToast({
+            title: '亲，没有了',
+            icon: 'success',
+            duration: 1000
+          })
+        }
+      } else {
+        //  错误
+      }
+    });
   },
   /**
    * 消息推送
@@ -153,102 +282,7 @@ Page({
       }
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    var logLat = wx.getStorageSync('logLat');
-    console.log('logLat....', logLat)
-    //2017年12月29日17:57:39 by leo 第一行图标使用读取服务器方法==
-    //this.getIconLineOne();
-    //=====
-    var that = this;
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    this.setData({ uid });
-    /******首页弹窗 */
-    // this.firstOpen();
-    // tab的数据
-    app.api.postApi('wxapp.php?c=category&a=get_category_by_pid', { "params": { "categoryId": "96", "store_id": that.data.store_id } }, (err, response) => {
-      wx.hideLoading();
-      if (err) return;
-      var cat_list = response.err_msg.cat_list;
-      var cat_id = response.err_msg.cat_id;
-      console.log("宝宝5个tab数据......", cat_list);
-      this.setData({ cat_list: cat_list });
-    });
-    // 顶部轮播图
-    // app.api.fetchApi("focuspic/showfouctPic", (err, resp) => {
-    //    if(resp){
-    //      var dataImg = resp.data;
-    //     that.setData({
-    //       dataImg: dataImg,
-    //       showhide: false
-    //     })
-    //    }
-    // })
-    //indexImage获取
-    var params = {
-      "store_id": app.store_id
-    }
-    app.api.postApi('wxapp.php?c=index&a=get_image', { params }, (err, rep) => {
-      if (!err && rep.err_code == 0) {
-        this.setData({
-          indexImage: rep.err_msg.icon_list
-        })
-      }
-    })
-    //this.loadGroupData();
-    //this.loadHotData();
-    this.loadBaoKuanData();
-    this.loadHotSaleData();
-    this.loadGoodsData();
-    this.loadFestivalData();
-    // this._prepare();    // 等待登录才开始加载数据
-
-    //this.loadMyCardNumData(); //我的卡包数量
-
-    //兼容 用户授权问题
-    let waitTime = 0;
-    let intervalTime = 2000;
-    //在登录成功后调用。
-    if (checkTimer) {
-      clearInterval(checkTimer);
-    }
-    checkTimer = setInterval(() => {
-      if (waitTime > 30000) {//超过5秒等待直接跳转到首页。
-        clearInterval(checkTimer);
-        wx.showModal({
-          title: '请求结果',
-          content: '等待超时，跳转到首页',
-        });
-
-        wx.switchTab({
-          url: '../index-new/index-new',
-        });
-      }
-      waitTime += intervalTime;
-      if (uid) {
-        //that.setData({ uid: uid, store_id: store_id, locationId });
-        clearInterval(checkTimer);
-        this.loadMyCardNumData(); //我的卡包数量
-      } else {
-        Api.signin();//获取以及存储uid
-        var uid = wx.getStorageSync('userUid');
-        if (uid) {
-          that.setData({ uid: uid });
-          clearInterval(checkTimer);
-          this.loadMyCardNumData(); //我的卡包数量
-        }
-
-      }
-
-    }, intervalTime);
-
-
-
-  },
+  
   goCardLists() {
     wx.navigateTo({
       url: '../card/mycard',
@@ -379,8 +413,7 @@ Page({
 
   //点击事件cdd
   clickGo: function (e) {
-  
-    var index = e.currentTarget.dataset.index - 5;
+    var index = e.currentTarget.dataset.index;
     //跳链数组，新品试用，严选，抽奖，母婴，门店，单独购买
     var url = ['../present/present', '../activity/hotsale', '../redbox/redbox', './index-mom', './shop-promotion','../activity/hotsale'];
     console.log(url[index]);

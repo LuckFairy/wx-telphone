@@ -74,7 +74,7 @@
   <!-- orderType -->
   <block wx:if="{{ newType == 1}}">
   <view class='bottom-btn-view mText'>
-       <text  catchtap="confirmNewGoods"  class="yellow-btn" data-product-id='{{productId}}' data-order-id="{{orderData.order_no}}" style='background:#fae53b'>确认取货</text>
+       <text  catchtap="confirmNewGoods"  class="yellow-btn" data-isnewprod='{{orderData.is_trial_product}}' data-qrcode='{{orderData.trial_product_qrcode}}' style='background:#fae53b'>确认取货</text>
   </view>
   </block>
   <block wx:else >

@@ -1,3 +1,5 @@
+//let SERVER_URL ="https://saas.qutego.com/";
+let SERVER_URL = "https://api.ljxhlaw.com/";
 var UID = {
   goUid: function () {
     var that =this;
@@ -12,7 +14,7 @@ var UID = {
               userInfo: userInfo
             }
             wx.request({
-              url: "https://saas.qutego.com/wxapp.php?c=wechatapp&a=login",
+              url: SERVER_URL+"wxapp.php?c=wechatapp&a=login",
               data: {
                 params
               },

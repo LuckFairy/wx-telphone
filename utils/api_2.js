@@ -1,4 +1,6 @@
 var app = getApp();
+//let SERVER_URL ="https://saas.qutego.com/";
+let SERVER_URL = "https://api.ljxhlaw.com/";
 var Api = {
   /*用户登陆授权*/
   signin: function(callback, tryTimes = 3) {
@@ -74,7 +76,7 @@ var Api = {
       // 'X-Agent-Id': AGENT_ID
       wx.request({
         //url: "https://saas.qutego.com/wxapp.php?c=wechatapp&a=login_new",
-        url: "https://api.ljxhlaw.com/wxapp.php?c=wechatapp&a=login_new",
+        url: SERVER_URL+"wxapp.php?c=wechatapp&a=login_new",
         data: {
           params
         },

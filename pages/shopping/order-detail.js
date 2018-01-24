@@ -420,9 +420,10 @@ Page({
   /*新品试用，确认取货
   *
   */
-  confirmNewGoods() {
-    this.setData({ showErrModal: true });
-    this.showModal('err', errModalConfig);
+  confirmNewGoods(e) {
+    var trial_product_qrcode = e.currentTarget.dataset.qrcode;
+    trial_product_qrcode = trial_product_qrcode.replace(/\\/g, '');
+    this.showModal('err', { image: trial_product_qrcode });
   },
   //查看 售后
   showSales() {
@@ -466,15 +467,20 @@ Page({
   /**
  * 显示模态框
  */
+  /**
+  * 显示模态框
+  */
   showModal(type = 'err', config) {  // type: success||err
     if (type === 'success') {
+      successModalConfig = Object.assign(successModalConfig, config);
       this.setData({
-        successModalConfig: config || successModalConfig,
+        successModalConfig: successModalConfig,
         showSuccessModal: true
       });
     } else {
+      errModalConfig = Object.assign(errModalConfig, config);
       this.setData({
-        errModalConfig: config || errModalConfig,
+        errModalConfig: errModalConfig,
         showErrModal: true
       });
     }

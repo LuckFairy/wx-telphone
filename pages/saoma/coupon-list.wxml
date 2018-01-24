@@ -2,21 +2,10 @@
 <!-- 商品优惠券区域  is_get 是否可以领取 1可以领取 0不可以领取 -->
 <block wx:if="{{shopCoupon.coupon_count > 0 }}">
   <view class='discount-area'>
-    <!-- <view class='discount' catchtap='showCoupon'>
-      <view class='discount-left'>
-        <text class='discount-text'>领券</text>
-        <view class='discount-imglist' wx:for="{{coupon_value}}">
-          <view class='discount-img1'>￥{{item}}</view>
-        </view>
-        <text wx:if="{{shopCoupon.coupon_count>2}}" style="color:#ff3030;margin-left:28rpx;">...</text>
-      </view>
-      <image wx:if="{{showList}}" class='discount-go' src='../../image/coupon_up.png'></image>
-      <image wx:else class='discount-go' src='../../image/coupon_down.png'></image>
-    </view> -->
-
+    
     <!--优惠券列表  -->
 
-    <view wx:if="{{showList}}" class='discount-list' wx:for="{{coupon_list}}" wx:for-index="idx">
+    <view wx:if="{{coupon_list.length > 0}}" class='discount-list' wx:for="{{coupon_list}}" wx:for-index="idx">
       <view class='discount-left'>
         <view class='discount-img2'>￥{{item.face_money}}</view>
         <view class='discount-list-text'>

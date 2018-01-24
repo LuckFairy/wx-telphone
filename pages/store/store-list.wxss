@@ -1,6 +1,6 @@
 /* pages/store/store-list.wxss */
 .list-item-dtl-icon-view{
-  margin-right: 10rpx;
+  margin-right: 20rpx;
 }
 .store-list-containner{
     flex-direction: column;

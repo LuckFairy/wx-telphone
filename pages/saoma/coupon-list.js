@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    store_id: app.store_Id,
+    store_id: app.store_id,
     uid: uid,
     shopCoupon: [], //线上优惠券
     coupon_value: [],//线上优惠券面值数组
@@ -22,9 +22,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    let product_id = "188";
+    let that = this;
     //线上优惠券信息
-    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid":this.data.uid, "store_id": this.data.store_id, "product_id": this.data.product_id } }, (err, resp) => {
+    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid":this.data.uid, "store_id": this.data.store_id, product_id } }, (err, resp) => {
       if (err || resp.err_code != 0) {
         return;
       }
@@ -64,7 +65,11 @@ Page({
         that.setData({
           coupon_list
         })
-        that._showError(resp.err_msg);
+        wx.showToast({
+          title: '领取成功',
+          icon: 'success',
+          duration: 2000
+        })
       }
     });
   },
@@ -72,8 +77,7 @@ Page({
 * 显示错误信息
 */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
-    //this.setData({ error: errorMsg });
+    wx.showToast({ title: errorMsg, image: '../../image/group-mes.png', mask: true });
     return false;
   },
   /**

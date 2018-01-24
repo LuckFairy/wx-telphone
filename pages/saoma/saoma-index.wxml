@@ -1,8 +1,21 @@
 <!--pages/saoma/saoma-index.wxml-->
 
-<import src="../template/modal.wxml" />
-<template wx:if="{{showErrModal}}" is="text-error-modal" data="{{...errModalConfig}}" />
-
+<view wx:if="{{showErrModal}}" class="overlay">
+  <view  catchtap="tabModal" class='overlay-map'></view>
+  <view class="overlay-content">
+    <view class="overlay-body">
+      <block wx:if="{{input}}">
+        <text>请输入商品的条形码</text>
+        <input type='number' class='overlay-input' bindconfirm="tabConfirm" placeholder="请输入商品条形码" auto-focus/>
+        <button bindtap="tabConfirm" class="overlay-bottom-button btn-yellow">确定</button>
+      </block>
+      <block wx:else>
+        <image class="modal-image" src="{{errModalConfig.image? errModalConfig.image:'../../image/error.png'}}" mode="widthFix" />
+        <text wx:if="{{errModalConfig.title}}" class="modal-secondText">{{errModalConfig.title}}</text>
+      </block>
+    </view>
+  </view>
+</view>
 <import src="../template/count-down.wxml" />
 <view wx:if="{{false}}" class="full-reduce">
   <text class="full-rec-text">满减</text>
@@ -28,19 +41,32 @@
   <!--样式-->
   <view class="container carts-list" wx:if='{{hasShop==0}}'>
     <!--  切换门店区域 -->
-    <navigator  url="../store/store-list?check=true" class='shop-area'>
-        <icon>地图</icon>
+    <navigator url="../store/store-list?check=true" class='shop-area'>
+      <view>
+        <image class='address-image' src='../../image/address.png'></image>
         <text>message</text>
-        <icon>建标</icon>
+      </view>
+      <image class='address-go-image' src='../../image/address-go.png'></image>
     </navigator>
     <!--  切换门店区域结束 -->
     <view class="pp">
-      <image class='pp-null' src='../../image/shop-null.png'></image>
+      <image class='pp-null' src='../../image/saoma-icon.png'></image>
       <text class='pp-text'>还没有加入商品，快去门店扫描商品吧</text>
-      <view class='pp-goindex' bindtap='inputBarcode'>手动输入条码</view>
+      <button class='pp-goindex' bindtap='inputBarcode'>手动输入条码</button>
     </view>
   </view>
   <view class="container carts-list" wx:elif='{{hasShop > 0}}'>
+    <!--  领券区域 -->
+    <navigator class='discount shop-area' url="./coupon-list?productId=">
+      <view class='discount-left'>
+        <text class='discount-text'>领券</text>
+        <view class='discount-imglist' wx:for="{{coupon_value}}">
+          <view class='discount-img1'>￥{{item}}</view>
+        </view>
+      </view>
+      <image class='address-go-image' src='../../image/address-go.png'></image>
+    </navigator>
+    <!--  领券区域结束 -->
     <!--勾-->
     <view wx:for="{{cart_list}}" class="carts-item" data-title="{{item.name}}" id="{{item.product_id}}" wx:key="{{index}}">
       <!--选中  -->
@@ -75,14 +101,11 @@
 <!--底部-->
 <view class="carts-footer">
   <view class="total-choose" bindtap="scanCode">
-    <icon wx:if="{{selectedAllStatus}}" type="success_circle" size="24" />
-    <icon wx:else type="circle" size="24" />
-    <text class="total-go">扫商品</text>
+    <image class="cart-img-list" src="../../image/saoma-code.png" lazy-load='true'></image>
   </view>
   <view class="total-price">
-    <text class="total-pri-text">合计 {{total}}
+    <text class="total-pri-text">合计: ￥{{total}}
       </text>
-    <!-- <text class="not-wrap-price">不含运费，已优惠￥0.222</text> -->
   </view>
   <view class="button {{cartSHow ? 'yellow':'gray'}}" bindtap='bindCheckout'>去结算</view>
 </view>

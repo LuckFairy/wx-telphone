@@ -4,7 +4,6 @@
   background: #eee;
 }
 .discount-area{
-  margin: 16rpx 0;
   flex-direction: column;
 }
 .discount {

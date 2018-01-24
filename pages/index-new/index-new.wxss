@@ -69,7 +69,9 @@ color:#1b1b1b;
   justify-content: space-around;
   margin: 0 25rpx;
 }
-
+.list-select-area-top{
+  margin-bottom:28rpx;
+}
 
  
 .select-list {
@@ -613,6 +615,7 @@ color:#1b1b1b;
   white-space: nowrap;
 }
 .shop-area-right{
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 20rpx 0;
@@ -622,7 +625,7 @@ color:#1b1b1b;
   width: 40rpx;
   height: 40rpx;
 }
-.shop-area-right navigator{
+.shop-area-right text{
   font-size: 20rpx;
   color: rgb(27, 27, 27);
 }

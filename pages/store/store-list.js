@@ -13,7 +13,10 @@ Page({
   },
   onLoad:function(options){
     var {check} = options;
-    if(check){this.setData({checkModel:true})};
+    if (check) {
+      this.setData({ checkModel: true }); wx.setNavigationBarTitle({
+        title: '门店列表'
+      })};
     var that = this;
     // 页面初始化 options为页面跳转所带来的参数
     // 自动获取手机宽高
@@ -36,6 +39,16 @@ Page({
       page
     })
     that._loadData();
+  },
+  /**
+   * 选择门店
+   */
+  checkStore(e){
+    var phy_id = e.target.dataset.locationId;
+    let pages = getCurrentPages();
+    let prevPage = pages[pages.length - 2];
+    prevPage.loadLocation(phy_id);
+    wx.navigateBack();
   },
   onReady:function(){
     // 页面渲染完成

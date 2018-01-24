@@ -30,10 +30,10 @@
           <text class='title'>title</text>
           <text class='message'>messegamessegamessegamessegamessega</text>
         </view>
-        <view class='shop-area-right'>
+        <navigator url="../store/store-list?check=true" class='shop-area-right'>
             <image class='icon' src='../../image/shop-icon.png'></image>
-            <navigator url="../store/store-list?check=true" >切换门店</navigator>
-        </view>
+            <text>切换门店</text>
+        </navigator>
     </view>
     <!--  切换门店区域结束 -->
     <!--列表选项区域  -->
@@ -41,7 +41,7 @@
       <view class='list-select-area'>
         <view class="list-select-area-top">
           <block wx:for="{{cat_list}}" wx:for-index="x">
-            <view wx:if="{{x > 4}}" class='select-list' bindtap="clickGo" data-index='{{x}}' data-cat-id='{{item.cat_id}}'>
+            <view wx:if="{{x  < 5 }}" class='select-list' bindtap="clickGo" data-index='{{x}}' data-cat-id='{{item.cat_id}}'>
               <image class='select-list-image' src='{{item.cat_pic}}'></image>
               <text class='select-list-text'>{{item.cat_name}}</text>
               <button form-type='submit' class='sub-button'>按钮</button>
@@ -50,7 +50,7 @@
         </view>
         <view class="list-select-area-bottom">
           <block wx:for="{{cat_list}}" wx:for-index="x">
-            <view wx:if="{{x < 5}}" class='select-list' bindtap="clickGoCategory" data-index='{{x}}' data-cat-id='{{item.cat_id}}'>
+            <view wx:if="{{x > 4}}" class='select-list' bindtap="clickGoCategory" data-index='{{x}}' data-cat-id='{{item.cat_id}}'>
               <image class='select-list-image' src='{{item.cat_pic}}'></image>
               <text class='select-list-text'>{{item.cat_name}}</text>
               <button form-type='submit' class='sub-button'>按钮</button>

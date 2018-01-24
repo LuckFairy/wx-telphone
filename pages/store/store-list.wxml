@@ -21,11 +21,11 @@
 <block wx:else>
   <scroll-view lower-threshold='0px' scroll-y='true' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='gobottom'>
     <view class="store-list-containner" wx:for="{{physical_list}}">
-      <view class="list-view-wrap">
-        <navigator class="list-item-view sp-border" url="{{'./store-detail?phy_id=' + item.phy_id}}">
+      <view class="list-view-wrap" data-location-id='item.phy_id' catchtap='checkStore'>
+        <navigator class="list-item-view sp-border" >
           <view class='list-item-dtl-icon-view'>
-          <icon wx:if="{{item.default==1}}" type='success' color='green' size='20'></icon>
-          <icon wx:else type='success' color='#eee' size='20'></icon>
+          <icon wx:if="{{item.default==1}}" type='success' color='#ffe546' size='23'></icon>
+          <!-- <icon wx:else type='success' color='#eee' size='23'></icon> -->
           </view>
           <view class="list-item-dtl-left-view">
           
