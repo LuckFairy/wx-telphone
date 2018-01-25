@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/saoma/saoma-index",
     "pages/index-new/index-new",
     "pages/card/mycard",
     "pages/shopping/buycard",
@@ -81,8 +80,7 @@
     "pages/list/list",
     "pages/lottery/dazhuanpan",
     "pages/canvas/canvas",
-    
-    "pages/saoma/coupon-list"
+    "pages/saoma/saoma-index"
   ],
   "window": {
     "backgroundTextStyle": "dark",

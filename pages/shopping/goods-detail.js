@@ -5,6 +5,8 @@ import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
 let _params = null;
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
+const  addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
+const physical_id = app.globalData.phy_id;//门店id
 Page({
   data: {
     mode: app.globalData.image.mode,//图片缩放模式
@@ -503,14 +505,14 @@ Page({
   getOrderId(opts){
     console.log('opts', opts)
     var { quantity, product_id, uid, store_id, sku_id, baokuan_action } = opts;
-    var url = 'wxapp.php?c=order_v2&a=add';
-    app.api.postApi( url , {
+    app.api.postApi( addOrderUrl , {
       "params": {
         uid,
         product_id,
         store_id,
         quantity,
-        sku_id
+        sku_id,
+        physical_id
       }
     }, (err, rep) => {
       if (err) { console.log('err ', err); return }

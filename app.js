@@ -46,6 +46,7 @@ App({
     sid: "",//商店id
     openid: "",//用户openid
     formIds: [],//formId数组
+    phy_id :"5",//门店id，默认是总店5
   },
   d: {
     hostUrl: 'https://wxplus.paoyeba.com/index.php',

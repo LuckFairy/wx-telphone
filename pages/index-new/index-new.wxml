@@ -30,7 +30,7 @@
           <text class='title'>title</text>
           <text class='message'>messegamessegamessegamessegamessega</text>
         </view>
-        <navigator url="../store/store-list?check=true" class='shop-area-right'>
+        <navigator url="../store/store-list?check=true&index=true" class='shop-area-right'>
             <image class='icon' src='../../image/shop-icon.png'></image>
             <text>切换门店</text>
         </navigator>

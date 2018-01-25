@@ -4,10 +4,12 @@ import { Api } from '../../utils/api_2';
 let app = getApp();
 const util = require('../../utils/util.js');
 const log = 'present-apply.js --- ';
+
 Api.signin();//获取以及存储openid、uid
 import { store_Id } from '../../utils/store_id';
 
 const SubmitURL = 'wxapp.php?c=order_v2&a=trial_product_pay';       // 赠品领用提交接口
+const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
 const QuestionURL = 'wxapp.php?c=product_v2&a=trial_product_question_list';     //问题列表接口
 const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url
 let modalConfig = {
@@ -22,6 +24,7 @@ let errModalConfig = {   // {image?: string, title: string}
 };
 //2017年8月17日16:46:48 by leo
 let skuid;                          // 记录商品多属性标识 id
+let physical_id = app.globalData.phy_id;//门店id
 
 Page({
   data:{
@@ -160,12 +163,13 @@ Page({
       mask: true
     });
     // 生成订单号
-    app.api.postApi('wxapp.php?c=order_v2&a=add', {
+    app.api.postApi(addOrderUrl, {
       "params": {
         "uid": that.data.uid,
         "quantity": 1,
         "product_id": that.data.product_id,
-        "store_id": that.data.store_id
+        "store_id": that.data.store_id,
+        physical_id
       }
     } ,(err,rep) => {
         wx.hideLoading();

@@ -19,6 +19,36 @@ Page({
     coupon_value: [],//线上优惠券面值数组
   },
   /**
+   * 获取当前门店位置
+   */
+  loadLocation(phy_id) {
+    wx.showLoading({
+      title: '加载中'
+    });
+    app.api.postApi('wxapp.php?c=address&a=physical_list', { params }, (err, resp) => {
+      // 列表数据
+      if (resp) {
+        wx.hideLoading();
+        if (resp.err_code == 0) {
+          for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
+            that.data.physical_list.push(resp.err_msg.physical_list[j])
+          }
+          that.setData({
+            physical_list: that.data.physical_list
+          })
+        } else {
+          wx.showToast({
+            title: '亲，没有了',
+            icon: 'success',
+            duration: 1000
+          })
+        }
+      } else {
+        //  错误
+      }
+    });
+  },
+  /**
    * 加载优惠券面值
    */
   loadCoupon:function(){

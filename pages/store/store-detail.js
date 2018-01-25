@@ -31,7 +31,13 @@ Page({
       }
     });
   },
-  
+  /**
+   * 拨打电话
+   */
+  calling:function(e){
+    var { telphone } = e.currentTarget.dataset;
+    app.calling(telphone);
+  },
   /**
    * 点击查看街景
    */

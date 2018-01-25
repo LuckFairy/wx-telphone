@@ -8,7 +8,7 @@ import { store_Id } from '../../utils/store_id';
 const log = 'buy.js --- ';
 
 const AddressSettingURL = 'buy/address';   // 设置售货地址
-const ListURL = 'wxapp.php?c=order_v2&a=add';          // 门店列表
+const ListURL = 'wxapp.php?c=order_v2&a=add'; // 生成订单
 const DetailURL = 'store/detail';    // 门店详情
 const addressList = ''; //地址详情
 const orderList = '';//订单详情
@@ -18,6 +18,7 @@ let _prodId;                          // 记录商品 id
 let skuid;                          // 记录商品多属性标识 id
 let quantity;                          // 购买商品的数量
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
+let physical_id = app.globalData.phy_id;//门店id
 Page({
   data: {
     // cardList: [],

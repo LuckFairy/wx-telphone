@@ -10,13 +10,15 @@ Page({
     windowWidth:'',
     physical_list:[],
     checkModel:false,//默认是门店指南模块
+    index:false ,//是否是首页切换门店
   },
   onLoad:function(options){
-    var {check} = options;
+    var {check , index } = options;
     if (check) {
-      this.setData({ checkModel: true }); wx.setNavigationBarTitle({
+      this.setData({ checkModel: true , index }); wx.setNavigationBarTitle({
         title: '门店列表'
       })};
+    
     var that = this;
     // 页面初始化 options为页面跳转所带来的参数
     // 自动获取手机宽高
