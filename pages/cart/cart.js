@@ -1,6 +1,8 @@
 var app = getApp(); 
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
+const  shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';//购物车生成订单接口（多个商品）
+const physical_id = app.globalData.phy_id;//门店id
 let errModalConfig = {
   title: '有错误！',
 };
@@ -219,8 +221,8 @@ Page({
     Api.signin();//获取以及存储openid、uid
     var uid = wx.getStorageSync('userUid'),store_id = store_Id.store_Id();
     //多商品下订单
-    var shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';
-    app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop:'0'} }, (err, rep) => {
+    
+    app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop: '0', physical_id} }, (err, rep) => {
       if (!err && rep.err_code == 0) {
         var  order_no = rep.err_msg.order_no;
         //下完订单，取的订单id
