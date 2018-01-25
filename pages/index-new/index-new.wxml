@@ -5,7 +5,7 @@
     <swiper wx:if='{{showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#fff' interval='3000' circular='true'>
       <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
         <view class='header-image'>
-          <image src='https://saas.qutego.com/upload/wxapp/banner/index.jpg' mode='aspectFit' lazyLoad="true"></image>
+          <image src='https://saas.qutego.com/upload/wxapp/banner/index.jpg' mode='aspectFit' lazyLoad="true"></image>  
         </view>
 
       </swiper-item>

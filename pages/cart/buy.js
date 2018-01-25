@@ -27,8 +27,8 @@ Page({
 
     shippingMethod: 'flat.flat',  // 邮寄方式，默认平邮   flat.flat-平邮  pickup.pickup 到店自提
     shippingMethods: [],    // 有效的配送方式
-    hasFlatShip: false,
-    hasPickupShip: false,
+    hasFlatShip: false,   //是否邮寄方式
+    hasPickupShip: false,  //是否到店自提方式
 
     address: null,    // 存放当前收货地址数据
     addressId: 0,     // 选择的收货地址id
@@ -82,7 +82,9 @@ Page({
     //2017年12月26日13:44:11
     couponInfo: [], //选择的优惠券信息
     normal_coupon_count: '', //可用的优惠券数量
-    totalId:[]
+    totalId:[],
+    page:'',//扫码确认订单-saoma
+    itemheights:[],//方式高度列表
   },
   /*
  *地址详情列表
