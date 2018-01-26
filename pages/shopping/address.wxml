@@ -1,9 +1,9 @@
-<view class="form-err-view">
-  <text wx:if="{{error}}" class="form-err-text">{{error}}</text>
+<view wx:if="{{error}}" class="form-err-view">
+  <text class="form-err-text">{{error}}</text>
 </view>
 
 
-<view class="addr-containner">
+<view class="addr-containner" style="{{error?'padding-top:32px':''}}">
     <view class="item-view">
         <label class="title">收 货 人：</label>
         <input style="flex:1;" bindinput="bindFullnameChange" value='{{addressiinfo.name}}'  type="text"  maxlength="64" />

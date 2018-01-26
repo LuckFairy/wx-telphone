@@ -521,7 +521,7 @@ _onPayFail(err) {
 
 addrViewClick() {
   wx.navigateTo({
-    url: './address-list?addressId=' + this.data.addressId
+    url: '../shopping/address-list?addressId=' + this.data.addressId
     //url: '../shop/address-list?addressId=' + this.data.addressId
   });
 },
