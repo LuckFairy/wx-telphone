@@ -20,29 +20,6 @@ Page({
   },
   onLoad: function () {
     var that = this;
-    // let url = 'http://www.baidu.com?code=wxapp&data={"act":"12card", "id":123}';
-    // let ret = getUrlQueryParam(url, 'data');
-    
-    /*
-    // 拼团列表数据
-    app.api.fetchApi("Groupbuy/GroupbuyLists", (err, resp) => {
-      if (err){
-          wx.showToast({
-            title: '网络错误',
-            icon: 'loading',
-            duration: 2000
-          })
-      } else if (resp){
-        var yiyadata=[];
-        yiyadata.push(resp.data);
-        console.log(yiyadata[0],3333333333);
-        that.setData({
-          yiyaDataList: yiyadata[0]
-        })
-      }
-    })
-    */
-
   },
   onUnload() {
 
@@ -139,75 +116,9 @@ Page({
         };
         resolve(indexData);
         
-        // //保存首页数据
-        // // wx.setStorageSync('indexData', indexData);
-
-        // //更新数据
-        // this.setData({ loading: false, indexData: indexData });
       });
     });
   },
-
-   /**
-   * 加载数据
-   */
-  // loadData: function () {
-  //   let tokenId = wx.getStorageSync('tokenId');
-  //   let url = 'home/index';
-  //   app.api.fetchApi(url, (err, response) => {
-  //     if (err) return;
-  //     // let {rtnCode, data, count, user_info} = response;
-  //     // if (rtnCode != 0) return;
-  //     // indexData = data.indexData;
-      
-  //     //保存首页数据
-  //     // wx.setStorageSync('indexData', indexData);
-
-  //     let userInfo = wx.getStorageSync('userInfo');
-
-  //     let that = this;
-  //     if (!userInfo) {
-  //       wx.getUserInfo({
-  //         success: function (res) {
-  //           wx.setStorageSync('userInfo', res.userInfo);
-  //           indexData[0].data.userInfo = res.userInfo;
-  //           //that.setData({ loading: false, indexData: indexData });
-            
-  //           app.api.postApi("user/update", { encryptedData: res.encryptedData, iv: res.iv },
-  //             (err, resData)=> {
-  //               if (err) {
-  //                 console.log("注册用户失败。");
-  //               } else {
-  //                 if(resData.rtnCode == '1'){
-  //                   // var indexData = wx.getStorageSync('indexData');
-  //                   if(resData.data && resData.data.bcCode){
-  //                     wx.setStorageSync('bcCode', resData.data.bcCode);
-  //                   }
-  //                   // wx.setStorageSync('indexData', indexData);
-  //                   console.log("注册用户成功。");
-  //                 }else{
-  //                   console.log("注册用户失败。");
-  //                 }
-  //               }
-  //             });
-  //         },
-  //         fail: function () {
-  //           // fail
-  //           indexData[0].data.userInfo = { "nickName": wx.getStorageSync('uidTemp'), "avatarUrl": "http://obkoarv43.bkt.clouddn.com/redbox/default_weixin_headimg_new.jpg" };
-  //           //that.setData({ loading: false, indexData: indexData });
-  //         },
-  //       });
-  //     }else{
-  //       indexData[0].data.userInfo = userInfo;
-  //     }
-      
-  //     // indexData = wx.getStorageSync('indexData');
-  //     indexData[0].data.bcode = wx.getStorageSync('bcCode');
-  //     //更新数据
-  //     this.setData({ loading: false, indexData: indexData });
-
-  //   });
-  // },
 
 
   //扫描二维码

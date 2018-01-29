@@ -1,7 +1,6 @@
 const md5 = require('./md5.js');
-
-
 function formatTime(date) {
+  var date = new Date(date * 1000);//如果date为10位不需要乘1000
   var year = date.getFullYear()
   var month = date.getMonth() + 1
   var day = date.getDate()
@@ -9,43 +8,35 @@ function formatTime(date) {
   var hour = date.getHours()
   var minute = date.getMinutes()
   var second = date.getSeconds()
-
-
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
-
 function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
-
 function formatDuration(duration) {
   let m = Math.floor(duration / 60);
   let s = duration % 60;
   s = s < 10 ? '0' + s : s;
   return m + ':' + s;
 }
-
-
-function getUrlQueryParam (url, paramName){
-    var reg = new RegExp("(^|&)"+ paramName +"=([^&]*)(&|$)");
-    if(url){
-      let urlSplitArray = url.split("?");
-      if(urlSplitArray && urlSplitArray.length > 1){
-          let paramStr = urlSplitArray[1];
-          let result = paramStr.match(reg);
-          if(result != null){
-            return  decodeURIComponent(result[2]);
-          }
+function getUrlQueryParam(url, paramName) {
+  var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)");
+  if (url) {
+    let urlSplitArray = url.split("?");
+    if (urlSplitArray && urlSplitArray.length > 1) {
+      let paramStr = urlSplitArray[1];
+      let result = paramStr.match(reg);
+      if (result != null) {
+        return decodeURIComponent(result[2]);
       }
     }
-    return '';
+  }
+  return '';
 }
-
 function formatMoney(money) {
   return '￥' + money / 100;
 }
-
 function signUrl(url, tokenId, secretKey, timestamp) {
   if (!url) url = '';
 
@@ -61,7 +52,6 @@ function signUrl(url, tokenId, secretKey, timestamp) {
   return sign;
 }
 
-
 /**
   * 验证手机号码
   * 
@@ -74,6 +64,5 @@ function signUrl(url, tokenId, secretKey, timestamp) {
   */
 function checkMobile(str) {
   return /^1[3|4|5|7|8][0-9]\d{8}$/.test(str);
-} 
-
+}
 module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, signUrl, checkMobile }

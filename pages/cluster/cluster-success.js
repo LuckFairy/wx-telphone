@@ -24,8 +24,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('go into onLoad');
-    console.log(options);
     var prodId = options.prodId;
     var groupbuyId = options.groupbuyId;
     var groupbuyOrderId = options.Groupbuy_order_id;
@@ -35,10 +33,7 @@ Page({
       groupbuyId: groupbuyId
     });  
     var that = this;
-    // console.log(Groupbuy_order_id,767676767)
     var datalist = 'Order/GroupDetail';
-    // console.log(datalist,122211111);
-    //app.api.fetchApi(datalist, (err, resp) => {
     app.api.postApi(datalist, { groupbuyOrderId, orderId }, (err, resp) => {  
       if (err) {
         wx.showToast({
@@ -49,7 +44,6 @@ Page({
       } else if (resp) {
         var userlist = [];
         userlist.push(resp.data);
-         console.log(userlist,1119999);
         that.setData({
           userdata: userlist[0]
         })
@@ -64,9 +58,6 @@ Page({
       if (err) return;
       let { rtnCode, rtnMessage, data } = response;
       if (rtnCode != 0) return;
-      console.log('购物车下面的推荐数据：');
-      console.log(data);
-      //let hotsaleGoing = [], hotsaleIncoming = [];
       let hotsaleGoing = data;
       this.setData({ hotsaleGoing });
     });
@@ -126,7 +117,6 @@ Page({
 
   //跳到拼团商品详情页
   goGroupDetail(e) {
-    //console.log(e);
     var prodId = e.currentTarget.dataset.productid;
     var groupbuyId = e.currentTarget.dataset.groupbyid;
     var selldetail = e.currentTarget.dataset.selldetail;

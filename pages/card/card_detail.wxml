@@ -1,25 +1,19 @@
 <import src="../wxParse/wxParse.wxml" />
 <loading hidden="{{!loading}}">
-    加载中...
+  加载中...
 </loading>
 <view class="card-detail-container">
-    <view class="detail-title-view">
-        <image src="../../image/ma_card_check.png" mode="widthFix" style="width:15px;"></image>
-        <view class="detail-title-text-view">优惠券详情</view>
+  <view class="detail-title-view">
+    <image src="../../image/ma_card_check.png" mode="widthFix" style="width:15px;"></image>
+    <view class="detail-title-text-view">优惠券详情</view>
+  </view>
+  <view class="detail-desc-view">
+    <view class="desc-textarea">
+      {{detail}}
     </view>
-    
-    <view class="detail-desc-view">
-        <view class="desc-textarea">
-            <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
-            
-        </view>
-    </view>
-    
-    <view class="label-text-view"><text class="label-text">有效日期：</text> <text class="readonly-text">{{cardInfo.cardValidity}}</text></view>
-
-    <view class="label-text-view"><text class="label-text">可用时间段：</text><text class="readonly-text">周一至周日</text></view>
-
-    <view class="label-text-view"><text class="label-text">电话：</text><text class="readonly-text">{{cardInfo.contactTel}}</text></view>
-
-    <view class="label-text-view"><text class="label-text">使用须知：</text><text class="readonly-text">{{cardInfo.remark? cardInfo.remark : ''}}</text></view>
+  </view>
+  <view class="label-text-view">
+    <text class="label-text">有效日期：{{start}}-{{end}}</text>
+    <text class="readonly-text"></text>
+  </view>
 </view>

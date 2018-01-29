@@ -1,4 +1,5 @@
 // pages/index-new/server-wechat.js
+let app = getApp();
 Page({
 
   /**
@@ -35,7 +36,9 @@ Page({
   onHide: function () {
   
   },
-
+  calling:function(){
+    app.calling('4006088520');
+  },
   /**
    * 生命周期函数--监听页面卸载
    */

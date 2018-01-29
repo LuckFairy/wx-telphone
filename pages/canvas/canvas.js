@@ -24,38 +24,42 @@ Page({
   },
   onLoad:function(){
     var that=this;
-    wx.showLoading({
-      title: '加载中'
-    })
-    app.api.fetchApi("lottery/home", (err, resp) => {
-      wx.hideLoading();
-      if (err) return;
-      if (resp) {
-        let { rtnCode, rtnMessage, data } = resp;
-        let { end, first, second, third, info, firstnums, secondnums, thirdnums, prizeinfo} = data;
-        if (rtnCode != 0) return;
-        console.log('首页数据');
-        console.log(resp.data, "111");
-        that.setData({
-          first,
-          second,
-          third,
-          info,
-          firstnums,
-          secondnums,
-          thirdnums,
-          end,
-          prizeinfo
-        })
-        if (end == 1){
+    //app.api.fetchApi("lottery/home", (err, resp) => {
+    let params = {
+      uid: 91,
+      id: '21', //活动id
+    }  
+    let url = "wxapp.php?c=lottery&a=detail";  
+    app.api.postApi(url, { params }, (err, resp) => {  
+      console.log('大转盘信息',resp);
+      let data = resp.err_msg;
+      let end = data.end;
+      let info = data.info;
+      let startdate = data.startdate;
+      let enddate = data.enddate;
+      let prize = data.prize;
+      let winprize = data.winprize;
+      if (end == 1) {
           setTimeout(function () {
             that.setData({
-              textMsg: resp.data.winprize,
-              textShow: true
+              textMsg: winprize,
+              textShow: true,
+              end
             })
           }, 1)
           // return false;
-        }
+      }else{
+        that.setData({
+          first: prize[0].product_name,
+          second: prize[1].product_name,
+          third: prize[2].product_name,
+          info,
+          firstnums: prize[0].product_num,
+          secondnums: prize[1].product_num,
+          thirdnums: prize[2].product_num,
+          end,
+
+        })
       }
    });
   },
@@ -68,6 +72,8 @@ Page({
   },
   //单击事件
   enterFreshen:function(){
+    console.log('单击事件');
+    console.log(this.data.end);
     var that = this;
     //如果end为0，就要去掉这个回转归位的动画。
     if (that.data.end == 1){
@@ -130,25 +136,38 @@ Page({
   //点击抽奖
   getLottery: function (){
     // var retoteNum = this.data.retoteNum;
+    
     var tap=this.data.tap;
     if (tap){
       this.setData({
         tap: false
       })
         //做节流阀
-      wx.showLoading({
-        title: '加载中'
-      })
-      app.api.fetchApi("lottery/index", (err, resp) => {
-        wx.hideLoading();
+      let params = {
+        uid: 91,
+        id: '21', //活动id
+      }
+      let url = "wxapp.php?c=lottery&a=get_prize";
+      app.api.postApi(url, { params }, (err, resp) => {  
+        console.log(resp,"11111111111111");
+        var that = this;
+        let data = resp.err_msg;
 
-        if (err) return;
-        if (resp) {
-          let { rtnCode, rtnMessage, data } = resp;
-          if (rtnCode != 0) return;
-          var that = this;
-          var awardIndex = resp.data.prizetype;
-          var status = resp.data.status;
+        if (resp.err_code !=0) {
+          
+          setTimeout(function () {
+            that.setData({
+              textMsg: data,
+              textShow: true
+            })
+          }, 1)
+          return false;
+
+        } else {
+          console.log('可以抽奖');
+         
+          var awardIndex = data.prizetype;
+          var status = 1;
           this.setData({
             awardIndex: awardIndex,
             status: status
@@ -196,14 +215,6 @@ Page({
               //   }
               // }
             }
-          } else {
-            setTimeout(function () {
-              that.setData({
-                textMsg: resp.data.winprize,
-                textShow: true
-              })
-            }, 1)
-            return false;
           }
           //结束时转了多少度,存起来
           that.setData({
@@ -223,7 +234,7 @@ Page({
 
           setTimeout(function () {
             that.setData({
-              textMsg: resp.data.msg,
+              textMsg: data.product_name,
               textShow: true
             })
           }, 4000)

@@ -55,10 +55,8 @@ Page({
     productColor: '',   // 商品颜色
     productSize: '',   // 商品尺码
     groupbuyId: null,
-    groupbuyOrderId: 0,
     matteShow: false,  //购买成功弹窗
     prodId: '',
-    groupbuyId: '',
     groupbuyOrderId: '',
     // flag:1, //没用了
     // imgName:"",//没用了
@@ -74,17 +72,10 @@ Page({
       skuid = options.skuid;
     } else {
       skuid = 0;
-      console.log('该商品没有多属性');
     }
     //商品的数量
     quantity = options.num;
     this.setData({ quantity: quantity });
-    //var attrArr = attrData.split(",");//以逗号作为分隔字符串
-    //console.log('buy.js-选择的属性-数组：' + attrArr);
-    // 页面初始化 options为页面跳转所带来的参数
-    console.log('buy.js-页面初始化 options为页面跳转所带来的参数：');
-    console.log(options);
-
     let { prodId, qrEntry } = options;
     // this._prepareOrder(prodId);
     _prodId = prodId;       // 记录商品 id
@@ -143,12 +134,8 @@ Page({
     app.api.postApi(AddressSettingURL, { addressId }, (err, res) => {  // 设置收货地址
       wx.hideLoading();
       if (!err && res.rtnCode == 0) {
-        console.log(log + '设置收货地址成功');
-        console.log(res);
         this._handleData(res);
       } else {
-        console.log(log + '设置收货地址出错');
-        console.log(err);
         this._showError('加载数据出错，请重试');
       }
     });
@@ -159,17 +146,9 @@ Page({
    */
   _prepareOrder(prodId, skuid, quantity, groupbuyId) {
     wx.showLoading({ title: '加载中...', mask: true, });
-    //post['test'] = 'abc123';
-    //app.api.postApi("buy/prepare", {prodId}, (err, resp) => {
     let url = 'buy/prepare';
-    //let url = 'buy/prepare/skuid=' + skuid; //新接口
-    //app.api.postApi("buy/prepare_new", { prodId }, (err, resp) => {  
     app.api.postApi(url, { prodId, skuid, quantity, groupbuyId, groupbuyOrderId }, (err, resp) => {
-      //app.api.postApi(url, { prodId, skuid, quantity}, (err, resp) => {  
       wx.hideLoading();
-      console.log('skuid' + skuid);
-      console.log(log + '订单数据');
-      console.log({ err, resp });
       if (err) {
         return this._showError('加载数据出错，请重试');
       }
@@ -200,8 +179,6 @@ Page({
     if (addrList && addrList.length) {
       for (let i = 0; i < addrList.length; i++) {
         if (addrList[i].isSelected) {
-          console.log(log + '选择的地址');
-          console.log(addrList[i]);
           addressId = addrList[i].addressId;
           address = addrList[i];
           break;
@@ -249,30 +226,22 @@ Page({
    * 提交订单
    */
   submitOrder: function (event) {
-    //if (this.data.error) return false;
-    console.log(event);
-    console.log(event.detail.formId);
+    var getOpenId = wx.getStorageSync('userOpenid');//获取到存储的openid  
+    console.log(getOpenId,"888888888888888888888888888888888888888888888888888888888888888888888888888888888")
     var formId = event.detail.formId;
-    //console.log('提交订单'); return false;
     if (!this.checkAddress()) return false;
 
     // 收货地址
     let params = this.buildAddressParams();
-    console.log('收货地址-skuid:' + skuid);
-    console.log('收货地址:'); console.log(params);
     //params.push(skuid);
     params.skuId = skuid;
     params.quantity = quantity;
     params.groupbuyId = groupbuyId;
     params.groupbuyOrderId = groupbuyOrderId; //开团0，参团需要对应的值（团ID）
-    console.log('收货地址:'); console.log(params);
-    //return;
     wx.showLoading({ title: '加载中...', mask: true, });
 
-    //app.api.postApi("buy/submit", params, (err, resp) => {
     app.api.postApi("buy/submit_new", params, (err, resp) => {
       wx.hideLoading();
-      console.log({ err, resp });
       if (err) {
         return this._showError('提交订单失败，请重试');;
       }
@@ -283,9 +252,6 @@ Page({
       }
 
       let { orderId, needPay, payParams } = data;
-      //console.log('支付前的判断是否要支付参数');
-      //console.log(needPay);
-      //console.log('断点');return;
       // 不需要支付
       if (!needPay) {
         return this._onSubmitNoPay();
@@ -293,48 +259,10 @@ Page({
 
       // 需要支付
       if (payParams) {
-        console.log('订单号' + data.orderId);
-        //this._startPay(payParams, data.orderId); 
         this._startPay(payParams, data.orderId, formId);
       }
     });
   },
-
-  /**
-   * 提交订单
-   */
-  // submitOrder2: function(event){
-  //   //if (this.data.error) return false;
-  //   let {preOrderId} = this.data;
-
-  //   wx.showLoading({title: '加载中...', mask: true, });
-
-  //   app.api.postApi("buy_submit", {preOrderId}, (err, resp) => {
-  //     wx.hideLoading();
-  //     console.log({err, resp});
-  //     if (err) {
-  //       return this._showError('提交订单失败，请重试');;
-  //     } 
-
-  //     let {rtnCode, rtnMessage, data} = resp;
-  //     if (rtnCode != 0) {
-  //       return this._showError(rtnMessage);;
-  //     }
-
-  //     let {orderId, needPay, payParams} = data;
-
-  //     // 不需要支付
-  //     if (!needPay) {
-  //       return this._onSubmitNoPay();
-  //     }
-
-  //     // 需要支付
-  //     if (payParams) {
-  //       this._startPay(payParams);
-  //     }      
-  //   });
-  // },
-
   /**
    * 调起微信支付
    */
@@ -348,18 +276,7 @@ Page({
       success: res => this._onPaySuccess(res),
       fail: err => this._onPayFail(err)
     };
-    //console.log('调起微信支付参数payParams:');
-    //console.log(payParams);
-    console.log('发起支付:', param);
-    //console.log('发起支付package:', param.package);
-    //console.log('调试断点');
     var arr = param.package.split("=");
-    //console.log('发起支付package处理后');
-    //console.log(arr);
-    console.log('prepare id:' + arr['1']);
-    console.log('订单号是:' + orderId);
-    //return;
-    //this._sendMsg(arr['1'], orderId);
     wx.requestPayment(param);
     //this._sendMsg(arr['1']);
     //this._sendMsg(arr['1'], orderId); //使用的是prepare_id，但是苹果收不到
@@ -384,23 +301,14 @@ Page({
     that.setData({
       matteShow: false
     });
-
     var prodId = that.data.prodId;
     var groupbuyId = that.data.groupbuyId;
     var groupbuyOrderId = that.data.groupbuyOrderId;
-
-    //购买成功后的分享功能，丢弃……
-    // var imgName = that.data.imgName;
-    // var imgUrl=that.data.imgUrl;
-    // var flag=that.data.flag;
-    // var showshare = that.data.showshare;
     
     //500毫秒后跳转
     setTimeout(function () {
       wx.redirectTo({
         url: '../shopping/my-order?groundBuy=1&prodId=' + prodId + '&groupbuyId=' + groupbuyId + '&groupbuyOrderId=' + groupbuyOrderId
-
-        // url: '../shopping/my-order?groundBuy=1&prodIdShare=' + prodId + '&groupbuyIdShare=' + groupbuyId + '&groupbuyOrderIdShare=' + groupbuyOrderId + "&flag=" + flag + "&imgName=" + imgName + "&imgUrl=" + imgUrl + "&showshare=" + showshare
       });
     }, 500);
   },
@@ -408,10 +316,7 @@ Page({
    * 支付成功
    */
   _onPaySuccess(res) {
-    //_onPaySuccess(res, prepareId, orderId) {  
-    //this._sendMsg(prepareId, orderId);
     var that = this;
-    console.log('支付成功：', res);
     // 支付成功弹窗
     that.setData({
       matteShow: true
@@ -422,7 +327,6 @@ Page({
    * 支付失败
    */
   _onPayFail(err) {
-    console.log('支付失败：', err);
     wx.showModal({
       title: '支付失败',
       content: '订单支付失败，请到[订单-待付款]列表里重新支付',
@@ -676,15 +580,11 @@ Page({
   _loadShopData() {
     app.api.fetchApi(ListURL, (err, res) => {   // 获取门店列表数据
       if (!err && res.rtnCode == 0) {
-        console.log(log + '获取门店列表数据');
-        console.log(res.data);
         let { data: shopListData } = res;
 
         this._loadShopDetailData(shopListData[0]);   // 默认加载第一个门店的详情数据
         this.setData({ shopListData });
       } else {
-        console.log(log + '获取门店列表数据错误');
-        console.log(err);
       }
     });
   },
@@ -699,8 +599,6 @@ Page({
 
     app.api.fetchApi(DetailURL + '/' + options.storeId, (err, res) => {    // 获取门店详情数据
       if (!err && res.rtnCode == 0) {
-        console.log(log + '获取门店详情数据');
-        console.log(res.data);
         let { data: ShopDetailData } = res;
 
         if (loading) {
@@ -714,8 +612,6 @@ Page({
         }
       } else {
         if (loading) wx.hideLoading();
-        console.log(log + '获取门店详情数据错误');
-        console.log(err);
       }
     });
   },
@@ -733,7 +629,6 @@ Page({
    * 点击查看街景
    */
   seeStreet() {
-    console.log(log + '点击查看街景');
   },
 
   /**
@@ -768,14 +663,11 @@ Page({
 
   //发送模板消息测试
   _sendMsg(prepayId, orderId) {
-    console.log('发送模板消息测试参数prepayId');
-    console.log(prepayId);
     var user_id = app.d.userId; //测试参数
     var formId = prepayId;
     var orderId = orderId;
     let url = 'buy/sendmsg';
     app.api.postApi(url, { user_id, formId, orderId }, (err, resp) => {
-      //console.log({ err, resp });
       if (err) {
         //return this._showError('加载数据出错，请重试');
         wx.showToast({
@@ -790,8 +682,6 @@ Page({
       if (rtnCode != 0) {
         //return this._showError(rtnMessage);
       }
-      //console.log('发送模板消息测试');
-      //console.log(data);
 
     });
   },

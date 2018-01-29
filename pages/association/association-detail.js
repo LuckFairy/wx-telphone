@@ -9,8 +9,7 @@ Page({
 	onLoad:function(options){
 		// 页面初始化 options为页面跳转所带来的参数
 		let {data} = options;
-		console.log(log + 'options');
-		console.log(decodeURIComponent(data));
+	
 
 		let pageData = JSON.parse(decodeURIComponent(data));
 		this.setData({pageData});
@@ -31,9 +30,7 @@ Page({
           showCancel: false,
           success: function(res) {
             if (res.confirm) {
-              console.log('用户点击确定')
-            } else if (res.cancel) {
-              console.log('用户点击取消')
+            } else if (res.cancel) {            
             }
           }
         })

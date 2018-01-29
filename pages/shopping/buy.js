@@ -1,12 +1,17 @@
 // pages/shopping/buy.js 
 
-const util = require('../../utils/util.js');
-var app = getApp();
+const app = getApp();
+
+import { util, formatTime}  from '../../utils/util';
+import { Api } from '../../utils/api_2';
+import { store_Id } from '../../utils/store_id';
 const log = 'buy.js --- ';
 
 const AddressSettingURL = 'buy/address';   // 设置售货地址
-const ListURL = 'store/ls';          // 门店列表
+const ListURL = 'wxapp.php?c=order_v2&a=add';          // 门店列表
 const DetailURL = 'store/detail';    // 门店详情
+const addressList = ''; //地址详情
+const orderList = '';//订单详情
 
 var checkTimer = null;
 let _prodId;                          // 记录商品 id
@@ -16,23 +21,17 @@ let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 Page({
   data: {
     // cardList: [],
-    addrList: [],
+
     // fee: null,
     error: false,
     products: [],
-    totals: [],
+    totals: [],//商品总价
     isLoading: true,
     showwechat: false,
-
     shippingMethod: 'flat.flat',  // 邮寄方式，默认平邮   flat.flat-平邮  pickup.pickup 到店自提
     shippingMethods: [],    // 有效的配送方式
     hasFlatShip: false,
     hasPickupShip: false,
-
-    address: null,    // 存放当前收货地址数据
-    addressId: 0,     // 选择的收货地址id
-    pickupStoreId: 0, // 自提门店id
-
     showAreaPicer: false,
     areaText: '',   // 区域
     zoneList: [],
@@ -54,60 +53,179 @@ Page({
     //2017年8月17日16:21:58
     productColor: '',   // 商品颜色
     productSize: '',   // 商品尺码
-    matteShow:false  //购买成功弹窗
+    matteShow:false,  //购买成功弹窗
+
+    // 2017-12-16amy 增加订单id
+   orderData:'',//订单数据
+   orderId :'',//订单号
+   storeId: store_Id.shopid,//商店id
+   uid : '',//用户id
+   address: null,    // 存放当前收货地址数据
+   addressList:[],  //地址列表
+   addressId: 0,     // 选择的收货地址id
+   pickupStoreId: 0, // 自提门店id
+   productList:null,//产品列表
+   fee:0,//运费
+   lastPay:0,//实付
+   //2017年12月18日18:25:21 by leo
+   orderId:'',
+   shipping_method: 'express',
+   postage_list: "",
+   user_coupon_id: 0,
+   is_app: false,
+   payType: 'weixin',
+    //2017年12月25日11:54:53
+    couponInfo: [], //选择的优惠券信息
+    //2017年12月25日12:18:49
+    normal_coupon_count:'', //可用的优惠券数量
+    discounts:0,
+    product_id:'',
+    pro_price:'',
+    baokuan_action:'',//判断是否为闪购严选
   },
+  /*
+  *订单详情列表
+  */
+  showOrderList (opt) {
+    let that = this;
+    let orderId = opt.orderId ;
+
+    app.api.postApi('wxapp.php?c=order&a=mydetail',{"params": {
+      "order_no":opt.orderId 
+    }}, (err,rep) => {
+      if(err){ console.log('err ',err); return;}
+      var { err_code, err_msg: { orderdata}} = rep;
+      if(err_code != 0){ return;}
+      console.log('订单详情列表', orderdata);
+      var product_id = orderdata.product[0].product_id;
+      console.log('产品id', product_id);
+      var pro_price = orderdata.product[0].pro_price;
+      console.log('产品价格', pro_price);
+      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int), orderId, postage_list: orderdata.postage, product_id: product_id, pro_price: pro_price});
+      that.loadCouponData(pro_price, product_id);
+    })
+    
+    //2017年12月25日12:27:38 获取优惠券的数量
+    
+  },
+  /*
+  *地址详情列表
+  */
+  getAddress(uid){
+    var url = 'wxapp.php?c=address&a=MyAddress';
+    var that = this;
+    var address = that.data.address;
+    var params = {
+      uid, store_id: that.data.storeId
+    }
+    app.api.postApi(url,{params} , (err, rep) => {
+      if(!err && rep.err_code == 0){
+        var addressList = rep.err_msg.addresslist;
+        if (addressList.length){
+          if (addressList.length>1){
+            //设置默认地址
+            for (var i in addressList) {
+              if (addressList[i].default == 1) {
+                console.log('默认地址 ', addressList[i]);
+                address = addressList[i];
+              }
+            }
+          } else if (addressList.length == 1){
+            address = addressList[0];
+          }
+          this.setData({
+            "address": address,
+            "addressList": addressList,
+            "addressId": addressList[0].address_id
+          });
+        }else{
+          wx.showModal({
+            title: '请先设置收货地址',
+            content: '你还没有设置收货地址，请点击这里设置！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: './address-list',
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
+         
+      }
+    });
+ 
+  },
+  
+
   onLoad: function (options) {
-    //2017年8月17日13:46:50 处理选择后的多属性
-    var attrData = wx.getStorageSync('key') || [];
-    console.log('属性：');
-    console.log(attrData);
-    if (attrData.length > 0) {
-      console.log('buy.js-选择的属性：' + attrData);
-      var attrArr = attrData.split('-');
-      console.log('buy.js-选择的属性split之后结果：' + attrArr);
-      console.log('buy.js-选择的属性split之后结果-0：' + attrArr['0']);
-      console.log('buy.js-选择的属性split之后结果-1：' + attrArr['1']);
-      this.setData({ productColor: attrArr['0'], productSize: attrArr['1'] });
-      console.log('options:');
-      console.log(options);
-      skuid = options.skuid;
-      console.log('商品多属性标识：');
-      console.log(skuid);
-    } else {
-      skuid = 0;
-      console.log('该商品没有多属性');
+    console.log('获取存储', wx.getStorageSync('couponInfo'));
+    wx.removeStorageSync('couponInfo');
+    console.log('移除之后', wx.getStorageSync('couponInfo'));
+    wx.removeStorageSync('recid')
+    wx.removeStorageSync('cname')
+    wx.removeStorageSync('face_money')
+    console.log('页面load',options);
+    let { uid, pid, skuId, storeId, qrEntry, orderId,baokuan_action } = options;
+    quantity = options.quantity;
+    //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
+    this.setData({ orderId, uid});
+    //显示订单列表
+    this.showOrderList({ orderId });
+    this.getAddress(uid);
+    
+    _prodId = pid;      
+    var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo'): [] ;
+    //console.log('onLoad优惠券信息', couponInfo);
+    if (couponInfo.length>0){
+      var user_coupon_id = [] ;  //23  ['23']
+      user_coupon_id.push(couponInfo[0]);
+      //console.log(user_coupon_id,'user_coupon_idooooooooooooo')
+      this.setData({
+        user_coupon_id: user_coupon_id,
+        discounts: couponInfo[2]
+      })
     }
-    //商品的数量
-    quantity = options.num;
-    this.setData({ quantity: quantity });
-    //var attrArr = attrData.split(",");//以逗号作为分隔字符串
-    //console.log('buy.js-选择的属性-数组：' + attrArr);
-    // 页面初始化 options为页面跳转所带来的参数
-    console.log('buy.js-页面初始化 options为页面跳转所带来的参数：');
-    console.log(options);
-    let { prodId, qrEntry } = options;
-    // this._prepareOrder(prodId);
-    _prodId = prodId;       // 记录商品 id
+    this.setData({
+      couponInfo: couponInfo,
+      baokuan_action: baokuan_action
+    })
+    
 
-    // this._prepare(prodId);
-    if (qrEntry) {
-      this.setData({ qrEntry: qrEntry });
-    }
-
-    // 加载门店列表数据
-    this._loadShopData();
   },
   onReady: function () {
+    console.log('页面渲染完成');
     // 页面渲染完成
   },
   onShow: function () {
+    console.log('页面显示');
+    var uid = this.data.uid;
+    this.getAddress(uid);
     // 页面显示
-    this._prepare(_prodId, skuid, quantity, groupbuyId);
+   // this._prepare(_prodId, skuid, quantity, groupbuyId);
+   //2017年12月25日12:00:37 
+    var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
+    //console.log('onShow优惠券信息', couponInfo);
+    if (couponInfo.length > 0) {
+      var user_coupon_id = [];  //23  ['23']
+      user_coupon_id.push(couponInfo[0]);
+      //console.log(user_coupon_id, 'user_coupon_idooooooooooooo')
+      this.setData({
+        user_coupon_id: user_coupon_id
+      })
+    }
+    this.setData({
+      couponInfo: couponInfo
+    })
   },
   onHide: function () {
+    console.log('页面隐藏');
     // 页面隐藏
   },
   onUnload: function () {
+    console.log('页面关闭');
     // 页面关闭
   },
 
@@ -130,19 +248,44 @@ Page({
    * 设置收货地址
    * 设置完成后需重新刷新订单
    */
-  changeAddress(addressId) {
-    wx.showLoading({ title: '加载中...', mask: true, });
+  changeAddress(uid) {
+    var url = 'wxapp.php?c=address&a=MyAddress';
+    var that = this;
+    var address = that.data.address;
 
-    app.api.postApi(AddressSettingURL, { addressId }, (err, res) => {  // 设置收货地址
-      wx.hideLoading();
-      if (!err && res.rtnCode == 0) {
-        console.log(log + '设置收货地址成功');
-        console.log(res);
-        this._handleData(res);
-      } else {
-        console.log(log + '设置收货地址出错');
-        console.log(err);
-        this._showError('加载数据出错，请重试');
+    app.api.postApi(url, { "params": { uid } }, (err, rep) => {
+      if (!err && rep.err_code == 0) {
+        var addressList = rep.err_msg.addresslist;
+        if (addressList.length) {
+          if (addressList.length > 0) {
+            //设置默认地址
+            for (var i in addressList) {
+              if (addressList[i].default == 1) {
+                address = addressList[i];
+              } 
+            }
+            this.setData({
+              "address": address,
+              "addressList": addressList,
+              "addressId": addressList[0].address_id
+            });
+          }
+        } else {
+          wx.showModal({
+            title: '请先设置收货地址',
+            content: '你还没有设置收货地址，请点击这里设置！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: './address-list',
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
+
       }
     });
   },
@@ -152,16 +295,9 @@ Page({
    */
   _prepareOrder(prodId, skuid, quantity, groupbuyId) {
     wx.showLoading({ title: '加载中...', mask: true, });
-    //post['test'] = 'abc123';
-    //app.api.postApi("buy/prepare", {prodId}, (err, resp) => {
     let url = 'buy/prepare';
-    //let url = 'buy/prepare/skuid=' + skuid; //新接口
-    //app.api.postApi("buy/prepare_new", { prodId }, (err, resp) => {  
     app.api.postApi(url, { prodId, skuid, quantity, groupbuyId }, (err, resp) => {
       wx.hideLoading();
-      console.log('skuid' + skuid);
-      console.log(log + '订单数据');
-      console.log({ err, resp });
       if (err) {
         return this._showError('加载数据出错，请重试');
       }
@@ -180,13 +316,6 @@ Page({
     }
 
     let { products, addrList, totals, preOrderId, shippingMethods, shippingMethod } = data;
-    console.log('加载数据');
-    console.log(products);
-    console.log(addrList);
-    console.log(totals);
-    console.log(preOrderId);
-    console.log(shippingMethods);
-    console.log(shippingMethod);
     let { zoneList } = this.data;
 
     let addressId = false;
@@ -194,8 +323,6 @@ Page({
     if (addrList && addrList.length) {
       for (let i = 0; i < addrList.length; i++) {
         if (addrList[i].isSelected) {
-          console.log(log + '选择的地址');
-          console.log(addrList[i]);
           addressId = addrList[i].addressId;
           address = addrList[i];
           break;
@@ -249,87 +376,82 @@ Page({
    * 提交订单
    */
   submitOrder: function (event) {
+    
     var that = this;
     // 显示公众号复制提示
     that.setData({
       showwechat: true
     })
-    //if (this.data.error) return false;
+
 
     if (!this.checkAddress()) return false;
 
     // 收货地址
-    let params = this.buildAddressParams();
-    console.log('收货地址-skuid:' + skuid);
-    console.log('收货地址:'); console.log(params);
-    //params.push(skuid);
-    params.skuId = skuid;
-    params.quantity = quantity;
-    console.log('收货地址:'); console.log(params);
-    //return;
-    wx.showLoading({ title: '加载中...', mask: true, });
-    //app.api.postApi("buy/submit", params, (err, resp) => {
-    app.api.postApi("buy/submit_new", params, (err, resp) => {
+    let address_params= this.buildAddressParams();
+    let address_id = address_params.addressId;
+    console.log('地址id是=' + address_id);
+    //let address_id = 47;
+    let payType = this.data.payType;
+    let is_app = this.data.is_app;
+    let postage_list = this.data.postage_list;
+    //let postage_list = "a:1:{i:6;d:0;}";
+    let uid = this.data.uid;
+    let store_id = this.data.storeId;
+    let user_coupon_id = this.data.user_coupon_id;
+    let shipping_method = this.data.shipping_method;
+    let orderId = this.data.orderId;
+
+    var params = {
+      payType: payType,
+      orderNo: orderId,
+      is_app: is_app,
+      postage_list: postage_list,
+      shipping_method: shipping_method,
+      address_id: address_id,
+      uid: uid,
+      store_id: store_id,
+      user_coupon_id: user_coupon_id,
+    }
+    //console.log('支付请求参数',params);return;
+    wx.showLoading({ title: '请稍候...', mask: true, });
+    app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
-      console.log({ err, resp });
-      if (err) {
-        return this._showError('提交订单失败，请重试');;
-      }
+      //console.log(resp, 344444)
+      var data = resp.err_msg;
 
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);
-      }
-      let { orderId, needPay, payParams } = data;
+      //console.log(data);
+      if (resp.err_code != 0) {
+        //console.log('不能支付，原因是：', data)
 
-      // 不需要支付
-      if (!needPay) {
-        return this._onSubmitNoPay();
-      }
 
-      // 需要支付
-      if (payParams) {
-        this._startPay(payParams);
+        wx.showModal({
+          title: '支付失败',
+          content: data,
+          confirmText: '好的',
+        });
+      } else {
+        // 调起微信支付
+        if (resp.err_dom) {
+
+          //console.log('不需要支付');
+
+          wx.navigateTo({
+            url: './my-order?goodsindex=' + 2
+          })
+        } else {
+
+          //console.log('需要支付');
+
+          // 调起微信支付
+          this._startPay(data);
+        }
       }
     });
 
     
   },
 
-  /**
-   * 提交订单
-   */
-  // submitOrder2: function(event){
-  //   //if (this.data.error) return false;
-  //   let {preOrderId} = this.data;
 
-  //   wx.showLoading({title: '加载中...', mask: true, });
-
-  //   app.api.postApi("buy_submit", {preOrderId}, (err, resp) => {
-  //     wx.hideLoading();
-  //     console.log({err, resp});
-  //     if (err) {
-  //       return this._showError('提交订单失败，请重试');;
-  //     } 
-
-  //     let {rtnCode, rtnMessage, data} = resp;
-  //     if (rtnCode != 0) {
-  //       return this._showError(rtnMessage);;
-  //     }
-
-  //     let {orderId, needPay, payParams} = data;
-
-  //     // 不需要支付
-  //     if (!needPay) {
-  //       return this._onSubmitNoPay();
-  //     }
-
-  //     // 需要支付
-  //     if (payParams) {
-  //       this._startPay(payParams);
-  //     }      
-  //   });
-  // },
 
   /**
    * 调起微信支付
@@ -338,14 +460,13 @@ Page({
     let param = {
       timeStamp: payParams.timeStamp + "",
       nonceStr: payParams.nonceStr,
-      "package": "prepay_id=" + payParams.prepayId,
+      //"package": "prepay_id=" + payParams.prepayId,
+      "package": payParams.package,
       signType: 'MD5',
       paySign: payParams.paySign,
       success: res => this._onPaySuccess(res),
       fail: err => this._onPayFail(err)
     };
-
-    console.log('发起支付:', param);
     wx.requestPayment(param);
   },
 
@@ -378,20 +499,20 @@ Page({
    * 支付成功
    */
   _onPaySuccess(res) {
+    wx.removeStorageSync('couponInfo');
     var that = this;
-    console.log('支付成功：', res);
     // 支付成功弹窗
     that.setData({
       matteShow:true
     });
-    
+    //2018年1月2日18:44:25
+    this.giveCard(this.data.orderId);
   },
 
   /**
    * 支付失败
    */
   _onPayFail(err) {
-    console.log('支付失败：', err);
     wx.showModal({
       title: '支付失败',
       content: '订单支付失败，请到[订单-待付款]列表里重新支付',
@@ -529,6 +650,7 @@ Page({
       "address[city_id]": cityList[selectedCityIndex].cityId,
       "address[district_id]": districtList[selectedDistrictIndex].districtId,
     }
+    console.log('paramsssss',params)
     app.api.postApi('buy/address', params, (err, resp) => {
       if (err) {
         return this._showError('加载数据出错，请重试');
@@ -644,19 +766,16 @@ Page({
    * 获取门店列表数据
    */
   _loadShopData() {
-    app.api.fetchApi(ListURL, (err, res) => {   // 获取门店列表数据
-      if (!err && res.rtnCode == 0) {
-        console.log(log + '获取门店列表数据');
-        console.log(res.data);
-        let { data: shopListData } = res;
-
-        this._loadShopDetailData(shopListData[0]);   // 默认加载第一个门店的详情数据
-        this.setData({ shopListData });
-      } else {
-        console.log(log + '获取门店列表数据错误');
-        console.log(err);
-      }
-    });
+    // app.api.fetchApi(ListURL, (err, res) => {   // 获取门店列表数据
+    //   if (!err && res.rtnCode == 0) {
+    //     let { data: shopListData } = res;
+    //     this._loadShopDetailData(shopListData[0]);   // 默认加载第一个门店的详情数据
+    //     this.setData({ shopListData });
+    //   } else {
+    //   }
+    // });
+    
+    
   },
 
   /**
@@ -669,10 +788,7 @@ Page({
 
     app.api.fetchApi(DetailURL + '/' + options.storeId, (err, res) => {    // 获取门店详情数据
       if (!err && res.rtnCode == 0) {
-        console.log(log + '获取门店详情数据');
-        console.log(res.data);
         let { data: ShopDetailData } = res;
-
         if (loading) {
           wx.hideLoading();
           this.setData({
@@ -684,8 +800,6 @@ Page({
         }
       } else {
         if (loading) wx.hideLoading();
-        console.log(log + '获取门店详情数据错误');
-        console.log(err);
       }
     });
   },
@@ -703,7 +817,6 @@ Page({
    * 点击查看街景
    */
   seeStreet() {
-    console.log(log + '点击查看街景');
   },
 
   /**
@@ -734,5 +847,75 @@ Page({
     let { idx: curActIndex, method } = e.currentTarget.dataset;
     this.setData({ curActIndex });
     this.setShippingMethod(method);
-  }
+  },
+  //2017年12月22日15:58:39 选择优惠券
+  changeCoupon: function (event) {
+    console.log('点击进入优惠券选择界面',event);
+    //navigateTo  redirectTo
+    var pro_price = event.currentTarget.dataset.pro_price;
+    var product_id = event.currentTarget.dataset.product_id;
+    wx.navigateTo({
+      url: './buycard?product_id=' + product_id + '&pro_price=' + pro_price
+    });
+  },
+  //优惠券的数量
+  loadCouponData: function (pro_price, product_id) {
+    var that =this;
+    
+    var product_id = [];
+    product_id.push(that.data.product_id);
+    console.log(pro_price, product_id, '发发号施令上分好发给谁了')
+    var params = {
+      "uid": that.data.uid,
+      "store_id": that.data.storeId ,
+      "product_id": product_id ,
+      "total_price": pro_price
+    };
+
+    console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
+
+    var url = 'wxapp.php?c=coupon&a=store_coupon_use';
+    app.api.postApi(url, { params }, (err, resp) => {
+      if (resp) {
+
+        if (resp.err_code == 0) {
+          
+          if (resp.err_msg.coupon_list) {
+            console.log('resp.err_msg.coupon_list存在');
+            //更新数据
+            that.setData({
+              normal_coupon_count: resp.err_msg.normal_coupon_count,
+            });
+          }
+        } else {
+          return;
+        }
+      }
+      console.log('normal_coupon_count', this.data.normal_coupon_count);
+    });
+  },
+  /**
+ * 购买给卡包
+ */
+  giveCard: function (order_no) {
+    
+    var params = {
+      order_no: order_no
+    };
+    app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
+      // if (err) return;
+      // if (resp.err_code != 0) {
+      //   wx.showLoading({
+      //     title: resp.err_msg,
+      //   })
+      // } else {
+      //   wx.hideLoading();
+      //   console.log(resp, 1111111)
+      //   var data = resp.err_msg;
+      //   console.log('获取第一行的图标', data);
+      //   this.setData({ iconOne: data });
+      // }
+    });
+  },
+
 })

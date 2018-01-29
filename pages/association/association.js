@@ -20,42 +20,9 @@ Page({
     app.api.fetchApi(CommunityListURL, (err, res) => {    // 获取社群列表
       if(!err && res.rtnCode == 0) {
         let {data: pageData} = res;
-        console.log(log + '获取社群列表');
-        console.log(pageData);
+     
         this.setData({pageData, loading: false});
       } else {
-        console.log(log + '获取社群列表失败');
-        console.log(err);
-        // let pageData = [
-        //   {
-        //     "id": 1,
-        //     "agentId": 2,
-        //     "storeId": 0,
-        //     "name": "母婴奶粉交流群1",
-        //     "code": 0,
-        //     "description": "母婴宝宝妈妈交流群，妈妈首选的备孕，怀孕，育儿早教等育儿纯交流群",
-        //     "coverImgUrl": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495433828369&di=839eff139ed2eb9948ab3dc624e003a5&imgtype=0&src=http%3A%2F%2Fpic61.nipic.com%2Ffile%2F20150310%2F5450641_155105194261_2.jpg",
-        //     "memberCount": 369,
-        //     "maxLimitCount": 500,
-        //     "status": 1
-        //   },
-        //   {
-        //     "id": 2,
-        //     "agentId": 2,
-        //     "storeId": 0,
-        //     "name": "母婴奶粉交流群2",
-        //     "code": 0,
-        //     "description": "母婴宝宝妈妈交流群，妈妈首选的备孕，怀孕，育儿早教等育儿纯交流群",
-        //     "coverImgUrl": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495433828369&di=839eff139ed2eb9948ab3dc624e003a5&imgtype=0&src=http%3A%2F%2Fpic61.nipic.com%2Ffile%2F20150310%2F5450641_155105194261_2.jpg",
-        //     "memberCount": 499,
-        //     "maxLimitCount": 500,
-        //     "status": 1
-        //   }
-        // ];
-        // this.setData({
-        //   loading: false,
-        //   pageData
-        // });
       }
     });
   },
@@ -85,9 +52,9 @@ Page({
           showCancel: false,
           success: function(res) {
             if (res.confirm) {
-              console.log('用户点击确定')
+             
             } else if (res.cancel) {
-              console.log('用户点击取消')
+             
             }
           }
         })

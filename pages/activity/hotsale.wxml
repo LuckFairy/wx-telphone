@@ -1,40 +1,27 @@
 <import src="../template/count-down.wxml" />
-<scroll-view class="bac-color">
+<scroll-view class="bac-color" scroll-y="true" lower-threshold='0' bindscrolltolower='pullUpLoadone' style="height: {{windowHeight}}px; width: {{windowWidth}}px;">
     <view class="goods-list-containner">
-        <!-- 头部导航条 -->
-        <!-- <view class="goods-list-header-view">
-            <text class="nav-text left-nav {{tabName=='going' ? 'nav-active' : ''}}" data-status="going" bindtap="switchTab">正在进行</text>
-            <text class="nav-text right-nav {{tabName=='incoming' ? 'nav-active' : ''}}" data-status="incoming" bindtap="switchTab">即将进行</text>
-            <text class="nav-text {{tabName=='shopping' ? 'nav-active' : ''}}" data-status="shopping" bindtap="gotoGroup">拼团购</text>
-        </view> -->
-        <view wx:if="{{tabName=='going'}}" class="goods-list-view">
-            <navigator wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}" class="goods-item-view" url="../shopping/goods-detail?prodId={{item.prodId}}&cateId={{item.cateId}}">
-                <image src="{{item.bannerImage}}" mode="widthFix" class="goods-cover-img" data-tab="1" data-index="{{index}}"></image>
+        <view class="goods-list-view">
+            <navigator wx:for="{{dataList}}"  wx:key="{{index}}" data-product-id='{{item.product_id}}' class="goods-item-view" url="../shopping/goods-detail?prodId={{item.product_id}}&action={{item.card_set_ids}}">
+                <image src="{{item.image}}" mode="widthFix" class="goods-cover-img" data-tab="1" data-index="{{index}}"></image>
                 <view class="goods-info-view">
-                    <text class="prod-name-text">{{item.prodName}}</text>
+                    <text class="prod-name-text">{{item.name}}</text>
                     <view class='prod-time-godown'>
-                      <!-- <text>仅剩：</text>
-                      <template is="count-down" data="{{...item.countDown}}" /> -->
                     </view>
-                    
                 </view>
             </navigator>
         </view>
-        <view wx:if="{{tabName=='incoming'}}" class="goods-list-view">
+        <!-- <view wx:if="{{tabName=='incoming'}}" class="goods-list-view">
             <view wx:for="{{hotsaleIncoming}}" wx:key="{{item.prodId}}" class="goods-item-view">
                 <image src="{{item.bannerImage}}" mode="widthFix" class="goods-cover-img" data-tab="2" data-index="{{index}}"></image>
                 <view class="goods-info-view">
                     <text class="prod-name-text">{{item.prodName}}</text>
                     <view class='prod-time-godown'>
-                    <!-- <text>距离开始：</text>
-                    <template is="count-down" data="{{...item.countDown}}" /> -->
                     </view>
                 </view>
             </view>
-        </view>
-
-        <!--
-        <view class="group-shop-father" wx:if="{{tabName=='shopping'}}">
+        </view> -->
+        <!-- <view class="group-shop-father">
             <view class="group-shop">
                 <image class="group-shop-image" src="../../image/group-shop.jpg"></image>
                 <text class="group-shop-title">防火防盗回复的vkldfl</text>
@@ -45,8 +32,6 @@
                     <text class="go-gro">去开团</text>
                 </view>
             </view>
-        </view>
-        -->
-
+        </view> -->
     </view>
 </scroll-view>

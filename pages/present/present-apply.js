@@ -1,9 +1,14 @@
 // present-apply.js
+import { Api } from '../../utils/api_2';
 let app = getApp();
 const util = require('../../utils/util.js');
 const log = 'present-apply.js --- ';
+Api.signin();//获取以及存储openid、uid
+import { store_Id } from '../../utils/store_id';
 
-const SubmitURL = 'trial/submit';       // 赠品领用提交接口
+const SubmitURL = 'wxapp.php?c=order_v2&a=trial_product_pay';       // 赠品领用提交接口
+const QuestionURL = 'wxapp.php?c=product_v2&a=trial_product_question_list';     //问题列表接口
+const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url
 let modalConfig = {
   firstText: '申请成功',
   // secondText: '赠品申请已提交，请到[订单-待审核]列表里查询，如果审核通过，将会出现在[订单-待收货]里',
@@ -23,113 +28,182 @@ Page({
     showErrModal: false,         // 是否显示模态框
     modalConfig,                 // 模态框配置 
     presentData: null,           // 页面数据
+    questionList:[],//问题列表
+    upList:[],//上面必填问题列表
     qrEntry: false,
+    product_id:null,//商品id
+    uid: null,//用户id
+    store_id: store_Id.shopid,//店铺id
   },
   onLoad:function(options){
+    console.log('123');
     //2017年8月17日13:46:50 处理选择后的多属性
     var attrData = wx.getStorageSync('key') || [];
+    var uid = wx.getStorageSync('userUid');
     if (attrData.length > 0) {
-      console.log('buy.js-选择的属性：' + attrData);
       var attrArr = attrData.split('-');
-      console.log('buy.js-选择的属性split之后结果：' + attrArr);
-      console.log('buy.js-选择的属性split之后结果-0：' + attrArr['0']);
-      console.log('buy.js-选择的属性split之后结果-1：' + attrArr['1']);
-      this.setData({ productColor: attrArr['0'], productSize: attrArr['1'] });
-      console.log('options:');
-      console.log(options);
+      this.setData({ productColor: attrArr['0'], productSize: attrArr['1']});
       skuid = options.skuid;
-      console.log('商品多属性标识：');
-      console.log(skuid);
     } else {
       skuid=0;
-      console.log('该商品没有多属性');
     }    
     // 页面初始化 options为页面跳转所带来的参数
     let {qrEntry} = options;
-    try {
-      options = JSON.parse(decodeURIComponent(options.options));
-      console.log(log + '参数');
-      console.log(options); 
+    // try {
+    //   options = JSON.parse(decodeURIComponent(options.options));
       
-      this.setData({
-        presentData: options,
-        qrEntry
-      });
-    } catch(e) {
-      console.log(log + '参数错误');
-      console.log(e);
+    //   console.log('options ',options);
+    //   this.setData({
+    //     presentData: options,
+    //     product_id: options.product_id,
+    //     qrEntry
+    //   });
+    //   this.loadQuestion();
+    // } catch(e) {
+      
+    // }
+ 
+    try{
+        this.setData({
+           product_id:options.prodId,
+           uid,
+        });
+        this.loadQuestion();
+        this.loadListDataNew();
+    } catch(e){
+      console.log('e ',e)
     }
   },
-
+  /*
+* 问题列表
+  */
+  loadQuestion(){
+    var that = this;
+    var params = {
+      "pid": that.data.product_id,
+      "sid": that.data.store_id,
+      "uid": that.data.uid
+    };
+    app.api.postApi(QuestionURL, { params }, (err, rep) => {   // 赠品领用提交
+      wx.hideLoading();
+      var questionList = that.data.questionList;
+      var upList = that.data.upList;
+      if (!err && rep.err_code == 0) {
+          //遍历rep.err_msg，找出required == 1的
+        for (var value of rep.err_msg) {
+          if(value.required == 1){
+           upList.push(value);
+          }else{
+            questionList.push(value);
+          }
+        }
+        console.log(questionList, upList);
+          that.setData({
+            questionList,
+            upList
+          })
+      } else{
+          that.submitError({ image: '../../image/error.png', title: err });
+      }
+     
+    });
+  },
+  loadListDataNew() {
+    var that = this;
+    var params = {
+      "cid": "106",//分类id
+      "sid": that.data.store_id,
+      "uid": that.data.uid,
+      // "page_size": "5",
+      // "page_num": "1",
+    };
+    app.api.postApi(trialProductListUrl, { params }, (err, rep) => {
+      if (err || rep.err_code != 0) {
+        this.setData({ loading: false });
+        return;
+      }
+      for (var i in rep.err_msg.list){
+        if (rep.err_msg.list[i].product_id == that.data.product_id){
+          this.setData({
+            presentData: rep.err_msg.list[i]
+          });
+        }
+      }
+      
+    });
+  },
   /**
    * 提交表单
    */
   formSubmit(e) {
+    var that = this;
     let {value: submit} = e.detail;
-    console.log(submit);
-    //console.log('断点');
-    //return;
-    let post = {};
-    let option = '';
-    
-    let {fullname, telephone} = submit;
-    let [name, phone] = [fullname.trim(), telephone.trim()];
-    if(!name) {
-      return this.submitError({image: '../../image/error.png', title: '请输入姓名'});
-    } 
-    if (!util.checkMobile(phone)) {
-      return this.submitError({image: '../../image/error.png', title: '请输入正确的手机号码'});
-    }
-    
-    for(let i in submit) {
-      if(+i >= 0) {
-        post[`option[${i}]`] = submit[i] + '';
-      } else {
-        post[i] = submit[i];
+   console.log(submit);
+    let question = [];//问题列表
+    for (let [name, value] of Object.entries(submit)) {
+      if(value.length == 0){
+        return this.submitError({ image: '../../image/error.png', title: '没有填写完，请填写完整' });
       }
+      question.push({ "qid":name,"value":value});
     }
-    post['fullname'] = name;
-    post['telephone'] = phone;
-    post['skuid'] = skuid;
-    console.log('post 参数');
-    console.log(post); 
-    //return;
     /**
      * 开始请求
      */
+
     wx.showLoading({
       title: '正在提交',
       mask: true
     });
-    app.api.postApi(SubmitURL, post, (err, data) => {   // 赠品领用提交
-      wx.hideLoading();
-      if(!err && data.rtnCode == 0) {
-        console.log(log + '赠品领用提交返回成功');
-        console.log(data);
-        if (this.data.qrEntry) {
-          wx.showModal({
-            title: '申请成功',
-            content: '赠品申请已提交，请到[订单-待审核]列表里查询，如果审核通过，将会出现在[订单-待收货]里',
-            showCancel: false,
-            confirmText: '好的',
-            success: function (res) {
-              wx.switchTab({
-                url: '../index/index',
-              })
-            },
-          });
-        } else {
-          this.showModal('success');
-        }
-      } else {
-        this.submitError({image: '../../image/error.png', title: data.rtnMessage});
-        console.log(log + '赠品领用提交返回错误');
-        console.log(e);
+    // 生成订单号
+    app.api.postApi('wxapp.php?c=order_v2&a=add', {
+      "params": {
+        "uid": that.data.uid,
+        "quantity": 1,
+        "product_id": that.data.product_id,
+        "store_id": that.data.store_id
       }
-    });
+    } ,(err,rep) => {
+        wx.hideLoading();
+        if(!err && rep.err_code == 0){
+          var order_no = rep.err_msg.order_no;
+          var params = {
+            "oid": order_no,
+            "uid": that.data.uid,
+            "question": question
+          };
+         that.submitData(params);
+   
+        }else{
+          this.submitError({ image: '../../image/error.png', title: rep.err_msg });
+        }
+    })
     
   },
-  
+  submitData(params){
+    app.api.postApi(SubmitURL, { params }, (err, data) => {   // 赠品领用提交
+      wx.hideLoading();
+      if (!err && data.err_code == 0) {
+        this.showModal('success');
+        // if (this.data.qrEntry) {
+        //   wx.showModal({
+        //     title: '申请成功',
+        //     content: '赠品申请已提交，请到[订单-待审核]列表里查询，如果审核通过，将会出现在[订单-待收货]里',
+        //     showCancel: false,
+        //     confirmText: '知道了',
+        //     success: function (res) {
+        //       wx.switchTab({
+        //         url: '../index/index',
+        //       })
+        //     },
+        //   });
+        // } else {
+        //   this.showModal('success');
+        // }
+      } else {
+        this.submitError({ image: '../../image/error.png', title: data.err_msg });
+      }
+    });
+  },
   /**
    * 显示模态框
    */
@@ -169,7 +243,6 @@ Page({
    * 点击模态框的确定(关闭模态框)
    */
   tabConfirm() {
-    console.log(log + '点击确定');
     this.setData({showModal: false});
   },
   
@@ -186,7 +259,6 @@ Page({
   optionChange(e) {
     let {value} = e.detail;
     let {productoptionid} = e.currentTarget.dataset;
-    console.log(productoptionid + ' : ' + value);
   },
 
 

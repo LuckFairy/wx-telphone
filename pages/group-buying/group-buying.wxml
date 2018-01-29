@@ -2,8 +2,8 @@
 <!--pages/group-buying/group-buying.wxml-->
 <view class='group-buy-wrap'>
   <swiper class="swiper-list" indicator-dots="true" indicator-color="#ccc" indicator-active-color="#FF1D33" autoplay="false" circular="true" interval="30000"> 
-    <swiper-item wx:for="{{data.pic}}" wx:for-item="src" wx:key="{{index}}">
-        <image src="{{src}}" mode="widthFix" class="banner-img"></image>
+    <swiper-item wx:for="{{err_msg.product_image_list}}" wx:for-item="src" wx:key="{{index}}">
+        <image src="{{src.image}}" mode="widthFix" class="banner-img"></image>
     </swiper-item>
   </swiper>
 <!-- <view class="middle-box">
@@ -20,15 +20,15 @@
 </view> -->
 <!--商品详情区域开始  -->
   <view class="middle-box">
-      <text class="middle-title">{{data.productName}}</text>
+      <text class="middle-title">{{err_msg.product_name}}</text>
       <view class="middle-detail">
         <view class='mid-list-wrap'>
           <text class="mid-list-zero">￥</text>      
-          <text class="mid-list-one">{{data.groupbuyPrice}}</text>
-          <text class="mid-list-two">￥{{data.productPrice}}</text>
-          <block wx:for='{{data.productSku}}'>
+          <text class="mid-list-one">{{err_msg.tuan_number}}</text>
+          <text class="mid-list-two">￥{{err_msg.product_price}}</text>
+          <!-- <block wx:for='{{data.productSku}}'>
           <text class="mid-list-three mid-total">{{item}}</text>
-          </block>
+          </block> -->
         </view>
         <view class='mid-list-wraps-image' wx:if='{{sellout==1}}'>
           <button class='mid-open-list' open-type='share'></button>
@@ -36,9 +36,9 @@
         </view>
       </view>
        <view class='mid-list-wraps'>
-          <text class='mid-list-humen'>{{data.groupbuyNumber}}人团</text>
+          <text class='mid-list-humen'>{{err_msg.tuan_number}}人团</text>
           <text class="mid-list-six">已团</text>
-          <text class="mid-list-seven">{{data.joinNumber}}</text>
+          <text class="mid-list-seven">{{err_msg.tuan_count}}</text>
           <text class="mid-list-six">件</text>
         </view> 
   </view>
@@ -151,7 +151,7 @@
 <!--商品介绍结束  -->
 <!--  -->
 <view class="bot-image">
-   <image wx:for="{{data.description}}" wx:key="{{index}}" src="{{item}}" mode="widthFix" class="detail-img"></image>
+   <image wx:for="{{err_msg.info}}" wx:key="{{index}}" src="{{item}}" mode="widthFix" class="detail-img"></image>
 </view>
 <!--图片详情结束  -->
 <!--底部菜单栏  -->
@@ -190,7 +190,7 @@
       <text class='invite-ke-server-text'>客服</text>
     </view>
     <view class='invite-car invite-total'>
-      <!-- <image class='invite-car-img' src='../../image/shoppingcart.png'></image>
+      <!-- <image class='invite-car-img' src='../../image/shop-cart2.png'></image>
       <text class='invite-car-num'>81</text> -->
     </view>
     <!-- <view class='add-invite-car invite-total'>
@@ -200,11 +200,11 @@
       <text class='current-buying-child'>立即购买</text>
     </view> -->
     <view class="menu-add-car" bindtap="doBuy" data-ordertype="1" wx:if='{{sellout==1}}'>
-        <text class="menu-add-text menu-add-price" data-ordertype="1">￥{{data.productPrice}}</text>
+        <text class="menu-add-text menu-add-price" data-ordertype="1">￥{{err_msg.product_price}}</text>
         <text class="menu-add-text" data-ordertype="1">单独购买</text>
     </view>
     <view class="menu-current-sell" bindtap="doBuy" data-ordertype="2" wx:if='{{sellout==1}}'>
-         <text class="menu-current-text menu-current-price" data-ordertype="2">￥{{data.groupbuyPrice}}</text>
+         <text class="menu-current-text menu-current-price" data-ordertype="2">￥{{err_msg.tuan_number}}</text>
         <text class="menu-current-text" data-ordertype="2">一键开团</text>
     </view>
     <!--已售罄  -->
