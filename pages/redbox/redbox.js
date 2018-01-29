@@ -13,28 +13,28 @@ Page({
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
 
-    let {qrEntry} = options;
+    // let {qrEntry} = options;
 
-    let url = 'redbox/getRedBoxActivity'; //获取红包活动信息
-    app.api.postApi(url, {}, (err, data) => {
+    // let url = 'redbox/getRedBoxActivity'; //获取红包活动信息
+    // app.api.postApi(url, {}, (err, data) => {
       
-      if(err) {
-        console.log(log + '取 activityId 失败');
-        console.log(err);
-        return;
-      }
+    //   if(err) {
+    //     console.log(log + '取 activityId 失败');
+    //     console.log(err);
+    //     return;
+    //   }
 
-      let {activityId} = data.data;
+    //   let {activityId} = data.data;
 
-      console.log(log + 'activityId');
-      console.log(activityId);
+    //   console.log(log + 'activityId');
+    //   console.log(activityId);
 
-      this.activityId = activityId; // 获取 activityId
+    //   this.activityId = activityId; // 获取 activityId
       
-      if (qrEntry){
-          this.doOpen();
-      }
-    });
+    //   if (qrEntry){
+    //       this.doOpen();
+    //   }
+    // });
   },
   goCanvas:function(){
       wx.navigateTo({
@@ -47,7 +47,7 @@ Page({
   },
   onShow:function(){
     // 页面显示
-      this.getSummaryData();
+     // this.getSummaryData();
     
     var animation = wx.createAnimation({
       duration: animationTime,
@@ -122,7 +122,7 @@ Page({
         console.log(err);
         isOpen = false;
           wx.showModal({
-          title: '请重试',
+          title: '功能暂停使用中',
           showCancel: false
         });
       } else {
