@@ -1,5 +1,3 @@
 
 <import src="../template/retail-activities.wxml" />
-
-
 <template is="categoryActivities" data="{{templateData}}"></template>

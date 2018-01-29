@@ -28,10 +28,10 @@
       <image class='wait-order-image' src='../../image/wait-pay.png'></image>
       <text class='wait-order-text'>待付款</text>
     </view>
-    <view class='wait-order-wrap' bindtap='goToList' data-list='1'>
+    <!-- <view class='wait-order-wrap' bindtap='goToList' data-list='1'>
       <image class='wait-order-image' src='../../image/wait-group.png'></image>
       <text class='wait-order-text'>待成团</text>
-    </view>
+    </view> -->
     <view class='wait-order-wrap' bindtap='goToList' data-list='2'>
       <image class='wait-order-image' src='../../image/wait-goods.png'></image>
       <text class='wait-order-text'>待收货</text>
@@ -47,7 +47,7 @@
   </view>
   <!-- 代付款、待成团... -->
   <!--拼团、卡包、指南、客服 -->
-  <view class='my-detail-msg' bindtap='gogroup' data-group='0'>
+  <view class='my-detail-msg' bindtap='gogroup' hidden='hidden' data-group='0'>
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../image/my-group.png'></image>
       <text class='my-gro-text'>我的拼团</text>
@@ -83,5 +83,10 @@
       <image class='my-go-img' src='../../image/group-go.png'></image>
     </view>
   </view>
+    
   <!--拼团、卡包、指南、客服  -->
 </view>
+
+
+
+

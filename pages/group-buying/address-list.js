@@ -11,11 +11,7 @@ Page({
     addrList: [],
   },
   onLoad:function(options){
-    // 页面初始化 options为页面跳转所带来的参数
     _addressId = options.addressId;
-    console.log(log + 'options');
-    console.log(options);
-    
     this.loadAddr();
   },
   onReady:function(){
@@ -41,7 +37,6 @@ Page({
       if (err) return;
       let {rtnCode, rtnMessage, data} = response;
       if (rtnCode != 0) return;
-      console.log(log + '收货地址列表')
       this.setData({addrList: data});
     });
   },
@@ -60,9 +55,6 @@ Page({
    */
   changeAdress(e) {
     let {addressId} = e.currentTarget.dataset;
-    console.log(log + '点击地址addressId');
-    console.log(addressId);
-    console.log(e.target);
     if(_addressId == addressId) return wx.navigateBack();
     
     let pages = getCurrentPages();
@@ -79,7 +71,6 @@ Page({
       title: '确认操作',
       content: '是否确认删除地址？',
       success: res => {
-        console.log(arguments);
         if(res.confirm) {
           let addrId = e.currentTarget.dataset.addrId;
           wx.showLoading({ title: '正在删除地址' });
@@ -115,18 +106,13 @@ Page({
   /**
    * 修改默认地址
    */
-  changeDefaultAdress(e) {
-    console.log(log + '修改默认地址');
-    
+  changeDefaultAdress(e) {   
     let {addressId, isDefault} = e.currentTarget.dataset;
     if(isDefault) return;
     app.api.postApi(SetDefaultURL, {addressId}, (err, res) => {  // 修改默认地址
       if(!err && res.rtnCode == 0) {
-        console.log(log + '修改默认地址成功');
         this.loadAddr();
       } else {
-        console.log(log + '修改默认地址失败');
-        console.log(err);
       }
     });
   }

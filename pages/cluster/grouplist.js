@@ -9,11 +9,10 @@ Page({
     hotsaleGoing:[],      // 闪购正在进行
     hotsaleIncoming: [],  // 闪购即将开始
     datasellout:0,
-    datasellin:1
+    datasellin:1,
+    err_msg:''
   },
   goGroupDetail (e){
-    console.log("书记杜方式是否发生22222");
-    console.log(e);
     var prodId = e.currentTarget.dataset.productid;
     var groupbuyId = e.currentTarget.dataset.groupbyid;
     var selldetail = e.currentTarget.dataset.selldetail;
@@ -56,29 +55,31 @@ Page({
   },
 
   switchTab: function(evt){
-    console.log(evt);
       var status = evt.target.dataset.status;
       this.setData({"tabName": status});
   },
 
   loadData: function() {
+    var that = this;
     wx.showLoading({ title: '加载中' });
-    app.api.fetchApi('groupbuy/GroupbuyLists', (err, response) => {
+    app.api.fetchApi('wxapp.php?c=tuan&a=store_list&store_id=6', (err, response) => {
       wx.hideLoading();
       if (err) return;
+      var dataList = [];
+      var err_msg = response.err_msg;
+      console.log(err_msg, 3333)
+      that.setData({
+        err_msg: err_msg
+      })
       let {rtnCode, rtnMessage, data} = response;
+      
       if (rtnCode != 0) return;
-      console.log('闪购数据：');
-      console.log(data);
 
       let hotsaleGoing = [], hotsaleIncoming = [];
-
-      
       data.forEach(item => {
         hotsaleGoing.push(item);
       });
-
-      this.setData({hotsaleGoing, hotsaleIncoming});
+      this.setData({ hotsaleGoing, hotsaleIncoming});
     });
   },
 
@@ -158,19 +159,10 @@ Page({
 
   //2017年9月11日16:54:26 团购
   gotoGroup: function () {
-    //let url = '../cart/cart';
     let url = "../cluster/cluster";
-    //let url = './buy?prodId=108';
-    console.log(url);
-    //wx.navigateTo({ url });
-    //wx.redirectTo({ url });
     wx.redirectTo({
-
       url: '../cluster/cluster'
     });
-    //let url = './buy?prodId=89&skuid=56&num=2&cartId=' + toastStr;
-    //wx.navigateTo({ url });
-
   },
   //2017年9月11日20:24:41 跳回爆款闪购
   gotoGoing: function () {
@@ -180,11 +172,6 @@ Page({
   },
 
   gotoIncoming: function () {
-    //let url = "../activity/hotsale";
-    //let url = "../group-buying/test-link";
-   // wx.redirectTo({ url });
-
-
     wx.redirectTo({
       url: "../activity/hotsale"
     });
@@ -193,15 +180,11 @@ Page({
 
   //测试模板消息
   formid: function (e) {
-      console.log(e);
-      console.log(e.detail.formId);
       var user_id = app.d.userId; //测试参数
       var formId = e.detail.formId;
       let url = 'buy/sendmsg';
       app.api.postApi(url, { user_id, formId }, (err, resp) => {
-        //console.log({ err, resp });
         if (err) {
-          //return this._showError('加载数据出错，请重试');
           wx.showToast({
             title: '加载数据出错，请重试',
             icon: 'loading',

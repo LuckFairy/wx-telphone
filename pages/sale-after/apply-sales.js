@@ -13,7 +13,9 @@ Page({
     rtnCode:'',
     showHide:true
   },
-
+  calling(){
+    app.calling();
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -21,32 +23,57 @@ Page({
     var that = this;
     console.log(options,334433);
     var orderId = options.orderId;
-    var productId = options.productId;
-    var rtnCode = options.rtnCode;
+    var orderProductId = options.orderProductId;
+    var uid = options.uid;
     that.setData({
       orderId: orderId,
-      productId: productId,
-      rtnCode: rtnCode
+      orderProductId: orderProductId,
+      uid: uid
     })
-    //order/info 拿到订单数据
-    app.api.fetchApi("order/info/" + orderId, (err, resp) => {
-            if (resp) {
-              var dataList = resp.data.products[0];
-              that.setData({
-                dataList: dataList
-              })
-              console.log(dataList,555555);
-            }
-          })
+
+    var params = {
+      "order_no": orderId,
+      "pigcms_id": orderProductId,
+      "uid": uid
+    };
+    console.log('请求参数', params);
+    var url = 'wxapp.php?c=return&a=applyReturn';
+    app.api.postApi(url, { params }, (err, response) => {
+      console.log('applyReturn接口返回数据=', response);
+      if (err) return;
+      if (response.err_code != 0) {
+
+        wx.showModal({
+          title: '错误提示',
+          content: response.err_msg.err_log,
+          showCancel: true,
+          cancelText: '取消',
+          cancelColor: '#FF0000',
+          confirmText: '好的',
+        });
+
+
+      } else {
+        wx.hideLoading();
+        var product = response.err_msg.returndata;
+        console.log('商品信息', product);
+        that.setData({
+          dataList: product
+        })
+      }
+    });
+
   },
   // 提交申请
   goSubmit(e){
     var that = this;
     var turnStatus = e.target.dataset.status;
-    var orderId = e.target.dataset.orderId;
-    var productId = e.target.dataset.productId;
+    //var orderId = this.data.orderId;
+    var orderProductId = this.data.orderProductId;
+    var orderId = this.data.orderId;
+    var uid = this.data.uid;
     console.log("提交申请之后");
-    console.log(turnStatus, orderId,productId)
+    console.log(turnStatus, orderId, orderProductId, uid);
     if (turnStatus==null){
       wx.showToast({
         title: '请选择服务类型',
@@ -54,12 +81,20 @@ Page({
         duration: 2000
       })
     }else{
-      app.api.postApi('order/doReturn', { 'order_id': orderId, 'product_id': productId, 'c_status_id': turnStatus }, (err, resp) => {
+      var params = {
+        "order_no": orderId,
+        "pigcms_id": orderProductId,
+        "uid": uid,
+        "type": turnStatus
+      };
+      console.log('请求参数', params);
+      var url = 'wxapp.php?c=return&a=doReturn';
+      app.api.postApi(url, { params }, (err, resp) => {
         if (resp) {
           console.log("提交申请之后", resp);
           wx.showModal({
             title: '提交申请成功',
-            content: '加客服微信可加快处理速度哦',
+            content: '拨打客服电话可加快处理速度哦',
             success: function (res) {
               if (res.confirm) {
                 that.setData({

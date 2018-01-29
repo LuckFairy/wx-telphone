@@ -1,6 +1,11 @@
 // pages/present/present.js
+import { Api } from '../../utils/api_2';
+Api.signin();//获取以及存储openid、uid
+import { store_Id } from '../../utils/store_id';
 var app = getApp();
 const log = 'present.js --- ';
+const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url
+
 let errModalConfig = {   // {image?: string, title: stirng}
   image: '../../image/error.png',
   title: "您已经申请过啦，试试申请别的吧"
@@ -9,7 +14,8 @@ let successModalConfig = {
   firstText: '申请成功',
   // secondText: '赠品申请已提交，请到[订单-待审核]列表里查询，如果审核通过，将会出现在[订单-待收货]里',
   secondText: '赠品申请已提交，请到[订单-待收货]列表里查询',
-  confirmText: '知道了'
+  confirmText: '去查看',
+  cancelText:'知道了'
 };
 
 Page({
@@ -20,17 +26,22 @@ Page({
     successModalConfig,          // 模态框设置
     loading: true,            // 是否正在加载
     presentData: null,        // 页面数据
+    uid: null,//用户id
+    store_id: store_Id.shopid,//店铺id 
   },
   onLoad:function(options){
-    // 生命周期函数--监听页面加载
+    var uid = wx.getStorageSync('userUid');
+    this.setData({ uid,  showErrModal: false});
+    this.loadData();//页面加载
   },
   onUnload:function(){
     // 生命周期函数--监听页面卸载
   },
 
   onShow:function(){
-    // 生命周期函数--监听页面显示
-    this.loadData();
+   // 生命周期函数--监听页面显示
+    this.loadData();//页面加载
+   
   },
   onHide:function(){
     // 生命周期函数--监听页面加载
@@ -40,51 +51,46 @@ Page({
    * 加载所有数据
    */
   loadData() {
-    // Promise.all([this._loadListData()])
-    //   .then(presentData => {
-
-    //     console.log(log + 'presentData');
-    //     console.log(presentData);
-
-    //     this.setData({
-    //       loading: false,
-    //       presentData: presentData[0]
-    //     });
-    //   })
-    // .catch(e => {
-    //   console.log(log + '获取数据错误');
-    //   console.log(e);
-    // });
       this._loadListDataNew();
   },
   
   /**
    * 加载列表数据
    */
-  _loadListData() {
-    let url = 'trial/ls';
-    return new Promise((resolve, reject) => {
-      app.api.fetchApi(url, (err, response) => {
-        if (err) reject(err);
-        let {data: presentData} = response;
+  // _loadListData() {
+  //   let url = 'trial/ls';
+  //   return new Promise((resolve, reject) => {
+  //     app.api.fetchApi(url, (err, response) => {
+  //       if (err) reject(err);
+  //       let {data: presentData} = response;
     
-        resolve(presentData);
-      });
-    });
-  },
+  //       resolve(presentData);
+  //     });
+  //   });
+  // },
 
   _loadListDataNew() {
-      let url = 'trial/ls';
-        app.api.fetchApi(url, (err, response) => {
-            if (err) {
+    var that = this;
+    var params = {
+      "cid": "106",//分类id
+      "sid": that.data.store_id,
+      "uid": that.data.uid,
+      // "page_size": "5",
+      // "page_num": "1",
+    };
+    app.api.postApi(trialProductListUrl, { params}, (err, rep) => {
+            if (err || rep.err_code!=0) {
                 this.setData({loading: false});
                 return;
             }
-            let {data} = response;
+          
+          
             this.setData({
-                loading: false,
-                presentData: data
+              loading: false,
+                presentData: rep.err_msg.list
             });
+          
+            
         });
   },
   
@@ -92,11 +98,11 @@ Page({
    * 进入赠品申请页面
    */
   applyForPresent(e) {
-    
     let {options} = e.currentTarget.dataset;
     wx.navigateTo({
       	// url:"./present-apply?options=" + JSON.stringify(options)
-        url: `../shopping/goods-detail?prodId=${options.productId}&action=present&params=${encodeURIComponent(JSON.stringify(options))}`
+      // url: `../shopping/goods-detail?prodId=${options.product_id}&action=present&params=${encodeURIComponent(JSON.stringify(options))}`
+      url: `../shopping/goods-detail?prodId=${options.product_id}&action=present`
     });
   },
   
@@ -118,27 +124,24 @@ Page({
   },
   
   /**
-   * 点击隐藏模态框(错误模态框)
-   */
-  tabModal() {
-    this.setData({showErrModal: false});
-  },
-  
-  /**
-   * 点击模态框的确定(关闭确定模态框)
+   * 点击模态框的确定(处理相关事件)
    */
   tabConfirm() {
-    console.log(log + '点击确定');
-    this.setData({showSuccessModal: false});
+    wx.navigateTo({
+      url: '../shopping/my-order?page=2',
+    })
   },
-
+/**
+ * 点击模态框的取消（关闭模态框）
+ */
+  tabCancel(){
+    this.setData({ showSuccessModal: false });
+  },
   onPullDownRefresh: function() {
     // 页面相关事件处理函数--监听用户下拉动作
-    console.log('上拉');
   },
   onReachBottom: function() {
     // 页面上拉触底事件的处理函数
-    console.log('触底');
   },
   onShareAppMessage(res) {
       return { title: '', path: '' }

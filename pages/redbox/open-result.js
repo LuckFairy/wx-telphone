@@ -15,11 +15,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(log + 'options');
-    console.log(options);
     let data = JSON.parse(options.data);
-    console.log("卡包类型哦", data.resType);
-    console.log("卡包类型哦", data.resType);
     this.setData({
       hit: data.hit,
       name: data.name,

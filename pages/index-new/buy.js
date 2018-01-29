@@ -59,40 +59,21 @@ Page({
     matteShow: false  //购买成功弹窗
   },
   onLoad: function (options) {
-    //2017年8月17日13:46:50 处理选择后的多属性
     var attrData = wx.getStorageSync('key') || [];
-    console.log('属性：');
-    console.log(attrData);
     if (attrData.length > 0) {
-      console.log('buy.js-选择的属性：' + attrData);
       var attrArr = attrData.split('-');
-      console.log('buy.js-选择的属性split之后结果：' + attrArr);
-      console.log('buy.js-选择的属性split之后结果-0：' + attrArr['0']);
-      console.log('buy.js-选择的属性split之后结果-1：' + attrArr['1']);
       this.setData({ productColor: attrArr['0'], productSize: attrArr['1'] });
-      console.log('options:');
-      console.log(options);
       skuid = options.skuid;
-      console.log('商品多属性标识：');
-      console.log(skuid);
     } else {
       skuid = 0;
-      console.log('该商品没有多属性');
     }
     //商品的数量
     quantity = options.num;
     //psk_id = 25;  //测试
     var pskid = options.pskid;
-    console.log('pskid:'+pskid);
     this.setData({ quantity: quantity});
     this.setData({ pskid: pskid });
-    //var attrArr = attrData.split(",");//以逗号作为分隔字符串
-    //console.log('buy.js-选择的属性-数组：' + attrArr);
-    // 页面初始化 options为页面跳转所带来的参数
-    console.log('buy.js-页面初始化 options为页面跳转所带来的参数：');
-    console.log(options);
     let { prodId, qrEntry } = options;
-    // this._prepareOrder(prodId);
     _prodId = prodId;       // 记录商品 id
 
     // this._prepare(prodId);
@@ -143,12 +124,8 @@ Page({
     app.api.postApi(AddressSettingURL, { addressId }, (err, res) => {  // 设置收货地址
       wx.hideLoading();
       if (!err && res.rtnCode == 0) {
-        console.log(log + '设置收货地址成功');
-        console.log(res);
         this._handleData(res);
       } else {
-        console.log(log + '设置收货地址出错');
-        console.log(err);
         this._showError('加载数据出错，请重试');
       }
     });
@@ -159,16 +136,9 @@ Page({
    */
   _prepareOrder(prodId, skuid, quantity, psk_id) {
     wx.showLoading({ title: '加载中...', mask: true, });
-    //post['test'] = 'abc123';
-    //app.api.postApi("buy/prepare", {prodId}, (err, resp) => {
     let url = 'buy/prepare_sk';
-    //let url = 'buy/prepare/skuid=' + skuid; //新接口
-    //app.api.postApi("buy/prepare_new", { prodId }, (err, resp) => {  
     app.api.postApi(url, { prodId, skuid, quantity, psk_id }, (err, resp) => {
       wx.hideLoading();
-      console.log('skuid' + skuid);
-      console.log(log + '订单数据');
-      console.log({ err, resp });
       if (err) {
         return this._showError('加载数据出错，请重试');
       }
@@ -185,24 +155,13 @@ Page({
     if (rtnCode != 0) {
       return this._showError(rtnMessage);
     }
-
     let { products, addrList, totals, preOrderId, shippingMethods, shippingMethod } = data;
-    console.log('加载数据');
-    console.log(products);
-    console.log(addrList);
-    console.log(totals);
-    console.log(preOrderId);
-    console.log(shippingMethods);
-    console.log(shippingMethod);
     let { zoneList } = this.data;
-
     let addressId = false;
     let address = null;
     if (addrList && addrList.length) {
       for (let i = 0; i < addrList.length; i++) {
         if (addrList[i].isSelected) {
-          console.log(log + '选择的地址');
-          console.log(addrList[i]);
           addressId = addrList[i].addressId;
           address = addrList[i];
           break;
@@ -262,30 +221,17 @@ Page({
     that.setData({
       showwechat: true
     })
-    console.log("djkdjdkldds" + that)
-
-    //if (this.data.error) return false;
-    console.log("11111")
-  
     if (!this.checkAddress()) return false;
-    console.log("22222");
-
     // 收货地址
     let params = this.buildAddressParams();
-    console.log('收货地址-skuid:' + skuid);
-    console.log('收货地址:'); console.log(params);
     //params.push(skuid);
     params.skuId = skuid;
     params.quantity = quantity;
     params.psk_id = this.data.pskid;
-    console.log('收货地址:'); console.log(params);
     //return;
     wx.showLoading({ title: '加载中...', mask: true, });
-
-    //app.api.postApi("buy/submit", params, (err, resp) => {
     app.api.postApi("buy/submit_sk", params, (err, resp) => {
       wx.hideLoading();
-      console.log({ err, resp });
       if (err) {
         return this._showError('提交订单失败，请重试');;
       }
@@ -312,41 +258,6 @@ Page({
   },
 
   /**
-   * 提交订单
-   */
-  // submitOrder2: function(event){
-  //   //if (this.data.error) return false;
-  //   let {preOrderId} = this.data;
-
-  //   wx.showLoading({title: '加载中...', mask: true, });
-
-  //   app.api.postApi("buy_submit", {preOrderId}, (err, resp) => {
-  //     wx.hideLoading();
-  //     console.log({err, resp});
-  //     if (err) {
-  //       return this._showError('提交订单失败，请重试');;
-  //     } 
-
-  //     let {rtnCode, rtnMessage, data} = resp;
-  //     if (rtnCode != 0) {
-  //       return this._showError(rtnMessage);;
-  //     }
-
-  //     let {orderId, needPay, payParams} = data;
-
-  //     // 不需要支付
-  //     if (!needPay) {
-  //       return this._onSubmitNoPay();
-  //     }
-
-  //     // 需要支付
-  //     if (payParams) {
-  //       this._startPay(payParams);
-  //     }      
-  //   });
-  // },
-
-  /**
    * 调起微信支付
    */
   _startPay(payParams) {
@@ -359,8 +270,6 @@ Page({
       success: res => this._onPaySuccess(res),
       fail: err => this._onPayFail(err)
     };
-
-    console.log('发起支付:', param);
     wx.requestPayment(param);
   },
 
@@ -393,7 +302,6 @@ Page({
    */
   _onPaySuccess(res) {
     var that = this;
-    console.log('支付成功：', res);
     // 支付成功弹窗
     that.setData({
       matteShow: true
@@ -404,7 +312,6 @@ Page({
    * 支付失败
    */
   _onPayFail(err) {
-    console.log('支付失败：', err);
     wx.showModal({
       title: '支付失败',
       content: '订单支付失败，请到[订单-待付款]列表里重新支付',
@@ -657,15 +564,10 @@ Page({
   _loadShopData() {
     app.api.fetchApi(ListURL, (err, res) => {   // 获取门店列表数据
       if (!err && res.rtnCode == 0) {
-        console.log(log + '获取门店列表数据');
-        console.log(res.data);
         let { data: shopListData } = res;
-
         this._loadShopDetailData(shopListData[0]);   // 默认加载第一个门店的详情数据
         this.setData({ shopListData });
       } else {
-        console.log(log + '获取门店列表数据错误');
-        console.log(err);
       }
     });
   },
@@ -680,8 +582,6 @@ Page({
 
     app.api.fetchApi(DetailURL + '/' + options.storeId, (err, res) => {    // 获取门店详情数据
       if (!err && res.rtnCode == 0) {
-        console.log(log + '获取门店详情数据');
-        console.log(res.data);
         let { data: ShopDetailData } = res;
 
         if (loading) {
@@ -695,8 +595,6 @@ Page({
         }
       } else {
         if (loading) wx.hideLoading();
-        console.log(log + '获取门店详情数据错误');
-        console.log(err);
       }
     });
   },
@@ -714,7 +612,6 @@ Page({
    * 点击查看街景
    */
   seeStreet() {
-    console.log(log + '点击查看街景');
   },
 
   /**

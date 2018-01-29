@@ -27,17 +27,11 @@ Page({
     isDefault: false,   // 是否为默认地址
   },
   onLoad:function(options){
-    // 页面初始化 options为页面跳转所带来的参数
-    // let {type, address} = options;
-    // [_type, _address] = [type, address];    // 保存页面跳转所带来的参数
     _type = options['type'] || false;
     _address = options['address'] || false;
     _hasLoaded = false;
     //===========test start =========    
-    console.log('options为页面跳转所带来的参数 _type');    
-    console.log(_type);
     if (_type === 'update'){
-      console.log('会进来这里吗？');
       var _address2 = JSON.parse(_address);
       var address = _address2.address;
       var cityId = _address2.cityId;
@@ -99,10 +93,7 @@ Page({
     
     if(_type === 'update') {   // 更新数据
         let {addressId} = JSON.parse(_address);
-        console.log('更新数据');
-        console.log(addressId);
         params = Object.assign(params, {addressId});
-        console.log(params);
         app.api.postApi(UpdateAddressURL, params, (err, response) => {
         if(!err && response.rtnCode == 0) {
           wx.showToast({icon: 'success', title: '操作成功', duration: 1000, mask: true});
@@ -144,23 +135,15 @@ Page({
     this.setData({zoneList: [], cityList: [], districtList: []});
     app.api.fetchApi('address/zone', (err, response) => {
       let {data} = response;      
-      if (data) {
-        
+      if (data) {  
         if (_type === 'update') {
-          console.log('更新地址 zoneId');
-          console.log(this.data.zoneId);
           this.setData({ zoneList: data, selectedZoneIndex: 0, zoneId: this.data.zoneId });
           this.loadCity(this.data.zoneId);
         }else{
           this.setData({ zoneList: data, selectedZoneIndex: 0, zoneId: data[0].zoneId });
           this.loadCity(data[0].zoneId);
         }
-        
-
-
       }
-      //console.log('省份名');
-      //console.log(zoneList[0].name);
     });
   },
 
@@ -168,9 +151,6 @@ Page({
     this.setData({cityList: [], districtList: []});
     app.api.fetchApi('address/city/' + zoneId, (err, response) => {
       let {data} = response;
-      console.log('loadCity');
-      console.log('data');
-      console.log(data);
       if (data) {
         
 
@@ -182,8 +162,6 @@ Page({
           this.loadDistrict(data[0].cityId);
         }
       }
-      //console.log('城市名');
-      //console.log(cityList[0].name);
     });
   },
 
@@ -205,8 +183,6 @@ Page({
    * 如果是更新地址数据，则填入用户之前的值
    */
   _getUserDefaultData(_address) {
-    console.log(log + '用户数据'); 
-    console.log(_address);
     let {zoneId, cityId, districtId, isDefault} = _address;
     fullname = _address.fullname;
     address = _address.address;
@@ -237,7 +213,6 @@ Page({
   },
 
   bindZoneChange(e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value);
     let {zoneList} = this.data;
     let index = parseInt(e.detail.value);
     let {zoneId} = zoneList[index];
@@ -249,7 +224,6 @@ Page({
   },
 
   bindCityChange(e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value);
     let index = parseInt(e.detail.value);
     let {cityList} = this.data;
     let {cityId} = cityList[index];
@@ -261,7 +235,6 @@ Page({
   },
 
   bindDistrictChange(e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value);
     let index = parseInt(e.detail.value);
     let {districtList} = this.data;
     let {districtId} = districtList[index];

@@ -99,8 +99,7 @@ Page({
       if (err) return;
       let {rtnCode, rtnMessage, data} = response;
       if (rtnCode != 0) return;
-      console.log('闪购数据：');
-      console.log(data);
+
 
       let hotsaleGoing = [], hotsaleIncoming = [];
 

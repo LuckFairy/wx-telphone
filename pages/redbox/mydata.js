@@ -51,21 +51,6 @@ Page({
    * 加载页面数据
    */
   _loadData() {
-    // let url = 'rp/flow';
-    // app.api.fetchApi(url, (err, response) => {
-    //   if(!err) {
-    //     console.log(log + 'pageData');
-    //     console.log(response);
-    //   } else {
-    //     console.log(log + '返回数据错误');
-    //     console.log(e);
-    //   }
-    // });
-    
-    //  let pageData = {
-    //   userImage: "../../image/ma_gift_attention.png",
-    //   userName: "乱七八糟",
-    // };
     let userInfo = wx.getStorageSync('userInfo');
     let {nickName:userName, avatarUrl:userImage} = userInfo;
     let pageData = {userName, userImage};
@@ -73,11 +58,7 @@ Page({
     
     app.api.postApi(HistoryURL, {}, (err, data) => {    // 获取红包记录和总流量
       if(err) {
-        console.log(log + '获取红包记录出错');
-        console.log(err);
       } else {
-        console.log('获取红包记录', data);
-        console.log(data);
         let historyData = data.data.recList;
         let nowTotalData = data.data.leftTotal || 0;
         this.setData({nowTotalData, historyData});
@@ -104,7 +85,6 @@ Page({
    * 手机号判断流量
    */
   checkData(e) {
-    console.log(e.detail.value);
     let {value} = e.detail;
     // if(value && value.length === 11) {
     if(1) {
@@ -114,12 +94,8 @@ Page({
       _phoneNum = value;
       app.api.postApi(CashableDataListURL, params, (err, data) => {    // 查询可提现流量值选项
         if(err || data.rtnCode != 0) {
-          console.log(log + '查询可提现流量值选项出错');
-          console.log(err);
           this.setData({rechargeData: 0, dataArr});
         } else {
-          console.log(log + '查询可体现流量值选项');
-          console.log(data);
           this.setData({
             dataArr: data.data
           });

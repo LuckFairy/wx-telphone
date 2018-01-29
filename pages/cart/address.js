@@ -34,10 +34,9 @@ Page({
     _address = options['address'] || false;
     _hasLoaded = false;
     //===========test start =========    
-    console.log('options为页面跳转所带来的参数 _type');    
-    console.log(_type);
+
     if (_type === 'update'){
-      console.log('会进来这里吗？');
+
       var _address2 = JSON.parse(_address);
       var address = _address2.address;
       var cityId = _address2.cityId;
@@ -49,7 +48,7 @@ Page({
       this.setData({ isDefault: isDefault });
     }
     //==============test end==============
-    this.loadZone();
+    //this.loadZone();
   },
   onReady:function(){
     // 页面渲染完成
@@ -99,10 +98,9 @@ Page({
     
     if(_type === 'update') {   // 更新数据
         let {addressId} = JSON.parse(_address);
-        console.log('更新数据');
-        console.log(addressId);
+      
         params = Object.assign(params, {addressId});
-        console.log(params);
+     
         app.api.postApi(UpdateAddressURL, params, (err, response) => {
         if(!err && response.rtnCode == 0) {
           wx.showToast({icon: 'success', title: '操作成功', duration: 1000, mask: true});
@@ -147,8 +145,7 @@ Page({
       if (data) {
         
         if (_type === 'update') {
-          console.log('更新地址 zoneId');
-          console.log(this.data.zoneId);
+     
           this.setData({ zoneList: data, selectedZoneIndex: 0, zoneId: this.data.zoneId });
           this.loadCity(this.data.zoneId);
         }else{
@@ -159,8 +156,7 @@ Page({
 
 
       }
-      //console.log('省份名');
-      //console.log(zoneList[0].name);
+
     });
   },
 
@@ -168,9 +164,7 @@ Page({
     this.setData({cityList: [], districtList: []});
     app.api.fetchApi('address/city/' + zoneId, (err, response) => {
       let {data} = response;
-      console.log('loadCity');
-      console.log('data');
-      console.log(data);
+ 
       if (data) {
         
 
@@ -182,8 +176,7 @@ Page({
           this.loadDistrict(data[0].cityId);
         }
       }
-      //console.log('城市名');
-      //console.log(cityList[0].name);
+
     });
   },
 
@@ -205,8 +198,7 @@ Page({
    * 如果是更新地址数据，则填入用户之前的值
    */
   _getUserDefaultData(_address) {
-    console.log(log + '用户数据'); 
-    console.log(_address);
+  
     let {zoneId, cityId, districtId, isDefault} = _address;
     fullname = _address.fullname;
     address = _address.address;

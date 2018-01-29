@@ -14,13 +14,11 @@ Page({
     orderid:''
   },
   goSeachGrounp(ev) {
-    console.log(ev,22222222222)
     var statusNum = ev.currentTarget.dataset.statusnum;
     var groupId = ev.currentTarget.dataset.id;
     var groupbuyId = ev.currentTarget.dataset.groupbuyid;
     var groupbuyOrderId = ev.currentTarget.dataset.groupbuyorderid;
     var orderid = ev.currentTarget.dataset.orderid;
-    console.log(groupId, groupbuyOrderId,11111);
     wx.navigateTo({
       url: "../cluster/cluser-wait?productId=" + groupId + "&Groupbuy_order_id=" + groupbuyOrderId + "&statusNum=" + statusNum + "&groupbuyId=" + groupbuyId + "&orderid=" + orderid
     })
@@ -36,7 +34,6 @@ Page({
    */
   onLoad: function (options) {
     var that =this;
-    console.log(options,1233211221);
     var orderid = options.orderid;
     that.setData({
       orderid: orderid
@@ -53,12 +50,9 @@ Page({
           duration: 2000
         })
       } else if (resp){
-        console.log(resp,555555555555)
         var userlist = resp.data;
-        console.log(resp.data,33333333)
         var userDataList=[];
         userDataList.push(resp.data);
-        console.log(userDataList[0],11122121211)
         that.setData({
           userDataList: userDataList[0],
           groupId: groupId,
@@ -71,14 +65,10 @@ Page({
     var product_type = 2;  //拼团商品推荐
     let url = 'shop/hotLists';
     app.api.postApi(url, { product_type }, (err, response) => {
-      //app.api.fetchApi('shop/hotsale/2', (err, response) => {
       wx.hideLoading();
       if (err) return;
       let { rtnCode, rtnMessage, data } = response;
       if (rtnCode != 0) return;
-      console.log('购物车下面的推荐数据：');
-      console.log(data);
-      //let hotsaleGoing = [], hotsaleIncoming = [];
       let hotsaleGoing = data;
       this.setData({ hotsaleGoing });
     });

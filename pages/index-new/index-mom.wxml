@@ -1,0 +1,181 @@
+
+<view class='wrap'>
+<!--顶部tab开始  -->
+  <view class='child-list'>
+    <view class='list-tab {{current==0?"current":""}}' data-current='0' bindtap='clickGo'>
+      <text class='child-list-text'>{{activity_err_msg[2].activityAlias}}</text>
+    </view>
+    <view class='list-tab {{current==1?"current":""}}' data-current='1' bindtap='clickGo'>
+      <text class='child-list-text'>{{activity_err_msg[1].activityAlias}}</text>
+    </view>
+    <view class='list-tab {{current==2?"current":""}}' data-current='2' bindtap='clickGo'>
+      <text class='child-list-text'>{{activity_err_msg[0].activityAlias}}</text>
+    </view>
+    <view class='list-tab {{current==3?"current":""}}' data-current='3' bindtap='clickGo'>
+      <text class='child-list-text'>{{activity_err_msg[3].activityAlias}}</text>
+    </view>
+  </view>
+  <!--顶部tab结束  -->
+  <!--列表项开始  -->
+  <block wx:for='{{dataList}}' wx:if="{{current==0}}">
+    <view class='mom-list' wx:if='{{item.receive_count==0}}' bindtap='goDetail' data-source='{{item.source}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}' data-name='{{item.name}}' data-original-price='{{item.is_original_price}}' data-start-time='{{item.start_time}}' data-end-time='{{item.end_time}}' data-face-money='{{item.face_money}}' data-logo='{{logo}}'>
+      <view class='mon-list-left'>
+        <view class='mon-image-title'>
+          <image class='mon-image' src='{{item.mch_imgurl}}'></image>
+          <text class='mon-title'>{{item.name}}</text>
+        </view>
+        <view class='mon-price-day'>
+           <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text>  -->
+          <text class='mon-day'>有效期：{{item.start_time_str}} - {{item.end_time_str}}</text>
+        </view>
+      </view>
+      <view class='mon-list-right'>
+        <view class='mon-money-right'>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
+        </view>
+        <text class='mon-right-go'>立即领取</text>
+      </view> 
+    </view>
+    <view class='mom-list-two' wx:elif='{{item.receive_count != 0}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}'>
+      <view class='mon-list-left'>
+        <view class='mon-image-title'>
+          <image class='mon-image' src='{{logo}}'></image>
+          <text class='mon-title'>{{item.name}}</text>
+        </view>
+        <view class='mon-price-day'>
+           <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text>  -->
+          <text class='mon-day'>有效期：{{item.start_time_str}} - {{item.end_time_str}}</text>
+        </view>
+      </view> 
+      <view class='mon-list-right'>
+        <view class='mon-money-right'>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
+        </view>
+        <text class='mon-right-go'>已领取</text>
+      </view> 
+    </view>
+  </block>
+   <block wx:for='{{dataList}}' wx:if="{{current==1}}">
+    <view class='mom-list' wx:if='{{item.receive_count==0}}' bindtap='goDetail' data-source='{{item.source}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}' data-name='{{item.name}}' data-original-price='{{item.is_original_price}}' data-start-time='{{item.start_time}}' data-end-time='{{item.end_time}}' data-face-money='{{item.face_money}}' data-logo='{{logo}}'>
+      <view class='mon-list-left'>
+        <view class='mon-image-title'>
+          <image class='mon-image' src='{{logo}}'></image>
+          <text class='mon-title'>{{item.name}}</text>
+        </view>
+        <view class='mon-price-day'>
+           <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text>  -->
+          <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
+        </view>
+      </view> 
+      <view class='mon-list-right'>
+        <view class='mon-money-right'>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
+        </view>
+        <text class='mon-right-go'>立即领取</text>
+      </view> 
+    </view>
+    <view class='mom-list-two' wx:elif='{{item.receive_count != 0}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}'>
+      <view class='mon-list-left'>
+        <view class='mon-image-title'>
+          <image class='mon-image' src='{{logo}}'></image>
+          <text class='mon-title'>{{item.name}}</text>
+        </view>
+        <view class='mon-price-day'>
+           <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text>  -->
+          <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
+        </view>
+      </view> 
+      <view class='mon-list-right'>
+        <view class='mon-money-right'>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
+        </view>
+        <text class='mon-right-go'>已领取</text>
+      </view> 
+    </view>
+  </block>
+   <block wx:for='{{dataList}}' wx:if="{{current==2}}">
+    <view class='mom-list' wx:if='{{item.receive_count==0}}' bindtap='goDetail' data-source='{{item.source}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}' data-name='{{item.name}}' data-original-price='{{item.is_original_price}}' data-start-time='{{item.start_time}}' data-end-time='{{item.end_time}}' data-face-money='{{item.face_money}}' data-logo='{{logo}}'>
+      <view class='mon-list-left'>
+        <view class='mon-image-title'>
+          <image class='mon-image' src='{{logo}}'></image>
+          <text class='mon-title'>{{item.name}}</text>
+        </view>
+        <view class='mon-price-day'>
+           <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text>  -->
+          <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
+        </view>
+      </view> 
+      <view class='mon-list-right'>
+        <view class='mon-money-right'>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
+        </view>
+        <text class='mon-right-go'>立即领取</text>
+      </view> 
+    </view>
+    <view class='mom-list-two' wx:elif='{{item.receive_count != 0}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}'>
+      <view class='mon-list-left'>
+        <view class='mon-image-title'>
+          <image class='mon-image' src='{{logo}}'></image>
+          <text class='mon-title'>{{item.name}}</text>
+        </view>
+        <view class='mon-price-day'>
+           <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text>  -->
+          <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
+        </view>
+      </view> 
+      <view class='mon-list-right'>
+        <view class='mon-money-right'>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
+        </view>
+        <text class='mon-right-go'>已领取</text>
+      </view> 
+    </view>
+  </block>
+   <block wx:for='{{dataList}}' wx:if="{{current==3}}">
+    <view class='mom-list' wx:if='{{item.receive_count==0}}' bindtap='goDetail' data-source='{{item.source}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}' data-name='{{item.name}}' data-original-price='{{item.is_original_price}}' data-start-time='{{item.start_time}}' data-end-time='{{item.end_time}}' data-face-money='{{item.face_money}}' data-logo='{{logo}}'>
+      <view class='mon-list-left'>
+        <view class='mon-image-title'>
+          <image class='mon-image' src='{{logo}}'></image>
+          <text class='mon-title'>{{item.name}}</text>
+        </view>
+        <view class='mon-price-day'>
+           <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text>  -->
+          <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
+        </view>
+      </view> 
+      <view class='mon-list-right'>
+        <view class='mon-money-right'>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
+        </view>
+        <text class='mon-right-go'>立即领取</text>
+      </view> 
+    </view>
+    <view class='mom-list-two' wx:elif='{{item.receive_count != 0}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}'>
+      <view class='mon-list-left'>
+        <view class='mon-image-title'>
+          <image class='mon-image' src='{{logo}}'></image>
+          <text class='mon-title'>{{item.name}}</text>
+        </view>
+        <view class='mon-price-day'>
+           <!-- <text class='mon-price'>满{{item.is_original_price}}元可用</text>  -->
+          <text class='mon-day'>有效期：{{item.start_time_str}}至{{item.end_time_str}}</text>
+        </view>
+      </view> 
+      <view class='mon-list-right'>
+        <view class='mon-money-right'>
+          <!-- <text class='money-right-cn'>￥</text> -->
+          <text class='money-right-text'>￥{{item.face_money}}</text>
+        </view>
+        <text class='mon-right-go'>已领取</text>
+      </view> 
+    </view>
+  </block>
+  <!--列表项结束  -->
+</view>

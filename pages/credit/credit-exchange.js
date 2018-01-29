@@ -28,8 +28,6 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     let {data} = options;
     let pageData = JSON.parse(data);
-    console.log(log + 'pageData');
-    console.log(pageData);
     this.setData({pageData});
   },
   
@@ -37,7 +35,6 @@ Page({
    * 点击兑换
    */
   exchange() {
-    console.log(log + '点击兑换');
     this.showModal('success');
   },
   
@@ -64,7 +61,6 @@ Page({
    * 点击模态框的取消（关闭模态框）
    */
   tabCancel(e) {
-    console.log(log + '点击取消');
     let {id} = e.currentTarget.dataset; 
     if(id === 'err') {
       this.setData({showErrModal: false});
@@ -78,10 +74,9 @@ Page({
   tabConfirm(e) {
     let {id} = e.currentTarget.dataset; 
     if(id === 'err') {
-      console.log(log + '去买东西');
       this.setData({showErrModal: false});   // 重定向至买东西页面
     } else {
-      console.log(log + '兑换');
+
       this.setData({showSuccessModal: false});   // 跳转至充值页面
       wx.navigateTo({
         url: './recharge'

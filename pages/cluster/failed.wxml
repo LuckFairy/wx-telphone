@@ -15,7 +15,7 @@
     <!--地址开始  -->
     <view class="fail-address">
         <view class="fail-user">
-            <image class="fail-addr-img" src="../../image/address-img.png"></image>
+            <image class="fail-addr-img" src="../../image/address.png"></image>
             <text class="fail-addr-name">{{userDataList.name}}</text>
             <text class="fail-addr-phone">{{userDataList.telephone}}</text>
         </view>

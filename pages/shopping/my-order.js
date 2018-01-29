@@ -1,5 +1,4 @@
 // pages/shopping/my-order.js
-
 /*
 const ORDER_STATUS_DEFAULT = 0;   // 订单状态 已提交
 const ORDER_STATUS_FINISHED = 1;  // 订单状态 已结单
@@ -16,12 +15,14 @@ const DELIVER_STATUS_UN_SEND = 1;  // 物流状态 未发货
 const DELIVER_STATUS_SEND    = 2;  // 物流状态 已发货
 const DELIVER_STATUS_GOT     = 3;  // 物流状态 已收货
 */
-
+const ORDER_STATUS_MOMENT = 0;    // 临时
 const ORDER_STATUS_PENDING = 1;    // 待处理（待付款）
 const ORDER_STATUS_PROCESSING = 2;    // 处理中（待发货）
 const ORDER_STATUS_SHIPPED = 3;    // 已发货
-const ORDER_STATUS_COMPLETE = 5;    // 已完成
-const ORDER_STATUS_CANCELED = 7;    // 已取消
+const ORDER_STATUS_COMPLETE = 4;    // 已完成
+const ORDER_STATUS_CANCELED = 5;    // 已取消
+const ORDER_STATUS_REFUNDING = 6;   //退款中
+const ORDER_STATUS_RECEIVED = 7;   //已收货
 const ORDER_STATUS_DENIED = 8;    // 已拒绝（赠品申请时可拒绝）
 const ORDER_STATUS_FAILED = 10;   // 失败
 const ORDER_STATUS_UNCHECK = 17;   // 待审核（赠品申请时，订单状态为待审核）
@@ -43,21 +44,62 @@ order_status_id	name	name
 15	已处理	   Processed
 16	无效	   Voided
 */
+// 订单分类type
+/*
+order_type  name
+unpay        待付款
+unsend      待发货
+send        待收货
+complete    已完成
+all         全部
+*/
+/*订单状态码id
+order_status_id		name
+0     临时
+1     未支付
+2     未发货
+3     已发货
+4     已完成
+5     已取消
+6     退款中
+7     已收货
+*/
+
 
 const util = require('../../utils/util.js');
+import { Api } from '../../utils/api_2';
+import { store_Id } from '../../utils/store_id';
 var app = getApp();
-
+let errModalConfig = {
+  image: '../../image/ma_icon_store_1.png',
+  title: '将二维码出示给门店核销员由门店员核销即可',
+};
+let successModalConfig = {
+  firstText:'提示',
+  confirmText:'确认'
+}
 
 Page({
   data: {
-    unpayOrders: [],    // 待支付订单
-    uncheckOrders: [],  // 待审核订单（赠品）
-    transOrders: [],    // 待收货订单
-    finishedOrders: [], // 已完成订单
+    allOrders : [],     //全部订单
+    momentOrders: [],   //临时
+    unpayOrders: [],    //待付款 （待支付订单）
+    processingOrders:[], //待发货
+    shippedOrders:[],   //已发货
+    finishedOrders: [], // 已完成
+    canceledOrders:[],  //已取消
+    refundingOrders:[],   //退款中
+    ReceivedOrders:[],  //已收货
+    transOrders: [],    // 待收货(已发货)
+    sku_arr:[],//多属性列表
+    
     showOverlay: false, // 弹窗遮掩层
+    showErrModal:false,//错误模式层
+    showSuccessModal: false ,//确认模式层
     checkQrImgUrl: null,   // 赠品领用核销二维码url
+    uncheckOrders: [],  // 待审核订单（赠品）
     groupOrders: [], // 团购订单
-    groupbuyOrders: [], // 团购订单 使用新接口获取 如果这个可以的话，就不用groupOrders了
+    groupbuyOrders: [], // 团购订单 使用新接口获取如果这个可以的话，就不用groupOrders了
     currentTab: 0,
     showclose: true,
     waitOrders: [],  //待成团
@@ -69,7 +111,8 @@ Page({
     groupbuyId:'',
     groupbuyOrderId:'',
     prodId:'',
-
+    uid:'',
+    storeId: store_Id.shopid,
     // 购买成功后的分享，丢弃……
     // groupbuyOrderIdShare:"",
     // groupbuyIdShare:"",
@@ -77,39 +120,37 @@ Page({
     // flag:"",
     // imgName:"",
     // imgUrl:"",
-    // showSale:true,
-    // dataList:''
-
+     showSale:true,//售后是否无数据，true无，false有
+    dataList:[],
+    shipping_method: 'express',
+    addressId: 0,
+    postage_list:"",
+    user_coupon_id: 0,
+    is_app: false,
+    payType: 'weixin',
+    isShow:true,//是否显示,默认全部显示
   },
   onLoad: function (options) {
     var that = this;
-    var orderstatus = options.orderstatus;
     var groupbuyId = options.groupbuyId;
     var groupbuyOrderId = options.groupbuyOrderId;
     var prodId = options.prodId;
     var listsIndex = options.listsIndex;
-
-    //把从拼团购购买成功后传过来参数存起来，点击分享的时候要用到。  ps：购买成功后的分享，丢弃……
-    // this.setData({
-    //   groupbuyOrderIdShare: options.groupbuyOrderIdShare,
-    //   groupbuyIdShare: options.groupbuyIdShare,
-    //   prodIdShare: options.prodIdShare,
-    //   flag:options.flag,
-    //   imgName: options.imgName,
-    //   imgUrl: options.imgUrl,
-    //   showshare: options.showshare
-    // })
-    // console.log(that.data.groupbuyOrderIdShare, that.data.groupbuyIdShare, that.data.prodIdShare, that.data.flag, that.data.imgName, that.data.imgUrl, that.data.showshare,"0000000000000000000000000");
 
     var orderstatus = options.orderstatus;
     var groundBuy=options.groundBuy;
     var group = options.group;
     var list = options.list;
     var goodsindex = options.goodsindex;
+
+    Api.signin();//获取以及存储openid、uid
+    // 获取uid
+    let uid = wx.getStorageSync('userUid');
+    // let uid = 7;
     
     // 页面初始化 options为页面跳转所带来的参数
     let { page = 0 } = options;
-    this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId: groupbuyId, groupbuyOrderId: groupbuyOrderId, prodId: prodId});
+    this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId: groupbuyId, groupbuyOrderId: groupbuyOrderId, prodId: prodId , uid: uid});
     wx.getStorage({
       key: 'showclose',
       success: function (res) {
@@ -137,9 +178,8 @@ Page({
     }
     else if (groundBuy == 1) { 
       //拿到点击了“不再提醒”后的存储值，以后都不再显示这个分享框
-      var stoList = wx.getStorageSync('showshare');
-      console.log(stoList,"ttttttttttttttttttttttttttttttttttt")
-      if (stoList == false){
+      var stoList = wx.getStorageSync("showshare");
+      if (stoList == "false"){
           that.setData({
             showshare : false
           })
@@ -163,42 +203,32 @@ Page({
     this.setData({ curSwiperIdx: goodsindex, curActIndex: goodsindex});
     // 退换售后开始
     that.listReturnFun();
-    // app.api.postApi('order/listOfReturn', {}, (err, resp) => {
-    //   if (resp) {
-    //     if (resp.rtnCode==0){
-    //       console.log("退换售后", resp);
-    //       console.log("2222", resp);
-    //       var dataList = resp.data;
-    //       var dataList=[];
-    //       dataList.push(resp.data)
-    //       that.setData({
-    //         showSale:false,
-    //         dataList: dataList
-    //       })
-    //     }else{
-    //       that.setData({
-    //         showSale:true
-    //       })
-    //     }
-        
-    //   }
-    // });
-    // 退换售后结束
   },
   listReturnFun:function(){
     var that = this;
-    app.api.postApi('order/listOfReturn', {}, (err, resp) => {
+    wx.showLoading({
+      title: '加载中'
+    })
+    var params = {
+      "uid": this.data.uid,
+      "page ": 1,
+      "store_id": this.data.storeId
+    };
+    console.log('售后数据请求参数', params);
+    var url = 'wxapp.php?c=return&a=listOfReturn';
+    app.api.postApi(url, { params }, (err, resp) => {
+      wx.hideLoading();
       if (resp) {
-        if (resp.rtnCode == 0) {
-          console.log("退换售后", resp);
-          console.log("2222", resp);
-          var dataList = resp.data;
-          var dataList = [];
-          dataList.push(resp.data)
-          that.setData({
-            showSale: false,
-            dataList: dataList
-          })
+        if (resp.err_code == 0) {
+          if (resp.err_msg.return_list){
+            if (resp.err_msg.return_list.length > 0){
+              var dataList = resp.err_msg.return_list;
+              that.setData({
+                showSale: false,
+                dataList: dataList
+              })
+            }
+          }
         } else {
           that.setData({
             showSale: true
@@ -206,13 +236,16 @@ Page({
         }
 
       }
+   
     });
   },
   goDetail(e){
-    console.log("某某id啊", e);
     var theId = e.target.dataset.theId;
+    var order_no = e.target.dataset.orderNo;
+    var statustxt = e.target.dataset.orderStatus_txt;
+
     wx.navigateTo({
-      url: '../sale-after/purchase-detail?theId=' + theId
+      url: '../sale-after/purchase-detail?theId=' + theId + '&order_no=' + order_no + '&statustxt=' + statustxt
     })
   },
   onReady: function () {
@@ -230,7 +263,6 @@ Page({
   },
   swiperChange: function (event) {
     var that =this;
-    console.log("curActIndex：event.detail.current", event.detail.current);
     this.setData({
       curActIndex: event.detail.current
     });
@@ -240,8 +272,6 @@ Page({
   },
   swichSwiperItem: function (event) {
     var that =this;
-    console.log("curSwiperIdx", event.target.dataset.idx);
-    console.log("curActIndex", event.target.dataset.idx);
     this.setData({
       curSwiperIdx: event.target.dataset.idx,
       curActIndex: event.target.dataset.idx
@@ -297,7 +327,6 @@ Page({
     var status = e.currentTarget.dataset.status;
     var groupId = e.currentTarget.dataset.id;
     var groupbuyId = e.currentTarget.dataset.groupbuyid;
-    console.log(groupbuyOrderId, groupId)
     if (status == 1 || status == 3) {
       wx.navigateTo({
         url: "../cluster/failed?productId=" + groupId + "&Groupbuy_order_id=" + groupbuyOrderId + "&groupbuyId=" + groupbuyId + "&orderid=" + orderid
@@ -312,58 +341,122 @@ Page({
   },
 
   /**
-   * 加载订单数据 
+   * 加载订单数据 //加载订单数据，新接口使用post方法
    * onLoaded: 加载成功回调函数
+   * opt是传过来的参数type(类型),page（页码）,store_id（店铺id),uid(用户id)
    */
-  _loadOrderData(onLoaded) {
+  _loadOrderData(onLoaded , opt) {
     wx.showLoading({ title: '加载中...', mask: true, });
-    app.api.fetchApi("order/ls", (err, resp) => {
+    //新方法
+    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.storeId,type:"all" },opt);
+    
+    console.log('请求的参数params ', params)
+    app.api.postApi("wxapp.php?c=order_v2&a=order_list", { "params": params }  , (err, resp) => {
       wx.hideLoading();
-      console.log('订单列表数据111');
-      console.log(resp);
       if (err) {
         return this._showError('网络出错，请稍候重试');
       }
-
-      let { rtnCode, rtnMessage, data = [] } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);
+      //console.info('订单数据 ',resp)
+      let { err_code, err_msg: {next_page , order_list = []} } = resp;
+      if (err_code != 0) {
+        return this._showError(err_msg);
       }
 
-      let unpayOrders = [], transOrders = [], finishedOrders = [], uncheckOrders = [], groupOrders = [], groupbuyOrders = [];
-      data.forEach(item => {
-        let status = item.orderStatusId;
-        if (status == ORDER_STATUS_PENDING) {
+      let allOrders = [], momentOrders = [], unpayOrders = [], processingOrders = [], shippedOrders = [], finishedOrders = [],
+         canceledOrders = [], refundingOrders = [], uncheckOrders = [], ReceivedOrders = [],groupOrders = [], 
+         groupbuyOrders = [], transOrders = [];
+      order_list.forEach(item => {
+        
+        allOrders.push(item);
+        let status = item.status;
+        // const ORDER_STATUS_MOMENT = 0;    // 临时
+        // const ORDER_STATUS_PENDING = 1;    // 待处理（待付款）
+        // const ORDER_STATUS_PROCESSING = 2;    // 处理中（待发货）
+        // const ORDER_STATUS_SHIPPED = 3;    // 已发货
+        // const ORDER_STATUS_COMPLETE = 4;    // 已完成
+        // const ORDER_STATUS_CANCELED = 5;    // 已取消
+        // const ORDER_STATUS_REFUNDING = 6;   //退款中
+        // const ORDER_STATUS_RECEIVED = 7;   //已收货
+        // const ORDER_STATUS_DENIED = 8;    // 已拒绝（赠品申请时可拒绝）
+        // const ORDER_STATUS_FAILED = 10;   // 失败
+        // const ORDER_STATUS_UNCHECK = 17;   // 待审核（赠品申请时，订单状态为待审核）
+        if (status == ORDER_STATUS_MOMENT  ){     //临时
+          //console.log('临时订单数据', item);
+          momentOrders.push(item);
+        } if (status == ORDER_STATUS_PENDING) { //待付款
+          //console.log('待付款订单数据', item);
           unpayOrders.push(item);
-        } else if (status == ORDER_STATUS_PROCESSING || status == ORDER_STATUS_SHIPPED) {
+        }else if (status == ORDER_STATUS_PROCESSING || status == ORDER_STATUS_SHIPPED) {
           transOrders.push(item);
-        } else if (status == ORDER_STATUS_COMPLETE) {
-          finishedOrders.push(item);
-        } else if (status == ORDER_STATUS_UNCHECK) {
-          item.orderStatusId = 2;
-          item.shippingMethod = 'pickup.pickup'
-          transOrders.push(item);
+        // } else if (status == ORDER_STATUS_COMPLETE  ){//已完成
+        //   finishedOrders.push(item);
+        } else if (status == ORDER_STATUS_CANCELED  ){//已取消
+          canceledOrders.push(item);
+        } else if (status == ORDER_STATUS_REFUNDING  ){//退款中
+          refundingOrders.push(item)
+        } else if (status == ORDER_STATUS_RECEIVED || status == ORDER_STATUS_COMPLETE) {// //已收货
+          ReceivedOrders.push(item);
         }
 
-        let typeOrder = item.groupbuyOrderId;
+        let typeOrder = item.groupbuyOrderId;//团购，新接口不使用
         if (typeOrder != 0) {
           groupOrders.push(item);
         }
 
-
       });
       //2017年9月18日14:51:15 调用新接口，获取团购订单列表
-      this.loadGroupbuyOrder();
+      //this.loadGroupbuyOrder();
       //====end
-      this.setData({ unpayOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
-      console.log('未支付订单start');
-      console.log(unpayOrders);
-      console.log('未支付订单end');
-      console.log('团购订单start');
-      console.log(groupOrders);
-      console.log('团购订单end');
+      //console.log('所有的订单数据='); console.log(allOrders);
+      
+      //console.log('所有的订单数据=', allOrders);
+      //console.log('待付款的订单数据=', unpayOrders);
+      //console.log('待发货订单数据', transOrders);
+      console.log('已收货订单数据', ReceivedOrders);
+
+      console.log('unpayOrders ', unpayOrders, 'transOrders ', transOrders, 'allOrders', allOrders);
+      this.setData({ allOrders, momentOrders, unpayOrders, transOrders, ReceivedOrders,finishedOrders, uncheckOrders, groupOrders });
       typeof onLoaded === 'function' && onLoaded();
     });
+    // app.api.fetchApi("order/ls", (err, resp) => {
+    //   wx.hideLoading();
+    //   if (err) {
+    //     return this._showError('网络出错，请稍候重试');
+    //   }
+
+    //   let { rtnCode, rtnMessage, data = [] } = resp;
+    //   if (rtnCode != 0) {
+    //     return this._showError(rtnMessage);
+    //   }
+
+    //   let unpayOrders = [], transOrders = [], finishedOrders = [], uncheckOrders = [], groupOrders = [], groupbuyOrders = [];
+    //   data.forEach(item => {
+    //     let status = item.orderStatusId;
+    //     if (status == ORDER_STATUS_PENDING) {
+    //       unpayOrders.push(item);
+    //     } else if (status == ORDER_STATUS_PROCESSING || status == ORDER_STATUS_SHIPPED) {
+    //       transOrders.push(item);
+    //     } else if (status == ORDER_STATUS_COMPLETE) {
+    //       finishedOrders.push(item);
+    //     } else if (status == ORDER_STATUS_UNCHECK) {
+    //       item.orderStatusId = 2;
+    //       item.shippingMethod = 'pickup.pickup'
+    //       transOrders.push(item);
+    //     }
+
+    //     let typeOrder = item.groupbuyOrderId;
+    //     if (typeOrder != 0) {
+    //       groupOrders.push(item);
+    //     }
+
+
+    //   });
+    //   //2017年9月18日14:51:15 调用新接口，获取团购订单列表
+    //   this.loadGroupbuyOrder();
+    //   //====end
+    //   this.setData({ unpayOrders, transOrders, finishedOrders, uncheckOrders, groupOrders });
+    //   typeof onLoaded === 'function' && onLoaded();
+    // });
   },
 
   /**
@@ -371,6 +464,10 @@ Page({
    */
   confirmDeliver(event) {
     let orderId = event.currentTarget.dataset.orderId;
+    let uid= this.data.uid;
+
+    console.log('确认收货订单号和用户id',orderId,uid);//return;
+
     wx.showModal({
       title: '确认收货',
       // content: `确认您的订单[${orderId}]已收到货了？`,
@@ -381,7 +478,7 @@ Page({
       confirmText: '确定收货',
       success: (res) => {
         if (res.confirm) {
-          this._doConfirmDeliver(orderId);
+          this._doConfirmDeliver(orderId, uid);
         }
       },
     });
@@ -391,24 +488,23 @@ Page({
       currentTab: e.currentTarget.dataset.current
     })
   },
-  _doConfirmDeliver(orderId) {
-    let url = 'order/complete/' + orderId;
+  _doConfirmDeliver(orderId, uid) {
+
     wx.showLoading({ title: '请稍候...', mask: true, });
-    app.api.fetchApi(url, (err, resp) => {
+    app.api.postApi('wxapp.php?c=order&a=receive', { "params": { "uid": uid, "order_no": orderId } }, (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('网络出错，请稍候重试');;
       }
-
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
+      let rtnMessage = resp.err_msg.err_log;
+      if (resp.err_code != 0) {
         return this._showError(rtnMessage);
       }
-
       // 跳转到已收货页面
       this.setData({ curSwiperIdx: 2, curActIndex: 2 });
       // 刷新订单数据
       this._loadOrderData();
+
     });
   },
 
@@ -417,36 +513,38 @@ Page({
    */
   delOrder: function (event) {
     let orderId = event.currentTarget.dataset.orderId;
+    let index = event.currentTarget.dataset.index;
+    let uid=this.data.uid;
+   // console.log("请求的参数", orderId, uid); return;
     wx.showModal({
       title: '删除订单',
       // content: "确定要删除该宝贝吗？\r\n还差一步\r\n宝贝就可以直接带回家了哦\r\n\r\n",
       content: "确定要删除该宝贝吗？",
       success: (res) => {
         if (res.confirm) {
-          this._doDelOrder(orderId);
+          this._doDelOrder(orderId, uid ,index);
         }
       }
     });
   },
 
-  _doDelOrder(orderId) {
-    let url = 'order/cancel/' + orderId;
+  _doDelOrder(orderId, uid ,index) {
     wx.showLoading({ title: '请稍候...', mask: true, });
-    app.api.fetchApi(url, (err, resp) => {
+    app.api.postApi('wxapp.php?c=order_v2&a=cancel', { "params": { "uid": uid, "order_no": orderId } }, (err, resp) => {
       wx.hideLoading();
-      if (err) {
-        return this._showError('网络出错，请稍候重试');;
-      }
-
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);;
+      if (err || resp.err_code != 0) {
+        //不能删除的订单，直接隐藏
+        this.showModal('success', {
+          firstText:resp.err_msg
+        });
+         return;
       }
 
       // 刷新订单数据
       this._loadOrderData(() => {
         wx.showToast({ title: "删除订单成功！", icon: "success", duration: 1000 });
       });
+
     });
   },
 
@@ -455,6 +553,13 @@ Page({
    */
   pay(event) {
     let orderId = event.currentTarget.dataset.orderId;
+    let addressId = event.currentTarget.dataset.addressId;
+    let postage_list = event.currentTarget.dataset.fx_postage;
+    //console.log('addressId=' + addressId); return;
+    
+    //console.log('postage_list=' + postage_list);
+    this.setData({ addressId, postage_list });
+    //let pigOrderId = "PIG" + orderId;
     wx.showModal({
       title: '订单付款',
       content: `确认为订单[${orderId}]进行支付？`,
@@ -465,27 +570,74 @@ Page({
       success: (res) => {
         if (res.confirm) {
           this._doPrePay(orderId);
+          //this._doPrePay(pigOrderId);
         }
       },
     });
   },
   _doPrePay(orderId) {
-    let url = 'order/pay/' + orderId;
+    
+    let addressId = this.data.addressId;
+    //let addressId = 47;
+    let payType = this.data.payType;
+    let is_app = this.data.is_app;
+    let postage_list = this.data.postage_list;
+    //let postage_list = "a:1:{i:6;d:0;}";
+    let uid = this.data.uid;
+    let store_id = this.data.storeId;
+    let user_coupon_id = this.data.user_coupon_id;
+    let shipping_method = this.data.shipping_method;
+    //console.log('22222-addressId=' + addressId); //return;
+    var params = {
+      payType: payType,
+      orderNo: orderId,
+      is_app: is_app,
+      postage_list: postage_list,
+      shipping_method: shipping_method,
+      address_id: addressId,
+      uid: uid,
+      store_id: store_id,
+      user_coupon_id: 0,
+    }
+    //console.log('支付的请求参数=', params);return;
     wx.showLoading({ title: '请稍候...', mask: true, });
-    app.api.postApi(url, null, (err, resp) => {
+    app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
-      if (err) {
-        return this._showError('网络出错，请稍候重试');;
-      }
 
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);;
-      }
-
+      //console.log(resp, 344444)
+      var data = resp.err_msg;
+      //console.log(data);
       // 调起微信支付
-      this._startPay(data);
+      if (resp.err_code != 0) {
+        //console.log('不能支付，原因是：', data)
+
+        wx.showModal({
+          title: '支付失败',
+          content: data,
+          confirmText: '好的',
+        });
+
+      } else {
+        // 调起微信支付
+        if (resp.err_dom) {
+          //console.log('不需要支付');
+
+          wx.navigateTo({
+            url: './my-order?goodsindex=' + 2
+          })
+        } else {
+
+          //console.log('需要支付');
+
+          // 调起微信支付
+          this._startPay(data);
+        }
+      }
+      //console.log(data); return;
+
+
     });
+
   },
 
   /**
@@ -495,14 +647,13 @@ Page({
     let param = {
       timeStamp: payParams.timeStamp + "",
       nonceStr: payParams.nonceStr,
-      "package": "prepay_id=" + payParams.prepayId,
+      //"package": "prepay_id=" + payParams.prepayId,
+      "package": payParams.package,
       signType: 'MD5',
       paySign: payParams.paySign,
       success: res => this._onPaySuccess(res),
       fail: err => this._onPayFail(err)
     };
-
-    console.log('发起支付:', param);
     wx.requestPayment(param);
   },
 
@@ -510,8 +661,10 @@ Page({
    * 支付成功
    */
   _onPaySuccess(res) {
-    console.log('支付成功：', res);
     wx.showToast({ title: "订单支付成功", icon: "success", duration: 1000 });
+    //2018年1月3日09:52:02
+    wx.removeStorageSync('couponInfo');
+    this.giveCard(this.data.orderId);
 
     setTimeout(() => {
       // 跳转到待收货页面
@@ -525,23 +678,38 @@ Page({
    * 支付失败
    */
   _onPayFail(err) {
-    console.log('支付失败：', err);
     wx.showModal({
       title: '支付失败',
       content: '订单支付失败，请刷新订单列表，重新尝试',
       confirmText: '好的',
     });
   },
+  /*
+  * 再次购买
+  */
+  againBuy (e) {
+    let { proId } = e.currentTarget.dataset;
+    wx.reLaunch({
+      // url: './goods-detail?prodId=' + proId
+      url: '../index-new/index-new'
+    })
+  },
+  /*新品试用，确认取货
+  *
+  */
+  confirmNewGoods (e){
+    var trial_product_qrcode = e.currentTarget.dataset.qrcode;
+    trial_product_qrcode = trial_product_qrcode.replace(/\\/g,'');
+    this.showModal('err', { image: trial_product_qrcode});
+  },
 
   /**
    * 查看订单详情 
    */
   pushToOrderDetail(e) {
-    let { orderId } = e.currentTarget.dataset;
-    let { productId } = e.currentTarget.dataset;
-    console.log("333", e);
+    let { orderId, productId , status , newTrial } = e.currentTarget.dataset;
     wx.navigateTo(
-      { url: './order-detail?orderId=' + orderId + '&productId=' + productId}
+      { url: './order-detail?orderId=' + orderId + '&productId=' + productId + '&newTrial=' + newTrial}
     );
   },
 
@@ -550,7 +718,6 @@ Page({
    */
   pushToGoodsDetail(e) {
     let { productId } = e.currentTarget.dataset;
-    console.log(productId);
     wx.navigateTo(
       { url: `../shopping/goods-detail?prodId=${productId}&action=havealook` }
     );
@@ -577,10 +744,11 @@ Page({
     this.setData({ error: errorMsg });
   },
 
+  //购物车为空，去下单
   goToHotSale() {
-    wx.navigateTo({
-      url: '../activity/hotsale'
-    });
+    console.log('购物车为空，去下单');
+    wx.reLaunch({ url: '../index-new/index-new' });
+
   },
 
   //分享功能
@@ -658,51 +826,91 @@ Page({
  * 团购订单列表
  */
   loadGroupbuyOrder() {
-    wx.showLoading({ title: '加载中...', mask: true, });
+    // wx.showLoading({ title: '加载中...', mask: true, });
     
-    let groupbuyOrders = [], waitOrders = [], endOrders = [], failOrders = [];
-    app.api.fetchApi("order/OrderList", (err, resp) => {
-      wx.hideLoading();
-      console.log('团购订单列表44444');
-      if (err) {
-        return this._showError('网络出错，请稍候重试');
-      }
-      let { rtnCode, rtnMessage, data = [] } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);
-      }
-
-      let groupbuyOrders = data;
-      console.log('团购订单列表');
-      console.log(groupbuyOrders);
-
-      data.forEach(item => {
-        let status = item.groupbuyOrderStatus;
-        if (status == 1) {
-          waitOrders.push(item);
-        } else if (status == 2) {
-          endOrders.push(item);
-        } else {
-          failOrders.push(item);
-        }
-      });
-      console.log('待成团');
-      console.log(waitOrders);
-      console.log('已成团');
-      console.log(endOrders);
-      console.log('拼团失败');
-      console.log(failOrders);
-      this.setData({ groupbuyOrders, waitOrders, endOrders, failOrders });
-    });
+    // let groupbuyOrders = [], waitOrders = [], endOrders = [], failOrders = [];
+    // app.api.fetchApi("order/OrderList", (err, resp) => {
+    //   wx.hideLoading();
+    //   if (err) {
+    //     return this._showError('网络出错，请稍候重试');
+    //   }
+    //   let { rtnCode, rtnMessage, data = [] } = resp;
+    //   if (rtnCode != 0) {
+    //     return this._showError(rtnMessage);
+    //   }
+    //   let groupbuyOrders = data;
+    //   data.forEach(item => {
+    //     let status = item.groupbuyOrderStatus;
+    //     if (status == 1) {
+    //       waitOrders.push(item);
+    //     } else if (status == 2) {
+    //       endOrders.push(item);
+    //     } else {
+    //       failOrders.push(item);
+    //     }
+    //   });
+    //   this.setData({ groupbuyOrders, waitOrders, endOrders, failOrders });
+    // });
   },
 
   //处理分享的数据
   listClick: function (event) {
-    console.log(event);
     var groupbuyOrderId = event.currentTarget.groupbuyOrderId
-    console.log('测试分享的数据');
-    console.log(groupbuyOrderId);
 
-  }
+  },
+  /**
+* 购买给卡包
+*/
+  giveCard: function (order_no) {
 
+    var params = {
+      order_no: order_no
+    };
+    app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
+      // if (err) return;
+      // if (resp.err_code != 0) {
+      //   wx.showLoading({
+      //     title: resp.err_msg,
+      //   })
+      // } else {
+      //   wx.hideLoading();
+      //   console.log(resp, 1111111)
+      //   var data = resp.err_msg;
+      //   console.log('获取第一行的图标', data);
+      //   this.setData({ iconOne: data });
+      // }
+    });
+  },
+  /**
+  * 显示模态框
+  */
+  showModal(type = 'err', config) {  // type: success||err
+    if (type === 'success') {
+      successModalConfig = Object.assign(successModalConfig,config);
+      this.setData({
+        successModalConfig: successModalConfig,
+        showSuccessModal: true
+      });
+    } else {
+      errModalConfig = Object.assign(errModalConfig , config);
+      this.setData({
+        errModalConfig: errModalConfig,
+        showErrModal: true
+      });
+    }
+  },
+
+  /**
+   * 点击隐藏模态框(错误模态框)
+   */
+  tabModal() {
+    this.setData({ showErrModal: false });
+  },
+
+  /**
+   * 点击模态框的确定(关闭确定模态框)
+   */
+  tabConfirm() {
+    this.setData({ showSuccessModal: false });
+  },
 })

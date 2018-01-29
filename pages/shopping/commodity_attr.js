@@ -129,7 +129,6 @@ Page({
     });
     this.distachAttrValue(this.data.commodityAttr);
     // 只有一个属性组合的时候默认选中
-    // console.log(this.data.attrValueList);
     if (this.data.commodityAttr.length == 1) {
       for (var i = 0; i < this.data.commodityAttr[0].attrValueList.length; i++) {
         this.data.attrValueList[i].selectedValue = this.data.commodityAttr[0].attrValueList[i].attrValue;
@@ -154,7 +153,6 @@ Page({
     for (var i = 0; i < commodityAttr.length; i++) {
       for (var j = 0; j < commodityAttr[i].attrValueList.length; j++) {
         var attrIndex = this.getAttrIndex(commodityAttr[i].attrValueList[j].attrKey, attrValueList);
-        // console.log('属性索引', attrIndex); 
         // 如果还没有属性索引为-1，此时新增属性并设置属性值数组的第一个值；索引大于等于0，表示已存在的属性名的位置
         if (attrIndex >= 0) {
           // 如果属性值数组中没有该值，push新值；否则不处理
@@ -169,7 +167,6 @@ Page({
         }
       }
     }
-    // console.log('result', attrValueList)
     for (var i = 0; i < attrValueList.length; i++) {
       for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
         if (attrValueList[i].attrValueStatus) {
@@ -204,16 +201,6 @@ Page({
   },
   /* 选择属性值事件 */
   selectAttrValue: function (e) {
-    /*
-    点选属性值，联动判断其他属性值是否可选
-    {
-      attrKey:'型号',
-      attrValueList:['1','2','3'],
-      selectedValue:'1',
-      attrValueStatus:[true,true,true]
-    }
-    console.log(e.currentTarget.dataset);
-    */
     var attrValueList = this.data.attrValueList;
     var index = e.currentTarget.dataset.index;//属性索引
     var key = e.currentTarget.dataset.key;
@@ -231,12 +218,10 @@ Page({
   },
   /* 选中 */
   selectValue: function (attrValueList, index, key, value, unselectStatus) {
-    // console.log('firstIndex', this.data.firstIndex);
     var includeGroup = [];
     if (index == this.data.firstIndex && !unselectStatus) { // 如果是第一个选中的属性值，则该属性所有值可选
       var commodityAttr = this.data.commodityAttr;
       // 其他选中的属性值全都置空
-      // console.log('其他选中的属性值全都置空', index, this.data.firstIndex, !unselectStatus);
       for (var i = 0; i < attrValueList.length; i++) {
         for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
           attrValueList[i].selectedValue = '';
@@ -246,7 +231,6 @@ Page({
       var commodityAttr = this.data.includeGroup;
     }
 
-    // console.log('选中', commodityAttr, index, key, value);
     for (var i = 0; i < commodityAttr.length; i++) {
       for (var j = 0; j < commodityAttr[i].attrValueList.length; j++) {
         if (commodityAttr[i].attrValueList[j].attrKey == key && commodityAttr[i].attrValueList[j].attrValue == value) {
@@ -275,7 +259,6 @@ Page({
         }
       }
     }
-    // console.log('结果', attrValueList);
     this.setData({
       attrValueList: attrValueList,
       includeGroup: includeGroup

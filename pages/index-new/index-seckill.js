@@ -22,7 +22,6 @@ Page({
   /*swiper bindchange事件*/
   bindChange(e) {
     var that = this;
-    console.log('change时候',e);
     var currentIndex = e.detail.current;//当前索引
     var offsetLeft = currentIndex*75;//相对于父对象的左边距
     if ((offsetLeft == currentIndex * 75) && (currentIndex >= 3)) {
@@ -35,9 +34,6 @@ Page({
       })
     }
     var clickParam = e.currentTarget.dataset;
-    console.log('左右滑动');
-    console.log(clickParam);
-    //console.log(e.detail.current);
     //根据索引请求接口，返回该索引表示的时间戳,然后调用数据
     this.stopCountDown();
     if (this.data.askData) {
@@ -50,7 +46,6 @@ Page({
   /*秒杀头部点击事件*/
   switchNav(e) {
     var that = this;
-    console.log("点击时候距离左边距离", e);
     // 每个点击元素之间的offsetLeft距离是75
     var offsetLeft = e.currentTarget.offsetLeft;//获取的是相对于父对象的左边距
     var currentIndex = e.currentTarget.dataset.current;//当前点击项索引
@@ -86,7 +81,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('onLoad');
     this.secKillHeaderData(); //秒杀头部
     //这里是会传递请求秒杀列表数据的参数
 
@@ -95,10 +89,6 @@ Page({
     this.setData({
       currentTab: currentTab
     });
-
-    //var type = 1507593600;//2017年10月10日 8点
-    //var type = 1507608000;//2017年10月10日  12点
-    //var type = 1507680000;//2017年10月11日  8点
     var type = options.type;
     this.setData({
       type: type
@@ -171,10 +161,7 @@ Page({
       if (rtnCode != 0) {
         return this._showError(rtnMessage);
       }
-      //let headerData = data.data;
       let headerData = data;
-      //console.log('秒杀头部数据');
-      //console.log(headerData);
       this.setData({ headerData });
     });
   },
@@ -206,23 +193,14 @@ Page({
       }
       //let headerData = data.data;
       let listData = data.data;
-      console.log('秒杀列表数据', 2222222);
-      console.log('秒杀列表数据', listData.length);
       // 自适应swiper高度
       var swiperHeight = listData.length * 260 + 196;//根据数据自适应高
-      //console.log(listData);
       let activityText = data.activityText;
       let activityStatus = data.activityStatus;
       let activityTime = data.activityTime;
-      //console.log('秒杀头部下面的文本');
-      //console.log(activityText);
-      //console.log('秒杀头部下面的文本对应的标识：1是已经开始 2是进行中 3是即将开始');
-      //console.log(activityStatus);
       //处理时间
       let expireTime = data.activityTime;
       if (expireTime > 0) {
-        console.log('活动剩余或即将开始时间');
-        console.log(expireTime);
         this.startCountDown(expireTime);
       }
       this.setData({ listData, activityText, activityStatus, activityTime, swiperHeight });
@@ -234,13 +212,9 @@ Page({
   */
   secKillDetailData: function (e) {
     var param = e.currentTarget.dataset;
-    //console.log('获取到自定义参数');
-    //console.log(param);
     //商品的id
     var prodId = param.prodid;
-    //console.log('商品的ID是：'+prodId);
     var activityStatus = param.activitystatus;
-    //console.log('状态是：' + activityStatus);
     var productPrice = param.productprice; //商品原来价格
     var skPrice = param.skprice; //商品秒杀价格
     var activityTime = param.activitytime; //活动剩余或者结束时间
@@ -267,7 +241,6 @@ Page({
         //continue;
       }
       var countDown = this.countDown(leftTime);
-      //console.log(countDown);
       this.setData({ countDown });
 
     }, 1000);
@@ -309,9 +282,6 @@ Page({
       if (rtnCode != 0) {
         return this._showError(rtnMessage);
       }
-      //let headerData = data.data;
-      //console.log('手动滑屏，通过索引值返回对应的时间戳');
-      //console.log(data);
       this.secKillListData(data.type);
 
 

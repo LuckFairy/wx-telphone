@@ -20,12 +20,10 @@
     </view>
     <view class='prize-explain'>
       <text class='prize-four' wx:if="{{prizeinfo}}">{{prizeinfo}}</text>
-      <!-- <text class='prize-four'>专属奖项，只给特别的您！</text>
-      <text class='prize-one'>一等奖：咿呀母婴 - 【妙佳宝贝】30元外出服抵用券</text> -->
       <text class='prize-one' wx:if="{{first}}">{{first}}</text>
       <text class='prize-two' wx:if="{{second}}">{{second}}</text>
       <text class='prize-three' wx:if="{{third}}">{{third}}</text>
-      
+    
     </view>
    
   </view>
@@ -34,7 +32,6 @@
       <view class='explain-header-text'><text >活动说明</text></view>
       <view class='explain-header-img'><image src='../../image/down.png' ></image></view>
     </view>
-    <text class='explain-text'>{{info}}
-</text>
+    <text class='explain-text'>{{info}}</text>
   </view>
 </view>

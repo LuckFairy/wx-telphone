@@ -1,443 +1,479 @@
-var app = getApp();
-// pages/cart/cart.js
+var app = getApp(); 
+import { Api } from '../../utils/api_2';
+import { store_Id } from '../../utils/store_id';
+let errModalConfig = {
+  title: '有错误！',
+};
 Page({
-  data:{
-    page:1,
-    minusStatuses: ['disabled', 'disabled', 'normal', 'normal', 'disabled'],
-    total: 0,
-    carts: [],
-    datalist:[],
-    cartSHow:true
+  data: {
+    hasShop: 0,//购物车数量
+ 
+    //2017年12月19日14:55:05
+    //carts: [],//购物车列表
+
+    cart_list: '',//购物车列表
+    selectedAllStatus:true,//默认不全选
+    total:0,//结算合计金额
+    cartSHow:false,//是否显示底部结算
+    baokuanList: [], //爆款列表
+    showErrModal:false,
   },
-  goindex:function(){
-    var url = "../index-new/index-new";
-    if (url) {
-      wx.switchTab({ url });
-    }
+  /**
+* 首页爆款专区数据
+*/
+  loadBaoKuanData(categoryid) {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    });
+    this.getProductData(categoryid);
   },
-bindMinus: function(e) {
-    var that = this;
-    var index = parseInt(e.currentTarget.dataset.index);
-    var num = that.data.carts[index].num;
-    console.log(num);
-    // 如果只有1件了，就不允许再减了
-    if (num > 1) {
-      num --;
-    }
-    console.log(num);
-    var cart_id = e.currentTarget.dataset.cartid;
-    //调用接口啦
-    var user_id = app.d.userId;
-    let url = 'shop/up_cart';
-    app.api.postApi(url, { user_id, num, cart_id }, (err, resp) => {       
-      console.log({ err, resp });
+  /**
+   * 加载热门推荐爆款数据
+   */
+  getProductData(opt) {
+    var params = { "store_id": store_Id.shopid, "page": 1, "categoryid": 100 };
+    let url = 'wxapp.php?c=product&a=get_product_list';
+    app.api.postApi(url, { "params": params }, (err, resp) => {
+      wx.hideLoading();
       if (err) {
-        return this._showError('加载数据出错，请重试');
+        return this._showError('网络出错，请稍候重试');;
       }
 
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);
+      let { err_code, err_msg: { products: data = [] } } = resp;
+      if (err_code != 0) {
+        return this._showError(err_msg);
       }
-
-      var status = data.status;
-      console.log('数据返回状态status');
-      console.log(status);
-      if (status == 1) {
-        // 只有大于一件的时候，才能normal状态，否则disable状态
-        var minusStatus = num <= 1 ? 'disabled' : 'normal';
-        // 购物车数据
-        var carts = that.data.carts;
-        carts[index].num = num;
-        // 按钮可用状态
-        var minusStatuses = that.data.minusStatuses;
-        minusStatuses[index] = minusStatus;
-        // 将数值与状态写回
-        that.setData({
-          minusStatuses: minusStatuses
-        });
-        that.sum();
-      } else {
-        wx.showToast({
-          title: '操作失败！',
-          duration: 2000
-        });
-      }
+      data = null ? [] : data;
+      this.setData({ baokuanList: data });
 
     });
-},
-
-bindPlus: function(e) {
+  },
+  //爆款专区点击事件
+  goDetails(e) {
+    wx.showLoading({
+      title: '加载中'
+    })
+    var categoryid = e.currentTarget.dataset.categoryid;
+    var productid = e.currentTarget.dataset.productid;
+    wx.navigateTo({
+      url: '../shopping/goods-detail?prodId=' + productid + "&categoryid=" + categoryid
+    })
+    wx.hideLoading();
+  },
+  bindMinus: function (e) {
+    // 减少数量
     var that = this;
+    console.log("ee", e)
+    var cardId = e.currentTarget.dataset.cardId;
     var index = parseInt(e.currentTarget.dataset.index);
-    var num = that.data.carts[index].num;
-    // 自增
-    num ++;
-    console.log(num);
-    var cart_id = e.currentTarget.dataset.cartid;
-    //调用接口啦
-    var user_id = app.d.userId;
-    let url = 'shop/up_cart';
-    app.api.postApi(url, { user_id, num, cart_id }, (err, resp) => {
-      console.log({ err, resp });
-      if (err) {
-        return this._showError('加载数据出错，请重试');
+    var shopNumber = e.currentTarget.dataset.number;
+    var productId = e.currentTarget.dataset.productId;
+    var skuId = e.currentTarget.dataset.skuId;
+    var uid = e.currentTarget.dataset.uid;
+    if (shopNumber <= 1) {
+      wx.showLoading({
+        title: '不能再少了'
+      })
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 1000)
+    } else {
+      shopNumber--;
+      console.log('数量', shopNumber);
+      var params = {
+        uid: uid,
+        cart_id: cardId,
+        product_id: productId,
+        number: shopNumber,
+        sku_id: skuId
       }
+      that.addReduce(params, index, shopNumber);
+    }
 
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        return this._showError(rtnMessage);
+  },
+  bindPlus: function (e) {
+    // 增加数量
+    var that = this;
+    
+    var cardId = e.currentTarget.dataset.cardId;
+    var index = parseInt(e.currentTarget.dataset.index);
+    var shopNumber = e.currentTarget.dataset.number;
+    var productId = e.currentTarget.dataset.productId;
+    var skuId = e.currentTarget.dataset.skuId;
+    var uid = e.currentTarget.dataset.uid;
+    var cart_list = that.cart_list;
+   
+
+    shopNumber++;
+   console.log('数量', shopNumber);
+    var params = {
+      uid: uid,
+      cart_id: cardId,
+      product_id: productId,
+      number: shopNumber,
+      sku_id: skuId
+    }
+    that.addReduce(params, index, shopNumber);
+   
+  },
+  // 列表选择事件
+  bindCheckbox: function (e) {
+    var that = this;
+    //拿到下标值，以在carts作遍历指示用
+    var index = parseInt(e.currentTarget.dataset.index);
+    console.log(index);
+    //原始的icon状态
+    var cart_list = that.data.cart_list;
+    var selected = cart_list[index].selected;
+    var cartId = e.currentTarget.dataset.cardid;
+    var selectedAllStatus = that.data.selectedAllStatus;
+    // 对勾选状态取反
+    cart_list[index].selected = !selected;
+
+    var flag = 0;
+    for (var i in cart_list) {
+      if (!cart_list[i].selected) {//有一个不选中都取消全选
+        selectedAllStatus = false;
       }
-
-      var status = data.status;
-      console.log('数据返回状态status');
-      console.log(status);
-      if (status == 1) {
-        // 只有大于一件的时候，才能normal状态，否则disable状态
-        var minusStatus = num <= 1 ? 'disabled' : 'normal';
-        // 购物车数据
-        var carts = that.data.carts;
-        carts[index].num = num;
-        // 按钮可用状态
-        var minusStatuses = that.data.minusStatuses;
-        minusStatuses[index] = minusStatus;
-        // 将数值与状态写回
-        that.setData({
-          minusStatuses: minusStatuses
-        });
-        that.sum();
-      } else {
-        wx.showToast({
-          title: '操作失败！',
-          duration: 2000
-        });
+      if (cart_list[i].selected){
+         flag ++;
       }
-
-    });
-}, 
-
-bindCheckbox: function(e) {
-  /*绑定点击事件，将checkbox样式改变为选中与非选中*/
-  //拿到下标值，以在carts作遍历指示用
-  var index = parseInt(e.currentTarget.dataset.index);
-  //原始的icon状态
-  var selected = this.data.carts[index].selected;
-  var carts = this.data.carts;
-  // 对勾选状态取反
-  carts[index].selected = !selected;
-  // 写回经点击修改后的数组
-  this.setData({
-    carts: carts
-  });
-  this.sum()
-},
-
-bindSelectAll: function() {
-  var that = this;
-   // 环境中目前已选状态
-   var selectedAllStatus = this.data.selectedAllStatus;
-   // 取反操作
-   selectedAllStatus = !selectedAllStatus;
-   // 购物车数据，关键是处理selected值
-   var carts = this.data.carts;
-   // 遍历
-   for (var i = 0; i < carts.length; i++) {
-     carts[i].selected = selectedAllStatus;
-   }
-   this.setData({
-     selectedAllStatus: selectedAllStatus,
-     carts: carts
-   });
-   this.sum();
- },
-//去结算
-bindCheckout: function() {
-   // 初始化toastStr字符串
-   var toastStr = '';
-   // 遍历取出已勾选的cid
-   for (var i = 0; i < this.data.carts.length; i++) {
-     if (this.data.carts[i].selected) {
-       toastStr += this.data.carts[i].id;
-       toastStr += ',';
-     }
-   }
-   if (toastStr==''){
-     wx.showToast({
-       title: '请选择要结算的商品！',
-       duration: 2000
-     });
-     return false;
-   }
-  
-   //let url = '../shopping/buy?prodId=89&skuid=56&num=2&cartId=' + toastStr;
-   let url = './buy?prodId=89&skuid=56&num=2&cartId=' + toastStr;
-   wx.navigateTo({ url });
- },
-
- bindToastChange: function() {
-   this.setData({
-     toastHidden: true
-   });
- },
-
-sum: function() {
-  var that = this;
-    var carts = this.data.carts;
+    };
+    if(flag == cart_list.length){
+      selectedAllStatus = true;
+    }
+   
+    that.setData({ selectedAllStatus, cart_list });
+    that.sum();
+  },
+  bindSelectAll: function () {
+      var that = this;
+      // 环境中目前已选状态
+      var selectedAllStatus = this.data.selectedAllStatus;
+      // 取反操作
+      selectedAllStatus = !selectedAllStatus;
+      // 购物车数据，关键是处理selected值
+      var cart_list = this.data.cart_list;
+      // 遍历
+      for (var i = 0; i < cart_list.length; i++) {
+        cart_list[i].selected = selectedAllStatus;
+        
+      }
+      
+      that.setData({ selectedAllStatus, cart_list});
+      that.sum();
+  },
+  //计算金额
+  sum(){
+    var that = this;
+    var carts = this.data.cart_list;
     // 计算总金额
     var total = 0;
     for (var i = 0; i < carts.length; i++) {
       if (carts[i].selected) {
-        total += carts[i].num * carts[i].price;
+        total += carts[i].pro_num * carts[i].pro_price;
       }
     }
     // 写回经点击修改后的数组
     that.setData({
-      carts: carts,
+      cart_list: carts,
       total: '¥ ' + total
     });
-    if (that.data.carts.length<=0) {
+    if (that.data.cart_list.length <= 0) {
       that.setData({
         cartSHow: false
       })
-    }else{
+    } else {
       that.setData({
         cartSHow: true
       })
     }
   },
-
-
-onLoad:function(options){
-  var that = this; 
-  that.loadProductData();
-  that.sum();
-  if (that.data.carts.length <= 0) {
-    that.setData({
-      cartSHow: false
-    })
-  } else {
-    that.setData({
-      cartSHow: true
-    })
-  }
-    /*
-     app.api.fetchApi('shop/hotsale/2', (err, response) => {
-      var datalist = response.data;
-      console.log(datalist,1111);
-      that.setData({
-        datalist: datalist
-      })
-      //console.log(typeof datalist,"ddkddd")
-    });
-    */
-      var product_type = 2;  //拼团商品推荐
-      let url = 'shop/hotLists';
-      app.api.postApi(url, { product_type }, (err, response) => {    
-     //app.api.fetchApi('shop/hotsale/2', (err, response) => {
-       wx.hideLoading();
-       if (err) return;
-       let { rtnCode, rtnMessage, data } = response;
-       if (rtnCode != 0) return;
-       console.log('购物车下面的推荐数据：');
-       console.log(data);
-       //let hotsaleGoing = [], hotsaleIncoming = [];
-       let hotsaleGoing = data;
-       this.setData({ hotsaleGoing });
-     }); 
-},
-
-
-
-
-onShow:function(){
-  this.loadProductData();
-  // 页面显示
-  //this.startCountDown();
-},
-onHide: function () {
-  // 页面隐藏
-  //this.stopCountDown();
-},
-removeShopCard:function(e){
+  //去结算
+  bindCheckout: function () {
     var that = this;
-    var cart_id = e.currentTarget.dataset.cartid;
-    wx.showModal({
-      title: '提示',
-      content: '你确认移除吗',
-      success: function(res) {
-        let url = 'shop/delete_cart';
-        res.confirm && app.api.postApi(url, { cart_id }, (err, resp) => {
-          console.log({ err, resp });
-          if (err) {
-            return this._showError('加载数据出错，请重试');
-          }
-
-          let { rtnCode, rtnMessage, data } = resp;
-          if (rtnCode != 0) {
-            return this._showError(rtnMessage);
-          }
-
-          var status = data.status;
-          console.log('数据返回状态status');
-          console.log(status);
-          if (status == 1) {
-            that.loadProductData();
-          } else {
-            wx.showToast({
-              title: '操作失败！',
-              duration: 2000
-            });
-          }
-
-        });        
-      },
-      fail: function() {
-        // fail
-        wx.showToast({
-          title: '网络异常！',
-          duration: 2000
-        });
+    // 初始化字符串
+    var ids = [], len = this.data.cart_list.length;
+    // 遍历取出已勾选的cid
+    for (var i = 0; i < len; i++) {
+      if (this.data.cart_list[i].selected) {
+        // ids += this.data.cart_list[i].product_id;
+        // if(i < len-1){
+        //   ids += ',';
+        // }
+        var id = parseInt(this.data.cart_list[i].pigcms_id);
+        ids.push(id);
       }
+    }
+    if (ids === undefined ||ids.length == 0){
+      that.showModel({ title: "请选择要结算的商品"})
+      // wx.showToast({
+      //   title: '请选择要结算的商品！',
+      //   duration: 2000
+      // });
+      return false;
+    }
+   //ids = '['+ids +']';
+   //ids = JSON.stringify(ids);
+    console.log('购物车选择提交的ids' + ids); 
+    Api.signin();//获取以及存储openid、uid
+    var uid = wx.getStorageSync('userUid'),store_id = store_Id.store_Id();
+    //多商品下订单
+    var shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';
+    app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop:'0'} }, (err, rep) => {
+      if (!err && rep.err_code == 0) {
+        var  order_no = rep.err_msg.order_no;
+        //下完订单，取的订单id
+        var url = './buy?order_no=' + order_no;
+        wx.navigateTo({ url });
+      }else{
+        var msg = err || rep.err_msg;
+        that.showModel({ title: msg})
+        // that._showError(msg);
+      }     
     });
+   
+  },
+  goindex(){
+    wx.reLaunch({ url:'../index-new/index-new'});
   },
 
-// 数据案例
-  loadProductData:function(){
+  
+  onLoad: function (options) {
     var that = this;
-    let carts;
-    wx.showLoading({ title: '加载中' });
-    let url = 'shop/index';
-    app.api.fetchApi(url, (err, response) => {
-      wx.hideLoading();
-      if (err) return;
-      let { rtnCode, rtnMessage, data } = response;
-      if (rtnCode != 0 && rtnMessage) {
-        rtnMessage = rtnMessage || '加载商品信息出错';
-        wx.showToast({
-          title: rtnMessage,
-          icon: 'loading',
-          duration: 2000
-        });
+    // 获取店铺id shopId
+    var store_id = store_Id.store_Id();
+    Api.signin();//获取以及存储openid、uid
+    // 获取uid
+    var uid = wx.getStorageSync('userUid');
+    that.setData({
+      uid, store_id
+    });
+    var params ={
+      store_id,
+      uid
+    };
+    that.loadList(params);
+    that.loadBaoKuanData();
+    // app.api.postApi('wxapp.php?c=cart&a=number', { params }, (err, resp) => {
+    //   if (err) {
+    //     return;
+    //   }
+    //   if (resp) {
+    //     if (resp.err_msg == 1) {
+    //       // 有商品
+    //       that.setData({
+    //         hasShop: 1,
+    //         cartSHow:true
+    //       })
+    //     } else {
+    //       // 无商品
+    //       that.setData({
+    //         hasShop: 0,
+    //         cartSHow:false
+    //       })
+    //     }
+    //   }
+    // });
+    
+  },
+  onShow: function () {
+   var that = this;
+   var hasShop = that.data.hasShop;//有无商品
+ 
+      var store_id = that.data.store_id;
+      var uid = that.data.uid;
+      var params = {
+        store_id, uid
+      }
+      that.loadList(params);
+  },
+  onHide: function () {
+
+  },
+  refreshList(params){
+    var that = this;
+    app.api.postApi('wxapp.php?c=cart&a=cart_list', { params }, (err, resp) => {
+      if (err || resp.err_code != 0) {
         return;
       }
-      //console.log('购物车信息data.data');
-      //console.log(data.data);
-      console.log('购物车信息data');
-      console.log(data);
-      var cart = data;
-      console.log("购物车数据");
-      console.log(cart);
-      this.setData({
-        carts: cart,
-      });
-      if (cart.length <= 0) {
+      if (resp.err_code == 0) {
+        console.log('购物车列表', resp);
+        var cart_list = resp.err_msg.cart_list;
+        var cartSHow = that.cartSHow;
+        var hasShop = cart_list.length;
+        if (cart_list.length < 1) {
+          console.log('false')
+          cartSHow = false;
+        } else {
+          console.log('true')
+          cartSHow = true;
+        };
         that.setData({
-          cartSHow: false
-        })
-      } else {
-        that.setData({
-          cartSHow: true
-        })
+          cart_list,
+          cartSHow,
+          hasShop
+        });
+        //计算金额
+        that.sum();
       }
-      //console.log('购物车');
-      //console.log(carts);
+    }); 
+  },
+  //初始加载数据
+  loadList(params) {
+    var that = this;
+    app.api.postApi('wxapp.php?c=cart&a=cart_list', { params }, (err, resp) => {
+      if (err || resp.err_code != 0 ) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        console.log('购物车列表', resp);
+        var cart_list = resp.err_msg.cart_list;
+        var selected = that.data.selectedAllStatus;
+        for(var i in cart_list){
+          cart_list[i].selected = selected;
+        }
+        var selectedAllStatus = that.data.selectedAllStatus;
+        var cartSHow = that.cartSHow;
+        var hasShop = that.hasShop;
+        if (cart_list.length <=0){
+          hasShop = 0;
+          cartSHow = false;
+        }else{
+          hasShop = 1;
+          cartSHow = true;
+        };
+        that.setData({
+          cart_list,
+          hasShop,
+          selectedAllStatus,
+          cartSHow
+        });
+        //计算金额
+        that.sum();
+      }
+    });
+  },
+  /*
+  *数量cart_list.pro_num数量变化
+  *index 下标
+  * num 数量
+  */
+  numList(index , num) {
+    console.log(index ,num)
+    var that = this;
+    var cart_list = that.data.cart_list;
+
+    if(num){//有传数量参数就是加减
+      cart_list[index].pro_num = num;
+    }else{//无就是删除商品
+      cart_list.splice(index,1);
+    }
+
+    
+    that.setData({cart_list});
+    //计算金额
+    that.sum();
+  },
+  addReduce(params,index,num) {
+    var that = this;
+    app.api.postApi('wxapp.php?c=cart&a=quantity', { params }, (err, resp) => {
+      if (err) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        
+        var store_id = that.data.store_id;
+        var uid = that.data.uid;
+        var params = {
+          store_id, uid
+        }
+        that.numList(index,num);
+       
+      } else {
+        wx.showLoading({
+          title: '不能修改数量'
+        })
+        setTimeout(function () {
+          wx.hideLoading()
+        }, 1000)
+      }
     });
   },
 
+  removeShopCard: function (e) {
+    console.log(e, 'eeee');
+    var that = this;
+    var cardId = e.currentTarget.dataset.cardId;
+    var storeId = e.currentTarget.dataset.storeId;
+    var uid = e.currentTarget.dataset.uid;
+    var index = parseInt(e.currentTarget.dataset.index);
+
+    var params = {
+      uid, cart_id: cardId, store_id: storeId
+    }
+    wx.showModal({
+      title: '删除商品',
+      content: '确定删除吗',
+      success: function (res) {
+        if (res.confirm) {
+          app.api.postApi('wxapp.php?c=cart&a=delete', { params }, (err, resp) => {
+            if (err) {
+              return;
+            }
+            if (resp.err_code == 0) {
+              // 删除成功
+              var store_id = that.data.store_id;
+              var uid = that.data.uid;
+              var params = {
+                store_id, uid
+              }
+              that.refreshList(params);
+              
+              that.numList(index);
+
+            } else {
+              // 删除失败
+              wx.showLoading({
+                title: '删除失败',
+              })
+              setTimeout(function () {
+                wx.hideLoading()
+              }, 1000)
+            }
+          });
+        } else if (res.cancel) {
+          return;
+        }
+      }
+    })
+  },
+  onShareAppMessage(res) {
+    // return { title: '', path: '' }
+  },
   /**
- * 显示错误信息
- */
+   * 显示错误信息
+   */
   _showError(errorMsg) {
     wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
     this.setData({ error: errorMsg });
-    return false;
-  },
-
-
-
-  //计时器
-  /**
-   * 闪购活动倒计时
-   */
-  startCountDown() {
-    this.timer = setInterval(() => {
-      let { hotsaleGoing, hotsaleIncoming } = this.data;
-      let now = new Date().getTime();
-
-      // 即将开始
-      for (let i = hotsaleIncoming.length - 1; i >= 0; i--) {
-        let item = hotsaleIncoming[i];
-        let validTime = item.validTime * 1000;
-        let leftTime = (validTime - now) / 1000;
-        if (leftTime < 0) {
-          hotsaleIncoming.splice(i, 1);   // 到了开始时间，从[即将开始]里删除
-          hotsaleGoing.unshift(item);    // 并将项目添加到[正在进行]的头部
-          continue;
-        }
-        item.countDown = this.countDown(leftTime);
-      }
-
-      // 正在进行
-      for (let i = hotsaleGoing.length - 1; i >= 0; i--) {
-        let item = hotsaleGoing[i];
-        let expireTime = item.expireTime * 1000;
-        let leftTime = (expireTime - now) / 1000;
-        if (leftTime < 0) {
-          hotsaleGoing.splice(i, 1);   // 到了失效时间，从活动里删除
-          continue;
-        }
-        item.countDown = this.countDown(leftTime);
-      }
-
-      // hotsaleGoing.forEach(item => {
-      //   let expireTime = Date.parse(item.expireTime);
-      //   let leftTime = Math.abs(now - expireTime) / 1000;
-      //   item.countDown = this.countDown(leftTime);
-      // });
-      // hotsaleIncoming.forEach(item => {
-      //   let validTime = Date.parse(item.validTime);
-      //   let leftTime = Math.abs(now - validTime) / 1000;
-      //   item.countDown = this.countDown(leftTime);
-      // });
-
-      this.setData({ hotsaleGoing, hotsaleIncoming });
-    }, 1000);
   },
   /**
-   * 停止倒计时
-   */
-  stopCountDown() {
-    this.timer && clearInterval(this.timer);
+    * 显示模态框
+    */
+  showModel(config) {  // type: success||err
+      errModalConfig = Object.assign(errModalConfig, config);
+      this.setData({
+        errModalConfig: errModalConfig,
+        showErrModal: true
+      });
   },
 
   /**
-   * 格式化倒计时显示
+   * 点击隐藏模态框(错误模态框)
    */
-  countDown(leftTime) {
-    let day = parseInt(leftTime / 24 / 60 / 60);
-    let hour = parseInt((leftTime - day * 24 * 60 * 60) / 60 / 60);
-    let minute = parseInt((leftTime - day * 24 * 60 * 60 - hour * 60 * 60) / 60);
-    let second = parseInt(leftTime - day * 24 * 60 * 60 - hour * 60 * 60 - minute * 60);
-
-    if (hour < 10) hour = '0' + hour;
-    if (minute < 10) minute = '0' + minute;
-    if (second < 10) second = '0' + second;
-
-    return { day, hour, minute, second };
+  tabModal() {
+    this.setData({ showErrModal: false });
   },
-  onShareAppMessage(res) {
-    return { title: '', path: '' }
-  },  
-  //跳到拼团商品详情页
-  goGroupDetail(e) {
-    //console.log(e);
-    var prodId = e.currentTarget.dataset.productid;
-    var groupbuyId = e.currentTarget.dataset.groupbyid;
-    var selldetail = e.currentTarget.dataset.selldetail;
-    wx.navigateTo({
-      //url: '../group-buying/group-buying?prodId={{item.productId}}&groupbuyId={{item.groupbuyId}}&sellout={{datasellin}}'
-      url: '../group-buying/group-buying?prodId=' + prodId + '&groupbuyId=' + groupbuyId + '&sellout=' + selldetail
-    })
-  },
-
 })

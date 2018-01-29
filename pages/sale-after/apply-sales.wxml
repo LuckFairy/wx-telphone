@@ -5,17 +5,21 @@
     <view class='apply-shopping-detail'>
       <view class='apply-shopping-title'>
         <text class='apply-shopping-text'>{{dataList.name}}</text>
-        <text class='apply-shopping-num'>X{{dataList.quantity}}</text>
+        <text class='apply-shopping-num'>X{{dataList.pro_num}}</text>
       </view>
-      <text class='apply-shopping-size'>蓝色K码</text>
+    
+     <view class='apply-shopping-size'>
+        <text  wx:if="{{dataList.sku_arr.length > 0 }}" wx:for="{{dataList.sku_arr}}" wx:for-item="item2" >{{item2.name}}:{{item2.value}} </text>
+      </view>
       <view class='apply-shopping-money'>
         <text class='apply-shopping-money-text'>金额：</text>
-        <text class='apply-shopping-money-num'>￥{{dataList.total}}</text>
+        <text class='apply-shopping-money-num'>￥{{dataList.pro_price}}</text>
       </view>
     </view>
   </view>
   <!--顶部商品信息结束  -->
   <!--服务类型选项开始  -->
+  
   <view class='apply-type'>
     <text class='apply-type-title'>服务类型</text>
     <view class='apply-type-detail' bindtap='turnColor'>
@@ -29,14 +33,16 @@
   <!--提交申请开始  -->
   <view class='apply-applications'>
     <image class='apply-applications-image' src='../../image/server-wechat.png'></image>
-    <text class='apply-applications-hint'>注:提交申请后,请再联系客服微信辅助完成</text>
+    <text class='apply-applications-hint'>注:提交申请后,请再联系客服电话
+</text>
     <view class='apply-applications-wechat'>
-      <text class='apply-applications-text'>客服微信：</text>
-      <text class='apply-applications-rem' selectable='true'>yzkf139</text>
+      <text class='apply-applications-text'>客服电话:</text>
+        <text catchtap='calling' class='calling'>400-6088-520</text>
+      <!-- <text class='apply-applications-rem' selectable='true'>zyyytxwd</text> -->
     </view>
-    <text class='apply-applications-copy'>长按微信号可复制</text>
+    <!-- <text class='apply-applications-copy'>长按微信号可复制</text>-->
     <text class='apply-applications-submit apply-applications-submit-total' bindtap='goSubmit' data-order-id='{{orderId}}' data-status='{{turnStatus}}' data-product-id='{{productId}}' wx:if='{{showHide}}'>提交申请</text>
-     <text wx:if='{{!showHide}}' class='apply-applications-yet apply-applications-submit-total'>已经提交申请</text> 
+     <text wx:if='{{!showHide}}' class='apply-applications-yet apply-applications-submit-total'>已经提交申请</text>  
   </view>
   <!--提交申请结束  -->
 </view>

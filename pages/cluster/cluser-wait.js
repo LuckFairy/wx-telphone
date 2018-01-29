@@ -39,7 +39,6 @@ Page({
   },
   goWaitDetail(e){
     var groupstatus = e.currentTarget.dataset.groupstatus;
-    //console.log('groupstatus:' + groupstatus); 
     var prodId = this.data.prodId;
     var groupbuyId = this.data.groupbuyId;
     var groupbuyOrderId = this.data.groupbuyOrderId;
@@ -50,10 +49,6 @@ Page({
       //拼团失败
       var url = '../group-buying/group-buying?prodId=' + prodId + '&groupbuyId=' + groupbuyId;
     }
-    
-
-
-    //console.log('跳到商品详情'+url); return;
     wx.redirectTo({ url:url }) 
   },
 
@@ -61,10 +56,7 @@ Page({
    * 生命周期函数--监听页面加载 
    */
   onLoad: function (options) {
-    console.log(options);
-    console.log("oorder2223333");
     var status = options.statusNum;
-    //var datalist = 'Groupbuy/GroupbuyDetail/' + options.productId;
     var datalist = 'groupbuy/GroupbuyDetail'; //团购商品详情
     var prodId = options.productId;
     var groupbuyId = options.groupbuyId;
@@ -75,7 +67,6 @@ Page({
     var timedatalist = 'Groupbuy/GroupbuyOther/' + options.Groupbuy_order_id;
     var that = this;
     app.api.postApi(datalist, { prodId, groupbuyId }, (err, resp) => {    
-    //app.api.fetchApi(datalist, (err, resp) => {
       if (err) {
         wx.showToast({
           title: '网络错误',
@@ -83,12 +74,9 @@ Page({
           duration: 2000
         })
       } else if (resp) {
-        //console.log(resp)
-        //console.log("33344444dd")
           var faildlist = [];
           faildlist.push(resp.data);
           var taglist = faildlist[0].tag.split(',',3);
-          //console.log(taglist)
           that.setData({
             faileddata: faildlist[0],
             taglist: taglist,
@@ -104,15 +92,6 @@ Page({
             groupbuyId: groupbuyId,
             groupbuyOrderId: groupbuyOrderId
           });
-          // console.log('商品ID' + prodId);
-          // console.log('活动ID' + groupbuyId);
-          // console.log('商品详情faildlist');
-          // console.log(faildlist);
-          // console.log('商品详情taglist');
-          // console.log(taglist);
-          //多规格 start
-          // console.log('商品详情多属性');
-          // console.log(faildlist[0].productSku);
           this.setData({
             'commodityAttr': faildlist[0].productSku
           });
@@ -121,7 +100,6 @@ Page({
           });
           this.distachAttrValue(this.data.commodityAttr);
           // 只有一个属性组合的时候默认选中
-          // console.log(this.data.attrValueList);
           if (this.data.commodityAttr.length == 1) {
             for (var i = 0; i < this.data.commodityAttr[0].attrValueList.length; i++) {
               this.data.attrValueList[i].selectedValue = this.data.commodityAttr[0].attrValueList[i].attrValue;
@@ -143,10 +121,8 @@ Page({
           duration: 2000
         })
       } else if (resp) {
-        console.log(resp,66666666666666666666666)
         var userDataList = [];
         userDataList.push(resp.data);
-        console.log(userDataList,888888)
         that.setData({
           userlist: userDataList[0]
         })
@@ -161,8 +137,6 @@ Page({
       if (err) return;
       let { rtnCode, rtnMessage, data } = response;
       if (rtnCode != 0) return;
-      console.log('购物车下面的推荐数据：');
-      console.log(data);
       //let hotsaleGoing = [], hotsaleIncoming = [];
       let hotsaleGoing = data;
       this.setData({ hotsaleGoing });
@@ -176,10 +150,8 @@ Page({
           duration: 2000
         })
       } else if (resp) {
-        console.log(resp,35353535353)
         var timeDataList = [];
         timeDataList.push(resp.data);
-        console.log(timeDataList, 4444444)
         that.setData({
           timelist: timeDataList[0]
         })
@@ -235,18 +207,6 @@ Page({
    */
   onShareAppMessage(res) {
     if (res.from === 'button') {
-      // 来自页面内转发按钮
-      // console.log('来自页面内转发按钮的自定义内容')
-      // console.log(res.target.dataset)
-      // var title = res.target.dataset.productname;
-      // var imageUrl = res.target.dataset.productpic;
-      // var prodId = res.target.dataset.productid;
-      // var groupbuyId = res.target.dataset.groupbuyid;
-      // var groupbuyOrderId = res.target.dataset.groupbuyorderid;
-      // console.log('商品ID' + prodId);
-      //var path = '/pages/group-buying/group-join?prodId=' + prodId + '&groupbuyId=' + groupbuyId + '&groupbuyOrderId=' + groupbuyOrderId;
-      //console.log('分享URL' + path);
-      //console.log('groupstatus:' + groupstatus); 
       var prodId = this.data.prodId;
       var groupbuyId = this.data.groupbuyId;
       var groupbuyOrderId = this.data.groupbuyOrderId;
@@ -267,11 +227,6 @@ Page({
   },
 
   doBuy: function () {
-    //console.log('点击了立即购买按钮');
-    //return;
-    //多规格 start
-    //console.log('多规格 start');
-    //console.log('多规格start');
     var value = [];
     for (var i = 0; i < this.data.attrValueList.length; i++) {
       if (!this.data.attrValueList[i].selectedValue) {
@@ -287,7 +242,6 @@ Page({
       })
       return;
     } else {
-      console.log('选择的属性：' + value.join('-'));
       wx.setStorage({
         key: "key",
         data: value.join('-')
@@ -305,22 +259,7 @@ Page({
     let  { prodId, action, num, groupbuyId} = this.data;
 
     var skuId = this.data.skuId;
-    console.log('支付/赠品之前:');
-    console.log(this.data);
-    console.log('购买的数量:');
-    console.log(num);
-    //console.log('为什么自己断点了··:');
-    //console.log('商品多规格标识'+skuId);
-    //let url = './buy?prodId=' + prodId +'&attr='+ value.join('-');      
-
-    console.log('支付跳转前,skuid是：');
-    console.log(skuId);
     let url = '../group-buying/buy?prodId=' + prodId + '&groupbuyId=' + groupbuyId + '&groupbuyOrderId=0' + '&skuid=' + skuId + '&num=' + num;
-    //测试url
-    //let url = '../group-buying/buy?prodId=67&groupbuyId=27&groupbuyOrderId=0' + '&skuid=' + skuId + '&num=' + num;
-    //let url = './buy?groupbuy_id=2';
-
-    console.log('支付跳转url' + url);
     //return;
     wx.navigateTo({ url });
   }, 
@@ -341,7 +280,6 @@ Page({
     for (var i = 0; i < commodityAttr.length; i++) {
       for (var j = 0; j < commodityAttr[i].attrValueList.length; j++) {
         var attrIndex = this.getAttrIndex(commodityAttr[i].attrValueList[j].attrKey, attrValueList);
-        // console.log('属性索引', attrIndex); 
         // 如果还没有属性索引为-1，此时新增属性并设置属性值数组的第一个值；索引大于等于0，表示已存在的属性名的位置
         if (attrIndex >= 0) {
           // 如果属性值数组中没有该值，push新值；否则不处理
@@ -356,7 +294,6 @@ Page({
         }
       }
     }
-    // console.log('result', attrValueList)
     for (var i = 0; i < attrValueList.length; i++) {
       for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
         if (attrValueList[i].attrValueStatus) {
@@ -399,10 +336,7 @@ Page({
       selectedValue:'1',
       attrValueStatus:[true,true,true]
     }
-    console.log(e.currentTarget.dataset);
     */
-    console.log('选择属性值事件:');
-    console.log(e.currentTarget.dataset);
     var attrValueList = this.data.attrValueList;
     var index = e.currentTarget.dataset.index;//属性索引
     var key = e.currentTarget.dataset.key;
@@ -420,13 +354,11 @@ Page({
   },
   /* 选中 */
   selectValue: function (attrValueList, index, key, value, unselectStatus) {
-    // console.log('firstIndex', this.data.firstIndex);
     var includeGroup = [];
     var skuId;
     if (index == this.data.firstIndex && !unselectStatus) { // 如果是第一个选中的属性值，则该属性所有值可选
       var commodityAttr = this.data.commodityAttr;
       // 其他选中的属性值全都置空
-      // console.log('其他选中的属性值全都置空', index, this.data.firstIndex, !unselectStatus);
       for (var i = 0; i < attrValueList.length; i++) {
         for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
           attrValueList[i].selectedValue = '';
@@ -436,17 +368,13 @@ Page({
       var commodityAttr = this.data.includeGroup;
     }
 
-    //console.log('选中', commodityAttr, index, key, value);
     for (var i = 0; i < commodityAttr.length; i++) {
       for (var j = 0; j < commodityAttr[i].attrValueList.length; j++) {
         if (commodityAttr[i].attrValueList[j].attrKey == key && commodityAttr[i].attrValueList[j].attrValue == value) {
           includeGroup.push(commodityAttr[i]);
-          console.log('选中2', commodityAttr[i]);
-          //console.log('选中3', commodityAttr[i]['skuId']);
           this.setData({
             numShow: commodityAttr[i]['num'], skuId: commodityAttr[i]['skuId']
           });
-          console.log('属性标识' + skuId);
         }
       }
     }
@@ -471,16 +399,11 @@ Page({
         }
       }
     }
-    // console.log('结果', attrValueList);
     this.setData({
       attrValueList: attrValueList,
       includeGroup: includeGroup,
       attrPrice: includeGroup[0]['price'],
     });
-    console.log('includeGroup:');
-    console.log(includeGroup);
-    console.log('includeGroup部分数据-价格:', includeGroup[0]['price']);
-    //console.log('includeGroup部分数据:', includeGroup[0]['skuId']);
     var count = 0;
     for (var i = 0; i < attrValueList.length; i++) {
       for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
@@ -563,7 +486,6 @@ Page({
   //数量增减end
   //跳到拼团商品详情页
   goGroupDetail(e) {
-    //console.log(e);
     var prodId = e.currentTarget.dataset.productid;
     var groupbuyId = e.currentTarget.dataset.groupbyid;
     var selldetail = e.currentTarget.dataset.selldetail;

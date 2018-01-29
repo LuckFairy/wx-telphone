@@ -39,6 +39,7 @@
         </view>
         <view class='pro-detail-list'>
           <text class='pro-detail-title'>{{item.productName}}</text>
+          <progress active='true' class='pro-detail-schedule' percent="{{(item.hadnum/(item.quantity+item.hadnum))*100}}" activeColor='#FEE61B' backgroundColor='#efefef'  />
           <view class='pro-detail-inv-wrap'>
             <text class='pro-detail-inventory inventory-left'>已抢{{item.hadnum}}件</text>
             <text class='pro-detail-inventory inventory-right'>仅剩{{item.quantity}}件</text>
