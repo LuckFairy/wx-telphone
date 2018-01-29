@@ -83,8 +83,8 @@ Page({
     couponInfo: [], //选择的优惠券信息
     normal_coupon_count: '', //可用的优惠券数量
     totalId:[],
-    page:'',//扫码确认订单-saoma
-    itemheights:[],//方式高度列表
+    page:'saoma',//扫码确认订单-saoma
+    itemheights:['168','332','342'],//方式高度列表
   },
   /*
  *地址详情列表

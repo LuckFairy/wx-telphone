@@ -104,13 +104,16 @@ page {
 }
 
 .ship-method-item {
-  margin-right: 50rpx;
+  margin-right: 29rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 16rpx 36rpx;
+  border-radius: 10rpx;
+  border: 1px solid #b5b5b5;
 }
 .active{
-  background: #dd4a51;
+  background: #ffe71c;
 }
 /* .addr-sec-lists {
   background: #fff;
@@ -338,11 +341,11 @@ page {
 }
 
 .nav-header-view {
-  height: 80rpx;
   /* margin-bottom: -80rpx; */
   align-items: center;
-  padding: 0 20rpx;
+  padding: 14rpx 24rpx;
   background-color: #fff;
+  margin-bottom: 20rpx;
 }
 
 .nav-body-view {
@@ -806,15 +809,16 @@ discount-ticket-have {
 }
 /*shop-area  */
 .shop-area{
-  justify-content: space-between;
+  /* justify-content: space-between; */
   background: #fff;
-  margin: 20rpx 0;
-  padding: 0 20rpx 0 24rpx ;
+  /* margin: 20rpx 0; */
+  padding: 24rpx 30rpx ;
 }
 .shop-area-left {
   flex-direction: column;
   justify-content: space-around;
   padding: 22rpx 0;
+  margin-right: 24rpx;
 }
 .shop-area-left .title{
   font-size: 28rpx;
@@ -835,6 +839,7 @@ discount-ticket-have {
   justify-content: space-around;
   padding: 20rpx 0;
   align-items: center;
+  margin-right: 24rpx;
 }
 .shop-area-right .icon{
   width: 40rpx;
@@ -843,4 +848,27 @@ discount-ticket-have {
 .shop-area-right text{
   font-size: 20rpx;
   color: rgb(27, 27, 27);
+}
+/*自提样式  */
+.input-area{
+  flex-direction: column;
+  background: #fff;
+  padding-left: 24rpx;
+}
+.input-item{
+   height: 88rpx;
+   line-height: 88rpx;
+  color:inherit;
+  font-size: 30rpx;
+  text-align: left;
+}
+.input-item label{
+  display: flex;
+  width: 100%;
+  align-content: center;
+  align-items: center;
+  border-bottom: 1rpx solid #e5e5e5;
+}
+.input-item label text{
+  width: 196rpx;
 }
