@@ -1,25 +1,26 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
-		"minified": true
+		"minified": true,
+		"newFeature": true
 	},
-	"compileType": "weapp",
-	"libVersion": "1.5.4",
+	"compileType": "miniprogram",
+	"libVersion": "1.6.4",
 	"appid": "wx79871653a25c3be2",
-	"projectname": "yiya",
+	"projectname": "%E5%92%BF%E5%91%80%E6%82%A6%E8%B4%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F",
 	"condition": {
-		"weapp": {
-			"current": -1,
-			"list": []
-		},
 		"search": {
 			"current": -1,
 			"list": []
 		},
 		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
 			"current": -1,
 			"list": []
 		}

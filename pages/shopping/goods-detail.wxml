@@ -85,7 +85,7 @@
   </block>
   <block wx:else>
     <!-- 数量的增减start -->
-    <block wx:if="{{cateId==77 || cateId==78 || cateId==79 || cateId==80 || cateId==81 || cateId==82 || cateId==83 || cateId==84 || cateId==85 || cateId==86 || cateId==87}}">	
+    <block wx:if="{{cateId==77 || cateId==78 || cateId==79 || cateId==80 || cateId==81 || cateId==82 || cateId==83 || cateId==84 || cateId==85 || cateId==86 || cateId==87 || cateId==94 || cateId==95 || cateId==96 || cateId==97 || cateId==98 || cateId==99 || cateId==100 || cateId==101 || cateId==102 || cateId==103 || cateId==104 || cateId==105}}">	
     <view class="stepper" style='display:none' data-cateId='{{cateId}}'>
       <text class='ste-number'>购买数量</text>
       <view class='stepper-father'>
@@ -193,7 +193,7 @@
     </view>
 </view>
 </block>
-<block wx:elif='{{cateId==77 || cateId==78 || cateId==79 || cateId==80 || cateId==81 || cateId==82 || cateId==83 || cateId==84 || cateId==85 || cateId==86 || cateId==87}}'>
+<block wx:elif='{{cateId==77 || cateId==78 || cateId==79 || cateId==80 || cateId==81 || cateId==82 || cateId==83 || cateId==84 || cateId==85 || cateId==86 || cateId==87 || cateId==94 || cateId==95 || cateId==96 || cateId==97 || cateId==98 || cateId==99 || cateId==100 || cateId==101 || cateId==102 || cateId==103 || cateId==104 || cateId==105}}'>
 <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
       <image class='invite-index-image' src='../../image/go-index.png'></image>
