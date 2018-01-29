@@ -341,3 +341,30 @@ no-border {
   height: 100%;
   opacity: 0;
 }
+/*头部错误提示  */
+.form-err-view {
+  height: 32px;
+  line-height: 32px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.form-err-text {
+  background-color: #e64340;
+  color: #fff;
+  font-size: small;
+  height: 32px;
+  line-height: 32px;
+  width: 100%;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: break-all;
+}

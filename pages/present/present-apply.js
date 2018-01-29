@@ -121,6 +121,7 @@ Page({
       "cid": "106",//分类id
       "sid": that.data.store_id,
       "uid": that.data.uid,
+      //physical_id
       // "page_size": "5",
       // "page_num": "1",
     };
@@ -178,7 +179,8 @@ Page({
           var params = {
             "oid": order_no,
             "uid": that.data.uid,
-            "question": question
+            "question": question,
+             //physical_id
           };
          that.submitData(params);
    

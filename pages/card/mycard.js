@@ -41,8 +41,10 @@ Page({
   },
   // 点击弹出选择券类型
   goSelect() {
+    var showHide = this.data.showHide;
+
     this.setData({
-      showHide: false
+      showHide: !showHide
     });
   },
   goInput() {

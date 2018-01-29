@@ -53,7 +53,7 @@
     <!--配送  -->
     <swiper-item>
       <scroll-view scroll-y="{{true}}">
-        <view class='shop-area'>
+        <view class='shop-area' style="border-bottom:1rpx solid #e5e5e5;">
           <navigator url="../store/store-list?check=true&index=true" class='shop-area-right'>
             <image class='icon' src='../../image/shop-icon.png'></image>
             <text>切换门店</text>
@@ -89,14 +89,18 @@
     <swiper-item>
       <scroll-view scroll-y="{{true}}">
         <view class='input-area'>
-          <label>
-            <text>姓名：</text>
-            <input placeholder='请输入提货人姓名'></input>
-          </label>
-          <label>
-            <text>联系方式：</text>
-            <input placeholder='请输入提货人联系方式'></input>
-          </label>
+          <view class='input-item'>
+            <label>
+              <text>收货人</text>
+              <input placeholder='请输入收货人姓名'></input>
+            </label>
+          </view>
+          <view class='input-item'>
+            <label>
+              <text>手机号码</text>
+              <input placeholder='请输入收货人手机号'></input>
+            </label>
+          </view>
         </view>
         <view class='shop-area'>
           <navigator url="../store/store-list?check=true&index=true" class='shop-area-right'>

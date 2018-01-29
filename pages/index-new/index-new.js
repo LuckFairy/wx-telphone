@@ -64,7 +64,7 @@ Page({
     var uid = wx.getStorageSync('userUid');
     this.setData({ uid });
     /******首页弹窗 */
-    // this.firstOpen();
+     this.firstOpen();
     // tab的数据
     app.api.postApi(tabUrl, { "params": { "categoryId": "96", "store_id": that.data.storeId } }, (err, response) => {
       wx.hideLoading();

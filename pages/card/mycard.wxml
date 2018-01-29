@@ -20,7 +20,7 @@
    <view class='search-select'>
     <view class='search-current' bindtap='goSelect'>
       <text class='search-current-text'>{{typeText}}</text>
-      <text class='search-current-trangle'></text>
+      <text class="search-current-trangle {{showHide?  '': 'up'}}"></text>
     </view>
   </view>  
  </view>
@@ -30,6 +30,7 @@
   </view>
   <!-- nav详细内容展示区-->
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
+  <view class='overlay' style="display:{{showHide ? 'none' : 'flex'}}"></view>
     <swiper-item>
       <scroll-view scroll-y="true"  bindscrolltolower='pullUpLoadone'  lower-threshold='0' scroll-top="{{scrollTop}}">
           <view wx:if="{{normal && normal.length}}" class="card-list-view">
@@ -133,6 +134,7 @@
           </view>
       </scroll-view>
     </swiper-item>
+    
   </swiper>
 </view>
 

@@ -49,8 +49,7 @@
     "pages/redbox/open-result",
     "pages/redbox/mydata",
     "pages/cart/buy",
-    "pages/cart/address",
-    "pages/cart/address-list",
+   
     "pages/group-buying/group-buying",
     "pages/cluster/cluser-wait",
     "pages/cluster/failed-detail",
