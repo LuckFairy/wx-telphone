@@ -3,7 +3,7 @@
     <!--头图  -->
     <!--未拿到数据前的默认图  -->
     <swiper wx:if='{{showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#fff' interval='3000' circular='true'>
-      <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
+      <swiper-item class='list-header-image' bindtap="clickGo" data-index="5">
         <view class='header-image'>
           <image src='https://saas.qutego.com/upload/wxapp/banner/index.jpg' mode='aspectFit' lazyLoad="true"></image>  
         </view>
@@ -13,8 +13,8 @@
     <!--拿到数据前的拿到数据之后  -->
     <swiper wx:if='{{!showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
       <block wx:for='{{dataImg}}' wx:key="{{index}}">
-        <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
-          <image class='header-image' mode='widthFix' lazyLoad="true" src='{{item.pic}}' data-destination="0" />
+        <swiper-item class='list-header-image' bindtap="clickGo" data-index="5">
+          <image class='header-image' mode='widthFix' lazyLoad="true" src='{{item.pic}}' data-index="5" />
         </swiper-item>
       </block>
     </swiper>

@@ -9,6 +9,7 @@ const log = 'buy.js --- ';
 const AddressSettingURL = 'wxapp.php?c=address&a=MyAddress';   // 设置售货地址
 const ListURL = 'store/ls';          // 门店列表
 const DetailURL = 'store/detail';    // 门店详情
+const methodUrl = 'buy/shipping/method';//邮寄方式
 
 var checkTimer = null;
 let _prodId;                          // 记录商品id
@@ -56,8 +57,8 @@ Page({
     productColor: '',   // 商品颜色
     productSize: '',   // 商品尺码
     matteShow: false,  //购买成功弹窗
-
-
+    methodShow: false,//配送说明弹窗
+    showFormError:false,//表单错误弹窗
     //2017年12月18日17:22:02
     order_no: '',
     postage_int: 0,
@@ -84,7 +85,31 @@ Page({
     normal_coupon_count: '', //可用的优惠券数量
     totalId:[],
     page:'saoma',//扫码确认订单-saoma
-    itemheights:['168','332','342'],//方式高度列表
+    itemheights:['168','408','342'],//方式高度列表
+    formData:{
+      fullname:'',
+      telephone:''
+    },//表单数据：姓名和电话
+    formErrorMsg:'不能为空，请填写完整',
+  },
+  /**
+   * 自提姓名和电话获取验证
+   */
+  pullname(e){
+    var { value } = e.detail.value;
+    this.setData({
+      formData:{
+        fullname:value
+      }
+    })
+  },
+  pulltelephone(e) {
+    var { value } = e.detail.value;
+    this.setData({
+      formData: {
+        telephone: value
+      }
+    })
   },
   /*
  *地址详情列表
@@ -140,6 +165,8 @@ Page({
   
 
   onLoad: function (options) {
+    
+    this.showFormError('错误');
     //单商品生成订单
     console.log('获取存储', wx.getStorageSync('couponInfo'));
     wx.removeStorageSync('couponInfo');
@@ -482,6 +509,7 @@ closeBtn() {
   that.setData({
     matteShow: false
   });
+
   //500毫秒后跳转
   setTimeout(function () {
     wx.redirectTo({
@@ -489,7 +517,17 @@ closeBtn() {
     });
   }, 500);
 },
-
+closeMethod() {
+  this.setData({
+    methodShow: false
+  });
+},
+// 配送说明
+  showMehodModel(){
+    this.setData({
+      methodShow: true
+    })
+  },
 /**
  * 支付成功
  */
@@ -730,7 +768,7 @@ setShippingMethod(method) {
   this.setData({ shippingMethod: method });
   let params = { shipping_method: method };
   wx.showLoading({ title: '加载中...', mask: true, });
-  app.api.postApi('buy/shipping_method', params, (err, resp) => {
+  app.api.postApi(methodUrl, params, (err, resp) => {
     wx.hideLoading();
     if (err) {
       return this._showError('加载数据出错，请重试');
@@ -751,7 +789,18 @@ _showError(errorMsg) {
   this.setData({ error: errorMsg });
   return false;
 },
-
+  showFormError(msg){
+    this.setData({
+      showFormError:true,
+      formErrorMsg:msg,
+    })
+    setTimeout(()=>{
+      this.setData({
+        showFormError: false,
+        formErrorMsg: '',
+      })
+    },15000)
+  },
 /**
  * 获取门店列表数据
  */
@@ -835,7 +884,7 @@ swiperChange(event) {
 changeCurActIndex(e) {
   let { idx: curActIndex, method } = e.currentTarget.dataset;
   this.setData({ curActIndex });
-  this.setShippingMethod(method);
+  //this.setShippingMethod(method);
 },
 changeCoupon: function (event) {
   console.log('点击进入优惠券选择界面', event);

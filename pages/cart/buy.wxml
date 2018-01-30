@@ -53,6 +53,10 @@
     <!--配送  -->
     <swiper-item>
       <scroll-view scroll-y="{{true}}">
+        <view class='shop-intro'>
+          <view class='intro-left'>满300元，免配送费！</view>
+          <view class='intro-right' bindtap='showMehodModel'>配送费用说明</view>
+        </view>
         <view class='shop-area' style="border-bottom:1rpx solid #e5e5e5;">
           <navigator url="../store/store-list?check=true&index=true" class='shop-area-right'>
             <image class='icon' src='../../image/shop-icon.png'></image>
@@ -92,13 +96,13 @@
           <view class='input-item'>
             <label>
               <text>收货人</text>
-              <input placeholder='请输入收货人姓名'></input>
+              <input name="fullname" placeholder='请输入收货人姓名' confirm-type="next"  bindblur="pullname" />
             </label>
           </view>
           <view class='input-item'>
             <label>
               <text>手机号码</text>
-              <input placeholder='请输入收货人手机号'></input>
+              <input name="telephone" placeholder='请输入收货人手机号' maxlength="11" type="number" bindblur="pulltelephone" />
             </label>
           </view>
         </view>
@@ -346,7 +350,7 @@
   </view>
 </view>
 <!--购买成功之后弹窗  -->
-<view class='matte-hint-father' wx:if='{{matteShow}}'>
+<view class='matte-hint-father' wx:if="{{matteShow}}" >
   <view class='matte-hint'>
     <image class='matte-close matte-total' bindtap='closeBtn' src='../../image/order-success-close.png'></image>
     <image class='matte-icon matte-total' src='../../image/success-icon.png'></image>
@@ -356,3 +360,20 @@
 </view>
 
 <!--购买成功之后弹窗结束  -->
+<!--配送费用说明  -->
+<view class='overlay-modal' wx:if="{{methodShow}}" >
+  <view class='overlay' bindtap='closeMethod'></view>
+  <view class='overlay-boby'>
+    <view class='overlay-title'>配送费用说明</view>
+    <view class='overlay-content'>
+    <text>1.满300元免配送费。</text>
+    <text>2.满150元不足300元，配送费10元。</text>
+    <text>1.不足150元，配送费20元。</text>
+    </view>
+    <view class='overlay-footer' bindtap='closeMethod'>知道了</view>
+  </view>
+</view>
+<!--手机提示弹窗  -->
+<view class='formModal' wx:if="{{showFormError}}" >
+  <text>{{formErrorMsg}}</text>
+</view>

@@ -662,7 +662,7 @@ page {
   width: 750rpx;
   min-height: 100%;
   position: fixed;
-  background: #494949;
+  background-color:rgba(10, 10, 10, 0.5);
   z-index: 9999999999;
   top: 0rpx;
 }
@@ -871,4 +871,83 @@ discount-ticket-have {
 }
 .input-item label text{
   width: 196rpx;
+}
+/* 配送样式 */
+.shop-intro{
+  padding:0  24rpx 42rpx;
+  font-size: 26rpx;
+  justify-content: space-between;
+}
+.intro-right{
+  color:#576b95;
+}
+/*配送说明弹窗  */
+.overlay-modal{
+  position: absolute;
+  top: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.overlay{
+  z-index:100000;
+}
+.overlay-boby{
+  display: block;
+  width: 560rpx;
+  
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #fff;
+  z-index: 10000000;
+  border-radius: 10rpx;
+}
+.overlay-boby view{
+  display: block;
+}
+.overlay-title{
+  color:#000;
+  font-size: 32rpx;
+  padding:55rpx 0 30rpx;
+  text-align: center;
+}
+.overlay-content{
+  display: block;
+  width: 100%;
+  padding-bottom: 10rpx;
+  border-bottom: solid 1rpx #e5e5e5;
+}
+.overlay-content text{
+  display: block;
+  margin-left: 50rpx;
+  color:#999;
+  font-size: 28rpx;
+  margin-bottom: 15rpx;
+}
+.overlay-footer{
+  padding: 28rpx 0;
+  color:inherit;
+  text-align: center;
+}
+/*提示弹窗  */
+.formModal{
+  position: fixed;
+  z-index: 100000;
+  top:40%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 400rpx;
+  height: 120rpx;
+  color:#fff;
+  font-size: 26rpx;
+  border-radius: 10rpx;
+  background-color: rgba(1, 1, 1, .6);
+  padding: 30rpx 58rpx;
+  justify-content: center;
+  align-items: center;
+}
+.formModal text{
+  text-align: center;
 }
