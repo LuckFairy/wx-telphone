@@ -44,15 +44,16 @@ Page({
     showModel: false,//是否显示弹窗模板
     couponList: [],//专用券列表
     coupon_id_arr: [],//优惠券id
+    indexIcon:null,
   },
   /**
    * 扫一扫
    */
   saoma(){
     // 允许从相机和相册扫码
-    if(isPC()){
-      this._showError('请用手机扫');return;
-    }
+    // if(isPC()){
+    //   this._showError('请用手机扫');return;
+    // }
     wx.scanCode({
       success: (res) => {
         console.log(res)
@@ -203,12 +204,27 @@ Page({
       "store_id": app.store_id
     }
     app.api.postApi('wxapp.php?c=index&a=get_image', { params }, (err, rep) => {
+      console.log('四个活动图片',rep);
       if (!err && rep.err_code == 0) {
         this.setData({
           indexImage: rep.err_msg.icon_list
         })
       }
     })
+
+
+    
+    app.api.postApi('wxapp.php?c=index&a=get_icon', { params }, (err, rep) => {
+      console.log('图标',rep);
+      if (!err && rep.err_code == 0) {
+        this.setData({
+          indexIcon: rep.err_msg.icon_list
+        })
+      }
+    })
+
+
+
     //this.loadGroupData();
     //this.loadHotData();
     this.loadBaoKuanData();
