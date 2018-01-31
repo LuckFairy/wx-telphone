@@ -35,13 +35,13 @@
             </view>
             <view class='select-list' bindtap="clickGo" data-destination="2">
                 <image class='select-list-image' src='../../image/2.png' data-destination="2"></image>
-                <text class='select-list-text' data-destination="2">品牌特卖</text>
+                <text class='select-list-text' data-destination="2">礼包特卖</text>
                 <button form-type='submit' class='sub-button'  data-destination="2">按钮1</button>
               </view>
-              <view class='select-list' bindtap="clickGo" data-destination="3">
-                <image class='select-list-image' src='../../image/3.png' data-destination="3"></image>
-                <text class='select-list-text' data-destination="3">抽奖专区</text>
-                <button form-type='submit' class='sub-button'  data-destination="3">按钮1</button>
+              <view class='select-list' data-destination="5" bindtap='clickGo'>
+                <image class='select-list-image' src='../../image/5.png' data-destination="5"></image>
+                <text class='select-list-text' data-destination="5">优惠券</text>
+                <button form-type='submit' class='sub-button'  data-destination="5">按钮1</button>
               </view>
               <view class='select-list' bindtap="clickGo" data-destination="4">
                 <image class='select-list-image' src='../../image/4.png' data-destination="4"></image>
@@ -50,7 +50,7 @@
               </view>
               <view class='select-list' data-destination="5" bindtap='clickGo'>
                 <image class='select-list-image' src='../../image/5.png' data-destination="5"></image>
-                <text class='select-list-text' data-destination="5">优惠券</text>
+                <text class='select-list-text' data-destination="5">扫-扫</text>
                 <button form-type='submit' class='sub-button'  data-destination="5">按钮1</button>
               </view>
             </view>
