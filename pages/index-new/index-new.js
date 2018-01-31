@@ -402,7 +402,8 @@ Page({
       var url = '../activity/hotsale';
     } else if (destination == 3) {
       //抽奖专区
-      var url = '../redbox/redbox';
+      //var url = '../redbox/redbox';
+      var url = './shop-promotion';
     } else if (destination == 4) {
       //母婴服务
       var url = './index-mom';
