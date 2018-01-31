@@ -48,7 +48,7 @@
                 <text class='select-list-text' data-destination="4">线下服务</text>
                 <button form-type='submit' class='sub-button'  data-destination="4">按钮1</button>
               </view>
-              <view class='select-list' data-destination="5" bindtap='clickGo'>
+              <view class='select-list' data-destination="5" bindtap='saoma'>
                 <image class='select-list-image' src='../../image/5.png' data-destination="5"></image>
                 <text class='select-list-text' data-destination="5">扫-扫</text>
                 <button form-type='submit' class='sub-button'  data-destination="5">按钮1</button>

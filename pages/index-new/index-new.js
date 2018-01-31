@@ -1,6 +1,6 @@
 // pages/index-new/index-new.js 
 const log = "index.js --- ";
-import { getUrlQueryParam } from '../../utils/util';
+import { getUrlQueryParam, isPC } from '../../utils/util';
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
 let app = getApp();
@@ -44,6 +44,20 @@ Page({
     showModel: false,//是否显示弹窗模板
     couponList: [],//专用券列表
     coupon_id_arr: [],//优惠券id
+  },
+  /**
+   * 扫一扫
+   */
+  saoma(){
+    // 允许从相机和相册扫码
+    if(isPC()){
+      this._showError('请用手机扫');return;
+    }
+    wx.scanCode({
+      success: (res) => {
+        console.log(res)
+      }
+    })
   },
   /**
    * 消息推送
@@ -360,7 +374,7 @@ Page({
  * 显示错误信息
  */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../image/error.png', mask: true });
+    wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
     return false;
   },
@@ -600,16 +614,6 @@ Page({
       url: './index-festival?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
     })
   },
-
-
-
-
-
-
-
-
-
-
   //跳到热门推荐商品页
   clickGoHotProduct: function (e) {
     var prodId = e.currentTarget.dataset.prodid; //商品ID
