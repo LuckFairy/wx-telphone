@@ -50,6 +50,7 @@
               <view class='select-list' data-destination="5" bindtap='saoma'>
                 <image class='select-list-image' src='{{indexIcon[4].image}}' data-destination="5"></image>
                 <text class='select-list-text' data-destination="5">{{indexIcon[4].title}}</text>
+                <web-view wx:if="{{saoma_url}}" src="{{saoma_url}}" hidden>扫码跳链</web-view>
                 <button form-type='submit' class='sub-button'  data-destination="5">按钮1</button>
               </view>
             </view>
