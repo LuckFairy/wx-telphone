@@ -50,9 +50,9 @@ Page({
    */
   saoma(){
     // 允许从相机和相册扫码
-    if(isPC()){
-      this._showError('请用手机扫');return;
-    }
+    // if(isPC()){
+    //   this._showError('请用手机扫');return;
+    // }
     wx.scanCode({
       success: (res) => {
         console.log(res)

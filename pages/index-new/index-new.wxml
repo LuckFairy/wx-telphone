@@ -7,7 +7,6 @@
         <view class='header-image'>
           <image src='https://saas.qutego.com/upload/wxapp/banner/yiya/index_2.jpg' mode='aspectFit' lazyLoad="true"></image>
         </view>
-
       </swiper-item>
     </swiper>
     <!--拿到数据前的拿到数据之后  -->
