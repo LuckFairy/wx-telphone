@@ -181,7 +181,7 @@ Page({
     /******首页弹窗 */
     this.firstOpen();
 
-    // 获取宝宝5个tab的数据
+    //获取宝宝5个tab的数据
     // app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
     //   wx.hideLoading();
     //   if (err) return;
