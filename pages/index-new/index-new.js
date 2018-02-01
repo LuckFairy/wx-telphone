@@ -44,6 +44,7 @@ Page({
     showModel: false,//是否显示弹窗模板
     couponList: [],//专用券列表
     coupon_id_arr: [],//优惠券id
+    indexIcon:null,
   },
   /**
    * 扫一扫
@@ -83,7 +84,7 @@ Page({
       "page": 1
     };
     app.api.postApi(couponUrl, { params }, (err, rep, statusCode) => {
-      console.log('优惠券data', rep);
+      //console.log('优惠券data', rep);
       if (statusCode != 200) {
         console.log('服务器有错，请联系后台人员'); return;
       }
@@ -179,15 +180,17 @@ Page({
     this.setData({ uid });
     /******首页弹窗 */
     this.firstOpen();
+
     // 获取宝宝5个tab的数据
-    app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
-      wx.hideLoading();
-      if (err) return;
-      var cat_list = response.err_msg.cat_list;
-      var cat_id = response.err_msg.cat_id;
-      console.log("宝宝5个tab数据......", cat_list);
-      this.setData({ cat_list: cat_list });
-    });
+    // app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
+    //   wx.hideLoading();
+    //   if (err) return;
+    //   var cat_list = response.err_msg.cat_list;
+    //   var cat_id = response.err_msg.cat_id;
+    //   console.log("宝宝5个tab数据......", cat_list);
+    //   this.setData({ cat_list: cat_list });
+    // });
+
     // 顶部轮播图
     // app.api.fetchApi("focuspic/showfouctPic", (err, resp) => {
     //    if(resp){
@@ -203,12 +206,27 @@ Page({
       "store_id": app.store_id
     }
     app.api.postApi('wxapp.php?c=index&a=get_image', { params }, (err, rep) => {
+      //console.log('四个活动图片',rep);
       if (!err && rep.err_code == 0) {
         this.setData({
           indexImage: rep.err_msg.icon_list
         })
       }
     })
+
+
+    
+    app.api.postApi('wxapp.php?c=index&a=get_icon', { params }, (err, rep) => {
+      //console.log('图标',rep);
+      if (!err && rep.err_code == 0) {
+        this.setData({
+          indexIcon: rep.err_msg.icon_list
+        })
+      }
+    })
+
+
+
     //this.loadGroupData();
     //this.loadHotData();
     this.loadBaoKuanData();
@@ -379,7 +397,7 @@ Page({
     return false;
   },
   clickGoCategory(e) {
-    console.log("宝宝", e)
+    //console.log("宝宝", e)
     var index = e.currentTarget.dataset.index;
     var catId = e.currentTarget.dataset.catId;
     wx.navigateTo({
@@ -402,7 +420,8 @@ Page({
       var url = '../activity/hotsale';
     } else if (destination == 3) {
       //抽奖专区
-      var url = '../redbox/redbox';
+      //var url = '../redbox/redbox';
+      var url = './shop-promotion';
     } else if (destination == 4) {
       //母婴服务
       var url = './index-mom';
@@ -413,7 +432,7 @@ Page({
       //单独购买
       var url = '../activity/hotsale';
     }
-    console.log('url', url)
+    //console.log('url', url)
     if (url) {
       wx.navigateTo({ url: url + '?categoryid=100&page=1&store_id=' + this.data.shopId });
     }
@@ -432,7 +451,7 @@ Page({
       wx.hideLoading();
       if (err) return;
       var data = response.err_msg;
-      console.log("333", data);
+      //console.log("333", data);
       this.setData({ groupData: data });
     });
   },
@@ -517,10 +536,18 @@ Page({
       }
       data = null ? [] : data;
       switch (categoryid) {
-        case '100': console.log(`爆款区（9.9元）数据 `, data); this.setData({ baoKuanData: data }); break;
-        case '101': console.log(`热销（母婴热销榜）区数据 `, data); this.setData({ hotSaleData: data }); break;
-        case '102': console.log(`百货数据 `, data); this.setData({ goodsData: data }); break;
-        case '105': console.log(`精选好奶粉数据 `, data); this.setData({ festivalData: data }); break;
+        case '100': 
+        //console.log(`爆款区（9.9元）数据 `, data); 
+        this.setData({ baoKuanData: data }); break;
+        case '101': 
+        //console.log(`热销（母婴热销榜）区数据 `, data); 
+        this.setData({ hotSaleData: data }); break;
+        case '102': 
+        //console.log(`百货数据 `, data); 
+        this.setData({ goodsData: data }); break;
+        case '105': 
+        //console.log(`精选好奶粉数据 `, data); 
+        this.setData({ festivalData: data }); break;
       }
 
     });
@@ -571,7 +598,7 @@ Page({
       uid: this.data.uid,
       store_id: this.data.storeId,
     }
-    console.log('my_card_num 接口参数', params);
+    //console.log('my_card_num 接口参数', params);
     app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {
       if (err || response.err_code != 0) return;
       var card_num = response.err_msg.card_num;
@@ -676,9 +703,9 @@ Page({
         })
       } else {
         wx.hideLoading();
-        console.log(resp, 1111111)
+        //console.log(resp, 1111111)
         var data = resp.err_msg;
-        console.log('获取第一行的图标', data);
+        //console.log('获取第一行的图标', data);
         this.setData({ iconOne: data });
       }
     });
