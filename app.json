@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/saoma/saoma-order",
     "pages/index-new/index-new",
     "pages/card/mycard",
     "pages/shopping/buycard",

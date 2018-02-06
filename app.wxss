@@ -1,5 +1,7 @@
 @import "./fa.wxss";
  @import "./pages/template/modal.wxss"; 
+@import '/style/weui.wxss';
+
 
 /* 定义全局样式变量 */
 
