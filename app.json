@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/saoma/saoma-order",
     "pages/index-new/index-new",
     "pages/card/mycard",
     "pages/shopping/buycard",
@@ -120,5 +119,15 @@
       }
     ]
   },
+    "subPackages": [
+      {
+        "root": "pages/saomagou/",
+        "pages": [
+          "pages/saoma/saoma-order",
+          "pages/saoma/search",
+          "pages/saoma/saoma-ziti-address"
+        ]
+      }
+    ],
   "debug": true
 }

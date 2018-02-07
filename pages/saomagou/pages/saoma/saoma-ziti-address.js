@@ -28,7 +28,10 @@ Page({
     console.log(event)
     var index = event.currentTarget.id;
     that.setData({ 'style': index });
+  },
 
+  onLocationClick: function (event) {
+    
   },
   
   /**

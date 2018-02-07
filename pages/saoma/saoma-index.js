@@ -157,19 +157,24 @@ Page({
     that.sum();
   },
   scanCode: function () {
-    var that = this;
-    // 只允许从相机扫码
-    wx.scanCode({
-      onlyFromCamera: true,
-      success: (res) => {
-        console.log('扫码成功data...',res);
-        var params = {
-          store_id,
-          uid:that.data.uid
-        };
-        that.loadList(params);
-      }
+
+    wx.navigateTo({
+      url: '../saomagou/pages/saoma/saoma-order'
     })
+
+    // var that = this;
+    // // 只允许从相机扫码
+    // wx.scanCode({
+    //   onlyFromCamera: true,
+    //   success: (res) => {
+    //     console.log('扫码成功data...',res);
+    //     var params = {
+    //       store_id,
+    //       uid:that.data.uid
+    //     };
+    //     that.loadList(params);
+    //   }
+    // })
   },
   //计算金额
   sum() {
