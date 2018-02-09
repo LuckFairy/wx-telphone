@@ -1,5 +1,17 @@
 /* pages/saoma/saoma-order.wxss */
 
+.main-container{
+  margin-bottom: 125rpx;
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+  bottom: 0rpx;
+  right: 0rpx;
+  width: 750rpx;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
 .noaddress-tip {
   height: 60rpx;
   display: flex;
@@ -202,6 +214,7 @@
   background: white;
   margin-left: 24rpx;
   margin-right: 24rpx;
+ 
   border-bottom: 1px #f3f3f3 solid;
   align-items: center;
 }

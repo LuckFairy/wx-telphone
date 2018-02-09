@@ -1,5 +1,5 @@
-<scroll-view scroll-y="{{true}}">
-  <view class='noaddress-tip'>请先新增收货地址
+<scroll-view scroll-y="{{true}}" class='main-container'>
+  <view wx:if="{{!isHaveAddress}}" class='noaddress-tip'>请先新增收货地址
   </view>
 
   <!-- 订单的标签选择区域 -->
@@ -112,10 +112,7 @@
 
 </scroll-view>
 
-
-
-
-
+<!--底部-->
 <view class='bottom-container'>
   <view class='bottom-left'>
     <view class='bottom-left-price'>¥38.00
