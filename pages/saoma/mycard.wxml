@@ -1,3 +1,6 @@
+<import src="../template/modal.wxml" />
+<template wx:if="{{showSuccessModal}}" is="text-coupon-modal" data="{{...successModalConfig}}" />
+
 <view  class="main-container">
   <!-- 头部导航条 -->
   <view class="nav-header-view" style='background:#fff'>
@@ -15,11 +18,11 @@
   <view class='overlay' style="display:{{showHide ? 'none' : 'flex'}}"></view>
     <swiper-item>
       <scroll-view scroll-y="true"  bindscrolltolower='pullUpLoadone'  lower-threshold='0' scroll-top="{{scrollTop}}">
-      <!-- <view class='card-rule'>
-        <text class='card-rule-text'>
+       <view class='card-rule'>
+        <text class='card-rule-text' bindtap='onRuleClick'>
               使用规则
         </text>
-      </view> -->
+      </view> 
           <checkbox-group wx:if="{{normal && normal.length}}" class="card-list-view" bindchange="onCheckChange">
             <block wx:for="{{normal}}" wx:for-item="card" wx:key="{{index}}">
                 <!--正常活动卡券-->

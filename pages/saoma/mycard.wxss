@@ -68,7 +68,8 @@ text {
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
-  width: 750rpx;
+  width: 100%;
+  align-items: center;
   margin-top: 10px;
   margin-bottom: 150rpx;
 }
@@ -76,7 +77,7 @@ text {
 .card-ad-view {
   display: flex;
   flex-direction: row;
-  width: 750rpx;
+  width: 100rpx;
   justify-content: center;
   margin-bottom: 10px;
 }
@@ -90,6 +91,7 @@ text {
   justify-content: space-between;
   width: 710rpx;
   height: 180rpx;
+  margin-left: 20rpx;
   margin-bottom: 16rpx;
   background-size: 710rpx 180rpx;
 }
@@ -119,8 +121,9 @@ text {
 }
 
 .card-rule-text {
-  font-size: 30rpx;
+  font-size: 28rpx;
   color: #1b1b1b;
+  line-height: 26rpx;
 }
 
 .card-item-left {

@@ -24,6 +24,7 @@ Page({
     typeText: '门店券',
     category: 3,
     selectedArray:[],
+    showSuccessModal: false,//显示成功模态框
     submitText:'已选0张，可抵扣0.00元',
     normal: [{ cname: '咿呀20周年巨献抵用券', limit_money: '60', start_time_str: '2013', end_time_str: '2014', id: '124', card_no: '456', face_money: 89.69 }, { cname: '咿呀20周年巨献抵用券', limit_money: '60', start_time_str: '2013', end_time_str: '2014', id: '2222', card_no: '33333', face_money: 899 }]
   },
@@ -158,6 +159,41 @@ Page({
   loadData2: function (that) {
     console.log('loadData2');
     
-  }
+  },
+  onRuleClick:function(e){
+    this.showModal('success');
+  },
+  /**
+ * 显示模态框
+ */
+  showModal(type = 'err', config) {  // type: success||err
+    var successModalConfig = {
+      image: '../../image/conupon-img.png',
+      title: '优惠券使用说明',
+      firstText: '1、通用券和指定券不能同时使用',
+      secondText: '2、当全的金额大于订单应付金额时，差额不予退还。',
+      threeText: '3、通用券和指定券都不能叠加使用。',
+      confirmText: '确定'
+    }
+    if (type === 'success') {
+      successModalConfig = Object.assign(successModalConfig, config);
+      this.setData({
+        successModalConfig: successModalConfig,
+        showSuccessModal: true
+      });
+    } else {
+      errModalConfig = Object.assign(errModalConfig, config);
+      this.setData({
+        errModalConfig: errModalConfig,
+        showErrModal: true
+      });
+    }
+  },
+  /**
+  * 点击模态框的确定(关闭确定模态框)
+  */
+  tabConfirm() {
+    this.setData({ showSuccessModal: false });
+  },
 
 })
