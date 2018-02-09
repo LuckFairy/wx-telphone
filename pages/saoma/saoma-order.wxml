@@ -10,7 +10,7 @@
   </view>
   <!-- 订单的标签选择区域  -->
 
-  <view class='delivery'>
+  <view wx:if="{{style==1}}" class='delivery'>
     <view class='delivery-child-left'>满300元，免配送费！</view>
     <view class='delivery-child-right'>配送费用说明</view>
   </view>
@@ -44,7 +44,7 @@
   </view>
 
   <view wx:if="{{style!=2}}" class="weui-cells weui-cells_after-title">
-    <navigator url="" class="weui-cell weui-cell_access full" hover-class="weui-cell_active">
+    <navigator url="../shopping/address-list" class="weui-cell weui-cell_access full" hover-class="weui-cell_active">
       <view class="weui-cell__hd">
         <image src="../../image/address.png" class='address-img'></image>
       </view>
@@ -60,7 +60,14 @@
     </navigator>
   </view>
 
-  <view class='product'>
+      <!--阴影  -->
+<view wx:if="{{style!=2}}" class='shadow-list'>
+  <image class='shadow-color' src='../../image/shadow-color.png'></image>
+  <text class='shadow-bg'></text>
+</view>
+
+  <view wx:for="{{products}}">
+    <view class='product'>
     <image class='product-img' src='../../image/ap_home_gift.png'>
     </image>
     <view class='product-content'>
@@ -80,9 +87,12 @@
       </view>
     </view>
   </view>
+  </view>
+
+
 
   <view class="weui-cells weui-cells_after-title">
-    <navigator url="" class="weui-cell weui-cell_access full " hover-class="weui-cell_active">
+    <navigator url="../shopping/buycard" class="weui-cell weui-cell_access full " hover-class="weui-cell_active">
       <view class="weui-cell__bd">优惠券</view>
       <view class="weui-cell__ft weui-cell__ft_in-access coupon">20元咿呀20周年巨献抵用券</view>
     </navigator>

@@ -12,6 +12,7 @@ Page({
   data: {
     style:"0",
     isHaveAddress:true,
+    products:[{},{}],
     isdefaultAddress:0
     
   },
