@@ -3,6 +3,7 @@ var app = getApp();
 var _tapLock = false;    // 点击锁
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
+var that;
 Page({
   data: {
     loading: true,
@@ -14,30 +15,45 @@ Page({
     expiredMsg: [],
     scrollTop: 0,
     scrollHeight: 0,
-    pagesone: 1,
-    pagestwo: 1,
     dataStatus: 0,
     curActIndex: "",
     store_id: '',
     uid: '',
     image: '',
-    ex_image: '',
-    use_image: '',
     showHide: true,
     typeText: '门店券',
     category: 3,
-    selectCardone: 0,
-    selectCardtwo: 0,
-    normal: [{ cname: '咿呀20周年巨献抵用券', limit_money: '60', start_time_str: '2013', end_time_str: '2014', id: '124', card_no: '456', face_money: 899 }, { cname: '咿呀20周年巨献抵用券', limit_money: '60', start_time_str: '2013', end_time_str: '2014', id: '2222', card_no: '33333', face_money: 899 }]
+    selectedArray:[],
+    submitText:'已选0张，可抵扣0.00元',
+    normal: [{ cname: '咿呀20周年巨献抵用券', limit_money: '60', start_time_str: '2013', end_time_str: '2014', id: '124', card_no: '456', face_money: 89.69 }, { cname: '咿呀20周年巨献抵用券', limit_money: '60', start_time_str: '2013', end_time_str: '2014', id: '2222', card_no: '33333', face_money: 899 }]
   },
 
   onCheckChange: function (e) {
     var arrays = e.detail.value;
-    if(arrays.length==0){
-      console.log('数组为空');
+    var submitText;
+    var size = arrays.length;
+    if (size==0){
+      submitText ='已选0张，可抵扣0.00元';
+      console.log('submitText');
     }else{
-      console.log('checkbox发生change事件，携带value值为：', arrays[0].id);
+      var total=0;
+      var i,j;
+      var normal = that.data.normal;
+      for(i=0;i<size;i++){
+        for (j = 0; j < normal.length;j++){
+          if(arrays[i]==normal[j].id){
+            total = total + normal[j].face_money;
+          }
+        }
+      }
+      submitText = "已选" + size+"张，可抵扣"+total+"元";
+      console.log('total：', total);
     }
+
+    that.setData({
+      selectedArray: arrays,
+      submitText: submitText
+    });
   },
 
 
@@ -77,7 +93,7 @@ Page({
     // 上拉加载结束 
   },
   onLoad: function (options) {
-    var that = this;
+    that = this;
     that.setData({
       mendiancard: 'mendiancard',
       shopCard: "shopCard"
@@ -137,82 +153,11 @@ Page({
   //加载页面数据
   loadData1: function (that) {
     console.log('loadData1');
-    var selectCardone = that.data.selectCardone;//0/1之间判断切换
-    console.log('判断是否切换线上线下1为已经切换', selectCardone)
-    var msgList = that.data.msgList;//空数组
-    console.log('msgList长度', msgList.length)
-    if (selectCardone == 1) {
-      msgList.splice(0, msgList.length);//splice方法直接更改原始数组以及返回被删除/更改的项目
-      console.log('清空之后msgList长度', msgList.length)
-    }
-    var pagesone = that.data.pagesone;//页码
-    var store_id = that.data.store_id;
-    var uid = that.data.uid;
-    var category = that.data.category;
-    console.log('category', category)
-    console.log(pagesone, store_id, uid)
-    console.log('页码', pagesone)
-    var params = {
-      page: pagesone, store_id: store_id, uid: uid, type: 'unused', category: category
-    }
-    wx.showLoading({
-      title: '加载中'
-    })
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, response) => {
-      wx.hideLoading();
-      if (err) return;
-      // 数据是否为空，空时是空数组
-      var coupon_list = response.err_msg.coupon_list;
-      var image = response.err_msg.image;
-      console.log(response, 'response');
-      for (var j = 0; j < coupon_list.length; j++) {
-        msgList.push(coupon_list[j]);
-      }
-      console.log('push之后msgList长度', msgList.length)
-      //更新数据
-      that.setData({
-        loading: false,
-        normal: msgList,
-        image: image,
-        selectCardone: 0
-      });
-      console.log('判断是否切换重置为0', that.data.selectCardone)
-      console.log(that.data.normal.length, '加载时normal数据')
-      wx.hideLoading();
-    });
+   
   },
   loadData2: function (that) {
     console.log('loadData2');
-    var selectCardtwo = that.data.selectCardtwo;
-    var expiredMsg = that.data.expiredMsg;//空数组
-    if (selectCardtwo == 1) {
-      expiredMsg.splice(0, expiredMsg.length);
-    }
-    var pagestwo = that.data.pagestwo;
-    var store_id = that.data.store_id;
-    var uid = that.data.uid;
-    var category = that.data.category;
-    console.log(pagestwo, store_id, uid)
-    var params = {
-      page: pagestwo, store_id: store_id, uid: uid, type: 'expired', category: category
-    }
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, response) => {
-      if (err) return;
-      console.log('res2', response);
-      var expired = response.err_msg.coupon_list;
-      var ex_image = response.err_msg.image;
-      for (var r = 0; r < expired.length; r++) {
-        expiredMsg.push(expired[r]);
-      }
-      //更新数据
-      that.setData({
-        loading: false,
-        expired: expiredMsg,
-        ex_image: ex_image,
-        selectCardtwo: 0
-      });
-      wx.hideLoading();
-    });
+    
   }
 
 })

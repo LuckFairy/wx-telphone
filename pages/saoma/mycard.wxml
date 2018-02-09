@@ -15,13 +15,18 @@
   <view class='overlay' style="display:{{showHide ? 'none' : 'flex'}}"></view>
     <swiper-item>
       <scroll-view scroll-y="true"  bindscrolltolower='pullUpLoadone'  lower-threshold='0' scroll-top="{{scrollTop}}">
+      <!-- <view class='card-rule'>
+        <text class='card-rule-text'>
+              使用规则
+        </text>
+      </view> -->
           <checkbox-group wx:if="{{normal && normal.length}}" class="card-list-view" bindchange="onCheckChange">
             <block wx:for="{{normal}}" wx:for-item="card" wx:key="{{index}}">
                 <!--正常活动卡券-->
-                <view class="card-item-view {{mendiancard?mendiancard:''}} {{onlinecard?onlinecard:''}}"  data-source='{{card.source}}'>
+                <view class="card-item-view {{mendiancard?mendiancard:''}}"  data-source='{{card.source}}'>
 
                 <view class='card-item-left-container'>
-                <checkbox value='{{card}}'></checkbox>
+                <checkbox value='{{card.id}}'></checkbox>
                   <view class="card-item-left" style="display:flex;">
 
                         <view class="card-item-title-view">
@@ -93,7 +98,7 @@
 <!--底部-->
 <view class='bottom-container'>
   <view class='bottom-left'>
-    <view class='bottom-left-text'>已选0张，可抵扣0.00元
+    <view class='bottom-left-text'>{{submitText}}
     </view>
 
   </view>
