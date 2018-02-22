@@ -6,7 +6,7 @@
     <view class="overlay-body">
       <block wx:if="{{input}}">
         <text>请输入商品的条形码</text>
-        <input type='number' class='overlay-input' bindconfirm="tabConfirm" placeholder="请输入商品条形码" auto-focus/>
+        <input type='number' class='overlay-input' bindinput='bindInput' bindconfirm="tabConfirm" placeholder="请输入商品条形码" auto-focus/>
         <button bindtap="tabConfirm" class="overlay-bottom-button btn-yellow">确定</button>
       </block>
       <block wx:else>
@@ -44,7 +44,7 @@
     <navigator url="../store/store-list?check=true" class='shop-area'>
       <view>
         <image class='address-image' src='../../image/address.png'></image>
-        <text>message</text>
+        <text>{{locationTip}}</text>
       </view>
       <image class='address-go-image' src='../../image/address-go.png'></image>
     </navigator>

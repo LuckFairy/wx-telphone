@@ -1,12 +1,15 @@
 let app = getApp();
 import { Api } from '../../utils/api_2';
+// import { store_Id } from '../../utils/store_id';
 const  shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';
 const physical_id = app.globalData.phy_id;//门店id
-let store_Id = app.store_Id;
-let store_id = store_Id;
+// let store_Id = app.store_Id;
+// let store_id = store_Id;
+let store_id = app.store_id;
 let errModalConfig = {
   title: '有错误！',
 };
+let that;
 Page({
   data: {
     hasShop: 0,//购物车数量
@@ -18,15 +21,36 @@ Page({
     showErrModal: false,
     input:false,//不是输入弹窗
     coupon_value: [],//线上优惠券面值数组
+    inputValue:'',
+    locationTip:"定位中..."
+  },
+  initLocation: function () {
+    wx.getLocation({
+      success: function (res) {
+        var latitude = res.latitude
+        var longitude = res.longitude
+        that.loadLocation(latitude, longitude);
+      }
+    })
   },
   /**
    * 获取当前门店位置
    */
-  loadLocation(phy_id) {
+  loadLocation(latitude,longitude) {
+    if(latitude==0||longitude==0){
+      return;
+    }
+    var params={
+      uid: that.data.uid,
+      store_id: store_id,
+      long: longitude,
+      lat: latitude,
+      page: "1"
+    };
     wx.showLoading({
       title: '加载中'
     });
-    app.api.postApi('wxapp.php?c=address&a=physical_list', { params }, (err, resp) => {
+    app.api.postApi('wxapp.php?c=physical&a=qrcode_physical_list', { params }, (err, resp) => {
       // 列表数据
       if (resp) {
         wx.hideLoading();
@@ -38,8 +62,13 @@ Page({
             physical_list: that.data.physical_list
           })
         } else {
+
+          that.setData({
+            locationTip:'所处位置未搜到扫码购门店，手动去选择'
+          });
+
           wx.showToast({
-            title: '亲，没有了',
+            title: resp.err_msg,
             icon: 'success',
             duration: 1000
           })
@@ -242,13 +271,21 @@ Page({
   inputBarcode() {
     this.setData({ showErrModal:true,input:true});
   },
+
+  bindInput:function(e){
+    that.setData({
+      inputValue: e.detail.value
+    });
+  },
 /**
  * 确定按钮
  */
   tabConfirm(e){
     this.setData({ showErrModal: false, input: false });
-    let that = this;
-    //var value = event.detail.value;
+    var value = that.data.inputValue;
+
+    console.log("code：" + value);
+
     wx.showModal({
       title: '条形码',
       content: '该条形码识别不出匹配商品',
@@ -265,13 +302,15 @@ Page({
       }
     })
   },
+ 
 
   onLoad: function (options) {
-    var that = this;
+    that = this;
     // 获取店铺id shopId
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
+    console.log("storeid: " + store_id);
     that.setData({
       uid, store_id
     });
@@ -279,6 +318,7 @@ Page({
       store_id,
       uid
     };
+    that.initLocation();
     that.loadList(params);
  
   },

@@ -2,7 +2,7 @@
 const app = getApp();
 import { Api } from '../../utils/api_2';
 Api.signin();//获取以及存储openid、uid
-var that;
+let that;
 // 获取uid
 Page({
 
@@ -27,7 +27,7 @@ Page({
 
   onStyleChange: function (event){
     console.log(event)
-    var index = event.currentTarget.id;
+    let index = event.currentTarget.id;
     that.setData({ 'style': index });
 
   },
