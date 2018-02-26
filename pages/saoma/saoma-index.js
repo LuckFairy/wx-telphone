@@ -1,15 +1,26 @@
-let app = getApp();
 import { Api } from '../../utils/api_2';
-// import { store_Id } from '../../utils/store_id';
+import { sign } from '../../utils/loginUtil';
+
+let app = getApp();
+
 const  shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';
 const physical_id = app.globalData.phy_id;//门店id
-// let store_Id = app.store_Id;
-// let store_id = store_Id;
-let store_id = app.store_id;
+
 let errModalConfig = {
   title: '有错误！',
 };
 let that;
+
+
+let store_id = app.store_id;
+let uid = app.globalData.uid;
+let openid = app.globalData.openid;
+let hasSignin = app.globalData.hasSignin;
+let logLat = app.globalData.logLat;
+
+const physicalUrl = 'wxapp.php?c=physical&a=physical_list';//las门店列表接口
+const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
+
 Page({
   data: {
     hasShop: 0,//购物车数量
@@ -22,60 +33,83 @@ Page({
     input:false,//不是输入弹窗
     coupon_value: [],//线上优惠券面值数组
     inputValue:'',
-    locationTip:"定位中..."
+    locationTip:"定位中...",
+    physicalClost: '',//最近门店信息
+    phyDefualt: [],//默认门店信息
+    changeFlag: true,//是否切换门店
   },
-  initLocation: function () {
-    wx.getLocation({
-      success: function (res) {
-        var latitude = res.latitude
-        var longitude = res.longitude
-        that.loadLocation(latitude, longitude);
+ 
+
+  /**
+     * 获取总店信息
+     */
+  loadMainLocation() {
+    let that = this;
+    let phyDefualt = that.data.phyDefualt;
+    var url = physicalMainUrl;
+    var params = {
+      store_id
+    };
+    app.api.postApi(url, { params }, (err, resp) => {
+      // 列表数据
+      wx.hideLoading();
+      if (resp.err_code != 0) {
+        return;
       }
-    })
+      phyDefualt = resp.err_msg.physical_list[0];
+      console.log('phyDefualt', phyDefualt);
+      that.setData({
+        physicalClost: phyDefualt
+      })
+    });
   },
+
   /**
    * 获取当前门店位置
    */
-  loadLocation(latitude,longitude) {
-    if(latitude==0||longitude==0){
+  loadLocation(phy_id, logLat) {
+    var that = this;
+    var phyDefualt = that.data.phyDefualt;
+    if (logLat == '' || logLat == null) {
+      app.globalData.logLat = wx.getStorageSync('logLat');
+      logLat = wx.getStorageSync('logLat');
+    }
+    console.log('loglat........', logLat);
+    if (!logLat) {
+      that.setData({ changeFlag: false })
       return;
     }
-    var params={
-      uid: that.data.uid,
-      store_id: store_id,
-      long: longitude,
-      lat: latitude,
-      page: "1"
-    };
     wx.showLoading({
       title: '加载中'
     });
-    app.api.postApi('wxapp.php?c=physical&a=qrcode_physical_list', { params }, (err, resp) => {
+    var params = {
+      uid,
+      store_id,
+      page: '1',
+      long: logLat[0],
+      lat: logLat[1]
+    }
+    var url = physicalUrl;
+
+    app.api.postApi(physicalUrl, { params }, (err, resp) => {
       // 列表数据
-      if (resp) {
-        wx.hideLoading();
-        if (resp.err_code == 0) {
-          for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
-            that.data.physical_list.push(resp.err_msg.physical_list[j])
-          }
-          that.setData({
-            physical_list: that.data.physical_list
-          })
-        } else {
-
-          that.setData({
-            locationTip:'所处位置未搜到扫码购门店，手动去选择'
-          });
-
-          wx.showToast({
-            title: resp.err_msg,
-            icon: 'success',
-            duration: 1000
-          })
-        }
-      } else {
-        //  错误
+      wx.hideLoading();
+      if (resp.err_code != 0) {
+        that.setData({
+          locationTip:"所处位置未搜到扫码购门店，手动去选择"
+        });
+        return;
       }
+      var list = resp.err_msg.physical_list;
+      for (var j = 0; j < list.length; j++) {
+        if (list[j].select_physical == "1") {
+          phyDefualt = list[j];
+        }
+      }
+      if (phyDefualt.length == 0) { phyDefualt = list[0]; }
+      that.setData({
+        physicalClost: phyDefualt
+      })
     });
   },
   /**
@@ -283,8 +317,51 @@ Page({
   tabConfirm(e){
     this.setData({ showErrModal: false, input: false });
     var value = that.data.inputValue;
+    if(value==null||value==''){
+      wx.showToast({
+        title: '输入为空，请重新输入！',
+        icon: 'success',
+        duration: 1000
+      })
+      return;
+    }
 
-    console.log("code：" + value);
+    var params={
+      uid: uid,
+      store_id: store_id,
+      code: value,
+      quantity: 1,
+    };
+    wx.showLoading({
+      title: '加载中'
+    });
+    app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
+      // 列表数据
+      if (resp) {
+        wx.hideLoading();
+        if (resp.err_code == 0) {
+          for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
+            that.data.physical_list.push(resp.err_msg.physical_list[j])
+          }
+          that.setData({
+            physical_list: that.data.physical_list
+          })
+        } else {
+
+          that.setData({
+            locationTip: '所处位置未搜到扫码购门店，手动去选择'
+          });
+
+          wx.showToast({
+            title: resp.err_msg,
+            icon: 'success',
+            duration: 1000
+          })
+        }
+      } else {
+        //  错误
+      }
+    });
 
     wx.showModal({
       title: '条形码',
@@ -303,29 +380,74 @@ Page({
     })
   },
  
+ getCoupon:function(){
+   var params = {
+     store_id,
+     uid
+   };
+   app.api.postApi('wxapp.php?c=cart&a=cart_list', { params }, (err, resp) => {
+     if (err || resp.err_code != 0) {
+       return;
+     }
+     if (resp.err_code == 0) {
+       console.log('购物车列表', resp);
+       var cart_list = resp.err_msg.cart_list;
+       var cartSHow = that.cartSHow;
+       var hasShop = cart_list.length;
+       if (cart_list.length < 1) {
+         console.log('false')
+         cartSHow = false;
+       } else {
+         console.log('true')
+         cartSHow = true;
+       };
+       that.setData({
+         cart_list,
+         cartSHow,
+         hasShop
+       });
+       //计算金额
+       that.sum();
+     }
+   });
+ },
 
   onLoad: function (options) {
     that = this;
-    // 获取店铺id shopId
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    console.log("storeid: " + store_id);
-    that.setData({
-      uid, store_id
-    });
+    this.loadMainLocation();
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    if (uid == '' || logLat == '') {
+      sign.signin(() => {
+        sign.getLocation((res) => {
+          logLat = wx.getStorageSync('logLat');
+          uid = wx.getStorageSync('userUid');
+          openid = wx.getStorageSync('userOpenid');
+          hasSignin = wx.getStorageSync('hasSignin');
+          app.globalData.logLat = logLat;
+          app.globalData.openid = openid;
+          app.globalData.uid = uid;
+          app.globalData.hasSignin = hasSignin;
+          that.loadLocation('logLat坐标信息', logLat);//获取门店信息
+          console.log('index....lbs', logLat);
+        })
+      });
+    } else {
+      that.loadLocation('logLat坐标信息', logLat);//获取门店信息
+    }
     var params = {
       store_id,
       uid
     };
-    that.initLocation();
     that.loadList(params);
  
   },
   onShow: function () {
     var that = this;
     var hasShop = that.data.hasShop;//有无商品
-    var uid = that.data.uid;
+    // var uid = that.data.uid;
     var params = {
       store_id, uid
     }
@@ -418,6 +540,8 @@ Page({
     //计算金额
     that.sum();
   },
+
+
   addReduce(params, index, num) {
     var that = this;
     app.api.postApi('wxapp.php?c=cart&a=quantity', { params }, (err, resp) => {

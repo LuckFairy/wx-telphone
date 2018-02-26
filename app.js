@@ -1,5 +1,7 @@
 //app.js
 import { Api } from './utils/api_3';
+import { sign } from './utils/loginUtil';
+
 App({
   api: Api,
   onLaunch: function () {
@@ -15,25 +17,43 @@ App({
     // wx.clearStorageSync();
     this.systemInfo = wx.getSystemInfoSync();
     // Api.signin();
-    var logLat = wx.getStorageSync('logLat') ? wx.getStorageSync('logLat') : null;
+    // var logLat = wx.getStorageSync('logLat') ? wx.getStorageSync('logLat') : null;
     var that = this;
-    wx.getLocation({
-      success: (res) => {
-        var latitude = res.latitude //维度
-        var longitude = res.longitude //经度
-        var speed = res.speed //速度，浮点数，单位m/s
-        var accuracy = res.accuracy  //位置的精确度
-        logLat = [longitude, latitude];
-        wx.setStorageSync('logLat', logLat);
-      },
-      fail: () => {
-        if (this.fail()) { console.log('获取位置失败'); return null; }
-        this.success();
-      },
-      cancel: () => {
-        console.log('用户拒绝授权获取地理位置')
-      }
-    })
+    // wx.getLocation({
+    //   success: (res) => {
+    //     var latitude = res.latitude //维度
+    //     var longitude = res.longitude //经度
+    //     var speed = res.speed //速度，浮点数，单位m/s
+    //     var accuracy = res.accuracy  //位置的精确度
+    //     logLat = [longitude, latitude];
+    //     wx.setStorageSync('logLat', logLat);
+    //   },
+    //   fail: () => {
+    //     if (this.fail()) { console.log('获取位置失败'); return null; }
+    //     this.success();
+    //   },
+    //   cancel: () => {
+    //     console.log('用户拒绝授权获取地理位置')
+    //   }
+    // })
+
+    let hasSignin = wx.getStorageSync('hasSignin');
+    if (hasSignin == undefined || hasSignin == null || hasSignin == '') {
+      sign.signin(() => {
+        sign.getLocation(() => {
+          console.log('app.globalData.....赋值');
+          that.globalData.logLat = wx.getStorageSync('logLat');
+          that.globalData.openid = wx.getStorageSync('userOpenid');
+          that.globalData.uid = wx.getStorageSync('userUid');
+          that.globalData.hasSignin = wx.getStorageSync('hasSignin');
+        })
+      })
+    } else {
+      that.globalData.logLat = wx.getStorageSync('logLat');
+      that.globalData.openid = wx.getStorageSync('userOpenid');
+      that.globalData.uid = wx.getStorageSync('userUid');
+      that.globalData.hasSignin = wx.getStorageSync('hasSignin');
+    }
   },
   onShow: function () {
     console.log('App onShow() ...')
@@ -47,6 +67,8 @@ App({
     openid: "",//用户openid
     formIds: [],//formId数组
     phy_id :"5",//门店id，默认是总店5
+    hasSignin: false,//是否登录
+    logLat: '',//当前位置
   },
   d: {
     hostUrl: 'https://wxplus.paoyeba.com/index.php',
@@ -169,7 +191,7 @@ App({
       console.log('send....rep',rep);
     })
   },
-  store_id:268, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购  268 婴众扫码购
+  store_id: 589, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购  268 婴众扫码购
 })
 
 
