@@ -2,6 +2,9 @@
 
 .list-item-dtl-icon-view {
   margin-right: 20rpx;
+  align-items: center;
+  width: 23px;
+  height: 90rpx;
 }
 
 .store-list-containner {

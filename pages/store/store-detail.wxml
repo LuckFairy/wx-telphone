@@ -6,7 +6,9 @@
     <view class="location-dtl-text-view mText">{{physical_detail.address}}</view>
     <view class="cell-right">
       <!-- <text class="store-detail-street mText">街景</text> -->
-      <text class="fa fa-lg fa-angle-right" />
+      <!-- <text class="fa fa-lg fa-angle-right" />
+       -->
+       <text class='right'></text>
     </view>
   </view>
 

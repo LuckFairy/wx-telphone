@@ -1,7 +1,8 @@
 // pages/store/store-detail.js
 var app = getApp();
 
-const DetailURL = 'store/detail';    // 门店详情
+const DetailURL = 'wxapp.php?c=address&a=physical_detail';    // 门店详情
+const newDetailURL = 'wxapp.php?c=address&a=physical_detail_v2';    // 新门店详情
 
 Page({
   data:{
@@ -16,9 +17,8 @@ Page({
     var params = {
       phy_id
     }
-    app.api.postApi('wxapp.php?c=address&a=physical_detail', { params }, (err, resp) => {
+    app.api.postApi(newDetailURL, { params }, (err, resp) => {
       // 列表数据
-      console.log(resp, 344444)
       if (resp) {
         if (resp.err_code == 0) {
           var physical_detail = resp.err_msg.physical_detail;
@@ -42,12 +42,12 @@ Page({
    * 点击查看街景
    */
   seeStreet() {
-    let geoCode = this.data.pageData.geocode;
-    let geoCodeArray = geoCode.split(",");
-    if (geoCodeArray.length == 2){
+    let geoCode = this.data.physical_detail.geocode;
+    console.log(geoCode,'geoCode');
+    if (geoCode.length == 2){
         wx.openLocation({
-            latitude: geoCodeArray[0],
-            longitude: geoCodeArray[1]
+          latitude: Number(geoCode[1]),
+          longitude: Number(geoCode[0])
         });
     }
   },

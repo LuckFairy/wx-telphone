@@ -53,6 +53,7 @@
     flex-direction: row;
     justify-content: flex-start;
     flex: 1;
+    overflow-x: hidden;
 }
 .store-image {
     width: 110rpx;
