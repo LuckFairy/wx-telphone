@@ -74,8 +74,8 @@
   height: auto;
 }
 .cart-img-list{
-  width: 140rpx;
-  height: 140rpx;
+  width: 40rpx;
+  height: 40rpx;
   
 }
 .total-price .total-pri-text{

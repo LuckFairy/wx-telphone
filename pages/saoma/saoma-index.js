@@ -143,7 +143,7 @@ Page({
     var shopNumber = e.currentTarget.dataset.number;
     var productId = e.currentTarget.dataset.productId;
     var skuId = e.currentTarget.dataset.skuId;
-    var uid = e.currentTarget.dataset.uid;
+    // var uid = e.currentTarget.dataset.uid;
     if (shopNumber <= 1) {
       wx.showLoading({
         title: '不能再少了'
@@ -173,7 +173,7 @@ Page({
     var shopNumber = e.currentTarget.dataset.number;
     var productId = e.currentTarget.dataset.productId;
     var skuId = e.currentTarget.dataset.skuId;
-    var uid = e.currentTarget.dataset.uid;
+    // var uid = e.currentTarget.dataset.uid;
     var cart_list = that.cart_list;
 
 
@@ -331,6 +331,7 @@ Page({
       store_id: store_id,
       code: value,
       quantity: 1,
+      physical_id: 276
     };
     wx.showLoading({
       title: '加载中'
@@ -340,12 +341,32 @@ Page({
       if (resp) {
         wx.hideLoading();
         if (resp.err_code == 0) {
-          for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
-            that.data.physical_list.push(resp.err_msg.physical_list[j])
-          }
-          that.setData({
-            physical_list: that.data.physical_list
-          })
+
+          var params = {
+            uid: uid,
+            sid: store_id,
+            physical_id: 276
+          };
+
+          app.api.postApi('wxapp.php?c=qrproduct_v2&a=inventory', { params }, (err, resp) => {
+
+            if(resp){
+              if (resp.err_code == 0){
+                that.setData({
+                  cart_list: resp.err_msg
+                });
+              }
+            }
+          
+          });
+
+
+          // for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
+          //   that.data.physical_list.push(resp.err_msg.physical_list[j])
+          // }
+          // that.setData({
+          //   physical_list: that.data.physical_list
+          // })
         } else {
 
           that.setData({
@@ -551,7 +572,6 @@ Page({
       if (resp.err_code == 0) {
 
     
-        var uid = that.data.uid;
         var params = {
           store_id, uid
         }
@@ -572,12 +592,12 @@ Page({
     console.log(e, 'eeee');
     var that = this;
     var cardId = e.currentTarget.dataset.cardId;
-    var storeId = e.currentTarget.dataset.storeId;
-    var uid = e.currentTarget.dataset.uid;
+    // var storeId = e.currentTarget.dataset.storeId;
+    // var uid = e.currentTarget.dataset.uid;
     var index = parseInt(e.currentTarget.dataset.index);
 
     var params = {
-      uid, cart_id: cardId, store_id: storeId
+      uid, cart_id: cardId, store_id: store_id
     }
     wx.showModal({
       title: '删除商品',

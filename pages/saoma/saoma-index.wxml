@@ -104,7 +104,7 @@
     <image class="cart-img-list" src="../../image/saoma-code.png" lazy-load='true'></image>
   </view>
   <view class="total-price">
-    <text class="total-pri-text">合计: ￥{{total}}
+    <text class="total-pri-text">合计: {{total}}
       </text>
   </view>
   <view class="button {{cartSHow ? 'yellow':'gray'}}" bindtap='bindCheckout'>去结算</view>
