@@ -57,7 +57,7 @@
   </view>
   <view class="container carts-list" wx:elif='{{hasShop > 0}}'>
     <!--  领券区域 -->
-    <navigator class='discount shop-area' url="./coupon-list?productId=">
+     <view class='discount shop-area'>
       <view class='discount-left'>
         <text class='discount-text'>领券</text>
         <view class='discount-imglist' wx:for="{{coupon_value}}">
@@ -65,7 +65,7 @@
         </view>
       </view>
       <image class='address-go-image' src='../../image/address-go.png'></image>
-    </navigator>
+    </view> 
     <!--  领券区域结束 -->
     <!--勾-->
     <view wx:for="{{cart_list}}" class="carts-item" data-title="{{item.name}}" id="{{item.product_id}}" wx:key="{{index}}">

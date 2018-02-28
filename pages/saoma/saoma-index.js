@@ -18,7 +18,7 @@ let openid = app.globalData.openid;
 let hasSignin = app.globalData.hasSignin;
 let logLat = app.globalData.logLat;
 
-const physicalUrl = 'wxapp.php?c=physical&a=physical_list';//las门店列表接口
+const physicalUrl = 'wxapp.php?c=physical&a=qrcode_physical_list';//las门店列表接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
 
 Page({

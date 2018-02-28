@@ -25,7 +25,7 @@
 }
 .shop-area{
   height: 88rpx;
-  width:100%;
+  width: 100%;
   display: flex;
   line-height: 88rpx;
   font-size: 28rpx;
