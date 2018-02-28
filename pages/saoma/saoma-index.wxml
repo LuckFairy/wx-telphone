@@ -1,5 +1,3 @@
-<!--pages/saoma/saoma-index.wxml-->
-
 <view wx:if="{{showErrModal}}" class="overlay">
   <view  catchtap="tabModal" class='overlay-map'></view>
   <view class="overlay-content">
@@ -69,31 +67,30 @@
     <!--  领券区域结束 -->
     <!--勾-->
     <view wx:for="{{cart_list}}" class="carts-item" data-title="{{item.name}}" id="{{item.product_id}}" wx:key="{{index}}">
-      <!--选中  -->
-      <icon wx:if="{{item.selected}}" type="success_circle" size="20" bindtap="bindCheckbox" data-cardid='{{item.pigcms_id}}' data-index="{{index}}" />
-      <!--未选中  -->
-      <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-cardid='{{item.pigcms_id}}' data-index="{{index}}" />
-      <!--img-->
+
       <view>
-        <image class="carts-image" src="{{item.image}}" mode="aspectFill" />
+        <image class="shop-image" src="{{item.image}}" mode="aspectFill" />
       </view>
-      <view class="cart-total">
-        <text class="cart-tot-title">{{item.name}}</text>
-        <view class="cart-size-list">
+      <view class="shop-total">
+      <view class='shop-top'>
+          <text class="shop-title">{{item.name}}</text>
+          <image class="cart-del-list" src="../../image/delete.png" bindtap="removeShopCard" data-uid='{{uid}}' data-card-id='{{item.pigcms_id}}' data-store-id='{{store_id}}' data-index='{{index}}'></image>
+      </view>
+        <!-- <view class="cart-size-list">
           <view>
 
             <text class='cart-text-list' wx:if="{{item.sku_data.length > 0}}" wx:for="{{item.sku_data}}" wx:for-item="item2">{{item2.name}}:{{item2.value}} </text>
           </view>
-          <image class="cart-img-list" src="../../image/delete.png" bindtap="removeShopCard" data-uid='{{uid}}' data-card-id='{{item.pigcms_id}}' data-store-id='{{store_id}}' data-index='{{index}}'></image>
-        </view>
-        <view class="cart-frice-list-far">
+          
+        </view> -->
+         <view class="cart-frice-list-far">
           <text class="cart-frice-list">￥{{item.price}}</text>
           <view class="cart-add-reduce">
             <text class="cart-reduce cart-common" bindtap="bindMinus" data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}' data-index="{{index}}">-</text>
             <text class="cart-text-num cart-common-two" type="number" bindchange="bindManual">{{item.pro_num}}</text>
             <text class="cart-add cart-common" bindtap="bindPlus" data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}' data-index="{{index}}">+</text>
           </view>
-        </view>
+        </view> 
       </view>
     </view>
   </view>
@@ -101,7 +98,7 @@
 <!--底部-->
 <view class="carts-footer">
   <view class="total-choose" bindtap="scanCode">
-    <image class="cart-img-list" src="../../image/saoma-code.png" lazy-load='true'></image>
+    <image class="cart-img-list"  src="../../image/saoma-code.png" lazy-load='true'></image>
   </view>
   <view class="total-price">
     <text class="total-pri-text">合计: {{total}}

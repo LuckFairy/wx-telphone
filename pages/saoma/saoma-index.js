@@ -24,7 +24,7 @@ const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
 Page({
   data: {
     hasShop: 0,//购物车数量
-    cart_list: '',//购物车列表
+    cart_list: [],//购物车列表
     selectedAllStatus: true,//默认不全选
     total: "0.00",//结算合计金额
     cartSHow: false,//是否显示底部结算
@@ -108,7 +108,9 @@ Page({
       }
       if (phyDefualt.length == 0) { phyDefualt = list[0]; }
       that.setData({
-        physicalClost: phyDefualt
+        physicalClost: phyDefualt,
+        locationTip: phyDefualt.name,
+
       })
     });
   },
@@ -117,8 +119,24 @@ Page({
    */
   loadCoupon:function(){
     let that = this;
+    var cart_list=that.data.cart_list;
+
+    var carLength = cart_list.length;
+    if(carLength==0){
+      return;
+    }
+    var ids =  new Array(carLength);
+    for(var i=0;i<carLength;i++){
+      ids[i] = cart_list[i].product_id;
+    }
+
+    var params = {
+      uid,uid,
+      sid:store_id,
+      ids:ids,
+    }
     //线上优惠券信息
-    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid": that.data.uid, "store_id": that.data.store_id, "product_id": that.data.product_id } }, (err, resp) => {
+    app.api.postApi('wxapp.php?c=coupon&c=coupon_v2&a=inventory', { params}, (err, resp) => {
       if (err || resp.err_code != 0) {
         return;
       }
@@ -221,9 +239,11 @@ Page({
   },
   scanCode: function () {
 
-    wx.navigateTo({
-      url: '../saomagou/pages/saoma/saoma-order'
-    })
+    this.setData({ showErrModal: true, input: true });
+
+    // wx.navigateTo({
+    //   url: '../saomagou/pages/saoma/saoma-order'
+    // })
 
     // var that = this;
     // // 只允许从相机扫码
@@ -267,36 +287,37 @@ Page({
   },
   //去结算
   bindCheckout: function () {
-    var that = this;
-    // 初始化字符串
-    var ids = [], len = this.data.cart_list.length;
-    // 遍历取出已勾选的cid
-    for (var i = 0; i < len; i++) {
-      if (this.data.cart_list[i].selected) {
-        var id = parseInt(this.data.cart_list[i].pigcms_id);
-        ids.push(id);
-      }
-    }
-    if (ids === undefined || ids.length == 0) {
-      return false;
-    }
-    console.log('购物车选择提交的ids' + ids);
+
+    console.log("click....");
+
+    // var that = this;
+    // // 初始化字符串
+    // var ids = [], len = this.data.cart_list.length;
+    // // 遍历取出已勾选的cid
+    // for (var i = 0; i < len; i++) {
+    //   var id = parseInt(this.data.cart_list[i].pigcms_id);
+    //   ids.push(id);
+    // }
+    // if (ids === undefined || ids.length == 0) {
+    //   return false;
+    // }
+    // console.log('购物车选择提交的ids' + ids);
    
-    var uid = that.data.uid;
-    //多商品下订单
+    // var uid = that.data.uid;
+    // //多商品下订单
     
-    app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop: '0', physical_id} }, (err, rep) => {
-      if (!err && rep.err_code == 0) {
-        var order_no = rep.err_msg.order_no;
-        //下完订单，取的订单id
-        var url = './buy?order_no=' + order_no;
-        wx.navigateTo({ url });
-      } else {
-        var msg = err || rep.err_msg;
-        that._showError({ title: msg })
+    // app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop: '0', physical_id} }, (err, rep) => {
+    //   if (!err && rep.err_code == 0) {
+    //     var order_no = rep.err_msg.order_no;
+    //     //下完订单，取的订单id
+    //     var url = './buy?order_no=' + order_no;
+    //     wx.navigateTo({ url });
+    //   } else {
+    //     var msg = err || rep.err_msg;
+    //     that._showError({ title: msg })
         
-      }
-    });
+    //   }
+    // });
 
   },
   /**
@@ -342,23 +363,25 @@ Page({
         wx.hideLoading();
         if (resp.err_code == 0) {
 
-          var params = {
-            uid: uid,
-            sid: store_id,
-            physical_id: 276
-          };
+          that.getCoupon();
 
-          app.api.postApi('wxapp.php?c=qrproduct_v2&a=inventory', { params }, (err, resp) => {
+          // var params = {
+          //   uid: uid,
+          //   sid: store_id,
+          //   physical_id: 276
+          // };
 
-            if(resp){
-              if (resp.err_code == 0){
-                that.setData({
-                  cart_list: resp.err_msg
-                });
-              }
-            }
+          // app.api.postApi('wxapp.php?c=qrproduct_v2&a=inventory', { params }, (err, resp) => {
+
+          //   if(resp){
+          //     if (resp.err_code == 0){
+          //       that.setData({
+          //         cart_list: resp.err_msg
+          //       });
+          //     }
+          //   }
           
-          });
+          // });
 
 
           // for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
@@ -384,22 +407,22 @@ Page({
       }
     });
 
-    wx.showModal({
-      title: '条形码',
-      content: '该条形码识别不出匹配商品',
-      showCancel:true,
-      cancelText:'扫码',
-      confirmText:'输入条码',
-      confirmColor:'#1b1b1b',
-      success: function (res) {
-        if (res.confirm) {
-          that.inputBarcode();
-        } else if (res.cancel) {
-          that.scanCode();
-        }
-      }
-    })
-  },
+  //   wx.showModal({
+  //     title: '条形码',
+  //     content: '该条形码识别不出匹配商品',
+  //     showCancel:true,
+  //     cancelText:'扫码',
+  //     confirmText:'输入条码',
+  //     confirmColor:'#1b1b1b',
+  //     success: function (res) {
+  //       if (res.confirm) {
+  //         that.inputBarcode();
+  //       } else if (res.cancel) {
+  //         that.scanCode();
+  //       }
+  //     }
+  //   })
+ },
  
  getCoupon:function(){
    var params = {
@@ -429,6 +452,7 @@ Page({
        });
        //计算金额
        that.sum();
+       that.loadCoupon();
      }
    });
  },

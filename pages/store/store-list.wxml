@@ -42,13 +42,13 @@
       <view class="list-view-wrap" wx:for="{{physical_list}}" catchtap="checkStore" data-location-id='{{item.phy_id}}'>
         <view class="list-item-view sp-border">
           <view class='list-item-dtl-icon-view'>
-            <icon wx:if="{{item.default==1}}" type='success' color='#32CD32' size='23'></icon>
+            <icon wx:if="{{item.select_physical==1}}" type='success' color='#32CD32' size='23'></icon>
             <icon wx:else type='success' color='#8a8a8a' size='23'></icon>
           </view>
-          <navigator class="list-item-dtl-left-view" hover-class="none">
+          <view class="list-item-dtl-left-view" hover-class="none">
             <text class="list-item-title-view normalText">{{item.name}}</text>
             <text class="list-item-addr-view mText grayText">{{item.address}}</text>
-          </navigator>
+          </view>
         </view>
       </view>
     </view>

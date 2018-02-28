@@ -17,11 +17,36 @@
   z-index: 100000;
 }
 
-.carts-footer .gray{
-  background-color: #eee;
+.shop-total{
+  width: 515rpx;
+  height: 164rpx;
+  margin-left:25rpx; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.shop-top{
+  display: flex;
+  justify-content: space-between;
+}
+
+.shop-title{
+  width: 451rpx;
+  font-size: 28rpx;
+  color: #1b1b1b;
+}
+
+.shop-image{
+  width: 164rpx;
+  height: 164rpx;
+}
+
+.gray{
+  background-color: #eee !important;
 }
 .yellow{
-  background-color: #ffe546;
+  background: #ffe546 !important;
 }
 .shop-area{
   height: 88rpx;
@@ -74,6 +99,12 @@
   height: auto;
 }
 .cart-img-list{
+  width: 140rpx;
+  height: 140rpx;
+  
+}
+
+.cart-del-list{
   width: 40rpx;
   height: 40rpx;
   
