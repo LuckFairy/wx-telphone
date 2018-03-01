@@ -12,7 +12,8 @@ Page({
   data: {
     style:"0",
     isHaveAddress:true,
-    products:[{},{}],
+    // products:[{},{}],
+    cart_list: [{}, {}],//购物车列表
     isdefaultAddress:0
     
   },
@@ -22,13 +23,16 @@ Page({
    */
   onLoad: function (options) {
     that=this;
-
+    console.log("orderNo："+options.order_no);
+    // this.setData({
+    //   cart_list
+    // });
   },
 
   onStyleChange: function (event){
     console.log(event)
-    let index = event.currentTarget.id;
-    that.setData({ 'style': index });
+    let style = event.currentTarget.id;
+    that.setData({ style });
 
   },
   
@@ -64,7 +68,6 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
   },
 
   /**

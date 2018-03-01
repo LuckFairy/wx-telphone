@@ -17,6 +17,10 @@
   z-index: 100000;
 }
 
+.carts-item-top{
+  margin-top: 20rpx;
+}
+
 .shop-total{
   width: 515rpx;
   height: 164rpx;
@@ -47,6 +51,12 @@
 }
 .yellow{
   background: #ffe546 !important;
+}
+
+.line{
+  width: 750rpx;
+  height: 20rpx;
+  background: #eee
 }
 .shop-area{
   height: 88rpx;

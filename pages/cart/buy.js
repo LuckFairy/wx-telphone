@@ -86,6 +86,7 @@ Page({
     totalId:[],
     page:'saoma',//扫码确认订单-saoma
     itemheights:['168','408','342'],//方式高度列表
+    physical:null,
     formData:{
       fullname:'',
       telephone:''
@@ -166,13 +167,16 @@ Page({
 
   onLoad: function (options) {
     
-    this.showFormError('错误');
+    // this.showFormError('错误');
     //单商品生成订单
     console.log('获取存储', wx.getStorageSync('couponInfo'));
     wx.removeStorageSync('couponInfo');
     console.log('移除之后', wx.getStorageSync('couponInfo'));
       var order_no = options.order_no;
-      this.setData({ order_no: order_no  });
+      var physical = JSON.parse(options.physical);
+      this.setData({ order_no: order_no,
+        physical: physical });
+      console.log("physical：" + this.data.physical);
       Api.signin();//获取以及存储openid、uid
       // 获取uid
       var uid = wx.getStorageSync('userUid');

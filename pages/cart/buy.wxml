@@ -62,9 +62,9 @@
             <image class='icon' src='../../image/shop-icon.png'></image>
             <text>切换门店</text>
           </navigator>
-          <view class='shop-area-left'>
-            <text class='title'>title</text>
-            <text class='message'>messegamessegamessegamessegamessega</text>
+          <view class='shop-area-left' wx:if="{{physical}}">
+             <text class='title'>{{physical.name}}</text>
+            <text class='message'>{{physical.address}}</text>
           </view>
 
         </view>
@@ -112,8 +112,8 @@
             <text>切换门店</text>
           </navigator>
           <view class='shop-area-left'>
-            <text class='title'>title</text>
-            <text class='message'>messegamessegamessegamessegamessega</text>
+            <text class='title'>{{physical.name}}</text>
+            <text class='message'>{{physical.address}}</text>
           </view>
         </view>
       </scroll-view>

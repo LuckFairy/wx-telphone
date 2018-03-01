@@ -137,14 +137,13 @@ Page({
     }
     //线上优惠券信息
     app.api.postApi('wxapp.php?c=coupon&c=coupon_v2&a=inventory', { params}, (err, resp) => {
-      if (err || resp.err_code != 0) {
-        return;
-      }
       if (resp.err_code == 0) {
-        var coupon_value = that.data.coupon_value;
-        var len = resp.err_msg.coupon_count > 2 ? 2 : resp.err_msg.coupon_count;
+
+        var couponLength = resp.err_msg.item.length;
+        var len = couponLength > 2 ? 2 : couponLength;
+        var coupon_value = new Array(len);
         for (var i = 0; i < len; i++) {
-          coupon_value.push(resp.err_msg.coupon_value[i]);
+          coupon_value[i] = resp.err_msg.item[i];
         }
         that.setData({
           coupon_value: coupon_value
@@ -239,25 +238,86 @@ Page({
   },
   scanCode: function () {
 
-    this.setData({ showErrModal: true, input: true });
+    // var params = {
+    //   uid,
+    //   store_id,
+    //   code: 10000000710,
+    //   quantity: 1,
+    //   physical_id: 276
+    // };
+    // wx.showLoading({
+    //   title: '加载中'
+    // });
+    // app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
+    //   // 列表数据
+    //   if (resp) {
+    //     wx.hideLoading();
+    //     if (resp.err_code == 0) {
+    //       that.getCoupon();
+    //     } else {
+    //       that.setData({
+    //         locationTip: '所处位置未搜到扫码购门店，手动去选择'
+    //       });
+
+    //       wx.showToast({
+    //         title: resp.err_msg,
+    //         icon: 'success',
+    //         duration: 1000
+    //       })
+    //     }
+    //   } else {
+    //     //  错误
+    //   }
+    // });
+
+    // this.setData({ showErrModal: true, input: true });
 
     // wx.navigateTo({
     //   url: '../saomagou/pages/saoma/saoma-order'
     // })
 
-    // var that = this;
-    // // 只允许从相机扫码
-    // wx.scanCode({
-    //   onlyFromCamera: true,
-    //   success: (res) => {
-    //     console.log('扫码成功data...',res);
-    //     var params = {
-    //       store_id,
-    //       uid:that.data.uid
-    //     };
-    //     that.loadList(params);
-    //   }
-    // })
+    var that = this;
+    // 只允许从相机扫码
+    wx.scanCode({
+      onlyFromCamera: true,
+      success: (res) => {
+
+     var params = {
+      uid,
+      store_id,
+      code: res.result,
+      quantity: 1,
+      physical_id: that.data.physicalClost.phy_id
+    };
+    wx.showLoading({
+      title: '加载中'
+    });
+    app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
+      // 列表数据
+      if (resp) {
+        wx.hideLoading();
+        if (resp.err_code == 0) {
+          that.getCoupon();
+        } else {
+          // that.setData({
+          //   locationTip: '所处位置未搜到扫码购门店，手动去选择'
+          // });
+
+          wx.showToast({
+            title: resp.err_msg,
+            icon: 'success',
+            duration: 1000
+          })
+        }
+      } else {
+        //  错误
+      }
+    });
+
+
+
+      }
+    })
   },
   //计算金额
   sum() {
@@ -266,9 +326,7 @@ Page({
     // 计算总金额
     var total = 0;
     for (var i = 0; i < carts.length; i++) {
-      if (carts[i].selected) {
-        total += carts[i].pro_num * carts[i].pro_price;
-      }
+      total += carts[i].pro_num * carts[i].pro_price;
     }
     // 写回经点击修改后的数组
     that.setData({
@@ -289,6 +347,50 @@ Page({
   bindCheckout: function () {
 
     console.log("click....");
+
+    // 初始化字符串
+    var ids = [], len = this.data.cart_list.length;
+
+    if (len == 0) {
+      that.showModel({ title: "请先添加门店扫描商品！" })
+      // wx.showToast({
+      //   title: '请选择要结算的商品！',
+      //   duration: 2000
+      // });
+      return false;
+    }
+    // 遍历取出已勾选的cid
+    for (var i = 0; i < len; i++) {
+      var id = parseInt(this.data.cart_list[i].pigcms_id);
+      ids.push(id);
+    }
+
+    console.log('购物车选择提交的ids' + ids); 
+
+    var params = {
+      uid,
+      store_id,
+      ids,
+      point_shop: '0',
+      physical_id: 276
+    };
+
+    app.api.postApi(shoppUrl, { params }, (err, rep) => {
+      if (!err && rep.err_code == 0) {
+        var order_no = rep.err_msg.order_no;
+        //下完订单，取的订单id
+        var url = '../cart/buy?order_no=' + order_no + '&physical=' + JSON.stringify(that.data.physicalClost);
+        wx.navigateTo({ url });
+      } else {
+        var msg = err || rep.err_msg;
+        that.showModel({ title: msg })
+        // that._showError(msg);
+      }
+    });
+
+
+    
+
 
     // var that = this;
     // // 初始化字符串
@@ -348,8 +450,8 @@ Page({
     }
 
     var params={
-      uid: uid,
-      store_id: store_id,
+      uid,
+      store_id,
       code: value,
       quantity: 1,
       physical_id: 276
@@ -362,36 +464,8 @@ Page({
       if (resp) {
         wx.hideLoading();
         if (resp.err_code == 0) {
-
           that.getCoupon();
-
-          // var params = {
-          //   uid: uid,
-          //   sid: store_id,
-          //   physical_id: 276
-          // };
-
-          // app.api.postApi('wxapp.php?c=qrproduct_v2&a=inventory', { params }, (err, resp) => {
-
-          //   if(resp){
-          //     if (resp.err_code == 0){
-          //       that.setData({
-          //         cart_list: resp.err_msg
-          //       });
-          //     }
-          //   }
-          
-          // });
-
-
-          // for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
-          //   that.data.physical_list.push(resp.err_msg.physical_list[j])
-          // }
-          // that.setData({
-          //   physical_list: that.data.physical_list
-          // })
         } else {
-
           that.setData({
             locationTip: '所处位置未搜到扫码购门店，手动去选择'
           });
@@ -479,20 +553,21 @@ Page({
           console.log('index....lbs', logLat);
         })
       });
-    } else {
-      that.loadLocation('logLat坐标信息', logLat);//获取门店信息
-    }
-    var params = {
-      store_id,
-      uid
-    };
-    that.loadList(params);
+    } 
+    // var params = {
+    //   store_id,
+    //   uid
+    // };
+    // that.loadList(params);
  
   },
   onShow: function () {
     var that = this;
-    var hasShop = that.data.hasShop;//有无商品
+    // var hasShop = that.data.hasShop;//有无商品
     // var uid = that.data.uid;
+    if (uid != '' && logLat != ''){
+      that.loadLocation('logLat坐标信息', logLat);//获取门店信息
+    }
     var params = {
       store_id, uid
     }
@@ -594,8 +669,6 @@ Page({
         return;
       }
       if (resp.err_code == 0) {
-
-    
         var params = {
           store_id, uid
         }
@@ -678,6 +751,12 @@ Page({
       errModalConfig: errModalConfig,
       showErrModal: true
     });
+  },
+
+  onCouponClick(){
+    wx.navigateTo({
+      url: './coupon-list?cart_list=' + JSON.stringify(this.data.cart_list),
+    })
   },
 
   /**

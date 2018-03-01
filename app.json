@@ -1,7 +1,9 @@
 {
   "pages": [
-        "pages/saoma/saoma-index",
-    "pages/saoma/saoma-order",        
+    "pages/saoma/saoma-index",
+    "pages/saoma/saoma-order",  
+    "pages/saoma/store-list",
+    "pages/saoma/coupon-list",  
     "pages/index-new/index-new",
     "pages/card/mycard",
     "pages/shopping/buycard",

@@ -37,9 +37,9 @@
     </view>
   </view>
   <!--样式-->
-  <view class="container carts-list" wx:if='{{hasShop==0}}'>
+  <view class="container carts-list" wx:if='{{cart_list.length==0}}'>
     <!--  切换门店区域 -->
-    <navigator url="../store/store-list?check=true" class='shop-area'>
+    <navigator url="./store-list?check=true" class='shop-area'>
       <view>
         <image class='address-image' src='../../image/address.png'></image>
         <text>{{locationTip}}</text>
@@ -53,20 +53,21 @@
       <button class='pp-goindex' bindtap='inputBarcode'>手动输入条码</button>
     </view>
   </view>
-  <view class="container carts-list" wx:elif='{{hasShop > 0}}'>
+  <view class="container carts-list" wx:elif='{{cart_list.length > 0}}'>
     <!--  领券区域 -->
-     <view class='discount shop-area'>
+     <view class='discount shop-area' bindtap='onCouponClick' wx:if="{{coupon_value.length>0}}" >
       <view class='discount-left'>
         <text class='discount-text'>领券</text>
-        <view class='discount-imglist' wx:for="{{coupon_value}}">
-          <view class='discount-img1'>￥{{item}}</view>
+        <view class='discount-imglist' wx:for="{{coupon_value}}" wx:key="*this">
+          <view class='discount-img1'>￥{{item.face_money}}</view>
         </view>
       </view>
       <image class='address-go-image' src='../../image/address-go.png'></image>
     </view> 
     <!--  领券区域结束 -->
+    <view wx:if="{{coupon_value.length>0}}" class='line'></view>
     <!--勾-->
-    <view wx:for="{{cart_list}}" class="carts-item" data-title="{{item.name}}" id="{{item.product_id}}" wx:key="{{index}}">
+    <view wx:for="{{cart_list}}" class="carts-item" style='  margin-top: 20rpx;' data-title="{{item.name}}" id="{{item.product_id}}" wx:key="{{index}}">
 
       <view>
         <image class="shop-image" src="{{item.image}}" mode="aspectFill" />

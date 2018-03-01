@@ -66,14 +66,14 @@
   <text class='shadow-bg'></text>
 </view>
 
-  <view wx:for="{{products}}">
+  <block wx:for="{{cart_list}}" wx:key="*this" >
     <view class='product'>
     <image class='product-img' src='../../image/ap_home_gift.png'>
     </image>
     <view class='product-content'>
 
       <view class='product-content-top'>
-        <view class='product-content-title'>抱抱熊腰凳婴儿背带多功能四季通用抱娃 神器宝宝背带腰凳坐凳腰登
+        <view class='product-content-title'>惺惺惜惺惺想
         </view>
         <view class='product-content-des'>黑色，L码</view>
       </view>
@@ -87,7 +87,7 @@
       </view>
     </view>
   </view>
-  </view>
+  </block>
 
 
 
