@@ -426,7 +426,38 @@ Page({
    * 手动输入条形码
    */
   inputBarcode() {
-    this.setData({ showErrModal:true,input:true});
+    var params = {
+      uid,
+      store_id,
+      code: 10000000712,
+      quantity: 1,
+      physical_id: that.data.physicalClost.phy_id
+    };
+    wx.showLoading({
+      title: '加载中'
+    });
+    app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
+      // 列表数据
+      if (resp) {
+        wx.hideLoading();
+        if (resp.err_code == 0) {
+          that.getCoupon();
+        } else {
+          that.setData({
+            locationTip: '所处位置未搜到扫码购门店，手动去选择'
+          });
+
+          wx.showToast({
+            title: resp.err_msg,
+            icon: 'success',
+            duration: 1000
+          })
+        }
+      } else {
+        //  错误
+      }
+    });
+    // this.setData({ showErrModal:true,input:true});
   },
 
   bindInput:function(e){

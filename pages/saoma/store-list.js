@@ -19,7 +19,7 @@ Page({
     checkModel: false,//默认是门店指南模块
     index: false,//是否是首页切换门店
     physicalClost: '',//最近门店信息
-    locationTip:'定位失败，请重新打开小程序！',
+    locationTip:'正在定位，请稍等..',
  
   },
   onLoad: function (options) {

@@ -1,9 +1,9 @@
 {
   "pages": [
     "pages/saoma/saoma-index",
-    "pages/saoma/saoma-order",  
     "pages/saoma/store-list",
-    "pages/saoma/coupon-list",  
+    "pages/saoma/coupon-list", 
+    "pages/saoma/saoma-ziti-address", 
     "pages/index-new/index-new",
     "pages/card/mycard",
     "pages/shopping/buycard",
