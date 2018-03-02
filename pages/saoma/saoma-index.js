@@ -584,6 +584,8 @@ Page({
           console.log('index....lbs', logLat);
         })
       });
+    }else{
+      that.loadLocation('logLat坐标信息', logLat);//获取门店信息
     } 
     // var params = {
     //   store_id,
@@ -593,12 +595,13 @@ Page({
  
   },
   onShow: function () {
-    var that = this;
+    that.setData({
+      locationTip: this.data.physicalClost.name,
+
+    });
     // var hasShop = that.data.hasShop;//有无商品
     // var uid = that.data.uid;
-    if (uid != '' && logLat != ''){
-      that.loadLocation('logLat坐标信息', logLat);//获取门店信息
-    }
+    
     var params = {
       store_id, uid
     }

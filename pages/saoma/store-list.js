@@ -8,6 +8,7 @@ const physicalNewUrl = 'wxapp.php?c=physical&a=physical_list';//门店列表新�
 let store_id = app.store_id;
 let uid = app.globalData.uid;
 let logLat = app.globalData.logLat;
+let that;
 
 Page({
   data: {
@@ -23,6 +24,7 @@ Page({
  
   },
   onLoad: function (options) {
+    that=this;
     // let store_id = app.store_id;
     // let uid = wx.getStorageSync('userUid');
     // let logLat = wx.getStorageSync('logLat');
@@ -100,6 +102,11 @@ Page({
    */
   checkStore(e) {
     var phy_id = e.currentTarget.dataset.locationId;
+    var index = e.currentTarget.dataset.index;
+    var physicalClost = this.data.physical_list[index];
+
+
+    console.log("index：" + index + " physicalClost :" + physicalClost);
 
     var params = { "store_id": store_id, "uid":uid, "physical_id": phy_id }
     var url = 'wxapp.php?c=physical&a=select_physical';
@@ -112,8 +119,15 @@ Page({
       //   prevPage.setLocation(this.data.physicalClost);
       // }
       if (resp.err_code == 0 || resp.err_code == 1001) {
-        console.log('更改门店成功');
-        wx.navigateBack();
+          console.log('更改门店成功');
+          let pages = getCurrentPages();
+          let prevPage = pages[pages.length - 2];
+          prevPage.setData({
+            physicalClost: physicalClost
+          })
+          
+          // prevPage.loadLocation(phy_id);
+          wx.navigateBack();
       }
     })
 
