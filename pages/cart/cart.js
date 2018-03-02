@@ -2,7 +2,7 @@ var app = getApp();
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
 const  shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';//购物车生成订单接口（多个商品）
-const physical_id = app.globalData.phy_id;//门店id
+const physical_id = wx.getStorageSync('phy_id'); //门店id
 let errModalConfig = {
   title: '有错误！',
 };

@@ -230,12 +230,13 @@ Page({
    */
   getCoupon() {
     var that = this;
-   
     that.setData({ showModel: false });
     var url = 'wxapp.php?c=activity&a=get_coupon';
     if (that.data.coupon_id_arr.length < 1){wx.showToast({
       title: '没有相关的优惠券领取',
     });return;}
+    // wx.setStorageSync('phy_id', phyDefualt.phy_id);
+
     var params = {
       "uid": that.data.uid,
       "store_id": that.data.storeId,

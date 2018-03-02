@@ -24,7 +24,7 @@ let errModalConfig = {   // {image?: string, title: string}
 };
 //2017年8月17日16:46:48 by leo
 let skuid;                          // 记录商品多属性标识 id
-let physical_id = app.globalData.phy_id;//门店id
+let physical_id = wx.getStorageSync('phy_id'); //门店id
 
 Page({
   data:{
