@@ -6,7 +6,7 @@ import { store_Id } from '../../utils/store_id';
 let _params = null;
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 const  addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
-const physical_id = app.globalData.phy_id;//门店id
+const physical_id = wx.getStorageSync('phy_id'); //门店id
 Page({
   data: {
     mode: app.globalData.image.mode,//图片缩放模式

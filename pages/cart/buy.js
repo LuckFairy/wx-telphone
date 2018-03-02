@@ -21,6 +21,7 @@ let _prodId;                          // 记录商品id
 let skuid;                          // 记录商品多属性标识 id
 let quantity;                          // 购买商品的数量
 let cartId;
+let that;
 Page({
   data: {
     // cardList: [],
@@ -170,6 +171,8 @@ Page({
   
 
   onLoad: function (options) {
+
+    that=this;
 
     if (uid == '' || store_id == '') {
       sign.signin(() => {
@@ -439,6 +442,24 @@ submitOrder: function (event) {
   //收货地址
   let address_params = this.buildAddressParams();
   let address_id = address_params.addressId;
+  if (that.data.curActIndex == 0 || that.data.curActIndex==1){
+    if (typeof (address_id) =="undefined" || address_id==''){
+      wx.showModal({
+        title: '请先设置收货地址',
+        content: '你还没有设置收货地址，请点击这里设置！',
+        success: function success(res) {
+          if (res.confirm) {
+            wx.redirectTo({
+              url: '../shopping/address-list'
+            });
+          } else if (res.cancel) {
+            console.log('用户点击取消');
+          }
+        }
+      });
+      return;
+    }
+  }
   console.log('地址id是=' + address_id);
   //let address_id = 47;
   let payType = this.data.payType;
