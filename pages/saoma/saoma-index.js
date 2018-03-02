@@ -372,7 +372,7 @@ Page({
       store_id,
       ids,
       point_shop: '0',
-      physical_id: 276
+      physical_id: that.data.physicalClost.phy_id
     };
 
     app.api.postApi(shoppUrl, { params }, (err, rep) => {
@@ -426,38 +426,38 @@ Page({
    * 手动输入条形码
    */
   inputBarcode() {
-    var params = {
-      uid,
-      store_id,
-      code: 10000000712,
-      quantity: 1,
-      physical_id: that.data.physicalClost.phy_id
-    };
-    wx.showLoading({
-      title: '加载中'
-    });
-    app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
-      // 列表数据
-      if (resp) {
-        wx.hideLoading();
-        if (resp.err_code == 0) {
-          that.getCoupon();
-        } else {
-          that.setData({
-            locationTip: '所处位置未搜到扫码购门店，手动去选择'
-          });
+    // var params = {
+    //   uid,
+    //   store_id,
+    //   code: 10000000712,
+    //   quantity: 1,
+    //   physical_id: that.data.physicalClost.phy_id
+    // };
+    // wx.showLoading({
+    //   title: '加载中'
+    // });
+    // app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
+    //   // 列表数据
+    //   if (resp) {
+    //     wx.hideLoading();
+    //     if (resp.err_code == 0) {
+    //       that.getCoupon();
+    //     } else {
+    //       that.setData({
+    //         locationTip: '所处位置未搜到扫码购门店，手动去选择'
+    //       });
 
-          wx.showToast({
-            title: resp.err_msg,
-            icon: 'success',
-            duration: 1000
-          })
-        }
-      } else {
-        //  错误
-      }
-    });
-    // this.setData({ showErrModal:true,input:true});
+    //       wx.showToast({
+    //         title: resp.err_msg,
+    //         icon: 'success',
+    //         duration: 1000
+    //       })
+    //     }
+    //   } else {
+    //     //  错误
+    //   }
+    // });
+    this.setData({ showErrModal:true,input:true});
   },
 
   bindInput:function(e){
@@ -485,7 +485,7 @@ Page({
       store_id,
       code: value,
       quantity: 1,
-      physical_id: 276
+      physical_id: that.data.physicalClost.phy_id
     };
     wx.showLoading({
       title: '加载中'
@@ -584,8 +584,6 @@ Page({
           console.log('index....lbs', logLat);
         })
       });
-    }else{
-      that.loadLocation('logLat坐标信息', logLat);//获取门店信息
     } 
     // var params = {
     //   store_id,
@@ -595,10 +593,13 @@ Page({
  
   },
   onShow: function () {
-    that.setData({
-      locationTip: this.data.physicalClost.name,
+    // that.setData({
+    //   locationTip: this.data.physicalClost.name,
 
-    });
+    // });
+    if (uid != '' && logLat != '') {
+      that.loadLocation('logLat坐标信息', logLat);//获取门店信息
+    } 
     // var hasShop = that.data.hasShop;//有无商品
     // var uid = that.data.uid;
     

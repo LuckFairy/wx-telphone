@@ -920,10 +920,10 @@ changeCoupon: function (event) {
 loadCouponData: function () {
   var that = this;
   var params = {
-    "uid": 91,
-    "store_id": 6,
-    "product_id": ["23"],
-    "total_price": "79"
+    uid,
+    store_id,
+    product_id: that.data.totalId,
+    total_price: that.data.sub_total
   };
 
   console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
