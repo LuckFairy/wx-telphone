@@ -1,5 +1,9 @@
 {
   "pages": [
+    "pages/saoma/saoma-index",
+    "pages/saoma/store-list",
+    "pages/saoma/saoma-ziti-address",
+    "pages/saoma/buy",
     "pages/index-new/index-new",
     "pages/index-new/index-mom",
     "pages/card/mycard",
@@ -102,6 +106,12 @@
         "text": "商城",
         "iconPath": "image/shoppstore.png",
         "selectedIconPath": "image/shoppstore-select.png" 
+      },
+      {
+        "pagePath": "pages/saoma/saoma-index",
+        "text": "扫码购",
+        "iconPath": "image/ma_icon_saoma.png",
+        "selectedIconPath": "image/ma_icon_saoma_select.png"
       },
       {
         "pagePath": "pages/cart/cart",

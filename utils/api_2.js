@@ -5,7 +5,7 @@ var  Api = {
   /*用户登陆授权*/
   tryTimes:3,
   setTimes:5000,
-  store_id: 604, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购 604趣购零销售
+  store_id: 589, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购 604趣购零销售
   getLocation: function (callback){
     let that = this;
     let logLat = wx.getStorageSync('logLat');
