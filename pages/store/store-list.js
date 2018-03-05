@@ -1,13 +1,9 @@
 // pages/store/store-list.js
 var app = getApp();
 let phy_id = null;//选择的门店id
-const physicalUrl = 'wxapp.php?c=physical&a=qrcode_physical_list';//门店列表老接口
+const physicalUrl = 'wxapp.php?c=address&a=physical_list';//门店列表老接口
 const physicalNewUrl = 'wxapp.php?c=physical&a=physical_list';//门店列表新接口
 
-
-let store_id = app.store_id;
-let uid = app.globalData.uid;
-let logLat = app.globalData.logLat;
 
 Page({
   data: {
@@ -19,17 +15,18 @@ Page({
     checkModel: false,//默认是门店指南模块
     index: false,//是否是首页切换门店
     physicalClost: '',//最近门店信息
-    locationTip:'定位失败，请重新打开小程序！',
- 
+    uid: '',
+    sotre_id:'',
+    logLat:'',
   },
   onLoad: function (options) {
-    // let store_id = app.store_id;
-    // let uid = wx.getStorageSync('userUid');
-    // let logLat = wx.getStorageSync('logLat');
+    let store_id = app.store_id;
+    let uid = wx.getStorageSync('userUid');
+    let logLat = wx.getStorageSync('logLat');
 
-    // this.setData({
-    //   store_id,uid,logLat
-    // })
+    this.setData({
+      store_id,uid,logLat
+    })
     var { check, index } = options;
     if (check) {
       this.setData({ checkModel: true, index }); wx.setNavigationBarTitle({
@@ -117,11 +114,12 @@ Page({
    */
   _loadData() {
     var that = this;
-    // let logLat = that.data.logLat;
-    // let uid = that.data.uid;
-    // let store_id = that.data.store_id;
-
-    if(that.data.check){
+    let logLat = that.data.logLat;
+    let uid = that.data.uid;
+    let store_id = that.data.store_id;
+    console.log('that.data.checkModel', that.data.checkModel);
+   //不是门店指南模块
+    if (that.data.checkModel){
       if(!logLat || logLat == ''){return;}
       var url = physicalNewUrl;
       var params = {
@@ -137,8 +135,6 @@ Page({
         uid,
         store_id,
         page: '1',
-        long: logLat[0],
-        lat: logLat[1]
       }
     }
 
@@ -162,9 +158,6 @@ Page({
             }
           }
         } else {
-          that.setData({
-            locationTip: resp.err_msg.err_log
-          })
           wx.showToast({
             title: '亲，没有数据了',
             image: '../../image/use-ruler.png',

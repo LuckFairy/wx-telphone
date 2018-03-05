@@ -1,3 +1,0 @@
-<!--pages/lottery/dazhuanpan.wxml-->
-
-<web-view wx:if="{{lottery_url}}" src="{{lottery_url}}">营销活动</web-view>  

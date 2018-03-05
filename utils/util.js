@@ -65,4 +65,24 @@ function signUrl(url, tokenId, secretKey, timestamp) {
 function checkMobile(str) {
   return /^1[3|4|5|7|8][0-9]\d{8}$/.test(str);
 }
-module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, signUrl, checkMobile }
+/**
+ * 判断是否是pc端
+ */
+function isPC() {
+  var userAgentInfo = wx.getSystemInfoSync();
+  userAgentInfo = userAgentInfo.platform.toLowerCase();
+  var Agents = ["Android", "iPhone",
+    "SymbianOS", "Windows Phone",
+    "iPad", "iPod"];
+  var flag = true;
+  for (var v = 0; v < Agents.length; v++) {
+    var str = Agents[v].toLowerCase();
+    if (userAgentInfo.indexOf(str) > -1) {
+      flag = false;
+      break;
+    }
+  }
+  return flag;
+}
+
+module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, signUrl, checkMobile,isPC }

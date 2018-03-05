@@ -18,7 +18,7 @@ let _prodId;                          // 记录商品 id
 let skuid;                          // 记录商品多属性标识 id
 let quantity;                          // 购买商品的数量
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
-let physical_id = app.globalData.phy_id;//门店id
+let physical_id = wx.getStorageSync('phy_id'); //门店id
 Page({
   data: {
     // cardList: [],

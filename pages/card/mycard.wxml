@@ -20,7 +20,7 @@
    <view class='search-select'>
     <view class='search-current' bindtap='goSelect'>
       <text class='search-current-text'>{{typeText}}</text>
-      <text class="search-current-trangle {{showHide?  '': 'up'}}"></text>
+      <text class="down {{showHide?  '': 'up'}}"></text>
     </view>
   </view>  
  </view>
@@ -145,5 +145,4 @@
         <text>由门店核销即可</text>
         <i class="fa fa-times close-icon" catchtap="closeOverlay"></i>
     </view>
-    
 </view>

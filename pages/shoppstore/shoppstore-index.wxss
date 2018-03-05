@@ -1,0 +1,5 @@
+/* pages/shoppstore/shoppstore-index.wxss */
+@import "../index-new/index-new.wxss";
+/* .yiya-baokuan-area{
+  margin-top: 0;
+} */

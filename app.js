@@ -1,42 +1,20 @@
 //app.js
 import { Api } from './utils/api_3';
-import { sign } from './utils/loginUtil';
+import { sign } from './utils/api_2';
 
 App({
   api: Api,
+  store_id: sign.store_id,
+  //getlocation: sign.getLocation,
   onLaunch: function () {
-    console.log('App onLaunch');
+    let that = this;
     //处理兼容高频使用的高版本方法。
-    if (!wx.showLoading){
-        wx.showLoading = (obj) => { console.log('mock wx.showLoading. do nothing...');}
+    if (!wx.showLoading) {
+      wx.showLoading = (obj) => { console.log('mock wx.showLoading. do nothing...'); }
     }
     if (!wx.hideLoading) {
-        wx.hideLoading = () => { console.log('mock wx.hideLoading. do nothing...');}
+      wx.hideLoading = () => { console.log('mock wx.hideLoading. do nothing...'); }
     }
-
-    // wx.clearStorageSync();
-    this.systemInfo = wx.getSystemInfoSync();
-    // Api.signin();
-    // var logLat = wx.getStorageSync('logLat') ? wx.getStorageSync('logLat') : null;
-    var that = this;
-    // wx.getLocation({
-    //   success: (res) => {
-    //     var latitude = res.latitude //维度
-    //     var longitude = res.longitude //经度
-    //     var speed = res.speed //速度，浮点数，单位m/s
-    //     var accuracy = res.accuracy  //位置的精确度
-    //     logLat = [longitude, latitude];
-    //     wx.setStorageSync('logLat', logLat);
-    //   },
-    //   fail: () => {
-    //     if (this.fail()) { console.log('获取位置失败'); return null; }
-    //     this.success();
-    //   },
-    //   cancel: () => {
-    //     console.log('用户拒绝授权获取地理位置')
-    //   }
-    // })
-
     let hasSignin = wx.getStorageSync('hasSignin');
     if (hasSignin == undefined || hasSignin == null || hasSignin == '') {
       sign.signin(() => {
@@ -48,27 +26,27 @@ App({
           that.globalData.hasSignin = wx.getStorageSync('hasSignin');
         })
       })
-    } else {
+    }else{
       that.globalData.logLat = wx.getStorageSync('logLat');
       that.globalData.openid = wx.getStorageSync('userOpenid');
       that.globalData.uid = wx.getStorageSync('userUid');
       that.globalData.hasSignin = wx.getStorageSync('hasSignin');
     }
+    that.systemInfo = wx.getSystemInfoSync();
   },
   onShow: function () {
-    console.log('App onShow() ...')
+    console.log('App onShow() ...');
   },
-  globalData:{
+  globalData: {
     userInfo: "",
     TOKEN_ID: "",
-    image: { mode:"aspectFit",lazyLoad:"true"},
-    uid: "",//用户id
-    sid: "",//商店id
-    openid: "",//用户openid
+    image: { mode: "aspectFit", lazyLoad: "true" },
+    uid: '',//用户id
+    sid: '',//商店id
+    openid: '',//用户openid
     formIds: [],//formId数组
-    phy_id :"5",//门店id，默认是总店5
-    hasSignin: false,//是否登录
     logLat: '',//当前位置
+    hasSignin: false,//是否登录
   },
   d: {
     hostUrl: 'https://wxplus.paoyeba.com/index.php',
@@ -80,38 +58,13 @@ App({
     //ceshiUrl:'https://wxplus.paoyeba.com/index.php',
     ceshiUrl: 'http://leoxcxshop.com/index.php',
   },
-  /**
-   * 获取位置
-   * 
-   */
-  getLocation: function (){
-    var logLat = wx.getStorageSync('logLat') ? wx.getStorageSync('logLat'):null;
-    var that = this;
-    wx.getLocation({
-      success: (res) => {
-        var latitude = res.latitude //维度
-        var longitude = res.longitude //经度
-        var speed = res.speed //速度，浮点数，单位m/s
-        var accuracy = res.accuracy  //位置的精确度
-         logLat = [longitude,latitude];
-         wx.setStorageSync('logLat',logLat);
-      },
-      fail:()=>{
-          if(this.fail()){console.log('获取位置失败');return null;}
-          this.success();
-      },
-      cancel:()=>{
-        console.log('用户拒绝授权获取地理位置')
-      }
-    })
-    
-  },
+
   /**
    * 拨打电话
    */
   calling: function (phone = '4006088520') {
     wx.makePhoneCall({
-      phoneNumber: phone, 
+      phoneNumber: phone,
       success: function () {
         console.log("拨打电话成功！")
       },
@@ -125,7 +78,7 @@ App({
    *formId  获取form提交生活的form的id
    */
   pushId(e) {
-    console.log('app.hasSignin', this.hasSignin);
+    console.log('登录状态', this.globalData.hasSignin);
     var that = this;
     //用户登录成功,获取uid,sid,openid
     if (that.hasSignin) {
@@ -137,8 +90,8 @@ App({
     } else { return; }
     console.log('form提交 ', e.detail);
     let { detail: { formId = [] } } = e;
-    let timeStamp = Date.parse(new Date()) /1000;//时间戳
-   
+    let timeStamp = Date.parse(new Date()) / 1000;//时间戳
+
     if (formId.includes('formId')) {
       wx.showToast({
         title: '请用手机调试',
@@ -188,10 +141,9 @@ App({
     };
     console.log('send ', params);
     that.api.postApi('wxapp.php?c=product_v2&a=test_send', { params }, (err, rep) => {
-      console.log('send....rep',rep);
+      console.log('send....rep', rep);
     })
-  },
-  store_id: 589, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购  268 婴众扫码购
+  }
 })
 
 

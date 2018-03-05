@@ -2,8 +2,7 @@
 
 const util = require('../../utils/util.js');
 import { Api } from '../../utils/api_2';
-import { sign } from '../../utils/loginUtil';
-
+import { store_Id } from '../../utils/store_id';
 var app = getApp();
 const log = 'buy.js --- ';
 
@@ -12,16 +11,11 @@ const ListURL = 'store/ls';          // 门店列表
 const DetailURL = 'store/detail';    // 门店详情
 const methodUrl = 'buy/shipping/method';//邮寄方式
 
-let store_id = app.store_id;
-let uid = app.globalData.uid;
-
-
 var checkTimer = null;
 let _prodId;                          // 记录商品id
 let skuid;                          // 记录商品多属性标识 id
 let quantity;                          // 购买商品的数量
 let cartId;
-let that;
 Page({
   data: {
     // cardList: [],
@@ -79,6 +73,7 @@ Page({
     lastPay: '￥0',//实付款
 
     //2017年12月19日13:43:56
+    storeId: store_Id.shopid,//商店id
     shipping_method: 'express',
     //addressId: 0,
     postage_list: "",
@@ -89,9 +84,8 @@ Page({
     couponInfo: [], //选择的优惠券信息
     normal_coupon_count: '', //可用的优惠券数量
     totalId:[],
-    page:'saoma',//扫码确认订单-saoma
+    page:'',//扫码确认订单-saoma
     itemheights:['168','408','342'],//方式高度列表
-    physicalClost:null,
     formData:{
       fullname:'',
       telephone:''
@@ -123,7 +117,7 @@ Page({
   getAddress(uid) {
     var url = 'wxapp.php?c=address&a=MyAddress';
     var that = this;
-    // var store_id = that.data.storeId
+    var store_id = that.data.storeId
     var address = that.data.address;
     var params = {
       store_id,uid
@@ -171,34 +165,18 @@ Page({
   
 
   onLoad: function (options) {
-
-    that=this;
-
-    if (uid == '' || store_id == '') {
-      sign.signin(() => {
-        sign.getLocation((res) => {
-          logLat = wx.getStorageSync('logLat');
-          uid = wx.getStorageSync('userUid');
-          openid = wx.getStorageSync('userOpenid');
-          hasSignin = wx.getStorageSync('hasSignin');
-          app.globalData.logLat = logLat;
-          app.globalData.openid = openid;
-          app.globalData.uid = uid;
-          app.globalData.hasSignin = hasSignin;
     
-        })
-      });
-    } 
-    
-    // this.showFormError('错误');
+    //this.showFormError('错误');
     //单商品生成订单
     console.log('获取存储', wx.getStorageSync('couponInfo'));
     wx.removeStorageSync('couponInfo');
     console.log('移除之后', wx.getStorageSync('couponInfo'));
       var order_no = options.order_no;
-      var physical = JSON.parse(options.physical);
-      this.setData({ order_no: order_no,
-        physicalClost: physical });     
+      this.setData({ order_no: order_no  });
+      Api.signin();//获取以及存储openid、uid
+      // 获取uid
+      var uid = wx.getStorageSync('userUid');
+      this.setData({ uid });
       this.getAddress(uid);
     
     //console.log('传递过来的订单号是=' + order_no);return;
@@ -227,7 +205,7 @@ Page({
     // 页面渲染完成
   },
   onShow: function () {
-   
+    var uid = this.data.uid;
     this.getAddress(uid);
     // 页面显示
     //this._prepare(_prodId, skuid, quantity, cartId);
@@ -255,8 +233,6 @@ Page({
   this.loadCouponData();
 
 },
-
-
 onHide: function () {
   // 页面隐藏
 },
@@ -442,48 +418,17 @@ submitOrder: function (event) {
   //收货地址
   let address_params = this.buildAddressParams();
   let address_id = address_params.addressId;
-  if (that.data.curActIndex == 0 || that.data.curActIndex==1){
-    if (typeof (address_id) =="undefined" || address_id==''){
-      wx.showModal({
-        title: '请先设置收货地址',
-        content: '你还没有设置收货地址，请点击这里设置！',
-        success: function success(res) {
-          if (res.confirm) {
-            wx.redirectTo({
-              url: '../shopping/address-list'
-            });
-          } else if (res.cancel) {
-            console.log('用户点击取消');
-          }
-        }
-      });
-      return;
-    }
-  }
   console.log('地址id是=' + address_id);
   //let address_id = 47;
   let payType = this.data.payType;
   let is_app = this.data.is_app;
   //let postage_list = this.data.postage_list;
   let postage_list = "a:1:{i:6;d:0;}";
-  // let uid = this.data.uid;
-  // let store_id = this.data.storeId;
+  let uid = this.data.uid;
+  let store_id = this.data.storeId;
   let user_coupon_id = this.data.user_coupon_id;
   let shipping_method = this.data.shipping_method;
   let orderId = this.data.order_no; //注意是order_no
-  var send_type=1;
-  switch (that.data.curActIndex) {
-    case 0:
-      send_type = 1;
-      break;
-    case 1:
-      send_type = 3;
-      break;
-    case 2:
-      send_type = 2;
-      break;
-    
-  }
 
   var params = {
     payType: payType,
@@ -495,8 +440,6 @@ submitOrder: function (event) {
     uid: uid,
     store_id: store_id,
     user_coupon_id: 0,
-    shipping_method:1,
-    send_type: send_type
   }
   //console.log(params);return;
   wx.showLoading({ title: '请稍候...', mask: true, });
@@ -700,9 +643,9 @@ buildAddressParams() {
  * 选择自提门店事件
  */
 onStoreSelected(e) {
-  // let storeId = e.detail.value;
-  this.setData({ pickupStoreId: store_id });
-  let params = { store_id };
+  let storeId = e.detail.value;
+  this.setData({ pickupStoreId: storeId });
+  let params = { storeId };
   wx.showLoading({ title: '加载中...', mask: true, });
   app.api.postApi('buy/pickup_store', params, (err, resp) => {
     wx.hideLoading();
@@ -956,10 +899,10 @@ changeCoupon: function (event) {
 loadCouponData: function () {
   var that = this;
   var params = {
-    uid,
-    store_id,
-    product_id: that.data.totalId,
-    total_price: that.data.sub_total
+    "uid": 91,
+    "store_id": 6,
+    "product_id": ["23"],
+    "total_price": "79"
   };
 
   console.log('线上优惠券列表(可用和不可用)请求参数params=', params);

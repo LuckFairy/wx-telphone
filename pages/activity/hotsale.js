@@ -7,7 +7,7 @@ Page({
     windowHeight:'',
     windowWidth:'',
     msgList:[],
-    dataList:''
+    dataList:'' 
   },
   onLoad:function(options){
     var that = this;
@@ -73,7 +73,7 @@ Page({
         });
       }else{
         wx.showToast({
-          title: '亲，没有了'
+          title: '没有数据了'
         })
       }
       

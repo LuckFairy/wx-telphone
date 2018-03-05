@@ -8,7 +8,6 @@
 
 <!-- 邮件方式 -->
 <!--扫码确认订单  -->
-<scroll-view scroll-y="{{true}}" class='main-container'>
 
 
 <view wx:if="{{page == 'saoma'}}" class="swiper-main-container">
@@ -16,7 +15,7 @@
     <view class="ship-method-item {{curActIndex=='0'?'active':''}}" data-idx="0" bindtap="changeCurActIndex">
       <text>邮寄</text>
     </view>
-    <view class="ship-method-item {{curActIndex=='1'?'active':''}}" data-idx="1" bindtap="changeCurActIndex" hidden="true">
+    <view class="ship-method-item {{curActIndex=='1'?'active':''}}" data-idx="1" bindtap="changeCurActIndex">
       <text>配送</text>
     </view>
     <view class="ship-method-item {{curActIndex=='2'?'active':''}}" data-idx="2" bindtap="changeCurActIndex">
@@ -59,13 +58,13 @@
           <view class='intro-right' bindtap='showMehodModel'>配送费用说明</view>
         </view>
         <view class='shop-area' style="border-bottom:1rpx solid #e5e5e5;">
-          <navigator url="../saoma/saoma-ziti-address" class='shop-area-right'>
+          <navigator url="../store/store-list?check=true&index=true" class='shop-area-right'>
             <image class='icon' src='../../image/shop-icon.png'></image>
             <text>切换门店</text>
           </navigator>
-          <view class='shop-area-left' wx:if="{{physicalClost}}">
-             <text class='title'>{{physicalClost.name}}</text>
-            <text class='message'>{{physicalClostClost.address}}</text>
+          <view class='shop-area-left'>
+            <text class='title'>title</text>
+            <text class='message'>messegamessegamessegamessegamessega</text>
           </view>
 
         </view>
@@ -108,13 +107,13 @@
           </view>
         </view>
         <view class='shop-area'>
-          <navigator url="../saoma/store-list?check=true" class='shop-area-right'>
+          <navigator url="../store/store-list?check=true&index=true" class='shop-area-right'>
             <image class='icon' src='../../image/shop-icon.png'></image>
             <text>切换门店</text>
           </navigator>
           <view class='shop-area-left'>
-            <text class='title'>{{physicalClost.name}}</text>
-            <text class='message'>{{physicalClost.address}}</text>
+            <text class='title'>title</text>
+            <text class='message'>messegamessegamessegamessegamessega</text>
           </view>
         </view>
       </scroll-view>
@@ -300,9 +299,6 @@
     </block>
   </view>
 </view>
-
-</scroll-view>
-
 <!--公众号开始 
 <view wx:if="{{showAreaPicer}}" catchtap="hideAreaPickerView" class="overlayer"></view>
 

@@ -181,17 +181,7 @@ text {
   border-radius: 6rpx;
 }
 
-.overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 750rpx;
-  height: 100%;
-  background-color: rgba(10, 10, 10, 0.3);
-}
+
 
 .qr-view {
   display: flex;
@@ -308,22 +298,6 @@ text {
   display: inline-block;
 }
 
-.search-current-trangle {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-left: 10rpx solid transparent;
-  border-right: 10rpx solid transparent;
-  border-top: 15rpx solid black;
-  margin-top: 32rpx;
-  margin-left: 18rpx;
-}
-.up{
-  border-left: 10rpx solid transparent;
-  border-right: 10rpx solid transparent;
-  border-top: none;
-  border-bottom: 15rpx solid black;
-}
 .wait-choose {
   position: fixed;
   top: 138rpx;

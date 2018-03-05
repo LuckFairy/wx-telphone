@@ -1,7 +1,11 @@
-// pages/index-new/index-mom.js
+
 var app = getApp();
-import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
+const uid = wx.getStorageSync('userUid');
+const openid = wx.getStorageSync('openid');
+const store_id = app.store_id;
+// let categoryUrl = 'wxapp.php?c=coupon&a=get_category_activity';//tab菜单接口
+let categoryUrl = 'wxapp.php?c=coupon&a=get_category_activity_v2';//tab菜单接口
+let listUrl = 'wxapp.php?c=coupon&a=coupon_list';//获取分类列表数据
 Page({
 
   /**
@@ -11,8 +15,8 @@ Page({
     current: 0,
     dataList:'',
     page:1,
-    activityId:237,
-    activity_err_msg:'',
+    activityid:236,
+    activity_err_msg:'',//tab列表
     logo: ''
   },
 
@@ -21,48 +25,34 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    // 获取店铺id shopId
-    var store_id = store_Id.store_Id();
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    var openId = wx.getStorageSync('userOpenid');
-    console.log(uid, 'uid');
-    console.log(store_id, 'store_id');
-    console.log(openId,'openId');
     // 拿到页码
     var page = that.data.page;
-    var activityId = that.data.activityId;
-    console.log('page', page);
-    console.log('activityId', activityId);
+    var activityid = that.data.activityid;
+ 
     // 头部信息接口开始
     var params = {
-      store_id: store_id,
-      cate_id:2
+      store_id,
+     // cate_id:2
     }
-    app.api.postApi('wxapp.php?c=coupon&a=get_category_activity', { params}, (err, resp) => {
+    app.api.postApi(categoryUrl, { params}, (err, resp) => {
       wx.hideLoading();
-      console.log(resp, 666666666)
       var activity_err_msg = resp.err_msg;
       that.setData({
         activity_err_msg
       });
     });
     // 头部信息接口结束
-     // 列表信息接口开始
-    that.goHead(uid, store_id, page, activityId);
-     //列表信息接口结束
+    that.goHead(uid, store_id, page, activityid);
+
   },
-  goHead(uid, store_id, page, activityId){
+  goHead(uid, store_id, page, activityid){
     // 列表信息接口开始
     var that = this;
-    var activityId = that.data.activityId;
-    console.log("点击之后", activityId)
-    var params = { uid: uid, store_id: store_id, page: page, activityId: activityId }
+    var activityId = that.data.activityid;
+    var params = { uid, store_id, page, activityId}
     
-    app.api.postApi('wxapp.php?c=coupon&a=coupon_list', { params }, (err, resp) => {
+    app.api.postApi(listUrl, { params }, (err, resp) => {
       wx.hideLoading();
-      console.log(resp, 344444)
       var dataList = resp.err_msg.list;
       var logo = resp.err_msg.logo;
       that.setData({
@@ -74,48 +64,28 @@ Page({
   },
   clickGo(e){
     var that = this;
-    // 获取店铺id shopId
-    var store_id = store_Id.store_Id();
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    var openId = wx.getStorageSync('userOpenid');
-    console.log(uid, 'uid');
-    console.log(store_id, 'store_id');
-    console.log(openId, 'openId');
     // 拿到页码
-    var page = that.data.page;
+    let page = that.data.page;
     // 获取current确定点击哪里
-    var current = e.currentTarget.dataset.current;
-    console.log('current',current)
+   let { current,activityid } = e.currentTarget.dataset;
+    console.log(e,current,activityid);
     that.setData({
-      current: current
+      current, activityid
     });
-    console.log('当前点击current',current)
-    var activityId;
-    if (current==0){
-      that.setData({
-        activityId: 237
-      })
-    } else if (current==1){
-      console.log("dhfshgglskhsfl")
-      that.setData({
-        activityId: 238
-      })
-    } else if (current==2){
-      that.setData({
-        activityId: 239
-      })
-    } else if (current==3){
-      that.setData({
-        activityId: 241
-      })
-    }
-    that.goHead(uid, store_id, page, activityId);
+    // var activityid;
+    // switch(current){
+    //   case 0: activityid= 237;break;
+    //   case 1: activityid = 237;break;
+    //   case 2: activityid = 238;break;
+    //   case 3: activityid = 239;break;
+    //   case 4: activityid = 241;break;
+    //   default: activityid = 237; break;
+    // }
+    // that.setData({ activityid})
+    that.goHead(uid, store_id, page, activityid);
   },
   goDetail(e){
-    console.log('各种id',e)
-    var activityId = e.currentTarget.dataset.activityId;
+    var activityid = e.currentTarget.dataset.activityid;
     var id = e.currentTarget.dataset.id;
     var endTime = e.currentTarget.dataset.endTime
     var faceMoney = e.currentTarget.dataset.faceMoney
@@ -125,7 +95,7 @@ Page({
     var logo = e.currentTarget.dataset.logo
     var source = e.currentTarget.dataset.source
     wx.navigateTo({
-      url: '../card/card_summary?activityId=' + activityId + '&id=' + id + '&endTime=' + endTime + '&faceMoney=' + faceMoney + '&name=' + name + '&originalPrice=' + originalPrice + '&startTime=' + startTime + '&logo=' + logo + '&source=' + source
+      url: '../card/card_summary?activityid=' + activityid + '&id=' + id + '&endTime=' + endTime + '&faceMoney=' + faceMoney + '&name=' + name + '&originalPrice=' + originalPrice + '&startTime=' + startTime + '&logo=' + logo + '&source=' + source
     })
   },
   /**

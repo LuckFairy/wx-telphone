@@ -168,8 +168,6 @@ Page({
     var store_id = store_Id.store_Id();//store_id
     var checkTime = null;
     var time = 0;
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
     var uid = wx.getStorageSync('userUid');
     checkTime = setInterval(function () {
       if (uid) {
@@ -181,7 +179,6 @@ Page({
         that.loadData3(that);
         clearInterval(checkTime);
       } else {
-        Api.signin();//获取以及存储openid、uid
         // 获取uid
         var uid = wx.getStorageSync('userUid');
         if (uid) {

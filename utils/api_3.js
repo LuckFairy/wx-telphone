@@ -2,10 +2,10 @@ const util = require('util.js');
 const VERSION = '1.0.0';
 const APP_ID = 13;
 const systemInfo = wx.getSystemInfoSync();
-console.log("信息信息", systemInfo);
+
 const AGENT_ID = 2;   // 上线时需要根据实际数据修改
-//let SERVER_URL ="https://saas.qutego.com/";
-let SERVER_URL = "https://api.ljxhlaw.com/";
+let SERVER_URL ="https://saas.qutego.com/";
+// let SERVER_URL = "https://api.ljxhlaw.com/";
 var Network = {
   fetchApi(url, header, callback) {
     url = SERVER_URL + url;
@@ -23,7 +23,6 @@ var Network = {
     })
   },
   postApi(url, params, header, callback) {
- 
     url = SERVER_URL + url;
     wx.request({
       url,

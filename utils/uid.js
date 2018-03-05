@@ -1,5 +1,5 @@
-//let SERVER_URL ="https://saas.qutego.com/";
-let SERVER_URL = "https://api.ljxhlaw.com/";
+let SERVER_URL ="https://saas.qutego.com/";
+// let SERVER_URL = "https://api.ljxhlaw.com/";
 var UID = {
   goUid: function () {
     var that =this;

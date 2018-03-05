@@ -14,8 +14,10 @@
     <view class="addr-op-view">
     <!--  -->
       <view style="line-height:100%;flex-direction:row;" bindtap="changeDefaultAdress" data-is-default="{{item.default}}" data-address-id="{{item.address_id}}" data-index="{{index}}">
-        <i wx:if="{{item.default==1}}" class="fa fa-lg fa-check-circle" ></i>
-        <i wx:else class="fa fa-lg fa-circle-thin" ></i>
+        <icon wx:if="{{item.default==1}}" type="success" size="14" color="rgb(0,0,0)"/>
+        <icon wx:else type="success" size="14" color="rgb(0,255,255)"/>
+        <!-- <i wx:if="{{item.default==1}}" class="fa fa-lg fa-check-circle" ></i>
+        <i wx:else class="fa fa-lg fa-circle-thin" ></i> -->
         <text style="margin-left:5px;">默认地址</text>
       </view>
       <view>
