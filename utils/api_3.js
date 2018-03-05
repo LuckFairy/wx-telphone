@@ -4,8 +4,8 @@ const APP_ID = 13;
 const systemInfo = wx.getSystemInfoSync();
 
 const AGENT_ID = 2;   // 上线时需要根据实际数据修改
-let SERVER_URL ="https://saas.qutego.com/";
-// let SERVER_URL = "https://api.ljxhlaw.com/";
+// let SERVER_URL ="https://saas.qutego.com/";
+let SERVER_URL = "https://api.ljxhlaw.com/";
 var Network = {
   fetchApi(url, header, callback) {
     url = SERVER_URL + url;

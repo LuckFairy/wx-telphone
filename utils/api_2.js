@@ -1,6 +1,6 @@
 
-let SERVER_URL ="https://saas.qutego.com/";
-// let SERVER_URL = "https://api.ljxhlaw.com/";
+// let SERVER_URL ="https://saas.qutego.com/";
+let SERVER_URL = "https://api.ljxhlaw.com/";
 var  Api = {
   /*用户登陆授权*/
   tryTimes:3,
