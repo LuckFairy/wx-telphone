@@ -238,6 +238,7 @@ Page({
     that.sum();
   },
   scanCode: function () {
+    that=this;
 
     console.log("初始化配置情况：" + that.data.hasConfig);
 

@@ -471,6 +471,19 @@ submitOrder: function (event) {
   let user_coupon_id = this.data.user_coupon_id;
   let shipping_method = this.data.shipping_method;
   let orderId = this.data.order_no; //注意是order_no
+  var send_type=1;
+  switch (that.data.curActIndex) {
+    case 0:
+      send_type = 1;
+      break;
+    case 1:
+      send_type = 3;
+      break;
+    case 2:
+      send_type = 2;
+      break;
+    
+  }
 
   var params = {
     payType: payType,
@@ -482,6 +495,8 @@ submitOrder: function (event) {
     uid: uid,
     store_id: store_id,
     user_coupon_id: 0,
+    shipping_method:1,
+    send_type: send_type
   }
   //console.log(params);return;
   wx.showLoading({ title: '请稍候...', mask: true, });
