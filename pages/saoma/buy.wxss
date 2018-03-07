@@ -827,6 +827,7 @@ discount-ticket-have {
   padding: 24rpx 30rpx ;
 }
 .shop-area-left {
+  width: 550rpx;
   flex-direction: column;
   justify-content: space-around;
   padding: 22rpx 0;
@@ -846,6 +847,7 @@ discount-ticket-have {
   white-space: nowrap;
 }
 .shop-area-right{
+  width: 120rpx;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

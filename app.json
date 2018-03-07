@@ -1,10 +1,10 @@
 {
   "pages": [
+   "pages/index-new/index-new",        
     "pages/saoma/saoma-index",
     "pages/saoma/store-list",
     "pages/saoma/saoma-ziti-address",
     "pages/saoma/buy",
-    "pages/index-new/index-new",
     "pages/index-new/index-mom",
     "pages/card/mycard",
     "pages/shopping/buycard",

@@ -2,6 +2,7 @@ const util = require('util.js');
 const VERSION = '1.0.0';
 const APP_ID = 13;
 const systemInfo = wx.getSystemInfoSync();
+const IS_DEBUG=true;
 
 const AGENT_ID = 2;   // 上线时需要根据实际数据修改
 // let SERVER_URL ="https://saas.qutego.com/";
@@ -15,7 +16,9 @@ var Network = {
       header: header,
       success(res) {
         typeof callback === 'function' && callback(null, res.data)
-        console.log(res.data)
+        if (IS_DEBUG) {
+          console.log("GET请求的url：" + url + " 参数：" + JSON.stringify(params) + " 数据返回：" + JSON.stringify(res.data))
+        }      
       },
       fail(e) {
         typeof callback === 'function' && callback(e)
@@ -31,7 +34,9 @@ var Network = {
       header: header,
       success(res) {
         typeof callback === 'function' && callback(null, res.data, res.statusCode)
-        console.log(res.data)
+        if (IS_DEBUG){
+          console.log("POST请求的url：" + url + " 参数：" + JSON.stringify(params) + " 数据返回：" + JSON.stringify(res.data))
+        }
       },
       fail(e) {
         typeof callback === 'function' && callback(e)

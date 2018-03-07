@@ -108,7 +108,7 @@ Page({
       }
      
     /******首页弹窗 */
-    //this.firstOpen();
+    this.firstOpen();
 
     // 顶部轮播图
     app.api.postApi(headImg, { "params": { store_id } }, (err, resp) => {

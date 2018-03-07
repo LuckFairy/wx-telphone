@@ -493,7 +493,7 @@ submitOrder: function (event) {
     address_id: address_id,
     uid: uid,
     store_id: store_id,
-    user_coupon_id: 0,
+    user_coupon_id: this.data.user_coupon_id,
     shipping_method:1,
     send_type: send_type
   }

@@ -2,7 +2,7 @@ import { sign } from '../../utils/api_2';
 
 let app = getApp();
 
-const shoppUrl = 'wxapp.php?c=qrproduct_v2&a=add';
+const shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';
 const physical_id = app.globalData.phy_id;//门店id
 
 let errModalConfig = {
@@ -512,41 +512,43 @@ Page({
    });
  },
  
- getCoupon:function(){
-   var params = {
-     sid:store_id,
-     uid,
-     physical_id: that.data.physicalClost.phy_id
-   };
-   app.api.postApi('wxapp.php?c=qrproduct_v2&a=inventory', { params }, (err, resp) => {
-     if (err || resp.err_code != 0) {
-       return;
-     }
-     if (resp.err_code == 0) {
-       console.log('购物车列表', resp);
-       var cart_list = resp.err_msg;
-       var cartSHow = that.cartSHow;
-       var hasShop = cart_list.length;
-       if (cart_list.length < 1) {
-         console.log('false')
-         cartSHow = false;
-       } else {
-         console.log('true')
-         cartSHow = true;
-       };
-       that.setData({
-         cart_list,
-         cartSHow,
-         hasShop
-       });
-       //计算金额
-       that.sum();
-       that.loadCoupon();
-     }
-   });
- },
+//  getCoupon:function(){
+//    var params = {
+//      sid:store_id,
+//      uid,
+//      physical_id: that.data.physicalClost.phy_id
+//    };
+//    app.api.postApi('wxapp.php?c=qrproduct_v2&a=inventory', { params }, (err, resp) => {
+//      if (err || resp.err_code != 0) {
+//        return;
+//      }
+//      if (resp.err_code == 0) {
+//        console.log('购物车列表', resp);
+//        var cart_list = resp.err_msg;
+//        var cartSHow = that.cartSHow;
+//        var hasShop = cart_list.length;
+//        if (cart_list.length < 1) {
+//          console.log('false')
+//          cartSHow = false;
+//        } else {
+//          console.log('true')
+//          cartSHow = true;
+//        };
+//        that.setData({
+//          cart_list,
+//          cartSHow,
+//          hasShop
+//        });
+//        //计算金额
+//        that.sum();
+//        that.loadCoupon();
+//      }
+//    });
+//  },
 
  initConfig:function(){
+
+
    sign.signin(() => {
      sign.getLocation((res) => {
        logLat = wx.getStorageSync('logLat');
@@ -554,25 +556,40 @@ Page({
        openid = wx.getStorageSync('userOpenid');
        hasSignin = wx.getStorageSync('hasSignin');
        app.globalData.logLat = logLat;
-       app.globalData.openid = openid;
        app.globalData.uid = uid;
        app.globalData.hasSignin = hasSignin;
        that.loadLocation('logLat坐标信息', logLat);//获取门店信息
-       console.log('index....lbs', logLat);
+     
+       console.log('index....logLat', logLat);
      })
    });
+
+  //  sign.signin(() => {
+  //    sign.getLocation((res) => {
+  //      logLat = wx.getStorageSync('logLat');
+  //      uid = wx.getStorageSync('userUid');
+  //      openid = wx.getStorageSync('userOpenid');
+  //      hasSignin = wx.getStorageSync('hasSignin');
+  //      app.globalData.logLat = logLat;
+  //      app.globalData.openid = openid;
+  //      app.globalData.uid = uid;
+  //      app.globalData.hasSignin = hasSignin;
+  //      that.loadLocation('logLat坐标信息', logLat);//获取门店信息
+  //      console.log('index....lbs', logLat);
+  //    })
+  //  });
  },
 
   onLoad: function (options) {
+    
+
     that = this;
     this.loadMainLocation();
     wx.showLoading({
       title: '加载中',
     })
 
-    if (uid == '' || logLat == '') {
-      that.initConfig();
-    } 
+    
  
   },
   onShow: function () {
@@ -580,9 +597,13 @@ Page({
     //   locationTip: this.data.physicalClost.name,
 
     // });
-    if (uid != '' && logLat != '') {
+    if (uid == '' || logLat == '') {
+      that.initConfig();
+    } else{
       that.loadLocation('logLat坐标信息', logLat);//获取门店信息
-    } 
+
+    }
+
     // var hasShop = that.data.hasShop;//有无商品
     // var uid = that.data.uid;
     
@@ -604,11 +625,8 @@ Page({
     }
     var that = this;
     app.api.postApi('wxapp.php?c=qrproduct_v2&a=inventory', { params }, (err, resp) => {
-      if (err || resp.err_code != 0) {
-        return;
-      }
-      if (resp.err_code == 0) {
-        console.log('购物车列表', resp);
+     
+      if (resp&&resp.err_code == 0) {
         var cart_list = resp.err_msg;
         var cartSHow = that.cartSHow;
         var hasShop = cart_list.length;
@@ -686,14 +704,14 @@ Page({
     var index = parseInt(e.currentTarget.dataset.index);
 
     var params = {
-      uid, cart_id: cardId, store_id: store_id
+      uid, cid: cardId, sid: store_id, physical_id: that.data.physicalClost.phy_id
     }
     wx.showModal({
       title: '删除商品',
       content: '确定删除吗',
       success: function (res) {
         if (res.confirm) {
-          app.api.postApi('wxapp.php?c=cart&a=delete', { params }, (err, resp) => {
+          app.api.postApi('wxapp.php?c=cart_v2&a=delete', { params }, (err, resp) => {
             if (err) {
               return;
             }
