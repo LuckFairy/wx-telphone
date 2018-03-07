@@ -66,6 +66,16 @@
     </view> 
     <!--  领券区域结束 -->
     <view wx:if="{{coupon_value.length>0}}" class='line'></view>
+    <!--  领券区域 -->
+     <view class='discount shop-area' bindtap='inputBarcode' wx:if="{{cart_list.length>0}}" >
+      <view class='discount-left'>
+        <text class='discount-text'>手动输入条形码</text>
+      </view>
+      <image class='address-go-image' src='../../image/address-go.png'></image>
+    </view> 
+    <!--  领券区域结束 -->
+        <view wx:if="{{cart_list.length>0}}" class='line'></view>
+
     <!--勾-->
     <view wx:for="{{cart_list}}" class="carts-item" style='  margin-top: 20rpx;' data-title="{{item.name}}" id="{{item.product_id}}" wx:key="{{index}}">
 

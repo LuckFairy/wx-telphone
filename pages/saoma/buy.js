@@ -519,7 +519,7 @@ submitOrder: function (event) {
       if (resp.err_dom) {
         //console.log('不需要支付');
         wx.navigateTo({
-          url: './my-order?goodsindex=' + 2
+          url: '../shopping/my-order?goodsindex=' + 2
         })
       } else {
         //console.log('需要支付');
