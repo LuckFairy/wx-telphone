@@ -6,14 +6,15 @@
   z-index:999;
 }
 .overlay-map{
-  position: absolute;
+     position: absolute;
+
   width: 100%;
   height: 100%;
   background-color:rgba(10, 10, 10, 0.3);
   z-index:999;
 }
 .overlay-content{
-  position: absolute;
+   /* position: absolute; */
   z-index: 100000;
 }
 

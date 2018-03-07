@@ -1,6 +1,6 @@
-<view wx:if="{{showErrModal}}" class="overlay">
-  <view  catchtap="tabModal" class='overlay-map'></view>
-  <view class="overlay-content">
+<view wx:if="{{showErrModal}}" class="overlay" catchtap="tabModal">
+     <view  catchtap="tabModal" class='overlay-map' hidden='true'></view>   
+   <view class="overlay-content">
     <view class="overlay-body">
       <block wx:if="{{input}}">
         <text>请输入商品的条形码</text>
@@ -12,7 +12,7 @@
         <text wx:if="{{errModalConfig.title}}" class="modal-secondText">{{errModalConfig.title}}</text>
       </block>
     </view>
-  </view>
+  </view> 
 </view>
 <import src="../template/count-down.wxml" />
 <view wx:if="{{false}}" class="full-reduce">
