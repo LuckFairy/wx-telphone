@@ -10,7 +10,10 @@ var  Api = {
     let that = this;
     let logLat = wx.getStorageSync('logLat');
     console.log('logLat....', logLat);
-    if(logLat){return;}
+    if(logLat){
+      typeof callback == "function" && callback();
+      return;
+    }
     //获取当前位置
     let promise = new Promise(function (resolve, reject) {
       wx.getLocation({

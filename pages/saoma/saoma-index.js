@@ -56,7 +56,6 @@ Page({
         return;
       }
       phyDefualt = resp.err_msg.physical_list[0];
-      console.log('phyDefualt', phyDefualt);
       that.setData({
         physicalClost: phyDefualt
       })
@@ -67,13 +66,15 @@ Page({
    * 获取当前门店位置
    */
   loadLocation(phy_id, logLat) {
+    
+    console.log('进入获取门店方法... ' + logLat);
+
     var that = this;
     var phyDefualt = that.data.phyDefualt;
     if (logLat == '' || logLat == null) {
       app.globalData.logLat = wx.getStorageSync('logLat');
       logLat = wx.getStorageSync('logLat');
     }
-    console.log('loglat........', logLat);
     if (!logLat) {
       that.setData({ changeFlag: false })
       return;
@@ -91,6 +92,9 @@ Page({
     var url = physicalUrl;
 
     app.api.postApi(physicalUrl, { params }, (err, resp) => {
+
+      console.log('刷新当前门店数据...');
+
       // 列表数据
       wx.hideLoading();
       if (resp.err_code != 0) {
@@ -113,7 +117,7 @@ Page({
         hasConfig:true
       });
       that.refreshList();
-
+      console.log("成功刷新当前门店数据...");
     });
   },
   /**
@@ -156,7 +160,6 @@ Page({
   bindMinus: function (e) {
     // 减少数量
     var that = this;
-    console.log("ee", e)
     var cardId = e.currentTarget.dataset.cardId;
     var index = parseInt(e.currentTarget.dataset.index);
     var shopNumber = e.currentTarget.dataset.number;
@@ -172,7 +175,6 @@ Page({
       }, 1000)
     } else {
       shopNumber--;
-      console.log('数量', shopNumber);
       var params = {
         uid: uid,
         sid: store_id,
@@ -199,7 +201,6 @@ Page({
 
 
     shopNumber++;
-    console.log('数量', shopNumber);
     var params = {
       uid: uid,
       cid: cardId,
@@ -217,7 +218,6 @@ Page({
     var that = this;
     //拿到下标值，以在carts作遍历指示用
     var index = parseInt(e.currentTarget.dataset.index);
-    console.log(index);
     //原始的icon状态
     var cart_list = that.data.cart_list;
     var selected = cart_list[index].selected;
@@ -321,8 +321,6 @@ Page({
   //去结算
   bindCheckout: function () {
 
-    console.log("click....");
-
     // 初始化字符串
     var ids = [], len = this.data.cart_list.length;
 
@@ -340,7 +338,6 @@ Page({
       ids.push(id);
     }
 
-    console.log('购物车选择提交的ids' + ids); 
 
     var params = {
       uid,
@@ -547,8 +544,6 @@ Page({
 //  },
 
  initConfig:function(){
-
-
    sign.signin(() => {
      sign.getLocation((res) => {
        logLat = wx.getStorageSync('logLat');
@@ -560,37 +555,16 @@ Page({
        app.globalData.hasSignin = hasSignin;
        that.loadLocation('logLat坐标信息', logLat);//获取门店信息
      
-       console.log('index....logLat', logLat);
      })
    });
-
-  //  sign.signin(() => {
-  //    sign.getLocation((res) => {
-  //      logLat = wx.getStorageSync('logLat');
-  //      uid = wx.getStorageSync('userUid');
-  //      openid = wx.getStorageSync('userOpenid');
-  //      hasSignin = wx.getStorageSync('hasSignin');
-  //      app.globalData.logLat = logLat;
-  //      app.globalData.openid = openid;
-  //      app.globalData.uid = uid;
-  //      app.globalData.hasSignin = hasSignin;
-  //      that.loadLocation('logLat坐标信息', logLat);//获取门店信息
-  //      console.log('index....lbs', logLat);
-  //    })
-  //  });
  },
 
   onLoad: function (options) {
-    
-
     that = this;
     this.loadMainLocation();
     wx.showLoading({
       title: '加载中',
     })
-
-    
- 
   },
   onShow: function () {
     // that.setData({
@@ -603,11 +577,6 @@ Page({
       that.loadLocation('logLat坐标信息', logLat);//获取门店信息
 
     }
-
-    // var hasShop = that.data.hasShop;//有无商品
-    // var uid = that.data.uid;
-    
-    
     that.refreshList();
   },
   onHide: function () {
@@ -631,10 +600,8 @@ Page({
         var cartSHow = that.cartSHow;
         var hasShop = cart_list.length;
         if (cart_list.length < 1) {
-          console.log('false')
           cartSHow = false;
         } else {
-          console.log('true')
           cartSHow = true;
         };
         that.setData({
@@ -655,7 +622,6 @@ Page({
   * num 数量
   */
   numList(index, num) {
-    console.log(index, num)
     var that = this;
     var cart_list = that.data.cart_list;
 
@@ -696,7 +662,6 @@ Page({
   },
 
   removeShopCard: function (e) {
-    console.log(e, 'eeee');
     var that = this;
     var cardId = e.currentTarget.dataset.cardId;
     // var storeId = e.currentTarget.dataset.storeId;
