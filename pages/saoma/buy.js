@@ -941,6 +941,7 @@ changeCurActIndex(e) {
   let { idx: curActIndex, method } = e.currentTarget.dataset;
   this.setData({ curActIndex });
   //this.setShippingMethod(method);
+  console.log("click....");
 },
 changeCoupon: function (event) {
   console.log('点击进入优惠券选择界面', event);

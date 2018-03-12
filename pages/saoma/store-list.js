@@ -26,8 +26,9 @@ Page({
   onLoad: function (options) {
     that=this;
     // let store_id = app.store_id;
-    // let uid = wx.getStorageSync('userUid');
-    // let logLat = wx.getStorageSync('logLat');
+  
+    uid = wx.getStorageSync('userUid');
+    logLat = wx.getStorageSync('logLat');
 
     // this.setData({
     //   store_id,uid,logLat

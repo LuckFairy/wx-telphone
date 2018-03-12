@@ -1,7 +1,7 @@
 {
   "pages": [
+  "pages/saoma/saoma-index",        
    "pages/index-new/index-new",        
-    "pages/saoma/saoma-index",
     "pages/saoma/store-list",
     "pages/saoma/saoma-ziti-address",
     "pages/saoma/buy",

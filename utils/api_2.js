@@ -1,6 +1,7 @@
 
 // let SERVER_URL ="https://saas.qutego.com/";
 let SERVER_URL = "https://api.ljxhlaw.com/";
+
 var  Api = {
   /*用户登陆授权*/
   tryTimes:3,
@@ -165,6 +166,8 @@ var  Api = {
       wx.setStorageSync('hasSignin', true);//登录成功
       wx.setStorageSync('userOpenid', data.openid);//存储openid
       wx.setStorageSync('userUid', data.uid);//存储uid
+     
+
       console.log('用户uid', data.uid);
       typeof callback == 'function' && callback();
       return;

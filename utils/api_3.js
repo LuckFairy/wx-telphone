@@ -2,7 +2,7 @@ const util = require('util.js');
 const VERSION = '1.0.0';
 const APP_ID = 13;
 const systemInfo = wx.getSystemInfoSync();
-const IS_DEBUG=true;
+const IS_DEBUG=false;
 
 const AGENT_ID = 2;   // 上线时需要根据实际数据修改
 // let SERVER_URL ="https://saas.qutego.com/";

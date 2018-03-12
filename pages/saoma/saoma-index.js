@@ -67,8 +67,6 @@ Page({
    */
   loadLocation(phy_id, logLat) {
     
-    console.log('进入获取门店方法... ' + logLat);
-
     var that = this;
     var phyDefualt = that.data.phyDefualt;
     if (logLat == '' || logLat == null) {
@@ -383,6 +381,9 @@ Page({
   tabConfirm(e){
     this.setData({ showErrModal: false, input: false });
     var value = that.data.inputValue;
+
+    // var value = '1000211';
+
 
     that.checkProduct(value);
 

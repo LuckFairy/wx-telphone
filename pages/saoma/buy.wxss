@@ -20,6 +20,14 @@ page {
   overflow-y: auto;
 }
 
+.content-ziti{
+  flex-direction: column
+}
+
+.content-youji{
+  width: 100%
+}
+
 .border-bottom {
   padding-bottom: 10px;
   padding-top: 10px;
@@ -29,6 +37,12 @@ page {
   flex: 1;
   flex-direction: column;
   width: 750rpx;
+}
+
+.content-top{
+  width: 100%;
+  display: flex;
+  flex-direction: column !important
 }
 
 .buy-containner {
@@ -133,6 +147,7 @@ page {
 } */
 
 .addr-section {
+  width: 100%;
   height: 168rpx;
   background-color: #fff;
   padding-top: 30rpx;
