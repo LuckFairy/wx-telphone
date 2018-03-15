@@ -210,10 +210,16 @@ Page({
     _params = params;
     this.loadData(prodId, action, categoryid);
 
+   
+
     //this.setData({ 'newCartNum': 0 });
     
     var cateId = options.cateId;
     this.setData({ action,'cateId': cateId, 'product_id': prodId });
+
+    if (action == 'saoma') {
+      return;
+    }
 
     //购物车的数量
     app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
@@ -259,6 +265,12 @@ Page({
   },
   onUnload: function () {
     // 页面关闭
+  },
+
+  onBackClick:function(){
+    wx.navigateBack({
+      delta: 1
+    })
   },
 
   loadData(prodId, action, categoryid) {

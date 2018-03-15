@@ -20,6 +20,13 @@ page {
 /*.goods-banner-view {
 }*/
 
+.saoma-bottom{
+  	display: block;
+    background: rgba(254, 231, 29, 1) !important;
+    text-align:center;
+    line-height: 88rpx;
+}
+
 .goods-banner-swiper {
   width: 750rpx;
   height: 750rpx;

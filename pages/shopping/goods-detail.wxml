@@ -81,7 +81,8 @@
   </view>
 </view>
 
-<!--按钮  -->
+<view wx:if="{{action !='saoma'}}">
+	<!--按钮  -->
 <block wx:if="{{action =='present' && product.quantity > 1}}">
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
@@ -184,6 +185,14 @@
     </view>
   </view>
 </block>
+</view>
+<view wx:else> 
+  <view class="invite-friend-cluster saoma-bottom" bindtap='onBackClick'>
+  去扫码购</view>
+
+</view>
+
+
 <!--按钮结束  -->
 <!-- <view  wx:if='{{moreChoose}}' class='commodity_attr_list-wrap' > -->
 <view  wx:if='{{moreChoose}}'>

@@ -35,6 +35,7 @@ Page({
     physicalClost: '',//最近门店信息
     phyDefualt: [],//默认门店信息
     changeFlag: true,//是否切换门店
+    isShowTip:false,
     hasConfig:false
   },
  
@@ -115,7 +116,6 @@ Page({
         hasConfig:true
       });
       that.refreshList();
-      console.log("成功刷新当前门店数据...");
     });
   },
   /**
@@ -478,6 +478,17 @@ Page({
        if ( resp.err_code == 0){
         //  that.getCoupon();
          that.refreshList();
+         try {
+           var isShowTip = wx.getStorageSync('isShowTip')
+          if(isShowTip == ''){
+            that.setData({
+              isShowTip: true
+            });
+          }
+         } catch (e) {
+           // Do something when catch error
+         }
+         
        }else{
          wx.showToast({
            title: resp.err_msg,
@@ -486,28 +497,25 @@ Page({
          })
        }
      }
-
-    //  // 列表数据
-    //  if (err) {
-    //    wx.hideLoading();
-    //    if (resp.err_code == 0) {
-    //      that.getCoupon();
-    //    } else {
-
-    //     //  that.setData({
-    //     //    locationTip: '所处位置未搜到扫码购门店，手动去选择'
-    //     //  });
-
-    //      wx.showToast({
-    //        title: resp.err_msg,
-    //        icon: 'success',
-    //        duration: 1000
-    //      })
-    //    }
-    //  } else {
-    //    //  错误
-    //  }
    });
+ },
+
+ onTipClick:function(){
+   try {
+     that.setData({
+       isShowTip:false
+     });
+     wx.setStorageSync('isShowTip', '0');
+   } catch (e) {
+     // Do something when catch error
+   }
+ },
+
+ onItemClick:function(e){
+   var prodId = e.currentTarget.id;
+   wx.navigateTo({
+     url: '../shopping/goods-detail?prodId=' + prodId +'&action=saoma'
+   })
  },
  
 //  getCoupon:function(){

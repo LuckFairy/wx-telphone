@@ -6,8 +6,7 @@
   z-index:999;
 }
 .overlay-map{
-     position: absolute;
-
+  position: absolute;
   width: 100%;
   height: 100%;
   background-color:rgba(10, 10, 10, 0.3);
@@ -17,6 +16,15 @@
    /* position: absolute; */
   z-index: 100000;
 }
+
+
+.overlay-image{
+  width: 100%;
+  height: 100%;
+  position: absolute; 
+  z-index: 100000;
+}
+
 
 .carts-item-top{
   margin-top: 20rpx;
@@ -118,7 +126,7 @@
 .cart-del-list{
   width: 40rpx;
   height: 40rpx;
-  
+  /* z-index: 999999; */
 }
 .total-price .total-pri-text{
   text-align: right;
