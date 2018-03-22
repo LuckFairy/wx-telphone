@@ -71,7 +71,7 @@ function checkMobile(str) {
 function isPC() {
   var userAgentInfo = wx.getSystemInfoSync();
   userAgentInfo = userAgentInfo.platform.toLowerCase();
-  var Agents = ["Android", "iPhone",
+  var Agents = ["Android", "iPhone","ios",
     "SymbianOS", "Windows Phone",
     "iPad", "iPod"];
   var flag = true;

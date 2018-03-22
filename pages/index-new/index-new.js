@@ -45,18 +45,24 @@ Page({
     couponList: [],//专用券列表
     coupon_id_arr: [],//优惠券id
     indexIcon:null,
+    saoma_url: null,//条码链接
   },
   /**
-   * 扫一扫
+   * 扫码购
    */
-  saoma(){
-    // 允许从相机和相册扫码
-    // if(isPC()){
-    //   this._showError('请用手机扫');return;
-    // }
+  saoma() {
+    var that = this;
     wx.scanCode({
       success: (res) => {
-        console.log(res)
+        console.log('扫码。。。',res)
+        var url = res.result;
+        wx.hideTabBar();
+        that.setData({
+          saoma_url: url
+        })
+      },
+      fail: () => {
+        that._showError('请重新扫码');
       }
     })
   },
