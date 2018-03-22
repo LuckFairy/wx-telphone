@@ -12,7 +12,7 @@ const configData = {
   //QR_CODE_PREFIX: 'http://api.qutego.com/?code=wxapp&data=',   // 二维码前缀
   QR_CODE_PREFIX: 'http://api.ljxhlaw.com/?code=wxapp&data=',   // 二维码前缀
 };
-//var SERVER_URL = 'https://api.qutego.com/index.php/wxapp/';
+
 var SERVER_URL = 'https://api.ljxhlaw.com/index.php/wxapp/';
 var Network = {
   fetchApi (url, header, callback) {
