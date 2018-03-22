@@ -233,7 +233,7 @@
 <!--购买成功之后弹窗  -->
 <view class='matte-hint-father' wx:if='{{matteShow}}'>
   <view class='matte-hint'>
-    <image class='matte-close matte-total' bindtap='closeBtn' src='../../image/order-success-close.png'></image>
+    <image class='matte-close matte-total' bindtap='closeBtn' src='../../image/close.png'></image>
     <image class='matte-icon matte-total' src='../../image/success-icon.png'></image>
     <text class='matte-success matte-total'>购买成功</text>
     <text class='matte-detail matte-total'>恭喜你，已经购买成功</text>

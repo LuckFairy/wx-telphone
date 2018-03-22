@@ -64,7 +64,7 @@
 	<view  bindtap="tabModal" class="overlay">
 		<view class="overlay-content">
       <view class='overlay-right'  bindtap="tabCancel">
-        <image class='mode-right-image' src='../../image/order-success-close.png' ></image>
+        <image class='mode-right-image' src='../../image/close.png' ></image>
       </view>
 			<view class="overlay-body">
 				<image wx:if="{{image}}" class="modal-image-erwei" src="{{image? image:'../../image/error.png'}}" mode="widthFix" />

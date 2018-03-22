@@ -46,10 +46,18 @@
 </view>
 <view class="overlay" catchtap="closeOverlay" style="display:{{showOverlay ? 'flex' : 'none'}}">
   <view class="qr-view">
-    <image src="{{detailData.qrUrl}}" mode="widthFix" style="display:inline-block; width:480rpx;height: 480rpx;margin:80rpx 80rpx 74rpx 80rpx"></image>
-    <text class='qrcode-list'>将二维码出示给门店核销员由门店核销即可</text>
-    <!-- <text>由门店核销即可</text> -->
-    <i class="fa fa-times close-icon" ></i>
+    <view class='qr-title'>
+      <view class='qr-title-left'>
+          <image  src="../../image/saoma.png"></image>
+          <text>卡券核销</text>
+      </view>
+        <image src='../../image/close.png'></image>
+    </view>
+    <text class='code-txt'>{{detailData.card_no}}</text>
+    <image src="{{detailData.qrUrl}}" class='code-imgone'></image>
+    <image src="{{detailData.barcode}}" class='code-imgtwo'></image>
+    <text class='qrcode-list'>将二维码出示给门店员核销</text>
+    <text class='qrcode-list' style='margin-top:34rpx;margin-bottom:20rpx;'>条形码只能用扫码枪核销</text>
   </view>
 </view>
 <!-- 首次领券 -->
