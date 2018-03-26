@@ -113,7 +113,7 @@
 <!--底部-->
 <view class="carts-footer">
   <view class="total-choose" bindtap="scanCode">
-    <image class="cart-img-list"  src="../../image/saoma-code.png" lazy-load='true'></image>
+    <image class="cart-img-list"  src="{{cart_list.length>0?'../../image/saoma-continue.png':'../../image/saoma-code.png'}}" lazy-load='true'></image>
   </view>
   <view class="total-price">
     <text class="total-pri-text">合计: {{total}}

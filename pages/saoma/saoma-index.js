@@ -17,6 +17,8 @@ let openid = app.globalData.openid;
 let hasSignin = app.globalData.hasSignin;
 let logLat = app.globalData.logLat;
 
+let platform='android';
+
 const physicalUrl = 'wxapp.php?c=physical&a=qrcode_physical_list';//las门店列表接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
 
@@ -39,6 +41,7 @@ Page({
     hasConfig:false
   },
  
+
 
   /**
      * 获取总店信息
@@ -242,9 +245,6 @@ Page({
   },
   scanCode: function () {
     that=this;
-
-    console.log("初始化配置情况：" + that.data.hasConfig);
-
     if (!that.data.hasConfig){
       that.initConfig();
       return;
@@ -255,40 +255,7 @@ Page({
     wx.scanCode({
       onlyFromCamera: true,
       success: (res) => {
-
         that.checkProduct(res.result);
-
-
-    //  var params = {
-    //   uid,
-    //   store_id,
-    //   code: res.result,
-    //   quantity: 1,
-    //   physical_id: that.data.physicalClost.phy_id
-    // };
-    // wx.showLoading({
-    //   title: '加载中'
-    // });
-    // app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
-    //   // 列表数据
-    //   if (resp) {
-    //     wx.hideLoading();
-    //     if (resp.err_code == 0) {
-    //       that.getCoupon();
-    //     } else {
-    //       wx.showToast({
-    //         title: resp.err_msg,
-    //         icon: 'success',
-    //         duration: 1000
-    //       })
-    //     }
-    //   } else {
-    //     //  错误
-    //   }
-    // });
-
-
-
       }
     })
   },
@@ -383,67 +350,7 @@ Page({
     var value = that.data.inputValue;
 
     // var value = '1000211';
-
-
     that.checkProduct(value);
-
-    // if(value==null||value==''){
-    //   wx.showToast({
-    //     title: '输入为空，请重新输入！',
-    //     icon: 'success',
-    //     duration: 1000
-    //   })
-    //   return;
-    // }
-
-
-    // var params={
-    //   uid,
-    //   store_id,
-    //   code: value,
-    //   quantity: 1,
-    //   physical_id: that.data.physicalClost.phy_id
-    // };
-    // wx.showLoading({
-    //   title: '加载中'
-    // });
-    // app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
-    //   // 列表数据
-    //   if (resp) {
-    //     wx.hideLoading();
-    //     if (resp.err_code == 0) {
-    //       that.getCoupon();
-    //     } else {
-    //       that.setData({
-    //         locationTip: '所处位置未搜到扫码购门店，手动去选择'
-    //       });
-
-    //       wx.showToast({
-    //         title: resp.err_msg,
-    //         icon: 'success',
-    //         duration: 1000
-    //       })
-    //     }
-    //   } else {
-    //     //  错误
-    //   }
-    // });
-
-  //   wx.showModal({
-  //     title: '条形码',
-  //     content: '该条形码识别不出匹配商品',
-  //     showCancel:true,
-  //     cancelText:'扫码',
-  //     confirmText:'输入条码',
-  //     confirmColor:'#1b1b1b',
-  //     success: function (res) {
-  //       if (res.confirm) {
-  //         that.inputBarcode();
-  //       } else if (res.cancel) {
-  //         that.scanCode();
-  //       }
-  //     }
-  //   })
  },
 
   checkProduct: function (value){
@@ -473,10 +380,9 @@ Page({
 
    app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
 
-     wx.hideLoading();
      if (resp ){
        if ( resp.err_code == 0){
-        //  that.getCoupon();
+         wx.hideLoading();
          that.refreshList();
          try {
            var isShowTip = wx.getStorageSync('isShowTip')
@@ -490,12 +396,26 @@ Page({
          }
          
        }else{
-         wx.showToast({
-           title: resp.err_msg,
-           icon: 'success',
-           duration: 1000
-         })
+         console.log("code error：" + resp.err_msg);
+         wx.hideLoading();
+         if(platform=='ios'){
+           setTimeout(function () {
+             wx.showToast({
+               title: resp.err_msg,
+               icon: 'success',
+               duration: 1000,
+             })
+           }, 1500);
+         }else{
+           wx.showToast({
+             title: resp.err_msg,
+             icon: 'success',
+             duration: 1000,
+           })
+         }
        }
+     }else{
+       wx.hideLoading();
      }
    });
  },
@@ -517,40 +437,7 @@ Page({
      url: '../shopping/goods-detail?prodId=' + prodId +'&action=saoma'
    })
  },
- 
-//  getCoupon:function(){
-//    var params = {
-//      sid:store_id,
-//      uid,
-//      physical_id: that.data.physicalClost.phy_id
-//    };
-//    app.api.postApi('wxapp.php?c=qrproduct_v2&a=inventory', { params }, (err, resp) => {
-//      if (err || resp.err_code != 0) {
-//        return;
-//      }
-//      if (resp.err_code == 0) {
-//        console.log('购物车列表', resp);
-//        var cart_list = resp.err_msg;
-//        var cartSHow = that.cartSHow;
-//        var hasShop = cart_list.length;
-//        if (cart_list.length < 1) {
-//          console.log('false')
-//          cartSHow = false;
-//        } else {
-//          console.log('true')
-//          cartSHow = true;
-//        };
-//        that.setData({
-//          cart_list,
-//          cartSHow,
-//          hasShop
-//        });
-//        //计算金额
-//        that.sum();
-//        that.loadCoupon();
-//      }
-//    });
-//  },
+
 
  initConfig:function(){
    sign.signin(() => {
@@ -569,6 +456,11 @@ Page({
  },
 
   onLoad: function (options) {
+    wx.getSystemInfo({
+      success: function (res) {
+        platform = res.platform;
+      }
+    })
     that = this;
     this.loadMainLocation();
     wx.showLoading({
