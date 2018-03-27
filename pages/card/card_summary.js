@@ -13,6 +13,7 @@ Page({
       originalPrice:'',
       startTime:'',
       id:'',
+      codeFlag: true,//是否显示条形码
       activityId:'',
       detailData:"",
       distinguish:"",
@@ -42,6 +43,7 @@ Page({
           if (resp) {
             console.log("详情页数据1", resp);
             var detailData = resp.err_msg;
+            that.replace(detailData.card_no);
             that.setData({
               detailData
             })
@@ -56,6 +58,7 @@ Page({
           if (resp) {
             console.log("详情页数据2", resp);
             var detailData = resp.err_msg;
+            //that.replace(detailData.card_no);
             that.setData({
               detailData
             })
@@ -131,7 +134,7 @@ Page({
         }else{
           // 券已经被领完了
           wx.showLoading({
-            title: '券已经领完了',
+            title: resp.err_msg,
           })
           setTimeout(function () {
             wx.hideLoading()
@@ -309,5 +312,9 @@ Page({
         that.setData({ showOverlay: true, isUsedOrGet: false });
         wx.hideLoading(); 
       }, 500);
+    },
+    replace(str) {
+      var str2 = str.replace(/\d/g, '');
+      if (str2.length > 0) { this.setData({ codeFlag: false }) } else { this.setData({ codeFlag: true }) };
     }
 })
