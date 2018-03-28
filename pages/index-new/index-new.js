@@ -15,6 +15,7 @@ Page({
     mode: app.globalData.image.mode,
     lazyLoad: app.globalData.image.lazyLoad,
     scroll_top: 0,
+    random: parseInt(40* Math.random()),//随机数
     goTop_show: false,
     //2017年10月11日14:06:09 by leo
     testData: [], //测试数据
@@ -198,15 +199,15 @@ Page({
     // });
 
     // 顶部轮播图
-    // app.api.fetchApi("focuspic/showfouctPic", (err, resp) => {
-    //    if(resp){
-    //      var dataImg = resp.data;
-    //     that.setData({
-    //       dataImg: dataImg,
-    //       showhide: false
-    //     })
-    //    }
-    // })
+    app.api.postApi("wxapp.php?c=product&a=banner_list", { "params": { "store_id": that.data.storeId } },(err, resp) => {
+       if(resp.err_code==0){
+         var dataImg = resp.err_msg.banners;
+        that.setData({
+          dataImg,
+          showhide: false
+        })
+       }
+    })
     //indexImage获取
     var params = {
       "store_id": app.store_id
