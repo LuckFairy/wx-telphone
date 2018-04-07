@@ -1,4 +1,4 @@
-// pages/card/card_summary.js
+
 var app = getApp();
 import { store_Id } from '../../utils/store_id';
 var isDoGetCard = false;

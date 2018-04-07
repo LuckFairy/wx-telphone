@@ -37,7 +37,7 @@ Page({
   
   },
   calling:function(){
-    app.calling('4006088520');
+    app.calling('4000001312');
   },
   /**
    * 生命周期函数--监听页面卸载

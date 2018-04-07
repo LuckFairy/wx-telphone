@@ -39,7 +39,7 @@ App({
     //ceshiUrl:'https://wxplus.paoyeba.com/index.php',
     ceshiUrl: 'http://leoxcxshop.com/index.php',
   },
-  calling: function (phone = '4006088520') {
+  calling: function (phone = '4000001312') {
     wx.makePhoneCall({
       phoneNumber: phone, 
       success: function () {

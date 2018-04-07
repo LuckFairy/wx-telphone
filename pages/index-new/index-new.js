@@ -6,7 +6,7 @@ import { store_Id } from '../../utils/store_id';
 let app = getApp();
 let couponUrl = 'wxapp.php?c=activity&a=new_user_coupon';//领取优惠券接口
 var checkTimer = null;     // 若还没登录，启用定时器
-
+const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
 Page({
   /**
    * 页面的初始数据
@@ -116,6 +116,30 @@ Page({
       that.setData({ showModel, couponList, coupon_id_arr});
     })
 
+  },
+  /**
+ * 获取总店信息
+ */
+  loadMainLocation() {
+    let that = this;
+    let phyDefualt = that.data.phyDefualt;
+    var url = physicalMainUrl;
+    var params = {
+      store_id: that.data.storeId
+    };
+    app.api.postApi(url, { params }, (err, resp) => {
+      // 列表数据
+      wx.hideLoading();
+      if (resp.err_code != 0) {
+        return;
+      }
+      phyDefualt = resp.err_msg.physical_list[0];
+      console.log('phyDefualt', phyDefualt);
+      wx.setStorageSync('phy_id', phyDefualt.phy_id);
+      that.setData({
+        physicalClost: phyDefualt
+      })
+    });
   },
   /**
    * 新用户领券
@@ -236,6 +260,7 @@ Page({
 
     //this.loadGroupData();
     //this.loadHotData();
+    this.loadMainLocation();
     this.loadBaoKuanData();
     this.loadHotSaleData();
     this.loadGoodsData();

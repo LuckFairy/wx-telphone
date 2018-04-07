@@ -81,6 +81,7 @@
                         </view>
                         <view class="card-info-text-normal"  style='display:none'>满{{card.limit_money}}方可使用</view>
                         <view class="card-info-text-small">期限: {{card.start_time_str}}至{{card.end_time_str}}</view>
+                        <view class="card-info-text-small" wx:if='{{category==3}}' >券码: {{card.card_no}}</view>                                 
                     </navigator>
                     <view class="card-item-right card-bg-disable">
                         <view class="card-item-value">
@@ -114,6 +115,7 @@
                         </view>
                         <view class="card-info-text-normal"  style='display:none'>满{{card.limit_money}}方可使用</view>
                         <view class="card-info-text-small">期限: {{card.start_time_str}}至{{card.end_time_str}}</view>
+                        <view class="card-info-text-small" wx:if='{{category==3}}' >券码: {{card.card_no}}</view>
                     </navigator>
                     
                     <view class="card-item-right card-bg-disable">

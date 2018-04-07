@@ -1,12 +1,8 @@
-// present-apply.js
-import { Api } from '../../utils/api_2';
+
 let app = getApp();
 const util = require('../../utils/util.js');
-const log = 'present-apply.js --- ';
-Api.signin();//获取以及存储openid、uid
-import { store_Id } from '../../utils/store_id';
-
 const SubmitURL = 'wxapp.php?c=order_v2&a=trial_product_pay';       // 赠品领用提交接口
+const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
 const QuestionURL = 'wxapp.php?c=product_v2&a=trial_product_question_list';     //问题列表接口
 const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url
 let modalConfig = {
@@ -21,6 +17,7 @@ let errModalConfig = {   // {image?: string, title: string}
 };
 //2017年8月17日16:46:48 by leo
 let skuid;                          // 记录商品多属性标识 id
+let physical_id = wx.getStorageSync('phy_id') || "155"; //门店id
 
 Page({
   data:{
@@ -33,13 +30,14 @@ Page({
     qrEntry: false,
     product_id:null,//商品id
     uid: null,//用户id
-    store_id: store_Id.shopid,//店铺id
+    store_id: app.store_id,//店铺id
   },
   onLoad:function(options){
     console.log('123');
     //2017年8月17日13:46:50 处理选择后的多属性
     var attrData = wx.getStorageSync('key') || [];
     var uid = wx.getStorageSync('userUid');
+    physical_id = wx.getStorageSync('phy_id') || "155";
     if (attrData.length > 0) {
       var attrArr = attrData.split('-');
       this.setData({ productColor: attrArr['0'], productSize: attrArr['1']});
@@ -68,6 +66,9 @@ Page({
            product_id:options.prodId,
            uid,
         });
+        wx.showLoading({
+          title: '正在加载...',
+        })
         this.loadQuestion();
         this.loadListDataNew();
     } catch(e){
@@ -103,7 +104,7 @@ Page({
             upList
           })
       } else{
-          that.submitError({ image: '../../image/error.png', title: err });
+        that.submitError({ image: '../../image/error.png', title: rep.err_msg });
       }
      
     });
@@ -114,10 +115,12 @@ Page({
       "cid": "106",//分类id
       "sid": that.data.store_id,
       "uid": that.data.uid,
+      //physical_id
       // "page_size": "5",
       // "page_num": "1",
     };
     app.api.postApi(trialProductListUrl, { params }, (err, rep) => {
+      wx.hideLoading();
       if (err || rep.err_code != 0) {
         this.setData({ loading: false });
         return;
@@ -146,6 +149,7 @@ Page({
       }
       question.push({ "qid":name,"value":value});
     }
+
     /**
      * 开始请求
      */
@@ -155,12 +159,14 @@ Page({
       mask: true
     });
     // 生成订单号
-    app.api.postApi('wxapp.php?c=order_v2&a=add', {
+    app.api.postApi(addOrderUrl, {
       "params": {
         "uid": that.data.uid,
         "quantity": 1,
         "product_id": that.data.product_id,
-        "store_id": that.data.store_id
+        "store_id": that.data.store_id,
+        "distribution": 0,
+        physical_id
       }
     } ,(err,rep) => {
         wx.hideLoading();
@@ -169,7 +175,8 @@ Page({
           var params = {
             "oid": order_no,
             "uid": that.data.uid,
-            "question": question
+            "question": question,
+             //physical_id
           };
          that.submitData(params);
    
@@ -218,9 +225,11 @@ Page({
       });
     } else {
       let pages = getCurrentPages();
-      let prevPage = pages[pages.length - 2];  //上一个页面
+      let prevPage = pages[pages.length - 3];  //上一个页面
       prevPage.showModal(type, modalConfig);
-      wx.navigateBack();
+      wx.navigateBack({
+        delta: 2
+      });
     }
     
     // this.setData({
@@ -274,4 +283,5 @@ Page({
   onUnload:function(){
     // 页面关闭
   }
+
 })
