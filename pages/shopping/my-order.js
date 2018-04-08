@@ -576,18 +576,9 @@ Page({
     });
   },
   _doPrePay(orderId) {
-    
-    let addressId = this.data.addressId;
-    //let addressId = 47;
-    let payType = this.data.payType;
-    let is_app = this.data.is_app;
-    let postage_list = this.data.postage_list;
-    //let postage_list = "a:1:{i:6;d:0;}";
-    let uid = this.data.uid;
-    let store_id = this.data.storeId;
-    let user_coupon_id = this.data.user_coupon_id;
-    let shipping_method = this.data.shipping_method;
-    //console.log('22222-addressId=' + addressId); //return;
+    let that = this;
+    let { addressId, payType, is_app, postage_list, uid, storeId, user_coupon_id, shipping_method}= that.data;
+
     var params = {
       payType: payType,
       orderNo: orderId,
@@ -596,44 +587,32 @@ Page({
       shipping_method: shipping_method,
       address_id: addressId,
       uid: uid,
-      store_id: store_id,
+      store_id: storeId,
       user_coupon_id: 0,
     }
-    //console.log('支付的请求参数=', params);return;
     wx.showLoading({ title: '请稍候...', mask: true, });
     app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
-
-      //console.log(resp, 344444)
-      var data = resp.err_msg;
-      //console.log(data);
       // 调起微信支付
-      if (resp.err_code != 0) {
-        //console.log('不能支付，原因是：', data)
-
+      if (err||resp.err_code != 0) {
         wx.showModal({
           title: '支付失败',
-          content: data,
+          content:err||resp.err_msg,
           confirmText: '好的',
         });
 
       } else {
         // 调起微信支付
         if (resp.err_dom) {
-          //console.log('不需要支付');
-
           wx.navigateTo({
             url: './my-order?goodsindex=' + 2
           })
         } else {
-
-          //console.log('需要支付');
-
           // 调起微信支付
-          this._startPay(data);
+          this._startPay(resp.err_msg);
         }
       }
-      //console.log(data); return;
+ 
 
 
     });
@@ -644,17 +623,11 @@ Page({
    * 调起微信支付
    */
   _startPay(payParams) {
-    let param = {
-      timeStamp: payParams.timeStamp + "",
-      nonceStr: payParams.nonceStr,
-      //"package": "prepay_id=" + payParams.prepayId,
-      "package": payParams.package,
-      signType: 'MD5',
-      paySign: payParams.paySign,
+    var obj = Object.assign({
       success: res => this._onPaySuccess(res),
       fail: err => this._onPayFail(err)
-    };
-    wx.requestPayment(param);
+    }, payParams);
+    wx.requestPayment(obj);
   },
 
   /**
@@ -662,7 +635,6 @@ Page({
    */
   _onPaySuccess(res) {
     wx.showToast({ title: "订单支付成功", icon: "success", duration: 1000 });
-    //2018年1月3日09:52:02
     wx.removeStorageSync('couponInfo');
     this.giveCard(this.data.orderId);
 
