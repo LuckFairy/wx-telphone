@@ -67,8 +67,6 @@ Page({
    productList:null,//产品列表
    fee:0,//运费
    lastPay:0,//实付
-   //2017年12月18日18:25:21 by leo
-   orderId:'',
    shipping_method: 'express',
    postage_list: "",
    user_coupon_id: 0,
