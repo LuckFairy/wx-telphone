@@ -383,84 +383,53 @@ _handleData(resp) {
  * 提交订单
  */
 submitOrder: function (event) {
-  //let params = this.buildAddressParams();
-  //params.cartId = cartId;
-  //wx.showLoading({ title: '加载中...', mask: true, });
-  //收货地址
+  var that = this;
   let address_params = this.buildAddressParams();
   let address_id = address_params.addressId;
-  console.log('地址id是=' + address_id);
-  //let address_id = 47;
-  let payType = this.data.payType;
-  let is_app = this.data.is_app;
-  //let postage_list = this.data.postage_list;
-  let postage_list = "a:1:{i:6;d:0;}";
-  let uid = this.data.uid;
-  let store_id = this.data.storeId;
-  let user_coupon_id = this.data.user_coupon_id;
-  let shipping_method = this.data.shipping_method;
-  let orderId = this.data.order_no; //注意是order_no
-
+  let { payType, is_app, postage_list = "a:1:{i:6;d:0;}", uid, storeId, user_coupon_id, shipping_method, order_no}=that.data;
   var params = {
     payType: payType,
-    orderNo: orderId,
+    orderNo: order_no,
     is_app: is_app,
     postage_list: postage_list,
     shipping_method: shipping_method,
     address_id: address_id,
     uid: uid,
-    store_id: store_id,
+    store_id: storeId,
     user_coupon_id: 0,
   }
-  //console.log(params);return;
   wx.showLoading({ title: '请稍候...', mask: true, });
-  app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
-    wx.hideLoading();
-    //console.log(resp, 344444)
-    var data = resp.err_msg;
-    //console.log(data);
-    // 调起微信支付
-    //this._startPay(data);
-    if (resp.err_code != 0) {
-      //console.log('不能支付，原因是：', data)
-      wx.showModal({
-        title: '支付失败',
-        content: data,
-        confirmText: '好的',
-      });
-    } else {
-      // 调起微信支付
-
-      if (resp.err_dom) {
-        //console.log('不需要支付');
-        wx.navigateTo({
-          url: './my-order?goodsindex=' + 2
-        })
+   app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
+      wx.hideLoading();
+      if (err || resp.err_code != 0) {
+        wx.showModal({
+          title: '支付失败',
+          content: err || resp.err_msg,
+          confirmText: '好的',
+        });
       } else {
-        //console.log('需要支付');
         // 调起微信支付
-        this._startPay(data);
+        if (resp.err_dom) {
+          wx.navigateTo({
+            url: './my-order?goodsindex=' + 2
+          })
+        } else {
+          // 调起微信支付
+          this._startPay(resp.err_msg);
+        }
       }
-    }
-  });
+    });
 },
-
 
 /**
  * 调起微信支付
  */
 _startPay(payParams) {
-  let param = {
-    timeStamp: payParams.timeStamp + "",
-    nonceStr: payParams.nonceStr,
-    //"package": "prepay_id=" + payParams.prepayId,
-    "package": payParams.package,
-    signType: 'MD5',
-    paySign: payParams.paySign,
+  var obj = Object.assign({
     success: res => this._onPaySuccess(res),
     fail: err => this._onPayFail(err)
-  };
-  wx.requestPayment(param);
+  }, payParams);
+  wx.requestPayment(obj);
 },
 
 /**
@@ -485,7 +454,7 @@ closeBtn() {
     wx.redirectTo({
       url: '../shopping/my-order'
     });
-  }, 500);
+  }, 1000);
 },
 
 /**
@@ -520,11 +489,8 @@ _onPayFail(err) {
 addrViewClick() {
   wx.navigateTo({
     url: './address-list?addressId=' + this.data.addressId
-    //url: '../shop/address-list?addressId=' + this.data.addressId
   });
 },
-
-
 
 /**  新增地址相关 */
 /**

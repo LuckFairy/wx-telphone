@@ -161,13 +161,11 @@ Page({
   
 
   onLoad: function (options) {
-    console.log('获取存储', wx.getStorageSync('couponInfo'));
+ 
     wx.removeStorageSync('couponInfo');
-    console.log('移除之后', wx.getStorageSync('couponInfo'));
     wx.removeStorageSync('recid')
     wx.removeStorageSync('cname')
     wx.removeStorageSync('face_money')
-    console.log('页面load',options);
     let { uid, pid, skuId, storeId, qrEntry, orderId,baokuan_action } = options;
     quantity = options.quantity;
     //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
@@ -196,22 +194,15 @@ Page({
 
   },
   onReady: function () {
-    console.log('页面渲染完成');
     // 页面渲染完成
   },
   onShow: function () {
-    console.log('页面显示');
     var uid = this.data.uid;
     this.getAddress(uid);
-    // 页面显示
-   // this._prepare(_prodId, skuid, quantity, groupbuyId);
-   //2017年12月25日12:00:37 
     var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
-    //console.log('onShow优惠券信息', couponInfo);
     if (couponInfo.length > 0) {
       var user_coupon_id = [];  //23  ['23']
       user_coupon_id.push(couponInfo[0]);
-      //console.log(user_coupon_id, 'user_coupon_idooooooooooooo')
       this.setData({
         user_coupon_id: user_coupon_id
       })
@@ -376,30 +367,17 @@ Page({
    * 提交订单
    */
   submitOrder: function (event) {
-    
-    var that = this;
+    let that = this;
     // 显示公众号复制提示
     that.setData({
       showwechat: true
     })
-
-
-    if (!this.checkAddress()) return false;
-
+    if (!that.checkAddress()) return false;
     // 收货地址
-    let address_params= this.buildAddressParams();
+    let address_params = that.buildAddressParams();
     let address_id = address_params.addressId;
-    console.log('地址id是=' + address_id);
-    //let address_id = 47;
-    let payType = this.data.payType;
-    let is_app = this.data.is_app;
-    let postage_list = this.data.postage_list;
-    //let postage_list = "a:1:{i:6;d:0;}";
-    let uid = this.data.uid;
-    let store_id = this.data.storeId;
-    let user_coupon_id = this.data.user_coupon_id;
-    let shipping_method = this.data.shipping_method;
-    let orderId = this.data.orderId;
+
+    let { payType, is_app, postage_list, uid, storeId, user_coupon_id, shipping_method, orderId } = that.data;
 
     var params = {
       payType: payType,
@@ -409,45 +387,29 @@ Page({
       shipping_method: shipping_method,
       address_id: address_id,
       uid: uid,
-      store_id: store_id,
+      store_id: storeId,
       user_coupon_id: user_coupon_id,
     }
-    //console.log('支付请求参数',params);return;
-    wx.showLoading({ title: '请稍候...', mask: true, });
     app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
-      //console.log(resp, 344444)
-      var data = resp.err_msg;
-
-      //console.log(data);
-      if (resp.err_code != 0) {
-        //console.log('不能支付，原因是：', data)
-
-
+      if (err || resp.err_code != 0) {
         wx.showModal({
           title: '支付失败',
-          content: data,
+          content: err || resp.err_msg,
           confirmText: '好的',
         });
       } else {
         // 调起微信支付
         if (resp.err_dom) {
-
-          //console.log('不需要支付');
-
           wx.navigateTo({
             url: './my-order?goodsindex=' + 2
           })
         } else {
-
-          //console.log('需要支付');
-
           // 调起微信支付
-          this._startPay(data);
+          this._startPay(resp.err_msg);
         }
       }
     });
-
     
   },
 
@@ -457,17 +419,11 @@ Page({
    * 调起微信支付
    */
   _startPay(payParams) {
-    let param = {
-      timeStamp: payParams.timeStamp + "",
-      nonceStr: payParams.nonceStr,
-      //"package": "prepay_id=" + payParams.prepayId,
-      "package": payParams.package,
-      signType: 'MD5',
-      paySign: payParams.paySign,
+    var obj = Object.assign({
       success: res => this._onPaySuccess(res),
       fail: err => this._onPayFail(err)
-    };
-    wx.requestPayment(param);
+    }, payParams);
+    wx.requestPayment(obj);
   },
 
   /**
@@ -492,7 +448,7 @@ Page({
       wx.redirectTo({
         url: '../shopping/my-order?orderstatus=2'
       });
-    }, 500);
+    }, 1000);
   },
 
   /**
