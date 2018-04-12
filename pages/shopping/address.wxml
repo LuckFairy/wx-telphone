@@ -10,7 +10,7 @@
     </view>
     <view class="item-view">
         <label class="title">手机号码：</label>
-        <input style="flex:1;" bindinput="bindShippingTelephoneChange" value='{{addressiinfo.tel}}'  type="number"  maxlength="64" />
+        <input style="flex:1;" bindinput="bindShippingTelephoneChange" value='{{addressiinfo.tel}}'  type="number"  maxlength="11" />
     </view>
     <view class="item-view">
         <label class="title">省份：</label>

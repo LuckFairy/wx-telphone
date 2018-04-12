@@ -1,5 +1,5 @@
 var app = getApp();
-// const util = require('../../utils/util.js');
+const util = require('../../utils/util.js');
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
 Page({
@@ -155,7 +155,7 @@ Page({
       });
     }else{
       wx.showLoading({
-        title: '请完善信息'
+        title: resp.err_msg
       })
       setTimeout(function(){
         wx.hideLoading()
@@ -164,9 +164,16 @@ Page({
     
   },
   bindShippingTelephoneChange(e){
-    this.setData({
-      phonename: e.detail.value
-    })
+    var phone = e.detail.value;
+    if (util.checkMobile(phone)){
+      this.setData({
+        phonename: phone
+      })
+    }else{
+      wx.showToast({
+        title: '请输入正确的手机号',
+      })
+    }
   },
   bindFullnameChange(e){
     console.log('姓名修改',e)

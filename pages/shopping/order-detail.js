@@ -211,17 +211,11 @@ Page({
    * 调起微信支付
    */
   _startPay(payParams) {
-    let param = {
-      timeStamp: payParams.timeStamp + "",
-      nonceStr: payParams.nonceStr,
-      //"package": "prepay_id=" + payParams.prepayId,
-      "package": payParams.package,
-      signType: 'MD5',
-      paySign: payParams.paySign,
+    var obj = Object.assign({
       success: res => this._onPaySuccess(res),
       fail: err => this._onPayFail(err)
-    };
-    wx.requestPayment(param);
+    }, payParams);
+    wx.requestPayment(obj);
   },
 
   /**
