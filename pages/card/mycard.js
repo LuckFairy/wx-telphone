@@ -3,8 +3,7 @@ var app = getApp();
 var _tapLock = false;    // 点击锁
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
-// let isLoaded2=false;//是否已经加载了已过期数据
-// let isLoaded3 = false;//是否已经加载了已使用数据
+
 Page({
   data: {
     isLoaded2: false,//是否已经加载了已过期数据
