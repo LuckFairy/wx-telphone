@@ -3,15 +3,19 @@ var app = getApp();
 var _tapLock = false;    // 点击锁
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
+// let isLoaded2=false;//是否已经加载了已过期数据
+// let isLoaded3 = false;//是否已经加载了已使用数据
 Page({
   data: {
+    isLoaded2: false,//是否已经加载了已过期数据
+    isLoaded3: false,//是否已经加载了已使用数据
     loading: true,
-    loadingone:true,//待使用是否上拉刷新
-    normal:[],//待使用数据
-    loadingtwo:true,//已过期是否上拉刷新
-    expired:[],//已经过期数据
+    loadingone: true,//待使用是否上拉刷新
+    normal: [],//待使用数据
+    loadingtwo: true,//已过期是否上拉刷新
+    expired: [],//已经过期数据
     loadingthree: true, //已使用是否上拉刷新
-    used:[],//已使用数据
+    used: [],//已使用数据
     status: true,
     windowHeight: '',
     windowWidth: '',
@@ -32,13 +36,14 @@ Page({
     use_image: '',
     showHide: true,
     typeText: '门店券',
+    indexSelect: 0,//门店券0，线上券1
     category: 3,
     selectCardone: 0,
     selectCardtwo: 0,
     selectCardthree: 0,
-    mendiancard:'',
-    onlinecard:'',
-    shopCard:''
+    mendiancard: '',
+    onlinecard: '',
+    shopCard: ''
   },
   getCoupon() {
     wx.navigateTo({
@@ -62,61 +67,49 @@ Page({
   goChooseCard(e) {
     var that = this;
     // 事件代理拿到点击目标
-    var indexSelect = e.target.dataset.select;
-    if (indexSelect == 0) {
+    var { indexSelect, expired, normal, used} = that.data.indexSelect;
+    var select = e.target.dataset.select;
+    if (indexSelect == select) { return;}
+    that.setData({
+      indexSelect: select, expired: [], normal: [], used: [], loadingone:true,loadingtwo:true,loadingthress:true, showHide: true, pagesone: 1,
+      pagestwo: 1,
+      pagesthree: 1,
+    });
+    if (select == 0) {
       this.setData({
         typeText: '线上券',
-        showHide: true,
         category: 1,
-        pagesone: 1,
-        pagestwo: 1,
-        pagesthree: 1,
-        selectCardone: 1,
-        selectCardtwo: 1,
-        selectCardthree: 1,
-        onlinecard:'onlinecard',
-        mendiancard:'',
-        xianshangCard:'xianshangCard',
-        shopCard:''
+        onlinecard: 'onlinecard',
+        mendiancard: '',
+        xianshangCard: 'xianshangCard',
+        shopCard: ''
       });
-  
-      that.loadData1(that);
-      that.loadData2(that);
-      that.loadData3(that);
-    } else if (indexSelect == 1) {
+    } else if (select == 1) {
       this.setData({
         typeText: '门店券',
-        showHide: true,
         category: 3,
-        pagesone: 1,
-        pagestwo: 1,
-        pagesthree: 1,
-        selectCardone: 1,
-        selectCardtwo: 1,
-        selectCardthree: 1, // 判断是否切换
         mendiancard: 'mendiancard',
         onlinecard: '',
-        xianshangCard:'',
-        shopCard:'shopCard'
+        xianshangCard: '',
+        shopCard: 'shopCard'
       });
-      console.log(that.data.normal.length, '是否点击门店券normal数据')
-      that.loadData1(that);
-      that.loadData2(that);
-      that.loadData3(that);
     }
+    that.loadData1(that);
+    that.loadData2(that);
+    that.loadData3(that);
   },
   pullUpLoadone(e) {
     var that = this;
-    var { loadingone, pagesone}= that.data;
+    var { loadingone, pagesone } = that.data;
     if (!loadingone) {//全部加载完成
-       return;
+      return;
     }
-    wx.showLoading({ title: '加载中'});
+    wx.showLoading({ title: '加载中' });
     pagesone++;
-    that.setData({ pagesone})
+    that.setData({ pagesone })
     setTimeout(function () {
       that.loadData1(that);
-     
+
     }, 1000)
   },
   pullUpLoadtwo(e) {
@@ -134,7 +127,7 @@ Page({
     })
     setTimeout(function () {
       that.loadData2(that);
-     
+
     }, 1000)
   },
   pullUpLoadthree(e) {
@@ -146,21 +139,21 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-  
-      pagesthree++;
-      that.setData({
-        pagesthree: pagesthree
-      })
+
+    pagesthree++;
+    that.setData({
+      pagesthree: pagesthree
+    })
     setTimeout(function () {
       that.loadData3(that);
-      
+
     }, 1000)
   },
   onLoad: function (options) {
     var that = this;
     that.setData({
-      mendiancard:'mendiancard',
-      shopCard:"shopCard"
+      mendiancard: 'mendiancard',
+      shopCard: "shopCard"
     })
     wx.getSystemInfo({
       success: function (res) {
@@ -171,44 +164,43 @@ Page({
       }
     })
     var store_id = store_Id.store_Id();//store_id
-    var checkTime = null;
-    var time = 0;
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
     var uid = wx.getStorageSync('userUid');
+    var checkTime = '',time=0;
     checkTime = setInterval(function () {
       if (uid) {
-        console.log(uid, store_id);
         that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
         // 自动获取手机宽高
         that.loadData1(that);
-        that.loadData2(that);
-        that.loadData3(that);
+        // that.loadData2(that);
+        // that.loadData3(that);
         clearInterval(checkTime);
       } else {
         Api.signin();//获取以及存储openid、uid
-        // 获取uid
         var uid = wx.getStorageSync('userUid');
         if (uid) {
-          console.log(uid, store_id);
           that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
           // 自动获取手机宽高
           that.loadData1(that);
-          that.loadData2(that);
-          that.loadData3(that);
+          // that.loadData2(that);
+          // that.loadData3(that);
           clearInterval(checkTime);
         }
       }
-      time += 1000;
-      if (time > 20000) {
-        // 大于20秒不授权就清除计时器
+      time += 1;
+      if (time > 2) {
         clearInterval(checkTime);
-        // 20秒不授权 去首页
         wx.switchTab({
           url: '../index-new/index-new',
         })
       }
     }, 1000)
+  },
+
+  loadAll(){
+    var that=this;
+    that.loadData1(that);
+    that.loadData2(that);
+    that.loadData3(that);
   },
 
   onReady: function () {
@@ -226,14 +218,26 @@ Page({
   },
   // 滑动切换
   swiperChange: function (event) {
+    let currentIndex = event.detail.current;
+    console.log('swiperChange：' + currentIndex);
     var that = this;
     this.setData({
-      curActIndex: event.detail.current,
-      dataStatus: event.detail.current
+      curActIndex: currentIndex,
+      dataStatus: currentIndex
     });
+    let isLoaded2 = that.data.isLoaded2;
+    let isLoaded3 = that.data.isLoaded3;
+    if(currentIndex==1&&!isLoaded2){
+      wx.showLoading({ title: '加载中' });
+      that.loadData2(that);
+    } else if (currentIndex == 2 && !isLoaded3){
+      wx.showLoading({ title: '加载中' });
+      that.loadData3(that);
+    }
   },
   // 点击切换
   swichSwiperItem: function (event) {
+    console.log('swichSwiperItem：' + event.target.dataset.idx);
     var that = this;
     this.setData({
       curSwiperIdx: event.target.dataset.idx,
@@ -257,25 +261,22 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
-    var { msgList, selectCardone, pagesone, store_id, uid, category,loadingone } = that.data;//msgList长度;0/1之间判断切换
-    if (selectCardone == 1) {
-      msgList.splice(0, msgList.length);//splice方法直接更改原始数组以及返回被删除/更改的项目
-    }
+    var { msgList, pagesone, store_id, uid, category } = that.data;//msgList长度;0/1之间判断切换
     var params = {
-      page: pagesone, store_id: store_id, uid: uid, type: 'unused', category: category
+      page: pagesone, store_id: store_id, uid: uid, type: 'unused', category
     }
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       wx.hideLoading();
-      if (err&&reps.err_code!=0) return;
-      var { image, coupon_list, next_page} = reps.err_msg;
-      if(!next_page){//全部加载完成
-        wx.showToast({
-          title: '已经没有数据！',
-          image: '../../image/use-ruler.png',
-          duration: 2000
-        });
+      if (err && reps.err_code != 0) return;
+      var { image, coupon_list, next_page } = reps.err_msg;
+      if (!next_page) {//全部加载完成
+        // wx.showToast({
+        //   title: '已经没有数据！',
+        //   image: '../../image/use-ruler.png',
+        //   duration: 2000
+        // });
         that.setData({
-          loadingone:next_page
+          loadingone: next_page
         });
         return;
       }
@@ -287,29 +288,29 @@ Page({
         loading: false,
         normal: msgList,
         image: image,
-        selectCardone: 0
       });
-      
+
     });
   },
   loadData2: function (that) {
-    var { expiredMsg, selectCardtwo, pagestwo, store_id, uid, category, loadingtwo } = that.data;
-    if (selectCardtwo == 1) {
-      expiredMsg.splice(0, expiredMsg.length);
-    }
+    var { expiredMsg, pagestwo, store_id, uid, category, loadingtwo } = that.data;
+    
     var params = {
-      page: pagestwo, store_id: store_id, uid: uid, type: 'expired', category: category
+      page: pagestwo, store_id: store_id, uid: uid, type: 'expired', category
     }
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       wx.hideLoading();
       if (err && reps.err_code != 0) return;
+      that.setData({
+        isLoaded2: true
+      });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
       if (!next_page) {//全部加载完成
-        wx.showToast({
-          title: '已经没有数据！',
-          image: '../../image/use-ruler.png',
-          duration: 2000
-        });
+        // wx.showToast({
+        //   title: '已经没有数据！',
+        //   image: '../../image/use-ruler.png',
+        //   duration: 2000
+        // });
         that.setData({
           loadingtwo: next_page
         });
@@ -325,28 +326,29 @@ Page({
         loading: false,
         expired: expiredMsg,
         ex_image: ex_image,
-        selectCardtwo: 0
       });
     });
   },
   loadData3: function (that) {
-    var { selectCardthree, usedMsg, pagesthree, store_id, uid, category}=that.data;
-    if (selectCardthree == 1) {
-      usedMsg.splice(0, usedMsg.length);
-    }
+    var { usedMsg, pagesthree, store_id, uid, category } = that.data;
+  
     var params = {
-      page: pagesthree, store_id: store_id, uid: uid, type: 'use', category: category
+      page: pagesthree, store_id: store_id, uid: uid, type: 'use', category
     }
 
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
+      wx.hideLoading();
       if (err && reps.err_code != 0) return;
+      that.setData({
+        isLoaded3: true
+      });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
       if (!next_page) {//全部加载完成
-        wx.showToast({
-          title: '已经没有数据！',
-          image: '../../image/use-ruler.png',
-          duration: 2000
-        });
+        // wx.showToast({
+        //   title: '已经没有数据！',
+        //   image: '../../image/use-ruler.png',
+        //   duration: 2000
+        // });
         that.setData({
           loadingtwo: next_page
         });
@@ -362,7 +364,6 @@ Page({
         loading: false,
         used: usedMsg,
         use_image: use_image,
-        selectCardthree: 0
       });
     });
   },
