@@ -24,12 +24,12 @@ Page({
     image: '',
     ex_image: '',
     use_image: '',
+    indexSelect: 0,//门店券0，线上券1
+    normal:[],//页面数据
+    loadingtwo: true,//页面是否上拉刷新
     showHide: true,
     typeText: '门店券',
     category: 3,
-    selectCardone: 0,
-    selectCardtwo: 0,
-    selectCardthree: 0,
     searchValue: '',
     onlinecard:'',
     mendiancard:'',
@@ -78,45 +78,34 @@ Page({
   goChooseCard(e) {
     var that = this;
     // 事件代理拿到点击目标
-    var indexSelect = e.target.dataset.select;
-    if (indexSelect == 0) {
+    var { indexSelect, normal } = that.data.indexSelect;
+    var select = e.target.dataset.select;
+    if (indexSelect == select) { return; }
+    that.setData({
+      indexSelect: select, normal: [], showHide: true, pagesone: 1, loadingone:true,
+      pagestwo: 1,
+      pagesthree: 1,
+    });
+    if (select == 0) {
       this.setData({
         typeText: '线上券',
-        showHide: true,
         category: 1,
-        pagesone: 1,
-        loadingone:true,
-        pagestwo: 1,
-        pagesthree: 1,
-        selectCardone: 1,
-        selectCardtwo: 1,
-        selectCardthree: 1,
-        onlinecard:'trues',
+        onlinecard: 'onlinecard',
         mendiancard: '',
         xianshangCard: 'xianshangCard',
         shopCard: ''
       });
-      console.log(that.data.normal.length, '线上券normal数据')
-      that.loadData1(that);
-    } else if (indexSelect == 1) {
+    } else if (select == 1) {
       this.setData({
         typeText: '门店券',
-        showHide: true,
         category: 3,
-        pagesone: 1,
-        pagestwo: 1,
-        pagesthree: 1,
-        selectCardone: 1,
-        selectCardtwo: 1,
-        selectCardthree: 1, // 判断是否切换
-        mendiancard:'mendiancard',
+        mendiancard: 'mendiancard',
         onlinecard: '',
         xianshangCard: '',
         shopCard: 'shopCard'
       });
-      console.log(that.data.normal.length, '是否点击线下券normal数据')
-      that.loadData1(that);
     }
+    that.loadData1(that);
   },
   pullUpLoadone(e) {
     var that = this;
@@ -140,11 +129,7 @@ Page({
     })
     var store_id = store_Id.store_Id();//store_id
     Api.signin();//获取以及存储openid、uid
-    // 获取uid
     var uid = wx.getStorageSync('userUid');
-    console.log(uid, store_id);
-    // 页面初始化 options为页面跳转所带来的参数
-    // wx.showLoading({ title: '加载中' });
     that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
     // 自动获取手机宽高
     wx.getSystemInfo({
@@ -180,31 +165,30 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
-    var { selectCardone, msgList, searchValue, pagesone, store_id, uid, category}=that.data;
-
-
-
-    if (selectCardone == 1) {
-      msgList.splice(0, msgList.length);//splice方法直接更改原始数组以及返回被删除/更改的项目
-    }
+    var { msgList, searchValue, pagesone, store_id, uid, category, nullList}=that.data;
     var params = {
       page: pagesone, store_id: store_id, uid: uid, type: 'all', category: category, keyword: searchValue
     }
-   
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       wx.hideLoading();
       if (err) return;
       wx.hideLoading();
       if (err && reps.err_code != 0) return;
       var { image, coupon_list, next_page } = reps.err_msg;
+      //第一次加载无数据显示
+      if (pagesone == 1 && coupon_list.length==0) {
+        that.setData({ nullList: true, loadingone:true});return;
+      }
       if (!next_page) {//全部加载完成
-        wx.showToast({
-          title: '已经没有数据！',
-          image: '../../image/use-ruler.png',
-          duration: 2000
-        });
+        // wx.showToast({
+        //   title: '已经没有数据！',
+        //   image: '../../image/use-ruler.png',
+        //   duration: 2000
+        // });
         that.setData({
-          loadingone: next_page
+          loadingone: next_page,
+          normal: coupon_list,
+          nullList:false,
         });
         return;
       }
@@ -212,17 +196,7 @@ Page({
         msgList.push(coupon_list[j]);
       }
     
-      //更新数据
-      if (!msgList.length){
-        // 不为真
-        that.setData({
-          nullList:true
-        })
-      }else{
-        that.setData({
-          nullList: false
-        })
-      }
+     
       that.setData({
         loading: false,
         normal: msgList,

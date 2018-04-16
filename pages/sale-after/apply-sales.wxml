@@ -33,7 +33,7 @@
   <!--提交申请开始  -->
   <view class='apply-applications'>
     <image class='apply-applications-image' src='../../image/server-wechat.png'></image>
-    <text class='apply-applications-hint'>注:提交申请后,请再联系客服电话
+    <text class='apply-applications-hint'>注：提交申请后，我们将在3个工作日内为您处理退款
 </text>
     <view class='apply-applications-wechat'>
       <text class='apply-applications-text'>客服电话:</text>

@@ -60,7 +60,8 @@
             </view>
             <!--/正常活动卡券-->
           </block>
-          <text wx:if="{{!loadingone}}" class='dropload-noData'>已无数据</text>
+          <text wx:if="{{!loadingone}}" class='dropload-noData'>已无更多</text>
+          <text wx:else class='dropload-noData'>上拉加载更多...</text>
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
@@ -97,7 +98,8 @@
             </view>
             <!--/过期卡券-->
           </block>
-          <text wx:if="{{!loadingtwo}}" class='dropload-noData'>已无数据</text>
+          <text wx:if="{{!loadingtwo}}" class='dropload-noData'>已无更多</text>
+          <text wx:else class='dropload-noData'>上拉加载更多...</text>
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
@@ -135,7 +137,8 @@
             </view>
             <!--/已经使用过的卡券-->
           </block>
-          <text wx:if="{{!loadingthree}}" class='dropload-noData'>已无数据</text>
+          <text wx:if="{{!loadingthree}}" class='dropload-noData'>已无更多</text>
+          <text wx:else class='dropload-noData'>上拉加载更多...</text>
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
