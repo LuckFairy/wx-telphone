@@ -3,8 +3,12 @@ var app = getApp();
 var _tapLock = false;    // 点击锁
 import { Api } from '../../utils/api_2';
 import { store_Id } from '../../utils/store_id';
+// let isLoaded2=false;//是否已经加载了已过期数据
+// let isLoaded3 = false;//是否已经加载了已使用数据
 Page({
   data: {
+    isLoaded2: false,//是否已经加载了已过期数据
+    isLoaded3: false,//是否已经加载了已使用数据
     loading: true,
     loadingone: true,//待使用是否上拉刷新
     normal: [],//待使用数据
@@ -167,8 +171,8 @@ Page({
         that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
         // 自动获取手机宽高
         that.loadData1(that);
-        that.loadData2(that);
-        that.loadData3(that);
+        // that.loadData2(that);
+        // that.loadData3(that);
         clearInterval(checkTime);
       } else {
         Api.signin();//获取以及存储openid、uid
@@ -177,8 +181,8 @@ Page({
           that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
           // 自动获取手机宽高
           that.loadData1(that);
-          that.loadData2(that);
-          that.loadData3(that);
+          // that.loadData2(that);
+          // that.loadData3(that);
           clearInterval(checkTime);
         }
       }
@@ -190,6 +194,13 @@ Page({
         })
       }
     }, 1000)
+  },
+
+  loadAll(){
+    var that=this;
+    that.loadData1(that);
+    that.loadData2(that);
+    that.loadData3(that);
   },
 
   onReady: function () {
@@ -207,14 +218,26 @@ Page({
   },
   // 滑动切换
   swiperChange: function (event) {
+    let currentIndex = event.detail.current;
+    console.log('swiperChange：' + currentIndex);
     var that = this;
     this.setData({
-      curActIndex: event.detail.current,
-      dataStatus: event.detail.current
+      curActIndex: currentIndex,
+      dataStatus: currentIndex
     });
+    let isLoaded2 = that.data.isLoaded2;
+    let isLoaded3 = that.data.isLoaded3;
+    if(currentIndex==1&&!isLoaded2){
+      wx.showLoading({ title: '加载中' });
+      that.loadData2(that);
+    } else if (currentIndex == 2 && !isLoaded3){
+      wx.showLoading({ title: '加载中' });
+      that.loadData3(that);
+    }
   },
   // 点击切换
   swichSwiperItem: function (event) {
+    console.log('swichSwiperItem：' + event.target.dataset.idx);
     var that = this;
     this.setData({
       curSwiperIdx: event.target.dataset.idx,
@@ -278,6 +301,9 @@ Page({
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       wx.hideLoading();
       if (err && reps.err_code != 0) return;
+      that.setData({
+        isLoaded2: true
+      });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
       if (!next_page) {//全部加载完成
         // wx.showToast({
@@ -311,7 +337,11 @@ Page({
     }
 
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
+      wx.hideLoading();
       if (err && reps.err_code != 0) return;
+      that.setData({
+        isLoaded3: true
+      });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
       if (!next_page) {//全部加载完成
         // wx.showToast({
