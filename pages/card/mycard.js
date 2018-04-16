@@ -6,6 +6,12 @@ import { store_Id } from '../../utils/store_id';
 Page({
   data: {
     loading: true,
+    loadingone:true,//待使用是否上拉刷新
+    normal:[],//待使用数据
+    loadingtwo:true,//已过期是否上拉刷新
+    expired:[],//已经过期数据
+    loadingthree: true, //已使用是否上拉刷新
+    used:[],//已使用数据
     status: true,
     windowHeight: '',
     windowWidth: '',
@@ -73,7 +79,7 @@ Page({
         xianshangCard:'xianshangCard',
         shopCard:''
       });
-      console.log(that.data.normal.length, '线上券normal数据')
+  
       that.loadData1(that);
       that.loadData2(that);
       that.loadData3(that);
@@ -100,56 +106,55 @@ Page({
     }
   },
   pullUpLoadone(e) {
-    wx.showLoading({
-      title: '加载中',
-    })
     var that = this;
-    // 上拉加载开始
+    var { loadingone, pagesone}= that.data;
+    if (!loadingone) {//全部加载完成
+       return;
+    }
+    wx.showLoading({ title: '加载中'});
+    pagesone++;
+    that.setData({ pagesone})
     setTimeout(function () {
-      var pagesone = that.data.pagesone;
-      pagesone++;
-      that.setData({
-        pagesone: pagesone
-      })
       that.loadData1(that);
-      wx.hideLoading();
+     
     }, 1000)
-    // 上拉加载结束 
   },
   pullUpLoadtwo(e) {
+    var that = this;
+    var { loadingtwo, pagestwo } = that.data;
+    if (!loadingtwo) {//全部加载完成
+      return;
+    }
     wx.showLoading({
       title: '加载中',
     })
-    var that = this;
-    // 上拉加载开始
+    pagestwo++;
+    that.setData({
+      pagestwo: pagestwo
+    })
     setTimeout(function () {
-      var pagestwo = that.data.pagestwo;
-      pagestwo++;
-      that.setData({
-        pagestwo: pagestwo
-      })
       that.loadData2(that);
-      wx.hideLoading()
+     
     }, 1000)
-
-    // 上拉加载结束 
   },
   pullUpLoadthree(e) {
+    var that = this;
+    var { loadingthree, pagesthree } = that.data;
+    if (!loadingthree) {//全部加载完成
+      return;
+    }
     wx.showLoading({
       title: '加载中',
     })
-    var that = this;
-    // 上拉加载开始
-    setTimeout(function () {
-      var pagesthree = that.data.pagesthree;
+  
       pagesthree++;
       that.setData({
         pagesthree: pagesthree
       })
+    setTimeout(function () {
       that.loadData3(that);
-      wx.hideLoading()
+      
     }, 1000)
-    // 上拉加载结束
   },
   onLoad: function (options) {
     var that = this;
@@ -252,39 +257,31 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
-    console.log('loadData1');
-    var selectCardone = that.data.selectCardone;//0/1之间判断切换
-    console.log('判断是否切换线上线下1为已经切换', selectCardone)
-    var msgList = that.data.msgList;//空数组
-    console.log('msgList长度', msgList.length)
+    var { msgList, selectCardone, pagesone, store_id, uid, category,loadingone } = that.data;//msgList长度;0/1之间判断切换
     if (selectCardone == 1) {
       msgList.splice(0, msgList.length);//splice方法直接更改原始数组以及返回被删除/更改的项目
-      console.log('清空之后msgList长度', msgList.length)
     }
-    var pagesone = that.data.pagesone;//页码
-    var store_id = that.data.store_id;
-    var uid = that.data.uid;
-    var category = that.data.category;
-    console.log('category', category)
-    console.log(pagesone, store_id, uid)
-    console.log('页码', pagesone)
     var params = {
       page: pagesone, store_id: store_id, uid: uid, type: 'unused', category: category
     }
-    wx.showLoading({
-      title: '加载中'
-    })
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, response) => {
+    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       wx.hideLoading();
-      if (err) return;
-      // 数据是否为空，空时是空数组
-      var coupon_list = response.err_msg.coupon_list;
-      var image = response.err_msg.image;
-      console.log(response, 'response');
-      for (var j = 0; j < coupon_list.length; j++) {
+      if (err&&reps.err_code!=0) return;
+      var { image, coupon_list, next_page} = reps.err_msg;
+      if(!next_page){//全部加载完成
+        wx.showToast({
+          title: '已经没有数据！',
+          image: '../../image/use-ruler.png',
+          duration: 2000
+        });
+        that.setData({
+          loadingone:next_page
+        });
+        return;
+      }
+      for (let j = 0; j < coupon_list.length; j++) {
         msgList.push(coupon_list[j]);
       }
-      console.log('push之后msgList长度', msgList.length)
       //更新数据
       that.setData({
         loading: false,
@@ -292,31 +289,34 @@ Page({
         image: image,
         selectCardone: 0
       });
-      console.log('判断是否切换重置为0', that.data.selectCardone)
-      console.log(that.data.normal.length, '加载时normal数据')
-      wx.hideLoading();
+      
     });
   },
   loadData2: function (that) {
-    console.log('loadData2');
-    var selectCardtwo = that.data.selectCardtwo;
-    var expiredMsg = that.data.expiredMsg;//空数组
+    var { expiredMsg, selectCardtwo, pagestwo, store_id, uid, category, loadingtwo } = that.data;
     if (selectCardtwo == 1) {
       expiredMsg.splice(0, expiredMsg.length);
     }
-    var pagestwo = that.data.pagestwo;
-    var store_id = that.data.store_id;
-    var uid = that.data.uid;
-    var category = that.data.category;
-    console.log(pagestwo, store_id, uid)
     var params = {
       page: pagestwo, store_id: store_id, uid: uid, type: 'expired', category: category
     }
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, response) => {
-      if (err) return;
-      console.log('res2', response);
-      var expired = response.err_msg.coupon_list;
-      var ex_image = response.err_msg.image;
+    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
+      wx.hideLoading();
+      if (err && reps.err_code != 0) return;
+      var { image, coupon_list, next_page, next_page } = reps.err_msg;
+      if (!next_page) {//全部加载完成
+        wx.showToast({
+          title: '已经没有数据！',
+          image: '../../image/use-ruler.png',
+          duration: 2000
+        });
+        that.setData({
+          loadingtwo: next_page
+        });
+        return;
+      }
+      var expired = coupon_list;
+      var ex_image = image;
       for (var r = 0; r < expired.length; r++) {
         expiredMsg.push(expired[r]);
       }
@@ -327,29 +327,33 @@ Page({
         ex_image: ex_image,
         selectCardtwo: 0
       });
-      wx.hideLoading();
     });
   },
   loadData3: function (that) {
-    console.log('loadData3');
-    var selectCardthree = that.data.selectCardthree;
-    var usedMsg = that.data.usedMsg;
+    var { selectCardthree, usedMsg, pagesthree, store_id, uid, category}=that.data;
     if (selectCardthree == 1) {
       usedMsg.splice(0, usedMsg.length);
     }
-    var pagesthree = that.data.pagesthree;
-    var store_id = that.data.store_id;
-    var uid = that.data.uid;
-    var category = that.data.category;
     var params = {
       page: pagesthree, store_id: store_id, uid: uid, type: 'use', category: category
     }
-    console.log('params', params)
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, response) => {
-      if (err) return;
-      console.log('res3', response);
-      var used = response.err_msg.coupon_list;
-      var use_image = response.err_msg.image;
+
+    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
+      if (err && reps.err_code != 0) return;
+      var { image, coupon_list, next_page, next_page } = reps.err_msg;
+      if (!next_page) {//全部加载完成
+        wx.showToast({
+          title: '已经没有数据！',
+          image: '../../image/use-ruler.png',
+          duration: 2000
+        });
+        that.setData({
+          loadingtwo: next_page
+        });
+        return;
+      }
+      var used = coupon_list;
+      var use_image = image;
       for (var k = 0; k < used.length; k++) {
         usedMsg.push(used[k]);
       }
@@ -360,7 +364,6 @@ Page({
         use_image: use_image,
         selectCardthree: 0
       });
-      wx.hideLoading();
     });
   },
   goDetail(e) {

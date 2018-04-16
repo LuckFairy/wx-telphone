@@ -54,9 +54,11 @@
         <image src='../../../image/close.png'></image>
     </view>
     <text class='code-txt'>{{detailData.cname}}</text>
-    <text wx:if="{{!codeFlag}}" class='code-txt'>{{detailData.card_no}}</text>
+    <!-- <text wx:if="{{!codeFlag}}" class='code-txt'>{{detailData.card_no}}</text> -->
+    <text class='code-txt'>{{detailData.card_no}}</text>
     <image src="{{detailData.qrUrl}}" class='code-imgone'></image>
-    <image wx:if="{{codeFlag}}" src="{{detailData.barcode}}" class='code-imgtwo'></image>
+    <!-- <image wx:if="{{codeFlag}}" src="{{detailData.barcode}}" class='code-imgtwo'></image> -->
+    <image  src="{{detailData.barcode}}" class='code-imgtwo'></image>
     <text class='qrcode-list' style='margin-top:34rpx;'>将二维码出示给门店员核销</text>
     <text class='qrcode-list' style='margin-top:20rpx;margin-bottom:20rpx;'>{{codeFlag?'(条形码只能用扫码枪核销)':''}}</text>
   </view>

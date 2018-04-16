@@ -82,12 +82,13 @@
         </view>
       </view>
     </block>
+    <text wx:if="{{!loadingone}}" class='dropload-noData'>已无数据</text>
     <view wx:if='{{nullList}}' class="no-data-view">
-            <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
-           <text class="mText" class="no-data-text">哎呀，未搜索到优惠券</text>
-           <text class="mText" class="no-data-text">换个字眼试试</text>
-            <!-- <button class='no-data-btn' bindtap='getCoupon'>去领券</button> -->
-          </view>
+      <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+      <text class="mText" class="no-data-text">哎呀，未搜索到优惠券</text>
+      <text class="mText" class="no-data-text">换个字眼试试</text>
+      <!-- <button class='no-data-btn' bindtap='getCoupon'>去领券</button> -->
+    </view>
   </scroll-view>
 </view>
 <view class="overlay" style="display:{{showOverlay ? 'flex' : 'none'}}">

@@ -85,6 +85,7 @@ Page({
         showHide: true,
         category: 1,
         pagesone: 1,
+        loadingone:true,
         pagestwo: 1,
         pagesthree: 1,
         selectCardone: 1,
@@ -118,21 +119,18 @@ Page({
     }
   },
   pullUpLoadone(e) {
-    wx.showLoading({
-      title: '加载中',
-    })
     var that = this;
-    // 上拉加载开始
+    var { loadingone, pagesone } = that.data;
+    if (!loadingone) {//全部加载完成
+      return;
+    }
+    wx.showLoading({ title: '加载中' });
+    pagesone++;
+    that.setData({ pagesone })
     setTimeout(function () {
-      var pagesone = that.data.pagesone;
-      pagesone++;
-      that.setData({
-        pagesone: pagesone
-      })
       that.loadData1(that);
       wx.hideLoading();
     }, 1000)
-    // 上拉加载结束 
   },
   onLoad: function (options) {
     var that = this;
@@ -182,40 +180,38 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
-    var selectCardone = that.data.selectCardone;//0/1之间判断切换
-    console.log('判断是否切换线上线下1为已经切换', selectCardone)
-    var msgList = that.data.msgList;//空数组
-    var searchValue = that.data.searchValue;//搜索值
-    console.log('msgList长度', msgList.length)
-    // 切换类型后者搜索清空之前数组
+    var { selectCardone, msgList, searchValue, pagesone, store_id, uid, category}=that.data;
+
+
+
     if (selectCardone == 1) {
       msgList.splice(0, msgList.length);//splice方法直接更改原始数组以及返回被删除/更改的项目
-      console.log('清空之后msgList长度', msgList.length)
     }
-    var pagesone = that.data.pagesone;//页码
-    var store_id = that.data.store_id;
-    var uid = that.data.uid;
-    var category = that.data.category;
-    console.log('category', category)
-    console.log(pagesone, store_id, uid)
-    console.log('页码', pagesone)
     var params = {
       page: pagesone, store_id: store_id, uid: uid, type: 'all', category: category, keyword: searchValue
     }
-    wx.showLoading({
-      title: '加载中'
-    })
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, response) => {
+   
+    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       wx.hideLoading();
       if (err) return;
-      // 数据是否为空，空时是空数组
-      var coupon_list = response.err_msg.coupon_list;
-      var image = response.err_msg.image;
-      console.log(response, 'response');
+      wx.hideLoading();
+      if (err && reps.err_code != 0) return;
+      var { image, coupon_list, next_page } = reps.err_msg;
+      if (!next_page) {//全部加载完成
+        wx.showToast({
+          title: '已经没有数据！',
+          image: '../../image/use-ruler.png',
+          duration: 2000
+        });
+        that.setData({
+          loadingone: next_page
+        });
+        return;
+      }
       for (var j = 0; j < coupon_list.length; j++) {
         msgList.push(coupon_list[j]);
       }
-      console.log('push之后msgList长度', msgList.length)
+    
       //更新数据
       if (!msgList.length){
         // 不为真
@@ -233,9 +229,6 @@ Page({
         image: image,
         selectCardone: 0
       });
-      console.log('判断是否切换重置为0', that.data.selectCardone)
-      console.log(that.data.normal.length, '加载时normal数据')
-      wx.hideLoading();
     });
   },
   goDetail(e) {

@@ -201,17 +201,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //2017年12月29日17:57:39 by leo 第一行图标使用读取服务器方法==
-    //this.getIconLineOne();
-    //=====
     var that = this;
     Api.signin();//获取以及存储openid、uid
-    // 获取uid
     var uid = wx.getStorageSync('userUid');
     this.setData({ uid });
-    /******首页弹窗 */
     this.firstOpen();
-
     //获取宝宝5个tab的数据
     // app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
     //   wx.hideLoading();
@@ -269,45 +263,6 @@ Page({
 
     //this.loadMyCardNumData(); //我的卡包数量
 
-    //兼容 用户授权问题
-    let waitTime = 0;
-    let intervalTime = 2000;
-    //在登录成功后调用。
-    if (checkTimer) {
-      clearInterval(checkTimer);
-    }
-    checkTimer = setInterval(() => {
-      if (waitTime > 30000) {//超过5秒等待直接跳转到首页。
-        clearInterval(checkTimer);
-        wx.showModal({
-          title: '请求结果',
-          content: '等待超时，跳转到首页',
-        });
-
-        wx.switchTab({
-          url: '../index-new/index-new',
-        });
-      }
-      waitTime += intervalTime;
-      if (uid) {
-        //that.setData({ uid: uid, store_id: store_id, locationId });
-        clearInterval(checkTimer);
-        this.loadMyCardNumData(); //我的卡包数量
-      } else {
-        Api.signin();//获取以及存储uid
-        var uid = wx.getStorageSync('userUid');
-        if (uid) {
-          that.setData({ uid: uid });
-          clearInterval(checkTimer);
-          this.loadMyCardNumData(); //我的卡包数量
-        }
-
-      }
-
-    }, intervalTime);
-
-
-
   },
   goCardLists() {
     wx.navigateTo({
@@ -326,7 +281,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.loadMyCardNumData(); //我的卡包数量
   },
 
   /**
@@ -368,19 +323,6 @@ Page({
    * 若还没登录，启用定时器
    */
   _prepare() {
-    clearInterval(checkTimer);
-    checkTimer = setInterval(() => {
-      if (getApp().hasSignin) {
-        clearInterval(checkTimer);
-        //拼团数据
-
-        //热门数据
-        //this.loadHotData();
-        //this.loadData();    // 加载数据，关闭定时器
-        //秒杀数据
-        // this.loadSecKillData();
-      }
-    }, 1000);
   },
   //返回顶部功能
   goTopFun() {

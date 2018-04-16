@@ -88,7 +88,7 @@ var Api = {
           wx.setStorageSync('userOpenid', data.err_msg.openid);//存储openid
           wx.setStorageSync('userUid', data.err_msg.uid);//存储uid
           typeof callback == 'function' && callback();
-          console.log(data.err_msg.openid,"存储openid")
+          // console.log(data.err_msg.openid,"存储openid")
           return data.err_msg.openid;
         },
         fail(err) {
