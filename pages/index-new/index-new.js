@@ -47,6 +47,7 @@ Page({
     coupon_id_arr: [],//优惠券id
     indexIcon:null,
     saoma_url: null,//条码链接
+    index_image: "http://file.qutego.com/upload/wxapp/banner/yiya/index_2.jpg?" + parseInt(40 * Math.random()),
   },
   /**
    * 扫码购
