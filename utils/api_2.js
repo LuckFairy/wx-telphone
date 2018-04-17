@@ -1,17 +1,18 @@
-var app = getApp();
+var config = require('../config.js');
 var Api = {
   /*用户登陆授权*/
-  signin: function(callback, tryTimes = 3) {
+  signin: function (callback, tryTimes = 3) {
+    console.info('login.......')
     var that = this;
     // 1、调用微信登录
     wx.login({
       success: (resp) => {
-        //console.log('wx.login()成功！', resp);
+        console.log('wx.login()成功！');
         // 进入第2步
         _getUserInfo(resp.code);
       },
       fail: (resp) => {
-        //console.log('wx.login()失败！', resp);
+        console.log('wx.login()失败！', resp);
         _tryAgain(resp);
       }
     });
@@ -19,38 +20,33 @@ var Api = {
     function _getUserInfo(jscode) {
       wx.getUserInfo({
         success: (resp) => {
-          //console.log('wx.getUserInfo()获取用户信息成功!',resp);
-
-          //console.log(resp.userInfo,"111111111111111")
-          let {userInfo, rawData, signature, encryptedData, iv} = resp;
-              //let {userInfo} = resp;
-
+          console.log('调用 wx.getUserInfo()成功');
+          let { userInfo, rawData, signature, encryptedData, iv } = resp;
           // 进入第3步
-              //_doSignin(jscode, userInfo);
-              _doSignin(jscode, rawData, encryptedData, iv, userInfo);
-          },
+          _doSignin(jscode, rawData, encryptedData, iv, userInfo);
+        },
         fail: (resp) => {
-              let autTip = '您已拒绝小程序程序授权，请删除小程序后重新进入，并在提示授权时，点击“允许”按钮。';
-              let canUseSetting = false;
-              if (wx.openSetting){
-                  canUseSetting = true;
-                  autTip = '您已拒绝小程序程序授权，请设置为允许授权后重新进入.';
-              }
-              wx.showModal({
-                  title: '提示',
-                  content: autTip,
-                  showCancel: false,
-                  success: (res) => {
-                      if (res.confirm && canUseSetting) {
-                          wx.openSetting({
-                              success: (res) => {
-                                  that.signin(callback);
-                              }
-                          });
-                      }
-                  }
-              });
+          let autTip = '您已拒绝小程序程序授权，请删除小程序后重新进入，并在提示授权时，点击“允许”按钮。';
+          let canUseSetting = false;
+          if (wx.openSetting) {
+            canUseSetting = true;
+            autTip = '您已拒绝小程序程序授权，请设置为允许授权后重新进入.';
           }
+          wx.showModal({
+            title: '提示',
+            content: autTip,
+            showCancel: false,
+            success: (res) => {
+              if (res.confirm && canUseSetting) {
+                wx.openSetting({
+                  success: (res) => {
+                    that.signin(callback);
+                  }
+                });
+              }
+            }
+          });
+        }
       })
     }
     /**
@@ -61,11 +57,11 @@ var Api = {
      * @param  {string}  iv 加密算法的初始向量 调用wx.getUserInfo()返回的 iv
      */
     //function _doSignin(jscode,userInfo) {
-    function _doSignin(jscode, userInfoData = '', encryptedData = '', iv = '', userInfo) {  
+    function _doSignin(jscode, userInfoData = '', encryptedData = '', iv = '', userInfo) {
       let params = {
         jscode: jscode,
         userInfo: userInfo,
-        store_id: app.store_id,
+        store_id: config.sid,
         userInfoData: userInfoData,
         encryptedData: encryptedData,
         iv: iv
@@ -82,13 +78,14 @@ var Api = {
         },
         method: 'POST',
         success(resp) {
+          console.log("_doSignin成功！")
           let { rtnCode, rtnMessage, data } = resp;
-            // 进入第4步
+          // 进入第4步
           _onSignin(data);
           wx.setStorageSync('userOpenid', data.err_msg.openid);//存储openid
           wx.setStorageSync('userUid', data.err_msg.uid);//存储uid
           typeof callback == 'function' && callback();
-          // console.log(data.err_msg.openid,"存储openid")
+
           return data.err_msg.openid;
         },
         fail(err) {
@@ -100,6 +97,7 @@ var Api = {
     }
     /* 4、登录成功，保存tokenId, secretKey*/
     function _onSignin(data) {
+      console.log("_onSignin成功！")
       getApp().hasSignin = true;
     }
     /*尝试再次登录*/
@@ -117,4 +115,4 @@ var Api = {
   },
 };
 var sign = Api;
-module.exports = {Api,sign};
+module.exports = { Api, sign };

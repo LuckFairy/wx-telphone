@@ -18,10 +18,11 @@ App({
 
     // wx.clearStorageSync();
     this.systemInfo = wx.getSystemInfoSync();
-    sign.signin();
+    
   },
   onShow: function () {
-    console.log('App onShow() ...')
+    console.log('App onShow() ...');
+    sign.signin();
   },
   globalData:{
     userInfo: "",

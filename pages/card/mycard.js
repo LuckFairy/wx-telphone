@@ -25,7 +25,7 @@ Page({
     pagestwo: 1,
     pagesthree: 1,
     dataStatus: 0,
-    curActIndex: "",
+    curActIndex: 0,
     store_id: '',
     uid: '',
     image: '',
