@@ -8,7 +8,7 @@ Page({
   data: {
     currentTab:0,
     tabList:0,
-    dataList:{},
+    dataList:[],
     cat_list:'',
     store_id: '',//店铺id
   },
@@ -74,13 +74,21 @@ Page({
     var that = this;
     var store_id = app.store_id;
     that.setData({ store_id});
-    app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
+    // app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
+    //   wx.hideLoading();
+    //   if (err) return;
+    //   var cat_list = response.err_msg.cat_list;
+    //   console.log("53423233423", cat_list);
+    //   console.log("333333333", options);
+    //   this.setData({ cat_list: cat_list });
+    // });
+    app.api.postApi('wxapp.php?c=index&a=get_icon', { "params":{store_id} }, (err, resp) => {
       wx.hideLoading();
-      if (err) return;
-      var cat_list = response.err_msg.cat_list;
+      if (err||resp.err_code!=0) return;
+      var cat_list = resp.err_msg.icon_list;
       console.log("53423233423", cat_list);
-      console.log("333333333", options);
       this.setData({ cat_list: cat_list });
+
     });
     // 5个tab数据结束
     // 选项卡载入时判断是进入哪一个

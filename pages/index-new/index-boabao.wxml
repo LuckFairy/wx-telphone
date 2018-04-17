@@ -1,24 +1,24 @@
 <scroll-view scroll-x="true" class='baobao-use'>
- 
-  <view class='baobao-thing {{currentTab==0 ? "chooseTab" : ""}}' data-current="0" data-cat-id='{{cat_list[0].cat_id}}' bindtap='goToList'>
-    <text class='baobao-some-thing '>{{cat_list[0].cat_name}}</text>
+
+  <view class='baobao-thing {{currentTab==0 ? "chooseTab" : ""}}' data-current="0" data-cat-id='{{cat_list[5].cat_id}}' bindtap='goToList'>
+    <text class='baobao-some-thing '>{{cat_list[5].title}}</text>
   </view>
-  <view class='baobao-thing {{currentTab==1 ? "chooseTab" : ""}}' data-current="1" bindtap='goToList' data-cat-id='{{cat_list[1].cat_id}}'>
-    <text class='baobao-some-thing'>{{cat_list[1].cat_name}}</text>
+  <view class='baobao-thing {{currentTab==1 ? "chooseTab" : ""}}' data-current="1" bindtap='goToList' data-cat-id='{{cat_list[6].cat_id}}'>
+    <text class='baobao-some-thing'>{{cat_list[6].title}}</text>
   </view>
-  <view class='baobao-thing {{currentTab==2 ? "chooseTab" : ""}}' data-current="2" bindtap='goToList' data-cat-id='{{cat_list[2].cat_id}}'>
-    <text class='baobao-some-thing'>{{cat_list[2].cat_name}}</text>
+  <view class='baobao-thing {{currentTab==2 ? "chooseTab" : ""}}' data-current="2" bindtap='goToList' data-cat-id='{{cat_list[7].cat_id}}'>
+    <text class='baobao-some-thing'>{{cat_list[7].title}}</text>
   </view>
-  <view class='baobao-thing {{currentTab==3 ? "chooseTab" : ""}}' data-current="3" bindtap='goToList' data-cat-id='{{cat_list[3].cat_id}}'>
-    <text class='baobao-some-thing'>{{cat_list[3].cat_name}}</text>
+  <view class='baobao-thing {{currentTab==3 ? "chooseTab" : ""}}' data-current="3" bindtap='goToList' data-cat-id='{{cat_list[8].cat_id}}'>
+    <text class='baobao-some-thing'>{{cat_list[8].title}}</text>
   </view>
-<view class='baobao-thing {{currentTab==4 ? "chooseTab" : ""}}' data-current="4" bindtap='goToList' data-cat-id='{{cat_list[4].cat_id}}'>
-    <text class='baobao-some-thing'>{{cat_list[4].cat_name}}</text>
+  <view class='baobao-thing {{currentTab==4 ? "chooseTab" : ""}}' data-current="4" bindtap='goToList' data-cat-id='{{cat_list[9].cat_id}}'>
+    <text class='baobao-some-thing'>{{cat_list[9].title}}</text>
   </view>
 </scroll-view>
 <!--用品  -->
 <view class='rush-baobao-box' wx:if="{{tabList==0}}">
-    <block wx:for="{{dataList}}" wx:key="{{index}}">
+  <block wx:if="{{dataList.length>0}}"   wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
@@ -35,10 +35,14 @@
       </view>
     </view>
   </block>
+    <view wx:if="{{dataList.length<1}}" class='no-data'>
+      <image src='../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无商品信息</view>
+    </view>
 </view>
 <!--饮食  -->
 <view class='rush-baobao-box' wx:if="{{tabList==1}}">
-    <block wx:for="{{dataList}}" wx:key="{{index}}">
+  <block wx:if="{{dataList.length>0}}"   wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
@@ -55,10 +59,14 @@
       </view>
     </view>
   </block>
+  <view wx:if="{{dataList.length<1}}" class='no-data'>
+      <image src='../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无商品信息</view>
+    </view>
 </view>
 <!--潮搭  -->
 <view class='rush-baobao-box' wx:if="{{tabList==2}}">
-    <block wx:for="{{dataList}}" wx:key="{{index}}">
+  <block wx:if="{{dataList.length>0}}" wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
@@ -75,10 +83,14 @@
       </view>
     </view>
   </block>
+  <view wx:if="{{dataList.length<1}}" class='no-data'>
+      <image src='../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无商品信息</view>
+    </view>
 </view>
 <!--成长  -->
 <view class='rush-baobao-box' wx:if="{{tabList==3}}">
-    <block wx:for="{{dataList}}" wx:key="{{index}}">
+  <block wx:if="{{dataList.length>0}}" wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
@@ -95,10 +107,14 @@
       </view>
     </view>
   </block>
+  <view wx:if="{{dataList.length<1}}" class='no-data'>
+      <image src='../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无商品信息</view>
+    </view>
 </view>
 <!--专区  -->
 <view class='rush-baobao-box' wx:if="{{tabList==4}}">
-    <block wx:for="{{dataList}}" wx:key="{{index}}">
+  <block wx:if="{{dataList.length>0}}" wx:for="{{dataList}}" wx:key="{{index}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
@@ -115,4 +131,8 @@
       </view>
     </view>
   </block>
+ <view wx:if="{{dataList.length<1}}" class='no-data'>
+      <image src='../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无商品信息</view>
+    </view>
 </view>
