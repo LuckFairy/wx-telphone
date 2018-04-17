@@ -86,6 +86,7 @@ var Api = {
           // _onSignin(data);
           wx.setStorageSync('userOpenid', data.err_msg.openid);//存储openid
           wx.setStorageSync('userUid', data.err_msg.uid);//存储uid
+          wx.setStorageSync('hasSignin', 'true');//存储uid
           getApp().hasSignin = true;
           typeof callback == 'function' && callback();
 

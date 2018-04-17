@@ -59,10 +59,10 @@ App({
    *formId  获取form提交生活的form的id
    */
   pushId(e) {
-    console.log('app.hasSignin', this.hasSignin);
     var that = this;
+    var uid = wx.getStorageSync('userUid');
     //用户登录成功,获取uid,sid,openid
-    if (that.hasSignin) {
+    if (uid) {
       that.globalData = Object.assign(that.globalData, {
         uid: wx.getStorageSync('userUid'),
         sid: that.store_id,
