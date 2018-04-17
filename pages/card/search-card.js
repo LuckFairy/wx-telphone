@@ -123,6 +123,9 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
     that.setData({
       mendiancard: 'mendiancard',
       shopCard: "shopCard"
@@ -170,14 +173,13 @@ Page({
       page: pagesone, store_id: store_id, uid: uid, type: 'all', category: category, keyword: searchValue
     }
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
-      wx.hideLoading();
-      if (err) return;
-      wx.hideLoading();
-      if (err && reps.err_code != 0) return;
+      
+      if (err) wx.hideLoading(); return;
+      if (err && reps.err_code != 0) wx.hideLoading();return;
       var { image, coupon_list, next_page } = reps.err_msg;
       //第一次加载无数据显示
       if (pagesone == 1 && coupon_list.length==0) {
-        that.setData({ nullList: true, loadingone:true});return;
+        that.setData({ nullList: true, loadingone: true }); wx.hideLoading();return;
       }
       if (!next_page) {//全部加载完成
         // wx.showToast({
@@ -189,20 +191,20 @@ Page({
           loadingone: next_page,
           normal: coupon_list,
           nullList:false,
-        });
+        }); wx.hideLoading();
         return;
       }
       for (var j = 0; j < coupon_list.length; j++) {
         msgList.push(coupon_list[j]);
       }
     
-     
       that.setData({
         loading: false,
         normal: msgList,
         image: image,
         selectCardone: 0
       });
+      wx.hideLoading();
     });
   },
   goDetail(e) {

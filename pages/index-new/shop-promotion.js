@@ -18,6 +18,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
     // 获取店铺id shopId
     var store_id = store_Id.store_Id();
     Api.signin();//获取以及存储openid、uid
@@ -37,7 +40,6 @@ Page({
     }
     app.api.postApi('wxapp.php?c=coupon&a=coupon_list', { params }, (err, resp) => {
       wx.hideLoading();
-      console.log(resp, 666666666)
       var activity_err_msg = resp.err_msg.list;
       var logo = resp.err_msg.logo;
       that.setData({
