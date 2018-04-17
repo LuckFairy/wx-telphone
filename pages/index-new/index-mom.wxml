@@ -57,6 +57,10 @@
       </view> 
     </view>
   </block>
+   <view wx:if="{{dataList.length<1&&current==0}}" class='no-data'>
+      <image src='../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无商品信息</view>
+    </view>
    <block wx:for='{{dataList}}' wx:if="{{current==1}}">
     <view class='mom-list' wx:if='{{item.receive_count==0}}' bindtap='goDetail' data-source='{{item.source}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}' data-name='{{item.name}}' data-original-price='{{item.is_original_price}}' data-start-time='{{item.start_time}}' data-end-time='{{item.end_time}}' data-face-money='{{item.face_money}}' data-logo='{{logo}}'>
       <view class='mon-list-left'>
@@ -97,6 +101,10 @@
       </view> 
     </view>
   </block>
+  <view wx:if="{{dataList.length<1&&current==1}}" class='no-data'>
+      <image src='../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无商品信息</view>
+    </view>
    <block wx:for='{{dataList}}' wx:if="{{current==2}}">
     <view class='mom-list' wx:if='{{item.receive_count==0}}' bindtap='goDetail' data-source='{{item.source}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}' data-name='{{item.name}}' data-original-price='{{item.is_original_price}}' data-start-time='{{item.start_time}}' data-end-time='{{item.end_time}}' data-face-money='{{item.face_money}}' data-logo='{{logo}}'>
       <view class='mon-list-left'>
@@ -137,6 +145,10 @@
       </view> 
     </view>
   </block>
+  <view wx:if="{{dataList.length<1&&current==2}}" class='no-data'>
+      <image src='../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无商品信息</view>
+    </view>
    <block wx:for='{{dataList}}' wx:if="{{current==3}}">
     <view class='mom-list' wx:if='{{item.receive_count==0}}' bindtap='goDetail' data-source='{{item.source}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}' data-name='{{item.name}}' data-original-price='{{item.is_original_price}}' data-start-time='{{item.start_time}}' data-end-time='{{item.end_time}}' data-face-money='{{item.face_money}}' data-logo='{{logo}}'>
       <view class='mon-list-left'>
@@ -177,5 +189,9 @@
       </view> 
     </view>
   </block>
+  <view wx:if="{{dataList.length<1&&current==3}}" class='no-data'>
+      <image src='../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无商品信息</view>
+    </view>
   <!--列表项结束  -->
 </view>

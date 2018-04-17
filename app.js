@@ -43,7 +43,7 @@ App({
     //ceshiUrl:'https://wxplus.paoyeba.com/index.php',
     ceshiUrl: 'http://leoxcxshop.com/index.php',
   },
-  calling: function (phone = config.phone) {
+  calling: function (phone = config.serverPhone) {
     wx.makePhoneCall({
       phoneNumber: phone, 
       success: function () {

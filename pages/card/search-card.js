@@ -109,10 +109,10 @@ Page({
   pullUpLoadone(e) {
     var that = this;
     var { loadingone, pagesone } = that.data;
-    if (!loadingone) {//全部加载完成
+    if (!loadingone) {//是否下一页
       return;
     }
-    wx.showLoading({ title: '加载中' });
+    wx.showLoading({ title: '加载中' ,mask:true});
     pagesone++;
     that.setData({ pagesone })
     setTimeout(function () {
@@ -123,7 +123,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     wx.showLoading({
-      title: '加载中',
+      title: '加载中', mask: true
     })
     that.setData({
       mendiancard: 'mendiancard',
@@ -166,38 +166,29 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
-    var { msgList, searchValue, pagesone, store_id, uid, category, nullList}=that.data;
+    var { msgList=[], searchValue, pagesone, store_id, uid, category, nullList}=that.data;
     var params = {
       page: pagesone, store_id, uid: uid, type: 'all', category: category, keyword: searchValue
     }
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
-      
-      if (err) wx.hideLoading(); return;
-      if (err && reps.err_code != 0) wx.hideLoading();return;
+      if (err && reps.err_code != 0) {wx.hideLoading();return;}
       var { image, coupon_list, next_page } = reps.err_msg;
       //第一次加载无数据显示
       if (pagesone == 1 && coupon_list.length==0) {
-        that.setData({ nullList: true, loadingone: true }); wx.hideLoading();return;
+        that.setData({ nullList: true}); 
       }
-      if (!next_page) {//全部加载完成
-        // wx.showToast({
-        //   title: '已经没有数据！',
-        //   image: '../../image/use-ruler.png',
-        //   duration: 2000
-        // });
+      if (!next_page) {//是否下一页
         that.setData({
-          loadingone: next_page,
-          normal: coupon_list,
           nullList:false,
-        }); wx.hideLoading();
-        return;
+        }); 
       }
       for (var j = 0; j < coupon_list.length; j++) {
         msgList.push(coupon_list[j]);
       }
     
       that.setData({
-        loading: false,
+        // loading: false,
+        loadingone: next_page,
         normal: msgList,
         image: image,
         selectCardone: 0

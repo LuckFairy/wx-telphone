@@ -48,7 +48,7 @@ Page({
     app.api.postApi('wxapp.php?c=product&a=babyCategory', { params }, (err, resp) => {
       wx.hideLoading();
       console.log(resp, 344444)
-      var dataList = resp.err_msg.products
+      var dataList = resp.err_msg.products||[];
       that.setData({
         dataList: dataList
       });
@@ -119,7 +119,7 @@ Page({
       wx.hideLoading();
       // 列表数据
       console.log(resp,344444)
-      var dataList = resp.err_msg.products
+      var dataList = resp.err_msg.products||[];
       that.setData({
         dataList: dataList
       });
