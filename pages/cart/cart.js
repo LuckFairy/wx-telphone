@@ -1,13 +1,12 @@
 var app = getApp(); 
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 let errModalConfig = {
   title: '有错误！',
 };
 Page({
   data: {
     hasShop: 0,//购物车数量
- 
+    store_id:'',
     //2017年12月19日14:55:05
     //carts: [],//购物车列表
 
@@ -32,7 +31,7 @@ Page({
    * 加载热门推荐爆款数据
    */
   getProductData(opt) {
-    var params = { "store_id": store_Id.shopid, "page": 1, "categoryid": 100 };
+    var params = { "store_id": this.data.store_id, "page": 1, "categoryid": 100 };
     let url = 'wxapp.php?c=product&a=get_product_list';
     app.api.postApi(url, { "params": params }, (err, resp) => {
       wx.hideLoading();
@@ -214,11 +213,8 @@ Page({
       // });
       return false;
     }
-   //ids = '['+ids +']';
-   //ids = JSON.stringify(ids);
-    console.log('购物车选择提交的ids' + ids); 
-    Api.signin();//获取以及存储openid、uid
-    var uid = wx.getStorageSync('userUid'),store_id = store_Id.store_Id();
+  
+    var uid = wx.getStorageSync('userUid'),store_id = this.data.store_id;
     //多商品下订单
     var shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';
     app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop:'0'} }, (err, rep) => {
@@ -243,7 +239,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     // 获取店铺id shopId
-    var store_id = store_Id.store_Id();
+    var store_id =app.store_id;
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
@@ -406,12 +402,12 @@ Page({
     console.log(e, 'eeee');
     var that = this;
     var cardId = e.currentTarget.dataset.cardId;
-    var storeId = e.currentTarget.dataset.storeId;
+    let store_id = that.data.store_id;
     var uid = e.currentTarget.dataset.uid;
     var index = parseInt(e.currentTarget.dataset.index);
 
     var params = {
-      uid, cart_id: cardId, store_id: storeId
+      uid, cart_id: cardId, store_id
     }
     wx.showModal({
       title: '删除商品',
@@ -424,7 +420,7 @@ Page({
             }
             if (resp.err_code == 0) {
               // 删除成功
-              var store_id = that.data.store_id;
+              
               var uid = that.data.uid;
               var params = {
                 store_id, uid

@@ -2,16 +2,16 @@
 
 const app = getApp();
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 Page({
   data: {
     addrList: [],
     uid: '',
     addressId: '',
-    store_id: store_Id.shopid
+    store_id: ''
   },
   onLoad: function (options) {
-    this.setData({ addressId: options.addressId });
+    var store_id = app.store_id;
+    this.setData({ addressId: options.addressId,store_id });
     this.addrLists();
   },
   addrLists(e) {

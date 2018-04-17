@@ -116,4 +116,5 @@ var Api = {
     }
   },
 };
-module.exports = {Api};
+var sign = Api;
+module.exports = {Api,sign};

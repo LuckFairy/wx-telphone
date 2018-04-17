@@ -1,5 +1,4 @@
 var app = getApp();
-import { store_Id } from '../../utils/store_id';
 Page({
   data:{
     page:1,
@@ -12,7 +11,7 @@ Page({
   onLoad:function(options){
     var that = this;
     // 获取店铺id shopId
-    var store_id = store_Id.store_Id();
+    var store_id = app.store_id;
     that.setData({
       store_id
     });

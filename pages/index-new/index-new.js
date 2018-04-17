@@ -2,7 +2,6 @@
 const log = "index.js --- ";
 import { getUrlQueryParam, isPC } from '../../utils/util';
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 let app = getApp();
 let couponUrl = 'wxapp.php?c=activity&a=new_user_coupon';//领取优惠券接口
 var checkTimer = null;     // 若还没登录，启用定时器
@@ -12,6 +11,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    uid: null,//用户id
+    store_id:'',
     mode: app.globalData.image.mode,
     lazyLoad: app.globalData.image.lazyLoad,
     scroll_top: 0,
@@ -35,11 +36,7 @@ Page({
     dataImg: [],
     showhide: true,
     cat_list: [],
-    shopId: app.shopid,//店铺id
-    //2017年12月21日18:50:42 by leo
     card_num: 0,
-    uid: null,//用户id
-    storeId: app.store_id,
     iconOne: [],
     indexImage: null,//4个大图图片列表
     showModel: false,//是否显示弹窗模板
@@ -88,7 +85,7 @@ Page({
     var that = this;
     var params = {
       "uid": that.data.uid,
-      "store_id": that.data.storeId,
+      "store_id": that.data.store_id,
       "page": 1
     };
     app.api.postApi(couponUrl, { params }, (err, rep, statusCode) => {
@@ -126,7 +123,7 @@ Page({
     let phyDefualt = that.data.phyDefualt;
     var url = physicalMainUrl;
     var params = {
-      store_id: that.data.storeId
+      store_id: that.data.store_id
     };
     app.api.postApi(url, { params }, (err, resp) => {
       // 列表数据
@@ -154,7 +151,7 @@ Page({
     });return;}
     var params = {
       "uid": that.data.uid,
-      "store_id": that.data.storeId,
+      "store_id": that.data.store_id,
       "coupon_id_arr": that.data.coupon_id_arr
     }
     app.api.postApi(url, { params }, (err, rep, statusCode) => {
@@ -187,7 +184,7 @@ Page({
     var url = 'wxapp.php?c=activity&a=set_show';
     var params = {
       "uid": that.data.uid,
-      "store_id": that.data.storeId,
+      "store_id": that.data.store_id,
     };
     app.api.postApi(url, { params }, (err, rep, statusCode) => {
       if (statusCode != 200) {
@@ -203,22 +200,13 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    Api.signin();//获取以及存储openid、uid
+    var store_id = app.store_id;
     var uid = wx.getStorageSync('userUid');
-    this.setData({ uid });
+    this.setData({ uid ,store_id});
     this.firstOpen();
-    //获取宝宝5个tab的数据
-    // app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
-    //   wx.hideLoading();
-    //   if (err) return;
-    //   var cat_list = response.err_msg.cat_list;
-    //   var cat_id = response.err_msg.cat_id;
-    //   console.log("宝宝5个tab数据......", cat_list);
-    //   this.setData({ cat_list: cat_list });
-    // });
 
     // 顶部轮播图
-    app.api.postApi("wxapp.php?c=product&a=banner_list", { "params": { "store_id": that.data.storeId } },(err, resp) => {
+    app.api.postApi("wxapp.php?c=product&a=banner_list", { "params": { "store_id": store_id } },(err, resp) => {
        if(resp.err_code==0){
          var dataImg = resp.err_msg.banners;
         that.setData({
@@ -227,9 +215,9 @@ Page({
         })
        }
     })
-    //indexImage获取
+
     var params = {
-      "store_id": app.store_id
+      "store_id": store_id
     }
     app.api.postApi('wxapp.php?c=index&a=get_image', { params }, (err, rep) => {
       //console.log('四个活动图片',rep);
@@ -260,9 +248,6 @@ Page({
     this.loadHotSaleData();
     this.loadGoodsData();
     this.loadFestivalData();
-    // this._prepare();    // 等待登录才开始加载数据
-
-    //this.loadMyCardNumData(); //我的卡包数量
 
   },
   goCardLists() {
@@ -409,7 +394,7 @@ Page({
     }
     //console.log('url', url)
     if (url) {
-      wx.navigateTo({ url: url + '?categoryid=100&page=1&store_id=' + this.data.shopId });
+      wx.navigateTo({ url: url + '?categoryid=100&page=1&store_id=' + this.data.store_id });
     }
 
   },
@@ -497,7 +482,7 @@ Page({
     });
   },
   getProductData(categoryid) {
-    var params = { "store_id": store_Id.shopid, "page": "1", "categoryid": categoryid };
+    var params = { "store_id": this.data.store_id, "page": "1", "categoryid": categoryid };
     let url = 'wxapp.php?c=product&a=get_product_list_3';
     app.api.postApi(url, { "params": params }, (err, resp) => {
       wx.hideLoading();
@@ -571,7 +556,7 @@ Page({
   loadMyCardNumData: function () {
     var params = {
       uid: this.data.uid,
-      store_id: this.data.storeId,
+      store_id: this.data.store_id,
     }
     //console.log('my_card_num 接口参数', params);
     app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {
@@ -590,28 +575,28 @@ Page({
   },
   //跳到爆款商品页
   clickGoBaoKuan: function (e) {
-    var { categoryid, page = "1", store_id = store_Id.shopid } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    var { categoryid, page = "1", store_id = this.data.store_id } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
     wx.navigateTo({
       url: './index-baokuan?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
     })
   },
   //跳到热销商品页
   clickGoHotSale: function (e) {
-    var { categoryid, page = "1", store_id = store_Id.shopid } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    var { categoryid, page = "1", store_id = this.data.store_id } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
     wx.navigateTo({
       url: './index-hotsale?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
     })
   },
   //跳到百货商品页
   clickGoGoods: function (e) {
-    var { categoryid, page = "1", store_id = store_Id.shopid } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    var { categoryid, page = "1", store_id = this.data.store_id } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
     wx.navigateTo({
       url: './index-goods?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
     })
   },
   //跳到活动（节日）商品页
   clickGoFestival: function (e) {
-    var { categoryid, page = "1", store_id = store_Id.shopid } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    var { categoryid, page = "1", store_id = this.data.store_id } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
     wx.navigateTo({
       url: './index-festival?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
     })
@@ -668,7 +653,7 @@ Page({
   getIconLineOne: function () {
     wx.showLoading({ title: '加载中...', mask: true, });
     var params = {
-      store_id: this.data.storeId
+      store_id: this.data.store_id
     };
     app.api.postApi('wxapp.php?c=index&a=get_icon', { params }, (err, resp) => {
       if (err) return;

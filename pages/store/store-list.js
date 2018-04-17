@@ -1,10 +1,9 @@
 // pages/store/store-list.js
 var app = getApp();
-import { store_Id } from '../../utils/store_id';
 Page({
   data:{
     pageData: null,        // 门店列表数据
-    storeId: store_Id.shopid,
+    store_id:'',
     page: 1,
     windowHeight:'',
     windowWidth:'',
@@ -12,6 +11,7 @@ Page({
   },
   onLoad:function(options){
     var that = this;
+    that.setData({store_id:app.store_id})
     // 页面初始化 options为页面跳转所带来的参数
     // 自动获取手机宽高
     wx.getSystemInfo({
@@ -46,7 +46,7 @@ Page({
    */
   _loadData() {
     var that = this;
-    var store_id = that.data.storeId;
+    var store_id = that.data.store_id;
     var page = that.data.page;
     var params = {
       store_id, page

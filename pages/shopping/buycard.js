@@ -2,7 +2,6 @@
 var app = getApp();
 var _tapLock = false;    // 点击锁
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 Page({
   data: {
     loading: true,
@@ -31,7 +30,7 @@ Page({
     recid:'',
     couponInfo:'',
     uid:'',
-    store_id: store_Id.shopid,
+    store_id: '',
     showSuccessModal:false,//显示成功模态框
     zhang:0
   },
@@ -90,11 +89,12 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
+    var store_id = app.store_id;
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
     console.log(uid, '用户uid')
-    this.setData({ uid });
+    this.setData({ uid, store_id });
     // 页面初始化 options为页面跳转所带来的参数
     wx.showLoading({ title: '加载中' });
     that.setData({ curSwiperIdx: 0, curActIndex: 0 });

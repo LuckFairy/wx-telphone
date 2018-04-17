@@ -1,6 +1,5 @@
 // pages/shopping/order-detail.js
 import { formatTime } from '../../utils/util';
-import { store_Id } from '../../utils/store_id';
 var app = getApp();
 const log = 'order-detail.js --- ';
 
@@ -21,7 +20,7 @@ Page({
     rtnCode:'' ,
     orderTime:'',
     uid: '',
-    storeId: store_Id.shopid,
+    store_id:'',
     shipping_method: 'express',
     addressId: 0,
     postage_list: "",
@@ -34,13 +33,15 @@ Page({
   },
   onLoad:function(options){
     var that = this;
+    
     // 页面初始化 options为页面跳转所带来的参数
     let { orderId, newTrial } = options;
     let { productId } = options;
     that.setData({
       orderId: orderId,
       productId: productId,
-      newType: newTrial
+      newType: newTrial,
+      store_id:app.store_id
     })
     // 检测是否已经提交过申请
     // app.api.postApi('order/checkReturn', { "order_id": orderId}, (err, resp) => {
@@ -166,7 +167,7 @@ Page({
   },
   _doPrePay(orderId) {
     let that = this;
-    let { addressId, payType, is_app, postage_list, uid, storeId, user_coupon_id, shipping_method } = that.data;
+    let { addressId, payType, is_app, postage_list, uid, store_id, user_coupon_id, shipping_method } = that.data;
 
     var params = {
       payType: payType,
@@ -176,7 +177,7 @@ Page({
       shipping_method: shipping_method,
       address_id: addressId,
       uid: uid,
-      store_id: storeId,
+      store_id,
       user_coupon_id: 0,
     }
     wx.showLoading({ title: '请稍候...', mask: true, });

@@ -1,6 +1,5 @@
 // pages/index-new/index-boabao.js
 var app = getApp();
-import { store_Id } from '../../utils/store_id';
 Page({
 
   /**
@@ -11,11 +10,12 @@ Page({
     tabList:0,
     dataList:{},
     cat_list:'',
-    store_id: store_Id.shopid,//店铺id
+    store_id: '',//店铺id
   },
   goToList(e){
     console.log(e,33443333)
     var that = this;
+ 
     var curTab = that.data.currentTab;
     var insideTab = e.currentTarget.dataset.current;
     var catId = e.currentTarget.dataset.catId;
@@ -73,6 +73,8 @@ Page({
   onLoad: function (options) {
     // 5个tab数据 仅仅头部tab 不包括列表
     var that = this;
+    var store_id = app.store_id;
+    that.setData({ store_id});
     app.api.fetchApi('wxapp.php?c=category&a=get_category_by_pid&categoryId=96', (err, response) => {
       wx.hideLoading();
       if (err) return;
@@ -103,7 +105,7 @@ Page({
       category_id = catId
     }
     var params = {
-      categoryId: catId, store_id: that.data.store_id
+      categoryId: catId, store_id
     }
     wx.showLoading({ title: '加载中...', mask: true, });
     app.api.postApi('wxapp.php?c=product&a=babyCategory', { params }, (err, resp) => {

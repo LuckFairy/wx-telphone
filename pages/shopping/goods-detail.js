@@ -2,7 +2,6 @@
 
 const app = getApp();
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 let _params = null;
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 Page({
@@ -195,7 +194,7 @@ Page({
     console.log('是否有虚拟商品类型',options)
     var that = this;
     // 获取店铺id shopId
-    var store_id = store_Id.store_Id();
+    var store_id = app.store_id;
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
@@ -214,7 +213,7 @@ Page({
     this.setData({ action,'cateId': cateId, 'product_id': prodId });
 
     //购物车的数量
-    app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
+    app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": store_id } }, (err, resp) => {
       if (err || resp.err_code != 0) {
         return;
       }
@@ -226,7 +225,7 @@ Page({
     });
     
     //线上优惠券信息
-    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid": this.data.uid, "store_id": this.data.store_id, "product_id": this.data.product_id } }, (err, resp) => {
+    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid": this.data.uid, "store_id": store_id, "product_id": this.data.product_id } }, (err, resp) => {
       if (err || resp.err_code != 0) {
         return;
       }

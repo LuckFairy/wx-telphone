@@ -1,5 +1,4 @@
 // pages/lottery/dazhuanpan.js
-import { store_Id } from '../../utils/store_id';
 import { Api } from '../../utils/api_2';
 var app = getApp();
 Page({
@@ -8,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    storeId: store_Id.shopid,
+    store_id: '',
     lottery_url: '',
   },
 
@@ -17,8 +16,10 @@ Page({
    */
   onLoad: function (options) {
     wx.showLoading({ title: '加载中...', mask: true, });
+    var store_id = app.store_id;
+    this.setData({store_id})
     var params = {
-      store_id: this.data.storeId,
+      store_id
     };
     app.api.postApi('wxapp.php?c=coupon&a=lottery_url', { params }, (err, resp) => {
       wx.hideLoading();
@@ -86,7 +87,7 @@ Page({
   storeList: function () {
     wx.showLoading({ title: '加载中...', mask: true, });
     var params = {
-      store_id: this.data.storeId,
+      store_id: this.data.store_id,
       page: 1,
     };
     app.api.postApi('wxapp.php?c=address&a=physical_list', { params }, (err, resp) => {
