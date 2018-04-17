@@ -243,7 +243,7 @@ Page({
 
     //this.loadGroupData();
     //this.loadHotData();
-    this.loadMainLocation();
+    // this.loadMainLocation();
     this.loadBaoKuanData();
     this.loadHotSaleData();
     this.loadGoodsData();
