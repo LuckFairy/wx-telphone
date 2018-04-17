@@ -271,6 +271,8 @@ Page({
           url = '../index-new/index-festival?categoryid=105&page=1&store_id=' + this.data.store_id + '&qrEntry=1';
         } else if (resType == 'goods') { //百货专区
           url = '../index-new/index-goods?categoryid=102&page=1&store_id=' + this.data.store_id + '&qrEntry=1';
+        } else if (resType == 'mycard') { //我的卡包
+          url = '../card/mycard' + '&qrEntry=1';
         }
 
         if(url){
