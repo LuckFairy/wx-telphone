@@ -1,9 +1,10 @@
 //app.js
+let config = require('./config.js');
 import { Api } from './utils/api_3';
 import { sign } from './utils/api_2';
 App({
   api: Api,
-  store_id: 310, //310咿呀悦购
+  store_id: config.sid, 
   onLaunch: function () {
     console.log('App onLaunch');
 
@@ -41,7 +42,7 @@ App({
     //ceshiUrl:'https://wxplus.paoyeba.com/index.php',
     ceshiUrl: 'http://leoxcxshop.com/index.php',
   },
-  calling: function (phone = '4000001312') {
+  calling: function (phone = config.phone) {
     wx.makePhoneCall({
       phoneNumber: phone, 
       success: function () {

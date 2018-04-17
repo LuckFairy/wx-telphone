@@ -248,9 +248,6 @@ Page({
     this.loadHotSaleData();
     this.loadGoodsData();
     this.loadFestivalData();
-    // this._prepare();    // 等待登录才开始加载数据
-
-    //this.loadMyCardNumData(); //我的卡包数量
 
   },
   goCardLists() {
