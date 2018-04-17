@@ -233,7 +233,7 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
-    var { msgList, pagesone, store_id, uid, category } = that.data;//msgList长度;0/1之间判断切换
+    var { msgList=[], pagesone, store_id, uid, category } = that.data;//msgList长度;0/1之间判断切换
     var params = {
       page: pagesone, store_id, uid: uid, type: 'unused', category
     }
@@ -241,14 +241,14 @@ Page({
       wx.hideLoading();
       if (err && reps.err_code != 0) return;
       var { image, coupon_list, next_page } = reps.err_msg;
-      if (!next_page) {//全部加载完成
+      if (!next_page) {//是否有下一页
         // wx.showToast({
         //   title: '已经没有数据！',
         //   image: '../../image/use-ruler.png',
         //   duration: 2000
         // });
         that.setData({
-          loadingone: next_page
+          loadingone: next_page, normal: coupon_list,
         });
         return;
       }
@@ -277,14 +277,14 @@ Page({
         isLoaded2: true
       });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
-      if (!next_page) {//全部加载完成
+      if (!next_page) {//是否有下一页
         // wx.showToast({
         //   title: '已经没有数据！',
         //   image: '../../image/use-ruler.png',
         //   duration: 2000
         // });
         that.setData({
-          loadingtwo: next_page
+          loadingtwo: next_page, expired: coupon_list
         });
         return;
       }
@@ -315,14 +315,15 @@ Page({
         isLoaded3: true
       });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
-      if (!next_page) {//全部加载完成
+      if (!next_page) {
         // wx.showToast({
         //   title: '已经没有数据！',
         //   image: '../../image/use-ruler.png',
         //   duration: 2000
         // });
         that.setData({
-          loadingtwo: next_page
+          loadingtwo: next_page, used: coupon_list,
+          use_image: image,
         });
         return;
       }

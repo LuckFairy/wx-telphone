@@ -15,7 +15,6 @@ Page({
   goToList(e){
     console.log(e,33443333)
     var that = this;
- 
     var curTab = that.data.currentTab;
     var insideTab = e.currentTarget.dataset.current;
     var catId = e.currentTarget.dataset.catId;

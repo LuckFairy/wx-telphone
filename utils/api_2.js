@@ -2,8 +2,10 @@ var config = require('../config.js');
 var Api = {
   /*用户登陆授权*/
   signin: function (callback, tryTimes = 3) {
-    console.info('login.......')
     var that = this;
+    var uid = wx.getStorageSync('userUid');
+    if(uid){console.log('已经登录成功了');return;}
+    console.info('login.......', uid);
     // 1、调用微信登录
     wx.login({
       success: (resp) => {
@@ -80,10 +82,11 @@ var Api = {
         success(resp) {
           console.log("_doSignin成功！")
           let { rtnCode, rtnMessage, data } = resp;
-          // 进入第4步
-          _onSignin(data);
+          // // 进入第4步
+          // _onSignin(data);
           wx.setStorageSync('userOpenid', data.err_msg.openid);//存储openid
           wx.setStorageSync('userUid', data.err_msg.uid);//存储uid
+          getApp().hasSignin = true;
           typeof callback == 'function' && callback();
 
           return data.err_msg.openid;
@@ -98,7 +101,6 @@ var Api = {
     /* 4、登录成功，保存tokenId, secretKey*/
     function _onSignin(data) {
       console.log("_onSignin成功！")
-      getApp().hasSignin = true;
     }
     /*尝试再次登录*/
     function _tryAgain(err) {
