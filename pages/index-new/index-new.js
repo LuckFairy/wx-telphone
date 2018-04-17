@@ -203,18 +203,18 @@ Page({
     var store_id = app.store_id;
     var uid = wx.getStorageSync('userUid');
     this.setData({ uid ,store_id});
-    this.firstOpen();
+    // this.firstOpen();
 
-    // 顶部轮播图
-    app.api.postApi("wxapp.php?c=product&a=banner_list", { "params": { "store_id": store_id } },(err, resp) => {
-       if(resp.err_code==0){
-         var dataImg = resp.err_msg.banners;
-        that.setData({
-          dataImg,
-          showhide: false
-        })
-       }
-    })
+    // // 顶部轮播图
+    // app.api.postApi("wxapp.php?c=product&a=banner_list", { "params": { "store_id": store_id } },(err, resp) => {
+    //    if(resp.err_code==0){
+    //      var dataImg = resp.err_msg.banners;
+    //     that.setData({
+    //       dataImg,
+    //       showhide: false
+    //     })
+    //    }
+    // })
 
     var params = {
       "store_id": store_id
