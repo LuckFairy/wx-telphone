@@ -1,7 +1,6 @@
 // pages/present/present.js
 import { Api } from '../../utils/api_2';
 Api.signin();//获取以及存储openid、uid
-import { store_Id } from '../../utils/store_id';
 var app = getApp();
 const log = 'present.js --- ';
 const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url
@@ -27,11 +26,12 @@ Page({
     loading: true,            // 是否正在加载
     presentData: null,        // 页面数据
     uid: null,//用户id
-    store_id: store_Id.shopid,//店铺id 
+    store_id: '',//店铺id 
   },
   onLoad:function(options){
     var uid = wx.getStorageSync('userUid');
-    this.setData({ uid,  showErrModal: false});
+    var store_id = app.store_id;
+    this.setData({ uid,store_id  ,showErrModal: false});
     this.loadData();//页面加载
   },
   onUnload:function(){

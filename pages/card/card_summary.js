@@ -1,6 +1,5 @@
 
 var app = getApp();
-import { store_Id } from '../../utils/store_id';
 var isDoGetCard = false;
 Page({
     data: {
@@ -17,7 +16,8 @@ Page({
       activityId:'',
       detailData:"",
       distinguish:"",
-      source:""
+      source:"",
+      store_id:''
     },
     onLoad: function (options) {
       var that = this;
@@ -26,8 +26,11 @@ Page({
       var id = options.id;
       var distinguish = options.distinguish;
       var source = options.source;
+      var store_id=app.store_id;
+      var uid = wx.getStorageSync('userUid');
+      var openId = wx.getStorageSync('userOpenid');
       that.setData({
-        source
+        source,store_id
       })
       // 请求详情页数据
       var params = {
@@ -69,14 +72,9 @@ Page({
         id: id,
         activityId: activityId
       })
-      console.log('activityId', activityId);
-      console.log('id', id);
-      var store_id = store_Id.store_Id();
-      var uid = wx.getStorageSync('userUid');
-      var openId = wx.getStorageSync('userOpenid');
-      console.log(uid, 'uid');
-      console.log(store_id, 'store_id');
-      console.log(openId, 'openId');
+
+     
+      
         // 页面初始化 options为页面跳转所带来的参数
         // let {cardId, saved, activityId, qrEntry} = options;
         // console.log('current card summary options=' + options);
@@ -98,7 +96,7 @@ Page({
     },
     saveCardNew(e){
       var that = this;
-      var store_id = store_Id.store_Id();
+      var store_id = that.data.store_id;
       var uid = wx.getStorageSync('userUid');
       var activityId = e.currentTarget.dataset.activityid;
       var id = e.currentTarget.dataset.id;

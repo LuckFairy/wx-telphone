@@ -2,7 +2,6 @@
 var app = getApp();
 var _tapLock = false;    // 点击锁
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 Page({
   data: {
     loading: true,
@@ -130,10 +129,10 @@ Page({
       mendiancard: 'mendiancard',
       shopCard: "shopCard"
     })
-    var store_id = store_Id.store_Id();//store_id
+    var store_id = app.store_id;//store_id
     Api.signin();//获取以及存储openid、uid
     var uid = wx.getStorageSync('userUid');
-    that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
+    that.setData({ curSwiperIdx: 0, curActIndex: 0, uid, store_id });
     // 自动获取手机宽高
     wx.getSystemInfo({
       success: function (res) {
@@ -170,7 +169,7 @@ Page({
   loadData1: function (that) {
     var { msgList, searchValue, pagesone, store_id, uid, category, nullList}=that.data;
     var params = {
-      page: pagesone, store_id: store_id, uid: uid, type: 'all', category: category, keyword: searchValue
+      page: pagesone, store_id, uid: uid, type: 'all', category: category, keyword: searchValue
     }
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       

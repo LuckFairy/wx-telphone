@@ -2,7 +2,6 @@
 
 const util = require('../../utils/util.js');
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 var app = getApp();
 const log = 'buy.js --- ';
 
@@ -71,8 +70,8 @@ Page({
     address: '',//默认地址
     lastPay: '￥0',//实付款
 
-    //2017年12月19日13:43:56
-    storeId: store_Id.shopid,//商店id
+
+    store_id: '',//商店id
     shipping_method: 'express',
     //addressId: 0,
     postage_list: "",
@@ -90,7 +89,7 @@ Page({
   getAddress(uid) {
     var url = 'wxapp.php?c=address&a=MyAddress';
     var that = this;
-    var store_id = that.data.storeId
+    var store_id = that.data.store_id
     var address = that.data.address;
     var params = {
       store_id,uid
@@ -138,16 +137,15 @@ Page({
   
 
   onLoad: function (options) {
-    //单商品生成订单
-    console.log('获取存储', wx.getStorageSync('couponInfo'));
+    
     wx.removeStorageSync('couponInfo');
-    console.log('移除之后', wx.getStorageSync('couponInfo'));
       var order_no = options.order_no;
       this.setData({ order_no: order_no  });
       Api.signin();//获取以及存储openid、uid
       // 获取uid
       var uid = wx.getStorageSync('userUid');
-      this.setData({ uid });
+      var store_id= app.store_id;
+      this.setData({ uid,store_id });
       this.getAddress(uid);
     
     //console.log('传递过来的订单号是=' + order_no);return;
@@ -386,7 +384,7 @@ submitOrder: function (event) {
   var that = this;
   let address_params = this.buildAddressParams();
   let address_id = address_params.addressId;
-  let { payType, is_app, postage_list = "a:1:{i:6;d:0;}", uid, storeId, user_coupon_id, shipping_method, order_no}=that.data;
+  let { payType, is_app, postage_list = "a:1:{i:6;d:0;}", uid, store_id, user_coupon_id, shipping_method, order_no}=that.data;
   var params = {
     payType: payType,
     orderNo: order_no,
@@ -395,7 +393,7 @@ submitOrder: function (event) {
     shipping_method: shipping_method,
     address_id: address_id,
     uid: uid,
-    store_id: storeId,
+    store_id: store_id,
     user_coupon_id: 0,
   }
   wx.showLoading({ title: '请稍候...', mask: true, });
@@ -815,7 +813,7 @@ loadCouponData: function () {
   var that = this;
   var params = {
     "uid": 91,
-    "store_id": 6,
+    "store_id": that.data.store_id,
     "product_id": ["23"],
     "total_price": "79"
   };

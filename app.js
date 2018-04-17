@@ -1,7 +1,9 @@
 //app.js
 import { Api } from './utils/api_3';
+import { sign } from './utils/api_2';
 App({
   api: Api,
+  store_id: 310, //310咿呀悦购
   onLaunch: function () {
     console.log('App onLaunch');
 
@@ -15,7 +17,7 @@ App({
 
     // wx.clearStorageSync();
     this.systemInfo = wx.getSystemInfoSync();
-    // Api.signin();
+    sign.signin();
   },
   onShow: function () {
     console.log('App onShow() ...')
@@ -121,7 +123,7 @@ App({
       console.log('send....rep',rep);
     })
   },
-  store_id:310, //2018年1月5日17:50:51 店铺id by leo 63 中亿店铺 6 婴众趣购 293趣购精选  310咿呀悦购
+  
 })
 
 

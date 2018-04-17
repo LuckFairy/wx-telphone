@@ -1,10 +1,10 @@
 const util = require('util.js');
+const config = require('../config.js')
 const VERSION = '1.0.0';
 const APP_ID = 13;
 const systemInfo = wx.getSystemInfoSync();
-console.log("信息信息", systemInfo);
 const AGENT_ID = 2;   // 上线时需要根据实际数据修改
-var SERVER_URL ="https://saas.qutego.com/";
+var SERVER_URL =config.host;
 var Network = {
   fetchApi(url, header, callback) {
     url = SERVER_URL + url;

@@ -1,8 +1,6 @@
 // pages/card/mycard.js
 var app = getApp();
 var _tapLock = false;    // 点击锁
-import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 
 Page({
   data: {
@@ -150,9 +148,11 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
+    var store_id = app.store_id;//store_id
+    var uid = wx.getStorageSync('userUid');
     that.setData({
       mendiancard: 'mendiancard',
-      shopCard: "shopCard"
+      shopCard: "shopCard",uid,store_id
     })
     wx.getSystemInfo({
       success: function (res) {
@@ -162,37 +162,10 @@ Page({
         })
       }
     })
-    var store_id = store_Id.store_Id();//store_id
-    var uid = wx.getStorageSync('userUid');
-    var checkTime = '',time=0;
-    checkTime = setInterval(function () {
-      if (uid) {
-        that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
-        // 自动获取手机宽高
-        that.loadData1(that);
-        // that.loadData2(that);
-        // that.loadData3(that);
-        clearInterval(checkTime);
-      } else {
-        Api.signin();//获取以及存储openid、uid
-        var uid = wx.getStorageSync('userUid');
-        if (uid) {
-          that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
-          // 自动获取手机宽高
-          that.loadData1(that);
-          // that.loadData2(that);
-          // that.loadData3(that);
-          clearInterval(checkTime);
-        }
-      }
-      time += 1;
-      if (time > 2) {
-        clearInterval(checkTime);
-        wx.switchTab({
-          url: '../index-new/index-new',
-        })
-      }
-    }, 1000)
+ 
+    
+    that.loadData1(that);
+    
   },
 
   loadAll(){
@@ -262,7 +235,7 @@ Page({
   loadData1: function (that) {
     var { msgList, pagesone, store_id, uid, category } = that.data;//msgList长度;0/1之间判断切换
     var params = {
-      page: pagesone, store_id: store_id, uid: uid, type: 'unused', category
+      page: pagesone, store_id, uid: uid, type: 'unused', category
     }
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       wx.hideLoading();
@@ -295,7 +268,7 @@ Page({
     var { expiredMsg, pagestwo, store_id, uid, category, loadingtwo } = that.data;
     
     var params = {
-      page: pagestwo, store_id: store_id, uid: uid, type: 'expired', category
+      page: pagestwo, store_id, uid: uid, type: 'expired', category
     }
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       wx.hideLoading();
@@ -332,7 +305,7 @@ Page({
     var { usedMsg, pagesthree, store_id, uid, category } = that.data;
   
     var params = {
-      page: pagesthree, store_id: store_id, uid: uid, type: 'use', category
+      page: pagesthree, store_id, uid: uid, type: 'use', category
     }
 
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {

@@ -1,7 +1,6 @@
 var app = getApp();
 const util = require('../../utils/util.js');
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 Page({
   data:{
     isDefault: false,   // 是否为默认地址
@@ -9,7 +8,7 @@ Page({
     fullname:'',
     phonename:'',
     address:'',
-    store_id: store_Id.shopid,
+    store_id: '',
     uid:'',
     provicens_list:'',
     provicens_id:'',
@@ -29,6 +28,8 @@ Page({
   saveRevamp(e){
     console.log(e,'保存修改地址时')
     var that =this;
+    var store_id = app.store_id;
+    that.setData({store_id});
     var uid = e.currentTarget.dataset.uid;
     var address_id = e.currentTarget.dataset.addressId;
     // 如果未更改

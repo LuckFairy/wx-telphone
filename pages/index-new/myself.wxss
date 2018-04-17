@@ -9,7 +9,8 @@ page{
    justify-content: space-between;
   height: 170rpx;
   width: 750rpx;
-  background: #FFE71C; 
+  /* background: #FFE71C;  */
+  background: #fff;
 }
 .myself-photo{
   display: inline-block;

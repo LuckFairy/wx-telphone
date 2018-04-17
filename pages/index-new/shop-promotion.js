@@ -1,7 +1,6 @@
 // pages/index-new/shop-promotion.js
 var app = getApp();
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 Page({
 
   /**
@@ -22,14 +21,12 @@ Page({
       title: '加载中',
     })
     // 获取店铺id shopId
-    var store_id = store_Id.store_Id();
+    var store_id = app.store_id;
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
     var openId = wx.getStorageSync('userOpenid');
-    console.log(uid, 'uid');
-    console.log(store_id, 'store_id');
-    console.log(openId, 'openId');
+
     var page = that.data.page;
     var activityId = that.data.activityId;
     var params = {

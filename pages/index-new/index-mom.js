@@ -1,7 +1,6 @@
 // pages/index-new/index-mom.js
 var app = getApp();
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 Page({
 
   /**
@@ -13,7 +12,8 @@ Page({
     page:1,
     activityId:237,
     activity_err_msg:'',
-    logo: ''
+    logo: '',
+    store_id:''
   },
 
   /**
@@ -22,14 +22,12 @@ Page({
   onLoad: function (options) {
     var that = this;
     // 获取店铺id shopId
-    var store_id = store_Id.store_Id();
+    var store_id = app.store_id;
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
     var openId = wx.getStorageSync('userOpenid');
-    console.log(uid, 'uid');
-    console.log(store_id, 'store_id');
-    console.log(openId,'openId');
+that.setData({store_id});
     // 拿到页码
     var page = that.data.page;
     var activityId = that.data.activityId;
@@ -75,14 +73,12 @@ Page({
   clickGo(e){
     var that = this;
     // 获取店铺id shopId
-    var store_id = store_Id.store_Id();
+    var store_id = this.data.store_id;
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
     var openId = wx.getStorageSync('userOpenid');
-    console.log(uid, 'uid');
-    console.log(store_id, 'store_id');
-    console.log(openId, 'openId');
+
     // 拿到页码
     var page = that.data.page;
     // 获取current确定点击哪里

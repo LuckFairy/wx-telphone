@@ -68,7 +68,7 @@ order_status_id		name
 
 const util = require('../../utils/util.js');
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
+
 var app = getApp();
 let errModalConfig = {
   image: '../../image/ma_icon_store_1.png',
@@ -112,7 +112,7 @@ Page({
     groupbuyOrderId:'',
     prodId:'',
     uid:'',
-    storeId: store_Id.shopid,
+    store_id:'',
     // 购买成功后的分享，丢弃……
     // groupbuyOrderIdShare:"",
     // groupbuyIdShare:"",
@@ -146,11 +146,12 @@ Page({
     Api.signin();//获取以及存储openid、uid
     // 获取uid
     let uid = wx.getStorageSync('userUid');
+    let store_id = app.store_id;
     // let uid = 7;
     
     // 页面初始化 options为页面跳转所带来的参数
     let { page = 0 } = options;
-    this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId: groupbuyId, groupbuyOrderId: groupbuyOrderId, prodId: prodId , uid: uid});
+    this.setData({ store_id,curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId: groupbuyId, groupbuyOrderId: groupbuyOrderId, prodId: prodId , uid: uid});
     wx.getStorage({
       key: 'showclose',
       success: function (res) {
@@ -212,7 +213,7 @@ Page({
     var params = {
       "uid": this.data.uid,
       "page ": 1,
-      "store_id": this.data.storeId
+      "store_id": this.data.store_id
     };
     console.log('售后数据请求参数', params);
     var url = 'wxapp.php?c=return&a=listOfReturn';
@@ -348,7 +349,7 @@ Page({
   _loadOrderData(onLoaded , opt) {
     wx.showLoading({ title: '加载中...', mask: true, });
     //新方法
-    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.storeId,type:"all" },opt);
+    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.store_id,type:"all" },opt);
     
     console.log('请求的参数params ', params)
     app.api.postApi("wxapp.php?c=order_v2&a=order_list", { "params": params }  , (err, resp) => {
@@ -577,7 +578,7 @@ Page({
   },
   _doPrePay(orderId) {
     let that = this;
-    let { addressId, payType, is_app, postage_list, uid, storeId, user_coupon_id, shipping_method}= that.data;
+    let { addressId, payType, is_app, postage_list, uid, store_id, user_coupon_id, shipping_method}= that.data;
 
     var params = {
       payType: payType,
@@ -587,7 +588,7 @@ Page({
       shipping_method: shipping_method,
       address_id: addressId,
       uid: uid,
-      store_id: storeId,
+      store_id,
       user_coupon_id: 0,
     }
     wx.showLoading({ title: '请稍候...', mask: true, });

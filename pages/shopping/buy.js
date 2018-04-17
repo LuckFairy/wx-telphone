@@ -4,7 +4,6 @@ const app = getApp();
 
 import { util, formatTime}  from '../../utils/util';
 import { Api } from '../../utils/api_2';
-import { store_Id } from '../../utils/store_id';
 const log = 'buy.js --- ';
 
 const AddressSettingURL = 'buy/address';   // 设置售货地址
@@ -20,9 +19,8 @@ let quantity;                          // 购买商品的数量
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 Page({
   data: {
-    // cardList: [],
-
-    // fee: null,
+    store_id: '',//商店id
+    uid: '',//用户id
     error: false,
     products: [],
     totals: [],//商品总价
@@ -58,8 +56,7 @@ Page({
     // 2017-12-16amy 增加订单id
    orderData:'',//订单数据
    orderId :'',//订单号
-   storeId: store_Id.shopid,//商店id
-   uid : '',//用户id
+   
    address: null,    // 存放当前收货地址数据
    addressList:[],  //地址列表
    addressId: 0,     // 选择的收货地址id
@@ -114,7 +111,7 @@ Page({
     var that = this;
     var address = that.data.address;
     var params = {
-      uid, store_id: that.data.storeId
+      uid, store_id: that.data.store_id
     }
     app.api.postApi(url,{params} , (err, rep) => {
       if(!err && rep.err_code == 0){
@@ -375,7 +372,7 @@ Page({
     let address_params = that.buildAddressParams();
     let address_id = address_params.addressId;
 
-    let { payType, is_app, postage_list, uid, storeId, user_coupon_id, shipping_method, orderId } = that.data;
+    let { payType, is_app, postage_list, uid, store_id, user_coupon_id, shipping_method, orderId } = that.data;
 
     var params = {
       payType: payType,
@@ -385,7 +382,7 @@ Page({
       shipping_method: shipping_method,
       address_id: address_id,
       uid: uid,
-      store_id: storeId,
+      store_id,
       user_coupon_id: user_coupon_id,
     }
     app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
@@ -821,7 +818,7 @@ Page({
     console.log(pro_price, product_id, '发发号施令上分好发给谁了')
     var params = {
       "uid": that.data.uid,
-      "store_id": that.data.storeId ,
+      "store_id": that.data.store_id ,
       "product_id": product_id ,
       "total_price": pro_price
     };
