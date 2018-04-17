@@ -16,8 +16,6 @@ Page({
   },
   addrLists(e) {
     var that = this;
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
     var uid = wx.getStorageSync('userUid');
     that.setData({
       uid

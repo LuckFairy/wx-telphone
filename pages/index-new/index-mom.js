@@ -23,7 +23,6 @@ Page({
     var that = this;
     // 获取店铺id shopId
     var store_id = app.store_id;
-    Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
     var openId = wx.getStorageSync('userOpenid');
@@ -72,11 +71,8 @@ that.setData({store_id});
   },
   clickGo(e){
     var that = this;
-    // 获取店铺id shopId
     var store_id = this.data.store_id;
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
+    var uid = that.data.uid;
     var openId = wx.getStorageSync('userOpenid');
 
     // 拿到页码

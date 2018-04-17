@@ -18,12 +18,7 @@ Page({
         let {q} = options;
         let that = this;
         var store_id = app.store_id;//store_id    
-
-        Api.signin();//获取以及存储uid
-        //获取uid
         let uid = wx.getStorageSync('userUid');
-        console.log('用户的uid：');
-        console.log(uid);
         wx.showLoading({ title: '加载中...', mask: true, });
         if (q) {
             q = decodeURIComponent(q);
@@ -35,50 +30,21 @@ Page({
                   locationId =0;
                 }
                 wx.setStorageSync('locationId', locationId);//存储locationId
-                let waitTime = 0;
-                let intervalTime = 2000;
-                //在登录成功后调用。
-                if (checkTimer) {
-                    clearInterval(checkTimer);
-                }
-                checkTimer = setInterval(() => {
-                  if(waitTime > 30000){//超过5秒等待直接跳转到首页。
-                    clearInterval(checkTimer);
-                    wx.showModal({
-                        title: '请求结果',
-                        content: '等待超时，跳转到首页',
-                    });
-
+                if(uid){
+                  that.redirctPageNew();   // 加载数据，关闭定时器
+                }else{
+                  setTimeout(()=>{
                     wx.switchTab({
                       url: '../index-new/index-new',
                     });
-                }
-                waitTime += intervalTime;
-                if (uid) {
-                  that.setData({ uid: uid, store_id, locationId });
-                  clearInterval(checkTimer);
-                  wx.hideLoading();
-                  that.redirctPageNew();   // 加载数据，关闭定时器
-                } else {
-                  console.log('没有取的用户id，继续请求');
-                  Api.signin();//获取以及存储uid
-                  var uid = wx.getStorageSync('userUid');
-                  if (uid) {
-                    that.setData({ uid: uid, store_id, locationId });
-                    clearInterval(checkTimer);
-                    wx.hideLoading();
-                    that.redirctPageNew();   // 加载数据，关闭定时器
-                  }
-
+                  },3000)
                 }
                 
-            }, intervalTime);
             } catch (e) {
                 wx.switchTab({
                   url: '../index-new/index-new',
                 });
             }
-
 
         }
     },

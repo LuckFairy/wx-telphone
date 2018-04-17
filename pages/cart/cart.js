@@ -240,7 +240,6 @@ Page({
     var that = this;
     // 获取店铺id shopId
     var store_id =app.store_id;
-    Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
     that.setData({

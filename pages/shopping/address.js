@@ -318,7 +318,7 @@ Page({
     // 修改地址结束
     var provicens_list = [];
     var provicens_id = [];
-    Api.signin();//获取以及存储openid、uid
+
     // 获取uid
     var uid = wx.getStorageSync('userUid');
     console.log(uid, store_id);

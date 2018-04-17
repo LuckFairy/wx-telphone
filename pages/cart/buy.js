@@ -141,8 +141,6 @@ Page({
     wx.removeStorageSync('couponInfo');
       var order_no = options.order_no;
       this.setData({ order_no: order_no  });
-      Api.signin();//获取以及存储openid、uid
-      // 获取uid
       var uid = wx.getStorageSync('userUid');
       var store_id= app.store_id;
       this.setData({ uid,store_id });

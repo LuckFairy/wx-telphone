@@ -1,6 +1,4 @@
 // pages/present/present.js
-import { Api } from '../../utils/api_2';
-Api.signin();//获取以及存储openid、uid
 var app = getApp();
 const log = 'present.js --- ';
 const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url

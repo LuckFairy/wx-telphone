@@ -130,7 +130,6 @@ Page({
       shopCard: "shopCard"
     })
     var store_id = app.store_id;//store_id
-    Api.signin();//获取以及存储openid、uid
     var uid = wx.getStorageSync('userUid');
     that.setData({ curSwiperIdx: 0, curActIndex: 0, uid, store_id });
     // 自动获取手机宽高

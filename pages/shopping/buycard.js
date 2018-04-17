@@ -90,8 +90,6 @@ Page({
   onLoad: function (options) {
     var that = this;
     var store_id = app.store_id;
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
     var uid = wx.getStorageSync('userUid');
     console.log(uid, '用户uid')
     this.setData({ uid, store_id });

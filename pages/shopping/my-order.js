@@ -143,8 +143,6 @@ Page({
     var list = options.list;
     var goodsindex = options.goodsindex;
 
-    Api.signin();//获取以及存储openid、uid
-    // 获取uid
     let uid = wx.getStorageSync('userUid');
     let store_id = app.store_id;
     // let uid = 7;

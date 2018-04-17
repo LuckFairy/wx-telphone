@@ -1,7 +1,7 @@
 // pages/index-new/index-new.js 
 const log = "index.js --- ";
 import { getUrlQueryParam, isPC } from '../../utils/util';
-import { Api } from '../../utils/api_2';
+
 let app = getApp();
 let couponUrl = 'wxapp.php?c=activity&a=new_user_coupon';//领取优惠券接口
 var checkTimer = null;     // 若还没登录，启用定时器

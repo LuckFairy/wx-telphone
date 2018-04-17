@@ -57,10 +57,9 @@ Page({
    */
   onLoad: function (options) {
     //获取uid
-    Api.signin();
-    this.setData({ uid: wx.getStorageSync('userUid')});
-    console.log(`uid `, this.uid);
     var that = this;
+    let uid = wx.getStorageSync('userUid');
+    that.setData({uid});
     wx.getUserInfo({
       success: function (res) {
         var userInfo = res.userInfo
@@ -77,7 +76,7 @@ Page({
         })
       }
     })
-    //var myself = Api.signin();//获取以及存储openid、uid
+
 
     
   },
