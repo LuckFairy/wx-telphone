@@ -30,7 +30,7 @@ Page({
     var uid = wx.getStorageSync('userUid');
     var store_id = app.store_id;
     this.setData({ uid,store_id  ,showErrModal: false});
-    this.loadData();//页面加载
+    //this.loadData();//页面加载
   },
   onUnload:function(){
     // 生命周期函数--监听页面卸载
@@ -88,7 +88,6 @@ Page({
                 presentData: rep.err_msg.list
             });
           
-            
         });
   },
   

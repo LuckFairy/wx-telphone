@@ -286,7 +286,7 @@ Page({
    * 显示错误信息
    */
   _showError(errorMsg) {
-    wx.showToast({title: errorMsg, image: '../../image/error.png', mask: true});
-    this.setData({error: errorMsg});
+    wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
+    this.setData({ error: errorMsg });
   },
 })

@@ -193,11 +193,12 @@ Page({
   onLoad: function (options) {
     console.log('是否有虚拟商品类型',options)
     var that = this;
-    // 获取店铺id shopId
+    wx.showLoading({
+      title: '加载中',
+      mask:true
+    })
     var store_id = app.store_id;
-    // 获取uid
     var uid = wx.getStorageSync('userUid');
-  
     that.setData({
       uid, store_id
     })
@@ -259,7 +260,7 @@ Page({
 
   loadData(prodId, action, categoryid) {
     var that = this;
-    wx.showLoading({ title: '加载中' });
+    wx.showLoading({ title: '加载中',mask:true });
     //如果categoryid不等于''，接入新接口
     
     //这里是严选
@@ -482,14 +483,14 @@ Page({
           //添加skui_id多属性id
           opts.sku_id = skuId;
           let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
-          wx.redirectTo({ url });
+          wx.navigateTo({ url });
         }
       
     }else{
       //添加skui_id多属性id
       opts.sku_id = skuId;
       let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
-      wx.redirectTo({ url });
+      wx.navigateTo({ url });
     }
     
 
@@ -544,7 +545,7 @@ Page({
     var skuid_list = that.data.skuid_list;
     var price = that.data.price;
     wx.showLoading({
-      title: '加载中'
+      title: '加载中',mask:true
     })
     //多属性列表接口
     app.api.postApi('wxapp.php?c=cart&a=info', { params }, (err, resp) => {

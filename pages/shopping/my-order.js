@@ -18,7 +18,7 @@ const DELIVER_STATUS_GOT     = 3;  // 物流状态 已收货
 const ORDER_STATUS_MOMENT = 0;    // 临时
 const ORDER_STATUS_PENDING = 1;    // 待处理（待付款）
 const ORDER_STATUS_PROCESSING = 2;    // 处理中（待发货）
-const ORDER_STATUS_SHIPPED = 3;    // 已发货
+const ORDER_STATUS_SHIPPED = 3;    // 已发货（待发货）
 const ORDER_STATUS_COMPLETE = 4;    // 已完成
 const ORDER_STATUS_CANCELED = 5;    // 已取消
 const ORDER_STATUS_REFUNDING = 6;   //退款中
@@ -680,7 +680,7 @@ Page({
   pushToOrderDetail(e) {
     let { orderId, productId , status , newTrial } = e.currentTarget.dataset;
     wx.navigateTo(
-      { url: './order-detail?orderId=' + orderId + '&productId=' + productId + '&newTrial=' + newTrial}
+      { url: './order-detail?orderId=' + orderId + '&productId=' + productId + '&newTrial=' + newTrial +'&status'+status}
     );
   },
 

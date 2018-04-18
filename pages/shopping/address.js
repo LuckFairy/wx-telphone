@@ -10,12 +10,12 @@ Page({
     address:'',
     store_id: '',
     uid:'',
-    provicens_list:'',
+    provicens_list:[],
     provicens_id:'',
     city_id:'',
-    city_list:'',
+    city_list:[],//城市列表
     cityIndex:'',
-    area_list:'',
+    area_list:[],
     area_id:'',
     areaIndex:'',
     pro_id:'',
@@ -100,15 +100,21 @@ Page({
     }
     // 修改保存
     app.api.postApi('wxapp.php?c=address&a=EditAddress', { params }, (err, resp) => {
-      if (err) {
+      if (err || resp.err_code != 0) {
+        wx.showModal({
+          title: '提示',
+          showCancel: false,
+          content: err || resp.err_code,
+        })
         return;
       }
-      if (resp.err_code == 0) {
-        console.log(resp.err_msg, '修改地址情况')
-        wx.redirectTo({
-          url: './address-list'
-        })
-      }
+      wx.showLoading({
+        title: '保存修改成功！'
+      })
+      wx.redirectTo({
+        url: './address-list'
+      })
+      
     });
   },
   saveAddress(e){
@@ -121,8 +127,35 @@ Page({
     var pro_id = that.data.pro_id;
     var cit_id = that.data.cit_id;
     var ar_id = that.data.ar_id;
-    console.log(fullname, phonename, address, uid, pro_id, cit_id, ar_id);
-    if (fullname && phonename && address && uid && pro_id && cit_id && ar_id){
+    if (!fullname) {
+      return this._showError('请填写收货人');
+    }
+    if (!phonename) {
+      return this._showError('请填写手机号码');
+    }
+    if (!util.checkMobile(phonename)) {
+      return this._showError('不是有效的手机号码');
+    }
+    if (!address) {
+      return this._showError('请填写详细地址');
+    }
+    if (!pro_id) {
+      return this._showError('请选择省份');
+    }
+    if (!cit_id) {
+      return this._showError('请选择城市');
+    }
+    if (!ar_id) {
+      return this._showError('请选择县区');
+    }
+    // console.log(fullname, phonename, address, uid, pro_id, cit_id, ar_id);
+    // if (!fullname || !phonename || !address || !uid || !pro_id || !cit_id || !ar_id) { 
+    //   wx.showModal({
+    //     title: '请填写完整信息！',
+    //     showCancel: false,
+    //   });
+    //   return;
+    // } 
       var params = {
         user_name: fullname,
         tel: phonename,
@@ -134,35 +167,23 @@ Page({
         store_id: that.data.store_id
       }
       app.api.postApi('wxapp.php?c=address&a=AddAddress', { params }, (err, resp) => {
-        if (err) {
+        if (err||resp.err_code!=0) {
+          wx.showModal({
+            title: '提示',
+            showCancel:false,
+            content: err || resp.err_code,
+          })
           return;
         }
-        if (resp.err_code == 0) {
-          if (resp.err_msg.result == '添加成功') {
-            console.log('resp.err_msg', resp.err_msg)
-            console.log('添加地址成功')
-            wx.showLoading({
-              title: '添加地址成功'
-            })
-            setTimeout(function () {
-              wx.hideLoading()
-              
-            }, 1000)
-            wx.redirectTo({
-              url: './address-list'
-            })
-          }
-        }
-      });
-    }else{
-      wx.showLoading({
-        title: resp.err_msg
+        wx.hideLoading();
+        wx.showLoading({
+          title: '添加地址成功'
+        })
+        wx.redirectTo({
+          url: './address-list'
+        })
       })
-      setTimeout(function(){
-        wx.hideLoading()
-      },1000)
-    }
-    
+  
   },
   bindShippingTelephoneChange(e){
     var phone = e.detail.value;
@@ -171,9 +192,7 @@ Page({
         phonename: phone
       })
     }else{
-      wx.showToast({
-        title: '请输入正确的手机号',
-      })
+      this._showError('请输入正确的手机号');
     }
   },
   bindFullnameChange(e){
@@ -188,18 +207,11 @@ Page({
     })
   },
   bindPickerChange(e){
-    console.log('省份选择时', e)
     var that =this;
-    this.setData({
-      index: e.detail.value
-    })
-    var index = that.data.index;
-    var provicens_id = that.data.provicens_id;
-    console.log('选择的index', index);
-    console.log('省份列表的id', provicens_id);
-    // 选择某省份时候对应的id
+    let index = parseInt(e.detail.value);
+    this.setData({index})
+    var provicens_id = that.data.provicens_list;
     var pro_id = provicens_id[index];
-    console.log(pro_id,'pro_id');
     // 获取对应城市
     var params = {
       id: pro_id
@@ -229,20 +241,12 @@ Page({
   },
   bindCityChange(e){
     var that = this;
-    this.setData({
-      cityIndex: e.detail.value
-    })
-    var cityIndex = that.data.cityIndex;
+    var cityIndex = parseInt(e.detail.value);
     var city_id = that.data.city_id;
-    console.log('选择的城市index', cityIndex);
-    console.log('城市列表的id', city_id);
+    this.setData({cityIndex})
     // 选择某城市时候对应的id
-    var cit_id = city_id[cityIndex];
-    that.setData({
-      cit_id
-    })
-    console.log(cit_id, 'cit_id');
-    // 获取对应城市
+    cit_id = city_id[cityIndex];
+   
     var params = {
       id: cit_id
     }
@@ -271,35 +275,29 @@ Page({
     // 区域信息
     console.log('区域信息数据啊啊啊',e);
     var that = this;
-    this.setData({
-      areaIndex: e.detail.value
-    })
-    var areaIndex = that.data.areaIndex;
+    var areaIndex = parseInt(e.detail.value);
     var area_id = that.data.area_id;
-    console.log('选择的区域index', areaIndex);
-    console.log('区域列表的id', area_id);
-    // 选择某区域时候对应的id
     var ar_id = area_id[areaIndex];
-    that.setData({
-      ar_id
+    this.setData({
+      areaIndex, ar_id
     })
-    console.log(ar_id, 'ar_id');
+    // 选择某区域时候对应的id
   },
   onLoad:function(options){
-    console.log(options,'修改地址')
+
     var that = this;
+    // 获取uid
     var store_id = app.store_id;//store_id
-    that.setData({ store_id });
+    var uid = wx.getStorageSync('userUid');
+    that.setData({ uid: uid, store_id});
     // 进入修改地址
     var revamp = options.revamp;
-    // 修改地址
-    if (revamp==1){
+    if (revamp == 1) {// 修改地址
       var uid = options.uid;
       var address_id = options.address_id;
       that.setData({
         revamp: 1, uid, address_id
       })
-      console.log('uid.address_id', address_id, uid)
       var params = {
         uid, address_id
       }
@@ -320,10 +318,6 @@ Page({
     var provicens_list = [];
     var provicens_id = [];
 
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    console.log(uid, store_id);
-    that.setData({ uid: uid, store_id: store_id });
   //  加载省份信息
     app.api.postApi('wxapp.php?c=address&a=getProvinces', {}, (err, resp) => {
       if (err) {
@@ -359,5 +353,12 @@ Page({
     this.setData({
       isDefault: !this.data.isDefault
     });    
-  }
+  },
+  /**
+   * 显示错误信息
+   */
+  _showError(errorMsg) {
+    wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
+    this.setData({ error: errorMsg });
+  },
 })

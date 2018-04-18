@@ -61,8 +61,8 @@ Page({
    * 添加地址
    */
   gotoAddAddr() {
-    wx.redirectTo({
-      url: './address',
+    wx.navigateTo({
+      url: '../shopping/address',
     })
   },
   
@@ -126,8 +126,8 @@ Page({
     var that = this;
     var uid = that.data.uid;
     var address_id = e.currentTarget.dataset.addressId;
-    wx.redirectTo({
-      url: './address?revamp=1&uid=' + uid + '&address_id=' + address_id
+    wx.navigateTo({
+      url: '../shopping/address?revamp=1&uid=' + uid + '&address_id=' + address_id
     })
   },
   

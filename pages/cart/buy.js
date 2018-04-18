@@ -378,7 +378,7 @@ submitOrder: function (event) {
       } else {
         // 调起微信支付
         if (resp.err_dom) {
-          wx.navigateTo({
+          wx.redirectTo({
             url: './my-order?goodsindex=' + 2
           })
         } else {
@@ -406,8 +406,8 @@ _startPay(payParams) {
 _onSubmitNoPay() {
   wx.showToast({ title: "提交成功", icon: "success", duration: 1000 });
   setTimeout(function () {
-    wx.navigateTo({
-      url: '../shopping/my-order'
+    wx.redirectTo({
+      url: '../shopping/my-order?page=2'
     });
   }, 1000);
 },
@@ -447,8 +447,8 @@ _onPayFail(err) {
     cancelColor: '#FF0000',
     confirmText: '好的',
     success: function (res) {
-      wx.navigateTo({
-        url: '../shopping/my-order'
+      wx.redirectTo({
+        url: '../shopping/my-order?page=1'
       });
     },
   });

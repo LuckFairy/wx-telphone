@@ -612,8 +612,8 @@
 <view class="overlay" style="display:{{showOverlay ? 'flex' : 'none'}}">
   <view class="qr-view">
     <image src="{{checkQrImgUrl}}" mode="widthFix" style="width:300rpx;margin:40px 10rpx"></image>
-    <text>将二维码出示给门店核销员</text>
-    <text>由门店核销即可</text>
+    <text>将二维码出示给门店店员核销即可</text>
+    <!-- <text>由门店核销即可</text> -->
     <i class="fa fa-times close-icon" catchtap="closeOverlay"></i>
   </view>
 </view>

@@ -181,7 +181,7 @@ Page({
          that.submitData(params);
    
         }else{
-          this.submitError({ image: '../../image/error.png', title: rep.err_msg });
+          this.submitError({ image: '../../image/use-ruler.png', title: err||rep.err_msg });
         }
     })
     
@@ -190,7 +190,14 @@ Page({
     app.api.postApi(SubmitURL, { params }, (err, data) => {   // 赠品领用提交
       wx.hideLoading();
       if (!err && data.err_code == 0) {
-        this.showModal('success');
+        wx.showModal({
+          title: '申请成功',
+          showCancel: false,
+          confirmText: '知道了',
+          success:function(res){
+            wx.redirectTo('./present')
+          }
+        })
         // if (this.data.qrEntry) {
         //   wx.showModal({
         //     title: '申请成功',

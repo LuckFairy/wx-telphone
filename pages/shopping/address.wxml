@@ -2,11 +2,6 @@
     <text wx:if="{{!codeFlag}}" class='code-txt'>{{detailData.card_no}}</text>
     <text wx:if="{{!codeFlag}}" class='code-txt'>{{detailData.card_no}}</text>
     <text wx:if="{{!codeFlag}}" class='code-txt'>{{detailData.card_no}}</text>
-
-
-
-
-xdffdgrg
 <view class="form-err-view">
   <text wx:if="{{error}}" class="form-err-text">{{error}}</text>
 </view>
