@@ -23,7 +23,7 @@ Page({
     uid: '',//用户id
     error: false,
     products: [],
-    totals: [],//商品总价
+    totals: 0,//商品总价
     isLoading: true,
     showwechat: false,
     shippingMethod: 'flat.flat',  // 邮寄方式，默认平邮   flat.flat-平邮  pickup.pickup 到店自提
@@ -821,10 +821,10 @@ Page({
       "uid": that.data.uid,
       "store_id": that.data.store_id ,
       "product_id": product_id ,
-      "total_price": pro_price
+      "total_price": that.data.totals
     };
 
-    console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
+
 
     var url = 'wxapp.php?c=coupon&a=store_coupon_use';
     app.api.postApi(url, { params }, (err, resp) => {
