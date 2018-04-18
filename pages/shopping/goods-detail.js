@@ -77,6 +77,10 @@ Page({
   },
   doGoBuy(e) {
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     var buyQuantity = e.currentTarget.dataset.buyQuantity;
     var isaddCart = e.currentTarget.dataset.isaddCart;
     var productId = e.currentTarget.dataset.productId;
@@ -107,6 +111,10 @@ Page({
   },
   goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId) {
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     var params = {
       uid,
       product_id: productId,
@@ -278,7 +286,7 @@ Page({
         wx.showLoading({
           title: resp.err_msg ,
       })}else{
-        wx.hideLoading();
+       
         var product = resp.err_msg.product;
         that.setData({
           product
@@ -351,8 +359,12 @@ Page({
   },
   /* 点击减号 w*/
   bindMinus: function (e) {
-    console.log('点击减号',e)
+    
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     var actions = e.currentTarget.dataset.actions;
     var shopNum = that.data.shopNum;
     shopNum--;
@@ -401,6 +413,10 @@ Page({
   /* 输入框事件w */
   bindManual: function (e) {
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     console.log(e, '3')
     var shopNum = e.detail.value;
     if (shopNum <= 1) {
@@ -421,6 +437,10 @@ Page({
   },
   goPayment(e){
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     console.log('e判断是否从严选、闪购过来',e);
     var baokuan_action = e.target.dataset.baokuan_action;
     var { buyQuantity, productId, uid, storeId, skuId} = e.currentTarget.dataset;
@@ -539,6 +559,10 @@ Page({
   */
   loadCartInfo(params){
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     var multiattribute = that.data.multiattribute;
     var quantitys = that.data.quantitys;
     var oneMatching = that.data.oneMatching;
