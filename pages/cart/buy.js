@@ -1,7 +1,7 @@
 // pages/shopping/buy.js 
 
 const util = require('../../utils/util.js');
-import { Api } from '../../utils/api_2';
+
 var app = getApp();
 const log = 'buy.js --- ';
 
@@ -81,7 +81,7 @@ Page({
     //2017年12月26日13:44:11
     couponInfo: [], //选择的优惠券信息
     normal_coupon_count: '', //可用的优惠券数量
-    totalId:[]
+    totalId:[]//商品id数组
   },
   /*
  *地址详情列表
@@ -145,17 +145,11 @@ Page({
       var store_id= app.store_id;
       this.setData({ uid,store_id });
       this.getAddress(uid);
-    
-    //console.log('传递过来的订单号是=' + order_no);return;
-    // 加载门店列表数据
-    //this._loadShopData();
-    //2017年12月26日13:45:20
+  
     var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
-    //console.log('onLoad优惠券信息', couponInfo);
     if (couponInfo.length > 0) {
       var user_coupon_id = [];  //23  ['23']
       user_coupon_id.push(couponInfo[0]);
-      //console.log(user_coupon_id,'user_coupon_idooooooooooooo')
       this.setData({
         user_coupon_id: user_coupon_id
       })
@@ -165,7 +159,7 @@ Page({
   this.setData({
     couponInfo: couponInfo
   })
-  this.loadCouponData();
+
 },
 
   onReady: function () {
@@ -173,31 +167,21 @@ Page({
   },
   onShow: function () {
     var uid = this.data.uid;
-    this.getAddress(uid);
-    // 页面显示
-    //this._prepare(_prodId, skuid, quantity, cartId);
-  
-    //商品数据
     var order_no = this.data.order_no;
-    //console.log('onShow的订单号是=' + order_no); return; 
+    this.getAddress(uid);
     this._prepare(order_no);
-
-    //2017年12月26日13:46:22
     var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo') : [];
-    console.log('onShow优惠券信息', couponInfo);
     if (couponInfo.length > 0) {
       var user_coupon_id = [];  //23  ['23']
       user_coupon_id.push(couponInfo[0]);
-      //console.log(user_coupon_id, 'user_coupon_idooooooooooooo')
       this.setData({
         user_coupon_id: user_coupon_id
       })
     }
-
   this.setData({
     couponInfo: couponInfo
   })
-  this.loadCouponData();
+ 
 
 },
 onHide: function () {
@@ -213,31 +197,18 @@ _prepare(order_no) {
     order_no: order_no
 
   }
- 
     app.api.postApi('wxapp.php?c=order&a=mydetail', { params }, (err, resp) => {
-      if (err) {
-        that._showError(err);
+      if (err||resp.err_code!=0) {
+        that._showError(err||resp.err_msg);
         return;
       }
-      if (resp.err_code == 0) {
-        
-        let orderdata = resp.err_msg.orderdata;
-        var products = resp.err_msg.orderdata.product; //购物车的商品
-        var sub_total = resp.err_msg.orderdata.sub_total; //商品金额
-        var postage_int = resp.err_msg.orderdata.postage_int; //运费
-        var lastPay = (resp.err_msg.orderdata.sub_total - resp.err_msg.orderdata.postage_int).toFixed(2);//实付款
-        var orderdata = resp.err_msg.orderdata;
-        console.log('商品详情但事实上所所', orderdata);
-        var product = orderdata.product;
+      let { orderdata: { product=[], sub_total=0, postage_int=0, lastPay=0 } } = resp.err_msg;
         var totalId = [];
         for (var i = 0; i < product.length;i++){
-          totalId.push(product[i].product_id);//总id
+          totalId.push(product[i].product_id);//总商品id
         }
-        this.setData({ products: products, postage_int, sub_total, lastPay, totalId});
-      }
-
-
-
+        that.setData({ products: product, postage_int, sub_total, lastPay, totalId});
+        that.loadCouponData();
     });
   },
 
@@ -798,8 +769,6 @@ changeCurActIndex(e) {
   this.setShippingMethod(method);
 },
 changeCoupon: function (event) {
-  console.log('点击进入优惠券选择界面', event);
-  //navigateTo  redirectTo
   var pro_price = event.currentTarget.dataset.sub_total;
   var product_id = event.currentTarget.dataset.total_id;
   wx.navigateTo({
@@ -810,13 +779,11 @@ changeCoupon: function (event) {
 loadCouponData: function () {
   var that = this;
   var params = {
-    "uid": 91,
+    "uid": that.data.uid,
     "store_id": that.data.store_id,
-    "product_id": ["23"],
-    "total_price": "79"
+    "product_id": that.data.totalId,
+    "total_price": that.data.sub_total
   };
-
-  console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
 
   var url = 'wxapp.php?c=coupon&a=store_coupon_use';
   app.api.postApi(url, { params }, (err, resp) => {

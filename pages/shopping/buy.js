@@ -85,22 +85,21 @@ Page({
     let that = this;
     let orderId = opt.orderId ;
 
-    app.api.postApi('wxapp.php?c=order&a=mydetail',{"params": {
-      "order_no":opt.orderId 
-    }}, (err,rep) => {
-      if(err){ console.log('err ',err); return;}
-      var { err_code, err_msg: { orderdata}} = rep;
-      if(err_code != 0){ return;}
-      console.log('订单详情列表', orderdata);
-      var product_id = orderdata.product[0].product_id;
-      console.log('产品id', product_id);
+    app.api.postApi('wxapp.php?c=order&a=mydetail',{"params": {"order_no":opt.orderId }}, (err,rep) => {
+      if (err || rep.err_code != 0) { that._showError(err || rep.err_msg);  return;}
+      let orderdata = rep.err_msg.orderdata;
+      let  { product = [], sub_total = 0, postage_int = 0, lastPay = 0 }  = orderdata;
+      //遍历产品id
+      var product_id = [];
+      product.forEach(item=>{
+        product_id.push(item.product_id);
+      })
       var pro_price = orderdata.product[0].pro_price;
-      console.log('产品价格', pro_price);
-      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int), orderId, postage_list: orderdata.postage, product_id: product_id, pro_price: pro_price});
-      that.loadCouponData(pro_price, product_id);
+      that.setData({ "shopListData": orderdata, "productList": product, totals: sub_total, fee: postage_int, lastPay, orderId, postage_list: orderdata.postage, product_id, pro_price});
+
+      that.loadCouponData(product_id);
     })
     
-    //2017年12月25日12:27:38 获取优惠券的数量
     
   },
   /*
@@ -172,11 +171,11 @@ Page({
     
     _prodId = pid;      
     var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo'): [] ;
-    //console.log('onLoad优惠券信息', couponInfo);
+   
     if (couponInfo.length>0){
       var user_coupon_id = [] ;  //23  ['23']
       user_coupon_id.push(couponInfo[0]);
-      //console.log(user_coupon_id,'user_coupon_idooooooooooooo')
+  
       this.setData({
         user_coupon_id: user_coupon_id,
         discounts: couponInfo[2]
@@ -813,35 +812,24 @@ Page({
     });
   },
   //优惠券的数量
-  loadCouponData: function (pro_price, product_id) {
+  loadCouponData: function ( product_id) {
     var that =this;
-    var product_id = [];
-    product_id.push(that.data.product_id);
     var params = {
       "uid": that.data.uid,
       "store_id": that.data.store_id ,
       "product_id": product_id ,
       "total_price": that.data.totals
     };
-
-
-
     var url = 'wxapp.php?c=coupon&a=store_coupon_use';
     app.api.postApi(url, { params }, (err, resp) => {
-      if (resp) {
-
-        if (resp.err_code == 0) {
-          
-          if (resp.err_msg.coupon_list) {
-            //更新数据
-            that.setData({
-              normal_coupon_count: resp.err_msg.normal_coupon_count,
-            });
-          }
-        } else {
-          return;
-        }
+      if (err || resp.err_code != 0) { that._showError(err || resp.err_msg); return; }
+      if (resp.err_msg.coupon_list) {
+        //更新数据
+        that.setData({
+          normal_coupon_count: resp.err_msg.normal_coupon_count,
+        });
       }
+    
     });
   },
   /**
