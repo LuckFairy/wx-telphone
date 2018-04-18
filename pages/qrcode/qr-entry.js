@@ -231,6 +231,7 @@ Page({
           url = '../lottery/dazhuanpan?qrEntry=1';
         } else if (resType == 'baokuan') { //爆款专区
           url = '../index-new/index-baokuan?categoryid=100&page=1&store_id=' + this.data.store_id + '&qrEntry=1';
+          console.log('baokuan url=',url);
         } else if (resType == 'hotsale') { //热销专区
           url = '../index-new/index-hotsale?categoryid=101&page=1&store_id=' + this.data.store_id + '&qrEntry=1';
         } else if (resType == 'festival') { //活动专区
