@@ -105,17 +105,17 @@ Page({
       }
     })
  
-    var pro_price = options.pro_price;
-    var product_id = options.product_id;
+    var pro_price = options.pro_price;//商品总价
+    var product_id = options.product_id;//商品总id
     that.loadCouponData(pro_price, product_id);
     // var uid = wx.getStorageSync('userUid');
     // if (!userOpenid){
     //   that.loadData1(that);
     // }
-
   },
   loadCouponData: function (pro_price, product_id) {
     var that = this;
+    product_id = product_id.split(',');
     wx.showLoading({
       title: '加载中'
     })
