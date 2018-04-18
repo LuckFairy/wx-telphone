@@ -162,8 +162,6 @@ Page({
         })
       }
     })
- 
-    
     that.loadData1(that);
     
   },
@@ -237,31 +235,19 @@ Page({
     var params = {
       page: pagesone, store_id, uid: uid, type: 'unused', category
     }
+    console.log('params..',params);
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
-      wx.hideLoading();
+        wx.hideLoading();
       if (err && reps.err_code != 0) return;
-      var { image, coupon_list, next_page } = reps.err_msg;
-      if (!next_page) {//是否有下一页
-        // wx.showToast({
-        //   title: '已经没有数据！',
-        //   image: '../../image/use-ruler.png',
-        //   duration: 2000
-        // });
-        that.setData({
-          loadingone: next_page, normal: coupon_list,
-        });
-        return;
-      }
-      for (let j = 0; j < coupon_list.length; j++) {
-        msgList.push(coupon_list[j]);
-      }
+      var { image, coupon_list=[], next_page } = reps.err_msg;
       //更新数据
       that.setData({
+        loadingone: next_page,
         loading: false,
-        normal: msgList,
+        normal: coupon_list,
         image: image,
       });
-
+      wx.hideLoading();
     });
   },
   loadData2: function (that) {
@@ -277,17 +263,6 @@ Page({
         isLoaded2: true
       });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
-      if (!next_page) {//是否有下一页
-        // wx.showToast({
-        //   title: '已经没有数据！',
-        //   image: '../../image/use-ruler.png',
-        //   duration: 2000
-        // });
-        that.setData({
-          loadingtwo: next_page, expired: coupon_list
-        });
-        return;
-      }
       var expired = coupon_list;
       var ex_image = image;
       for (var r = 0; r < expired.length; r++) {
@@ -295,10 +270,12 @@ Page({
       }
       //更新数据
       that.setData({
+        loadingtwo: next_page,
         loading: false,
         expired: expiredMsg,
         ex_image: ex_image,
       });
+      wx.hideLoading();
     });
   },
   loadData3: function (that) {
@@ -315,18 +292,7 @@ Page({
         isLoaded3: true
       });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
-      if (!next_page) {
-        // wx.showToast({
-        //   title: '已经没有数据！',
-        //   image: '../../image/use-ruler.png',
-        //   duration: 2000
-        // });
-        that.setData({
-          loadingtwo: next_page, used: coupon_list,
-          use_image: image,
-        });
-        return;
-      }
+ 
       var used = coupon_list;
       var use_image = image;
       for (var k = 0; k < used.length; k++) {
@@ -334,10 +300,12 @@ Page({
       }
       //更新数据
       that.setData({
+        loadingtwo: next_page,
         loading: false,
         used: usedMsg,
         use_image: use_image,
       });
+      wx.hideLoading();
     });
   },
   goDetail(e) {

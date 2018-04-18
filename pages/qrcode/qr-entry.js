@@ -19,6 +19,7 @@ Page({
         let that = this;
         var store_id = app.store_id;//store_id    
         let uid = wx.getStorageSync('userUid');
+        this.setData({store_id,uid})
         wx.showLoading({ title: '加载中...', mask: true, });
         if (q) {
             q = decodeURIComponent(q);
@@ -116,7 +117,6 @@ Page({
           url = '../card/card_summary?cardId=' + resId + '&activityId=' + activityId + '&qrEntry=1';
           resolve(url);
         } else if (resType == 'goods') {//商品详情页面
-          //url = '../shopping/buy?prodId=' + resId + '&qrEntry=1';
           url = '../shopping/goods-detail?prodId=' + resId + '&qrEntry=1';
           resolve(url);
         } else if (resType == 'trial') {//赠品领取页面
@@ -185,8 +185,7 @@ Page({
         let expire_time = qrData.expire_time; //活动结束时间（其实已经用不上了）
         let hadnum = qrData.hadnum; //商品数量
         let pskId = qrData.pskId; //秒杀产品ID
-        //2017年12月29日17:07:24 by leo 新品试用
-        let action = qrData.action; //
+        let action = qrData.action; //新品试用
 
 
 
@@ -195,15 +194,6 @@ Page({
             //url = '../card/card_summary?cardId=' + resId + '&activityId=' + activityId + '&qrEntry=1';
           url = '../card/card_summary?id=' + resId + '&source=2'+ '&qrEntry=1';
         } else if (resType == 'goods') {//商品详情页面
-          //url = '../shopping/buy?prodId=' + resId + '&qrEntry=1';
-
-          // if (action =='present'){
-          //   url = '../shopping/goods-detail?prodId=' + resId + '&action=present' + '&qrEntry=1';
-          // }else{
-          //   url = '../shopping/goods-detail?prodId=' + resId + '&qrEntry=1';
-          // }
-
-          //url = '../shopping/buy?prodId=' + resId + '&action=' + action + '&qrEntry=1';
           url = '../shopping/goods-detail?prodId=' + resId + '&action=' + action + '&qrEntry=1';  
           
         } else if (resType == 'trial') {//赠品领取页面
@@ -239,7 +229,7 @@ Page({
         } else if (resType == 'goodss') { //百货专区
           url = '../index-new/index-goods?categoryid=102&page=1&store_id=' + this.data.store_id + '&qrEntry=1';
         } else if (resType == 'mycard') { //我的卡包
-          url = '../card/mycard' + '&qrEntry=1';
+          url = '../card/mycard?qrEntry=1';
         }
 
         if(url){

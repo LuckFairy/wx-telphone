@@ -8,7 +8,7 @@ Page({
     status: true,
     windowHeight: '',
     windowWidth: '',
-    msgList: [],
+  
     usedMsg: [],
     expiredMsg: [],
     scrollTop: 0,
@@ -166,13 +166,13 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
-    var { msgList=[], searchValue, pagesone, store_id, uid, category, nullList}=that.data;
+    var {  searchValue, pagesone, store_id, uid, category, nullList}=that.data;
     var params = {
       page: pagesone, store_id, uid: uid, type: 'all', category: category, keyword: searchValue
     }
     app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
       if (err && reps.err_code != 0) {wx.hideLoading();return;}
-      var { image, coupon_list, next_page } = reps.err_msg;
+      var { image, coupon_list=[], next_page } = reps.err_msg;
       //第一次加载无数据显示
       if (pagesone == 1 && coupon_list.length==0) {
         that.setData({ nullList: true}); 
@@ -182,14 +182,11 @@ Page({
           nullList:false,
         }); 
       }
-      for (var j = 0; j < coupon_list.length; j++) {
-        msgList.push(coupon_list[j]);
-      }
-    
+     
       that.setData({
-        // loading: false,
+        loading: false,
         loadingone: next_page,
-        normal: msgList,
+        normal: coupon_list,
         image: image,
         selectCardone: 0
       });
