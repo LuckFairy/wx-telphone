@@ -195,7 +195,7 @@ Page({
           showCancel: false,
           confirmText: '知道了',
           success:function(res){
-            wx.redirectTo('./present')
+            wx.redirectTo({url:'./present'});
           }
         })
         // if (this.data.qrEntry) {

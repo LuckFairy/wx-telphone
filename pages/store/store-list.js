@@ -12,6 +12,9 @@ Page({
   onLoad:function(options){
     var that = this;
     that.setData({store_id:app.store_id})
+    wx.showLoading({
+      title: '加载中', mask: true
+    });
     // 页面初始化 options为页面跳转所带来的参数
     // 自动获取手机宽高
     wx.getSystemInfo({
@@ -52,11 +55,9 @@ Page({
       store_id, page
     }
     wx.showLoading({
-      title: '加载中'
+      title: '加载中',mask:true
     });
     app.api.postApi('wxapp.php?c=address&a=physical_list', { params }, (err, resp) => {
-      // 列表数据
-      console.log(resp, 344444)
       if (resp) {
         wx.hideLoading();
         if (resp.err_code == 0) {

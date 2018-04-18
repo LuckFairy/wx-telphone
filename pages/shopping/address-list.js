@@ -12,6 +12,9 @@ Page({
   onLoad: function (options) {
     var store_id = app.store_id;
     this.setData({ addressId: options.addressId,store_id });
+    wx.showLoading({
+      title: '加载中', mask: true
+    });
     this.addrLists();
   },
   addrLists(e) {
@@ -23,9 +26,7 @@ Page({
     var params = {
       uid, store_id: that.data.store_id
     }
-    wx.showLoading({
-      title: '加载中'
-    })
+    
     console.log(params,'params')
     app.api.postApi('wxapp.php?c=address&a=MyAddress', { params }, (err, resp) => {
       wx.hideLoading();
