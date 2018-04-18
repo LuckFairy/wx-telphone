@@ -28,8 +28,8 @@ Page({
   saveRevamp(e){
     console.log(e,'保存修改地址时')
     var that =this;
-    var store_id = app.store_id;
-    that.setData({store_id});
+    var store_id =that.data.store_id;
+   
     var uid = e.currentTarget.dataset.uid;
     var address_id = e.currentTarget.dataset.addressId;
     // 如果未更改
@@ -288,7 +288,8 @@ Page({
   onLoad:function(options){
     console.log(options,'修改地址')
     var that = this;
-    var store_id = store_Id.store_Id();//store_id
+    var store_id = app.store_id;//store_id
+    that.setData({ store_id });
     // 进入修改地址
     var revamp = options.revamp;
     // 修改地址

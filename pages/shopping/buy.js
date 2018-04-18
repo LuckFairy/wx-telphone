@@ -109,9 +109,9 @@ Page({
   getAddress(uid){
     var url = 'wxapp.php?c=address&a=MyAddress';
     var that = this;
-    var address = that.data.address;
+    var { address, store_id}= that.data;
     var params = {
-      uid, store_id: that.data.store_id
+      uid, store_id
     }
     app.api.postApi(url,{params} , (err, rep) => {
       if(!err && rep.err_code == 0){
@@ -156,7 +156,8 @@ Page({
   
 
   onLoad: function (options) {
- 
+    var store_id = app.store_id;
+    this.setData({store_id});
     wx.removeStorageSync('couponInfo');
     wx.removeStorageSync('recid')
     wx.removeStorageSync('cname')
@@ -167,7 +168,7 @@ Page({
     this.setData({ orderId, uid});
     //显示订单列表
     this.showOrderList({ orderId });
-    this.getAddress(uid);
+
     
     _prodId = pid;      
     var couponInfo = wx.getStorageSync('couponInfo') ? wx.getStorageSync('couponInfo'): [] ;
@@ -237,9 +238,11 @@ Page({
   changeAddress(uid) {
     var url = 'wxapp.php?c=address&a=MyAddress';
     var that = this;
-    var address = that.data.address;
-
-    app.api.postApi(url, { "params": { uid } }, (err, rep) => {
+    var {address,store_id} = that.data;
+    var params = {
+      uid, store_id
+    }
+    app.api.postApi(url, { params }, (err, rep) => {
       if (!err && rep.err_code == 0) {
         var addressList = rep.err_msg.addresslist;
         if (addressList.length) {
@@ -812,10 +815,8 @@ Page({
   //优惠券的数量
   loadCouponData: function (pro_price, product_id) {
     var that =this;
-    
     var product_id = [];
     product_id.push(that.data.product_id);
-    console.log(pro_price, product_id, '发发号施令上分好发给谁了')
     var params = {
       "uid": that.data.uid,
       "store_id": that.data.store_id ,
@@ -832,7 +833,6 @@ Page({
         if (resp.err_code == 0) {
           
           if (resp.err_msg.coupon_list) {
-            console.log('resp.err_msg.coupon_list存在');
             //更新数据
             that.setData({
               normal_coupon_count: resp.err_msg.normal_coupon_count,
@@ -842,7 +842,6 @@ Page({
           return;
         }
       }
-      console.log('normal_coupon_count', this.data.normal_coupon_count);
     });
   },
   /**

@@ -4,9 +4,9 @@
    
 		wx:for="{{presentData}}"
 		wx:key="{{item.product_id}}"
-		class="page {{item.buy_status? 'navigator':''}}"
+		class="page {{item.buy_status&&item.quantity>0? 'navigator':''}}"
 		data-options="{{item}}"
-		bindtap="{{item.buy_status ? 'applyForPresent':''}}"
+		bindtap="{{item.buy_status&&item.quantity>0 ? 'applyForPresent':''}}"
 	>
 		<view 
 			class="{{index === presentData.length - 1? 'no-border':' '}} container"
@@ -31,7 +31,9 @@
 							<text class="mText">剩余<text class="specialRedText">{{item.quantity}}</text></text>
 						</view>
 						<view wx:else style="flex: 1;"></view>
-						<text class="getButton {{item.hasTrial ? 'grayBackgroundColor':'specialRedBackgroundColor'}}">{{item.buy_status ?  '立即领取':'已申请过'}}</text>
+
+            <text wx:if="{{item.quantity <1}}" class="getButton grayBackgroundColor">已售罄</text>
+						<text wx:if="{{item.quantity >0}}" class="getButton {{item.buy_status ? 'specialRedBackgroundColor':'grayBackgroundColor'}}">{{item.buy_status ?  '立即领取':'已申请过'}}</text>
 					</view>
           
 				</view>

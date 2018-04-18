@@ -202,7 +202,30 @@ Page({
     var that = this;
     var store_id = app.store_id;
     var uid = wx.getStorageSync('userUid');
-    this.setData({ uid ,store_id});
+    if(!uid){
+      wx.showLoading({
+        title: '加载中',
+        mask: true,
+      });
+      setTimeout(() => {
+        uid = wx.getStorageSync('userUid');
+        this.setData({ uid, store_id });
+        this._prepare();
+      }, 2000);
+    }else{
+      this.setData({ uid, store_id });
+      this._prepare();
+    }
+   
+
+
+  },
+  /**
+  * 加载数据
+  */
+  _prepare() {
+    var that = this;
+    var {store_id,uid} = that.data;
     // this.firstOpen();
 
     // // 顶部轮播图
@@ -229,7 +252,7 @@ Page({
     })
 
 
-    
+
     app.api.postApi('wxapp.php?c=index&a=get_icon', { params }, (err, rep) => {
       //console.log('图标',rep);
       if (!err && rep.err_code == 0) {
@@ -248,7 +271,6 @@ Page({
     this.loadHotSaleData();
     this.loadGoodsData();
     this.loadFestivalData();
-
   },
   goCardLists() {
     wx.navigateTo({
@@ -267,7 +289,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.loadMyCardNumData(); //我的卡包数量
+    var uid = this.data.uid;
+    if (!uid) {
+      wx.showLoading({
+        title: '加载中',
+        mask: true,
+      });
+      setTimeout(() => {
+        uid = wx.getStorageSync('userUid');
+        this.loadMyCardNumData(); //我的卡包数量
+      }, 3000);
+    } else {
+      this.loadMyCardNumData(); //我的卡包数量
+    }
+
+   
   },
 
   /**
@@ -305,11 +341,7 @@ Page({
 
   },
 
-  /**
-   * 若还没登录，启用定时器
-   */
-  _prepare() {
-  },
+ 
   //返回顶部功能
   goTopFun() {
     this.setData({
