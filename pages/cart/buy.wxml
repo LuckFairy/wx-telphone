@@ -151,7 +151,7 @@
   </view>
 </view>
 <!--优惠券选择  -->
- <view class='discount' bindtap='changeCoupon' data-total_id='{{totalId}}' data-sub_total='{{sub_total}}'>
+ <view class='discount' bindtap='changeCoupon'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
   <block wx:if="{{couponInfo.length}}">
@@ -177,7 +177,7 @@
 <view class='discount discount-list'>
   <text class='discount-text'>运费</text>
   <view class='discount-father'>
-    <text class='discount-ticket-price discount-color-red'>+￥{{postage_int}}</text>
+    <text class='discount-ticket-price discount-color-red'>-￥{{postage_int}}</text>
   </view>
 </view>
 <view class='discount discount-list'>

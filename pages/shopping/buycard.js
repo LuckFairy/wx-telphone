@@ -91,9 +91,8 @@ Page({
     var that = this;
     var store_id = app.store_id;
     var uid = wx.getStorageSync('userUid');
-    console.log(uid, '用户uid')
+    var userOpenid = wx.getStorageSync("userOpenid");
     this.setData({ uid, store_id });
-    // 页面初始化 options为页面跳转所带来的参数
     wx.showLoading({ title: '加载中' });
     that.setData({ curSwiperIdx: 0, curActIndex: 0 });
     // 自动获取手机宽高
@@ -105,17 +104,47 @@ Page({
         })  
       }
     })
-    console.log(options,'options数据啊啊啊啊')
+ 
     var pro_price = options.pro_price;
     var product_id = options.product_id;
     that.loadCouponData(pro_price, product_id);
-   
-    var userOpenid = wx.getStorageSync("userOpenid");
-    var uid = wx.getStorageSync('userUid');
-    if (!userOpenid){
-      that.loadData1(that);
-    }
+    // var uid = wx.getStorageSync('userUid');
+    // if (!userOpenid){
+    //   that.loadData1(that);
+    // }
 
+  },
+  loadCouponData: function (pro_price, product_id) {
+    var that = this;
+    wx.showLoading({
+      title: '加载中'
+    })
+    var params = {
+      "uid": that.data.uid,
+      "store_id": that.data.store_id,
+      "product_id": product_id,
+      "total_price": pro_price
+    };
+
+    var url = 'wxapp.php?c=coupon&a=store_coupon_use';
+    app.api.postApi(url, { params }, (err, resp) => {
+      wx.hideLoading();
+      if (err || resp.err_code != 0) { that._showError(err || resp.err_msg); return; }
+      if (resp.err_msg.coupon_list) {
+        var normal = resp.err_msg.coupon_list['normal_coupon_list'];
+        var expired = resp.err_msg.coupon_list['unnormal_coupon_list'];
+        //更新数据
+        that.setData({
+          loading: false,
+          normal: normal,
+          expired: expired,
+          normal_coupon_count: resp.err_msg.normal_coupon_count,
+          unnormal_coupon_count: resp.err_msg.unnormal_coupon_count
+        });
+
+      }
+      
+    });
   },
   goChooseCard(e){
     var that = this;
@@ -283,49 +312,7 @@ Page({
     //   }
     // });
   },
-  loadCouponData: function (pro_price, product_id) {
-    var that = this;
-    wx.showLoading({
-      title: '加载中'
-    })
-    var pro_id = [];
-    pro_id.push(product_id);
-    var params = {
-      "uid": that.data.uid,
-      "store_id": that.data.store_id,
-      "product_id": pro_id,
-      "total_price": pro_price
-    };
-    console.log('线上优惠券列表(可用和不可用)请求参数params=', params);
-    var url = 'wxapp.php?c=coupon&a=store_coupon_use';
-    app.api.postApi(url, { params }, (err, resp) => {
-      wx.hideLoading();
-      if (resp) {
-        if (resp.err_code == 0) {
-          console.log('resp.err_code == 0');
-          if (resp.err_msg.coupon_list) {
-            console.log('resp.err_msg.coupon_list存在');
-            var normal = resp.err_msg.coupon_list['normal_coupon_list'];
-            var expired = resp.err_msg.coupon_list['unnormal_coupon_list'];
-            //更新数据
-            that.setData({
-              loading: false,
-              normal: normal,
-              expired: expired,
-              normal_coupon_count: resp.err_msg.normal_coupon_count,
-              unnormal_coupon_count: resp.err_msg.unnormal_coupon_count
-            });
 
-          }
-        } else {          
-          return;
-        }
-
-      }
-      console.log('normal', this.data.normal);
-      console.log('expired', this.data.expired);
-    });
-  },
   /**
   * 显示模态框
   */

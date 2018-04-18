@@ -3,18 +3,19 @@
   <view class='baobao-thing {{currentTab==0 ? "chooseTab" : ""}}' data-current="0" data-cat-id='{{cat_list[5].cat_id}}' bindtap='goToList'>
     <text class='baobao-some-thing '>{{cat_list[5].title}}</text>
   </view>
+   <view class='baobao-thing {{currentTab==3 ? "chooseTab" : ""}}' data-current="3" bindtap='goToList' data-cat-id='{{cat_list[8].cat_id}}'>
+    <text class='baobao-some-thing'>{{cat_list[8].title}}</text>
+  </view>
+  <view class='baobao-thing {{currentTab==4 ? "chooseTab" : ""}}' data-current="4" bindtap='goToList' data-cat-id='{{cat_list[9].cat_id}}'>
+    <text class='baobao-some-thing'>{{cat_list[9].title}}</text>
+  </view>
   <view class='baobao-thing {{currentTab==1 ? "chooseTab" : ""}}' data-current="1" bindtap='goToList' data-cat-id='{{cat_list[6].cat_id}}'>
     <text class='baobao-some-thing'>{{cat_list[6].title}}</text>
   </view>
   <view class='baobao-thing {{currentTab==2 ? "chooseTab" : ""}}' data-current="2" bindtap='goToList' data-cat-id='{{cat_list[7].cat_id}}'>
     <text class='baobao-some-thing'>{{cat_list[7].title}}</text>
   </view>
-  <view class='baobao-thing {{currentTab==3 ? "chooseTab" : ""}}' data-current="3" bindtap='goToList' data-cat-id='{{cat_list[8].cat_id}}'>
-    <text class='baobao-some-thing'>{{cat_list[8].title}}</text>
-  </view>
-  <view class='baobao-thing {{currentTab==4 ? "chooseTab" : ""}}' data-current="4" bindtap='goToList' data-cat-id='{{cat_list[9].cat_id}}'>
-    <text class='baobao-some-thing'>{{cat_list[9].title}}</text>
-  </view>
+ 
 </scroll-view>
 <!--用品  -->
 <view class='rush-baobao-box' wx:if="{{tabList==0}}">

@@ -207,6 +207,7 @@ _prepare(order_no) {
         for (var i = 0; i < product.length;i++){
           totalId.push(product[i].product_id);//总商品id
         }
+        lastPay = sub_total - postage_int;
         that.setData({ products: product, postage_int, sub_total, lastPay, totalId});
         that.loadCouponData();
     });
@@ -768,9 +769,9 @@ changeCurActIndex(e) {
   this.setData({ curActIndex });
   this.setShippingMethod(method);
 },
-changeCoupon: function (event) {
-  var pro_price = event.currentTarget.dataset.sub_total;
-  var product_id = event.currentTarget.dataset.total_id;
+changeCoupon: function () {
+  var pro_price = this.data.sub_total;
+  var product_id = this.data.totalId;
   wx.navigateTo({
     url: '../shopping/buycard?product_id=' + product_id + '&pro_price=' + pro_price
   });

@@ -231,7 +231,7 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
-    var { msgList=[], pagesone, store_id, uid, category } = that.data;//msgList长度;0/1之间判断切换
+    var { normal=[], pagesone, store_id, uid, category } = that.data;//msgList长度;0/1之间判断切换
     var params = {
       page: pagesone, store_id, uid: uid, type: 'unused', category
     }
@@ -240,18 +240,19 @@ Page({
         wx.hideLoading();
       if (err && reps.err_code != 0) return;
       var { image, coupon_list=[], next_page } = reps.err_msg;
+      var list = [...normal, ...coupon_list];
       //更新数据
       that.setData({
         loadingone: next_page,
         loading: false,
-        normal: coupon_list,
+        normal: list,
         image: image,
       });
       wx.hideLoading();
     });
   },
   loadData2: function (that) {
-    var { expiredMsg, pagestwo, store_id, uid, category, loadingtwo } = that.data;
+    var { expiredMsg, expired, ex_image, pagestwo, store_id, uid, category, loadingtwo } = that.data;
     
     var params = {
       page: pagestwo, store_id, uid: uid, type: 'expired', category
@@ -263,23 +264,20 @@ Page({
         isLoaded2: true
       });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
-      var expired = coupon_list;
-      var ex_image = image;
-      for (var r = 0; r < expired.length; r++) {
-        expiredMsg.push(expired[r]);
-      }
+      var list = [...expired, ...coupon_list];
+      var imageList = [...image, ...ex_image];
       //更新数据
       that.setData({
         loadingtwo: next_page,
         loading: false,
-        expired: expiredMsg,
-        ex_image: ex_image,
+        expired: list,
+        ex_image: imageList,
       });
       wx.hideLoading();
     });
   },
   loadData3: function (that) {
-    var { usedMsg, pagesthree, store_id, uid, category } = that.data;
+    var { usedMsg, used, use_image, pagesthree, store_id, uid, category } = that.data;
   
     var params = {
       page: pagesthree, store_id, uid: uid, type: 'use', category
@@ -292,18 +290,15 @@ Page({
         isLoaded3: true
       });
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
- 
-      var used = coupon_list;
-      var use_image = image;
-      for (var k = 0; k < used.length; k++) {
-        usedMsg.push(used[k]);
-      }
+      var list = [...used, ...coupon_list];
+      var imageList = [...image, ...use_image];
+     
       //更新数据
       that.setData({
         loadingtwo: next_page,
         loading: false,
-        used: usedMsg,
-        use_image: use_image,
+        used: list,
+        use_image: imageList,
       });
       wx.hideLoading();
     });

@@ -1,9 +1,6 @@
 // pages/shopping/buy.js 
-
 const app = getApp();
-
 import { util, formatTime}  from '../../utils/util';
-import { Api } from '../../utils/api_2';
 const log = 'buy.js --- ';
 
 const AddressSettingURL = 'buy/address';   // 设置售货地址
@@ -24,6 +21,8 @@ Page({
     error: false,
     products: [],
     totals: 0,//商品总价
+    product_id: [],//商品总id数组
+
     isLoading: true,
     showwechat: false,
     shippingMethod: 'flat.flat',  // 邮寄方式，默认平邮   flat.flat-平邮  pickup.pickup 到店自提
@@ -74,8 +73,8 @@ Page({
     //2017年12月25日12:18:49
     normal_coupon_count:'', //可用的优惠券数量
     discounts:0,
-    product_id:'',
-    pro_price:'',
+    
+    
     baokuan_action:'',//判断是否为闪购严选
   },
   /*
@@ -94,8 +93,8 @@ Page({
       product.forEach(item=>{
         product_id.push(item.product_id);
       })
-      var pro_price = orderdata.product[0].pro_price;
-      that.setData({ "shopListData": orderdata, "productList": product, totals: sub_total, fee: postage_int, lastPay, orderId, postage_list: orderdata.postage, product_id, pro_price});
+      lastPay = sub_total - postage_int;
+      that.setData({ "shopListData": orderdata, "productList": product, totals: sub_total, fee: postage_int, lastPay, orderId, postage_list: orderdata.postage, product_id});
 
       that.loadCouponData(product_id);
     })
@@ -802,11 +801,9 @@ Page({
     this.setShippingMethod(method);
   },
   //2017年12月22日15:58:39 选择优惠券
-  changeCoupon: function (event) {
-    console.log('点击进入优惠券选择界面',event);
-    //navigateTo  redirectTo
-    var pro_price = event.currentTarget.dataset.pro_price;
-    var product_id = event.currentTarget.dataset.product_id;
+  changeCoupon: function () {
+    var pro_price = this.data.totals;
+    var product_id = this.data.product_id;
     wx.navigateTo({
       url: './buycard?product_id=' + product_id + '&pro_price=' + pro_price
     });
