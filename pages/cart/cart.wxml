@@ -55,9 +55,9 @@
         <view class="cart-frice-list-far">
           <text class="cart-frice-list">￥{{item.price}}</text>
           <view class="cart-add-reduce">
-            <text class="cart-reduce cart-common" bindtap="bindMinus" data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}' data-index="{{index}}">-</text>
+            <text class="cart-reduce cart-common" bindtap="bindMinus" data-quantity="{{item.quantity}}" data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}' data-index="{{index}}">-</text>
             <text class="cart-text-num cart-common-two" type="number" bindchange="bindManual">{{item.pro_num}}</text>
-            <text class="cart-add cart-common" bindtap="bindPlus" data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}' data-index="{{index}}">+</text>
+            <text class="cart-add cart-common" bindtap="bindPlus" data-quantity="{{item.quantity}}"  data-card-id='{{item.pigcms_id}}' data-uid='{{uid}}' data-product-id='{{item.product_id}}' data-sku-id='{{item.sku_id}}' data-number='{{item.pro_num}}' data-index="{{index}}">+</text>
           </view>
         </view>
       </view>

@@ -166,7 +166,10 @@ Page({
   },
   //加载页面数据
   loadData1: function (that) {
-    var {  searchValue, pagesone, store_id, uid, category, nullList}=that.data;
+    wx.showLoading({
+      title: '加载中',
+    })
+    var { searchValue, pagesone, store_id, uid, category, nullList, normal=[]}=that.data;
     var params = {
       page: pagesone, store_id, uid: uid, type: 'all', category: category, keyword: searchValue
     }
@@ -177,16 +180,12 @@ Page({
       if (pagesone == 1 && coupon_list.length==0) {
         that.setData({ nullList: true}); 
       }
-      if (!next_page) {//是否下一页
-        that.setData({
-          nullList:false,
-        }); 
-      }
-     
+      var list = [...normal, ...coupon_list];
       that.setData({
-        loading: false,
+        nullList:false,
         loadingone: next_page,
-        normal: coupon_list,
+        loading: false,
+        normal: list,
         image: image,
         selectCardone: 0
       });

@@ -395,8 +395,11 @@ Page({
   *
   */
   confirmNewGoods() {
-    this.setData({ showErrModal: true });
-    this.showModal('err', errModalConfig);
+    //this.setData({ showErrModal: true });
+  
+    var trial_product_qrcode = this.data.orderData.trial_product_qrcode;
+    trial_product_qrcode = trial_product_qrcode.replace(/\\/g, '');
+    this.showModal('err', { image: trial_product_qrcode });
   },
   //查看 售后
   showSales() {
@@ -442,13 +445,15 @@ Page({
  */
   showModal(type = 'err', config) {  // type: success||err
     if (type === 'success') {
+      successModalConfig = Object.assign(successModalConfig, config);
       this.setData({
-        successModalConfig: config || successModalConfig,
+        successModalConfig: successModalConfig,
         showSuccessModal: true
       });
     } else {
+      errModalConfig = Object.assign(errModalConfig, config);
       this.setData({
-        errModalConfig: config || errModalConfig,
+        errModalConfig: errModalConfig,
         showErrModal: true
       });
     }

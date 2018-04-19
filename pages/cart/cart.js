@@ -60,8 +60,8 @@ Page({
     })
     wx.hideLoading();
   },
-  bindMinus: function (e) {
     // 减少数量
+  bindMinus: function (e) {
     var that = this;
     console.log("ee", e)
     var cardId = e.currentTarget.dataset.cardId;
@@ -91,10 +91,9 @@ Page({
     }
 
   },
+  // 增加数量
   bindPlus: function (e) {
-    // 增加数量
     var that = this;
-    
     var cardId = e.currentTarget.dataset.cardId;
     var index = parseInt(e.currentTarget.dataset.index);
     var shopNumber = e.currentTarget.dataset.number;
@@ -102,10 +101,19 @@ Page({
     var skuId = e.currentTarget.dataset.skuId;
     var uid = e.currentTarget.dataset.uid;
     var cart_list = that.cart_list;
-   
-
+    var quantity = e.currentTarget.dataset.quantity;
+    console.log('数量', shopNumber,'库存', quantity);
+    if (shopNumber >= quantity){
+      wx.showLoading({
+        title: '库存不足',
+      }); 
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 1000)
+      return;
+    }
     shopNumber++;
-   console.log('数量', shopNumber);
+   
     var params = {
       uid: uid,
       cart_id: cardId,
@@ -177,7 +185,7 @@ Page({
         cartSHow: true
       })
     }
-    console.log('carts购物车列表', carts)
+    // console.log('carts购物车列表', carts)
     // 计算总金额
     var total = 0;
     for (var i = 0; i < carts.length; i++) {
@@ -376,27 +384,20 @@ Page({
   },
   addReduce(params,index,num) {
     var that = this;
+    wx.showLoading({
+      title: '加载中',mask:true
+    })
     app.api.postApi('wxapp.php?c=cart&a=quantity', { params }, (err, resp) => {
-      if (err) {
-        return;
-      }
+      wx.hideLoading();
+      if (err || resp.err_code!=0) {return;}
       if (resp.err_code == 0) {
-        
         var store_id = that.data.store_id;
         var uid = that.data.uid;
         var params = {
           store_id, uid
         }
         that.numList(index,num);
-       
-      } else {
-        wx.showLoading({
-          title: '不能修改数量'
-        })
-        setTimeout(function () {
-          wx.hideLoading()
-        }, 1000)
-      }
+      } 
     });
   },
 

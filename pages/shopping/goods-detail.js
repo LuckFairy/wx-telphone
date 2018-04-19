@@ -505,14 +505,14 @@ Page({
           //添加skui_id多属性id
           opts.sku_id = skuId;
           let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
-          wx.navigateTo({ url });
+          wx.redirectTo({ url });
         }
       
     }else{
       //添加skui_id多属性id
       opts.sku_id = skuId;
       let url = '../present/present-apply?prodId=' + productId + '&skuid=' + skuId + '&groupbuyId=' + groupbuyId; //2017年8月17日17:18:09 by leo
-      wx.navigateTo({ url });
+      wx.redirectTo({ url });
     }
     
 
