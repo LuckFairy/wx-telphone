@@ -374,7 +374,13 @@ Page({
     let address_id = address_params.addressId;
 
     let { payType, is_app, postage_list, uid, store_id, user_coupon_id, shipping_method, orderId } = that.data;
-
+    if(!address_id){
+      wx.showModal({
+        title: '支付失败',
+        content: '收货地址不能为空',
+        confirmText: '好的',
+      });return;
+    }
     var params = {
       payType: payType,
       orderNo: orderId,
@@ -389,9 +395,10 @@ Page({
     app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
       if (err || resp.err_code != 0) {
+        var msg = err || resp.err_msg;
         wx.showModal({
           title: '支付失败',
-          content: err || resp.err_msg,
+          content: msg ,
           confirmText: '好的',
         });
       } else {

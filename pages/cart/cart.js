@@ -167,27 +167,30 @@ Page({
   sum(){
     var that = this;
     var carts = this.data.cart_list;
-    // 计算总金额
-    var total = 0;
-    for (var i = 0; i < carts.length; i++) {
-      if (carts[i].selected) {
-        total += carts[i].pro_num * carts[i].pro_price;
-      }
-    }
-    // 写回经点击修改后的数组
-    that.setData({
-      cart_list: carts,
-      total: '¥ ' + total
-    });
-    if (that.data.cart_list.length <= 0) {
+    if (carts.length <1) {
       that.setData({
         cartSHow: false
-      })
+      });
+      return;
     } else {
       that.setData({
         cartSHow: true
       })
     }
+    console.log('carts购物车列表', carts)
+    // 计算总金额
+    var total = 0;
+    for (var i = 0; i < carts.length; i++) {
+      if (carts[i].selected) {
+        total = total + Number(carts[i].pro_num) * Number(carts[i].pro_price);
+      }
+    }
+    // total = Math.floor(total*100)/100;
+    total = total.toFixed(2); 
+    // 写回经点击修改后的数组
+    that.setData({
+      total
+    });
   },
   //去结算
   bindCheckout: function () {

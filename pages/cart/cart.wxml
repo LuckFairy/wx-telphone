@@ -38,7 +38,7 @@
       <!--选中  -->
       <icon wx:if="{{item.selected}}" type="success_circle" size="20" bindtap="bindCheckbox" data-cardid='{{item.pigcms_id}}' data-index="{{index}}" />
       <!--未选中  -->
-      <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-cardid='{{item.pigcms_id}}' data-index="{{index}}"  />
+      <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-cardid='{{item.pigcms_id}}' data-index="{{index}}" />
       <!--img-->
       <view>
         <image class="carts-image" src="{{item.image}}" mode="aspectFill" />
@@ -47,10 +47,10 @@
         <text class="cart-tot-title">{{item.name}}</text>
         <view class="cart-size-list">
           <view>
-            
-            <text class='cart-text-list' wx:if="{{item.sku_data.length > 0}}" wx:for="{{item.sku_data}}" wx:for-item="item2">{{item2.name}}:{{item2.value}} </text>    
+
+            <text class='cart-text-list' wx:if="{{item.sku_data.length > 0}}" wx:for="{{item.sku_data}}" wx:for-item="item2">{{item2.name}}:{{item2.value}} </text>
           </view>
-          <image class="cart-img-list" src="../../image/delete.png" bindtap="removeShopCard" data-uid='{{uid}}' data-card-id='{{item.pigcms_id}}'  data-index='{{index}}'></image>
+          <image class="cart-img-list" src="../../image/delete.png" bindtap="removeShopCard" data-uid='{{uid}}' data-card-id='{{item.pigcms_id}}' data-index='{{index}}'></image>
         </view>
         <view class="cart-frice-list-far">
           <text class="cart-frice-list">￥{{item.price}}</text>
@@ -72,19 +72,18 @@
     <text class="total-go">全选</text>
   </view>
   <view class="total-price">
-    <text class="total-pri-text">合计 {{total}}
-      </text>
+    <text class="total-pri-text">合计 ￥{{total}}</text>
     <!-- <text class="not-wrap-price">不含运费，已优惠￥0.222</text> -->
   </view>
   <view class="button" bindtap='bindCheckout'>去结算</view>
 </view>
 <!-- 热门推荐-->
- <view class="hot-recommend" wx:if="{{baokuanList.length > 0}}">
+<view class="hot-recommend" wx:if="{{baokuanList.length > 0}}">
   <text class="hot-com-text">-----爆款专区-----</text>
-</view> 
+</view>
 <!--爆款专区  -->
 <view class='rush-baobao-box' wx:if="{{baokuanList.length > 0}}">
-    <block  wx:for="{{baokuanList}}"  wx:key="{{item}}">
+  <block wx:for="{{baokuanList}}" wx:key="{{item}}">
     <view class='rush-baobao-image' bindtap='goDetails' data-categoryid='100' data-productid='{{item.product_id}}'>
       <image class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>

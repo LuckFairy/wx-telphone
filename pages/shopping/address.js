@@ -25,12 +25,129 @@ Page({
     revamp:'',
     address_id:''
   },
-  saveRevamp(e){
-    console.log(e,'保存修改地址时')
+  onLoad: function (options) {
+    var that = this;
+    var store_id = app.store_id;//store_id
+    var uid = wx.getStorageSync('userUid');
+    that.setData({ uid: uid, store_id });
+    let { pro_id, city_id, ar_id } = that.data;
+    // 进入修改地址
+    var revamp = options.revamp;
+    if (revamp == 1) {// 修改地址
+      var uid = options.uid;
+      var address_id = options.address_id;
+      that.setData({
+        revamp: 1, uid, address_id
+      })
+      var params = {
+        uid, address_id
+      }
+      app.api.postApi('wxapp.php?c=address&a=FindAddress', { params }, (err, resp) => {
+        if (err) {
+          return;
+        }
+        if (resp.err_code == 0) {
+          console.log(resp.err_msg, '修改地址时的数据')
+          var addressiinfo = resp.err_msg.addressiinfo;
+          //加载省份信息
+          that.loadPro();
+          //加载城市信息
+          that.loadCity(addressiinfo.province);
+          //加载地区信息
+          that.loadDirs(addressiinfo.city);
+          that.setData({
+            addressiinfo,
+            pro_id: addressiinfo.province,
+            cit_id: addressiinfo.city,
+            ar_id: addressiinfo.address_id,
+          })
+        }
+      });
+    }else{
+      //加载城市信息
+      that.loadPro();
+    }
+
+  },
+  loadPro(){
+    var that = this;
+    // 修改地址结束
+    var provicens_list = [];
+    var provicens_id = [];
+    //  加载省份信息
+    app.api.postApi('wxapp.php?c=address&a=getProvinces', {}, (err, resp) => {
+      if (err) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        var provicens = resp.err_msg.provinces;
+        for (var j = 0; j < provicens.length; j++) {
+          provicens_list.push(provicens[j].name);
+          provicens_id.push(provicens[j].id);
+        }
+        that.setData({
+          provicens_list,
+          provicens_id
+        })
+      }
+    });
+  },
+  loadCity(pro_id){
+    var that = this;
+    // 获取对应城市
+    var params = {
+      id: pro_id
+    }
+    var city_list = [];
+    var city_id = [];
+    app.api.postApi('wxapp.php?c=address&a=getarea', { params }, (err, resp) => {
+      if (err) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        console.log(resp.err_msg, '对应城市信息')
+        var citys = resp.err_msg.area;
+        for (var j = 0; j < citys.length; j++) {
+          city_list.push(citys[j].name);
+          city_id.push(citys[j].id);
+        }
+        that.setData({
+          city_list,
+          city_id
+        })
+      }
+    });
+  },
+  loadDirs(cit_id){
     var that =this;
-    var store_id =that.data.store_id;
-   
-    var uid = e.currentTarget.dataset.uid;
+    var params = {
+      id: cit_id
+    }
+    var area_list = [];
+    var area_id = [];
+    app.api.postApi('wxapp.php?c=address&a=getarea', { params }, (err, resp) => {
+      if (err) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        console.log(resp.err_msg, '对应区域信息')
+        var area = resp.err_msg.area;
+        for (var j = 0; j < area.length; j++) {
+          area_list.push(area[j].name);
+          area_id.push(area[j].id);
+        }
+        console.log(area_list, 'area_list')
+        that.setData({
+          area_id,
+          area_list
+        })
+      }
+    });
+  },
+  saveRevamp(e) {
+    console.log(e, '保存修改地址时')
+    var that = this;
+    var uid = that.data.uid;
     var address_id = e.currentTarget.dataset.addressId;
     // 如果未更改
     var addr = e.currentTarget.dataset.address;
@@ -48,7 +165,7 @@ Page({
     var cit_id = that.data.cit_id;
     var ar_id = that.data.ar_id;
     console.log('ar_id保存地址时', ar_id);
-    
+
     // 地址修改判断
     var peo_name;
     var peo_phone;
@@ -56,26 +173,26 @@ Page({
     var peo_pro_id;
     var peo_cit_id;
     var peo_ar_id;
-    if (!fullname){
+    if (!fullname) {
       peo_name = name;
-    }else{
+    } else {
       peo_name = fullname;
     }
-    if (!phonename){
+    if (!phonename) {
       peo_phone = phone;
-    }else{
+    } else {
       peo_phone = phonename
     }
-    if (!address){
+    if (!address) {
       peo_address = addr;
-    }else{
+    } else {
       peo_address = address;
     }
     if (!pro_id) {
       peo_pro_id = province;
     } else {
       peo_pro_id = pro_id;
-    // 清除其他数据
+      // 清除其他数据
     }
     if (!cit_id) {
       peo_cit_id = city;
@@ -89,32 +206,26 @@ Page({
     }
 
     var params = {
-      uid:uid,
+      uid: uid,
       address_id: address_id,
       user_name: peo_name,
       tel: peo_phone,
       province: peo_pro_id,
       city: peo_cit_id,
       area: peo_ar_id,
-      address: peo_address 
+      address: peo_address
     }
     // 修改保存
     app.api.postApi('wxapp.php?c=address&a=EditAddress', { params }, (err, resp) => {
-      if (err || resp.err_code != 0) {
-        wx.showModal({
-          title: '提示',
-          showCancel: false,
-          content: err || resp.err_code,
-        })
+      if (err) {
         return;
       }
-      wx.showLoading({
-        title: '保存修改成功！'
-      })
-      wx.redirectTo({
-        url: './address-list'
-      })
-      
+      if (resp.err_code == 0) {
+        console.log(resp.err_msg, '修改地址情况')
+        wx.redirectTo({
+          url: './address-list'
+        })
+      }
     });
   },
   saveAddress(e){
@@ -148,8 +259,8 @@ Page({
     if (!ar_id) {
       return this._showError('请选择县区');
     }
-    // console.log(fullname, phonename, address, uid, pro_id, cit_id, ar_id);
-    // if (!fullname || !phonename || !address || !uid || !pro_id || !cit_id || !ar_id) { 
+    // console.log(fullname, phonename, address, uid, pro_id, city_id, ar_id);
+    // if (!fullname || !phonename || !address || !uid || !pro_id || !city_id || !ar_id) { 
     //   wx.showModal({
     //     title: '请填写完整信息！',
     //     showCancel: false,
@@ -208,135 +319,40 @@ Page({
   },
   bindPickerChange(e){
     var that =this;
+    var pro_id = this.data.pro_id;
     let index = parseInt(e.detail.value);
     this.setData({index})
-    var provicens_id = that.data.provicens_list;
-    var pro_id = provicens_id[index];
-    // 获取对应城市
-    var params = {
-      id: pro_id
-    }
+    var provicens_id = that.data.provicens_id;
+    if (pro_id == provicens_id[index]){return;}
+    pro_id = provicens_id[index];
     that.setData({
       pro_id
     })
-    var city_list = [];
-    var city_id = [];
-    app.api.postApi('wxapp.php?c=address&a=getarea', { params}, (err, resp) => {
-      if (err) {
-        return;
-      }
-      if (resp.err_code == 0) {
-        console.log(resp.err_msg,'对应城市信息')
-        var citys = resp.err_msg.area;
-        for (var j = 0; j < citys.length; j++) {
-          city_list.push(citys[j].name);
-          city_id.push(citys[j].id);
-        }
-        that.setData({
-          city_list,
-          city_id
-        })
-      }
-    });
+    that.loadCity(pro_id);
   },
   bindCityChange(e){
     var that = this;
+    var cit_id = that.data.cit_id;
     var cityIndex = parseInt(e.detail.value);
     var city_id = that.data.city_id;
-    this.setData({cityIndex})
-    // 选择某城市时候对应的id
+    if (cit_id == city_id[cityIndex]) { return; }
     cit_id = city_id[cityIndex];
-   
-    var params = {
-      id: cit_id
-    }
-    var area_list = [];
-    var area_id = [];
-    app.api.postApi('wxapp.php?c=address&a=getarea', { params }, (err, resp) => {
-      if (err) {
-        return;
-      }
-      if (resp.err_code == 0) {
-        console.log(resp.err_msg, '对应区域信息')
-        var area = resp.err_msg.area;
-        for (var j = 0; j < area.length; j++) {
-          area_list.push(area[j].name);
-          area_id.push(area[j].id);
-        }
-        console.log(area_list,'area_list')
-        that.setData({
-          area_id,
-          area_list
-        })
-      }
-    });
+    that.setData({cityIndex,cit_id})
+    that.loadDirs(cit_id);
   },
   bindDistrictChange(e){
     // 区域信息
-    console.log('区域信息数据啊啊啊',e);
     var that = this;
+    var ar_id = that.data.ar_id;
     var areaIndex = parseInt(e.detail.value);
     var area_id = that.data.area_id;
-    var ar_id = area_id[areaIndex];
+    if (ar_id == area_id[areaIndex]) { return; }
+    ar_id = area_id[areaIndex];
     this.setData({
       areaIndex, ar_id
     })
-    // 选择某区域时候对应的id
   },
-  onLoad:function(options){
 
-    var that = this;
-    // 获取uid
-    var store_id = app.store_id;//store_id
-    var uid = wx.getStorageSync('userUid');
-    that.setData({ uid: uid, store_id});
-    // 进入修改地址
-    var revamp = options.revamp;
-    if (revamp == 1) {// 修改地址
-      var uid = options.uid;
-      var address_id = options.address_id;
-      that.setData({
-        revamp: 1, uid, address_id
-      })
-      var params = {
-        uid, address_id
-      }
-      app.api.postApi('wxapp.php?c=address&a=FindAddress', { params }, (err, resp) => {
-        if (err) {
-          return;
-        }
-        if (resp.err_code == 0) {
-          console.log(resp.err_msg,'修改地址时的数据')
-          var addressiinfo = resp.err_msg.addressiinfo;
-          that.setData({
-            addressiinfo
-          })
-        }
-      });
-    }
-    // 修改地址结束
-    var provicens_list = [];
-    var provicens_id = [];
-
-  //  加载省份信息
-    app.api.postApi('wxapp.php?c=address&a=getProvinces', {}, (err, resp) => {
-      if (err) {
-        return;
-      }
-      if (resp.err_code == 0) {
-        console.log('省份信息', resp.err_msg);
-        var provicens = resp.err_msg.provinces;
-        for (var j = 0; j < provicens.length;j++){
-          provicens_list.push(provicens[j].name);
-          provicens_id.push(provicens[j].id);
-        }
-        that.setData({
-          provicens_list,
-          provicens_id
-        })
-      }
-    });
-  },
   onReady:function(){
     // 页面渲染完成
   },

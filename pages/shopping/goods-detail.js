@@ -257,7 +257,7 @@ Page({
   },
   //多规格 onShow
   onShow: function () {
-
+    wx.hideLoading();
   },
   onHide: function () {
     // 页面隐藏
