@@ -18,6 +18,9 @@ Page({
     this.addrLists();
   },
   addrLists(e) {
+    wx.showLoading({
+      title: '加载中', mask: true
+    });
     var that = this;
     var uid = wx.getStorageSync('userUid');
     that.setData({
@@ -34,7 +37,7 @@ Page({
         return;
       }
       if (resp.err_code == 0) {
-        console.log(resp.err_msg, 'resp.err_msg列表');
+        // console.log(resp.err_msg, 'resp.err_msg列表');
         var addrList = resp.err_msg.addresslist;
         that.setData({
           addrList

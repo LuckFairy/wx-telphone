@@ -222,7 +222,7 @@ Page({
       }
       if (resp.err_code == 0) {
         console.log(resp.err_msg, '修改地址情况')
-        wx.redirectTo({
+        wx.navigateTo({
           url: './address-list'
         })
       }
@@ -290,7 +290,7 @@ Page({
         wx.showLoading({
           title: '添加地址成功'
         })
-        wx.redirectTo({
+        wx.navigateTo({
           url: './address-list'
         })
       })
