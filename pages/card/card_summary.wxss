@@ -234,7 +234,7 @@ view {
   position: relative;
   margin-top: -165rpx;
   width: 600rpx;
-  height: 800rpx;
+  height: 900rpx;
   padding-bottom: 40rpx;
   border-radius: 5px;
 }
