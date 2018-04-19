@@ -19,6 +19,7 @@
   <!-- nav详细内容展示区-->
   <!--one  -->
   <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadone' lower-threshold='0' scroll-top="{{scrollTop}}">
+  <view class='overlay' style="display:{{showHide ? 'none' : 'flex'}}"></view>
     <block wx:if="{{normal || normal.length}}" wx:for='{{normal}}' wx:for-item="card">
       <view wx:if='{{(card.is_use==0)&&(card.is_expired==0)}}' data-distinguish='{{0}}' class='mom-list {{onlinecard?onlinecard:""}} {{mendiancard?mendiancard:""}}' bindtap='goDetail' data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.id}}'>
         <view class='mon-list-left'>

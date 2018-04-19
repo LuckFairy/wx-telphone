@@ -149,6 +149,6 @@ Page({
     });
   },
   onShareAppMessage(res) {
-      return { title: '', path: '' }
+      return { title: app.title+'-抽奖专区', path: '/pages/redbox/redbox' }
   },
 })

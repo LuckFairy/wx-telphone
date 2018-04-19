@@ -5,6 +5,7 @@ import { sign } from './utils/api_2';
 App({
   api: Api,
   store_id: config.sid, 
+  title:config.title,
   onLaunch: function () {
     console.log('App onLaunch');
 

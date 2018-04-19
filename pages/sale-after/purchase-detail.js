@@ -74,6 +74,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+    var { theId, order_no, status, statustxt } = this.data;
+    return { title: app.title, path: `/pages/sale-after/purchase-detail?theId=${theId}&order_no=${order_no}&status=${status}&statustxt=${statustxt}` }
   }
 })

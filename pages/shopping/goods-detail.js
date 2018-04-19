@@ -355,7 +355,9 @@ Page({
     wx.reLaunch({ url });
   },
   onShareAppMessage(res) {
-    return { title: '', path: '' }
+    var name = this.data.product.name;
+    var product_id = this.data.product_id;
+    return { title: name, path: 'pages/shopping/goods-detail?prodId=' + product_id }
   },
   /* 点击减号 w*/
   bindMinus: function (e) {

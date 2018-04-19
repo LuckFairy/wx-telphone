@@ -31,7 +31,7 @@ Page({
     // 页面关闭
   },
   onShareAppMessage(res) {
-      return { title: '', path: '' }
+    return { title: app.title, path: '/pages/card/card_detail' }
   },
 
 })

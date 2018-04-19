@@ -212,7 +212,7 @@ Page({
     return {day, hour, minute, second};
   },
   onShareAppMessage(res) {
-      return { title: '', path: '' }
+    return { title: app.title, path: '/pages/activity/activity' }
   },
 
 })

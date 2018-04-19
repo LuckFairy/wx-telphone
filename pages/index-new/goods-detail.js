@@ -169,7 +169,7 @@ Page({
     });
   },
   onShareAppMessage(res) {
-    return { title: '', path: '' }
+    return { title: app.title, path: '/pages/index-new/goods-detail' }
   },
   //多规格 js  start
   /* 获取数据 */

@@ -445,7 +445,7 @@ Page({
     })
   },
   onShareAppMessage(res) {
-    // return { title: '', path: '' }
+    return { title: '购物车', path: '/pages/cart/cart' }
   },
   /**
    * 显示错误信息

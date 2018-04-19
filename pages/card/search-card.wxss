@@ -104,7 +104,7 @@ text {
   position: fixed;
   top: 0rpx;
   left: 0rpx;
-  z-index: 9999;
+  z-index: 10002;
 }
 
 .search-input {
@@ -166,7 +166,7 @@ text {
 
 .wait-choose {
   position: fixed;
-  top: 92rpx;
+  top: 88rpx;
   z-index: 999999999;
   background: #fff;
   width: 750rpx;

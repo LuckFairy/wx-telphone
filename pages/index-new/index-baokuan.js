@@ -108,6 +108,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+    return { title: '爆款专区', path: '/pages/index-new/index-baokuan' }
   }
 })

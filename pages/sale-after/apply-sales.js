@@ -167,6 +167,8 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    var { orderId, orderProductId, uid}=this.data;
   
+    return { title: app.title, path: `/pages/sale-after/apply-sales?orderId=${orderId}&orderProductId=${orderProductId}&uid=${uid}`}
   }
 })

@@ -94,7 +94,8 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+    var {hit,name,resType} = this.data;
+    return { title: app.title + '-签到红包', path:`/pages/redbox/open-result?resType=${resType}&name=${name}&hit=${hit}`};
   },
 
   /**

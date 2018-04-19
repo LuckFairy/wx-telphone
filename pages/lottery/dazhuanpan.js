@@ -79,7 +79,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+    return { title: '抽奖活动-大转盘', path: '/pages/index-new/dazhuanpan' }
   },
   /**
    * 测试方法

@@ -295,7 +295,7 @@ Page({
      
       //更新数据
       that.setData({
-        loadingtwo: next_page,
+        loadingthree: next_page,
         loading: false,
         used: list,
         use_image: imageList,
