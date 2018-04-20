@@ -24,7 +24,7 @@ var config = {
 
   //appid
   // appid: 'wx57d5cde97d7e1fd3',
-  appid:'wx57d5cde97d7e1fd3',//婴众趣购
+  appid:'wx345fb00365ec995f',//婴众趣购
 
   //客服电话
   serverPhone: phone,
