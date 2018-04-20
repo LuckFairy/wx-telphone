@@ -48,17 +48,17 @@
   <view class="qr-view">
     <view class='qr-title'>
       <view class='qr-title-left'>
-          <image  src="../../../image/saoma.png"></image>
+          <image  src="../../image/saoma.png"></image>
           <text>卡券核销</text>
       </view>
-        <image src='../../../image/close.png'></image>
+        <image src='../../image/close.png'></image>
     </view>
     <text class='code-txt'>{{detailData.cname}}</text>
     <!-- <text wx:if="{{!codeFlag}}" class='code-txt'>{{detailData.card_no}}</text> -->
-    <text class='code-txt'>{{detailData.card_no}}</text>
-    <image src="{{detailData.qrUrl}}" class='code-imgone'></image>
+     <text class='code-txt'>{{detailData.card_no}}</text> 
+    <image src="{{detailData.qrUrl}}" mode='aspectFit' class='code-imgone'></image>
     <!-- <image wx:if="{{codeFlag}}" src="{{detailData.barcode}}" class='code-imgtwo'></image> -->
-    <image  src="{{detailData.barcode}}" class='code-imgtwo'></image>
+    <image  src="{{detailData.barcode}}" mode='aspectFit' class='code-imgtwo'></image>
     <text class='qrcode-list' style='margin-top:34rpx;'>将二维码出示给门店员核销</text>
     <text class='qrcode-list' style='margin-top:20rpx;margin-bottom:20rpx;'>{{codeFlag?'(条形码只能用扫码枪核销)':''}}</text>
   </view>

@@ -234,8 +234,8 @@ view {
   position: relative;
   margin-top: -165rpx;
   width: 600rpx;
-  height: 900rpx;
-  padding-bottom: 40rpx;
+  min-height: 800rpx;
+  padding-bottom: 20rpx;
   border-radius: 5px;
 }
 .qr-title{
@@ -261,19 +261,19 @@ view {
   margin-right: 20rpx;
 }
 .qr-view .code-txt{
-  margin-top: 50rpx ;
+  margin-top: 20rpx ;
   color: #313131;
   font-size: 32rpx;
 }
 .code-imgone{
-  margin-top: 50rpx;
-  width: 280rpx;
-  height: 280rpx;
+  margin-top: 40rpx;
+  /* width: 280rpx; */
+  height: 280rpx; 
 }
 .code-imgtwo{
-  margin-top: 50rpx;  
-  height: 120rpx;
-  width: 520rpx;
+  margin-top:50rpx;  
+   height: 120rpx; 
+  /* width: 500rpx; */
 }
 .qrcode-list {
 
