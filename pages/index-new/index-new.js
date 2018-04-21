@@ -303,7 +303,7 @@ Page({
       this.loadMyCardNumData(); //我的卡包数量
     }
 
-   
+   wx.hideLoading();
   },
 
   /**

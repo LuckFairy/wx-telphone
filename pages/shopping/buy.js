@@ -19,6 +19,7 @@ Page({
     store_id: '',//商店id
     uid: '',//用户id
     error: false,
+    submitOk: true,//是否可以发起支付
     products: [],
     totals: 0,//商品总价
     product_id: [],//商品总id数组
@@ -360,13 +361,13 @@ Page({
     })
   },
   /**
-   * 提交订单
-   */
+    * 提交订单
+    */
   submitOrder: function (event) {
     let that = this;
     // 显示公众号复制提示
     that.setData({
-      showwechat: true
+      showwechat: true, submitOk: false
     })
     if (!that.checkAddress()) return false;
     // 收货地址
@@ -374,12 +375,13 @@ Page({
     let address_id = address_params.addressId;
 
     let { payType, is_app, postage_list, uid, store_id, user_coupon_id, shipping_method, orderId } = that.data;
-    if(!address_id){
+    if (!address_id) {
+      that.setData({ submitOk: true })
       wx.showModal({
         title: '支付失败',
         content: '收货地址不能为空',
         confirmText: '好的',
-      });return;
+      }); return;
     }
     var params = {
       payType: payType,
@@ -398,24 +400,37 @@ Page({
         var msg = err || resp.err_msg;
         wx.showModal({
           title: '支付失败',
-          content: msg ,
+          content: msg,
           confirmText: '好的',
-        });
+          success: function () {
+            that.setData({ submitOk: true });
+          }
+        }); return;
+      }
+      // 调起微信支付
+      if (resp.err_dom) {
+        wx.redirectTo({
+          url: './my-order?goodsindex=' + 2
+        })
       } else {
         // 调起微信支付
-        if (resp.err_dom) {
-          wx.redirectTo({
-            url: './my-order?goodsindex=' + 2
-          })
-        } else {
-          // 调起微信支付
-          this._startPay(resp.err_msg);
-        }
+        this._startPay(resp.err_msg);
       }
+
     });
-    
+
   },
 
+  //关闭弹窗
+  closeBtn() {
+    var that = this;
+    that.setData({
+      matteShow: false
+    });
+    wx.redirectTo({
+      url: '../shopping/my-order?orderstatus=2'
+    });
+  },
 
 
   /**
@@ -428,44 +443,25 @@ Page({
     }, payParams);
     wx.requestPayment(obj);
   },
-
   /**
-   * 订单提交成功，不需要支付
-   */
-  _onSubmitNoPay() {
-    wx.showToast({ title: "提交成功", icon: "success", duration: 1000 });
-    setTimeout(function () {
-      wx.redirectTo({
-        url: '../shopping/my-order?page=2'
-      });
-    }, 1000);
-  },
-//关闭弹窗
-  closeBtn (){
-    var that =this;
-    that.setData({
-      matteShow: false
-    });
-    //500毫秒后跳转
-    setTimeout(function () {
-      wx.redirectTo({
-        url: '../shopping/my-order?orderstatus=2'
-      });
-    }, 1000);
-  },
-
-  /**
-   * 支付成功
-   */
+    * 支付成功
+    */
   _onPaySuccess(res) {
     wx.removeStorageSync('couponInfo');
     var that = this;
     // 支付成功弹窗
     that.setData({
-      matteShow:true
+      matteShow: true, submitOk: true
     });
-    //2018年1月2日18:44:25
-    this.giveCard(this.data.orderId);
+    var params = {
+      order_no: that.data.orderId
+    };
+    //给卡券接口
+    app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
+
+      console.log('卡券结果', resp)
+    });
+
   },
 
   /**
@@ -482,10 +478,21 @@ Page({
           url: '../shopping/my-order?page=1'
         });
       },
-      fail:function(){
+      fail: function () {
         return;
       }
     });
+  },
+  /**
+   * 订单提交成功，不需要支付
+   */
+  _onSubmitNoPay() {
+    wx.showToast({ title: "提交成功", icon: "success", duration: 1000 });
+    setTimeout(function () {
+      wx.redirectTo({
+        url: '../shopping/my-order?page=2'
+      });
+    }, 1000);
   },
 
   addrViewClick() {
@@ -837,28 +844,6 @@ Page({
     
     });
   },
-  /**
- * 购买给卡包
- */
-  giveCard: function (order_no) {
-    
-    var params = {
-      order_no: order_no
-    };
-    app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
-      // if (err) return;
-      // if (resp.err_code != 0) {
-      //   wx.showLoading({
-      //     title: resp.err_msg,
-      //   })
-      // } else {
-      //   wx.hideLoading();
-      //   console.log(resp, 1111111)
-      //   var data = resp.err_msg;
-      //   console.log('获取第一行的图标', data);
-      //   this.setData({ iconOne: data });
-      // }
-    });
-  },
+  
 
 })

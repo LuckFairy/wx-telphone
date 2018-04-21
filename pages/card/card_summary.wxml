@@ -59,34 +59,7 @@
     <image src="{{detailData.qrUrl}}" mode='aspectFit' class='code-imgone'></image>
     <!-- <image wx:if="{{codeFlag}}" src="{{detailData.barcode}}" class='code-imgtwo'></image> -->
     <image  src="{{detailData.barcode}}" mode='aspectFit' class='code-imgtwo'></image>
-    <text class='qrcode-list' style='margin-top:34rpx;'>将二维码出示给门店员核销</text>
-    <text class='qrcode-list' style='margin-top:20rpx;margin-bottom:20rpx;'>{{codeFlag?'(条形码只能用扫码枪核销)':''}}</text>
+    <text class='qrcode-list' style='margin-top:34rpx;'>将二维码出或条形码出示给门店员核销</text>
+    <text class='qrcode-list'  wx:if="{{detailData.barcode}}" style='margin-top:20rpx;margin-bottom:20rpx;'>(条形码只能用扫码枪核销)</text>
   </view>
 </view>
-<!-- 首次领券 -->
-<!-- <view class='first_pull_down' wx:if="{{showPopup}}">
-  <view>
-    <view class='first_pull_view'>
-        <text class='pull_down_top'>新用户大礼包</text>
-        <image class='pull_down_img' src="../../image/clear-icon.png" bindtap='colorPopup'></image>
-    </view>
-    <text class='pull_down_bottom'>身份验证后，大量优惠券免费领</text>
-  </view>
-  <form class='first_pull_form'>
-    <view class='first_pull_login'>
-      <label>姓名</label>
-      <input type='text' placeholder='请输入您的姓名'></input>
-    </view>
-    <view class='first_pull_login'>
-      <label >手机</label>
-      <input type='text' placeholder='请输入您的手机号码'></input>
-    </view>
-    <view class='first_pull_login'>
-      <label class='pull_label_3'>验证码</label>
-      <input type='text' class='pull_input_3' placeholder='请输入验证码'></input>
-       <text class='get_code  {{isTrue?"frist":""}}' >获取验证码</text> 
-    </view>
-    <button class='post_code' bindtap='getCards'>提交领券</button>
-    <text class='errMsg' wx:if="{{}}">{{showErrMsg}}</text>
-  </form>
-</view> -->

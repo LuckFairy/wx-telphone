@@ -201,10 +201,7 @@ Page({
   onLoad: function (options) {
     console.log('是否有虚拟商品类型',options)
     var that = this;
-    wx.showLoading({
-      title: '加载中',
-      mask:true
-    })
+    wx.showLoading({ title: '加载中', mask: true });
     var store_id = app.store_id;
     var uid = wx.getStorageSync('userUid');
     that.setData({
@@ -222,6 +219,7 @@ Page({
 
     //购物车的数量
     app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": store_id } }, (err, resp) => {
+      wx.hideLoading();
       if (err || resp.err_code != 0) {
         return;
       }
@@ -234,6 +232,7 @@ Page({
     
     //线上优惠券信息
     app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid": this.data.uid, "store_id": store_id, "product_id": this.data.product_id } }, (err, resp) => {
+      wx.hideLoading();
       if (err || resp.err_code != 0) {
         return;
       }
@@ -278,7 +277,6 @@ Page({
       "product_id": prodId
     }
     app.api.postApi(url, { params }, (err, resp) => {
-      console.log("错误解决方法");
       console.log(resp);
       wx.hideLoading();
       if (err) return;
@@ -361,12 +359,7 @@ Page({
   },
   /* 点击减号 w*/
   bindMinus: function (e) {
-    
     var that = this;
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
     var actions = e.currentTarget.dataset.actions;
     var shopNum = that.data.shopNum;
     shopNum--;
@@ -396,7 +389,7 @@ Page({
       // 虚拟商品限购
       wx.showModal({
         title: '提示',
-        content: '商品限购，请修改购买数量，您还可以购买0件',
+        content: '限购商品，请逐件购买',
         success: function (res) {
           if (res.confirm) {
             console.log('用户点击确定')
@@ -415,10 +408,6 @@ Page({
   /* 输入框事件w */
   bindManual: function (e) {
     var that = this;
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
     console.log(e, '3')
     var shopNum = e.detail.value;
     if (shopNum <= 1) {
@@ -439,10 +428,6 @@ Page({
   },
   goPayment(e){
     var that = this;
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
     console.log('e判断是否从严选、闪购过来',e);
     var baokuan_action = e.target.dataset.baokuan_action;
     var { buyQuantity, productId, uid, storeId, skuId} = e.currentTarget.dataset;
@@ -570,9 +555,7 @@ Page({
     var oneMatching = that.data.oneMatching;
     var skuid_list = that.data.skuid_list;
     var price = that.data.price;
-    wx.showLoading({
-      title: '加载中',mask:true
-    })
+
     //多属性列表接口
     app.api.postApi('wxapp.php?c=cart&a=info', { params }, (err, resp) => {
       wx.hideLoading();

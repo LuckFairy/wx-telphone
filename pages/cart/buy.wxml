@@ -237,7 +237,7 @@
        <text class='actual-pay-two' wx:elif='{{(lastPay-couponInfo[2]<=0)&&couponInfo[2]}}'>￥ 0</text>
       <text class='actual-pay-two' wx:else>￥ {{lastPay}}</text>
     </view>
-    <view class='current-buying invite-total' bindtap="submitOrder">
+    <view class='current-buying invite-total' bindtap="{{submitOk?'submitOrder':''}}">
       <text class='current-buying-child'>立即购买</text>
     </view>
 </view> 

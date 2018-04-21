@@ -42,7 +42,7 @@
     <!-- return_id 是否申请售后：-1参数错误，0已申请，1未申请 -->
     <block wx:if="{{newType != 1}}">
     <!-- status 2/3待收货，7已收货-->
-      <view class="yellow-btn-view" wx:if="{{orderData.status==7}}">
+      <view class="yellow-btn-view" wx:if="{{orderData.status==2||orderData.status==3||orderData.status==7}}">
         <text wx:if="{{item.return_id==1}}" class="yellow-btn" bindtap='goSales' data-order-id="{{order_no}}" data-order-product-id='{{item.pigcms_id}}'>申请售后</text>
         <text wx:if="{{item.return_id==0}}" class="yellow-btn" bindtap='showSales' data-order-id="{{order_no}}" data-order-product-id='{{item.pigcms_id}}'>查看售后</text>
       </view>

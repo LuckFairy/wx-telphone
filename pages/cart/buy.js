@@ -20,6 +20,7 @@ Page({
     //addrList: [],
     // fee: null,
     error: false,
+    submitOk:true,
     products: [],
     totals: [],
     isLoading: true,
@@ -352,6 +353,10 @@ _handleData(resp) {
  */
 submitOrder: function (event) {
   var that = this;
+  // 显示公众号复制提示
+  that.setData({
+    submitOk: false
+  })
   let address_params = this.buildAddressParams();
   let address_id = address_params.addressId;
   let { payType, is_app, postage_list = "a:1:{i:6;d:0;}", uid, store_id, user_coupon_id, shipping_method, order_no}=that.data;
@@ -374,6 +379,11 @@ submitOrder: function (event) {
           title: '支付失败',
           content: err || resp.err_msg,
           confirmText: '好的',
+          success:function(){
+            that.setData({
+              submitOk: true
+            })
+          }
         });
       } else {
         // 调起微信支付
@@ -433,10 +443,9 @@ _onPaySuccess(res) {
   var that = this;
   // 支付成功弹窗
   that.setData({
-    matteShow: true
+    matteShow: true,submitOk:true
   });
 },
-
 /**
  * 支付失败
  */
@@ -447,6 +456,9 @@ _onPayFail(err) {
     cancelColor: '#FF0000',
     confirmText: '好的',
     success: function (res) {
+      that.setData({
+       submitOk: true
+      });
       wx.redirectTo({
         url: '../shopping/my-order?page=1'
       });

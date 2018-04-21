@@ -234,7 +234,7 @@ view {
   position: relative;
   margin-top: -165rpx;
   width: 600rpx;
-  min-height: 800rpx;
+  min-height: 900rpx;
   padding-bottom: 20rpx;
   border-radius: 5px;
 }
@@ -267,16 +267,13 @@ view {
 }
 .code-imgone{
   margin-top: 40rpx;
-  /* width: 280rpx; */
   height: 280rpx; 
 }
 .code-imgtwo{
-  margin-top:50rpx;  
+  margin-top:100rpx;  
    height: 120rpx; 
-  /* width: 500rpx; */
 }
 .qrcode-list {
-
   color: #999;
   font-size: 26rpx;
   display: block;
