@@ -36,7 +36,7 @@
     <form bindsubmit='sub' report-submit='true'>
       <view class='list-select-area'>
         <view class="list-select-area-bottom">
-          <view class='select-list' bindtap="saoma" data-index="0">
+          <view class='select-list' bindtap="clickGo" data-index="4">
             <image class='select-list-image' src='{{indexIcon[0].image}}' data-index="0"></image>
             <text class='select-list-text' data-index="0">{{indexIcon[0].title}}</text>
             <web-view wx:if="{{saoma_url}}" src="{{saoma_url}}" hidden>扫码跳链</web-view>
@@ -57,7 +57,7 @@
             <text class='select-list-text' data-index="3">{{indexIcon[3].title}}</text>
             <button form-type='submit' class='sub-button' data-index="3">按钮1</button>
           </view>
-          <view class='select-list' bindtap="clickGo" data-index="4" data-flag="false">
+          <view class='select-list' bindtap="saoma" data-index="0" data-flag="false">
             <image class='select-list-image' src='{{indexIcon[4].image}}' data-index="4"></image>
             <text class='select-list-text' data-index="4">{{indexIcon[4].title}}</text>
             <button form-type='submit' class='sub-button' data-index="4">按钮1</button>

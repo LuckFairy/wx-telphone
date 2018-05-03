@@ -509,7 +509,7 @@ Page({
     var {index} = e.currentTarget.dataset;
     index = index - 1;
     //跳链数组:门店活动，领券，新品试用，附近门店
-    var url = [`./index-activity`, `./index-mom`, `../present/present`, `../store/store-list`];
+    var url = [`../present/present`, `./index-mom`, `./index-activity`, `../store/store-list`];
     console.log(url[index]);
     if (url[index]) {
       wx.navigateTo({ url: url[index] + '?categoryid=100&page=1&store_id=' + store_id });
