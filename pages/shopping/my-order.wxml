@@ -80,7 +80,8 @@
             </block>
             <view class="goods-price-view">
               <!-- <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view> -->
-              <view style="">实付款：</view>
+              <view wx:if="{{order.status==1||order.status==5}}">需付款：</view>
+              <view wx:else>实付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
             <!-- status 1 未支付 2 未发货 3已发货（对应待收货） 4 已完成 、7 已收货（已收货）-->
@@ -152,7 +153,7 @@
             </block>
             <view class="goods-price-view">
               <!-- <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view> -->
-              <view style="">实付款：</view>
+              <view>需付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
             <view wx:if="{{order.status == 3}}" class="yellow-btn-view">

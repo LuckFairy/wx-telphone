@@ -74,6 +74,8 @@
     "pages/index-new/address",
     "pages/index-new/address-list",
     "pages/index-new/buy",
+    "pages/index-new/setting",
+    "pages/index-new/bingPhone",
     "pages/index-new/index-baokuan",
     "pages/index-new/index-festival",
     "pages/index-new/index-goods",

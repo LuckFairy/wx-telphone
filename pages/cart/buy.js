@@ -20,7 +20,7 @@ Page({
     //addrList: [],
     // fee: null,
     error: false,
-    submitOk:true,
+    submitOk: true,//是否可以发起支付
     products: [],
     totals: [],
     isLoading: true,
@@ -450,6 +450,7 @@ _onPaySuccess(res) {
  * 支付失败
  */
 _onPayFail(err) {
+  var that =this;
   wx.showModal({
     title: '支付失败',
     content: '订单支付失败，请到[订单-待付款]列表里重新支付',

@@ -1,3 +1,5 @@
+<import src="../template/get-tel.wxml" />
+<template wx:if="{{!hasPhone}}" is="getphone-modal" data="{{templateData}}"></template>
 <scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
   <view class='wrap'>
     <!--头图  -->

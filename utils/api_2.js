@@ -80,6 +80,7 @@ var Api = {
         },
         method: 'POST',
         success(resp) {
+    
           console.log("_doSignin成功！")
           let { rtnCode, rtnMessage, data } = resp;
           // // 进入第4步
@@ -88,6 +89,13 @@ var Api = {
           wx.setStorageSync('userUid', data.err_msg.uid);//存储uid
           wx.setStorageSync('hasSignin', 'true');//存储uid
           getApp().hasSignin = true;
+          //进入第5步：验证是否有手机号
+          checkBingPhone(data.err_msg.uid).then(flag => {
+            console.log('有手机号');
+            resolve({ hasPhone: true });
+          }, err => {
+            console.error(err);
+          })  
           typeof callback == 'function' && callback();
 
           return data.err_msg.openid;
@@ -103,6 +111,25 @@ var Api = {
     function _onSignin(data) {
       console.log("_onSignin成功！")
     }
+    /**5、是否存在手机号 */
+    function checkPhone(uid){
+      return new Promise((resolve, reject) => {
+        var params = {
+          "store_id": config.sid,
+          "uid": uid ? uid : wx.getStorageSync('userUid')
+        };
+        that.api.postApi(config.checkBingUrl, { params }, (error, rep) => {
+          var { err_code = '', err_msg } = rep;
+          if (err_code == 0 && err_msg.is_phone == 1) {
+            wx.setStorageSync('phone', err_msg.phone);
+            wx.setStorageSync("hasPhone", "true");
+            resolve(true);
+          } else {
+            reject('用户没有绑定手机');
+          }
+        })
+      })
+    }
     /*尝试再次登录*/
     function _tryAgain(err) {
       tryTimes--;
@@ -116,6 +143,7 @@ var Api = {
       that.signin(callback, tryTimes);
     }
   },
+
 };
 var sign = Api;
 module.exports = { Api, sign };

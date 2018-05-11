@@ -1,6 +1,7 @@
 // pages/index-new/myself.js
 var app = getApp();
 import { Api } from '../../utils/api_2';
+import { getPhoneNumber } from '../template/get-tel.js';
 
 Page({
 
@@ -11,6 +12,26 @@ Page({
     nickName:'',
     userImg:'',
     uid:'',
+    hasPhone: true,//true有手機號，不彈窗;false弹窗
+    templateData: { url: './bingPhone' },//绑定手机跳转路径
+  },
+  getPhoneNumber: getPhoneNumber,
+  checkPhone() {
+    let that = this;
+    clearInterval(phoneTime);
+    let phoneTime = setInterval(() => {
+      var hasPhone = wx.getStorageSync('hasPhone');
+      if (hasPhone) {
+        clearInterval(phoneTime);
+        that.setData({ hasPhone });
+      }
+    }, 5000);
+  },
+  /** 去设置页面*/
+  goSetting() {
+    wx.navigateTo({
+      url: './setting'
+    });
   },
   goSearch (){
     wx.navigateTo({
@@ -92,7 +113,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    this.checkPhone();
+    var phone = wx.getStorageSync('phone');
+    this.setData({  phone });
   },
 
   /**

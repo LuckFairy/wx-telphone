@@ -161,7 +161,7 @@ Page({
     wx.removeStorageSync('recid')
     wx.removeStorageSync('cname')
     wx.removeStorageSync('face_money')
-    let { uid, pid, skuId, storeId, qrEntry, orderId,baokuan_action } = options;
+    let { uid, pid, skuId, storeId, qrEntry, orderId, baokuan_actionbaokuan_action } = options;
     quantity = options.quantity;
     //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
     this.setData({ orderId, uid});
@@ -369,7 +369,7 @@ Page({
     that.setData({
       showwechat: true, submitOk: false
     })
-    if (!that.checkAddress()) return false;
+    if (!that.checkAddress()) { that.setData({ submitOk: true }); return false;}
     // 收货地址
     let address_params = that.buildAddressParams();
     let address_id = address_params.addressId;
@@ -381,6 +381,9 @@ Page({
         title: '支付失败',
         content: '收货地址不能为空',
         confirmText: '好的',
+        success:function(){
+          that.setData({ submitOk: true });
+        }
       }); return;
     }
     var params = {
@@ -394,6 +397,7 @@ Page({
       store_id,
       user_coupon_id: user_coupon_id,
     }
+    wx.showLoading({ title: '请稍候...', mask: true, });
     app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
       if (err || resp.err_code != 0) {
@@ -420,22 +424,9 @@ Page({
     });
 
   },
-
-  //关闭弹窗
-  closeBtn() {
-    var that = this;
-    that.setData({
-      matteShow: false
-    });
-    wx.redirectTo({
-      url: '../shopping/my-order?orderstatus=2'
-    });
-  },
-
-
   /**
-   * 调起微信支付
-   */
+  * 调起微信支付
+  */
   _startPay(payParams) {
     var obj = Object.assign({
       success: res => this._onPaySuccess(res),
@@ -457,10 +448,10 @@ Page({
       order_no: that.data.orderId
     };
     //给卡券接口
-    app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
+    // app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
 
-      console.log('卡券结果', resp)
-    });
+    //   console.log('卡券结果', resp)
+    // });
 
   },
 
@@ -494,6 +485,19 @@ Page({
       });
     }, 1000);
   },
+  //关闭弹窗
+  closeBtn() {
+    var that = this;
+    that.setData({
+      matteShow: false
+    });
+    wx.redirectTo({
+      url: '../shopping/my-order?orderstatus=2'
+    });
+  },
+
+
+ 
 
   addrViewClick() {
     wx.navigateTo({

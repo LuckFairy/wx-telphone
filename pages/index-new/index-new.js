@@ -1,11 +1,12 @@
 // pages/index-new/index-new.js 
 const log = "index.js --- ";
 import { getUrlQueryParam, isPC } from '../../utils/util';
-
+import { getPhoneNumber } from '../template/get-tel.js';
 let app = getApp();
-let couponUrl = 'wxapp.php?c=activity&a=new_user_coupon';//领取优惠券接口
-var checkTimer = null;     // 若还没登录，启用定时器
+const couponUrl = 'wxapp.php?c=activity&a=new_user_coupon';//领取优惠券接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
+
+var checkTimer = null;     // 若还没登录，启用定时器
 Page({
   /**
    * 页面的初始数据
@@ -13,6 +14,8 @@ Page({
   data: {
     uid: null,//用户id
     store_id:'',
+    hasPhone: true,//true有手機號，不彈窗;false弹窗
+    templateData:{url:'./bingPhone'},//绑定手机跳转路径
     mode: app.globalData.image.mode,
     lazyLoad: app.globalData.image.lazyLoad,
     scroll_top: 0,
@@ -45,6 +48,22 @@ Page({
     indexIcon:null,
     saoma_url: null,//条码链接
     index_image: "http://file.qutego.com/upload/wxapp/banner/yiya/index_2.jpg?" + parseInt(40 * Math.random()),
+  },
+  getPhoneNumber: getPhoneNumber,
+  /**验证是否获取手机号 */
+  checkPhone() {
+    let that = this;
+    var hasPhone = wx.getStorageSync('hasPhone') || true;
+    that.setData({ hasPhone });
+    clearInterval(phoneTime);
+    let phoneTime = setInterval(() => {
+      hasPhone = wx.getStorageSync('hasPhone') || true;
+      if (hasPhone) {
+        clearInterval(phoneTime);
+        that.setData({ hasPhone });
+        return;
+      }
+    }, 3000);
   },
   /**
    * 扫码购
@@ -207,10 +226,11 @@ Page({
         title: '加载中',
         mask: true,
       });
-      setTimeout(() => {
+      that.timer1 = setInterval(() => {
         uid = wx.getStorageSync('userUid');
         this.setData({ uid, store_id });
         this._prepare();
+        if (uid) { clearInterval(that.timer1);}
       }, 2000);
     }else{
       this.setData({ uid, store_id });
@@ -267,6 +287,7 @@ Page({
     //this.loadGroupData();
     //this.loadHotData();
     // this.loadMainLocation();
+    this.checkPhone();//是否有手机号
     this.loadBaoKuanData();
     this.loadHotSaleData();
     this.loadGoodsData();
@@ -295,10 +316,11 @@ Page({
         title: '加载中',
         mask: true,
       });
-      setTimeout(() => {
+      that.timer2 = setInterval(() => {
         uid = wx.getStorageSync('userUid');
         this.loadMyCardNumData(); //我的卡包数量
-      }, 3000);
+        if (uid) { clearInterval(that.timer2); }
+      }, 2000);
     } else {
       this.loadMyCardNumData(); //我的卡包数量
     }

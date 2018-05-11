@@ -19,7 +19,8 @@ Page({
         let that = this;
         var store_id = app.store_id;//store_id    
         let uid = wx.getStorageSync('userUid');
-        this.setData({store_id,uid})
+        this.setData({store_id,uid});
+       
         wx.showLoading({ title: '加载中...', mask: true, });
         if (q) {
             q = decodeURIComponent(q);

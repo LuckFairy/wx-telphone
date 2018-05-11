@@ -1,0 +1,31 @@
+<!--pages/index-new/bingPhone.wxml-->
+<view class='errorModel' wx:if="{{error}}">
+  <text>{{error}}</text>
+</view>
+<!--头部  -->
+<view class='myself-top'>
+  <view class='myself-photo'>
+    <image class='myself-image' src='{{userImg}}'></image>
+  </view>
+  <view class='myself-detail'>
+    <text class='myself-id'>{{nickName}}</text>
+  </view>
+</view>
+<form bindsubmit="formSubmit">
+  <view class='item'>
+    <label for='phone'>手机</label>
+    <view class='item-input'>
+      <input id='phone' name='phone' type='number' bindinput="phoneInput" value='{{phone}}' maxlength='11' placeholder='请输入手机号码' placeholder-class="place"></input>
+      <icon wx:if="{{phoneClear}}" catchtap='clear' data-type='phone' type="clear" size="18" color="#C7C7C7"/>
+    </view>
+  </view>
+  <view class='item'>
+    <label for='code'>验证码</label>
+    <view class='item-input'>
+      <input id='code' name='code' type='number' bindinput="codeInput" value='{{code}}' maxlength='6' placeholder='请输入验证码' placeholder-class="place"></input>
+      <icon wx:if="{{codeClear}}" catchtap='clear' data-type='code' type="clear" size="18" color="#C7C7C7"/>
+      <button catchtap='{{getCode?"sendTel":""}}'>{{getCode?"获取验证码":times+"s"}}</button>
+    </view>
+  </view>
+  <button class='submit' formType="submit">确认绑定</button>
+</form>
