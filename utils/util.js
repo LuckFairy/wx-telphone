@@ -1,4 +1,6 @@
 const md5 = require('./md5.js');
+import config from '../config.js';
+import { Api } from './api_3';
 function formatTime(date) {
   var date = new Date(date * 1000);//如果date为10位不需要乘1000
   var year = date.getFullYear()
@@ -84,5 +86,27 @@ function isPC() {
   }
   return flag;
 }
+/**检验是否绑定手机 */
+function checkBingPhone(uid, store_id) {
+  return new Promise((resolve, reject) => {
+    var params = {
+      "store_id": store_id,
+      "uid": uid ? uid : wx.getStorageSync('userUid')
+    };
+    Api.postApi(config.checkBingUrl, { params }, (error, rep) => {
+      var { err_code = '', err_msg } = rep;
+      if (err_code == 0 && err_msg.is_phone == 1) {
+        wx.setStorageSync('phone', err_msg.phone);
+        wx.setStorageSync("hasPhone", "true");
+        getApp().globalData.hasPhone = true;
+        resolve(true);
+      } else {
+        wx.setStorageSync('phone', '');
+        wx.setStorageSync("hasPhone", "false");
+        reject('用户没有绑定手机');
+      }
 
-module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, signUrl, checkMobile,isPC }
+    })
+  })
+}
+module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, signUrl, checkMobile, isPC, checkBingPhone }

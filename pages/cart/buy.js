@@ -375,6 +375,7 @@ submitOrder: function (event) {
    app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
       if (err || resp.err_code != 0) {
+        
         wx.showModal({
           title: '支付失败',
           content: err || resp.err_msg,
@@ -388,8 +389,12 @@ submitOrder: function (event) {
       } else {
         // 调起微信支付
         if (resp.err_dom) {
-          wx.redirectTo({
-            url: './my-order?goodsindex=' + 2
+          // wx.redirectTo({
+          //   url: './my-order?goodsindex=' + 2
+          // })
+          var failUrl = '../index-new/index-new';
+          wx.switchTab({
+            url: failUrl
           })
         } else {
           // 调起微信支付
@@ -414,11 +419,16 @@ _startPay(payParams) {
  * 订单提交成功，不需要支付
  */
 _onSubmitNoPay() {
+  
   wx.showToast({ title: "提交成功", icon: "success", duration: 1000 });
   setTimeout(function () {
-    wx.redirectTo({
-      url: '../shopping/my-order?page=2'
-    });
+    // wx.redirectTo({
+    //   url: '../shopping/my-order?page=2'
+    // });
+    var failUrl = '../index-new/index-new';
+    wx.switchTab({
+      url: failUrl
+    })
   }, 1000);
 },
 //关闭弹窗
@@ -429,9 +439,13 @@ closeBtn() {
   });
   //500毫秒后跳转
   setTimeout(function () {
-    wx.redirectTo({
-      url: '../shopping/my-order'
-    });
+    // wx.redirectTo({
+    //   url: '../shopping/my-order'
+    // });
+    var failUrl = '../index-new/index-new';
+    wx.switchTab({
+      url: failUrl
+    })
   }, 1000);
 },
 
@@ -460,9 +474,13 @@ _onPayFail(err) {
       that.setData({
        submitOk: true
       });
-      wx.redirectTo({
-        url: '../shopping/my-order?page=1'
-      });
+      // wx.redirectTo({
+      //   url: '../shopping/my-order?page=1'
+      // });
+      var failUrl = '../index-new/index-new';
+      wx.switchTab({
+        url: failUrl
+      })
     },
   });
 },

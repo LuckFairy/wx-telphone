@@ -42,7 +42,7 @@ text {
   height: 80rpx;
   color: grey;
   _box-shadow: 0 5px 10px rgba(1, 1, 1, 0.2);
-  z-index: 2;
+  z-index: 9999;
 }
 
 .header-col-view {
@@ -257,6 +257,7 @@ text {
   height: 88rpx;
   border-top: 1rpx solid #efefef;
   background-color: #fff;
+  z-index:999999999;
 }
 
 .search-input {

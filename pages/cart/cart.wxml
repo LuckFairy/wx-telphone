@@ -1,6 +1,8 @@
 <!--pages/cart/cart.wxml-->
 <import src="../template/modal.wxml" />
+<import src="../template/get-tel.wxml" />
 <template wx:if="{{showErrModal}}" is="text-error-modal" data="{{...errModalConfig}}" />
+<template wx:if="{{phoneFlag}}" is="getphone-modal" data="{{templateData}}"></template>
 
 <import src="../template/count-down.wxml" />
 <view wx:if="{{false}}" class="full-reduce">
@@ -65,6 +67,7 @@
   </view>
 </view>
 <!--底部-->
+<form bindsubmit='sub' report-submit='true'>
 <view class="carts-footer" wx:if='{{cartSHow}}'>
   <view class="total-choose" bindtap="bindSelectAll">
     <icon wx:if="{{selectedAllStatus}}" type="success_circle" size="24" />
@@ -75,8 +78,10 @@
     <text class="total-pri-text">合计 ￥{{total}}</text>
     <!-- <text class="not-wrap-price">不含运费，已优惠￥0.222</text> -->
   </view>
+  <button form-type='submit' class='sub-button'  data-destination="3">按钮1</button>
   <view class="button" bindtap='bindCheckout'>去结算</view>
 </view>
+</form>
 <!-- 热门推荐-->
 <view class="hot-recommend" wx:if="{{baokuanList.length > 0}}">
   <text class="hot-com-text">-----爆款专区-----</text>

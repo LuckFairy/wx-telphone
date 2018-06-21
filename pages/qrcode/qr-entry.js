@@ -55,8 +55,8 @@ Page({
     },
     onShow: function () {
         // 页面显示
-        // this.redirctPage();
-        //this.redirctPageNew();
+        this.redirctPage();
+        this.redirctPageNew();
     },
     onHide: function () {
         // 页面隐藏
@@ -73,7 +73,7 @@ Page({
         });
     }).catch(err => {
             wx.switchTab({
-            url: '../index/index'
+              url: '../index-new/index-new'
         });
     });
     },
@@ -112,7 +112,7 @@ Page({
         let hadnum = qrData.hadnum; //商品数量
         let pskId = qrData.pskId; //秒杀产品ID
 
-        let url = '../index/index';
+        let url = '../index-new/index-new';
 
         if (resType == 'card') {//跳转到卡券领取页面
           url = '../card/card_summary?cardId=' + resId + '&activityId=' + activityId + '&qrEntry=1';
@@ -144,8 +144,6 @@ Page({
       });
 
     },
-
-
 
 
     redirctPageNew: function () {

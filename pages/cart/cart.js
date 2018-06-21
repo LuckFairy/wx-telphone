@@ -1,5 +1,6 @@
 var app = getApp(); 
 import { Api } from '../../utils/api_2';
+import { getPhoneNumber } from '../template/get-tel.js';
 let errModalConfig = {
   title: '有错误！',
 };
@@ -16,6 +17,29 @@ Page({
     cartSHow:false,//是否显示底部结算
     baokuanList: [], //爆款列表
     showErrModal:false,
+    phoneFlag: false,//是否弹手机模板
+    templateData: { url: '../index-new/bingPhone' },//绑定手机跳转路径
+  },
+  getPhoneNumber: getPhoneNumber,
+  /**验证是否获取手机号 */
+  checkPhone() {
+    let that = this;
+    let flag = wx.getStorageSync('hasPhone');
+    console.log(flag);
+    if (flag == 'true') { flag = false } else { flag = true };
+    console.log(flag);
+    that.setData({ phoneFlag: flag });
+    // let flag = wx.getStorageSync('hasPhone');
+    // that.setData({ hasPhone: flag });
+    // clearInterval(phoneTime);
+    // let phoneTime = setInterval(() => {
+    //   flag = wx.getStorageSync('hasPhone');
+    //   console.log(flag);
+    //   if (flag == true) {
+    //     clearInterval(phoneTime);
+    //     that.setData({ hasPhone: flag });
+    //   }
+    // }, 3000);
   },
   /**
 * 首页爆款专区数据
@@ -200,6 +224,12 @@ Page({
       total
     });
   },
+  /**
+   * 消息推送
+   */
+  sub(e) {
+    app.pushId(e);
+  },
   //去结算
   bindCheckout: function () {
     var that = this;
@@ -286,6 +316,7 @@ Page({
   },
   onShow: function () {
    var that = this;
+   that.checkPhone();
    var hasShop = that.data.hasShop;//有无商品
  
       var store_id = that.data.store_id;

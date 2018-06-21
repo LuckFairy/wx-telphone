@@ -55,7 +55,6 @@ page {
 }
 
 .myself-id {
-  width: 110rpx;
   height: 27rpx;
   font-family: PingFangSC-Regular;
   font-size: 28rpx;
@@ -103,7 +102,7 @@ form input {
 
 .item-input button {
   margin: 0;
-  width: 210rpx;
+  min-width: 210rpx;
   height: 60rpx;
   line-height: 60rpx;
   background-color: #ffe71c;

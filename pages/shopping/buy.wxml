@@ -261,6 +261,7 @@
         
   </view> 
 </view>  -->
+<form bindsubmit='sub' report-submit='true'>
  <view class="invite-friend-cluster">
     <view class='invite-total actual-payment'>
       <text class='actual-pay-one'>实付款: </text>
@@ -268,10 +269,12 @@
       <text class='actual-pay-two' wx:elif='{{(lastPay-couponInfo[2]<=0)&&couponInfo[2]}}'>￥ 0.00</text>
       <text class='actual-pay-two' wx:else>￥ {{lastPay}}</text>
     </view>
-    <view class='current-buying invite-total' bindtap="{{submitOk?'submitOrder':''}}"  data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>
+    <view class='current-buying invite-total' bindtap="{{submitOk==true?'submitOrder':''}}"  data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>
+      <button form-type='submit' class='sub-button'  data-destination="3">按钮1</button>
       <text class='current-buying-child'>立即购买</text>
     </view>
 </view>
+</form>
 <!--购买成功之后弹窗  -->
 <view class='matte-hint-father' wx:if='{{matteShow}}' bindtap='closeBtn'>
   <view class='matte-hint'>

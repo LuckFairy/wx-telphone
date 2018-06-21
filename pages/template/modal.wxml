@@ -41,7 +41,7 @@
 	<view data-id="{{id}}" bindtap="tabModal" class="overlay">
 		<view class="overlay-content">
 			<view class="overlay-body">
-				<image  class="modal-image" src="{{image? image:'../../image/error.png'}}" mode="widthFix" />
+				<image  class="modal-image" src="{{image? image:'../../../image/use-ruler.png'}}" mode="widthFix" />
 				<text wx:if="{{title}}" class="modal-secondText">{{title}}</text>
 			</view>
 		</view>
@@ -62,12 +62,12 @@
 -->
 <template name="text-erwei-modal">
 	<view  bindtap="tabModal" class="overlay">
-		<view class="overlay-content">
+		<view class="overlay-content text-erwei-modal">
       <view class='overlay-right'  bindtap="tabCancel">
-        <image class='mode-right-image' src='../../image/close.png' ></image>
+        <image class='mode-right-image' src='../../../image/close.png' ></image>
       </view>
 			<view class="overlay-body">
-				<image wx:if="{{image}}" class="modal-image-erwei" src="{{image? image:'../../image/error.png'}}" mode="widthFix" />
+				<image wx:if="{{image}}" class="modal-image-erwei" src="{{image}}" mode="widthFix" />
 				<text wx:if="{{title}}" class="modal-secondText-erwei">{{title}}</text>
 			</view>
 		</view>
@@ -90,7 +90,7 @@
 	<view data-id="{{id}}" bindtap="tabModal" class="overlay">
 		<view class="overlay-content coupon-content" bindtap="tabConfirm">
      <view class='overlay-center' >
-        <image class='mode-center-image' src="{{image? image:'../../image/error.png'}}"></image>
+        <image class='mode-center-image' src="{{image? image:'../../../image/use-ruler.png'}}"></image>
       </view>
 			<view class="overlay-body coupon-body">
 				<text wx:if="{{title}}" class="modal-titleText">{{title}}</text>

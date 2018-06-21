@@ -661,30 +661,30 @@ Page({
     this.setShippingMethod(method);
   },
 
-  //发送模板消息测试
-  _sendMsg(prepayId, orderId) {
-    var user_id = app.d.userId; //测试参数
-    var formId = prepayId;
-    var orderId = orderId;
-    let url = 'buy/sendmsg';
-    app.api.postApi(url, { user_id, formId, orderId }, (err, resp) => {
-      if (err) {
-        //return this._showError('加载数据出错，请重试');
-        wx.showToast({
-          title: '加载数据出错，请重试',
-          icon: 'loading',
-          duration: 2000
-        });
-        return;
-      }
+  // //发送模板消息测试
+  // _sendMsg(prepayId, orderId) {
+  //   var user_id = app.d.userId; //测试参数
+  //   var formId = prepayId;
+  //   var orderId = orderId;
+  //   let url = 'buy/sendmsg';
+  //   app.api.postApi(url, { user_id, formId, orderId }, (err, resp) => {
+  //     if (err) {
+  //       //return this._showError('加载数据出错，请重试');
+  //       wx.showToast({
+  //         title: '加载数据出错，请重试',
+  //         icon: 'loading',
+  //         duration: 2000
+  //       });
+  //       return;
+  //     }
 
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        //return this._showError(rtnMessage);
-      }
+  //     let { rtnCode, rtnMessage, data } = resp;
+  //     if (rtnCode != 0) {
+  //       //return this._showError(rtnMessage);
+  //     }
 
-    });
-  },
+  //   });
+  // },
 
 
 })

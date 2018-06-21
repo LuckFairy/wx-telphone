@@ -1,6 +1,6 @@
 // pages/index-new/index-new.js 
 const log = "index.js --- ";
-import { getUrlQueryParam, isPC } from '../../utils/util';
+import { getUrlQueryParam, checkBingPhone} from '../../utils/util';
 import { getPhoneNumber } from '../template/get-tel.js';
 let app = getApp();
 const couponUrl = 'wxapp.php?c=activity&a=new_user_coupon';//领取优惠券接口
@@ -12,9 +12,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    infoFlag: app.globalData.info_flag,
     uid: null,//用户id
     store_id:'',
-    hasPhone: true,//true有手機號，不彈窗;false弹窗
+    phoneFlag: false,//是否弹手机模板
     templateData:{url:'./bingPhone'},//绑定手机跳转路径
     mode: app.globalData.image.mode,
     lazyLoad: app.globalData.image.lazyLoad,
@@ -49,21 +50,25 @@ Page({
     saoma_url: null,//条码链接
     index_image: "http://file.qutego.com/upload/wxapp/banner/yiya/index_2.jpg?" + parseInt(40 * Math.random()),
   },
+  /**获取用户信息 */
+  getuserinfo(e) {
+    console.log(e.detail);
+    app.globalData.userInfo = e.detail.userInfo;
+    app.login(e.detail);
+    this.setData({ infoFlag: false });
+    return new Promise(resolve => {
+      resolve(true);
+    })
+  },
   getPhoneNumber: getPhoneNumber,
   /**验证是否获取手机号 */
   checkPhone() {
     let that = this;
-    var hasPhone = wx.getStorageSync('hasPhone') || true;
-    that.setData({ hasPhone });
-    clearInterval(phoneTime);
-    let phoneTime = setInterval(() => {
-      hasPhone = wx.getStorageSync('hasPhone') || true;
-      if (hasPhone) {
-        clearInterval(phoneTime);
-        that.setData({ hasPhone });
-        return;
-      }
-    }, 3000);
+    checkBingPhone(this.data.uid, this.data.store_id).then(flag => {
+      that.setData({ phoneFlag: false });
+    },err=> {
+      that.setData({ phoneFlag: true });
+      })
   },
   /**
    * 扫码购
@@ -220,25 +225,26 @@ Page({
   onLoad: function (options) {
     var that = this;
     var store_id = app.store_id;
+    this.setData({ store_id });
     var uid = wx.getStorageSync('userUid');
     if(!uid){
       wx.showLoading({
         title: '加载中',
         mask: true,
       });
+      var i=0;
       that.timer1 = setInterval(() => {
+        i++;
         uid = wx.getStorageSync('userUid');
-        this.setData({ uid, store_id });
+        this.setData({ uid});
         this._prepare();
-        if (uid) { clearInterval(that.timer1);}
-      }, 2000);
+        if (uid||i>3) { clearInterval(that.timer1);}
+      }, 3000);
     }else{
-      this.setData({ uid, store_id });
+      this.setData({ uid, infoFlag: false});
       this._prepare();
     }
    
-
-
   },
   /**
   * 加载数据
@@ -246,6 +252,7 @@ Page({
   _prepare() {
     var that = this;
     var {store_id,uid} = that.data;
+    wx.hideLoading();
     // this.firstOpen();
 
     // // 顶部轮播图
@@ -310,22 +317,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var uid = this.data.uid;
-    if (!uid) {
-      wx.showLoading({
-        title: '加载中',
-        mask: true,
-      });
-      that.timer2 = setInterval(() => {
-        uid = wx.getStorageSync('userUid');
-        this.loadMyCardNumData(); //我的卡包数量
-        if (uid) { clearInterval(that.timer2); }
-      }, 2000);
-    } else {
-      this.loadMyCardNumData(); //我的卡包数量
-    }
+    let that = this;
+    let flag = wx.getStorageSync('hasPhone');
+    if (flag == 'true') { flag = false } else { flag = true };
+    console.log(flag);
+    that.setData({ phoneFlag:flag });
 
-   wx.hideLoading();
+    this.loadMyCardNumData(); //我的卡包数量
+
   },
 
   /**
@@ -608,16 +607,39 @@ Page({
   },
 
   loadMyCardNumData: function () {
-    var params = {
-      uid: this.data.uid,
-      store_id: this.data.store_id,
+    var uid = this.data.uid,params={},that=this;
+    if(uid){
+     params = {
+        uid,
+        store_id: this.data.store_id,
+      }
+     app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {
+       if (err || response.err_code != 0) return;
+       var card_num = response.err_msg.card_num;
+       this.setData({ card_num });
+     });
+    }else{
+      clearInterval(that.timer2);
+      var i=0;
+      that.timer2 = setInterval(() => {
+        uid = wx.getStorageSync('userUid');
+        i++;
+        this.loadMyCardNumData(); //我的卡包数量
+        if (uid||i>3) { 
+          clearInterval(that.timer2); 
+          params = {
+            uid: uid,
+            store_id: this.data.store_id,
+          }
+          app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {
+            if (err || response.err_code != 0) return;
+            var card_num = response.err_msg.card_num;
+            this.setData({ card_num });
+          });
+        }
+      }, 2000);
     }
-    //console.log('my_card_num 接口参数', params);
-    app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {
-      if (err || response.err_code != 0) return;
-      var card_num = response.err_msg.card_num;
-      this.setData({ card_num });
-    });
+   
   },
 
   /**

@@ -199,6 +199,7 @@ Page({
     });
   },
   onLoad: function (options) {
+    wx.hideShareMenu();
     console.log('是否有虚拟商品类型',options)
     var that = this;
     wx.showLoading({ title: '加载中', mask: true });

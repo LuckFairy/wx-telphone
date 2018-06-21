@@ -28,9 +28,11 @@
     <text class='online-card online-offline {{xianshangCard?xianshangCard:""}}' data-select='0'>线上券</text>
     <text class='offline-card online-offline {{shopCard?shopCard:""}}' data-select='1'>门店券</text>
   </view>
+  <view class='overlay' style="display:{{showHide ? 'none' : 'flex'}}" bindtap='closeBtn'></view>
+  
   <!-- nav详细内容展示区-->
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
-    <view class='overlay' style="display:{{showHide ? 'none' : 'flex'}}"></view>
+    
     <swiper-item>
       <scroll-view scroll-y="true" bindscrolltolower='pullUpLoadone' lower-threshold='0' scroll-top="{{scrollTop}}">
         <view wx:if="{{normal.length>0}}" class="card-list-view">

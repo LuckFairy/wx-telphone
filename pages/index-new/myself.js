@@ -12,20 +12,28 @@ Page({
     nickName:'',
     userImg:'',
     uid:'',
-    hasPhone: true,//true有手機號，不彈窗;false弹窗
+    phoneFlag: false,//是否弹手机模板
     templateData: { url: './bingPhone' },//绑定手机跳转路径
   },
   getPhoneNumber: getPhoneNumber,
+  /**验证是否获取手机号 */
   checkPhone() {
     let that = this;
-    clearInterval(phoneTime);
-    let phoneTime = setInterval(() => {
-      var hasPhone = wx.getStorageSync('hasPhone');
-      if (hasPhone) {
-        clearInterval(phoneTime);
-        that.setData({ hasPhone });
-      }
-    }, 5000);
+    let flag = wx.getStorageSync('hasPhone');
+    if (flag=='true') { flag = false } else { flag = true };
+    console.log(flag);
+    that.setData({ phoneFlag: flag });
+    // let flag = wx.getStorageSync('hasPhone') ? false : true;
+    // that.setData({ phoneFlag: flag });
+    // clearInterval(phoneTime);
+    // let phoneTime = setInterval(() => {
+    //   flag = wx.getStorageSync('hasPhone') ? false : true;
+    //   console.log(flag);
+    //   if (flag == true) {
+    //     clearInterval(phoneTime);
+    //     that.setData({ phoneFlag:flag });
+    //   }
+    // }, 3000);
   },
   /** 去设置页面*/
   goSetting() {
@@ -114,8 +122,6 @@ Page({
    */
   onShow: function () {
     this.checkPhone();
-    var phone = wx.getStorageSync('phone');
-    this.setData({  phone });
   },
 
   /**

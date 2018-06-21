@@ -74,8 +74,6 @@ Page({
     //2017年12月25日12:18:49
     normal_coupon_count:'', //可用的优惠券数量
     discounts:0,
-    
-    
     baokuan_action:'',//判断是否为闪购严选
   },
   /*
@@ -96,7 +94,6 @@ Page({
       })
       lastPay = sub_total - postage_int;
       that.setData({ "shopListData": orderdata, "productList": product, totals: sub_total, fee: postage_int, lastPay, orderId, postage_list: orderdata.postage, product_id});
-
       that.loadCouponData(product_id);
     })
     
@@ -161,7 +158,7 @@ Page({
     wx.removeStorageSync('recid')
     wx.removeStorageSync('cname')
     wx.removeStorageSync('face_money')
-    let { uid, pid, skuId, storeId, qrEntry, orderId, baokuan_actionbaokuan_action } = options;
+    let { uid, pid, skuId, storeId, qrEntry, orderId, baokuan_action='' } = options;
     quantity = options.quantity;
     //2017年12月16日amy 判断是否是多属性sku_id,单属性sku_id为空或0
     this.setData({ orderId, uid});
@@ -253,9 +250,10 @@ Page({
               } 
             }
             this.setData({
-              "address": address,
-              "addressList": addressList,
-              "addressId": addressList[0].address_id
+              error:null,
+              address: address,
+              addressList: addressList,
+              addressId: addressList[0].address_id
             });
           }
         } else {
@@ -361,6 +359,12 @@ Page({
     })
   },
   /**
+   * 消息推送
+   */
+  sub(e) {
+    app.pushId(e);
+  },
+  /**
     * 提交订单
     */
   submitOrder: function (event) {
@@ -412,9 +416,11 @@ Page({
         }); return;
       }
       // 调起微信支付
+      // var failUrl = './my-order?goodsindex=' + 2;
+      var failUrl = '../index-new/index-new';
       if (resp.err_dom) {
-        wx.redirectTo({
-          url: './my-order?goodsindex=' + 2
+        wx.switchTab({
+          url: failUrl
         })
       } else {
         // 调起微信支付
@@ -459,15 +465,25 @@ Page({
    * 支付失败
    */
   _onPayFail(err) {
+    // var failUrl = '../shopping/my-order?page=1';
+    var failUrl = '../index-new/index-new';
     wx.showModal({
       title: '支付失败',
-      content: '订单支付失败，请到[订单-待付款]列表里重新支付',
+      // content: '订单支付失败，请到[订单-待付款]列表里重新支付',
       cancelColor: '#FF0000',
       confirmText: '好的',
       success: function (res) {
-        wx.redirectTo({
-          url: '../shopping/my-order?page=1'
-        });
+        if (res.confirm) {
+          wx.switchTab({
+            url: failUrl
+          })
+        } else if (res.cancel) {
+          return;
+        }
+       
+        // wx.redirectTo({
+        //   url: failUrl
+        // });
       },
       fail: function () {
         return;
@@ -478,34 +494,32 @@ Page({
    * 订单提交成功，不需要支付
    */
   _onSubmitNoPay() {
+    // var failUrl = '../shopping/my-order?page=2';
+    var failUrl = '../index-new/index-new';
     wx.showToast({ title: "提交成功", icon: "success", duration: 1000 });
     setTimeout(function () {
-      wx.redirectTo({
-        url: '../shopping/my-order?page=2'
+      wx.switchTab({
+        url: failUrl
       });
     }, 1000);
   },
   //关闭弹窗
   closeBtn() {
     var that = this;
+    // var failUrl = '../shopping/my-order?orderstatus=2';
+    var failUrl = '../index-new/index-new';
     that.setData({
       matteShow: false
     });
-    wx.redirectTo({
-      url: '../shopping/my-order?orderstatus=2'
+    wx.switchTab({
+      url: failUrl
     });
   },
-
-
- 
-
   addrViewClick() {
     wx.navigateTo({
       url: './address-list?addressId=' + this.data.addressId
     });
   },
-
-
   /**  新增地址相关 */
   /**
    * 校验地址输入

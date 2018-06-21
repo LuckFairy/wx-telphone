@@ -66,33 +66,33 @@ Page({
   },
 
 
-  //发送模板消息测试
-  fromid: function (e) {
-    console.log(e.detail.formId);
-    var user_id = app.d.userId; //测试参数
-    var formId = e.detail.formId;
-    let url = 'buy/sendmsg';
-    app.api.postApi(url, { user_id, formId}, (err, resp) => {
-      //console.log({ err, resp });
-      if (err) {
-        //return this._showError('加载数据出错，请重试');
-        wx.showToast({
-          title: '加载数据出错，请重试',
-          icon: 'loading',
-          duration: 2000
-        });
-        return;
-      }
+  // //发送模板消息测试
+  // fromid: function (e) {
+  //   console.log(e.detail.formId);
+  //   var user_id = app.d.userId; //测试参数
+  //   var formId = e.detail.formId;
+  //   let url = 'buy/sendmsg';
+  //   app.api.postApi(url, { user_id, formId}, (err, resp) => {
+  //     //console.log({ err, resp });
+  //     if (err) {
+  //       //return this._showError('加载数据出错，请重试');
+  //       wx.showToast({
+  //         title: '加载数据出错，请重试',
+  //         icon: 'loading',
+  //         duration: 2000
+  //       });
+  //       return;
+  //     }
 
-      let { rtnCode, rtnMessage, data } = resp;
-      if (rtnCode != 0) {
-        //return this._showError(rtnMessage);
-      }
-      console.log('发送模板消息测试');
-      console.log(data);
+  //     let { rtnCode, rtnMessage, data } = resp;
+  //     if (rtnCode != 0) {
+  //       //return this._showError(rtnMessage);
+  //     }
+  //     console.log('发送模板消息测试');
+  //     console.log(data);
 
-    });
-  },
+  //   });
+  // },
 
 
 })

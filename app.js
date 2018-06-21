@@ -6,6 +6,16 @@ App({
   api: Api,
   store_id: config.sid, 
   title:config.title,
+  globalData: {
+    userInfo: "",
+    TOKEN_ID: "",
+    image: { mode: "aspectFit", lazyLoad: "true" },
+    uid: "",//用户id
+    sid: "",//商店id
+    openid: "",//用户openid
+    formIds: [],//formId数组
+    info_flag: true,//是否一键授权用户信息
+  },
   onLaunch: function () {
     console.log('App onLaunch');
 
@@ -23,26 +33,19 @@ App({
   },
   onShow: function () {
     console.log('App onShow() ...');
-    sign.signin();
   },
-  globalData:{
-    userInfo: "",
-    TOKEN_ID: "",
-    image: { mode:"aspectFit",lazyLoad:"true"},
-    uid: "",//用户id
-    sid: "",//商店id
-    openid: "",//用户openid
-    formIds: [],//formId数组
+  login: function (info) {
+    sign.signin(null, null, info);
   },
   d: {
-    hostUrl: 'https://wxplus.paoyeba.com/index.php',
-    hostImg: 'http://img.ynjmzb.net',
-    hostVideo: 'http://zhubaotong-file.oss-cn-beijing.aliyuncs.com',
+    // hostUrl: 'https://wxplus.paoyeba.com/index.php',
+    // hostImg: 'http://img.ynjmzb.net',
+    // hostVideo: 'http://zhubaotong-file.oss-cn-beijing.aliyuncs.com',
     userId: 1,
-    appId: "",
-    appKey: "",
-    //ceshiUrl:'https://wxplus.paoyeba.com/index.php',
-    ceshiUrl: 'http://leoxcxshop.com/index.php',
+    // appId: "",
+    // appKey: "",
+    // //ceshiUrl:'https://wxplus.paoyeba.com/index.php',
+    // ceshiUrl: 'http://leoxcxshop.com/index.php',
   },
   calling: function (phone = config.serverPhone) {
     wx.makePhoneCall({
@@ -71,14 +74,14 @@ App({
       })
     } else { return; }
     console.log('form提交 ', e.detail);
-    let { detail: { formId = [] } } = e;
+    let formId = e.detail.formId;
     let timeStamp = Date.parse(new Date()) /1000;//时间戳
-   
-    if (formId.includes('formId')) {
+   console.log(formId);
+    if (formId.indexOf('formId')!=-1) {
       wx.showToast({
         title: '请用手机调试',
         icon: 'loading',
-        duration: 2000
+        duration: 4000
       });
       return;
     };

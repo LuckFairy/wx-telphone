@@ -158,13 +158,11 @@ Page({
     var province = e.currentTarget.dataset.province;
     // 修改了
     var fullname = that.data.fullname;
-    console.log('fullname保存地址时', fullname);
     var phonename = that.data.phonename;
     var address = that.data.address;
     var pro_id = that.data.pro_id;
     var cit_id = that.data.cit_id;
     var ar_id = that.data.ar_id;
-    console.log('ar_id保存地址时', ar_id);
 
     // 地址修改判断
     var peo_name;
@@ -173,6 +171,7 @@ Page({
     var peo_pro_id;
     var peo_cit_id;
     var peo_ar_id;
+
     if (!fullname) {
       peo_name = name;
     } else {
@@ -181,7 +180,11 @@ Page({
     if (!phonename) {
       peo_phone = phone;
     } else {
-      peo_phone = phonename
+      if (util.checkMobile(phonename)){
+        peo_phone = phonename
+      }else{
+        return this._showError('不是有效的手机号码');
+      }
     }
     if (!address) {
       peo_address = addr;
@@ -298,13 +301,14 @@ Page({
   },
   bindShippingTelephoneChange(e){
     var phone = e.detail.value;
-    if (util.checkMobile(phone)){
+    // if (util.checkMobile(phone)){
       this.setData({
         phonename: phone
       })
-    }else{
-      this._showError('请输入正确的手机号');
-    }
+    // }else{
+      // return;
+      // this._showError('请输入正确的手机号');
+    // }
   },
   bindFullnameChange(e){
     console.log('姓名修改',e)
@@ -374,7 +378,7 @@ Page({
    * 显示错误信息
    */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
+    // wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
   },
 })

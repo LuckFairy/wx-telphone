@@ -10,11 +10,11 @@
 <view class="addr-containner">
     <view class="item-view">
         <label class="title">收 货 人：</label>
-        <input style="flex:1;" bindinput="bindFullnameChange" value='{{addressiinfo.name}}'  type="text"  maxlength="64" />
+        <input style="flex:1;" bindblur="bindFullnameChange" value='{{addressiinfo.name}}'  type="text"  maxlength="64" />
     </view>
     <view class="item-view">
         <label class="title">手机号码：</label>
-        <input style="flex:1;" bindinput="bindShippingTelephoneChange" value='{{addressiinfo.tel}}'  type="number"  maxlength="11" />
+        <input style="flex:1;" bindblur="bindShippingTelephoneChange" value='{{addressiinfo.tel}}'  type="number"  maxlength="11" />
     </view>
     <view class="item-view">
         <label class="title">省份：</label>
@@ -45,7 +45,7 @@
     </view>
     <view class="item-view">
         <label class="title">详细地址：</label>
-        <input style="flex:1;" bindinput="bindAddressChange" value='{{addressiinfo.address}}' type="text" placeholder=""  maxlength="128" />
+        <input style="flex:1;" bindblur="bindAddressChange" value='{{addressiinfo.address}}' type="text" placeholder=""  maxlength="128" />
     </view>
     <!-- <view class="item-view" bindtap="bindIsDefaultChange">
         <label class="title">默认地址：</label>

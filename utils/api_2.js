@@ -1,7 +1,9 @@
 var config = require('../config.js');
+var post = require('./api_3');
+
 var Api = {
   /*用户登陆授权*/
-  signin: function (callback, tryTimes = 3) {
+  signin: function (callback, tryTimes = 3, user_info) {
     var that = this;
     var uid = wx.getStorageSync('userUid');
     if(uid){console.log('已经登录成功了');return;}
@@ -11,7 +13,12 @@ var Api = {
       success: (resp) => {
         console.log('wx.login()成功！');
         // 进入第2步
-        _getUserInfo(resp.code);
+        _getUserInfo(resp.code).then((rep)=>{
+          console.log('_getUserInfo成功！');
+          let { userInfo, rawData, signature, encryptedData, iv } = rep;
+         // 进入第3步
+          _doSignin(resp.code, rawData, encryptedData, iv, userInfo);
+        });
       },
       fail: (resp) => {
         console.log('wx.login()失败！', resp);
@@ -20,34 +27,11 @@ var Api = {
     });
     /* 2、调用 wx.getUserInfo() 获取微信用户信息}*/
     function _getUserInfo(jscode) {
-      wx.getUserInfo({
-        success: (resp) => {
-          console.log('调用 wx.getUserInfo()成功');
-          let { userInfo, rawData, signature, encryptedData, iv } = resp;
-          // 进入第3步
-          _doSignin(jscode, rawData, encryptedData, iv, userInfo);
-        },
-        fail: (resp) => {
-          let autTip = '您已拒绝小程序程序授权，请删除小程序后重新进入，并在提示授权时，点击“允许”按钮。';
-          let canUseSetting = false;
-          if (wx.openSetting) {
-            canUseSetting = true;
-            autTip = '您已拒绝小程序程序授权，请设置为允许授权后重新进入.';
-          }
-          wx.showModal({
-            title: '提示',
-            content: autTip,
-            showCancel: false,
-            success: (res) => {
-              if (res.confirm && canUseSetting) {
-                wx.openSetting({
-                  success: (res) => {
-                    that.signin(callback);
-                  }
-                });
-              }
-            }
-          });
+      return new Promise((resolve, reject) => {
+        if (user_info) {
+          resolve(user_info);
+        } else {
+          reject('app.globalData.userinfo为空');
         }
       })
     }
@@ -92,7 +76,6 @@ var Api = {
           //进入第5步：验证是否有手机号
           checkBingPhone(data.err_msg.uid).then(flag => {
             console.log('有手机号');
-            resolve({ hasPhone: true });
           }, err => {
             console.error(err);
           })  
@@ -112,13 +95,13 @@ var Api = {
       console.log("_onSignin成功！")
     }
     /**5、是否存在手机号 */
-    function checkPhone(uid){
+    function checkBingPhone(uid){
       return new Promise((resolve, reject) => {
         var params = {
           "store_id": config.sid,
           "uid": uid ? uid : wx.getStorageSync('userUid')
         };
-        that.api.postApi(config.checkBingUrl, { params }, (error, rep) => {
+        post.Api.postApi(config.checkBingUrl, { params }, (error, rep) => {
           var { err_code = '', err_msg } = rep;
           if (err_code == 0 && err_msg.is_phone == 1) {
             wx.setStorageSync('phone', err_msg.phone);

@@ -6,18 +6,18 @@
  * AGENT  api请求中的hear参数
  * sid   店铺id
  */
-
+var isRelease = true;
 var host = "https://saas.qutego.com/"
 var testhost = "https://api.ljxhlaw.com/"
 var AGENT_ID = 2
 var sid = 310;//310咿呀悦购
 var title = '咿呀悦购';
-var phonetest = '4006088520';//测试客服电话
-var phone = '4000001312';//正式客服电话趣购精选
+var testphone = '4006088520';//测试客服电话
+var phone = '4006897779';//正式客服电话趣购精选
 var config = {
 
   // 下面的地址配合云端 Server 工作
-  host: host,
+  host: isRelease ? host : testhost,
 
   // 上线时需要根据实际数据修改
   AGENT_ID,
@@ -26,7 +26,7 @@ var config = {
   appid:'wx57d5cde97d7e1fd3',
 
   //客服电话
-  serverPhone: phone,
+  serverPhone: isRelease ? phone : testphone,
 
   //店铺id
   sid,

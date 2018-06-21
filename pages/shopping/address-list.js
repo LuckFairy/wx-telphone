@@ -15,7 +15,7 @@ Page({
     wx.showLoading({
       title: '加载中', mask: true
     });
-    this.addrLists();
+    
   },
   addrLists(e) {
     wx.showLoading({
@@ -50,6 +50,7 @@ Page({
   },
   onShow: function () {
     // 页面显示
+    this.addrLists();
   },
   onHide: function () {
     // 页面隐藏

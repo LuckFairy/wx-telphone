@@ -67,6 +67,9 @@ Page({
       url: '../index-new/shop-promotion',
     })
   },
+  closeBtn: function () {
+    this.goSelect();
+  },
   // 点击弹出选择券类型
   goSelect() {
     this.setData({
