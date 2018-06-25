@@ -4,6 +4,7 @@ const app = getApp();
 import { Api } from '../../utils/api_2';
 let _params = null;
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
+let uid = wx.getStorageSync('userUid');
 Page({
   data: {
     mode: app.globalData.image.mode,//图片缩放模式
@@ -198,13 +199,30 @@ Page({
       }
     });
   },
+  /**
+   * 消息推送
+   */
+  sub(e) {
+    //保存formid
+    app.pushId(e).then(ids => {
+      app.saveId(ids)
+    }, error => {
+      console.info(error);
+    });
+  },
   onLoad: function (options) {
     wx.hideShareMenu();
     console.log('是否有虚拟商品类型',options)
     var that = this;
     wx.showLoading({ title: '加载中', mask: true });
     var store_id = app.store_id;
-    var uid = wx.getStorageSync('userUid');
+    
+    uid = wx.getStorageSync('userUid');
+    if (!uid) {
+      wx.switchTab({
+        url: '../index-new/index-new',
+      })
+    }
     that.setData({
       uid, store_id
     })
@@ -257,6 +275,12 @@ Page({
   },
   //多规格 onShow
   onShow: function () {
+    uid = wx.getStorageSync('userUid');
+    if (!uid) {
+      wx.switchTab({
+        url: '../index-new/index-new',
+      })
+    }
     wx.hideLoading();
   },
   onHide: function () {
@@ -356,7 +380,11 @@ Page({
   onShareAppMessage(res) {
     var name = this.data.product.name;
     var product_id = this.data.product_id;
-    return { title: name, path: 'pages/shopping/goods-detail?prodId=' + product_id }
+    if(this.data.action){
+    return { title: name, path: 'pages/shopping/goods-detail?prodId=' + product_id+'&action='+this.data.action }
+    }else{
+      return { title: name, path: 'pages/shopping/goods-detail?prodId=' + product_id }
+    }
   },
   /* 点击减号 w*/
   bindMinus: function (e) {

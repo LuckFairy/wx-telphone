@@ -381,6 +381,8 @@ submitOrder: function (event) {
           content: err || resp.err_msg,
           confirmText: '好的',
           success:function(){
+            //推送消息
+            app.send(that.data.order_no);
             that.setData({
               submitOk: true
             })
@@ -403,7 +405,17 @@ submitOrder: function (event) {
       }
     });
 },
-
+/**
+   * 消息推送
+   */
+sub(e) {
+  //保存formid
+  app.pushId(e).then(ids => {
+    app.saveId(ids)
+  },error=>{
+    console.info(error);
+  });
+},
 /**
  * 调起微信支付
  */
@@ -419,7 +431,9 @@ _startPay(payParams) {
  * 订单提交成功，不需要支付
  */
 _onSubmitNoPay() {
-  
+  var that =this;
+  //推送消息
+  app.send(that.data.order_no);
   wx.showToast({ title: "提交成功", icon: "success", duration: 1000 });
   setTimeout(function () {
     // wx.redirectTo({
@@ -455,6 +469,8 @@ closeBtn() {
 _onPaySuccess(res) {
   wx.removeStorageSync('couponInfo');
   var that = this;
+  //推送消息
+  app.send(that.data.order_no);
   // 支付成功弹窗
   that.setData({
     matteShow: true,submitOk:true
@@ -465,6 +481,8 @@ _onPaySuccess(res) {
  */
 _onPayFail(err) {
   var that =this;
+  //推送消息
+  app.send(that.data.order_no);
   wx.showModal({
     title: '支付失败',
     content: '订单支付失败，请到[订单-待付款]列表里重新支付',

@@ -5,7 +5,7 @@ import { getPhoneNumber } from '../template/get-tel.js';
 let app = getApp();
 const couponUrl = 'wxapp.php?c=activity&a=new_user_coupon';//领取优惠券接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
-
+let locationid = null;//门店屏id
 var checkTimer = null;     // 若还没登录，启用定时器
 Page({
   /**
@@ -52,13 +52,16 @@ Page({
   },
   /**获取用户信息 */
   getuserinfo(e) {
-    console.log(e.detail);
     app.globalData.userInfo = e.detail.userInfo;
-    app.login(e.detail);
+    wx.setStorageSync("userInfo", e.detail.userInfo);
     this.setData({ infoFlag: false });
-    return new Promise(resolve => {
-      resolve(true);
-    })
+    var that = this;
+    locationid = wx.getStorageSync('locationid');
+    console.log('getuserinfo....location', locationid);
+    app.login(e.detail, function () {
+      that.setData({ infoFlag: true });
+      app.globalData.info_flag = true;
+    }, locationid);
   },
   getPhoneNumber: getPhoneNumber,
   /**验证是否获取手机号 */
@@ -89,18 +92,7 @@ Page({
       }
     })
   },
-  /**
-   * 消息推送
-   */
-  sub(e) {
-    app.pushId(e);
-  },
-  submit() {
-    app.submit();
-  },
-  send() {
-    app.send();
-  },
+ 
   /*
   *首次打开小程序事件
   *
@@ -326,7 +318,18 @@ Page({
     this.loadMyCardNumData(); //我的卡包数量
 
   },
-
+  /**
+  * 消息推送
+  */
+  submitOrder(e) {
+    //保存formid
+    console.info('submitOrder....');
+    app.pushId(e).then(ids => {
+      app.saveId(ids)
+    }, error => {
+      console.error(error);
+    });
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

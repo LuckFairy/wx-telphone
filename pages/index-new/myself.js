@@ -2,7 +2,7 @@
 var app = getApp();
 import { Api } from '../../utils/api_2';
 import { getPhoneNumber } from '../template/get-tel.js';
-
+let uid = wx.getStorageSync('userUid');
 Page({
 
   /**
@@ -23,17 +23,6 @@ Page({
     if (flag=='true') { flag = false } else { flag = true };
     console.log(flag);
     that.setData({ phoneFlag: flag });
-    // let flag = wx.getStorageSync('hasPhone') ? false : true;
-    // that.setData({ phoneFlag: flag });
-    // clearInterval(phoneTime);
-    // let phoneTime = setInterval(() => {
-    //   flag = wx.getStorageSync('hasPhone') ? false : true;
-    //   console.log(flag);
-    //   if (flag == true) {
-    //     clearInterval(phoneTime);
-    //     that.setData({ phoneFlag:flag });
-    //   }
-    // }, 3000);
   },
   /** 去设置页面*/
   goSetting() {
@@ -87,7 +76,12 @@ Page({
   onLoad: function (options) {
     //获取uid
     var that = this;
-    let uid = wx.getStorageSync('userUid');
+     uid = wx.getStorageSync('userUid');
+    if(!uid){
+      wx.switchTab({
+        url: './index-new',
+      })
+    }
     that.setData({uid});
     wx.getUserInfo({
       success: function (res) {
@@ -121,6 +115,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    uid = wx.getStorageSync('userUid');
+    if (!uid) {
+      wx.switchTab({
+        url: './index-new',
+      })
+    }
     this.checkPhone();
   },
 

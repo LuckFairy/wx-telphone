@@ -195,7 +195,7 @@ Page({
         // 调起微信支付
         if (resp.err_dom) {
           wx.navigateTo({
-            url: './my-order?goodsindex=' + 2
+            url: './my-order?page=' + 2
           })
         } else {
           // 调起微信支付
@@ -237,7 +237,7 @@ Page({
 
     //跳到订单列表 待收货
     wx.navigateTo({
-      url: './my-order?goodsindex=' + 2
+      url: './my-order?page=' + 2
     }) 
 
 
@@ -264,7 +264,7 @@ Page({
           app.api.fetchApi("order/complete/" + orderId, (err, resp) => {
             if (resp) {
               wx.navigateTo({
-                url: './my-order?goodsindex='+3
+                url: './my-order?page='+3
               })
             }
           })
@@ -406,7 +406,7 @@ Page({
     console.log('购物车为空，去下单');
     //wx.reLaunch({ url: '../index-new/index-new' });
     wx.navigateTo({
-      url: './my-order?goodsindex=' + 4
+      url: './my-order?page=' + 4
     })
   },
   _doConfirmDeliver(orderId, uid) {
@@ -427,7 +427,7 @@ Page({
       //this._loadOrderData();
       //跳到订单列表
       wx.navigateTo({
-        url: './my-order?goodsindex=' + 3
+        url: './my-order?page=' + 3
       }) 
 
     });

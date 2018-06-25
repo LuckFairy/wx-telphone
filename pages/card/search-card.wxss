@@ -163,7 +163,12 @@ text {
   margin-top: 32rpx;
   margin-left: 18rpx;
 }
-
+.up{
+  border-left: 10rpx solid transparent;
+  border-right: 10rpx solid transparent;
+  border-top: none;
+  border-bottom: 15rpx solid black;
+}
 .wait-choose {
   position: fixed;
   top: 88rpx;

@@ -3,28 +3,41 @@ var post = require('./api_3');
 
 var Api = {
   /*用户登陆授权*/
-  signin: function (callback, tryTimes = 3, user_info) {
+  signin: function (callback, tryTimes = 3, user_info, callback2, locationid) {
     var that = this;
     var uid = wx.getStorageSync('userUid');
     if(uid){console.log('已经登录成功了');return;}
-    console.info('login.......', uid);
-    // 1、调用微信登录
-    wx.login({
-      success: (resp) => {
-        console.log('wx.login()成功！');
-        // 进入第2步
-        _getUserInfo(resp.code).then((rep)=>{
-          console.log('_getUserInfo成功！');
-          let { userInfo, rawData, signature, encryptedData, iv } = rep;
-         // 进入第3步
-          _doSignin(resp.code, rawData, encryptedData, iv, userInfo);
+    //判断用户是否授权
+    wx.getSetting({
+      success: (res) => {
+        console.log(res);
+        var flag = res.authSetting['scope.userInfo'];
+        if (flag == false) {
+          callback2();
+          return;
+        }
+
+        // 1、调用微信登录
+        wx.login({
+          success: (resp) => {
+            console.log('wx.login()成功！');
+            // 进入第2步
+            _getUserInfo(resp.code).then((rep) => {
+              console.log('_getUserInfo成功！');
+              let { userInfo, rawData, signature, encryptedData, iv } = rep;
+              // 进入第3步
+              _doSignin(resp.code, rawData, encryptedData, iv, userInfo);
+            });
+          },
+          fail: (resp) => {
+            console.log('wx.login()失败！', resp);
+            _tryAgain(resp);
+          }
         });
-      },
-      fail: (resp) => {
-        console.log('wx.login()失败！', resp);
-        _tryAgain(resp);
+
       }
-    });
+    })
+   
     /* 2、调用 wx.getUserInfo() 获取微信用户信息}*/
     function _getUserInfo(jscode) {
       return new Promise((resolve, reject) => {
@@ -79,6 +92,8 @@ var Api = {
           }, err => {
             console.error(err);
           })  
+          //6、绑定门店屏
+          if (locationid) { checkUserFirstVisitNew(data.err_msg.uid); }
           typeof callback == 'function' && callback();
 
           return data.err_msg.openid;
@@ -113,17 +128,30 @@ var Api = {
         })
       })
     }
+    /**6、 绑定用户归属门店**/
+    function checkUserFirstVisitNew(uid) {
+      var params = {
+        store_id: config.sid,
+        item_store_id: locationid,
+        uid: uid
+      }
+      post.Api.postApi('screen.php?c=index&a=binding_user', { params }, (err, resp) => {
+        console.info('绑定门店屏返回值', resp);
+        if (err) return;
+        return true;
+      });
+    }
     /*尝试再次登录*/
     function _tryAgain(err) {
       tryTimes--;
       if (tryTimes < 1) {
         console.error('登录失败...');
         console.error('err = %o', err);
-        typeof callback == 'function' && callback(err, null);
+        // typeof callback == 'function' && callback(err, null);
         return;
       }
       console.log('正在尝试第 %d 次登录...', (4 - tryTimes));
-      that.signin(callback, tryTimes);
+      that.signin(callback, tryTimes, user_info, callback2, locationid);
     }
   },
 

@@ -1,8 +1,8 @@
 <import src="../template/get-tel.wxml" />
 <import src="../template/get-info.wxml" />
 
-<template wx:if="{{phoneFlag}}" is="getphone-modal" data="{{templateData}}"></template>
-<template wx:if="{{infoFlag}}"  is="getuserInfo-modal" ></template>
+<template wx:if="{{phoneFlag==true}}" is="getphone-modal" data="{{templateData}}"></template>
+<template wx:if="{{infoFlag==true}}"  is="getuserInfo-modal" ></template>
 <scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
   <view class='wrap'>
     <!--头图  -->
@@ -29,34 +29,34 @@
     </view>
     <!--信息提示区域结束  -->
     <!--列表选项区域  -->
-    <form bindsubmit='sub' report-submit='true'>
+   <form bindsubmit='submitOrder' report-submit='true'>
       <view class='list-select-area'>
         <view class="list-select-area-top">
           <view class='select-list' bindtap="clickGo" data-destination="1">
               <image class='select-list-image' src='{{indexIcon[0].image}}' data-destination="1"></image>
               <text class='select-list-text' data-destination="1">{{indexIcon[0].title}}</text>
-              <button form-type='submit' class='sub-button'  data-destination="1">按钮1</button>
+              <button formType='submit' class='sub-button'  data-destination="1">按钮1</button>
             </view>
             <view class='select-list' bindtap="clickGo" data-destination="2">
                 <image class='select-list-image' src='{{indexIcon[1].image}}' data-destination="2"></image>
                 <text class='select-list-text' data-destination="2">{{indexIcon[1].title}}</text>
-                <button form-type='submit' class='sub-button'  data-destination="2">按钮1</button>
+                <button formType='submit' class='sub-button'  data-destination="2">按钮1</button>
               </view>
               <view class='select-list' data-destination="3" bindtap='clickGo'>
                 <image class='select-list-image' src='{{indexIcon[2].image}}' data-destination="3"></image>
                 <text class='select-list-text' data-destination="3">{{indexIcon[2].title}}</text>
-                <button form-type='submit' class='sub-button'  data-destination="3">按钮1</button>
+                <button formType='submit' class='sub-button'  data-destination="3">按钮1</button>
               </view>
               <view class='select-list' bindtap="clickGo" data-destination="4">
                 <image class='select-list-image' src='{{indexIcon[3].image}}' data-destination="4"></image>
                 <text class='select-list-text' data-destination="4">{{indexIcon[3].title}}</text>
-                <button form-type='submit' class='sub-button'  data-destination="4">按钮1</button>
+                <button formType='submit' class='sub-button'  data-destination="4">按钮1</button>
               </view>
               <view class='select-list' data-destination="5" bindtap='saoma'>
                 <image class='select-list-image' src='{{indexIcon[4].image}}' data-destination="5"></image>
                 <text class='select-list-text' data-destination="5">{{indexIcon[4].title}}</text>
                 <web-view wx:if="{{saoma_url}}" src="{{saoma_url}}" hidden>扫码跳链</web-view>
-                <button form-type='submit' class='sub-button'  data-destination="5">按钮1</button>
+                <button formType='submit' class='sub-button'  data-destination="5">按钮1</button>
               </view>
             </view>
 
@@ -64,28 +64,28 @@
               <view class='select-list' bindtap="clickGoCategory" data-index='0' data-cat-id='{{indexIcon[5].cat_id}}'>
                 <image class='select-list-image' src='{{indexIcon[5].image}}'></image>
                 <text class='select-list-text'>{{indexIcon[5].title}}</text>
-                <button form-type='submit' class='sub-button'>按钮1</button>
+                <button formType='submit' class='sub-button'>按钮1</button>
               </view>
                  <view class='select-list' bindtap="clickGoCategory" data-index='3' data-cat-id='{{indexIcon[8].cat_id}}'>
                 <image class='select-list-image' src='{{indexIcon[8].image}}'></image>
                 <text class='select-list-text'>{{indexIcon[8].title}}</text>
-                <button form-type='submit' class='sub-button'>按钮1</button>
+                <button formType='submit' class='sub-button'>按钮1</button>
               </view>
                <view class='select-list' bindtap="clickGoCategory" data-index='4' data-cat-id='{{indexIcon[9].cat_id}}'>
                 <image class='select-list-image' src='{{indexIcon[9].image}}'></image>
                 <text class='select-list-text'>{{indexIcon[9].title}}</text>
-                <button form-type='submit' class='sub-button'>按钮1</button>
+                <button formType='submit' class='sub-button'>按钮1</button>
               </view>
               <view class='select-list' bindtap="clickGoCategory" data-index='1' data-cat-id='{{indexIcon[6].cat_id}}'>
                 <image class='select-list-image' src='{{indexIcon[6].image}}'></image>
                 <text class='select-list-text'>{{indexIcon[6].title}}</text>
-                <button form-type='submit' class='sub-button'>按钮1</button>
+                <button formType='submit' class='sub-button'>按钮1</button>
               </view>
              
                <view class='select-list' bindtap="clickGoCategory" data-index='2' data-cat-id='{{indexIcon[7].cat_id}}'>
                 <image class='select-list-image' src='{{indexIcon[7].image}}'></image>
                 <text class='select-list-text'>{{indexIcon[7].title}}</text>
-                <button form-type='submit' class='sub-button'>按钮1</button>
+                <button formType='submit' class='sub-button'>按钮1</button>
               </view>
             </view>
           </view>

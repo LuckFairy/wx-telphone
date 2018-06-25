@@ -3049,7 +3049,10 @@ no-border {
   color: #00f;
   text-decoration: underline;
 }
-
+form{
+  width:100%;
+  display: block; 
+}
 .sub-button {
   position: absolute;
   top: 0;
@@ -3058,6 +3061,7 @@ no-border {
   width: 100%;
   height: 100%;
   opacity: 0;
+  z-index: 9999;
 }
 
 .dropload-noData {

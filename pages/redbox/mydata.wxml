@@ -49,7 +49,7 @@
               </view><!-- .selectControl -->
               <view class="submit-button">
                 <text class="xmText specialRedText center">注：立即充值前，请选择一种流量套餐</text>
-                <button form-type="submit" disabled="{{rechargeData == 0}}" class="normalText hotBackgroundColor submit {{rechargeData > 0? '':'forbidden'}}">立即充值</button>
+                <button formType="submit" disabled="{{rechargeData == 0}}" class="normalText hotBackgroundColor submit {{rechargeData > 0? '':'forbidden'}}">立即充值</button>
               </view><!-- .submit-button -->
             </form>
             <!-- 使用说明 -->

@@ -592,6 +592,9 @@ Page({
     wx.showLoading({ title: '请稍候...', mask: true, });
     app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
       wx.hideLoading();
+      setTimeout(()=>{
+        app.send(orderId);
+      },3000);
       // 调起微信支付
       if (err||resp.err_code != 0) {
         wx.showModal({

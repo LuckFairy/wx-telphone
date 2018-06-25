@@ -135,6 +135,7 @@
 </block>
 <!--已经售罄  -->
 <block wx:elif='{{action && (action!=0)}}'>
+<form bindsubmit='sub' report-submit='true'>
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
       <image class='invite-index-image' src='../../image/go-index.png'></image>
@@ -150,14 +151,18 @@
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" style='visibility:hidden' data-product-id='{{product.product_id}}'>
+    <button formType='submit' class='sub-button'  data-destination="3">按钮1</button>
       <text class='add-invite-car-child'>加入购物车</text>
     </view>
     <view class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
+      <button formType='submit' class='sub-button'  data-destination="3">按钮1</button>
       <text class='current-buying-child'>立即购买</text>
     </view>
   </view>
+  </form>
 </block>
 <block wx:else>
+<form bindsubmit='sub' report-submit='true'>
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
       <image class='invite-index-image' src='../../image/go-index.png'></image>
@@ -177,12 +182,15 @@
       <text class='cart-ke-server-text'>购物车</text>
     </view>
     <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}'>
+    <button formType='submit' class='sub-button'  data-destination="3">按钮1</button>
       <text class='add-invite-car-child'>加入购物车</text>
     </view>
     <view class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
       <text class='current-buying-child'>立即购买</text>
+      <button formType='submit' class='sub-button'  data-destination="3">按钮1</button>
     </view>
   </view>
+</form>
 </block>
 <!--按钮结束  -->
 <!-- <view  wx:if='{{moreChoose}}' class='commodity_attr_list-wrap' > -->

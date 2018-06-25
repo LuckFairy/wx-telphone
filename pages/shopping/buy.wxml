@@ -270,7 +270,7 @@
       <text class='actual-pay-two' wx:else>￥ {{lastPay}}</text>
     </view>
     <view class='current-buying invite-total' bindtap="{{submitOk==true?'submitOrder':''}}"  data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>
-      <button form-type='submit' class='sub-button'  data-destination="3">按钮1</button>
+      <button formType='submit' class='sub-button'  data-destination="3">按钮1</button>
       <text class='current-buying-child'>立即购买</text>
     </view>
 </view>

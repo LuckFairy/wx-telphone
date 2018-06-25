@@ -164,7 +164,7 @@
         </view><!-- .option-select-container -->
 
         <view class="submit-button">
-          <button form-type="submit" class="hotBackgroundColor submit">提交试用</button>
+          <button formType="submit" class="hotBackgroundColor submit">提交试用</button>
         </view><!-- .submit-button -->
         
       </view><!-- .form -->

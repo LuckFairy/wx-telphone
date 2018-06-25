@@ -362,7 +362,12 @@ Page({
    * 消息推送
    */
   sub(e) {
-    app.pushId(e);
+    //保存formid
+    app.pushId(e).then(ids => {
+      app.saveId(ids)
+    }, error => {
+      console.info(error);
+    });
   },
   /**
     * 提交订单
@@ -386,6 +391,8 @@ Page({
         content: '收货地址不能为空',
         confirmText: '好的',
         success:function(){
+          //推送消息
+          app.send(that.data.orderId); 
           that.setData({ submitOk: true });
         }
       }); return;
@@ -411,6 +418,8 @@ Page({
           content: msg,
           confirmText: '好的',
           success: function () {
+            //推送消息
+            app.send(that.data.orderId);
             that.setData({ submitOk: true });
           }
         }); return;
@@ -446,6 +455,8 @@ Page({
   _onPaySuccess(res) {
     wx.removeStorageSync('couponInfo');
     var that = this;
+    //推送消息
+    app.send(that.data.orderId);
     // 支付成功弹窗
     that.setData({
       matteShow: true, submitOk: true
@@ -465,6 +476,9 @@ Page({
    * 支付失败
    */
   _onPayFail(err) {
+    var that =this;
+    //推送消息
+    app.send(that.data.orderId);
     // var failUrl = '../shopping/my-order?page=1';
     var failUrl = '../index-new/index-new';
     wx.showModal({

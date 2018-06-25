@@ -11,7 +11,7 @@ App({
     TOKEN_ID: "",
     image: { mode: "aspectFit", lazyLoad: "true" },
     uid: "",//用户id
-    sid: "",//商店id
+    sid: config.sid,//商店id
     openid: "",//用户openid
     formIds: [],//formId数组
     info_flag: true,//是否一键授权用户信息
@@ -34,8 +34,8 @@ App({
   onShow: function () {
     console.log('App onShow() ...');
   },
-  login: function (info) {
-    sign.signin(null, null, info);
+  login: function (info,callback2,locationid) {
+    sign.signin(null, null, info,callback2,locationid);
   },
   d: {
     // hostUrl: 'https://wxplus.paoyeba.com/index.php',
@@ -63,70 +63,71 @@ App({
    *formId  获取form提交生活的form的id
    */
   pushId(e) {
+    console.info('form提交..... ', e.detail);
     var that = this;
-    var uid = wx.getStorageSync('userUid');
-    //用户登录成功,获取uid,sid,openid
-    if (uid) {
-      that.globalData = Object.assign(that.globalData, {
-        uid: wx.getStorageSync('userUid'),
-        sid: that.store_id,
-        openid: wx.getStorageSync('userOpenid')
+    return new Promise((resolve, reject) => {
+      var uid = wx.getStorageSync('userUid');
+      if (uid == undefined || uid == '') {
+        wx.switchTab({
+          url: './pages/index-new/index-new',
+        })
+        console.error('uid为空');
+        reject('uid为空');
+      }else{
+        that.globalData.uid = uid;
+      }
+      let { detail: { formId = '' } } = e;
+      let timeStamp = Date.parse(new Date()) / 1000;//时间戳
+      if (formId.includes('formId')) {
+        wx.showToast({
+          title: '请用手机调试',
+          icon: 'loading',
+          duration: 2000
+        });
+        reject('要使用手机调试才有formId！');return;
+      };
+      if (formId == '') { reject('formId不能为空'); return;}
+      let ids = that.globalData.formIds || [];
+      ids.push({
+        timeStamp,
+        token: formId,
       })
-    } else { return; }
-    console.log('form提交 ', e.detail);
-    let formId = e.detail.formId;
-    let timeStamp = Date.parse(new Date()) /1000;//时间戳
-   console.log(formId);
-    if (formId.indexOf('formId')!=-1) {
-      wx.showToast({
-        title: '请用手机调试',
-        icon: 'loading',
-        duration: 4000
-      });
-      return;
-    };
-    let ids = that.globalData.formIds;
-    ids.push({
-      timeStamp,
-      token: formId,
+      that.globalData.formIds = ids;
+      console.info('form提交.....ids。。。。', ids);
+      resolve(ids);
+   
     })
-    that.globalData.formIds = ids;
-    console.log('formIds......', formId);
-    //提交订单
-    that.submit();
   },
   /**
  * 提交订单
  */
-  submit: function () {
+  saveId: function (formIds) {
     var that = this;
-    if (that.globalData.formIds.length == 0) {
-      wx.showToast({ title: '没有formid值，请点击菜单获取', });
+    if (formIds.length == 0) {
+      wx.showToast({ title: '推送消息失败，无formIds', });
       return;
     };
     var params = {
       "uid": that.globalData.uid,
       "sid": that.globalData.sid,
-      "tokens": that.globalData.formIds
+      "tokens":formIds
     }
-    console.log('submit params', params);
-    that.api.postApi('wxapp.php?c=product_v2&a=test_save', { params }, (err, rep) => {
+    console.log('saveId params。。。。', params);
+    that.api.postApi('wxapp.php?c=tempmsg&a=formid_save', { params }, (err, rep) => {
       console.log('submit ', rep);
-      if (!err && rep.err_code == 0) {
-        that.globalData.formIds = [];
-        that.send();
-      }
+      if (err && rep.err_code != 0) { console.error(err || rep.err_msg) };
     });
   },
-  send: function (e) {
+  send: function (order_no) {
     var that = this;
     var params = {
       "uid": that.globalData.uid,
       "sid": that.globalData.sid,
+      order_no
     };
     console.log('send ', params);
-    that.api.postApi('wxapp.php?c=product_v2&a=test_send', { params }, (err, rep) => {
-      console.log('send....rep',rep);
+    that.api.postApi('wxapp.php?c=tempmsg&a=send', { params }, (err, rep) => {
+      if (err || rep.err_code != 0) { console.error(err || rep.err_msg); return; }
     })
   },
   

@@ -4,6 +4,7 @@ import { getPhoneNumber } from '../template/get-tel.js';
 let errModalConfig = {
   title: '有错误！',
 };
+let uid = wx.getStorageSync('userUid');
 Page({
   data: {
     hasShop: 0,//购物车数量
@@ -228,7 +229,12 @@ Page({
    * 消息推送
    */
   sub(e) {
-    app.pushId(e);
+    //保存formid
+    app.pushId(e).then(ids => {
+      app.saveId(ids)
+    }, error => {
+      console.info(error);
+    });
   },
   //去结算
   bindCheckout: function () {
@@ -282,7 +288,14 @@ Page({
     // 获取店铺id shopId
     var store_id =app.store_id;
     // 获取uid
-    var uid = wx.getStorageSync('userUid');
+   
+    uid = wx.getStorageSync('userUid');
+    if (!uid) {
+      wx.switchTab({
+        url: '../index-new/index-new',
+      })
+    }
+
     that.setData({
       uid, store_id
     });
@@ -316,6 +329,13 @@ Page({
   },
   onShow: function () {
    var that = this;
+   uid = wx.getStorageSync('userUid');
+   if (!uid) {
+     wx.switchTab({
+       url: '../index-new/index-new',
+     })
+   }
+
    that.checkPhone();
    var hasShop = that.data.hasShop;//有无商品
  
