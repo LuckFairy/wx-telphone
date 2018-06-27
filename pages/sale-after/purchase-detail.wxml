@@ -1,0 +1,59 @@
+<view class='service-detail' wx:if='{{status==25}}'>
+  <view class='server-detail-number'>
+    <text class='server-number-text'>服务单号:</text>
+    <text class='server-number-order'>{{order_no}}</text>
+  </view>
+  <view class='server-detail-number server-detail-number-two'>
+    <text class='server-number-text'>审核进度:</text>
+    <text class='server-number-order'>{{statustxt}}</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title'>审核反馈信息</text>
+    <text class='server-feedback-detail'>{{statustxt}}</text>    
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title-two'>客服微信：</text>
+    <text class='server-feedback-title-two' selectable='true'>yzkf139</text>
+    <text class='server-feedback-detail'>微信号长按可复制</text>
+  </view>
+</view>
+
+<view class='service-detail' wx:elif='{{status==26}}'>
+  <view class='server-detail-number'>
+    <text class='server-number-text'>服务单号:</text>
+    <text class='server-number-order'>{{order_no}}</text>
+  </view>
+  <view class='server-detail-number server-detail-number-two'>
+    <text class='server-number-text'>审核进度:</text>
+    <text class='server-number-order'>{{statustxt}}</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title'>审核反馈信息</text>
+    <text class='server-feedback-detail'>{{statustxt}}</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title-two'>客服微信：</text>
+    <text class='server-feedback-title-two' selectable='true'>yzkf139</text>
+    <text class='server-feedback-detail'>微信号长按可复制</text>
+  </view>
+</view>
+
+<view class='service-detail' wx:else>
+  <view class='server-detail-number'>
+    <text class='server-number-text'>服务单号:</text>
+    <text class='server-number-order'>{{order_no}}</text>
+  </view>
+  <view class='server-detail-number server-detail-number-two'>
+    <text class='server-number-text'>审核进度:</text>
+    <text class='server-number-order'>{{statustxt}}</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title'>审核反馈信息</text>
+    <text class='server-feedback-detail'>{{statustxt}}</text>
+  </view>
+  <view class='server-feedback'>
+    <text class='server-feedback-title-two'>客服电话：</text>
+    <text catchtap='calling'  class='calling'>400-6088-520</text>
+    <!-- <text class='server-feedback-detail'>微信号长按可复制</text> -->
+  </view>
+</view>

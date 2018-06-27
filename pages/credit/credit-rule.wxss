@@ -1,0 +1,16 @@
+.container {
+  display: block;
+  padding: 20rpx;
+}
+
+.section {
+  margin-bottom: 36rpx;
+  flex-direction: column;
+}
+.section>text {
+  margin: 4rpx 0;
+  line-height: 138%;
+}
+.section .title {
+  margin: 20rpx 0;
+}

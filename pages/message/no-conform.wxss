@@ -1,0 +1,28 @@
+.container {
+  display: block;
+}
+
+.cell {
+  padding: 24rpx;
+}
+.messageImage {
+  width: 70rpx;
+  margin-right: 20rpx;
+}
+.info {
+  flex: 1;
+  flex-direction: column;
+}
+
+.footer {
+  justify-content: flex-end;
+  color: #666;
+}
+
+.convertButton {
+  margin-top: 24rpx;
+  padding: 10rpx 30rpx;
+  text-align: center;
+  min-width: 76rpx;
+  font-weight: 500;
+}

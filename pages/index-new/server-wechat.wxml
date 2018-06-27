@@ -1,0 +1,9 @@
+<view class="server">
+  <image class='server-image' src='../../image/server-wechat.png'></image>
+  <view class='server-text'><text>亲,如您在购物过程中有购买,支付和退款的疑问,请随时拨打我们的客服热线：</text><text catchtap='calling' class='calling'>400-6088-520</text><text>，我们竭诚为您服务！</text></view>
+  <!-- <view class='server-tecent-wechat'  >
+    <text class='server-wechat server-wechat-total'>客服微信：</text>
+    <text class='server-copy server-wechat-total' selectable="true">zyyytxwd</text>
+  </view>
+  <text class='server-message server-wechat-total' >微信号长按可复制</text> -->
+</view>

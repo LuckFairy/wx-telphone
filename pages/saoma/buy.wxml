@@ -1,0 +1,320 @@
+<!-- //错误信息提示 -->
+<view wx:if="{{error==false?false:error}}" class="form-err-view">
+  <view class="form-err-view">
+    <text class="form-err-text">{{error}}</text>
+  </view>
+</view>
+<!-- //错误信息提示结束 -->
+
+<!-- 邮件方式 -->
+<!--扫码确认订单  -->
+<scroll-view scroll-y="{{true}}" class='main-container'>
+
+
+<view class="content-top">
+  <view class='nav-header-view normalText' >
+    <view class="ship-method-item {{curActIndex=='0'?'active':''}}" data-idx="0" bindtap="changeCurActIndex">
+      <text>邮寄</text>
+    </view>
+    <view class="ship-method-item {{curActIndex=='1'?'active':''}}" data-idx="1" bindtap="changeCurActIndex" hidden="true">
+      <text>配送</text>
+    </view>
+    <view class="ship-method-item {{curActIndex=='2'?'active':''}}" data-idx="2" bindtap="changeCurActIndex">
+      <text>自提</text>
+    </view>
+  </view>
+
+  <!-- 邮件方式详细内容展示区-->
+
+    <!--邮寄  -->
+    <view class='content-youji' wx:if="{{curActIndex=='0'}}">
+        <view class="addr-section" bindtap="addrViewClick">
+          <view class='address-list'>
+            <image class='address-image' src='../../image/address.png'></image>
+          </view>
+          <view wx:if="{{address}}" class="addr-item-view">
+            <view class="name-phone-view">
+              <view class="people-name">{{address.name}}: </view>
+              <view class="people-name">{{address.tel}}</view>
+              <view class='people-default'>默认</view>
+            </view>
+            <view class="addr-dtl-view">收货地址： {{address.province_txt + address.city_txt + address.area_txt + address.address}}</view>
+          </view>
+          <view wx:else class="addressNew">
+            新建收货地址
+          </view>
+          <view class='address-go'>
+            <image class='address-go-image' src='../../image/address-go.png'></image>
+          </view>
+        </view>
+    </view>
+    <!--配送  -->
+    <view wx:elif="{{curActIndex=='1'}}">
+      <scroll-view scroll-y="{{true}}">
+        <view class='shop-intro'>
+          <view class='intro-left'>满300元，免配送费！</view>
+          <view class='intro-right' bindtap='showMehodModel'>配送费用说明</view>
+        </view>
+        <view class='shop-area' style="border-bottom:1rpx solid #e5e5e5;">
+          <navigator url="../saoma/saoma-ziti-address" class='shop-area-right'>
+            <image class='icon' src='../../image/shop-icon.png'></image>
+            <text>切换门店</text>
+          </navigator>
+          <view class='shop-area-left' wx:if="{{physicalClost}}">
+             <text class='title'>{{physicalClost.name}}</text>
+            <text class='message'>{{physicalClostClost.address}}</text>
+          </view>
+
+        </view>
+        <view class="addr-section" bindtap="addrViewClick">
+          <view class='address-list'>
+            <image class='address-image' src='../../image/address.png'></image>
+          </view>
+          <view wx:if="{{address}}" class="addr-item-view">
+            <view class="name-phone-view">
+              <view class="people-name">{{address.name}}: </view>
+              <view class="people-name">{{address.tel}}</view>
+              <view class='people-default'>默认</view>
+            </view>
+            <view class="addr-dtl-view">收货地址： {{address.province_txt + address.city_txt + address.area_txt + address.address}}</view>
+          </view>
+          <view wx:else class="addressNew">
+            新建收货地址
+          </view>
+          <view class='address-go'>
+            <image class='address-go-image' src='../../image/address-go.png'></image>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <!--自提  -->
+    <view class='content-ziti' wx:elif="{{curActIndex=='2'}}">
+        <view class='input-area'>
+          <view class='input-item'>
+            <label>
+              <text>收货人</text>
+              <input name="fullname" placeholder='请输入收货人姓名' confirm-type="next"  bindblur="pullname" />
+            </label>
+          </view>
+          <view class='input-item'>
+            <label>
+              <text>手机号码</text>
+              <input name="telephone" placeholder='请输入收货人手机号' maxlength="11" type="number" bindblur="pulltelephone" />
+            </label>
+          </view>
+        </view>
+        <view class='shop-area'>
+          <navigator url="../saoma/store-list?check=true" class='shop-area-right'>
+            <image class='icon' src='../../image/shop-icon.png'></image>
+            <text>切换门店</text>
+          </navigator>
+          <view class='shop-area-left'>
+            <text class='title'>{{physicalClost.name}}</text>
+            <text class='message'>{{physicalClost.address}}</text>
+          </view>
+        </view>
+    </view>
+  </view>
+  <!-- 邮件方式详细内容展示区结束-->
+
+
+
+
+
+<!--阴影  -->
+<view class='shadow-list'>
+  <image class='shadow-color' src='../../image/shadow-color.png'></image>
+  <text class='shadow-bg'></text>
+</view>
+<view class="buy-containner">
+  <view class="content-view">
+    <view class="goods-section" wx:for="{{products}}" wx:key="{{item.productId}}">
+      <view class="goods-view border-bottom">
+        <view class="goods-icon-view">
+          <image class="goods-image" src="{{item.image}}" style="width:100%;;" mode="widthFix"></image>
+        </view>
+        <view class="order-info-view">
+          <view class="goods-name-view">
+            <view class="">{{item.name}}</view>
+            <view style="font-size:20rpx;color:grey;margin-bottom:5px;"></view>
+          </view>
+          <block>
+            <view>
+              <text class='goods-color-name' wx:if="{{item.sku_data.length > 0}}" wx:for="{{item.sku_data}}" wx:for-item="item2">{{item2.name}}:{{item2.value}} </text>
+            </view>
+          </block>
+          <!-- <block wx:if="{{productColor}}">
+            <view class="prod-price-view">
+              颜色：{{productColor}} 尺码：{{productSize}}
+            </view>
+          </block> -->
+          <!-- <block wx:else>
+            <view class="prod-price-view">
+              数量：{{num}}
+            </view>
+          </block> -->
+
+          <view class="prod-price-view pro-yet-price">
+            <view class="money-text">￥{{item.pro_price}}</view>
+            <view class="base-price" style="margin-left: 20rpx;">￥{{item.pro_price}}</view>
+            <view style="flex: 1"></view>
+            <view class="amount">x{{item.pro_num}}</view>
+          </view>
+        </view>
+      </view>
+      <!--
+        <view class="discount-view border-bottom">
+            <view class="">活动优惠价</view>
+            <view class="money-text">{{item.priceText}}</view>
+        </view>
+        -->
+      <!-- <view class="prod-fee-view">
+        <view class="">需付费</view>
+        <view style="flex: 1"></view>
+        <view class="money-text">{{item.totalText}}</view>
+      </view> -->
+      <view class="item-split-line"></view>
+    </view>
+
+    <!-- .view-main-container -->
+  </view>
+  <!-- .content-view -->
+
+  <!-- .bottom-view -->
+  <view wx:if="{{showAreaPicer}}" style="position: absolute; width: 100%; height: 250px;  bottom: 0">
+    <picker-view class="addr-picker-view" indicator-style="height: 50px;" value="{{[selectedZoneIndex, selectedCityIndex, selectedDistrictIndex]}}" bindchange="bindAddrPickerChange">
+      <picker-view-column>
+        <view wx:for="{{zoneList}}" wx:key="{{index}}" class="picker-item-view" style="padding-left: 15px;">{{item.name}}</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{cityList}}" wx:key="{{index}}" class="picker-item-view">{{item.name}}</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{districtList}}" wx:key="{{index}}" class="picker-item-view" style="padding-right: 15px;">{{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+    <text class="navigator specialRedText areaButton" catchtap="hideAreaPickerView" style="z-index: 100000000;">确定</text>
+  </view>
+</view>
+<!--优惠券选择  -->
+<view class='discount' bindtap='changeCoupon' data-total_id='{{totalId}}' data-sub_total='{{sub_total}}'>
+  <text class='discount-text'>优惠券</text>
+  <view class='discount-father'>
+    <block wx:if="{{couponInfo.length}}">
+      <text class='discount-ticket  discount-ticket-checked'>{{couponInfo[1]}}</text>
+    </block>
+    <block wx:elif="{{normal_coupon_count}}">
+      <text class='discount-ticket'>有<text class="discount-ticket-have">{{normal_coupon_count}}</text>张可用</text>
+    </block>
+    <block wx:else>
+      <text class='discount-ticket discount-ticket-no'>无可用</text>
+    </block>
+    <image class='discount-go ' src='../../image/address-go.png'></image>
+  </view>
+</view>
+<!--优惠券选择结束  -->
+<view class="item-split-line"></view>
+<view class='discount discount-list'>
+  <text class='discount-text'>商品金额</text>
+  <view class='discount-father'>
+    <text class='discount-ticket-price discount-color-red'>￥{{sub_total}}</text>
+  </view>
+</view>
+<view class='discount discount-list'>
+  <text class='discount-text'>运费</text>
+  <view class='discount-father'>
+    <text class='discount-ticket-price discount-color-red'>+￥{{postage_int}}</text>
+  </view>
+</view>
+<view class='discount discount-list'>
+  <text class='discount-text'>优惠券</text>
+  <view class='discount-father'>
+    <block wx:if="{{couponInfo.length}}">
+      <text class='discount-ticket-price discount-color-red'>-￥{{couponInfo[2]}}</text>
+    </block>
+    <block wx:else>
+      <text class='discount-ticket-price discount-color-red'>-￥0.00</text>
+    </block>
+  </view>
+</view>
+
+</scroll-view>
+
+<!--公众号开始 
+<view wx:if="{{showAreaPicer}}" catchtap="hideAreaPickerView" class="overlayer"></view>
+
+<view class='official-accounts' wx:if="{{showwechat}}">
+  <view class='off-acc-title'>
+    <image class='off-acc-close' src="../../image/close-btn.png" bindtap='closewechat'></image>
+    <image class='off-acc-decorade' src='../../image/longpress.png'></image>
+  </view>
+  <view class='atttention-wechat-wrap'>
+    <text class='atten-webchat-title atten-webchat-notice'>注：</text>
+    <text class='atten-webchat-title atten-webchat-text'>关注公众号“婴众趣购”，才能收到免单购获奖通知哦</text>
+    <view class='attention-wechat'>
+      <text class='wechat-public'>微信公众号：</text>
+      <text class='wechat-public-tetx' selectable="true">yzqg123</text>
+      <text class='wechat-copy'>长按可复制</text>
+    </view>
+  </view>
+</view>
+ -->
+<!--公众号结束  -->
+<!-- <view class="bottom-view">
+   <view wx:if="{{totals.shipping}}" class="sub-fee-view">
+    <view class="">邮费</view>
+    <view class="money-text">{{totals.shipping.text}}</view>
+  </view>
+  <view class="total-fee-view">
+    <view class="">应付总额</view>
+    <view class="money-text">{{totals.total.text}}</view>
+  </view> 
+
+   <view class="confirm-btn-view">
+    <text class=''>实付款</text>
+    <text>{{totals.total.text}}</text>
+    <text class="confirm-btn" bindtap="submitOrder">提交订单</text> 
+        <text wx:if="{{!error}}" class="confirm-btn" bindtap="submitOrder">提交订单</text>
+        <text wx:else class="confirm-btn">提交订单</text>
+        
+  </view> 
+</view>  -->
+<view class="invite-friend-cluster">
+  <view class='invite-total actual-payment'>
+    <text class='actual-pay-one'>实付款: </text>
+    <text class='actual-pay-two' wx:if='{{(lastPay-couponInfo[2]>0)&&couponInfo[2]}}'>￥ {{lastPay - couponInfo[2]}}</text>
+    <text class='actual-pay-two' wx:elif='{{(lastPay-couponInfo[2]<=0)&&couponInfo[2]}}'>￥ 0</text>
+    <text class='actual-pay-two' wx:else> {{lastPay}}</text>
+  </view>
+  <view class='current-buying invite-total' bindtap="submitOrder">
+    <text class='current-buying-child'>立即购买</text>
+  </view>
+</view>
+<!--购买成功之后弹窗  -->
+<view class='matte-hint-father' wx:if="{{matteShow}}" >
+  <view class='matte-hint'>
+    <image class='matte-close matte-total' bindtap='closeBtn' src='../../image/order-success-close.png'></image>
+    <image class='matte-icon matte-total' src='../../image/success-icon.png'></image>
+    <text class='matte-success matte-total'>购买成功</text>
+    <text class='matte-detail matte-total'>恭喜你，已经购买成功</text>
+  </view>
+</view>
+
+<!--购买成功之后弹窗结束  -->
+<!--配送费用说明  -->
+<view class='overlay-modal' wx:if="{{methodShow}}" >
+  <view class='overlay' bindtap='closeMethod'></view>
+  <view class='overlay-boby'>
+    <view class='overlay-title'>配送费用说明</view>
+    <view class='overlay-content'>
+    <text>1.满300元免配送费。</text>
+    <text>2.满150元不足300元，配送费10元。</text>
+    <text>1.不足150元，配送费20元。</text>
+    </view>
+    <view class='overlay-footer' bindtap='closeMethod'>知道了</view>
+  </view>
+</view>
+<!--手机提示弹窗  -->
+<view class='formModal' wx:if="{{showFormError}}" >
+  <text>{{formErrorMsg}}</text>
+</view>

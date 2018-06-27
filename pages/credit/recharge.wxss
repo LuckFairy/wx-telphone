@@ -1,0 +1,30 @@
+.container {
+  flex-direction: column;
+  padding: 24rpx;
+  min-height: 100vh;
+}
+.header {
+  justify-content: center;
+  align-items: center;
+  margin: 60rpx 0;
+  width: 100%;
+}
+.header-image {
+  width: 500rpx;
+}
+
+.section {
+  flex-direction: column;
+}
+.input {
+  margin-bottom: 30rpx;
+  background-color: #f2f2f2; 
+  padding: 20rpx;
+}
+
+.rechargeButton {
+  text-align: center;
+  padding: 24rpx;
+  font-weight: 600;
+  margin-top: 60rpx; 
+}

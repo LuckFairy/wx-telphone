@@ -1,0 +1,86 @@
+<!--拼团成功开始  -->
+    <view class="invite-friend-group">
+      <view class="invite-friend-pho">
+        <block wx:for='{{userdata.pic}}' wx:key="{{index}}">
+        <image class="inv-image" src="{{userdata.pic[index]}}"></image>
+        </block>
+      </view>
+    <view class="invite-fri-num">
+    <!-- <text class="peo-need total-peo-number">还差 </text>
+    <text class="peo-number total-peo-number">22</text>
+    <text class="peo-text total-peo-number"> 人，</text> -->
+    <image class='peo-group-image' src='../../image/group-mes.png'></image>
+    <text class="peo-time total-peo-number">拼团成功</text>
+  </view>
+  <view class="invite-friend-cluster">
+    <text class="invite-friend-text" bindtap='goGrounpTab'>去拼团栏目看看</text>
+  </view>
+</view>
+    <!--拼团成功结束  -->
+<!--详情信息模块  -->
+<view class="commodity-group">
+<navigator url='../group-buying/group-buying?prodId={{prodId}}&groupbuyId={{groupbuyId}}'>
+  <view class="commodity-detail" bindtap='shopDetail'  style='display:none'>
+      <text class="com-det">商品详情</text>
+      <image class="com-go" src='../../image/go-forward.png'></image>
+  </view>
+</navigator>  
+  <!--
+  <view class="group-time">
+    <text class="gro-timing">收货人</text>
+    <text class="name-gro-peo">{{userdata.name}}</text>
+  </view>
+  <view class="group-time">
+    <text class="gro-timing">手机号码</text>
+    <text class="time-date">{{userdata.telephone}}</text>
+  </view>
+  <view class="group-time">
+    <text class="gro-timing">收货地址</text>
+    <text class="time-date">{{userdata.adress}}</text>
+  </view>
+  -->
+  <view class="group-time">
+    <text class="gro-timing">成团时间</text>
+    <text class="time-date">{{userdata.successTime}}</text>
+  </view>
+  <view class="group-notice">
+    <text class="gro-not">拼团须知</text>
+    <text class="gro-text-known">好友参团.人满发货.人不满退款</text>
+  </view>
+</view>
+<!--详情信息结束  -->
+<!--热门推荐  -->
+<!--热门推荐开始  -->
+    <view class="hot-list-gro">
+        <text class="hot-list-gro-text">热门推荐</text>
+    </view>
+    <!--热门推荐结束  -->
+    <view class="group-shop-father">
+            <!-- <navigator class="group-shop" url="../group-buying/group-buying?prodId={{item.productId}}&groupbuyId={{item.groupbuyId}}"> -->
+           <view class="group-shop" wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}" bindtap='goGroupDetail' data-productId='{{item.productId}}' data-groupbyId='{{item.groupbuyId}}' data-sellDetail='{{(item.quantity>0)?1:0}}'> 
+                <image class="group-shop-image" src="{{item.productPic}}"></image>
+                <text class="group-shop-title">{{item.productName}}</text>
+                <view class='group-shopping-wraps'>
+                  <text class="group-shop-num">￥{{item.groupbuyPrice}}</text>
+                  <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
+                </view>
+                <!--在售  -->
+               <view class="group-shop-bottom" wx:if='{{item.quantity>0}}'>
+                    <view class='group-shopping-father'>
+                      <text class="gro-pre" style='display:none'>已团{{item.gbnum}}件</text>
+                      <text class="gro-pre">仅剩{{item.quantity}}件</text>
+                    </view>
+                    <text class='shopping-go-group'>去开团</text>
+               </view>
+                <!--在售  -->
+                <!--已售罄  -->
+                <view class="group-shop-bottom" wx:if='{{item.quantity<=0}}'>
+                    <view class='group-shopping-father'>
+                      <text class="gro-pre">{{item.gbnum+item.quantity}}件已售完</text>
+                    </view>
+                    <text class='shopping-go-group-end'>已售罄</text>
+                </view>
+                <!--已售罄结束  -->
+            </view>
+    </view>
+<!--热门推荐结束  -->

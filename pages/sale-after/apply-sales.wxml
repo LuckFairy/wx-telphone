@@ -1,0 +1,48 @@
+<view class='wrap'>
+  <!--顶部商品信息  -->
+  <view class='apply-shopping'>
+    <image class='apply-shopping-img' src='{{dataList.image}}'></image>
+    <view class='apply-shopping-detail'>
+      <view class='apply-shopping-title'>
+        <text class='apply-shopping-text'>{{dataList.name}}</text>
+        <text class='apply-shopping-num'>X{{dataList.pro_num}}</text>
+      </view>
+    
+     <view class='apply-shopping-size'>
+        <text  wx:if="{{dataList.sku_arr.length > 0 }}" wx:for="{{dataList.sku_arr}}" wx:for-item="item2" >{{item2.name}}:{{item2.value}} </text>
+      </view>
+      <view class='apply-shopping-money'>
+        <text class='apply-shopping-money-text'>金额：</text>
+        <text class='apply-shopping-money-num'>￥{{dataList.pro_price}}</text>
+      </view>
+    </view>
+  </view>
+  <!--顶部商品信息结束  -->
+  <!--服务类型选项开始  -->
+  
+  <view class='apply-type'>
+    <text class='apply-type-title'>服务类型</text>
+    <view class='apply-type-detail' bindtap='turnColor'>
+      <text class='apply-type-sales-return apply-type-sales-total {{turnStatus==1?"turn-color":""}}' data-status='1'>退货</text>
+      <text class='apply-type-sales-exchange apply-type-sales-total {{turnStatus==2?"turn-color":""}}' data-status='2'>换货</text>
+      <text class='apply-type-sales-maintain apply-type-sales-total {{turnStatus==3?"turn-color":""}}' data-status='3'>维修</text>
+      <text class='apply-type-sales-reissue apply-type-sales-total {{turnStatus==4?"turn-color":""}}' data-status='4'>补发商品</text>
+    </view>
+  </view>
+  <!--服务类型选项结束  -->
+  <!--提交申请开始  -->
+  <view class='apply-applications'>
+    <image class='apply-applications-image' src='../../image/server-wechat.png'></image>
+    <text class='apply-applications-hint'>注:提交申请后,请再联系客服电话
+</text>
+    <view class='apply-applications-wechat'>
+      <text class='apply-applications-text'>客服电话:</text>
+        <text catchtap='calling' class='calling'>400-6088-520</text>
+      <!-- <text class='apply-applications-rem' selectable='true'>zyyytxwd</text> -->
+    </view>
+    <!-- <text class='apply-applications-copy'>长按微信号可复制</text>-->
+    <text class='apply-applications-submit apply-applications-submit-total' bindtap='goSubmit' data-order-id='{{orderId}}' data-status='{{turnStatus}}' data-product-id='{{productId}}' wx:if='{{showHide}}'>提交申请</text>
+     <text wx:if='{{!showHide}}' class='apply-applications-yet apply-applications-submit-total'>已经提交申请</text>  
+  </view>
+  <!--提交申请结束  -->
+</view>

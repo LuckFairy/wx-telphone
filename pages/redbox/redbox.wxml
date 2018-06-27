@@ -1,0 +1,41 @@
+<view class="containner">
+    <view class="statistics mText">
+        <navigator url="./mydata" class="cell">
+            <text>我的流量额： </text>
+            <text class="specialRedText">{{countFlow}}M</text>
+        </navigator>
+        <view class="divider" />
+        <navigator url="../card/mycard" class="cell">
+            <text>我的优惠券： </text>
+            <text class="specialRedText">{{countCard}}张</text>
+        </navigator>
+    </view>
+    <view class="redbox-view">
+        <image src="../../image/rp_bg.png"  style="width:700rpx;" class='redbox-view-img'></image>
+        <view class="redbox-cover-view">
+            <view class="cover-button-view">
+                <image src="../../image/rp_button.png" mode="widthFix" class="open-btn-img" bindtap="{{leftTime ? 'doOpen' : '' }}" animation="{{animationData}}"></image>
+            </view>
+            <view class="cover-text-view {{leftTime ? 'show' : 'hide'}}">
+                <text>趣小秘</text>
+                <text style="font-size:25rpx;color:rgba(255,255,255,0.7);margin-top:5rpx;">给您发了一个红包</text>
+            </view>
+            <view class="cover-text-view {{leftTime ? 'hide' : 'show'}}">
+                <text style="margin-bottom:10rpx;font-size:28rpx;">今天所有的红包都被你领完了哦</text>
+                <text style="font-size:28rpx;">明天继续</text>
+            </view>
+            <view class="cover-bottom-btn-view">
+                <!--<view class="bottom-btn {{leftTime ? 'hide' : 'show'}}">去看看</view>-->
+            </view>
+        </view>
+    </view>
+    <!--<view class="bottom-view">-->
+    <!--<image src="../../image/ap_home_rp_flow.png" mode="widthFix" style="width:40rpx;margin-right:5px;"></image>-->
+    <!--<navigator url="./mydata" class="btn-myflow">我的流量</navigator>-->
+    <!--</view>-->
+    <image class='prize' src='https://saas.qutego.com/upload/images/prize.gif' bindtap="goCanvas"></image>
+    <!-- <view>
+        <web-view src="https://saas.qutego.com/wap/lottery.php?action=detail&id=9&store_id=6">ssss</web-view>
+    </view> -->
+    
+</view>

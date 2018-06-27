@@ -1,0 +1,182 @@
+<!-- 顶部团情况 -->
+    <view class="all-list">
+        <view class="all-com-fri-det">
+            <view class="all-commodity-img">
+                <image class="all-com" src="{{data.productPic}}"></image>
+            </view>
+            <view class="all-commodity-text">
+                <view class="all-com-tit">
+                    <text class="all-com-detail">{{data.productName}}</text>
+                    <text class="all-com-num">x 1</text>
+                </view>
+                <view class="current-price-time">
+                    <text class="now-price">参团价：</text>
+                    <text class="now-pri-text">￥{{data.groupbuyPrice}}</text>
+                    <text class="count-down">原价：</text>
+                    <text class="group-now">￥{{data.productPrice}}</text>
+                </view>
+                <view class='people-groups'>
+                  <text class='peo-gro-num'>{{data.groupbuyNumber}}人团</text>
+                  <text class='join-people'>参与人数{{data.joinNumber}}</text>
+                </view>
+            </view>
+        </view>
+    </view> 
+    <!--顶部团情况结束  -->
+
+    <!--多规格内容 2017年8月14日15:55:23  by leo-->
+<view class="commodity_attr_list">
+  <!--每组属性-->
+  <view class="attr_box" wx:for="{{attrValueList}}" wx:for-item="attrValueObj" wx:for-index="attrIndex">
+      <!--属性名-->
+      <view class="attr_name">{{attrValueObj.attrKey}}</view>
+      <!--属性值-->
+      <view class="attr_value_box">
+          <!--每个属性值-->
+          <view class="attr_value {{attrIndex==firstIndex || attrValueObj.attrValueStatus[valueIndex]?(value==attrValueObj.selectedValue?'attr_value_active':''):'attr_value_disabled'}}" bindtap="selectAttrValue" data-status="{{attrValueObj.attrValueStatus[valueIndex]}}"
+              data-value="{{value}}" data-key="{{attrValueObj.attrKey}}" data-index="{{attrIndex}}" data-selectedvalue="{{attrValueObj.selectedValue}}" wx:for="{{attrValueObj.attrValues}}" wx:for-item="value" wx:for-index="valueIndex">{{value}}</view>
+      </view>
+
+  </view>
+
+  <!--
+  <view class="attr_box_test" wx:if="{{skuId}}">
+      <view class="attr_name">库存</view>
+      <view class="attr_value_box attr-value-quantity">{{num}}</view>
+  </view>
+  -->
+  
+</view>
+<!--多规格内容 end-->
+<!--颜色、尺码、购买数量  -->
+<!-- 数量的增减start -->
+<view class='stepper-wrap'>
+  <!-- 数量的增减start -->
+<view class="stepper">
+<text class='ste-number'>购买数量</text>
+    <view class='stepper-father'>
+      <!-- 减号 -->
+    <text class="{{minusStatus}} ste-reduce" bindtap="bindMinus">-</text>
+    <!-- 数值 -->
+    <input class='ste-input-num' type="number" bindchange="bindManual" value="{{num}}" />
+    <!-- 加号 -->
+    <text class="normal ste-add" bindtap="bindPlus">+</text>
+    </view>
+    
+</view>
+<!-- 数量的增减end -->
+</view>
+<!-- 数量的增减end -->
+    <!--中间一键开团  -->
+  <view class="invite-friend-group">
+      <scroll-view scroll-x  class="invite-friend-pho">
+        <image class="inv-image inv-image_2" src="{{item}}"  wx:for="{{data.pic}}"  wx:key="item"></image>
+        <view wx:for="{{img}}" class='invite-friend-img' wx:if="{{img[0]}}">
+            <image src="{{item.src}}" class="inv-image"></image>
+        </view>
+        <!-- <image class="inv-image" src="../../image/noNull.png" wx:if="{{data.groupbuyOrderStatus==1}}"></image> -->
+      </scroll-view>
+      <view class="invite-fri-num">
+          <!-- <text class="peo-need total-peo-number">还差 </text>
+          <text class="peo-number total-peo-number">22</text>
+          <text class="peo-text total-peo-number"> 人，</text> -->
+          <image class='peo-group-image' src='../../image/group-mes.png'></image>
+          <text class="peo-time total-peo-number" wx:if="{{data.groupbuyOrderStatus==1}}">仅剩下<text class='text-num'>{{data.lacknum}}</text>名额，
+              <text wx:if="{{data.countDown['day']}}">{{data.countDown['day']}}天后结束</text>
+              <text wx:elif="{{item.countDown['hour']}} || {{data.countDown['minute']}} || {{item.countDown['second']}}" >{{data.countDown['hour']}}:{{data.countDown['minute']}}:{{data.countDown['second']}}后结束</text>
+              <text class='peo-pro-last-time' wx:else >已结束</text>
+          </text>
+          <text class="peo-time total-peo-number" wx:if="{{data.groupbuyOrderStatus==2}}">团已满</text>
+      </view>
+      <view class="invite-friend-cluster" wx:if="{{data.groupbuyOrderStatus!=2}}">
+        <text class="invite-friend-text" bindtap="doBuy">一键参团</text>
+      </view>
+      <view class="invite-friend-cluster" wx:if="{{data.groupbuyOrderStatus==2}}">
+        <text class="invite-friend-text" bindtap="doAddBuy" data-ordertype='2'>一键开团</text>
+      </view>
+  </view>
+    <!--中间一键结束  -->
+
+<!--拼图须知  -->
+<view class="commodity-group">
+  <view class="group-notice">
+    <text class="gro-not">拼团须知</text>
+    <text class="gro-text-known">好友参团.人满发货.人不满退款</text>
+  </view>
+</view>
+<!--拼图须知结束  -->
+
+<!--他人正在开团开始  -->
+<view class='other-group' style='display:none'>
+  <view class='other-group-top'>
+    <text class='other-group-text'>他人正在开团</text>
+    <view class="other-block" bindtap="clickReplace">
+      <image class='other-group-img' src='../../image/re-update.png'></image>
+      <text class='other-group-re'>换一批</text>
+    </view>
+  </view>
+  
+  <!--换一换数据列表 start-->
+  <view class='people-group-list'  wx:for="{{replaceData}}"  wx:key="item">
+    <image class='peo-gro-list-img' src='{{item.pic}}'></image>
+    <view class='peo-pro-list-father'>
+      <text class='peo-pro-list-one'>{{item.name}} </text>
+      <view class='peo-pro-list-wrap'>
+        <text class='peo-pro-list-two'>还差</text>
+        <text class='peo-pro-list-two'>{{item.lacknum}}</text>
+        <text class='peo-pro-list-two'>人</text>
+    
+        <text class='peo-pro-last-time' wx:if="{{item.countDown['day']}}">{{item.countDown['day']}}天后结束</text>
+        <text class='peo-pro-last-time' wx:else >{{item.countDown['hour']}}:{{item.countDown['minute']}}:{{item.countDown['second']}}后结束</text>
+        <text class='peo-pro-go-gro' bindtap="joinGroup">去参团</text>
+      </view>
+    </view>
+  </view>
+  <!--换一换数据列表 end-->
+</view>
+<!--他人正在开团结束  -->
+
+
+
+
+
+<!--热门推荐  -->
+<!--热门推荐开始  -->
+    <view class="hot-list-gro">
+        <text class="hot-list-gro-text">热门推荐</text>
+    </view>
+    <!--热门推荐结束  -->
+    <!--拼团购  -->
+        <view class="group-shop-father">  
+            <view class="group-shop" wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}" bindtap='goGroupDetail' data-productId='{{item.productId}}' data-groupbyId='{{item.groupbuyId}}' data-sellDetail='{{(item.quantity>0)?1:0}}'>
+                <image class="group-shop-image" src="{{item.productPic}}"></image>
+                <text class="group-shop-title">{{item.productName}}</text>
+                <view class='group-shopping-wraps'>
+                  <text class="gro-pre">已团{{item.gbnum}}件</text>
+                </view>
+                <!--在售  -->
+               <view class="group-shop-bottom" wx:if='{{item.quantity>0}}'>
+                    <view class='group-shopping-father'>
+                      <text class="group-shop-num">
+                        <text>￥</text><text class="group-shop-num2">{{item.groupbuyPrice?item.groupbuyPrice:item.productPrice}}</text></text>
+                      <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
+                     <!--<text class="gro-pre">仅剩{{item.quantity}}件</text>--> 
+                    </view>
+                    <text class='shopping-go-group'>去开团</text>
+               </view>
+                <!--在售  -->
+                <!--已售罄  -->
+                <view class="group-shop-bottom" wx:if='{{item.quantity<=0}}'>
+                    <view class='group-shopping-father'>
+                      <text class="group-shop-num">
+                        <text>￥</text><text class="group-shop-num2">{{item.groupbuyPrice?item.groupbuyPrice:item.productPrice}}</text></text>
+                      <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
+                     <!--<text class="gro-pre">仅剩{{item.quantity}}件</text>--> 
+                    </view>
+                    <text class='shopping-go-group-end'>已售罄</text>
+                </view>
+                <!--已售罄结束  -->
+            </view>
+        </view>
+        <!--拼团购  -->
+<!--热门推荐结束  -->

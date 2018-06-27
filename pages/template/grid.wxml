@@ -1,0 +1,12 @@
+<template name="grid">
+  <view class="section-grid">
+    <navigator wx:for="{{data}}" wx:key="{{item._key}}" url="{{item.href}}">
+      <view class="section-grid-cell">
+          <image wx:if="{{item.image}}" class="section-grid-image" src="{{item.image}}" mode="aspectFit" />
+          <text wx:if="{{item.icon}}" class="fa fa-{{item.icon}}" style="color: {{item.color}};"></text>
+          <text wx:if="{{item.title}}" class="title-text">{{item.title}}</text>
+          <text wx:if="{{item.summary}}" class="detail-text">{{item.summary}}</text> 
+      </view>
+    </navigator>
+  </view>
+</template>  

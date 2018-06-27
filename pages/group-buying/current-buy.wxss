@@ -1,0 +1,222 @@
+page{
+    background: #efefef;
+}
+/*轮播图以及详情   */
+.slide-image{
+  width: 750rpx;
+  height: 672rpx;
+}
+.swiper-list{
+  width: 750rpx;
+  height: 672rpx;
+}
+.middle-box{
+  width: 750rpx;
+  display: block;
+  padding-top: 24rpx;
+  padding-left: 24rpx;
+  background: #ffffff;
+}
+.middle-title{
+  font-size: 34rpx;
+}
+.mid-list-zero{
+    font-size: 30rpx;
+    color: #ff3030;
+    line-height: 70rpx;
+}
+.mid-list-one{
+    font-size: 46rpx;
+    color: #ff3030;
+}
+.mid-list-two{
+    font-size: 24rpx;
+    color: #a9a9a9;
+    line-height: 76rpx;
+    margin-left: 10rpx;
+    margin-right: 10rpx;
+}
+.mid-total{
+    color: #fff;
+    font-size: 24rpx;
+    background: #FF8383;
+    width: 80rpx;
+    height: 42rpx;
+    line-height: 42rpx;
+    text-align: center;
+    margin-top: 8rpx;
+    margin-right: 10rpx;
+    border-radius: 5rpx;
+}
+.mid-list-five{
+    background: #ff1d33;
+    font-size: 26rpx;
+    color: #fff;
+    height: 42rpx;
+    line-height: 42rpx;
+    margin-left: 38rpx;
+    margin-top: 8rpx;
+    padding: 0rpx 10rpx;
+    border-radius: 18rpx;
+    margin-right: 10rpx;
+}
+ .mid-list-six{
+    font-size: 24rpx;
+    line-height: 60rpx;
+}
+.mid-list-seven{
+    font-size: 24rpx;
+    color: #ff1d33;
+    line-height: 60rpx;
+} 
+/*轮播图以及详情结束  */
+/*底部详情图片  */
+.bot-image{
+  display: block;
+}
+.bot-image,.bot-img-detail{
+    width: 100%;
+}
+/*参团  */
+/*按钮  */
+.invite-friend-cluster{
+    background: #FFE71C;
+    height: 88rpx;
+    width: 750rpx;
+    line-height: 88rpx;
+    position: fixed;
+    bottom: 0rpx;
+}
+.invite-friend-text{
+    font-size: 36rpx;
+    text-align: center;
+    width: 750rpx;
+}
+/*按钮结束  */
+/*颜色、尺码、购买数量开始  */
+.color-list,.select-color-list,.color-size-number{
+  display: block;
+}
+.color-size-number{
+  padding-top: 30rpx;
+  background: #ffffff;
+  border-top: 1rpx solid #efefef;
+  border-bottom: 1rpx solid #efefef;
+}
+.color-list-text{
+  font-size: 30rpx;
+  color: #1b1b1b;
+  display: block;
+  padding-left: 24rpx;
+  padding-bottom: 16rpx;
+}
+.select-color-list{
+  color: #1b1b1b;
+  font-size: 30rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+}
+.color-list{
+  padding-bottom: 14rpx;
+  border-bottom: 1rpx solid #ececec;
+}
+.choose-your-color{
+  display: inline-block;
+  width: 153rpx;
+  height: 57rpx;
+  line-height: 57rpx;
+  /* border: 2rpx solid #efefef; */
+  border-radius: 6rpx;
+  text-align: center;
+  color: #99999;
+  margin-right: 30rpx;
+  background: #ccc;
+  margin-bottom: 16rpx;
+}
+.choose-your-color:nth-child(4n){
+   margin-right: 0rpx; 
+}
+.size-list{
+  display: block;
+  margin-top: 30rpx;
+}
+.size-list-text{
+  font-size: 30rpx;
+  size: #1b1b1b;
+  display: block;
+  padding-left: 24rpx;
+  padding-bottom: 16rpx;
+}
+.select-size-list{
+  size: #1b1b1b;
+  font-size: 30rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+}
+.size-list{
+  padding-bottom: 14rpx;
+  border-bottom: 1rpx solid #ececec;
+}
+.choose-your-size{
+  display: inline-block;
+  width: 83rpx;
+  height: 57rpx;
+  line-height: 57rpx;
+  /* border: 2rpx solid #efefef; */
+  border-radius: 6rpx;
+  text-align: center;
+  size: #99999;
+  margin-right: 30rpx;
+  background: #ccc;
+  margin-bottom: 16rpx;
+}
+.choose-your-size:nth-child(4n){
+   margin-right: 0rpx; 
+}
+.buy-list{
+  display: block;
+  font-size: 30rpx;
+  color: #1b1b1b;
+  margin: 0 24rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+}
+.buy-list-wrap{
+  font-size: 30rpx;
+  display: inline-block;
+  float: right;
+}
+.buy-list-num{
+  display: inline-block;
+  width: 65rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #1b1b1b;
+  text-align: center;
+  background: #f5f5f5;
+  margin-left: 3rpx;
+  margin-right: 3rpx;
+}
+.buy-list-sub,.buy-list-add{
+  display: inline-block;
+  width: 56rpx;
+  height: 50rpx;
+  background: #f5f5f5;
+  line-height: 50rpx;
+  text-align: center;
+  color: #1b1b1b;
+}
+/*颜色、尺码、购买数量结束  */
+/*商品介绍  */
+.products{
+  height: 88rpx;
+  line-height: 88rpx;
+  display: block;
+  font-size: 30rpx;
+  background: #ffffff;
+  margin-top: 16rpx;
+}
+.buy-pro{
+  margin-left: 24rpx;
+}
+/*商品介绍结束  */

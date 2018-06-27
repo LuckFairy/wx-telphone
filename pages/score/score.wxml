@@ -1,0 +1,28 @@
+<view class="container">
+    <view class="summary">
+        <text>我的积分</text>
+        <text class="score-num-sum">{{total ? total : 0}}</text>
+    </view>
+    <view class="list-view">
+        <block wx:for="{{scoreRecList}}" wx:for-item="recItem" wx:key="rec-{{Math.rand()}}">
+            <view class="sp-line"></view>
+            <view class="list-item-view">
+                <view class="list-item-score-view">
+                    <text class="score-date">{{recItem.scoreTime}}</text>
+                    <text class="score-count">{{recItem.score}}</text>
+                </view>
+                <view class="list-item-score-rec-view">
+                    <text class="goods-name">{{recItem.goodsName}}</text>
+                    <text class="goods-price">￥{{recItem.payPrice}}</text>
+                </view>
+            </view>
+            <view class="sp-line"></view>
+        </block>
+        <block wx:if="{{!scoreRecList || scoreRecList.length < 1}}">
+            <view class="sp-line"></view>
+            <view class="no-rec-notice">
+                <text>暂无积分记录</text>
+            </view>
+        </block>
+    </view>
+</view>
