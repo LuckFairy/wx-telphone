@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 import { ajax } from './api_1';
-import config from '../config';
+import config from '../config.js';
 
 var Api = {
   api: ajax,
@@ -19,7 +18,6 @@ var Api = {
           callback2();
           return;
         }
-
 
         // 1、调用微信登录
         wx.login({
@@ -164,77 +162,3 @@ var Api = {
 };
 var sign = Api;
 module.exports = { Api, sign };
-=======
-const util = require('util.js');
-const VERSION = '1.0.0';
-const APP_ID = 13;
-const systemInfo = wx.getSystemInfoSync();
-const IS_DEBUG=false;
-
-const AGENT_ID = 2;   // 上线时需要根据实际数据修改
-// let SERVER_URL ="https://saas.qutego.com/";
-let SERVER_URL = "https://api.ljxhlaw.com/";
-var Network = {
-  fetchApi(url, header, callback) {
-    url = SERVER_URL + url;
-    wx.request({
-      url,
-      data: {},
-      header: header,
-      success(res) {
-        typeof callback === 'function' && callback(null, res.data)
-        if (IS_DEBUG) {
-          console.log("GET请求的url：" + url + " 参数：" + JSON.stringify(params) + " 数据返回：" + JSON.stringify(res.data))
-        }      
-      },
-      fail(e) {
-        typeof callback === 'function' && callback(e)
-      }
-    })
-  },
-  postApi(url, params, header, callback) {
-    url = SERVER_URL + url;
-    wx.request({
-      url,
-      data: params,
-      method: 'POST',
-      header: header,
-      success(res) {
-        typeof callback === 'function' && callback(null, res.data, res.statusCode)
-        if (IS_DEBUG){
-          console.log("POST请求的url：" + url + " 参数：" + JSON.stringify(params) + " 数据返回：" + JSON.stringify(res.data))
-        }
-      },
-      fail(e) {
-        typeof callback === 'function' && callback(e)
-      }
-    })
-  }
-};
-var Api = {
-  // GET 方式请求，要自己拼装URL参数
-  fetchApi(url, callback) {
-    let timestamp = parseInt(new Date().getTime() / 1000) + '';
-    let pos = url.indexOf('?') + 1;
-    let urlparams = pos === 0 ? '' : url.substring(pos);
-    let sign = util.signUrl(urlparams, timestamp);
-    let header = { 'X-Sign': sign, 'X-Timestamp': timestamp, 'X-Agent-Id': AGENT_ID };
-    Network.fetchApi(url, header, callback);
-  },
-  // POST 方式请求
-  postApi(url, params, callback) {
-    let formdata = '';
-    for (var key in params) {
-      formdata += '&' + key + '=' + params[key];
-    }
-    let timestamp = parseInt(new Date().getTime() / 1000) + "";
-    let sign = util.signUrl(formdata, timestamp);
-    let header = { 'Content-Type': 'application/json', 'X-Sign': sign, 'X-Timestamp': timestamp, 'X-Agent-Id': AGENT_ID };
-    Network.postApi(url, params, header, callback);
-  }
-  
-}
-
-// module.exports.Api = Api;
-module.exports = { Api, Network};
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0

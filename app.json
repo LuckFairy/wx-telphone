@@ -1,11 +1,9 @@
 {
   "pages": [
-<<<<<<< HEAD
     "page/tabBar/home/index-new",
     "page/tabBar/shopping/shoppstore-index",
     "page/tabBar/goods/cart",
     "page/tabBar/my/myself",
-    
     "page/common/pages/address-list",
     "page/common/pages/address",
     "page/common/pages/buy",
@@ -36,99 +34,11 @@
     "page/group-buying/group-join",
     "page/group-buying/tuan-detail",
     "pages/qrcode/qr-entry"
-=======
-      "pages/index-new/index-new",
-  "pages/saoma/saoma-index",        
-    "pages/saoma/store-list",
-    "pages/saoma/saoma-ziti-address",
-    "pages/saoma/buy",
-    "pages/index-new/index-mom",
-    "pages/card/mycard",
-    "pages/shopping/buycard",
-    "pages/shopping/address-list",
-    "pages/shopping/address",
-    "pages/index-new/index-boabao",
-    "pages/card/search-card",
-    "pages/index-new/shop-promotion",
-    "pages/index-new/shop-list",
-    "pages/sale-after/apply-sales",
-    "pages/sale-after/purchase-refund",
-    "pages/sale-after/purchase-detail",
-    "pages/shopping/my-order",
-    "pages/index-new/server-wechat",
-    "pages/index-new/detail-shopping",
-    "pages/index-new/myself",
-    "pages/index-new/seckill-detail",
-    "pages/index-new/baobao-detail",
-    "pages/index-new/index-seckill",
-    "pages/group-buying/current-buy",
-    "pages/present/present",
-    "pages/activity/category-1",
-    "pages/qrcode/qr-entry",
-    "pages/shopping/trial-apply",
-    "pages/shopping/goods-detail",
-    "pages/shopping/list",
-    "pages/shopping/order-express",
-    "pages/shopping/order-detail",
-    "pages/shopping/buy",
-    "pages/store/store-list",
-    "pages/store/store-detail",
-    "pages/card/card_summary",
-    "pages/card/card_detail",
-    "pages/activity/activity",
-    "pages/activity/hotsale",
-    "pages/cart/cart",
-    "pages/score/score",
-    "pages/present/present-apply",
-    "pages/credit/credit",
-    "pages/credit/credit-rule",
-    "pages/credit/in-ex-details",
-    "pages/credit/credit-exchange",
-    "pages/credit/recharge",
-    "pages/message/message",
-    "pages/message/no-conform",
-    "pages/redbox/redbox",
-    "pages/redbox/open-result",
-    "pages/redbox/mydata",
-    "pages/cart/buy",
-    "pages/group-buying/group-buying",
-    "pages/cluster/cluser-wait",
-    "pages/cluster/failed-detail",
-    "pages/cluster/failed",
-    "pages/cluster/cluster",
-    "pages/cluster/cluster-in",
-    "pages/cluster/cluster-wait-detail",
-    "pages/cluster/grouplist",
-    "pages/group-buying/colonel",
-    "pages/cluster/cluster-other",
-    "pages/group-buying/test-link",
-    "pages/group-buying/group-hot",
-    "pages/cluster/cluster-success",
-    "pages/cluster/submit-order",
-    "pages/group-buying/buy",
-    "pages/group-buying/group-join",
-    "pages/group-buying/address",
-    "pages/group-buying/address-list",
-    "pages/index-new/goods-detail",
-    "pages/index-new/address",
-    "pages/index-new/address-list",
-    "pages/index-new/buy",
-    "pages/list/list",
-    "pages/canvas/canvas",
-    "pages/shoppstore/shoppstore-index",
-    "pages/saoma/coupon-list",
-    "pages/index-new/poster-detail",
-    "pages/index-new/index-activity"
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
   ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
-<<<<<<< HEAD
     "navigationBarTitleText": "婴众趣购",
-=======
-    "navigationBarTitleText": "趣购新零售",
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -138,54 +48,31 @@
     "backgroundColor": "#fff",
     "list": [
       {
-<<<<<<< HEAD
         "pagePath": "page/tabBar/home/index-new",
-=======
-        "pagePath": "pages/index-new/index-new",
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
         "text": "首页",
         "iconPath": "image/index-list.png",
         "selectedIconPath": "image/index-list-select.png"
       },
       {
-<<<<<<< HEAD
         "pagePath": "page/tabBar/shopping/shoppstore-index",
-=======
-        "pagePath": "pages/shoppstore/shoppstore-index",
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
         "text": "商城",
         "iconPath": "image/shoppstore.png",
         "selectedIconPath": "image/shoppstore-select.png" 
       },
       {
-<<<<<<< HEAD
         "pagePath": "page/tabBar/goods/cart",
-=======
-        "pagePath": "pages/saoma/saoma-index",
-        "text": "扫码购",
-        "iconPath": "image/ma_icon_saoma.png",
-        "selectedIconPath": "image/ma_icon_saoma_select.png"
-      },
-      {
-        "pagePath": "pages/cart/cart",
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
         "text": "购物车",
         "iconPath": "image/shoppingcart.png",
         "selectedIconPath": "image/shoppingcart-select.png"
       },
       {
-<<<<<<< HEAD
         "pagePath": "page/tabBar/my/myself",
-=======
-        "pagePath": "pages/index-new/myself",
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
         "text": "我的",
         "iconPath": "image/mine-msg.png",
         "selectedIconPath": "image/mine-msg-select.png"
       }
     ]
   },
-<<<<<<< HEAD
   "subPackages": [
     {
       "root": "page/home/",
@@ -221,8 +108,5 @@
       ]
     }
   ],
- 
-=======
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
   "debug": true
 }

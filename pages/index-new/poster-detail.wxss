@@ -1,5 +1,0 @@
-/* pages/index-new/poster-detail.wxss */
-view,image{
-  width: 100%;
-  height: 100%;
-}

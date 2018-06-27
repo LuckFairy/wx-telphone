@@ -1,26 +1,14 @@
-<<<<<<< HEAD
 import config from '../config.js';
 import { Api } from './api_1';
-=======
-const md5 = require('./md5.js');
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
 function formatTime(date) {
   var date = new Date(date * 1000);//如果date为10位不需要乘1000
   var year = date.getFullYear()
   var month = date.getMonth() + 1
   var day = date.getDate()
-<<<<<<< HEAD
   var hour = date.getHours()
   var minute = date.getMinutes()
   var second = date.getSeconds()
   return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
-=======
-
-  var hour = date.getHours()
-  var minute = date.getMinutes()
-  var second = date.getSeconds()
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
 }
 function formatNumber(n) {
   n = n.toString()
@@ -49,23 +37,6 @@ function getUrlQueryParam(url, paramName) {
 function formatMoney(money) {
   return '￥' + money / 100;
 }
-<<<<<<< HEAD
-=======
-function signUrl(url, tokenId, secretKey, timestamp) {
-  if (!url) url = '';
-
-  // let pos = url.indexOf('?') + 1;
-  // let urlparams = pos === 0 ? '' : url.substring(pos);
-
-  // TODO: 有bug，参数里带有=号，会被split掉
-  let params = url.split('&').filter(x => x[0] != '_').sort().join('').split('=').join('') + '';
-  params = params + timestamp + tokenId + secretKey;
-  console.debug('排序后请求参数：%s', params);
-  let sign = md5(params);
-  console.debug('签名: %s', sign);
-  return sign;
-}
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
 
 /**
   * 验证手机号码
@@ -80,7 +51,6 @@ function signUrl(url, tokenId, secretKey, timestamp) {
 function checkMobile(str) {
   return /^1[3|4|5|7|8][0-9]\d{8}$/.test(str);
 }
-<<<<<<< HEAD
 /**检验是否绑定手机 */
 function checkBingPhone(uid, store_id) {
   return new Promise((resolve, reject) => {
@@ -141,26 +111,3 @@ function getAddress() {
 
 
 module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile, checkBingPhone, getAddress}
-=======
-/**
- * 判断是否是pc端
- */
-function isPC() {
-  var userAgentInfo = wx.getSystemInfoSync();
-  userAgentInfo = userAgentInfo.platform.toLowerCase();
-  var Agents = ["Android", "iPhone",
-    "SymbianOS", "Windows Phone",
-    "iPad", "iPod"];
-  var flag = true;
-  for (var v = 0; v < Agents.length; v++) {
-    var str = Agents[v].toLowerCase();
-    if (userAgentInfo.indexOf(str) > -1) {
-      flag = false;
-      break;
-    }
-  }
-  return flag;
-}
-
-module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, signUrl, checkMobile,isPC }
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0

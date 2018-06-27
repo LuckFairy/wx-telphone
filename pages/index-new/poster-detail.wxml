@@ -1,3 +1,0 @@
-<view>
-<image  src="{{posterDetail.rediurl}}"></image>
-</view>

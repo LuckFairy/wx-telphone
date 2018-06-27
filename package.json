@@ -1,22 +1,12 @@
 {
-<<<<<<< HEAD
-  "name": "yingzong-phonethree",
-  "version": "1.0.0",
-  "description": "婴众趣购",
-=======
   "name": "yiya-weixin-1-31",
   "version": "1.0.0",
-  "description": "年前咿呀商城版本",
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
+  "description": "趣购精选",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-<<<<<<< HEAD
   "author": "amy",
-=======
-  "author": "",
->>>>>>> 21901e419ae1221bb76d7fc9fb9ef2e4806801a0
   "license": "ISC",
   "dependencies": {
     "gulp": "^3.9.1"

@@ -1,8 +1,0 @@
-<template name="list-sm">
-  <view class="section-list-sm">
-      <view wx:for="{{data}}" wx:key="{{item._key}}" class="section-list-sm-row">
-        <text class="section-list-sm-row-title">{{item.title || ''}}</text>
-        <text class="section-list-sm-row-summary">{{item.summary || ''}}</text>
-      </view>
-  </view>
-</template>  
