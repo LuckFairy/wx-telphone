@@ -1,0 +1,114 @@
+{
+  "pages": [
+    "page/tabBar/home/index-new",
+    "page/tabBar/shopping/shoppstore-index",
+    "page/tabBar/goods/cart",
+    "page/tabBar/my/myself",
+    
+    "page/common/pages/address-list",
+    "page/common/pages/address",
+    "page/common/pages/buy",
+    "page/common/pages/card_detail",
+    "page/common/pages/card_summary",
+    "page/common/pages/goods-detail",
+    "page/common/pages/hotsale",
+    "page/common/pages/index-activity",
+    "page/common/pages/index-boabao",
+    "page/common/pages/index-mom",
+    "page/common/pages/my-order",
+    "page/common/pages/mycard",
+    "page/common/pages/mydata",
+    "page/common/pages/open-result",
+    "page/common/pages/redbox",
+    "page/common/pages/score",
+    "page/common/pages/search-card",
+    "page/common/pages/shop-list",
+    "page/common/pages/shop-promotion",
+    "page/common/pages/store-detail",
+    "page/common/pages/store-list",
+
+    "page/group-buying/group-buying",
+    "page/group-buying/index-seckill",
+    "page/group-buying/grouplist",
+    "page/group-buying/my-order",
+    "page/group-buying/detail",
+    "page/group-buying/group-join",
+    "page/group-buying/tuan-detail",
+    "pages/qrcode/qr-entry"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FFE546",
+    "navigationBarTitleText": "婴众趣购",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#7f8389",
+    "selectedColor": "#2d2727",
+    "borderStyle": "e5e5e5",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "page/tabBar/home/index-new",
+        "text": "首页",
+        "iconPath": "image/index-list.png",
+        "selectedIconPath": "image/index-list-select.png"
+      },
+      {
+        "pagePath": "page/tabBar/shopping/shoppstore-index",
+        "text": "商城",
+        "iconPath": "image/shoppstore.png",
+        "selectedIconPath": "image/shoppstore-select.png" 
+      },
+      {
+        "pagePath": "page/tabBar/goods/cart",
+        "text": "购物车",
+        "iconPath": "image/shoppingcart.png",
+        "selectedIconPath": "image/shoppingcart-select.png"
+      },
+      {
+        "pagePath": "page/tabBar/my/myself",
+        "text": "我的",
+        "iconPath": "image/mine-msg.png",
+        "selectedIconPath": "image/mine-msg-select.png"
+      }
+    ]
+  },
+  "subPackages": [
+    {
+      "root": "page/home/",
+      "pages": [
+        "pages/poster-detail",
+        "pages/present",
+        "pages/present-apply"
+      ]
+    },
+    {
+      "root": "page/shopping/",
+      "pages": [
+        "pages/buycard",
+        "pages/list",
+        "pages/order-detail",
+        "pages/order-express",
+        "pages/trial-apply"
+      ]
+    },
+    {
+      "root": "page/goods/",
+      "pages": [
+
+      ]
+    },
+    {
+      "root": "page/my/",
+      "pages": [
+        "pages/server-wechat",
+        "pages/purchase-detail",
+        "pages/apply-sales",
+        "pages/bingPhone"
+      ]
+    }
+  ],
+ 
+  "debug": true
+}

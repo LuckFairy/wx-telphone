@@ -1,0 +1,64 @@
+page{
+  background-color:#fff;
+}
+.addr-containner {
+  flex-direction: column;
+  /* padding-top: 32px; */
+}
+
+.item-view {
+  width: 750rpx;
+  padding: 10rpx 0rpx;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 25rpx;
+  align-items: center;
+  height: 80rpx;
+}
+
+.title {
+  width: 160rpx;
+  text-align: right;
+  margin-right: 15rpx;
+  color: #666;
+}
+
+icon{
+  margin-left: 25rpx !important;
+}
+
+.picker {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 50rpx;
+}
+
+.picker-text {
+  line-height: 50rpx;
+  flex: 1;
+  height: 50rpx;
+}
+
+.picker-indicator {
+  color: #aaa;
+  font-size: 20rpx;
+}
+
+.save-btn-view {
+  width: 750rpx;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 30rpx;
+}
+
+.save-btn {
+  width: 660rpx;
+  font-size: 25rpx;
+  background-color: #ffe546;
+  color: #7d6800;
+  text-align: center;
+  padding: 10px;
+}
+
+

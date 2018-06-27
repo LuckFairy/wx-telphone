@@ -1,0 +1,61 @@
+<!-- 顶部团情况 -->
+    <view class="all-list">
+        <view class="all-com-fri-det">
+            <view class="all-commodity-img">
+                <image class="all-com" src="../../../image/clus-list-img.jpg"></image>
+            </view>
+            <view class="all-commodity-text">
+                <view class="all-com-tit">
+                    <text class="all-com-detail">gggl方法来开封广播嗯嗯</text>
+                    <text class="all-com-num">x 1</text>
+                </view>
+                <view class="current-price-time">
+                    <text class="now-price">参团价：</text>
+                    <text class="now-pri-text">￥1212</text>
+                    <text class="count-down">原价：</text>
+                    <text class="group-now">￥123</text>
+                </view>
+                <view class='people-groups'>
+                  <text class='peo-gro-num'>2人团</text>
+                  <text class='join-people'>参与人数1112</text>
+                </view>
+            </view>
+        </view>
+    </view> 
+    <!--顶部团情况结束  -->
+    <!--收货地址列表开始  -->
+    <view class='address-wrap'>
+      <view class='address-title'>
+        <image class='address-mail-img' src='../../../image/beautiful-see.png'></image>
+        <text class='address-mail'>邮寄</text>
+      </view>
+      <view class='address-list'>
+        <input class='addr-list-total' placeholder-class="pla-addr-list" placeholder='收件人姓名（请填写真实姓名）'></input>
+        <input class='addr-list-total' placeholder-class="pla-addr-list" placeholder='手机号码' type='number'></input>
+        <input class='addr-list-total' placeholder-class="pla-addr-list" placeholder='所在地区'></input>
+        <input class='addr-list-total' placeholder-class="pla-addr-list" placeholder='详细地址'></input>
+      </view>
+    </view>
+    <!--收货地址列表结束  -->
+    <!--应付总额开始  -->
+    <view class='should-pay-total'>
+      <text class='should-payment'>应付总额</text>
+      <text class='should-pay-money'>￥9900</text>
+    </view>
+    <!--应付总额结束  -->
+
+    <!--模板消息测试 start-->
+    <view class='should-pay-total'>
+      <form bindsubmit="fromid" report-submit>
+        <view> 
+          <button formType="submit">模板消息</button> 
+        </view>  
+      </form>
+    </view>
+    <!--模板消息测试 start-->
+
+    <!--提交订单开始  -->
+    <view class='submit-order'>
+      <text class='submit-order-text'>提交订单</text>
+    </view>
+    <!--提交订单结束  -->

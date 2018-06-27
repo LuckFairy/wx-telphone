@@ -1,0 +1,321 @@
+/*拼团失败  */
+view{
+  overflow: hidden;
+}
+.fail-list-total{
+    background: #efefef;
+    display: block;
+}
+.fail-title{
+    height: 140rpx;
+    width: 750rpx;
+    background: #fff;
+}
+.fail-title>view{
+    flex-direction: column;
+}
+.fail-img{
+    width: 68rpx;
+    height: 68rpx;
+    margin: 36rpx 16rpx 36rpx 40rpx;
+}
+.fail-text{
+    font-size: 30rpx;
+    color: #1b1b1b;
+    width: 420rpx;
+    margin-top: 36rpx;
+}
+.fail-text_2{
+  font-size: 26rpx;
+  color: rgba(27, 27, 27, .7);
+}
+.fail-back-money{
+    font-size: 26rpx;
+    color: #fff;
+    background: #ff3030;
+    height: 60rpx;
+    width: 205rpx;
+    line-height: 60rpx;
+    text-align: center;
+    margin-top: 40rpx;
+    margin-right: 24rpx;
+    padding-left: 0rpx;
+    padding-right: 0rpx;
+    box-sizing: content-box;
+    border-radius:10rpx;
+}
+/*拼团失败结束  */
+/* <!--地址开始  -->  */
+.fail-address{
+    width: 750rpx;
+    display: inline-block;
+    margin-top: 16rpx;
+    background: #fff;
+}
+.fail-user{
+    height: 89rpx;
+    line-height: 89rpx;
+}
+.fail-addr-img{
+    display: inline-block;
+    width: 24rpx;
+    height: 32rpx;
+    margin-top: 27rpx;
+    margin-left: 24rpx;
+    margin-right: 10rpx;
+}
+.fail-addr-name{
+    display: inline-block;
+    font-size: 30rpx;
+    color: #1b1b1b;
+    width: 300rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 100rpx;
+}
+.fail-addr-phone{
+    display: inline-block;
+    font-size: 28rpx;
+    color: #1b1b1b;
+    width: 300rpx;
+    margin-right: 24rpx;
+    text-align: right;
+    margin-top: 5rpx;
+}
+.detail-address{
+    display: inline-block;
+    font-size: 26rpx;
+    color: #1b1b1b;
+    margin-left: 58rpx;
+    margin-right: 144rpx;
+    width: 548rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 26rpx;
+}
+/* <!--地址结束  -->  */
+/*团详情开始  */
+
+.all-list {
+    width: 750rpx;
+    background: #fff;
+    padding-top: 30rpx;
+    display: block;
+    margin-top: 16rpx;
+}
+
+.all-commodity-img {
+    width: 160rpx;
+    height: 160rpx;
+    display: inline-block;
+}
+
+.all-com-tit {
+    height: 40rpx;
+    line-height: 40rpx;
+}
+
+.all-com {
+    width: 160rpx;
+    height: 160rpx;
+    border: 1rpx solid #efefef;
+}
+
+.all-commodity-text {
+    display: inline-block;
+    margin-left: 30rpx;
+    margin-top: 8rpx;
+}
+
+.all-com-detail {
+    font-size: 28rpx;
+    color: #1b1b1b;
+    width: 450rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.all-com-num {
+    font-size: 34rpx;
+    color: #a9a9a9;
+}
+
+.all-com-size {
+    font-size: 24rpx;
+    color: #a9a9a9;
+    margin-top: 16rpx;
+}
+
+.current-price-time {
+    height: 30rpx;
+    line-height: 30rpx;
+    margin-top: 36rpx;
+}
+
+.now-price {
+    font-size: 24rpx;
+    color: #a9a9a9;
+}
+
+.now-pri-text {
+    font-size: 30rpx;
+    color: #ff3030;
+    width: 140rpx;
+}
+
+.count-down {
+    font-size: 24rpx;
+    width: 180rpx;
+    margin-right: 7rpx;
+}
+
+.group-now {
+    font-size: 26rpx;
+    color: #ff3030;
+    width: 112rpx;
+    text-align: right;
+}
+
+.all-com-fri-det {
+    border-bottom: 1rpx solid #efefef;
+    margin:  0rpx 24rpx;
+    padding-bottom: 30rpx;
+}
+.invite-friend-detail{
+    display: block;
+}
+.inv-total{
+    font-size: 28rpx;
+    color: #b5b5b5;
+    width: 206rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+   
+    display: inline-block;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.invite-detail{
+     color:#1b1b1b; 
+     border: 1rpx solid #EFEFEF;
+     background-color: #FFE546;
+}
+.invite-friend{
+    margin-right: 32rpx;
+    border: none；
+}
+.invite-friend-detail{
+    margin: 10rpx 24rpx 10rpx 275rpx;
+}
+.all-list:not(:last-child){
+    margin-bottom: 16rpx;
+}
+/*团详情结束  */
+/*热门推荐  */
+.hot-list-gro{
+    height: 88rpx;
+    line-height: 88rpx;
+    text-align: center;
+    background: #ffffff;
+    width: 750rpx;
+}
+.hot-list-gro-text{
+    text-align: center;
+    display: block;
+     width: 750rpx;
+}
+/*拼团购  */
+.group-shop-father{
+  display: block;
+  width: 750rpx;
+}
+.group-shop{
+  width: 367rpx;
+  display: inline-block;
+  background: #fff;
+  margin-top: 15rpx;
+}
+.group-shop-image{
+  width: 367rpx;
+  height: 367rpx;
+}
+.group-shop-title{
+  width: 335rpx;
+  font-size: 24rpx;
+  display: block;
+  margin: 0 20rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  margin-bottom: 18rpx;
+}
+.bac-color{
+   background: #EFEFEF;
+   width: 100%;
+}
+.group-shop:nth-child(2n){
+  margin-left: 16rpx;
+}
+.group-shopping-wraps{
+  display: flex;
+  justify-content: space-between;
+  margin: 0rpx 24rpx;
+}
+.group-shop-num{
+  font-size: 24rpx;
+  display: inline-block;
+  text-align: left;
+ color: #FF0000
+}
+.group-shop-num2{
+  font-size: 34rpx;
+  color: #FF0000
+}
+.group-shop-num-two{
+  color: #999999;
+}
+.group-shop-bottom{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 65rpx;
+  margin-bottom: 20rpx;
+  padding: 0 24rpx;
+  width: 367rpx;
+}
+.group-shopping-father{
+  font-size: 0rpx;
+  display: inline-block;
+}
+.shopping-go-group{
+  width: 130rpx;
+  font-size: 24rpx;
+  background: #FF0000;
+  display: inline-block;
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #ffffff;
+  border-radius: 5rpx;
+  text-align: center;
+}
+.gro-pre{
+  font-size: 24rpx;
+  display: block;
+}
+.shopping-go-group-end{
+  width: 130rpx;
+  font-size: 24rpx;
+  background: #999999;
+  display: inline-block;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  color: #ffffff;
+  border-radius: 5rpx;
+}

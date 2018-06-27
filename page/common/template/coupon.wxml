@@ -1,0 +1,42 @@
+<!-- ************* 首页新用户领券的弹出框 **************-->
+<!--
+		券列表
+    两个按钮
+-->
+<!-- 
+	couponCancel:  点击取消按钮
+  couponConfirm: 点击确认按钮
+ -->
+<template name="coupon-modal">
+<view wx:if="{{showModel}}" bindtap="cancelCoupon" class="overlay">
+  <view class="overlay-content getCoupon-content">
+    <view class="getCoupon-title">
+      <text class="modal-firstText">新用户专享券</text>
+    </view>
+    <view class='couponlist-wrap'>
+      <block wx:if="{{couponList.length > 0}}" wx:for="{{couponList}}">
+        <view class='couponlist-item' bindtap='getItem'>
+          <view class='coupon-list-item-left'>
+            <text class='list-title'>{{item.name}}</text>
+            <text class='list-time'>有效期到{{item.end_time_str}}</text>
+          </view>
+          <view class='coupon-list-item-right'>
+            <view class='list-up'>
+              ￥
+              <text class='big'>{{item.face_money}}</text>
+            </view>
+            <view>
+              <button>抵扣券</button>
+            </view>
+          </view>
+        </view>
+      </block>
+
+    </view>
+    <view class="getcoupon-bottom-button-wrap">
+      <button class='couponConfirm' catchtap='getCoupon'>立即领取</button>
+    </view>
+    <icon class='couponCancel' catchtap='cancelCoupon' type='cancel' size='30' color='#fff'></icon>
+  </view>
+</view>
+</template>

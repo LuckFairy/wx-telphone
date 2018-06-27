@@ -1,0 +1,73 @@
+<!-- 备份旧tab_bar -->
+<template name="menu_bar">
+  <scroll-view class="hot-goods-view" scroll-y="{{true}}">
+    <view class="card-list-view">
+      <block wx:for="{{cardList}}" wx:for-item="card" wx:key="{{card.cardId}}">
+        <navigator url="../card/card_detail">
+          <view class="card-item-view">
+            <view class="card-img-view">
+              <image src="{{card.cardImgurl}}" class="card-img" mode="aspectFill"></image>
+              <image src="{{card.mchImgurl}}" class="mch-img" mode="aspectFill"></image>
+            </view>
+            <view class="card-down-part-view">
+              <text style="font-size:10px;color:grey;margin-bottom:10px;max-height:10px;">{{card.cardName}}</text>
+              <text style="font-size:13px;color:black;margin-bottom:10px;max-height:14px;">{{card.cardMoney}}</text>
+              <text style="font-size:10px;color:grey;margin-bottom:10px;">有效期：{{card.cardValidity}}</text>
+              <button type="warn" size="mini" style="width:250rpx;background-color:#FFD23C;" catchtap="onShow">立即领取</button>
+            </view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+  </scroll-view>
+</template>
+
+<!-- 备份旧卡券详情 -->
+<template name="card-detail">
+<!--没有这个页面  -->
+  <import src="../wxParse/wxParse.wxml" />  
+  <loading hidden="{{!loading}}">
+    加载中...
+  </loading>
+  <view class="container">
+    <scroll-view scroll-y="{{true}}" style="">
+      <view class="card-cover-view">
+        <image src="http://pics.sc.chinaz.com/files/pic/pic9/201701/zzpic927.jpg" class="cover-img" mode="widthFix"></image>
+        <image src="http://pics.sc.chinaz.com/files/pic/pic9/201701/zzpic927.jpg" class="logo-img" mode="scaleToFill"></image>
+      </view>
+      <view class="card-dtl-view">
+        <text class="mht-name">手机专卖店</text>
+        <text class="card-name">新机9.5折券</text>
+        <view class="split-line"></view>
+
+        <!-- 使用规则 -->
+        <view class="card-desc-view">
+          <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+        </view>
+        <view class="split-line"></view>
+
+        <!-- 联系电话 -->
+        <view class="card-extr-view">
+          <text>联系电话：15984982932</text>
+          <text>有效期：2017-05-12</text>
+        </view>
+
+        <!--兑换码区 -->
+        <view wx:if="{{1==1}}" class="exchange-code-view">
+          <view class="code-view">
+            <text style="color:grey;">兑换码</text>
+            <text class="code-txt">123456789012345678</text>
+          </view>
+          <view class="code-view">
+            <image src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1489239054140&di=db1098a44873b60b55b3d9387e98fd9e&imgtype=0&src=http%3A%2F%2Fpic1.fangketong.net%2Fapp_attach%2F201507%2F30%2F20150730_110_37862_0.jpg" class="qr-img" mode="scaleToFill"></image>
+          </view>
+        </view>
+
+        <!--领取按钮-->
+        <view wx:if="{{1==2}}" class="get-button-view">
+          <button class="get-button" size="default">立即领取</button>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</template>

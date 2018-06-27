@@ -1,0 +1,8 @@
+<template name="group">
+  <block wx:for="{{data}}">
+    <navigator url='{{data.url}}' class='group-pick'>
+        <image src='{{data.src}}' class='group-pick-image'></image>
+        <text class='group-pick-txt'>{{data.txt}}</text>
+    </navigator>
+  </block>
+</template>

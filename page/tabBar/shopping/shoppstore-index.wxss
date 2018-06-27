@@ -1,0 +1,6 @@
+
+@import "../../common/index.wxss";
+.pinduoduo-content{
+  display: flex;
+  display: -webkit-flex;
+}

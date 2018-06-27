@@ -1,0 +1,161 @@
+<import src="../common/template/modal.wxml" />
+<import src="../common/template/share.wxml" />
+<template wx:if="{{showErrModal}}" is="text-erwei-modal" data="{{...errModalConfig}}" />
+<template wx:if="{{showSuccessModal}}" is="text-comfirm-modal" data="{{...successModalConfig}}" />
+<template wx:if="{{showShareModal}}" is="share-modal" data="{{...shareData}}" />
+
+<view wx:if="{{showFlag}}" class='home' bindtap='onClickHome'>
+  <image class='home-image' src='../../image/icon_home.png'>
+  </image>
+  <view class='home-text'>
+   首页
+  </view>
+</view>
+
+<view class="main-container">
+  <!-- 头部导航条 -->
+  <view scroll-x='true' class="nav-header-view">
+    <view class="header-col-view {{curActIndex == '0' ? 'show-border-bottom' : '' }}" data-idx='0' bindtap="swichSwiperItem">
+      <text data-idx='0' bindtap="swichSwiperItem">全部</text>
+    </view>
+    <view class="header-col-view {{curActIndex == '1' ? 'show-border-bottom' : '' }}" data-idx='1' bindtap="swichSwiperItem">
+      <text data-idx='1' bindtap="swichSwiperItem">待成团</text>
+    </view>
+    <view class="header-col-view {{curActIndex == '2' ? 'show-border-bottom' : '' }}" data-idx='2' bindtap="swichSwiperItem">
+      <text data-idx='2' bindtap="swichSwiperItem">已成团</text>
+    </view>
+  </view>
+
+  <!-- nav详细内容展示区-->
+  <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
+
+    <!--全部  -->
+    <swiper-item style='overflow-y: auto'>
+      <scroll-view scroll-y="{{true}}" class='scroll-lists wait-money'>
+        <!--无数据时  -->
+        <view class="no-data-view" wx:if='{{!allOrders || allOrders.length < 1}}'>
+          <icon class='no-data-image'></icon>
+          <text class="mText" class="no-data-text">暂时没有订单哦 </text>
+          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
+        </view>
+        <!--无数据时  -->
+        <!--有数据时  -->
+        <!--type 数据类型 0全部 1拼团中 2拼团成功 3拼团失败-->
+        <block wx:else>
+          <view wx:for="{{allOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" >
+            <view class='purchase-data-sd'>
+              <text class='purchase-data-number'>{{order.datelineText}}</text>
+              <text class='purchase-data-back'>{{order.status_txt}}</text>
+            </view>
+            <view class='purchase-shop-list'  data-params="{{order}}" catchtap="lookOrder">
+              <image class='purchase-shop-image' mode='aspectFill' src='{{order.image}}'></image>
+              <view class='purchase-shop-detail'>
+                <view class='purchase-shop-text'>
+                  <text class='purchase-shop-title'>{{order.name}}</text>
+                  <text class='purchase-shop-num'>x{{order.pro_num}}</text>
+                </view>
+
+                <view class='purchase-shop-bottom'>
+                  <text class='purchase-price goods-pro-price'><text class='gray'>实付款：</text>￥{{order.total}}</text>
+                  <text wx:if="{{order.status==0}}" class='purchase-time-text'>{{order.countdownText}}后结束</text>
+                </view>
+
+              </view>
+            </view>
+
+            <view class="purchase-satus goods-satus">
+              <text wx:if="{{order.status==1}}" class="purchase-status-detail" data-order-id="{{order.order_id}}" catchtap="lookOrder" data-params="{{order}}">查看团详情</text>
+              <button wx:elif="{{order.status==0}}" class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-price="{{order.total}}"  data-title="{{order.name}}" data-imgurl="{{order.shareUrl?order.shareUrl:order.image}}">邀好友参团</button>
+              <text class="purchase-status-detail"  data-order-status="{{order.status}}" data-order-date="{{order.datelineText}}" data-order-no="{{order.order_no}}" catchtap="onOrdeDetailClick">订单详情</text>
+            </view>
+          </view>
+
+        </block>
+      </scroll-view>
+    </swiper-item>
+
+    <!--全部  -->
+
+    <!--待成团  -->
+    <swiper-item>
+      <scroll-view scroll-y="{{true}}" class='scroll-lists'>
+
+        <view wx:if="{{waitOrders && waitOrders.length}}" class="order-list-view">
+          <!--待成团-->
+          <view wx:for="{{waitOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" >
+            <view class='purchase-data-sd'>
+              <text class='purchase-data-number'>{{order.datelineText}}</text>
+              <text class='purchase-data-back'>{{order.status_txt}}</text>
+            </view>
+            <view class='purchase-shop-list'  data-params="{{order}}" catchtap="lookOrder">
+              <image class='purchase-shop-image' mode='aspectFill' src='{{order.image}}'></image>
+              <view class='purchase-shop-detail'>
+                <view class='purchase-shop-text'>
+                  <text class='purchase-shop-title'>{{order.name}}</text>
+                  <text class='purchase-shop-num'>x{{order.pro_num}}</text>
+                </view>
+                <view class='purchase-shop-bottom'>
+                  <text class='purchase-price goods-pro-price'><text class='gray'>实付款：</text>￥{{order.total}}</text>
+                  <text class='purchase-time-text'>{{order.countdownText}}后结束</text>
+                </view>
+              </view>
+            </view>
+            <view class="purchase-satus goods-satus">
+              <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-price="{{order.total}}"  data-title="{{order.name}}" data- data-imgurl="{{order.shareUrl?order.shareUrl:order.image}}">邀好友参团</button>
+              <text class="purchase-status-detail" data-order-date="{{order.datelineText}}" data-order-no="{{order.order_no}}" catchtap="onOrdeDetailClick">订单详情</text>
+            </view>
+          </view>
+        </view>
+        <view wx:else class="no-data-view">
+          <!-- <image src="../../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
+          <icon class='no-data-image'></icon>
+          <text class="mText" class="no-data-text">暂时没有订单哦 </text>
+          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
+        </view>
+
+      </scroll-view>
+
+    </swiper-item>
+
+
+    <!--已成团  -->
+    <swiper-item>
+      <scroll-view scroll-y="{{true}}" class='scroll-lists'>
+
+        <view wx:if="{{endOrders && endOrders.length}}" class="order-list-view">
+          <!--已成团-->
+          <view wx:for="{{endOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" >
+            <view class='purchase-data-sd'>
+              <text class='purchase-data-number'>{{order.datelineText}}</text>
+              <text class='purchase-data-back'>{{order.status_txt}}</text>
+            </view>
+            <view class='purchase-shop-list' data-params="{{order}}" catchtap="lookOrder">
+              <image class='purchase-shop-image' mode='aspectFill' src='{{order.image}}'></image>
+              <view class='purchase-shop-detail'>
+                <view class='purchase-shop-text'>
+                  <text class='purchase-shop-title'>{{order.name}}</text>
+                  <text class='purchase-shop-num'>x{{order.pro_num}}</text>
+                </view>
+                <view class='purchase-shop-bottom'>
+                  <text class='purchase-price goods-pro-price'><text class='gray'>实付款：</text>￥{{order.total}}</text>
+                </view>
+              </view>
+            </view>
+            <view class="purchase-satus goods-satus">
+              <text class="purchase-status-detail" data-order-id="{{order.order_id}}" data-params="{{order}}" catchtap="lookOrder">查看团详情</text>
+              <text class="purchase-status-detail" data-order-id="{{order.order_id}}" catchtap="onGoUnsendClick">订单详情</text>
+            </view>
+          </view>
+        </view>
+        <view wx:else class="no-data-view">
+          <!-- <image src="../../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
+          <icon class='no-data-image'></icon>
+          <text class="mText" class="no-data-text">暂时没有订单哦 </text>
+          <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
+        </view>
+
+      </scroll-view>
+
+    </swiper-item>
+  </swiper>
+</view>

@@ -1,0 +1,127 @@
+/* pages/index-new/bingPhone.wxss */
+
+page {
+  background: #fff;
+}
+
+/*错误提示样式*/
+
+.errorModel {
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 400rpx;
+  height: 120rpx;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10rpx;
+  opacity: 0.7;
+}
+
+.errorModel text {
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 0rpx;
+  letter-spacing: 0rpx;
+  color: #fff;
+}
+
+.myself-top {
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.myself-photo {
+  justify-content: center;
+  margin-top: 60rpx;
+}
+
+.myself-image {
+  width: 145rpx;
+  height: 145rpx;
+  background-color: #e5e5e5;
+  border-radius: 50%;
+}
+
+.myself-detail {
+  justify-content: center;
+  margin-top: 20rpx;
+  margin-bottom: 50rpx;
+}
+
+.myself-id {
+  width: 110rpx;
+  height: 27rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 32rpx;
+  letter-spacing: 0rpx;
+  color: #000;
+}
+
+/*form表单  */
+
+form {
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 0rpx;
+  letter-spacing: 0rpx;
+  color: #313131;
+}
+
+.item {
+  flex-direction: column;
+  padding: 0 35rpx;
+  padding-top: 38rpx;
+}
+
+label {
+  display: block;
+}
+
+.item .item-input {
+  border-bottom: solid 1rpx #a1a1a1;
+  align-items: center;
+  height: 80rpx;
+  margin-top: 20rpx;
+  justify-content: space-between;
+}
+
+form input {
+  font-size: 36rpx;
+  letter-spacing: 0px;
+}
+
+.item-input button {
+  margin: 0;
+  width: 210rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  background-color: #ffe71c;
+  font-size: 28rpx;
+  font-weight: normal;
+  font-stretch: normal;
+  color: #313131;
+}
+
+.place {
+  color: #999;
+  font-size: 32rpx;
+}
+
+.submit {
+  width: 680rpx;
+  height: 86rpx;
+  background-color: #ffe71c;
+  margin-top: 60rpx;
+}

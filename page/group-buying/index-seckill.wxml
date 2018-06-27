@@ -1,0 +1,74 @@
+<!--顶部滚动选择视图  -->
+<scroll-view class="seckill-father"scroll-x="true" scroll-left='{{scrollLeft}}' scroll-with-animation='true'>
+    <view wx:for="{{headerData}}"  wx:key="item" class='seckill-list {{currentTab==item.index ? "cutColor" : ""}}' data-current="{{item.index}}" bindtap="switchNav"  data-type="{{item.type}}">
+      <text class='seckill-time'>{{item.headtime}}</text>
+      <text class='seckill-status'>{{item.status}}</text>
+    </view>
+</scroll-view>
+<!--头部滚动视图结束  -->
+<!-- 抢购列表开始 -->
+<swiper class='rush-buying-list' style='height:{{swiperHeight}}rpx;'  current="{{currentTab}}"  bindchange="bindChange">
+  <swiper-item  wx:for="{{headerData}}"  wx:key="swiperItem">
+  <block wx:if="{{activityStatus==1}}">
+    <view class='rush-buying-title'>
+      <text class='rush-remind'>{{activityText}}</text>  
+    </view>
+  </block> 
+  <block wx:elif="{{activityStatus==2}}">
+    <view class='rush-buying-title'>
+      <text class='rush-remind'>{{activityText}}</text>
+      <view class='rush-buying-time'>
+          <image class='rush-buying-time-img' src='../../../image/seckill-time.png'></image>
+          <text class='rush-count-down'>距离活动结束 {{countDown.hour}}:{{countDown.minute}}:{{countDown.second}}</text>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class='rush-buying-title'>
+      <text class='rush-remind'>{{activityText}}</text>
+      <view class='rush-buying-time'>
+          <image class='rush-buying-time-img' src='../../../image/seckill-time.png'></image>
+          <text class='rush-count-down'>距离活动开始 {{countDown.hour}}:{{countDown.minute}}:{{countDown.second}}</text>
+      </view>
+    </view>
+  </block>
+    <view class='product-buying-wrap' wx:for="{{listData}}"  wx:key="item" bindtap="secKillDetailData" data-prodId="{{item.productId}}" data-activityStatus="{{item.activityStatus}}" data-productPrice="{{item.productPrice}}" data-skPrice="{{item.skPrice}}" data-activityTime="{{activityTime}}" data-quantity="{{item.quantity}}" data-hadnum="{{item.hadnum}}" data-pskId="{{item.pskId}}">
+      <view class='product-buying-list'>
+        <view class='pro-buying-img'>
+          <image class='pro-img' src='{{item.productPic}}'></image>
+        </view>
+        <view class='pro-detail-list'>
+          <text class='pro-detail-title'>{{item.productName}}</text>
+          <progress active='true' class='pro-detail-schedule' percent="{{(item.hadnum/(item.quantity+item.hadnum))*100}}" activeColor='#FEE61B' backgroundColor='#efefef'  />
+          <view class='pro-detail-inv-wrap'>
+            <text class='pro-detail-inventory inventory-left'>已抢{{item.hadnum}}件</text>
+            <text class='pro-detail-inventory inventory-right'>仅剩{{item.quantity}}件</text>
+          </view>
+          <view class='pro-price-detail'>
+            <text class='pro-pri-cn'>￥</text>
+            <text class='pro-pri-current'>{{item.skPrice}}</text>
+            <text class='pro-pri-formerly'>￥{{item.productPrice}}</text>
+            <block wx:if="{{item.quantity > 0}}">
+              <block wx:if="{{activityStatus==1}}">
+              <text class='pro-pri-prac'>去抢购</text>
+              </block>  
+              <block wx:elif="{{activityStatus==2}}">
+              <text class='pro-pri-prac'>去抢购</text>
+              </block>
+              <block wx:else>
+              <text class='pro-pri-prac'>查看详情</text>
+              </block>
+            </block>
+            <block wx:else>
+            <text class='pro-pri-prac sale-all'>已售罄</text>
+            </block>
+          </view>
+        </view>
+      </view> 
+    </view>
+    
+  </swiper-item>
+
+            
+</swiper>
+<!--抢购列表结束  -->

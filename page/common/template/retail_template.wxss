@@ -1,0 +1,347 @@
+/**    会员卡   **/
+
+.mem-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 750rpx;
+  height: 180px;
+}
+
+.mem-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 700rpx;
+  height: 160px;
+  /* background-image: url('http://olb6oyltr.bkt.clouddn.com/mem_card_bg.png'); */
+  background-image: url('http://admin.ljxhlaw.com/mall/image/catalog/cart_test.png');
+  background-size: cover;
+  border-radius: 10px;
+  _box-shadow: 5px 5px 5px grey;
+  box-sizing: border-box;
+}
+
+.mem-card-info {
+  display: flex;
+  width: 700rpx;
+  height: 80px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.mem-card-img-view {
+  margin-left: 50rpx;
+}
+
+.mem-card-nickname-view {
+  display: flex;
+  flex-direction: row;
+  width: 450rpx;
+  justify-content: space-between;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.mem-card-score-view {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 15px;
+  width: 380rpx;
+}
+
+.mem-card-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.mem-card-userinfo-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 50rpx;
+  color: white;
+}
+
+.mem-card-sp-line {
+  display: flex;
+  height: 1px;
+  width: 650rpx;
+  background-color: #ffe546;
+}
+
+.mem-card-bcode {
+  display: flex;
+  width: 700rpx;
+  height: 100px;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  visibility:hidden
+}
+
+.mem-card-bcode-img {
+  width: 400rpx;
+  height: 85px;
+  margin-left: 30rpx;
+}
+
+/**  菜单栏  **/
+
+.menu-bar-container {
+  display: flex;
+  width: 750rpx;
+  height: 80px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-bar-item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-bar-icon-view {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.menu-bar-icon {
+  width: 60rpx;
+}
+
+.menu-bar-icon-txt-view {
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+/**  功能列表 **/
+
+.func-list-container {
+  display: flex;
+  flex-direction: column;
+  width: 750rpx;
+}
+
+.func-list-item-view {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 750rpx;
+  padding: 10px;
+  height: 80px;
+}
+
+.func-list-itm-icon-img {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 70rpx;
+}
+
+.func-list-itm-desc-view {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.func-list-itm-title-view {
+  margin-left: 20rpx;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.func-list-itm-sub-title-view {
+  font-size: 13px;
+  color: black;
+}
+
+/** 九宫格 **/
+
+.func-grid-container {
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.func-grid-cell {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 160rpx;
+  padding: 15rpx;
+}
+
+.func-grid-image {
+  width: 100%;
+}
+
+/** 标题 **/
+
+.func-title {
+  background-color: #fff;
+  padding: 15px;
+  align-items: center;
+  flex-direction: column;
+  border-top-style: solid;
+  border-width: 5px;
+  border-top-color: #efefef;
+}
+
+.func-text {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.func-underline {
+  margin-top: 5px;
+  height: 2px;
+  width: 30px;
+  background-color: #000;
+}
+
+/** swiper **/
+
+.func-hotsale-container {
+  width: 750rpx;
+}
+
+/** 公共 **/
+
+.sp-line {
+  display: flex;
+  height: 1px;
+  width: 750rpx;
+  background-color: #eaeaea;
+}
+
+/*购物车图标  */
+
+.the-cart {
+  width: 40px;
+  height: 30px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.cart-image {
+  width: 40px;
+  height: 40px;
+}
+
+.cart-text {
+  position: absolute;
+  font-size: 12px;
+  color: #fff;
+  background: #f00;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  line-height: 15px;
+  text-align: center;
+  top: 2px;
+  left: 28px;
+}
+
+/*拼团购列表开始  */
+
+.func_hotsale,.fun-yiya-total {
+  display: block;
+}
+
+.yiya-group {
+  font-size: 0rpx;
+  display: block;
+  height: 86rpx;
+  line-height: 86rpx;
+  width: 750rpx;
+}
+
+.background-color {
+  width: 750rpx;
+  height: 16rpx;
+  background: #efefef;
+  display: block;
+}
+
+.yiya-group-duoduo, .search-total {
+  font-size: 28rpx;
+}
+
+.yiya-group-duoduo {
+  float: left;
+  margin-left: 24rpx;
+}
+
+.search-total {
+  float: right;
+  margin-right: 24rpx;
+}
+
+.yiya-group::after,.yiya-group::before {
+  clear: both;
+  content: '.';
+  display: block;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+.yiya-child-image{
+  width: 750rpx;
+  height: 350rpx;
+}
+.yiya-image-wrap{
+  display: block;
+}
+.yiya-product-title-wrap{
+  font-size: 0rpx;
+  display: block;
+  height: 86rpx;
+  line-height: 86rpx;
+}
+.yiya-product-title,.yiya-product-go{
+  font-size: 28rpx;
+}
+.yiya-product-title{
+  float: left;
+  margin-left: 24rpx;
+  width: 500rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.yiya-product-go{
+  float: right;
+  margin-right: 24rpx;
+  background: #ff3030;
+  display: inline-block;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 5rpx 35rpx;
+  margin-top: 4rpx;
+  border-radius: 10rpx;
+}
+.yiya-product-title-wrap::after,.yiya-product-title-wrap::before {
+  clear: both;
+  content: '.';
+  display: block;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+/*拼团购列表结束  */

@@ -1,0 +1,61 @@
+<block wx:if="{{!checkModel}}">
+  <scroll-view wx:if="{{physical_list.length>0}}" lower-threshold='0px' scroll-y='true' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='gobottom'>
+    <view class="store-list-containner" wx:for="{{physical_list}}">
+      <view class="list-view-wrap">
+        <navigator class="list-item-view sp-border" url="{{'./store-detail?phy_id=' + item.phy_id}}">
+          <view class="list-item-dtl-left-view">
+            <text class="list-item-title-view normalText">{{item.name}}</text>
+            <text class="list-item-addr-view mText grayText">{{item.address}}</text>
+          </view>
+          <view class="list-item-dtl-right-view">
+                    <text class="list-item-location-dist-view xmText" style='color:orange;'>{{item.dis}}</text>
+                    <!-- <i class="list-item-location-icon-view fa fa-lg fa-map-marker hotTextColor" /> -->
+            </view>
+        </navigator>
+      </view>
+    </view>
+  </scroll-view>
+</block>
+
+<block wx:else>
+  <scroll-view wx:if="{{physical_list.length>0}}" lower-threshold='0px' scroll-y='true' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='gobottom'>
+    <view wx:if="{{index}}" class="store-list-containner store-containner">
+      <view class="list-view-wrap" wx:for="{{physical_list}}" wx:for-index="index">
+        <view class="list-item-view sp-border">
+          <view class='list-item-dtl-icon-view'  catchtap='selectPhysical' data-location-id='{{item.phy_id}}' data-type="{{item.type}}" data-index="{{index}}">
+            <icon wx:if="{{item.select_physical==1}}" type='success' color='#32CD32' size='23'></icon>
+              <icon wx:else type='success' color='#8a8a8a' size='23'></icon>  
+          </view>
+          <navigator class="list-item-dtl-left-view" hover-class="none" url="{{'./store-detail?phy_id=' + item.phy_id}}">
+            <text class="list-item-title-view normalText">{{item.name}}</text>
+            <text class="list-item-addr-view mText grayText">{{item.address}}</text>
+          </navigator>
+          <view style='font-size:24rpx;'><text style='color:orange;'>{{item.dis}}</text></view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{index}}" catchtap="setStore" class='store-footer'>
+      <text>确定</text>
+    </view>
+
+    <view wx:if="{{!index}}" class="store-list-containner">
+      <view class="list-view-wrap" wx:for="{{physical_list}}" catchtap="checkStore" data-location-id='{{item.phy_id}}'>
+        <view class="list-item-view sp-border">
+          <view class='list-item-dtl-icon-view'>
+            <icon wx:if="{{item.default==1}}" type='success' color='#32CD32' size='23'></icon>
+            <icon wx:else type='success' color='#8a8a8a' size='23'></icon>
+          </view>
+          <navigator class="list-item-dtl-left-view" hover-class="none">
+            <text class="list-item-title-view normalText">{{item.name}}</text>
+            <text class="list-item-addr-view mText grayText">{{item.address}}</text>
+          </navigator>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+</block>
+   <view class='no-data' wx:if="{{physical_list.length<1}}">
+        <image src='../../../image/no-data.png'></image>
+        <view class='no-data-txt'>定位失败，请重新打开小程序！</view>
+      </view>

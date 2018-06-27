@@ -1,0 +1,72 @@
+
+page {background-color: #F3F3F3;}
+.addr-section {background-color: #fff; display: flex; flex-direction: column; padding: 0rpx 20rpx;}
+.addr-view{width:700rpx;flex-direction: row;font-size:25rpx;margin:10px 0px;}
+.ship-method-view{width:700rpx;flex-direction: row;font-size:25rpx;margin:10px 0px;}
+.ship-method-item {margin-right: 10px; display: flex;flex-direction: row;align-items: center;}
+.addr-list-view{width:750rpx;flex-direction: column;align-items: center;background-color: #F3F3F3;padding-bottom:100rpx;padding-top: 10px;}
+.addr-item-view{width:700rpx;flex-direction: column;align-items: center;background-color: white;
+padding:16rpx 20rpx; border-radius: 2px;margin-top: 10px;}
+.name-phone-view{width:100%;flex-direction: row;font-size:30rpx;}
+.addr-dtl-view{width:100%;font-size:25rpx;color:#B9B9B9; margin: 5px 0px;padding: 5px 0px;}
+.addr-op-view{width:100%;flex-direction: row;justify-content: space-between;font-size:25rpx;margin:5px 0px;}
+
+.addr-input{width: 668rpx; padding: 8rpx 16rpx; margin: 10rpx; font-size: 25rpx; background-color: #F3F3F3}
+.sep-line{height: 1rpx; width: 100%; background-color: #eee; margin: 10rpx 0rpx;}
+
+.add-addr-btn-view{width:750rpx; flex-direction: row; justify-content: center;margin-top: 30rpx;}
+.add-btn{width:660rpx;font-size: 25rpx;background-color: #FFE546;color:#7D6800;text-align: center;padding:10px;}
+.no-data-view {background: inherit;width:100%;height:330px;flex-direction: column;align-items:center;justify-content: center;}
+.no-data-view image{width: 30px;height: 40px;margin-bottom: 20px;font-size: 24rpx;}
+.no-data-view text{color:#999;}
+.address-add-bottom{
+  width: 100%;
+  height: 98rpx;
+  position:fixed; 
+  bottom:0; 
+}
+
+.address-add-bottom-left{
+  flex-grow:1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 231, 28, 1);
+}
+
+.address-add-bottom-right{
+  flex-grow:1;
+    display: flex;
+    justify-content: center;
+  align-items: center;
+ 	background-color: rgba(255, 255, 255, 1);
+}
+
+.content{
+  display: flex;
+  width: 100%;
+  justify-content:space-between ;
+  align-items: center;
+}
+
+.content-address{
+  width: 540rpx;
+  flex-direction:column ;
+}
+
+.content-tip{
+  width: 110rpx;
+	height: 50rpx;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 231, 28, 1);
+	border-radius: 6px 6px 6px 6px;
+  color: #262626;
+  font-size: 26rpx;
+}
+
+.editImg {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 5px;
+}

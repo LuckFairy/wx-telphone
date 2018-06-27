@@ -1,0 +1,258 @@
+/* 拼团新样式 */
+@import "../tabBar/home/index-new.wxss";
+@import "./group-join.wxss";
+.yiya-pinduoduo-area{
+  margin-top: -10rpx;
+}
+.pintuan-content-list{
+  margin-top: 10rpx;
+}
+
+.error-tip{
+  height: 170rpx;
+	background-color: rgba(247, 98, 96, 1);
+  align-items: center;
+  padding-left: 25rpx;
+}
+
+.error-tip-image{
+  width: 80rpx;
+	height: 80rpx;
+}
+
+.error-tip-text{
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  margin-left: 20rpx;
+
+}
+
+.error-tip-text1{
+  font-size: 32rpx;
+}
+
+.error-tip-text2{
+  font-size: 28rpx;
+}
+
+.content-container{
+  display: flex;
+  flex-direction: column
+}
+
+.form-err-view {
+  height: 32px;
+  line-height: 32px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.addr-sec-lists {
+  background: #fff;
+  height: 140rpx;
+  
+}
+
+/* .addr-section {
+  background-color: #fff;
+  padding-top: 30rpx;
+  position: relative;
+  flex-direction:row;
+  align-items: center
+} */
+
+.addr-section {
+  background-color: #fff;
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+   height: 140rpx;
+}
+
+.address-list {
+  width: 30rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  padding-top: 17rpx;
+}
+
+.address-image {
+  width: 30rpx;
+  height: 40rpx;
+}
+
+.address-go, .address-go-image {
+  width: 15rpx;
+  height: 27rpx;
+}
+
+.people-name {
+  display: inline-block;
+  margin-right: 15rpx;
+}
+
+.people-default {
+  color: #ff3030;
+  border: 1rpx solid #ff3030;
+  padding: 0 5rpx;
+  display: inline-block;
+}
+
+.addr-item-view {
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  display: inline-block;
+  margin-right: 4rpx;
+  justify-content:flex-start;
+  margin-top: 10rpx;
+}
+
+.addr-dtl-view {
+  font-size: 25rpx;
+  margin: 5px 0px;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  width: 600rpx;
+}
+
+.name-phone-view {
+  font-size: 25rpx;
+  width: 600rpx;
+}
+
+.product-bottom{
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  height: 80rpx;
+  margin-right: 24rpx;
+  align-items: center;
+  background: #fff
+}
+
+.purchase-data-sd{
+  /* display: block; */
+  font-size: 0rpx;
+  padding-left:24rpx;
+  padding-right:24rpx;
+  display: flex;
+  justify-content: space-between;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 100%;
+  margin-top: 18rpx;
+  background: #fff;
+}
+.purchase-data-number{
+  font-size: 26rpx;
+  color: rgb(61, 66, 68);
+  display: inline-block;
+}
+.purchase-data-back{
+  font-size: 26rpx;
+  color: rgb(255, 48, 48);
+  display: inline-block;
+}
+.purchase-shop-list{
+  display: flex;
+  align-items:center;
+  font-size: 0rpx;
+  background: #fafafa;
+  /* height: 180rpx; */
+  height: 210rpx;
+  border-top: 1px solid #ececec;
+}
+
+.purchase-shop-image{
+  display: inline-block;
+  width: 160rpx;
+  height: 160rpx;
+  margin-left: 24rpx;
+  margin-top: 10rpx;
+}
+.purchase-shop-detail{
+  /* display: inline-block;
+  font-size: 0rpx; */
+  display: flex;
+  height: 180rpx;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.purchase-shop-text{
+  padding: 26rpx 24rpx 18rpx 32rpx;
+  display: flex;
+  width: 566rpx;
+  justify-content: space-between;
+  font-size: 0rpx;
+}
+
+.purchase-shop-bottom{
+  display: flex;
+  width: 566rpx;
+  justify-content: space-between;
+  align-items:flex-end;
+}
+
+.purchase-price{
+  margin-left:32rpx;
+  text-align: right;
+  color:inherit;
+  font-size: 32rpx;
+  padding-right: 24rpx;
+}
+
+.goods-pro-price{
+  text-align: left;
+}
+
+.purchase-status-detail{
+  font-size: 28rpx;
+  color: rgb(61, 66, 68);
+  display: inline-block;
+  border: 1rpx solid #bfbfbf;
+  width: 160rpx;
+  height: 56rpx;
+  text-align: center;
+  line-height: 56rpx;
+  border-radius: 8rpx;
+  margin-right: 10rpx;
+}
+
+.purchase-shop-title{
+  display: inline-block;
+  font-size: 28rpx;
+  width: 400rpx;
+  color: rgb(61, 66, 68);
+  overflow:hidden;
+text-overflow:ellipsis;
+display: -webkit-box;
+-webkit-box-orient:vertical;
+/* -webkit-line-clamp: 1; */
+-webkit-line-clamp: 2;
+}
+.purchase-shop-num{
+  display: inline-block;
+  font-size: 28rpx;
+  color: rgb(169, 169, 169);
+}
+.gray{
+  display: inline;
+  font-size:24rpx;
+  color:rgb(169, 169, 169);
+}
+
+.hot-tip{
+  width: 100%;
+  height: 88rpx;
+  background: #fff;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18rpx;
+
+}
