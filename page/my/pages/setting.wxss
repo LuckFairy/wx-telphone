@@ -1,0 +1,45 @@
+.my-detail-msg {
+  display: flex;
+  width: 750rpx;
+  height: 88rpx;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #ececec;
+  background: #fff;
+}
+
+.my-detail-gro {
+  font-size: 0rpx;
+  display: flex;
+  align-items: center;
+  height: 88rpx;
+  margin-left: 24rpx;
+}
+
+.my-gro-go {
+  display: flex;
+  height: 88rpx;
+  align-items: center;
+  margin-right: 24rpx;
+}
+
+.my-gro-text {
+  font-size: 30rpx;
+  color: #1b1b1b;
+  margin-left: 28rpx;
+  display: inline-block;
+}
+
+.my-gro-img {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.my-go-img {
+  width: 18rpx;
+  height: 28rpx;
+}
+
+.my-go-text {
+  font-size: 30rpx;
+  color: #1b1b1b;
+}

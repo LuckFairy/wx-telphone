@@ -1,5 +1,5 @@
 var app = getApp(); 
-import { getPhoneNumber } from '../../common/template/get-tel.js';
+// import { getPhoneNumber } from '../../common/template/get-tel.js';
 const  shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';//购物车生成订单接口（多个商品）
 const goodsListUrl = 'wxapp.php?c=cart&a=cart_list';//购物车列表
 const addReduceUrl = 'wxapp.php?c=cart&a=quantity';//购物车商品加减
@@ -12,10 +12,8 @@ let errModalConfig = {
 let hasPhone = wx.getStorageSync('hasPhone');
 Page({
   data: {
-    hasPhone,//true有手機號，不彈窗
+    hasPhone,//是否有手机
     hasShop: 0,//购物车数量
-    //2017年12月19日14:55:05
-    //carts: [],//购物车列表
     store_id:app.store_id,
     cart_list: '',//购物车列表
     selectedAllStatus:true,//默认不全选
@@ -24,17 +22,74 @@ Page({
     baokuanList: [], //爆款列表
     showErrModal:false,
   },
-  getPhoneNumber: getPhoneNumber,
-  cancelPhone() {
+  getPhoneNumber(e) {
     let that = this;
-    clearInterval(phoneTime);
-    let phoneTime = setInterval(() => {
-       hasPhone = wx.getStorageSync('hasPhone');
-      if (hasPhone) {
-        clearInterval(phoneTime);
-        that.setData({ hasPhone });
+    console.log(e.detail);
+    if (e.detail.errMsg == "getPhoneNumber:ok") {
+      let iv = e.detail.iv,
+        encryptedData = e.detail.encryptedData,
+        locationid = wx.getStorageSync('locationid');
+      var params = {
+        iv,
+        encryptedData,
+        locationid
       }
-    }, 5000)
+      app.login(params);
+    } else {
+      that.setData({
+        hasPhone: false
+      })
+    }
+  },
+  /**验证是否获取手机号,是否有uid*/
+  checkPhone() {
+    return new Promise((resolve, reject) => {
+      let uid = wx.getStorageSync('userUid');
+      if (uid) {
+        console.log('不循环', uid)
+        this.setData({
+          uid
+        });
+        resolve(true)
+      } else {
+        this.timer = setInterval(() => {
+          uid = wx.getStorageSync('userUid');
+          if (uid) {
+            console.log('循环', uid)
+            clearInterval(this.timer);
+            this.setData({
+              uid
+            });
+            resolve(true)
+          } else {
+            this.setData({
+              hasPhone: false
+            })
+          }
+        }, 1000);
+      }
+    })
+  },
+
+  onLoad: function (options) {
+    var that = this;
+    physical_id = wx.getStorageSync('phy_id'); //门店id
+    that.loadBaoKuanData();
+    that.checkPhone().then(flag => {
+      that.setData({
+        hasPhone: true
+      })
+      var params = {
+        store_id: that.data.store_id,
+        uid:that.data.uid
+      };
+      that.loadList(params);
+    })
+
+  },
+  onShow: function () {
+    var that = this;
+    physical_id = wx.getStorageSync('phy_id'); //门店id
   },
   /**
 * 首页爆款专区数据
@@ -249,58 +304,7 @@ Page({
     wx.reLaunch({ url:'../home/index-new'});
   },
 
-  onLoad: function (options) {
-    var that = this;
-    physical_id = wx.getStorageSync('phy_id'); //门店id
-    hasPhone = wx.getStorageSync('hasPhone');
-    // 获取店铺id shopId
-    var store_id = that.data.store_id;
-    // Api.signin();//获取以及存储openid、uid
-    // 获取uid
-    var uid = wx.getStorageSync('userUid');
-    if (uid == undefined || uid == '') {
-      wx.switchTab({
-        url: '../../tabBar/home/index-new',
-      })
-    }
-    that.setData({
-      uid, store_id
-    });
-    var params ={
-      store_id,
-      uid
-    };
-    that.loadList(params);
-    that.loadBaoKuanData();
-    
-  },
-  onShow: function () {
-    uid = wx.getStorageSync('userUid');
-    if (!uid) {
-      console.log('ui', uid);
-      setTimeout(function () {
-        wx.switchTab({
-          url: '../home/index-new',
-        })
-      }, 1000);
 
-      return;
-    }
-   var that = this;
-   physical_id = wx.getStorageSync('phy_id'); //门店id
-   var hasShop = that.data.hasShop;//有无商品
-   hasPhone = wx.getStorageSync('hasPhone');
-   that.setData({ hasPhone });
-      var store_id = that.data.store_id;
-      var uid = that.data.uid;
-      var params = {
-        store_id, uid
-      }
-      that.loadList(params);
-  },
-  onHide: function () {
-
-  },
   refreshList(params){
     var that = this;
     app.api.postApi(goodsListUrl, { params }, (err, resp) => {

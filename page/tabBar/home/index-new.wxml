@@ -1,10 +1,10 @@
-<!-- <import src="../../common/template/get-tel.wxml" /> -->
- <import src="../../common/template/get-info.wxml" /> 
+  <import src="../../common/template/get-tel.wxml" /> 
+   <!-- <import src="../../common/template/get-info.wxml" />    -->
 <import src="../../common/template/share.wxml" />
 <import src="../../common/template/coupon.wxml" />
 
-<!-- <template wx:if="{{showPhoneModle}}" is="getphone-modal" data="{{templateData}}"></template> -->
-<template wx:if="{{infoFlag==true}}"  is="getuserInfo-modal" ></template> 
+ <template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{locationid}}"></template> 
+  <!-- <template wx:if="{{isInfo==true}}" is="getuserInfo-modal" ></template>    -->
 <template wx:if="{{showpopteamModle==true}}" is="popteam-modal" data="{{popteamData,popteamUrl,popteamNicke}}"></template>
 <template wx:if="{{showModel==true}}" is="coupon-modal" data="{{showModel,couponList}}"></template>
 

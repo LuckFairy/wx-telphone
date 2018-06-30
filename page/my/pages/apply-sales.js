@@ -10,7 +10,8 @@ Page({
     orderId:'',
     productId:'',
     rtnCode:'',
-    showHide:true
+    showHide:true,
+    isSale:true
   },
   calling(){
     app.calling();
@@ -89,22 +90,15 @@ Page({
       console.log('请求参数', params);
       var url = 'wxapp.php?c=return&a=doReturn';
       app.api.postApi(url, { params }, (err, resp) => {
-        if (resp) {
-          console.log("提交申请之后", resp);
-          wx.showModal({
-            title: '提交申请成功',
-            content: '拨打客服电话可加快处理速度哦',
-            success: function (res) {
-              if (res.confirm) {
-                that.setData({
-                  showHide:false
-                })
-              } else if (res.cancel) {
-                that.setData({
-                  showHide: false
-                })
-              }
-            }
+        if (resp.err_code == 0) {
+          that.setData({
+            isSale: false,
+            showHide: false
+          })
+          wx.showToast({
+            title: '提交成功',
+            icon: 'loading',
+            duration: 1500
           })
         }
       });

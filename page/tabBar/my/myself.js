@@ -1,7 +1,7 @@
 
 var app = getApp();
-import { getPhoneNumber } from '../../common/template/get-tel.js';
-// let hasPhone = wx.getStorageSync('hasPhone');
+// import { getPhoneNumber } from '../../common/template/get-tel.js';
+let hasPhone = wx.getStorageSync('hasPhone');
 let phone = wx.getStorageSync('phone');
 let uid = wx.getStorageSync('userUid');
 Page({
@@ -10,24 +10,101 @@ Page({
    * 页面的初始数据
    */
   data: {
-    showPhoneModle:false,//true有手機號，不彈窗
     nickName:'',
     userImg:'',
     uid,
     phone:null,
+    hasPhone,//是否有手机
   },
-  getPhoneNumber: getPhoneNumber,
-  cancelPhone() {
+  getPhoneNumber(e) {
     let that = this;
-    clearInterval(phoneTime);
-    let phoneTime = setInterval(() => {
-      var hasPhone = wx.getStorageSync('hasPhone');
-      if (hasPhone) {
-        clearInterval(phoneTime);
-        that.setData({ hasPhone });
+    console.log(e.detail);
+    if (e.detail.errMsg == "getPhoneNumber:ok") {
+      let iv = e.detail.iv,
+        encryptedData = e.detail.encryptedData,
+        locationid = wx.getStorageSync('locationid');
+      var params = {
+        iv,
+        encryptedData,
+        locationid
       }
-    }, 5000)
+      app.login(params);
+    } else {
+      that.setData({
+        hasPhone: false
+      })
+    }
   },
+  /**验证是否获取手机号,是否有uid*/
+  checkPhone() {
+    return new Promise((resolve, reject) => {
+      let uid = wx.getStorageSync('userUid');
+      if (uid) {
+        console.log('不循环', uid)
+        phone = wx.getStorageSync('phone');
+        this.setData({
+          uid,phone
+        });
+        resolve(true)
+      } else {
+        this.timer = setInterval(() => {
+          uid = wx.getStorageSync('userUid');
+          if (uid) {
+            console.log('循环', uid)
+            clearInterval(this.timer);
+            phone = wx.getStorageSync('phone');
+            this.setData({
+              uid,phone
+            });
+            resolve(true)
+          } else {
+            this.setData({
+              hasPhone: false
+            })
+          }
+        }, 1000);
+      }
+    })
+  },
+  /**
+    * 生命周期函数--监听页面加载
+    */
+  onLoad: function (options) {
+    var that = this;
+    wx.getUserInfo({
+      success: function (res) {
+        var userInfo = res.userInfo
+        var nickName = userInfo.nickName
+        var avatarUrl = userInfo.avatarUrl
+        that.setData({
+          nickName: nickName,
+          userImg: avatarUrl
+        })
+      },
+      fail: function () {
+        var userInfo = wx.getStorageSync('userInfo');
+        if (userInfo) {
+          that.setData({
+            nickName: userInfo.nickName,
+            userImg: userInfo.avatarUrl
+          })
+        } 
+      }
+    })
+    that.checkPhone().then(flag => {
+      that.setData({
+        hasPhone: true
+      })
+    })
+
+  },
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+  
+  },
+
   /**手机号脱敏 */
   substring(str) {
     if (typeof str == 'string') { //参数为字符串类型
@@ -39,6 +116,12 @@ Page({
     var phone = opt;
     phone = this.substring(phone);
     this.setData({phone})
+  },
+  /** 去设置页面*/
+  goSetting() {
+    wx.navigateTo({
+      url: '../../my/pages/setting'
+    });
   },
   goSearch (){
     wx.navigateTo({
@@ -82,76 +165,7 @@ Page({
       url: '../../group-buying/my-order'
     });
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    var that = this;
-    uid = wx.getStorageSync('userUid');
-    if (!uid) {
-      console.log('ui',uid);
-      setTimeout(function(){
-      wx.switchTab({
-        url: '../home/index-new',
-      })
-      },1000);
-      
-      return;
-    }else{
-      console.log('有uid');
-      that.setData({ uid, phone });
-      wx.getUserInfo({
-        success: function (res) {
-          var userInfo = res.userInfo
-          var nickName = userInfo.nickName
-          var avatarUrl = userInfo.avatarUrl
-          that.setData({
-            nickName: nickName,
-            userImg: avatarUrl
-          })
-        },
-        fail: function () {
-          var userInfo = wx.getStorageSync('userInfo');
-          if (userInfo) {
-            that.setData({
-              nickName: userInfo.nickName,
-              userImg: userInfo.avatarUrl
-            })
-          } else {
-            that.checkPhone();
-          }
-        }
-      })
-    }
   
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    uid = wx.getStorageSync('userUid');
-    if (!uid) {
-      console.log('ui', uid);
-      setTimeout(function () {
-        wx.switchTab({
-          url: '../home/index-new',
-        })
-      }, 1000);
-
-      return;
-    }
-    // this.setData({ hasPhone });
-  },
-
   /**
    * 生命周期函数--监听页面隐藏
    */

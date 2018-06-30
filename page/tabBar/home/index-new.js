@@ -1,32 +1,38 @@
-import { getUrlQueryParam, checkBingPhone } from '../../../utils/util';
-import { getPhoneNumber } from '../../common/template/get-tel.js';
-import { firstOpen, getCoupon, cancelCoupon } from '../../common/template/coupon.js';
+import {
+  getUrlQueryParam,
+  checkBingPhone,
+  getPhoneNumber
+} from '../../../utils/util';
+import sign from '../../../utils/api_4'
+import {
+  firstOpen,
+  getCoupon,
+  cancelCoupon
+} from '../../common/template/coupon.js';
 let app = getApp();
 
-const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon';//优惠券列表数据
-const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num';//我的卡包接口
-const activityUrl = 'wxapp.php?c=index_activity&a=activity_index';//活动页接口
-const activityNewUrl = 'screen.php?c=index&a=activity_index';//大屏首页取代活动页
-const tabUrl = 'wxapp.php?c=category&a=get_category_by_pid_new';//tab接口地址
-const headImg = 'wxapp.php?c=product&a=banner_list';//轮播图接口
-const physicalUrl = 'wxapp.php?c=physical&a=physical_list';//las门店列表接口
-const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
-const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index';//拼团活动列表
+const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon'; //优惠券列表数据
+const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num'; //我的卡包接口
+const activityUrl = 'wxapp.php?c=index_activity&a=activity_index'; //活动页接口
+const activityNewUrl = 'screen.php?c=index&a=activity_index'; //大屏首页取代活动页
+const tabUrl = 'wxapp.php?c=category&a=get_category_by_pid_new'; //tab接口地址
+const headImg = 'wxapp.php?c=product&a=banner_list'; //轮播图接口
+const physicalUrl = 'wxapp.php?c=physical&a=physical_list'; //las门店列表接口
+const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical'; //总店信息
+const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index'; //拼团活动列表
 let store_id = app.store_id;
 let uid = wx.getStorageSync('userUid');
 let openid = wx.getStorageSync('userOpenid');
-let hasSignin = wx.getStorageSync('hasSignin');
 let logLat = wx.getStorageSync('logLat');
-let hasPhone = wx.getStorageSync('hasPhone');
-let locationid= null;//门店屏id
+let phone = wx.getStorageSync('phone');
+let locationid = null; //门店屏id
 Page({
   data: {
-    infoFlag: app.globalData.info_flag,
-    random: parseInt(40 * Math.random()),//随机数
-    hasPhone: false,//true有手機號，不彈窗;false弹窗
-    showpopteamModle: false,//true有拼团信息，弹窗
-    popteamData: null,//弹窗拼团信息
-    popteamNicke: null,//弹窗名字
+    random: parseInt(40 * Math.random()), //随机数
+    hasPhone: false, //是否有手机
+    showpopteamModle: false, //true有拼团信息，弹窗
+    popteamData: null, //弹窗拼团信息
+    popteamNicke: null, //弹窗名字
     popteamUrl: '../../group-buying/group-join',
     mode: 'aspectFit',
     lazyLoad: 'true',
@@ -39,59 +45,106 @@ Page({
     type: 0, //请求的活动点的时间戳
     index: 0, //跳到秒杀列表页的索引
     countDown: 0, //活动剩余时间
-    expireTime: 0,//活动失效时间
-    dataImg: [],//首页轮播图数据
+    expireTime: 0, //活动失效时间
+    dataImg: [], //首页轮播图数据
     showhide: true,
     cat_list: [],
     //2017年12月21日18:50:42 by leo
     card_num: 0,
-    uid,//用户id
+    uid, //用户id
     iconOne: [],
     //indexImage: null,//4个大图图片列表
-    showModel: false,//是否显示弹窗模板
-    couponList: [],//弹窗专用券列表
-    coupon_id_arr: [],//弹窗优惠券id
-    couponValue: [],//领取优惠券面值列表
+    showModel: false, //是否显示弹窗模板
+    couponList: [], //弹窗专用券列表
+    coupon_id_arr: [], //弹窗优惠券id
+    couponValue: [], //领取优惠券面值列表
     couponValueLast: [],
-    productData: [],//活动图列表
+    productData: [], //活动图列表
     valueList: ['正品保障', '假一赔三', '破损包邮', '7天退换'],
     saoma_url: null,
-    set_flag: false,//是否設置為默認
-    physicalClost: '',//最近门店信息
-    phyDefualt: [],//默认门店信息
-    changeFlag: true,//是否切换门店
+    set_flag: false, //是否設置為默認
+    physicalClost: '', //最近门店信息
+    phyDefualt: [], //默认门店信息
+    changeFlag: true, //是否切换门店
     indexIcon: null, //首页图标
-    
   },
   /**获取用户信息 */
   getuserinfo(e) {
     console.log(e.detail);
-    app.globalData.userInfo = e.detail.userInfo;
-    wx.setStorageSync("userInfo", e.detail.userInfo);
-    this.setData({ infoFlag: false });
-    var that = this;
-    locationid = wx.getStorageSync('locationid');
-    console.log('getuserinfo....location', locationid);
-    app.login(e.detail,function(){
-        that.setData({infoFlag:true});
-        app.globalData.info_flag=true;
-    },locationid);
-   
-  },
-  getPhoneNumber: getPhoneNumber,
-  /**验证是否获取手机号 */
-  checkPhone() {
     let that = this;
-    checkBingPhone(this.data.uid, store_id).then(flag => {
-      that.setData({ hasPhone: flag });
+    console.log(e.detail);
+    if (e.detail.errMsg == "getUserInfo:ok") {
+      let iv = e.detail.iv,
+        encryptedData = e.detail.encryptedData, 
+        locationid = wx.getStorageSync('locationid');
+      var params = {
+        iv,
+        encryptedData,
+        locationid
+      }
+      that.setData({
+        isInfo: false
+      })
+      app.login(params);
+    } else {
+      that.setData({
+        isInfo: true
+      })
+    }
+  },
+  getPhoneNumber(e) {
+    let that = this;
+    console.log(e.detail);
+    if (e.detail.errMsg == "getPhoneNumber:ok") {
+      let iv = e.detail.iv,
+        encryptedData = e.detail.encryptedData,
+        locationid = wx.getStorageSync('locationid');
+      var params = {
+        iv,
+        encryptedData,
+        locationid
+      }
+      app.login(params);
+    } else {
+      that.setData({
+        hasPhone: false
+      })
+    }
+  },
+  /**验证是否获取手机号,是否有uid*/
+  checkPhone() {
+    return new Promise((resolve, reject) => {
+      uid = wx.getStorageSync('userUid');
+      if (uid) {
+        console.log('不循环', uid)
+        this.setData({
+          uid
+        });
+        resolve(true)
+      } else {
+        this.timer = setInterval(() => {
+          uid = wx.getStorageSync('userUid');
+          if (uid) {
+            console.log('循环', uid)
+            clearInterval(this.timer);
+            this.setData({
+              uid
+            });
+            resolve(true)
+          } else {
+            this.setData({
+              hasPhone: false
+            })
+          }
+        }, 1000);
+      }
     })
   },
   /**
-  * 提交订单
-  */
-  submitOrder: function (e) {
+   * 收集formid
+   */
+  submitOrder: function(e) {
     let that = this;
-    //保存formid
     app.pushId(e).then(ids => {
       app.saveId(ids)
     });
@@ -99,39 +152,32 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     let that = this;
-    if(options.locationid){
+    //门店locationid
+    if (options.locationid) {
       locationid = options.locationid;
-      console.log('index.....location', locationid);
+      wx.setStorageSync('locationid', locationid)
+      console.log('index.....locationid', locationid);
     }
-    uid = wx.getStorageSync('userUid');
     wx.showLoading({
       title: '加载中',
     })
-    if (uid) {
-      that.setData({ uid, infoFlag: false });
+    that.checkPhone().then(flag => {
+      that.setData({
+        hasPhone: true
+      })
       that._parse();
-    } else {
-      // var page= getCurrentPages();
-      // wx.redirectTo({
-      //   url: '../../home/pages/get-authorize?'+page,
-      // })
-      var i = 0;
-      that.timer2 = setInterval(() => {
-        i++;
-        uid = wx.getStorageSync('userUid');
-        that.setData({ uid, infoFlag: false });
-        that._parse();
-        if (uid || i > 3) { clearInterval(that.timer2); }
-      }, 4000);
-    }
-
-    that.loadMainLocation();//默认总店
-    that.loadactivityData();//活动图数据
-    that.loadGroupData();//拼多多数据
+    })
+    that.loadMainLocation(); //默认总店
+    that.loadactivityData(); //活动图数据
+    that.loadGroupData(); //拼多多数据
     // 顶部轮播图  
-    app.api.postApi(headImg, { "params": { store_id } }, (err, resp) => {
+    app.api.postApi(headImg, {
+      "params": {
+        store_id
+      }
+    }, (err, resp) => {
       if (resp && resp.err_code == 0) {
         var dataImg = resp.err_msg.banners;
         that.setData({
@@ -140,7 +186,11 @@ Page({
       }
     })
 
-    app.api.postApi('wxapp.php?c=index&a=get_icon_v2', { "params": { store_id } }, (err, rep) => {
+    app.api.postApi('wxapp.php?c=index&a=get_icon_v2', {
+      "params": {
+        store_id
+      }
+    }, (err, rep) => {
       if (!err && rep.err_code == 0) {
         this.setData({
           indexIcon: rep.err_msg.icon_list
@@ -149,49 +199,66 @@ Page({
     })
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
-      let len = data.length, i = 0;
-      if (len < 1) { return; }
+      let len = data.length,
+        i = 0;
+      if (len < 1) {
+        return;
+      }
       var popteamNicke = (data[i].user.nickname.length > 4) ? (data[i].user.nickname.substr(0, 4) + '...') : data[i].user.nickname;
-      that.setData({ popteamData: data[i], popteamNicke });
+      that.setData({
+        popteamData: data[i],
+        popteamNicke
+      });
       clearInterval(timer);
       let timer = setInterval(() => {
         i++;
         if (i == len) i = 0;
         var popteamNicke = (data[i].user.nickname.length > 4) ? (data[i].user.nickname.substr(0, 4) + '...') : data[i].user.nickname;
-        that.setData({ popteamData: data[i], popteamNicke });
+        that.setData({
+          popteamData: data[i],
+          popteamNicke
+        });
       }, 4000);
-      that.setData({ showpopteamModle: true });
+      that.setData({
+        showpopteamModle: true
+      });
     })
   },
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    hasPhone = wx.getStorageSync('hasPhone') || app.globalData.hasPhone;
-    if (hasPhone) {
-      this.setData({ hasPhone });
-    } else {
-      clearInterval(phoneTime);
-      let phoneTime = setInterval(() => {
-        hasPhone = wx.getStorageSync('hasPhone') || app.globalData.hasPhone;
-        if (hasPhone) {
-          clearInterval(phoneTime);
-          this.setData({ hasPhone });
-        }
-      }, 3000);
-    }
-
-    this.loadMyCardNumData(); //我的卡包数量
-    this.getCoupValue();//优惠券数据
+  onShow: function() {
+    let that = this;
+    that.checkPhone().then(flag => {
+      that.setData({
+        hasPhone: true
+      })
+      that.loadMyCardNumData(); //我的卡包数量
+      that.getCoupValue(); //优惠券数据
+    })
 
   },
   _parse() {
     var that = this;
     wx.hideLoading();
-    that.checkPhone();//是否有手机号
-    that.loadLocation('logLat坐标信息', logLat);//获取门店信息
-    that.getCoupValue();//优惠券数据
-    that.jumpCoupon();/******首页弹窗 */
+    that.getCoupValue(); //优惠券数据
+    that.jumpCoupon(); /*首页弹窗 */
+  },
+
+  /*
+   *首次打开小程序事件
+   *
+   */
+  jumpCoupon() {
+    var that = this;
+    var params = {
+      uid,
+      store_id,
+      "page": 1
+    };
+    firstOpen(params).then(data => {
+      that.setData(data);
+    });
   },
   /**
    * 优惠券面值列表
@@ -215,9 +282,13 @@ Page({
       }
       this.setData({
         couponValue: list,
-       
+
       })
-      if (couponValue[len - 1]) { this.setData({ couponValueLast: couponValue[len - 1] })}
+      if (couponValue[len - 1]) {
+        this.setData({
+          couponValueLast: couponValue[len - 1]
+        })
+      }
     })
   },
   /**
@@ -225,7 +296,11 @@ Page({
    */
   getValue(e) {
     console.log('catch:e....', e)
-    let { id, source, activityId } = e.currentTarget.dataset;
+    let {
+      id,
+      source,
+      activityId
+    } = e.currentTarget.dataset;
     var url = `../../common/pages/card_summary?page=index&id=${id}&source=${source}&activityId=${activityId}`;
     wx.navigateTo({
       url,
@@ -236,7 +311,9 @@ Page({
    */
   setClick() {
     var set_flag = !this.data.set_flag;
-    this.setData({ set_flag });
+    this.setData({
+      set_flag
+    });
   },
   /**
    * 扫码购
@@ -268,14 +345,6 @@ Page({
     })
   },
   /**
-   * 设置当前门店
-   */
-  setLocation(opt) {
-    this.setData({
-      physicalClost: opt
-    })
-  },
-  /**
    * 获取总店信息
    */
   loadMainLocation() {
@@ -285,33 +354,50 @@ Page({
     var params = {
       store_id
     };
-    app.api.postApi(url, { params }, (err, resp) => {
-      // 列表数据
-      wx.hideLoading();
-      if (resp.err_code != 0) {
-        return;
-      }
-      phyDefualt = resp.err_msg.physical_list[0];
-      console.log('phyDefualt', phyDefualt);
-      wx.setStorageSync('phy_id', phyDefualt.phy_id);
-      that.setData({
-        physicalClost: phyDefualt
+    new Promise(resolve => {
+        app.api.postApi(url, {
+          params
+        }, (err, resp) => {
+          // 列表数据
+          wx.hideLoading();
+          if (resp.err_code != 0) {
+            return;
+          }
+          phyDefualt = resp.err_msg.physical_list[0];
+          wx.setStorageSync('phy_id', phyDefualt.phy_id);
+          that.setData({
+            physicalClost: phyDefualt
+          })
+          resolve(phyDefualt);
+        });
       })
-    });
+      .then(data => {
+        logLat = wx.getStorageSync('logLat');
+        if (logLat == '' || logLat == null) {
+          that.timer1 = setInterval(() => {
+            logLat = wx.getStorageSync('logLat');
+            that.setData({
+              logLat
+            });
+            // that._parse();
+            if (logLat) {
+              clearInterval(that.timer1);
+              that.loadLocation(data);
+            }
+          }, 1000);
+        }
+      })
   },
   /**
    * 获取当前门店位置
    */
-  loadLocation(phy_id, logLat) {
+  loadLocation(phyDefualt) {
     var that = this;
-    var phyDefualt = that.data.phyDefualt;
-    if (logLat == '' || logLat == null) {
-      app.globalData.logLat = wx.getStorageSync('logLat');
-      logLat = wx.getStorageSync('logLat');
-    }
     console.log('loglat........', logLat);
     if (!logLat) {
-      that.setData({ changeFlag: false })
+      that.setData({
+        changeFlag: false
+      })
       return;
     }
     wx.showLoading({
@@ -326,7 +412,9 @@ Page({
     }
     var url = physicalUrl;
 
-    app.api.postApi(physicalUrl, { params }, (err, resp) => {
+    app.api.postApi(physicalUrl, {
+      params
+    }, (err, resp) => {
       // 列表数据
       wx.hideLoading();
       if (resp.err_code != 0) {
@@ -338,7 +426,9 @@ Page({
           phyDefualt = list[j];
         }
       }
-      if (phyDefualt.length == 0) { phyDefualt = list[0]; }
+      if (phyDefualt.length == 0) {
+        phyDefualt = list[0];
+      }
       that.setData({
         physicalClost: phyDefualt
       })
@@ -356,34 +446,21 @@ Page({
   send() {
     app.send();
   },
-  /*
-  *首次打开小程序事件
-  *
-  */
-  jumpCoupon() {
-    var that = this;
-    var params = {
-      uid,
-      store_id,
-      "page": 1
-    };
-    firstOpen(params).then(data => {
-      that.setData(data);
-    });
 
-
-  },
   /**
    * 新用户领券
    */
   getCoupon() {
     var that = this;
-    that.setData({ showModel: false });
+    that.setData({
+      showModel: false
+    });
 
     if (that.data.coupon_id_arr.length < 1) {
       wx.showToast({
         title: '没有相关的优惠券领取',
-      }); return;
+      });
+      return;
     }
     var params = {
       uid,
@@ -397,7 +474,9 @@ Page({
 
   cancelCoupon() {
     var that = this;
-    that.setData({ showModel: false })
+    that.setData({
+      showModel: false
+    })
 
     var params = {
       uid,
@@ -416,7 +495,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
@@ -425,67 +504,81 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
     this.stopCountDown();
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
   //跳到拼多多列表页
-  clickGoGroup: function () {
+  clickGoGroup: function() {
     wx.navigateTo({
       url: '../../group-buying/grouplist',
     })
   },
   //咿呀拼多多三条数据
-  loadGroupData: function () {
-    wx.showLoading({ title: '加载中' });
-    app.api.postApi(pintuanUrl, { "params": { store_id } }, (err, rep) => {
+  loadGroupData: function() {
+    wx.showLoading({
+      title: '加载中'
+    });
+    app.api.postApi(pintuanUrl, {
+      "params": {
+        store_id
+      }
+    }, (err, rep) => {
       wx.hideLoading();
       if (err || rep.err_code != 0) return;
       var data = rep.err_msg;
-      this.setData({ groupData: data });
+      this.setData({
+        groupData: data
+      });
     });
   },
   //跳到拼团商品页
-  clickGoGroupProduct: function (e) {
-    var { prodid, tuanid, quantity } = e.currentTarget.dataset;//商品id,团购id，数量
+  clickGoGroupProduct: function(e) {
+    var {
+      prodid,
+      tuanid,
+      quantity
+    } = e.currentTarget.dataset; //商品id,团购id，数量
     if (quantity > 0) {
       var sellout = 1;
     } else {
       var sellout = 0;
     }
     var url = '../../group-buying/group-buying?prodId=' + prodid + '&tuanId=' + tuanid + '&sellout=' + sellout;
-    wx.navigateTo({ url });
+    wx.navigateTo({
+      url
+    });
   },
 
   //跳到秒杀列表页
-  clickGoSecKill: function (e) {
+  clickGoSecKill: function(e) {
     var type = e.currentTarget.dataset.type;
     var index = e.currentTarget.dataset.index;
     wx.navigateTo({
@@ -494,7 +587,7 @@ Page({
 
   },
   //跳到秒杀商品页
-  clickGoSecKillProduct: function (e) {
+  clickGoSecKillProduct: function(e) {
     var prodId = e.target.dataset.prodid; //商品ID
     var productPrice = e.target.dataset.productprice; //商品原来价格
     var skPrice = e.target.dataset.skprice; //商品秒杀价格
@@ -509,17 +602,24 @@ Page({
     })
   },
   /**
- * 秒杀数据
- */
+   * 秒杀数据
+   */
   loadSecKillData() {
-    wx.showLoading({ title: '加载中...', mask: true, });
+    wx.showLoading({
+      title: '加载中...',
+      mask: true,
+    });
     let secKillData = [];
     app.api.fetchApi("seckill/SecHead", (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('网络出错，请稍候重试');
       }
-      let { rtnCode, rtnMessage, data = [] } = resp;
+      let {
+        rtnCode,
+        rtnMessage,
+        data = []
+      } = resp;
       if (rtnCode != 0) {
         return this._showError(rtnMessage);
       }
@@ -533,7 +633,13 @@ Page({
       }
       //typeof onLoaded === 'function' && onLoaded();
       //this.startCountDown(replaceData); ////先注释掉计时器
-      this.setData({ secKillData, showTime, type, index, expireTime });
+      this.setData({
+        secKillData,
+        showTime,
+        type,
+        index,
+        expireTime
+      });
     });
   },
   /**
@@ -567,22 +673,32 @@ Page({
   },
 
   /**
- * 显示错误信息
- */
+   * 显示错误信息
+   */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
-    this.setData({ error: errorMsg });
+    wx.showToast({
+      title: errorMsg,
+      image: '../../../image/use-ruler.png',
+      mask: true
+    });
+    this.setData({
+      error: errorMsg
+    });
     return false;
   },
   //点击事件banner菜单
-  clickGo: function (e) {
-    var { index } = e.currentTarget.dataset;
+  clickGo: function(e) {
+    var {
+      index
+    } = e.currentTarget.dataset;
     index = index - 1;
     //跳链数组:门店活动，领券，新品试用，附近门店
     var url = [`../../common/pages/index-activity`, `../../common/pages/index-mom`, `../../home/pages/present`, `../../common/pages/store-list`];
     console.log(url[index]);
     if (url[index]) {
-      wx.navigateTo({ url: url[index] + '?categoryid=100&page=1&store_id=' + store_id });
+      wx.navigateTo({
+        url: url[index] + '?categoryid=100&page=1&store_id=' + store_id
+      });
     }
   },
   getProductData(categoryid) {
@@ -590,78 +706,86 @@ Page({
       store_id, //店铺id
       page: '1',
     };
-    app.api.postApi(activityUrl, { params }, (err, resp) => {
+    app.api.postApi(activityUrl, {
+      params
+    }, (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('网络出错，请稍候重试');
       }
-      let { err_code, err_msg } = resp;
+      let {
+        err_code,
+        err_msg
+      } = resp;
       if (err_code != 0) {
         return this._showError('无数据');
       }
       // let { err_msg: { result_data: { acrivity_element = [] } } } = resp, list = [];
-      let { err_msg: { acrivity_element = [] } } = resp, list = [];
+      let {
+        err_msg: {
+          acrivity_element = []
+        }
+      } = resp, list = [];
       let j = acrivity_element.length > 4 ? 4 : acrivity_element.length;
       for (var i = 0; i < j; i++) {
         list.push(acrivity_element[i]);
       }
-      this.setData({ productData: list });
+      this.setData({
+        productData: list
+      });
 
     });
   },
 
-  loadMyCardNumData: function () {
-    var uid = this.data.uid, params = {}, that = this;
-    if (uid) {
+  loadMyCardNumData: function() {
+    var uid = this.data.uid,
+      params = {},
+      that = this;
       params = {
         uid,
         store_id,
       }
-      app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {
+      app.api.postApi('wxapp.php?c=coupon&a=my_card_num', {
+        params
+      }, (err, response) => {
         if (err || response.err_code != 0) return;
         var card_num = response.err_msg.card_num;
-        this.setData({ card_num });
+        this.setData({
+          card_num
+        });
       });
-    } else {
-      clearInterval(that.timer2);
-      var i = 0;
-      that.timer2 = setInterval(() => {
-        uid = wx.getStorageSync('userUid');
-        i++;
-        this.loadMyCardNumData(); //我的卡包数量
-        if (uid || i > 3) {
-          clearInterval(that.timer2);
-          params = {
-            uid: uid,
-            store_id,
-          }
-          app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {
-            if (err || response.err_code != 0) return;
-            var card_num = response.err_msg.card_num;
-            this.setData({ card_num });
-          });
-        }
-      }, 4000);
-    }
+   
   },
 
   /**
- * 首页精选活动数据
- */
+   * 首页精选活动数据
+   */
   loadactivityData() {
-    wx.showLoading({ title: '加载中...', mask: true, });
+    wx.showLoading({
+      title: '加载中...',
+      mask: true,
+    });
     this.getProductData();
   },
   /**
    * 精选活动跳链
    */
   areaClickGo(e) {
-    let { type, id } = e.currentTarget.dataset;
+    let {
+      type,
+      id
+    } = e.currentTarget.dataset;
     console.log(type);
     switch (type) {
-      case "1": var url = `../../common/pages/hotsale?categoryid=100&page=1&store_id=${store_id}`; break;
-      case "2": var url = `../../common/pages/shop-list?categoryid=100&page=1&store_id=${store_id}&title=爆款专区`; break;
-      case "3": var url = `./poster-detail?type=${type}&id=${id}`; break;
+      case "1":
+        var url = `../../common/pages/hotsale?categoryid=100&page=1&store_id=${store_id}`;
+        break;
+      case "2":
+        var url = `../../common/pages/shop-list?categoryid=100&page=1&store_id=${store_id}&title=爆款专区`;
+        break;
+      case "3":
+        var url = `./poster-detail?type=${type}&id=${id}`;
+        break;
     }
     if (url) {
       wx.navigateTo({
@@ -681,7 +805,9 @@ Page({
         //continue;
       }
       var countDown = this.countDown(leftTime);
-      this.setData({ countDown });
+      this.setData({
+        countDown
+      });
     }, 1000);
   },
   /**
@@ -703,7 +829,12 @@ Page({
     if (minute < 10) minute = '0' + minute;
     if (second < 10) second = '0' + second;
 
-    return { day, hour, minute, second };
+    return {
+      day,
+      hour,
+      minute,
+      second
+    };
   },
 
 })

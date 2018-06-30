@@ -18,7 +18,7 @@ var phonetest = '4006088520';//测试客服电话
 var phone = '4000001312';//正式客服电话趣购精选
 var appid = 'wx57d5cde97d7e1fd3';//趣购精选appid:wxaeb0f3eeb93b3574婴众趣购appid: wx57d5cde97d7e1fd3';
 
-var config = {
+export default{
 
   isRelease:isRelease,
 
@@ -43,11 +43,23 @@ var config = {
   // 登录地址，用于建立会话
   loginUrl: `wxapp.php?c=wechatapp_v2&a=login_new`,
 
-  //判断用户是否绑定了手机
-  checkBingUrl: `wxapp.php?c=wechatapp_v2&a=check_phone`,
+  //判断用户是否绑定了手机第一版
+  checkBingOldUrl: `wxapp.php?c=wechatapp_v2&a=check_phone`,
 
-  //获取sessionkey
+  //1、获取sessionkey
   sessionUrl: `wxapp.php?c=wechatapp_v2&a=get_session_key`,
+
+  //2、判断用户是否绑定了手机第三版
+  checkBingUrl: `wxapp.php?c=wechatapp_v2&a=check_phone_v2`,
+
+  //3、如果没有绑定手机，调用小程序的授权获取手机号码
+  getPhoneUrl:`wxapp.php?c=wechatapp_v2&a=get_phone`,
+
+  //4、用code换取openid新接口,需要session_key，第三版
+  loginNewUrl: `wxapp.php?c=wechatapp_v2&a=login_new_v2`,
+
+  // 5、绑定用户归属门店
+  bingScreenUrl:`screen.php?c=index&a=binding_user`,
 
   //用code换取openId 第一版本接口
   openIdOldUrl: `wxapp.php?c=wechatapp&a=login_new`,
@@ -55,31 +67,9 @@ var config = {
   // 用code换取openId 第二版
   openIdUrl: `wxapp.php?c=wechatapp_v2&a=login_new`,
 
-  //用code换取openid新接口,需要session_key，第三版
-  openIdNewUrl:`wxapp.php?c=wechatapp_v2&a=login_new_v2`,
-
-
   //弹窗提示参团信息
-  jumpintuanUrl: `wxapp.php?c=tuan_v2&a=pop_team_list`,
+  jumpintuanUrl: `wxapp.php?c=tuan_v2&a=pop_team_list`
 
-  // 测试的请求地址，用于测试会话
-  requestUrl: `https://${host}/testRequest`,
+}
 
-  // 测试的信道服务接口
-  tunnelUrl: `https://${host}/tunnel`,
 
-  // 生成支付订单的接口
-  paymentUrl: `https://${host}/payment`,
-
-  // 发送模板消息接口
-  templateMessageUrl: `https://${host}/templateMessage`,
-
-  // 上传文件接口
-  uploadFileUrl: `https://${host}/upload`,
-
-  // 下载示例图片接口
-  downloadExampleUrl: `https://${host}/static/weapp.jpg`,
-
-};
-
-module.exports = config

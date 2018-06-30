@@ -10,7 +10,7 @@
       <text class="modal-firstText">绑定手机号，获取优质服务</text>
     </view>
     <view class="modal-button">
-      <button  open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" catchtap='cancelPhone'>极速绑定手机号</button>
+      <button  open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" data-locationid="{{locationid}}" catchtap='cancelPhone'>极速绑定手机号</button>
     </view>
   </view>
 </view>

@@ -1,7 +1,8 @@
 const md5 = require('./md5.js');
-const HOST = require('../config.js').host;
-const IS_RELEASE = require('../config.js').isRelease;
-const AGENT_ID = require('../config.js').AGENT_ID;   
+import __config from '../config.js';
+const HOST = __config.host;
+const IS_RELEASE = __config.isRelease;
+const AGENT_ID = __config.AGENT_ID;   
 function signUrl(url, tokenId, secretKey, timestamp) {
   if (!url) url = '';
   // TODO: 有bug，参数里带有=号，会被split掉
@@ -56,7 +57,7 @@ var Api = {
           if (params != null) {
             paramsText = JSON.stringify(params);
           }
-          console.log("请求: " + url + " 传参: " + paramsText + " 返回：" + JSON.stringify(res.data));
+          // console.log("请求: " + url + " 传参: " + paramsText + " 返回：" + JSON.stringify(res.data));
         }
         typeof callback === 'function' && callback(null, res.data, res.statusCode)
       },
@@ -66,7 +67,7 @@ var Api = {
           if (params != null) {
             paramsText = JSON.stringify(params);
           }
-          console.log("请求！！: " + url + " 传参: " + paramsText + " 异常返回：" + JSON.stringify(e));
+          // console.log("请求！！: " + url + " 传参: " + paramsText + " 异常返回：" + JSON.stringify(e));
         }
         typeof callback === 'function' && callback(e)
       }

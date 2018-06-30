@@ -1,5 +1,5 @@
 <import src="../../common/template/get-tel.wxml" />
-<template wx:if="{{showPhoneModle==true}}" is="getphone-modal" data="{{templateData}}"></template>
+<template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{templateData}}"></template>
 
 <view class='myself'>
 <!--top  个人信息-->
@@ -17,12 +17,12 @@
       </view>
     </view>
   </view>
-    <!-- <view wx:if='{{phone}}' class='myself-address myself-phone'>
+     <view wx:if='{{phone}}' class='myself-address myself-phone'>
       <text class='myself-id'>{{phone}}</text>
-    </view> -->
-     <view wx:if='{{uid}}' class='myself-address myself-phone'>
+    </view> 
+     <!-- <view wx:if='{{uid}}' class='myself-address myself-phone'>
       <text class='myself-id'>{{uid}}</text>
-    </view>
+    </view> -->
   </view>
   <!--top  个人信息-->
 <!--search total 订单全部 -->
@@ -104,7 +104,16 @@
       <image class='my-go-img' src='../../../image/group-go.png'></image>
     </view>
   </view>
-    <navigator class='changePhone' hidden url='../../my/pages/bingPhone' hover-class="none">切换绑定手机</navigator>
+  <view class='my-detail-msg my-store-service' bindtap='goSetting'>
+    <view class='my-detail-gro'>
+      <image class='my-gro-img' src='../../../image/setting.png'></image>
+      <text class='my-gro-text'>设置</text>
+    </view>
+    <view class='my-gro-go'>
+      <image class='my-go-img' src='../../../image/group-go.png'></image>
+    </view>
+  </view>
+    <navigator class='changePhone' hidden  url='../../my/pages/bingPhone' hover-class="none">切换绑定手机</navigator>
   <!--拼团、卡包、指南、客服  -->
 </view>
 

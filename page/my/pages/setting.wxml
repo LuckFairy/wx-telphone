@@ -1,0 +1,10 @@
+  <view class='my-detail-msg' bindtap='goSetting'>
+    <view class='my-detail-gro'>
+      <!-- <image class='my-gro-img' src='../../../image/setting.png'></image> -->
+      <text class='my-gro-text'>手机号</text>
+    </view>
+    <view class='my-gro-go'>
+    <text class='my-go-text'>{{phone}}</text>
+      <!-- <image class='my-go-img' src='../../../image/group-go.png'></image> -->
+    </view>
+  </view>

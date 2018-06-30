@@ -104,7 +104,8 @@
         "pages/server-wechat",
         "pages/purchase-detail",
         "pages/apply-sales",
-        "pages/bingPhone"
+        "pages/bingPhone",
+        "pages/setting"
       ]
     }
   ],

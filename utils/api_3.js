@@ -89,7 +89,7 @@ var Api = {
           wx.setStorageSync('userUid', data.err_msg.uid);//存储uid
           wx.setStorageSync('hasSignin', 'true');//存储uid
           getApp().globalData.hasSignin = true;
-          getApp().globalData.info_flag=false;
+          getApp().globalData.infoFlag=false;
           //进入第5步：验证是否有手机号
           checkBingPhone(data.err_msg.uid).then(flag => {
             console.log('有手机号');

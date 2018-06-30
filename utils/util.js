@@ -1,4 +1,4 @@
-import config from '../config.js';
+import __config from '../config.js';
 import { Api } from './api_1';
 function formatTime(date) {
   var date = new Date(date * 1000);//如果date为10位不需要乘1000
@@ -51,27 +51,7 @@ function formatMoney(money) {
 function checkMobile(str) {
   return /^1[3|4|5|7|8][0-9]\d{8}$/.test(str);
 }
-/**检验是否绑定手机 */
-function checkBingPhone(uid, store_id) {
-  return new Promise((resolve, reject) => {
-    var params = {
-      "store_id": store_id,
-      "uid": uid ? uid : wx.getStorageSync('userUid')
-    };
-    Api.postApi(config.checkBingUrl, { params }, (error, rep) => {
-      var { err_code = '', err_msg } = rep;
-      if (err_code == 0 && err_msg.is_phone == 1) {
-        wx.setStorageSync('phone', err_msg.phone);
-        wx.setStorageSync("hasPhone", "true");
-        getApp().globalData.hasPhone = true;
-        resolve(true);
-      } else {
-        reject('用户没有绑定手机');
-      }
 
-    })
-  })
-}
 /**
  * 调用微信地址
  */
@@ -88,14 +68,6 @@ function getAddress() {
               wx.chooseAddress({
                 success: function (res) {
                   resolve(res);
-                  // console.log(res.userName)
-                  // console.log(res.postalCode)
-                  // console.log(res.provinceName)
-                  // console.log(res.cityName)
-                  // console.log(res.countyName)
-                  // console.log(res.detailInfo)
-                  // console.log(res.nationalCode)
-                  // console.log(res.telNumber)
                 },
                 fail: function (err) {
                   reject(err || '用户收货地址调取失败')
@@ -110,4 +82,4 @@ function getAddress() {
 }
 
 
-module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile, checkBingPhone, getAddress}
+module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile,getAddress}
