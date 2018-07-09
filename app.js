@@ -107,10 +107,21 @@ App({
       wx.showToast({ title: '推送消息失败，无formIds', });
       return;
     };
+    let arr = [];
+    if (formIds.length > 1) {
+      for (var i in formIds) {
+        var item = formIds[i];
+        if (item.timeStamp != undefined && item.token != undefined && item.timeStamp != '' && item.token != '') {
+          arr.push(item);
+          break;
+        }
+      };
+    }
+    let arr2 = arr.length > 0 ? arr : formIds;
     var params = {
       "uid": that.globalData.uid,
       "sid": that.globalData.sid,
-      "tokens":formIds
+      "tokens": arr2
     }
     console.log('saveId params。。。。', params);
     that.api.postApi('wxapp.php?c=tempmsg&a=formid_save', { params }, (err, rep) => {

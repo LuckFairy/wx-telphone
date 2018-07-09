@@ -26,7 +26,6 @@ Page({
     var store_id = app.store_id; //store_id    
     var uid = wx.getStorageSync('userUid');
 
-
     this.setData({
       store_id,
       uid
@@ -126,12 +125,12 @@ Page({
   },
 
   buildRedirctUrlNew: function() {
-    let resType = qrData.resType;
-    let resId = qrData.resId;
-    let activityId = qrData.activityId;
-    let groupbuyId = qrData.groupbuyId;
-    let groupbuyOrderId = qrData.groupbuyOrderId;
-    let uid = qrData.uid;
+    let resType = qrData.resType;//跳转页面类型
+    let resId = qrData.resId;//页面id
+    let activityId = qrData.activityId;//活动id
+    let groupbuyId = qrData.groupbuyId;//团购id
+    let groupbuyOrderId = qrData.groupbuyOrderId;//团购订单id
+    let uid = qrData.uid;//uid
     let sellout = qrData.sellout; //是否售罄 0售罄 1未售罄
     //秒杀活动
     let price = qrData.price; //商品价格
@@ -144,11 +143,30 @@ Page({
 
     let url = '';
     if (resType == 'card') { //跳转到卡券领取页面
-      //url = '../card/card_summary?cardId=' + resId + '&activityId=' + activityId + '&qrEntry=1';
-      url = '../card/card_summary?id=' + resId + '&source=2' + '&qrEntry=1';
+      url = '../card/card_summary?cardId=' + resId + '&activityId=' + activityId + '&qrEntry=1';
     } else if (resType == 'goods') { //商品详情页面
       url = '../shopping/goods-detail?prodId=' + resId + '&action=' + action + '&qrEntry=1';
-
+    }else if (resType == 'redbox') {
+      url = '../redbox/redbox?qrEntry=1';
+    } else if (resType == 'groupbuy') { //一键开团
+      url = '../group-buying/group-buying?prodId=' + resId + '&groupbuyId=' + groupbuyId + '&sellout=' + sellout + '&qrEntry=1';
+    } else if (resType == 'gobuy') { //去参团
+      url = '../group-buying/group-buying?prodId=' + resId + '&groupbuyId=' + groupbuyId + '&groupbuyOrderId=' + groupbuyOrderId + '&qrEntry=1';
+    } else if (resType == 'seckill') { //去秒杀
+      url = '../index-new/goods-detail?prodId=' + resId + '&productPrice=' + price + '&skPrice=' + skPrice + '&activityStatus=' + status + '&expireTime=' + expire_time + '&hadnum=' + hadnum + '&pskid=' + pskId + '&qrEntry=1';
+    } else if (resType == 'dazhuanpan') { //大转盘
+      url = '../lottery/dazhuanpan?qrEntry=1';
+    } else if (resType == 'baokuan') { //爆款专区
+      url = '../index-new/index-baokuan?categoryid=100&page=1&qrEntry=1';
+      console.log('baokuan url=', url);
+    } else if (resType == 'hotsale') { //热销专区
+      url = '../index-new/index-hotsale?categoryid=101&page=1&qrEntry=1';
+    } else if (resType == 'festival') { //活动专区
+      url = '../index-new/index-festival?categoryid=105&page=1&qrEntry=1';
+    } else if (resType == 'goodss') { //百货专区
+      url = '../index-new/index-goods?categoryid=102&page=1&qrEntry=1';
+    } else if (resType == 'mycard') { //我的卡包
+      url = '../card/mycard?qrEntry=1';
     } else if (resType == 'trial') { //赠品领取页面
       url = '../present/present-apply?qrEntry=1&options=';
       app.api.fetchApi('trial/item/' + resId, (err, response) => {
@@ -165,28 +183,7 @@ Page({
           url: url
         });
       });
-    } else if (resType == 'redbox') {
-      url = '../redbox/redbox?qrEntry=1';
-    } else if (resType == 'groupbuy') { //一键开团
-      url = '../group-buying/group-buying?prodId=' + resId + '&groupbuyId=' + groupbuyId + '&sellout=' + sellout + '&qrEntry=1';
-    } else if (resType == 'gobuy') { //去参团
-      url = '../group-buying/group-buying?prodId=' + resId + '&groupbuyId=' + groupbuyId + '&groupbuyOrderId=' + groupbuyOrderId + '&qrEntry=1';
-    } else if (resType == 'seckill') { //去秒杀
-      url = '../index-new/goods-detail?prodId=' + resId + '&productPrice=' + price + '&skPrice=' + skPrice + '&activityStatus=' + status + '&expireTime=' + expire_time + '&hadnum=' + hadnum + '&pskid=' + pskId + '&qrEntry=1';
-    } else if (resType == 'dazhuanpan') { //大转盘
-      url = '../lottery/dazhuanpan?qrEntry=1';
-    } else if (resType == 'baokuan') { //爆款专区
-      url = '../index-new/index-baokuan?categoryid=100&page=1&store_id=' + this.data.store_id + '&qrEntry=1';
-      console.log('baokuan url=', url);
-    } else if (resType == 'hotsale') { //热销专区
-      url = '../index-new/index-hotsale?categoryid=101&page=1&store_id=' + this.data.store_id + '&qrEntry=1';
-    } else if (resType == 'festival') { //活动专区
-      url = '../index-new/index-festival?categoryid=105&page=1&store_id=' + this.data.store_id + '&qrEntry=1';
-    } else if (resType == 'goodss') { //百货专区
-      url = '../index-new/index-goods?categoryid=102&page=1&store_id=' + this.data.store_id + '&qrEntry=1';
-    } else if (resType == 'mycard') { //我的卡包
-      url = '../card/mycard?qrEntry=1';
-    }
+    } 
 
     if (url) {
       wx.redirectTo({
@@ -197,83 +194,6 @@ Page({
         url: indexUrl + `?locationid=${locationId}`,
       });
     }
-  },
-  redirctPage: function () {
-    Promise.all([this.buildRedirctUrl(), this.checkUserFirstVisit()]).then(rtnData => {
-      let url = rtnData[0];
-      wx.redirectTo({
-        url: url
-      });
-    }).catch(err => {
-      wx.switchTab({
-        url: indexUrl + `?locationid=${locationId}`,
-      });
-    });
-  },
-  checkUserFirstVisit: function () {
-    let locId = qrData.location_id;
-    return new Promise((resolve, reject) => {
-      app.api.postApi('user/checkUserFirstVisit', { locationId: locId }, (err, response) => {
-        if (err) return;
-        let { rtnCode, data } = response;
-        if (rtnCode != 0) {
-        } else {
-        }
-        resolve("ok");
-      });
-    });
-
-  },
-
-  buildRedirctUrl: function () {
-    return new Promise((resolve, reject) => {
-      let resType = qrData.resType;
-      let resId = qrData.resId;
-      let activityId = qrData.activityId;
-      let groupbuyId = qrData.groupbuyId;
-      let groupbuyOrderId = qrData.groupbuyOrderId;
-      let uid = qrData.uid;
-      let sellout = qrData.sellout; //是否售罄 0售罄 1未售罄
-
-      //秒杀活动
-      let price = qrData.price; //商品价格
-      let skPrice = qrData.skPrice; //秒杀价格
-      let status = qrData.status; //活动状态 1已经开始 2进行中 3即将开始
-      let expire_time = qrData.expire_time; //活动结束时间（其实已经用不上了）
-      let hadnum = qrData.hadnum; //商品数量
-      let pskId = qrData.pskId; //秒杀产品ID
-
-      let url = '../index-new/index-new';
-
-      if (resType == 'card') {//跳转到卡券领取页面
-        url = '../card/card_summary?cardId=' + resId + '&activityId=' + activityId + '&qrEntry=1';
-        resolve(url);
-      } else if (resType == 'goods') {//商品详情页面
-        url = '../shopping/goods-detail?prodId=' + resId + '&qrEntry=1';
-        resolve(url);
-      } else if (resType == 'trial') {//赠品领取页面
-        url = '../present/present-apply?qrEntry=1&options=';
-        app.api.fetchApi('trial/item/' + resId, (err, response) => {
-          if (err) reject(err);
-          let { rtnCode, data } = response;
-          if (rtnCode != 0) {
-            reject(rtnCode);
-          }
-          url = url + JSON.stringify(data);
-          resolve(url);
-        });
-      } else if (resType == 'redbox') {
-        url = '../redbox/redbox?qrEntry=1';
-        resolve(url);
-      } else if (resType == 'groupbuy') { //一键开团
-        url = '../group-buying/group-buying?prodId=' + resId + '&groupbuyId=' + groupbuyId + '&sellout=' + sellout + '&qrEntry=1';
-      } else if (resType == 'gobuy') { //去参团
-        url = '../group-buying/group-buying?prodId=' + resId + '&groupbuyId=' + groupbuyId + '&groupbuyOrderId=' + groupbuyOrderId + '&qrEntry=1';
-      } else if (resType == 'seckill') { //去秒杀
-        url = '../index-new/goods-detail?prodId=' + resId + '&productPrice=' + price + '&skPrice=' + skPrice + '&activityStatus=' + status + '&expireTime=' + expire_time + '&hadnum=' + hadnum + '&pskid=' + pskId + '&qrEntry=1';
-      }
-    });
-
   },
 
 })

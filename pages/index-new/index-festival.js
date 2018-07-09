@@ -1,5 +1,6 @@
 // pages/index-new/index-baokuan.js
 var app = getApp();
+let store_id = app.store_id;
 Page({
 
   /**
@@ -38,7 +39,7 @@ Page({
       title: '加载中...',
       mask: true
     });
-    var { categoryid, page, store_id } = opt;
+    var { categoryid, page } = opt;
     var params = { "store_id": store_id, "page": page, "categoryid": categoryid };
 
     this.getProductData(params);

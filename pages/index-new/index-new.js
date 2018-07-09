@@ -654,30 +654,30 @@ Page({
   },
   //跳到爆款商品页
   clickGoBaoKuan: function (e) {
-    var { categoryid, page = "1", store_id = this.data.store_id } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    var { categoryid, page = "1"} = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
     wx.navigateTo({
-      url: './index-baokuan?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
+      url: './index-baokuan?categoryid=' + categoryid + '&page=' + page 
     })
   },
   //跳到热销商品页
   clickGoHotSale: function (e) {
-    var { categoryid, page = "1", store_id = this.data.store_id } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    var { categoryid, page = "1" } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
     wx.navigateTo({
-      url: './index-hotsale?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
+      url: './index-hotsale?categoryid=' + categoryid + '&page=' + page 
     })
   },
   //跳到百货商品页
   clickGoGoods: function (e) {
-    var { categoryid, page = "1", store_id = this.data.store_id } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    var { categoryid, page = "1" } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
     wx.navigateTo({
-      url: './index-goods?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
+      url: './index-goods?categoryid=' + categoryid + '&page=' + page 
     })
   },
   //跳到活动（节日）商品页
   clickGoFestival: function (e) {
-    var { categoryid, page = "1", store_id = this.data.store_id } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
+    var { categoryid, page = "1" } = e.currentTarget.dataset;// 分类id , 分页码 ， 店铺id
     wx.navigateTo({
-      url: './index-festival?categoryid=' + categoryid + '&page=' + page + '&store_id=' + store_id
+      url: './index-festival?categoryid=' + categoryid + '&page=' + page 
     })
   },
   //跳到热门推荐商品页

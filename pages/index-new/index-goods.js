@@ -1,5 +1,6 @@
 // pages/index-new/index-baokuan.js
 var app = getApp();
+let store_id = app.store_id;
 Page({
 
   /**
@@ -12,7 +13,7 @@ Page({
    * 加载商品列表数据
    */
   getProductData(opt) {
-    var { categoryid, page, store_id } = opt;
+    var { categoryid, page } = opt;
     var params = { "store_id": store_id, "page": page , "categoryid": categoryid };
     let url = 'wxapp.php?c=product&a=get_product_list';
     app.api.postApi(url, { "params": params }, (err, resp) => {
