@@ -127,7 +127,7 @@ Page({
   buildRedirctUrlNew: function() {
     let resType = qrData.resType;//跳转页面类型
     let resId = qrData.resId;//页面id
-    let activityId = qrData.activityId;//活动id
+    let activityId = qrData.activityId;//优惠券类型
     let groupbuyId = qrData.groupbuyId;//团购id
     let groupbuyOrderId = qrData.groupbuyOrderId;//团购订单id
     let uid = qrData.uid;//uid
@@ -143,7 +143,7 @@ Page({
 
     let url = '';
     if (resType == 'card') { //跳转到卡券领取页面
-      url = '../card/card_summary?cardId=' + resId + '&activityId=' + activityId + '&qrEntry=1';
+      url = '../card/card_summary?id=' + resId + '&activityId=' + activityId + '&qrEntry=1';
     } else if (resType == 'goods') { //商品详情页面
       url = '../shopping/goods-detail?prodId=' + resId + '&action=' + action + '&qrEntry=1';
     }else if (resType == 'redbox') {

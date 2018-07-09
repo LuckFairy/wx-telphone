@@ -11,32 +11,40 @@ Page({
       name:'',
       originalPrice:'',
       startTime:'',
-      id:'',
+      id:'',//优惠券id
       codeFlag: true,//是否显示条形码
-      activityId:'',
+      activityId: '',//优惠券类型，线上优惠券不传这个，线下优惠券传这个236 门店促销 ，237 母婴服务, 238 母婴服务
       detailData:"",
-      distinguish:"",
-      source:"",
+      distinguish: "",// 判断是否从卡包进来 0是卡包入口
+      is_use: false,//0没有使用，1使用过
+      is_valid:1, //0过期，1未过期
+      is_get:false,//true立即领取，false立即使用
       store_id:''
     },
     onLoad: function (options) {
       var that = this;
-      console.log(options,'新数据');
+      console.log('参数。。。。。',options);
       var activityId = options.activityId;
-      var id = options.id;
+      var id = options.id || options.cardId;//优惠券id
       var distinguish = options.distinguish;
       var source = options.source;
       var store_id=app.store_id;
       var uid = wx.getStorageSync('userUid');
       var openId = wx.getStorageSync('userOpenid');
       that.setData({
-        source,store_id
+        store_id,id
       })
+      if (activityId) {
+        that.setData({ activityId });
+      }
+      if (source){
+        that.setData({ source });
+      }
       // 请求详情页数据
       var params = {
         id
       }
-      // 判断是否从卡包进来 0是卡包入口
+      // 判断是否从我的卡包进来 0是卡包入口
       if (distinguish==0){
         app.api.postApi('wxapp.php?c=coupon&a=coupon_detail', { params }, (err, resp) => {
           wx.hideLoading();
@@ -46,9 +54,12 @@ Page({
           if (resp) {
             console.log("详情页数据1", resp);
             var detailData = resp.err_msg;
-            that.replace(detailData.card_no);
+            var is_use = detailData.is_use==1?true:false;
+            // that.replace(detailData.card_no);
             that.setData({
-              detailData
+              detailData,
+              is_use,
+              is_get: false,
             })
           }
         });
@@ -61,29 +72,32 @@ Page({
           if (resp) {
             console.log("详情页数据2", resp);
             var detailData = resp.err_msg;
+            var is_use = detailData.is_use == 1 ? true : false;
             //that.replace(detailData.card_no);
             that.setData({
-              detailData
+              detailData,
+              is_use,
+              is_get:true,
             })
           }
         });
       }
-      that.setData({
-        id: id,
-        activityId: activityId
-      })
+    
 
-     
-      
-        // 页面初始化 options为页面跳转所带来的参数
-        // let {cardId, saved, activityId, qrEntry} = options;
-        // console.log('current card summary options=' + options);
+        // let {qrEntry} = options;
+        // if (qrEntry) { this.setData({ qrEntry: qrEntry })}
         // if (saved) {
         //     let checkQrImgUrl = wx.getStorageSync('checkQrImgUrl');
         //     this.setData({ saved: saved, checkQrImgUrl: checkQrImgUrl });
         // }
-        // this.setData({ qrEntry: qrEntry });
-        // this.loadData(cardId, activityId);
+        // if (activityId) { that.setData({ activityId });
+        // if(cardId){
+        //   this.loadData(cardId, activityId);
+        // } }
+   
+    },
+    onShow: function () {
+      // 页面显示
     },
     goCoupon(e){
       console.log(e,'点击到详情参数')
@@ -94,6 +108,7 @@ Page({
         url: './card_detail?start=' + start + '&end=' + end + '&detail=' + detail
       })
     },
+     //保存优惠券
     saveCardNew(e){
       var that = this;
       var store_id = that.data.store_id;
@@ -115,6 +130,7 @@ Page({
         }
         if (resp.err_code==0){
           // 领取成功
+          that.setData({is_get:false})
           wx.showModal({
             title: '领券成功',
             content: '该优惠券已经放进卡包待使用',
@@ -152,12 +168,25 @@ Page({
         isTrue: true
       })
     },
+    closeOverlay: function () {
+      this.setData({ showOverlay: false});
+    },
+    showOverlay: function () {
+      var that = this;
+      wx.showLoading({ title: '加载中...', mask: true, });
+      setTimeout(function () {
+        that.setData({ showOverlay: true});
+        wx.hideLoading();
+      }, 500);
+    },
+    replace(str) {
+      var str2 = str.replace(/\d/g, '');
+      if (str2.length > 0) { this.setData({ codeFlag: false }) } else { this.setData({ codeFlag: true }) };
+    },
     onReady: function () {
         // 页面渲染完成
     },
-    onShow: function () {
-        // 页面显示
-    },
+   
     onHide: function () {
         // 页面隐藏
     },
@@ -300,19 +329,4 @@ Page({
     });
     },
 
-    closeOverlay: function () {
-        this.setData({ showOverlay: false });
-    },
-    showOverlay: function () {
-      var that=this;
-      wx.showLoading({ title: '加载中...', mask: true, });
-      setTimeout(function () {
-        that.setData({ showOverlay: true, isUsedOrGet: false });
-        wx.hideLoading(); 
-      }, 500);
-    },
-    replace(str) {
-      var str2 = str.replace(/\d/g, '');
-      if (str2.length > 0) { this.setData({ codeFlag: false }) } else { this.setData({ codeFlag: true }) };
-    }
 })

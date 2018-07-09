@@ -68,7 +68,7 @@ var Api = {
       //console.log('开始服务端配置信息！', params); 
       // 'X-Agent-Id': AGENT_ID
       wx.request({
-        url: "https://saas.qutego.com/wxapp.php?c=wechatapp&a=login_new",
+        url: config.host + config.loginOldUrl,
         data: {
           params
         },
@@ -79,7 +79,8 @@ var Api = {
         success(resp) {
     
           console.log("_doSignin成功！")
-          let { rtnCode, rtnMessage, data } = resp;
+          let { statusCode, errMsg, data } = resp;
+          if (data.err_code != 0) {return callback2();}
           // // 进入第4步
           // _onSignin(data);
           wx.setStorageSync('userOpenid', data.err_msg.openid);//存储openid

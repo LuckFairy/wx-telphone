@@ -43,6 +43,9 @@ var config = {
   //获取sessionkey
   sessionUrl: `wxapp.php?c=wechatapp_v2&a=get_session_key`,
 
+  //登陆接口
+  loginOldUrl:`wxapp.php?c=wechatapp&a=login_new`,
+
   //用code换取openId 第一版本接口
   openIdOldUrl: `wxapp.php?c=wechatapp&a=login_new`,
 

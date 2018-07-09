@@ -19,8 +19,8 @@
       <view class="card-name-view" style='color: #a9a9a9'>{{detailData.cname}}</view>
       <view class="card-vlidate-date-view">有效期：{{detailData.start_time_str}}-{{detailData.end_time_str}}</view>
 
-      <view wx:if="{{source!=2}}" class="card-btn-use {{isUsedOrGet ? 'hide': ''}}" data-card-id="" bindtap="showOverlay">立即使用</view>
-      <view wx:if="{{source==2}}" data-activityId='{{activityId}}' data-id='{{id}}' class="card-btn-save {{(isUsedOrGet || cardInfo.exist) ? 'hide': ''}}" data-card-id="{{cardInfo.cardId}}" bindtap="saveCardNew">保存优惠券</view>
+      <view wx:if="{{!is_get}}" class="card-btn-use {{is_use ? 'hide': ''}}" data-card-id="{{id}}" bindtap="showOverlay">立即使用</view>
+      <view wx:if="{{is_get}}" data-activityId='{{activityId}}' data-id='{{id}}' class="card-btn-save {{(is_use || cardInfo.exist) ? 'hide': ''}}" data-card-id="{{cardInfo.cardId}}" bindtap="saveCardNew">保存优惠券</view>
        <view style="margin-bottom:40px;"></view> 
       <!-- 功能列表区 -->
       <view bindtap='goCoupon' data-detail='{{detailData.description}}' data-end='{{detailData.end_time_str}}' data-start='{{detailData.start_time_str}}' class="func-list-view" style='color: #a9a9a9'>
