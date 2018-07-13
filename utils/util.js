@@ -80,6 +80,33 @@ function getAddress() {
     })
   })
 }
+/**
+ * 调用微信用户信息
+ */
+function getuserInfo() {
+  return new Promise((resolve, reject) => {
+    // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userInfo	']) {
+          wx.authorize({
+            scope: 'scope.userInfo',
+            success() {
+              // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+              wx.chooseAddress({
+                success: function (res) {
+                  resolve(res);
+                },
+                fail: function (err) {
+                  reject(err || '用户信息调取失败')
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  })
+}
 
-
-module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile,getAddress}
+module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile, getAddress, getuserInfo}

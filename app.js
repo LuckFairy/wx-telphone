@@ -1,19 +1,205 @@
 import sign from './utils/api_4'
 import __config from './config'
+import { ajax } from './utils/api_1'
+import WxService from './utils/WxService'
 App({
   onLaunch: function() {
     var logs = wx.getStorageSync('logs') || []
     // unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs);
+    this.getLocation();//获取位置信息
   },
-  api: sign.api,
+  api: ajax,
   store_id: __config.sid,
-  globalData: sign.globalData,
-  login: function(opts) {
+  WxService: new WxService,
+  globalData: {
+    code: null,
+    userInfo: null,
+    sessionKey: null,
+    phone: null,
+    openid: null,
+    uid: null, //用户id
+    sid: __config.sid, //商店id
+    logLat: null, //当前位置
+    formIds: [], //消息推送id
+  },
+  getLocation: function () {
+    this.WxService.getLocation()
+      .then(res => {
+        var latitude = res.latitude, longitude = res.longitude //维度，经度
+        var logLat = [longitude, latitude];
+        wx.setStorageSync('logLat', logLat);
+      })
+  },
+  checkphone:function(){
     let that = this;
-    sign.getLocation();
-    sign.signin(opts);
+    let uid = wx.getStorageSync('userUid');
+    if (uid) {
+      console.log('已经有uid了,不弹窗');
+      return new Promise(resolve => {
+        var opts = { is_phone: 1, uid: uid, openid: wx.getStorageSync('openid'), phone: wx.getStorageSync('phone') }
+        resolve(opts);
+      });
+    }
+    //1、登录
+    return new Promise((resolve, reject) => {
+
+      that.WxService.login()
+      .then(data => {
+          console.log('jscode', data);
+          that.globalData.code = data.code;
+          var params = {
+            "jscode": data.code,
+            "store_id": __config.sid
+          };
+          // 2、获取sessionkey
+          return that.getSessionkey(params);
+        }).then(data => {
+          console.log(data);
+          that.globalData.sessionKey = data.session_key;
+          that.globalData.openid = data.openid;
+          wx.setStorageSync('sessionKey', data.session_key);
+          wx.setStorageSync('openid', data.openid);
+          var params = {
+            "store_id": __config.sid,
+            "openid": data.openid
+          }
+          // 3、是否绑定手机
+          return that.checkPhone(params)
+        }).then(data=>{
+          resolve(data);
+        }).catch(data=>{
+          reject(data)
+        })
+    })
+  },
+  login: function (__opts) {
+    console.log('弹窗登陆。。。');
+    let iv = __opts.iv, encryptedData = __opts.encryptedData, key = that.globalData.sessionKey;
+    var params = { "session_key": key, iv, encryptedData, "store_id": __config.sid };
+    that.getPhone(params)
+      .then(data => {
+        that.globalData.phone = data.phone;
+        wx.setStorageSync('phone', data.phone);
+        var params = {
+          "store_id": __config.sid,
+          "openid": that.globalData.openid,
+          "phone": data.phone
+        }
+        return that.loginNew(params);
+      }).then(data => {
+        that.globalData.uid = data.uid;
+        wx.setStorageSync('userUid', data.uid); //存储uid
+        //绑定门店
+        if (__opts.locationid) {
+          var opts = {
+            store_id: __config.sid,
+            item_store_id: __opts.locationid,
+            uid: data.uid
+          }
+          that.bingUserScreen(opts);
+        }
+      })
+  },
+  /**
+  *1、 获取sessionkey
+  */
+  getSessionkey: function (params) {
+    var that = this;
+    return new Promise((resolve, reject) => {
+      console.log('getSessionkey--params', params);
+      that.api.postApi(__config.sessionUrl, {
+        params
+      }, (err, rep) => {
+        if (err || rep.err_code != 0) {
+          console.error(rep.err_msg)
+          reject(rep.err_msg);
+        }
+        if (rep.err_code == 0) {
+          resolve(rep.err_msg);
+        }
+      })
+    })
+  },
+  /**
+   *2、 判断用户是否已经绑定了手机号码
+   */
+  checkPhone(params) {
+    var that = this;
+    return new Promise((resolve, reject) => {
+      console.log('checkPhone--params', params);
+      that.api.postApi(__config.checkBingUrl, {
+        params
+      }, (err, rep) => {
+        if (err || rep.err_code != 0 || rep.err_msg.is_phone == 0) {
+          console.error(rep.err_msg)
+          reject(rep.err_msg);
+        }
+        if (rep.err_msg.is_phone == 1) {
+          resolve(rep.err_msg);
+        }
+      })
+    })
+  },
+  /**
+ *3、 如果没有绑定手机，调用小程序的授权获取手机号码
+ */
+  getPhone(params) {
+    var that = this;
+    return new Promise((resolve, reject) => {
+      console.log('checkPhone--params', params);
+      that.api.postApi(__config.getPhoneUrl, {
+        params
+      }, (err, rep) => {
+        if (err || rep.err_code != 0) {
+          console.error(rep.err_msg)
+          reject(rep.err_msg);
+        }
+        if (rep.err_code == 0) {
+          resolve(rep.err_msg);
+        }
+      })
+    })
+  },
+  /**
+   * 4、获取到手机号码之后，开始第四个接口，创建用户，返回uid
+   */
+  loginNew(params) {
+    var that = this;
+    return new Promise((resolve, reject) => {
+      console.log('loginNew--params', params);
+      that.api.postApi(__config.loginNewUrl, {
+        params
+      }, (err, rep) => {
+        if (err || rep.err_code != 0) {
+          console.error(rep.err_msg)
+          reject(rep.err_msg);
+        }
+        if (rep.err_code == 0) {
+          resolve(rep.err_msg);
+        }
+      })
+    })
+  },
+  /**
+   * 5、绑定用户归属门店
+   */
+  bingUserScreen(params) {
+    var that = this;
+    return new Promise((resolve, reject) => {
+      console.log('bingUserScreen--params', params);
+      that.api.postApi(__config.bingScreenUrl, {
+        params
+      }, (err, rep) => {
+        if (err || rep.err_code != 0) {
+          console.error(rep.err_msg.err_log)
+        }
+        if (rep.err_code == 0) {
+          console.log(rep.err_msg.result);
+        }
+      })
+    })
   },
   /**
    * 拨打电话

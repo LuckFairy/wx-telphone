@@ -44,6 +44,7 @@ Page({
   /**验证是否获取手机号,是否有uid*/
   checkPhone() {
     return new Promise((resolve, reject) => {
+      clearInterval(this.timer);
       let uid = wx.getStorageSync('userUid');
       if (uid) {
         console.log('不循环', uid)
@@ -75,17 +76,22 @@ Page({
     var that = this;
     physical_id = wx.getStorageSync('phy_id'); //门店id
     that.loadBaoKuanData();
-    that.checkPhone().then(flag => {
-      that.setData({
-        hasPhone: true
-      })
+    //检查是否有手机号
+    app.checkphone().then(data => {
+      console.log(data);
+      that.setData({ hasPhone: true, uid: data.uid, phone: data.phone });
+      app.globalData.uid = data.uid;
+      app.globalData.phone = data.phone;
+      wx.setStorageSync('userUid', data.uid); //存储uid
+      wx.setStorageSync('phone', data.phone); //存储uid
       var params = {
         store_id: that.data.store_id,
-        uid:that.data.uid
+        uid: data.uid
       };
       that.loadList(params);
+    }).catch(data => {
+      that.setData({ hasPhone: false });
     })
-
   },
   onShow: function () {
     var that = this;

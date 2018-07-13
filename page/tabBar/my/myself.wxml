@@ -2,30 +2,30 @@
 <template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{templateData}}"></template>
 
 <view class='myself'>
-<!--top  个人信息-->
+  <!--top  个人信息-->
 
   <view class='myself-top'>
-  <view>
-    <view class='myself-photo'>
-      <image class='myself-image' src='{{userImg}}'></image>
-    </view>
-    <view class='myself-detail'>
-      <text class='myself-id'>{{nickName}}</text>
-      <view class='myself-address' bindtap='goaddress'>
-        <text class='myself-addr-text'>收货地址</text>
-        <image class='myself-addr-image' src='../../../image/go-forward.png'></image>
+    <view>
+      <view class='myself-photo'>
+         <open-data type="userAvatarUrl" class="heading"></open-data> 
+      </view>
+      <view class='myself-detail'>
+        <open-data type="userNickName" class='myself-id'></open-data>
+        <view class='myself-address' bindtap='goaddress'>
+          <text class='myself-addr-text'>收货地址</text>
+          <image class='myself-addr-image' src='../../../image/go-forward.png'></image>
+        </view>
       </view>
     </view>
-  </view>
-     <view wx:if='{{phone}}' class='myself-address myself-phone'>
+    <view wx:if='{{phone}}' class='myself-address myself-phone'>
       <text class='myself-id'>{{phone}}</text>
-    </view> 
-     <!-- <view wx:if='{{uid}}' class='myself-address myself-phone'>
+    </view>
+    <!-- <view wx:if='{{uid}}' class='myself-address myself-phone'>
       <text class='myself-id'>{{uid}}</text>
     </view> -->
   </view>
   <!--top  个人信息-->
-<!--search total 订单全部 -->
+  <!--search total 订单全部 -->
   <view class='myself-order'>
     <text class='myself-order-list'>我的订单</text>
     <view class='myself-order-total' bindtap='goSearch'>
@@ -33,17 +33,17 @@
       <image class='myself-order-image' src='../../../image/group-go.png'></image>
     </view>
   </view>
-<!--search total 订单全部 -->
+  <!--search total 订单全部 -->
   <!-- 代付款、待成团... -->
   <view class='wait-shopping-list'>
     <view class='wait-order-wrap' bindtap='goToList' data-list='1'>
       <image class='wait-order-image' src='../../../image/wait-pay.png'></image>
       <text class='wait-order-text'>待付款</text>
     </view>
-     <view class='wait-order-wrap' bindtap='goToList' data-list='2'>
+    <view class='wait-order-wrap' bindtap='goToList' data-list='2'>
       <image class='wait-order-image' src='../../../image/icon_tuaning.png'></image>
       <text class='wait-order-text'>待成团</text>
-    </view> 
+    </view>
     <view class='wait-order-wrap' bindtap='goToList' data-list='3'>
       <image class='wait-order-image' src='../../../image/wait-goods.png'></image>
       <text class='wait-order-text'>待收货</text>
@@ -77,7 +77,7 @@
       <image class='my-go-img' src='../../../image/group-go.png'></image>
     </view>
   </view>
-    <view class='my-detail-msg' bindtap='myGroupGo'>
+  <view class='my-detail-msg' bindtap='myGroupGo'>
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../../image/icon_tuan.png'></image>
       <text class='my-gro-text'>我的拼团</text>
@@ -113,10 +113,6 @@
       <image class='my-go-img' src='../../../image/group-go.png'></image>
     </view>
   </view>
-    <navigator class='changePhone' hidden  url='../../my/pages/bingPhone' hover-class="none">切换绑定手机</navigator>
+  <navigator class='changePhone' hidden url='../../my/pages/bingPhone' hover-class="none">切换绑定手机</navigator>
   <!--拼团、卡包、指南、客服  -->
 </view>
-
-
-
-

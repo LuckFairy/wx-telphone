@@ -137,6 +137,7 @@ page {
   justify-content: center;
   padding-top: 34rpx;
   padding-bottom: 34rpx;
+  margin-bottom: 40rpx;
 }
 .apply-applications-text,.apply-applications-rem,.apply-applications-copy{
   font-size: 30rpx;

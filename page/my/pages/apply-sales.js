@@ -65,45 +65,53 @@ Page({
 
   },
   // 提交申请
-  goSubmit(e){
+  goSubmit(e) {
     var that = this;
     var turnStatus = e.target.dataset.status;
     //var orderId = this.data.orderId;
     var orderProductId = this.data.orderProductId;
     var orderId = this.data.orderId;
     var uid = this.data.uid;
-    console.log("提交申请之后");
-    console.log(turnStatus, orderId, orderProductId, uid);
-    if (turnStatus==null){
+    that.setData({
+      isSale: false,
+    })
+
+    if (turnStatus == null) {
       wx.showToast({
         title: '请选择服务类型',
         icon: 'loading',
         duration: 2000
       })
-    }else{
-      var params = {
-        "order_no": orderId,
-        "pigcms_id": orderProductId,
-        "uid": uid,
-        "type": turnStatus
-      };
-      console.log('请求参数', params);
-      var url = 'wxapp.php?c=return&a=doReturn';
-      app.api.postApi(url, { params }, (err, resp) => {
-        if (resp.err_code == 0) {
-          that.setData({
-            isSale: false,
-            showHide: false
-          })
-          wx.showToast({
-            title: '提交成功',
-            icon: 'loading',
-            duration: 1500
-          })
-        }
-      });
+    } else {
+      setTimeout(() => {
+        var params = {
+          "order_no": orderId,
+          "pigcms_id": orderProductId,
+          "uid": uid,
+          "type": turnStatus
+        };
+        console.log('请求参数', params);
+        var url = 'wxapp.php?c=return&a=doReturn';
+        app.api.postApi(url, { params }, (err, resp) => {
+          if (resp.err_code == 0) {
+            that.setData({
+              isSale: false,
+              showHide: false
+            })
+            wx.showToast({
+              title: '提交成功',
+              icon: 'loading',
+              duration: 1500
+            })
+          } else {
+            that.setData({
+              isSale: true,
+            })
+          }
+        });
+      }, 1000)
     }
-    
+
   },
   // 选择服务类型
   turnColor(e){

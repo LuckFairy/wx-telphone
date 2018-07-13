@@ -1,6 +1,6 @@
 
 var app = getApp();
-// import { getPhoneNumber } from '../../common/template/get-tel.js';
+// import { getuserInfo } from '../../../utils/util.js';
 let hasPhone = wx.getStorageSync('hasPhone');
 let phone = wx.getStorageSync('phone');
 let uid = wx.getStorageSync('userUid');
@@ -10,11 +10,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    nickName:'',
-    userImg:'',
     uid,
     phone:null,
-    hasPhone,//是否有手机
+    hasPhone,//是否有手机login
   },
   getPhoneNumber(e) {
     let that = this;
@@ -35,66 +33,22 @@ Page({
       })
     }
   },
-  /**验证是否获取手机号,是否有uid*/
-  checkPhone() {
-    return new Promise((resolve, reject) => {
-      let uid = wx.getStorageSync('userUid');
-      if (uid) {
-        console.log('不循环', uid)
-        phone = wx.getStorageSync('phone');
-        this.setData({
-          uid,phone
-        });
-        resolve(true)
-      } else {
-        this.timer = setInterval(() => {
-          uid = wx.getStorageSync('userUid');
-          if (uid) {
-            console.log('循环', uid)
-            clearInterval(this.timer);
-            phone = wx.getStorageSync('phone');
-            this.setData({
-              uid,phone
-            });
-            resolve(true)
-          } else {
-            this.setData({
-              hasPhone: false
-            })
-          }
-        }, 1000);
-      }
-    })
-  },
   /**
     * 生命周期函数--监听页面加载
     */
   onLoad: function (options) {
     var that = this;
-    wx.getUserInfo({
-      success: function (res) {
-        var userInfo = res.userInfo
-        var nickName = userInfo.nickName
-        var avatarUrl = userInfo.avatarUrl
-        that.setData({
-          nickName: nickName,
-          userImg: avatarUrl
-        })
-      },
-      fail: function () {
-        var userInfo = wx.getStorageSync('userInfo');
-        if (userInfo) {
-          that.setData({
-            nickName: userInfo.nickName,
-            userImg: userInfo.avatarUrl
-          })
-        } 
-      }
-    })
-    that.checkPhone().then(flag => {
-      that.setData({
-        hasPhone: true
-      })
+    //检查是否有手机号
+    app.checkphone().then(data => {
+      console.log(data);
+      that.setData({ hasPhone: true,uid:data.uid,phone:data.phone });
+      app.globalData.uid = data.uid;
+      app.globalData.phone = data.phone;
+     
+      wx.setStorageSync('userUid', data.uid); //存储uid
+      wx.setStorageSync('phone', data.phone); //存储uid
+    }).catch(data => {
+      that.setData({ hasPhone: false });
     })
 
   },

@@ -72,10 +72,11 @@ Page({
         })
       }, 1000);
       return;
-    }else{
-      // that.redirctPage();
-      that.redirctPageNew();   // 加载数据
     }
+    // else{
+      // that.redirctPage();
+      // that.redirctPageNew();   // 加载数据
+    // }
   },
   onHide: function () {
     // 页面隐藏

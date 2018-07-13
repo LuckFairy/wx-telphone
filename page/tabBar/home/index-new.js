@@ -68,30 +68,6 @@ Page({
     changeFlag: true, //是否切换门店
     indexIcon: null, //首页图标
   },
-  /**获取用户信息 */
-  getuserinfo(e) {
-    console.log(e.detail);
-    let that = this;
-    console.log(e.detail);
-    if (e.detail.errMsg == "getUserInfo:ok") {
-      let iv = e.detail.iv,
-        encryptedData = e.detail.encryptedData, 
-        locationid = wx.getStorageSync('locationid');
-      var params = {
-        iv,
-        encryptedData,
-        locationid
-      }
-      that.setData({
-        isInfo: false
-      })
-      app.login(params);
-    } else {
-      that.setData({
-        isInfo: true
-      })
-    }
-  },
   getPhoneNumber(e) {
     let that = this;
     console.log(e.detail);
@@ -111,35 +87,7 @@ Page({
       })
     }
   },
-  /**验证是否获取手机号,是否有uid*/
-  checkPhone() {
-    return new Promise((resolve, reject) => {
-      uid = wx.getStorageSync('userUid');
-      if (uid) {
-        console.log('不循环', uid)
-        this.setData({
-          uid
-        });
-        resolve(true)
-      } else {
-        this.timer = setInterval(() => {
-          uid = wx.getStorageSync('userUid');
-          if (uid) {
-            console.log('循环', uid)
-            clearInterval(this.timer);
-            this.setData({
-              uid
-            });
-            resolve(true)
-          } else {
-            this.setData({
-              hasPhone: false
-            })
-          }
-        }, 1000);
-      }
-    })
-  },
+
   /**
    * 收集formid
    */
@@ -158,16 +106,30 @@ Page({
     if (options.locationid) {
       locationid = options.locationid;
       wx.setStorageSync('locationid', locationid)
-      console.log('index.....locationid', locationid);
     }
     wx.showLoading({
       title: '加载中',
     })
-    that.checkPhone().then(flag => {
-      that.setData({
-        hasPhone: true
-      })
-      that._parse();
+    //检查是否有手机号
+    app.checkphone().then(data=>{
+        console.log(data);
+        that.setData({ hasPhone: true, uid: data.uid, phone: data.phone });
+        app.globalData.uid = data.uid;uid=data.uid;
+        app.globalData.phone = data.phone;
+        wx.setStorageSync('userUid', data.uid); //存储uid
+        wx.setStorageSync('phone', data.phone); //存储uid
+        //绑定门店
+        if (locationid) {
+          var opts = {
+            store_id: __config.sid,
+            item_store_id:locationid,
+            uid: data.uid
+          }
+          app.bingUserScreen(opts);
+        }
+        that._parse();
+    }).catch(data => {
+      that.setData({ hasPhone: false });
     })
     that.loadMainLocation(); //默认总店
     that.loadactivityData(); //活动图数据
@@ -228,21 +190,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    let that = this;
-    that.checkPhone().then(flag => {
-      that.setData({
-        hasPhone: true
-      })
-      that.loadMyCardNumData(); //我的卡包数量
-      that.getCoupValue(); //优惠券数据
-    })
-
+    if (app.globalData.uid){
+      this.loadMyCardNumData(); //我的卡包数量
+      this.getCoupValue(); //优惠券数据
+    }
+    
   },
   _parse() {
     var that = this;
     wx.hideLoading();
     that.getCoupValue(); //优惠券数据
     that.jumpCoupon(); /*首页弹窗 */
+    that.loadMyCardNumData(); //我的卡包数量
+    that.getCoupValue(); //优惠券数据
   },
 
   /*
@@ -718,7 +678,8 @@ Page({
         err_msg
       } = resp;
       if (err_code != 0) {
-        return this._showError('无数据');
+        // return this._showError('无数据');
+        console.log('activityUrl接口无数据');
       }
       // let { err_msg: { result_data: { acrivity_element = [] } } } = resp, list = [];
       let {

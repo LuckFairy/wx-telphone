@@ -26,14 +26,43 @@ export default {
         wx.setStorageSync('logLat', logLat);
       })
   },
-  signin: function(__opts) {
+  checkphone:function(){
     let that = this;
     let uid = wx.getStorageSync('userUid');
     if (uid) {
-      console.log('已经登录成功了');
-      return;
+      console.log('已经有uid了,不弹窗');
+      return new Promise(resolve=>{
+        resolve(true);
+      });
     }
     //1、登录
+    that.WxService.login()
+      .then(data => {
+        console.log('jscode', data);
+        that.globalData.code = data.code;
+        var params = {
+          "jscode": data.code,
+          "store_id": __config.sid
+        };
+        // 2、获取sessionkey
+        return that.getSessionkey(params);
+      }).then(data => {
+        console.log(data);
+        that.globalData.sessionKey = data.session_key;
+        that.globalData.openid = data.openid;
+        wx.setStorageSync('sessionKey', data.session_key);
+        wx.setStorageSync('openid', data.openid);
+        var params = {
+          "store_id": __config.sid,
+          "openid": data.openid
+        }
+        // 3、是否绑定手机
+        return that.checkPhone(params)
+      })
+
+  },
+  signin: function(__opts) {
+    // 1、登录
     that.WxService.login()
       .then(data => {
         console.log('jscode', data);
@@ -63,16 +92,16 @@ export default {
         wx.setStorageSync('userUid', data.uid); //存储uid
         wx.setStorageSync('phone', data.phone); //存储uid
         //绑定门店
-        if (__opts.locationid) {
+        var locationid = wx.getStorageSync('locationid');
+        if (locationid) {
           var opts = {
             store_id: __config.sid,
-            item_store_id: __opts.locationid,
+            item_store_id:locationid,
             uid: data.uid
           }
           that.bingUserScreen(opts);
         }
       }).catch(data => {
-        //手机弹窗
         let iv = __opts.iv, encryptedData = __opts.encryptedData, key = that.globalData.sessionKey;
         var params = { "session_key": key, iv, encryptedData, "store_id": __config.sid };
         that.getPhone(params)
