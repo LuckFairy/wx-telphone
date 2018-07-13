@@ -1,5 +1,5 @@
 <import src="../template/get-tel.wxml" />
-<template wx:if="{{phoneFlag}}" is="getphone-modal" data="{{templateData}}"></template>
+<!-- <template wx:if="{{phoneFlag}}" is="getphone-modal" data="{{templateData}}"></template> -->
 <view class='myself'>
 <!--top  个人信息-->
   <view class='myself-top'>
@@ -90,7 +90,7 @@
       <image class='my-go-img' src='../../image/group-go.png'></image>
     </view>
   </view>
-    <view class='my-detail-msg my-store-service' bindtap='goSetting'>
+  <!-- <view class='my-detail-msg my-store-service' bindtap='goSetting'>
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../image/setting.png'></image>
       <text class='my-gro-text'>设置</text>
@@ -98,7 +98,7 @@
     <view class='my-gro-go'>
       <image class='my-go-img' src='../../image/group-go.png'></image>
     </view>
-  </view>
+  </view> -->
     
   <!--拼团、卡包、指南、客服  -->
 </view>

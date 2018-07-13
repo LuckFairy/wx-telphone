@@ -15,14 +15,12 @@ Page({
     phoneFlag: false,//是否弹手机模板
     templateData: { url: './bingPhone' },//绑定手机跳转路径
   },
-  getPhoneNumber: getPhoneNumber,
+  // getPhoneNumber: getPhoneNumber,
   /**验证是否获取手机号 */
   checkPhone() {
     let that = this;
     let flag = wx.getStorageSync('hasPhone');
-    if (flag=='true') { flag = false } else { flag = true };
-    console.log(flag);
-    that.setData({ phoneFlag: flag });
+    that.setData({ phoneFlag: !flag });
   },
   /** 去设置页面*/
   goSetting() {

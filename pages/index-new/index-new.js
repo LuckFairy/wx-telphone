@@ -63,7 +63,7 @@ Page({
       app.globalData.info_flag = true;
     }, locationid);
   },
-  getPhoneNumber: getPhoneNumber,
+  // getPhoneNumber: getPhoneNumber,
   /**验证是否获取手机号 */
   checkPhone() {
     let that = this;

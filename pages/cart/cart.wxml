@@ -2,7 +2,7 @@
 <import src="../template/modal.wxml" />
 <import src="../template/get-tel.wxml" />
 <template wx:if="{{showErrModal}}" is="text-error-modal" data="{{...errModalConfig}}" />
-<template wx:if="{{phoneFlag}}" is="getphone-modal" data="{{templateData}}"></template>
+<!-- <template wx:if="{{phoneFlag}}" is="getphone-modal" data="{{templateData}}"></template> -->
 
 <import src="../template/count-down.wxml" />
 <view wx:if="{{false}}" class="full-reduce">

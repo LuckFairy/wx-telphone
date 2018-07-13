@@ -88,12 +88,7 @@ Page({
         })
       }, 1000);
       return;
-    } else {
-      // 页面显示
-      // this.redirctPage();
-      this.redirctPageNew();
-    }
-
+    } 
   },
   onHide: function() {
     // 页面隐藏

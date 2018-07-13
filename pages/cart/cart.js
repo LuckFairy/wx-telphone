@@ -26,21 +26,8 @@ Page({
   checkPhone() {
     let that = this;
     let flag = wx.getStorageSync('hasPhone');
-    console.log(flag);
     if (flag == 'true') { flag = false } else { flag = true };
-    console.log(flag);
     that.setData({ phoneFlag: flag });
-    // let flag = wx.getStorageSync('hasPhone');
-    // that.setData({ hasPhone: flag });
-    // clearInterval(phoneTime);
-    // let phoneTime = setInterval(() => {
-    //   flag = wx.getStorageSync('hasPhone');
-    //   console.log(flag);
-    //   if (flag == true) {
-    //     clearInterval(phoneTime);
-    //     that.setData({ hasPhone: flag });
-    //   }
-    // }, 3000);
   },
   /**
 * 首页爆款专区数据
