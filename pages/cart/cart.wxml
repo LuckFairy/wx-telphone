@@ -78,8 +78,8 @@
     <text class="total-pri-text">合计 ￥{{total}}</text>
     <!-- <text class="not-wrap-price">不含运费，已优惠￥0.222</text> -->
   </view>
-  <button formType='submit' class='sub-button'  data-destination="3">按钮1</button>
-  <view class="button" bindtap='bindCheckout'>去结算</view>
+  <button formType='submit' class='button' bindtap='bindCheckout' data-destination="3">去结算</button>
+  <!-- <view class="button" bindtap='bindCheckout'>去结算</view> -->
 </view>
 </form>
 <!-- 热门推荐-->
