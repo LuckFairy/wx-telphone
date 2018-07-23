@@ -1,0 +1,112 @@
+
+<scroll-view scroll-x="true" class='baobao-use'>
+<view>
+    <view class='baobao-thing {{currentTab==0 ? "chooseTab" : ""}}' data-current="0" bindtap='swiperChange' >
+      已通过
+    </view>
+    <view class='baobao-thing {{currentTab==1 ? "chooseTab" : ""}}' data-current="1" bindtap='swiperChange' >
+     待审核
+    </view>
+    <view class='baobao-thing {{currentTab==2 ? "chooseTab" : ""}}' data-current="2" bindtap='swiperChange' >
+      已拒绝
+    </view>
+</view>
+</scroll-view>
+<swiper bindchange="swiperChange" current="{{currentTab}}">
+  <!--已通过  -->
+  <swiper-item style='overflow-y: auto'>
+    <scroll-view scroll-y="{{true}}" class='scroll-lists'>
+     <view class='activity-box'>
+        <block wx:if="{{passList.length>0}}">
+          <view class='activity-item' wx:for="{{passList}}" wx:key="{{item}}" wx:for-index="index">  
+            <view class='box-top'>
+              <text class='box-time gray'>上传时间：{{item.create_time}}</text>
+              <text class='red'>已通过</text>
+            </view>
+            <text class='box-txt'>{{item.activity_name}}</text>
+
+            <image class='box-image' src='{{item.activity_img}}'  mode='aspectFill'  catchtap='goDetail' data-item='{{passList[index]}}'></image>
+
+            <view class='box-bottom'> 
+              <view>
+                <text class='gray'>奖品信息：</text>
+                <text class='box-txt2'>{{item.coupon_name}}</text>
+              </view>
+              <button class='box-btn box-btn-look' catchtap='goLook'>去查看</button>
+            </view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class='no-data'>
+            <image src='../../../image/no-data.png'></image>
+            <view class='no-data-txt'>暂无记录</view>
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+  </swiper-item>
+  <!--待审核 -->
+  <swiper-item style='overflow-y: auto'>
+    <scroll-view scroll-y="{{true}}" class='scroll-lists'>
+       <view class='activity-box'>
+        <block wx:if="{{dataList.length>0}}">
+        <view class='activity-item' wx:for="{{dataList}}" wx:key="{{item}}" wx:for-index="index">         
+            <view class='box-top'>
+              <text class='box-time gray'>上传时间：{{item.create_time}}</text>
+              <text class='red'>待审核</text>
+            </view>
+            <text class='box-txt'>{{item.activity_name}}</text>
+
+            <image class='box-image' src='{{item.activity_img}}'  mode='aspectFill' catchtap='goDetail' data-item='{{dataList[index]}}'></image>
+
+            
+          </view>
+        </block>
+        <block wx:else>
+          <view class='no-data'>
+            <image src='../../../image/no-data.png'></image>
+            <view class='no-data-txt'>暂无记录</view>
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+  </swiper-item>
+  <!--已拒绝  -->
+  <swiper-item style='overflow-y: auto'>
+    <scroll-view scroll-y="{{true}}" class='scroll-lists'>
+      <view class='activity-box'>
+        <block wx:if="{{refuList.length>0}}">
+          <view class='activity-item' wx:for="{{refuList}}" wx:key="{{item}}" wx:for-index="index"> 
+            <view class='box-top'>
+              <text class='box-time gray'>上传时间：{{item.create_time}}</text>
+              <text class='red'>已拒绝</text>
+            </view>
+             <text class='box-txt'>{{item.activity_name}}</text>
+
+            <image class='box-image' src='{{item.activity_img}}' mode='aspectFill' catchtap='goDetail' data-item='{{refuList[index]}}'></image>
+
+            <view class='box-bottom'> 
+              <view>
+                <text class='gray'>备注信息：</text>
+                <text class='box-txt2'>{{item.explain}}</text>
+              </view>
+              <block wx:if="{{item.able==1}}">
+                <button class='box-btn' catchtap='goUp' data-activity_id='{{item.activity_id}}'>再次参加</button>
+              </block>
+              <block wx:else>
+                <button class='box-btn' data-activity_id='{{item.activity_id}}' style='background:#ccc;'>再次参加</button>
+              </block>  
+               
+            </view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class='no-data'>
+            <image src='../../../image/no-data.png'></image>
+            <view class='no-data-txt'>暂无记录</view>
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+  </swiper-item>
+</swiper>

@@ -42,7 +42,7 @@ var Network = {
       header: header,
       success(res) {
         typeof callback === 'function' && callback(null, res.data, res.statusCode)
-        console.log(res.data)
+        // console.log(res.data)
       },
       fail(e) {
         typeof callback === 'function' && callback(e)

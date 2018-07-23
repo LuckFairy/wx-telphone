@@ -444,7 +444,11 @@ Page({
     } else if (destination == 5) {
       //门店促销 /优惠券
       var url = './shop-promotion';
-    } else {
+    } else if (destination== 10){
+      //送券活动
+      var url = '../activity/activity-detail';
+    }
+     else {
       //单独购买
       var url = '../activity/hotsale';
     }

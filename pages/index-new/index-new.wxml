@@ -5,8 +5,8 @@
 <template wx:if="{{infoFlag==true}}"  is="getuserInfo-modal" ></template>
 <scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
   <view class='wrap'>
-    <!--头图  -->
-    <!--未拿到数据前的默认图  -->
+    <!--头图轮播图  -->
+    <!--no-data时候  -->
     <swiper wx:if='{{showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#fff' interval='3000' circular='true'>
       <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
         <view class='header-image'>
@@ -14,7 +14,7 @@
         </view>
       </swiper-item>
     </swiper>
-    <!--拿到数据前的拿到数据之后  -->
+    <!--有数据时候  -->
     <swiper wx:if='{{!showhide}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
       <block wx:for='{{dataImg}}' wx:key="{{index}}">
         <swiper-item class='list-header-image' bindtap="clickGo" data-destination="0">
@@ -22,20 +22,25 @@
         </swiper-item>
       </block>
     </swiper>
-    <!--信息提示区域  -->
+    <!--头部菜单选项栏  -->
     <view class='header-message'>
       <image class='headder-msg-image' src='../../image/trumpet.png'></image>
       <text class='header-msg-text'>正品保障 假一赔三 破损包邮 7天无理由退换</text>
     </view>
-    <!--信息提示区域结束  -->
-    <!--列表选项区域  -->
+
+  
    <form bindsubmit='submitOrder' report-submit='true'>
       <view class='list-select-area'>
         <view class="list-select-area-top">
-          <view class='select-list' bindtap="clickGo" data-destination="1">
+          <!-- <view class='select-list' bindtap="clickGo" data-destination="1">
               <image class='select-list-image' src='{{indexIcon[0].image}}' data-destination="1"></image>
               <text class='select-list-text' data-destination="1">{{indexIcon[0].title}}</text>
               <button formType='submit' class='sub-button'  data-destination="1">按钮1</button>
+            </view> -->
+            <view class='select-list' bindtap="clickGo" data-destination="10">
+              <image class='select-list-image' src='{{indexIcon[10].image}}' data-destination="1"></image>
+              <text class='select-list-text' data-destination="10">{{indexIcon[10].title}}</text>
+              <button formType='submit' class='sub-button'  data-destination="10">按钮1</button>
             </view>
             <view class='select-list' bindtap="clickGo" data-destination="2">
                 <image class='select-list-image' src='{{indexIcon[1].image}}' data-destination="2"></image>
@@ -91,7 +96,7 @@
           </view>
 
     </form>
-    <!--列表选项区域结束  -->
+    <!--头部菜单选项结束  -->
     <!-- 卡包选项区开始 -->
     <view class='card' bindtap='goCardLists'>
       <view>

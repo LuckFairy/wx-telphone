@@ -3116,3 +3116,14 @@ form{
   text-align: center;
   color: #999;
 }
+.go-confirm {
+  display: block;
+  width: 750rpx;
+  height: 98rpx;
+  color: #1b1b1b;
+  background: #ffe71c;
+  line-height: 98rpx;
+  text-align: center;
+  font-size: 36rpx;
+  margin-top: 146rpx;
+}
