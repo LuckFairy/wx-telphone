@@ -2,6 +2,20 @@
 page{
   background: #ececec;
 }
+.heading {
+  width: 122rpx;
+  height: 122rpx;
+  border-radius: 50%;
+  object-fit: cover;
+  clip-path: circle(50% at center);
+  display: block;
+  float: left;
+}
+.myself-id {
+  margin-right: 24rpx;
+  font-size: 36rpx;
+  color: #1b1b1b;
+}
 .myself{
   display: block;
 }

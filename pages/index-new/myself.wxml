@@ -5,10 +5,12 @@
   <view class='myself-top'>
     <view>
       <view class='myself-photo'>
-        <image class='myself-image' src='{{userImg}}'></image>
+        <!-- <image class='myself-image' src='{{userImg}}'></image> -->
+        <open-data type="userAvatarUrl" class="heading"></open-data> 
       </view>
       <view class='myself-detail'>
-        <text class='myself-id'>{{nickName}}</text>
+        <!-- <text class='myself-id'>{{nickName}}</text> -->
+        <open-data type="userNickName" class='myself-id'></open-data>
         <view class='myself-address' bindtap='goaddress'>
           <text class='myself-addr-text'>收货地址</text>
           <image class='myself-addr-image' src='../../../image/go-forward.png'></image>
