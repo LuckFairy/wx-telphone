@@ -31,7 +31,7 @@ Page({
       if (options.id) { this.setData({ id: options.id }) }
       this.getData();
     } else {
-      wx.redirectTo({
+      wx.switchTab({
         url: '../index-new/index-new',
       })
     }

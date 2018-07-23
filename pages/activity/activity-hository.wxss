@@ -11,8 +11,6 @@ swiper {
   width: 750rpx;
 
 }
-
-
 .red{
   color:#ff3853;
   font-size: 24rpx;
@@ -65,6 +63,7 @@ margin: 20rpx 0 ;
 .box-bottom{
   justify-content: space-between;
   margin:18rpx 0 0;
+  padding:0 24rpx;
 }
 .box-txt2{
   font-size: 26rpx;
@@ -85,6 +84,7 @@ margin: 20rpx 0 ;
   align-items: center;
   padding: 0;
   margin: 0;
+  margin-left: 10rpx;
 }
 .box-btn-look{
   background: #fff;

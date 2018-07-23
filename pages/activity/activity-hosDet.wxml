@@ -2,7 +2,7 @@
      <!-- <view class='activity-box'> -->
           <view  class='activity-item'>
             <view class='box-top'>
-              <text class='box-time gray'>活动时间：{{dataList.create_time}}</text>
+              <text class='box-time gray'>上传时间：{{dataList.create_time}}</text>
               <text class='red'>{{status}}</text>
             </view>
             <text class='box-txt'>{{dataList.activity_name}}</text>

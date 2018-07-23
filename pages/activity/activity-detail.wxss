@@ -39,6 +39,7 @@ scroll-view .wrap{
 }
  /* .WxEmojiView.wxParse-inline  */
  .wxParse-p .wxParse-img{
+   width: 100%;
   margin: 0;
   padding:0;
   display: block; 

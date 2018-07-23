@@ -38,7 +38,7 @@
         </block>
         <block wx:else>
           <view class='no-data'>
-            <image src='../../../image/no-data.png'></image>
+            <image src='../../image/no-data.png'></image>
             <view class='no-data-txt'>暂无记录</view>
           </view>
         </block>
@@ -64,7 +64,7 @@
         </block>
         <block wx:else>
           <view class='no-data'>
-            <image src='../../../image/no-data.png'></image>
+            <image src='../../image/no-data.png'></image>
             <view class='no-data-txt'>暂无记录</view>
           </view>
         </block>
@@ -93,16 +93,16 @@
               <block wx:if="{{item.able==1}}">
                 <button class='box-btn' catchtap='goUp' data-activity_id='{{item.activity_id}}'>再次参加</button>
               </block>
-              <block wx:else>
+               <block wx:else>
                 <button class='box-btn' data-activity_id='{{item.activity_id}}' style='background:#ccc;'>再次参加</button>
-              </block>  
+              </block>   
                
             </view>
           </view>
         </block>
         <block wx:else>
           <view class='no-data'>
-            <image src='../../../image/no-data.png'></image>
+            <image src='../../image/no-data.png'></image>
             <view class='no-data-txt'>暂无记录</view>
           </view>
         </block>

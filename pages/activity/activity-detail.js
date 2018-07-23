@@ -43,13 +43,13 @@ Page({
 
     let {id,uid} = this.data;
     uid = wx.getStorageSync("userUid");
-    if(uid||uid==''){
+    if(uid){
       console.log('uid',uid);
       this.setData({uid})
       if (options.id) { id = options.id;this.setData({ id: options.id }) }
       // this.getData(id);
     }else{
-      wx.redirectTo({
+      wx.switchTab({
         url: '../index-new/index-new',
       })
     }
@@ -69,12 +69,12 @@ Page({
   onShow: function () {
     let { id, uid } = this.data;
     uid = wx.getStorageSync("userUid");
-    if (uid || uid == '') {
+    if (uid) {
       console.log('uid', uid);
       this.setData({ uid })
-      this.getData(id);
+      this.getData(id,uid);
     } else {
-      wx.redirectTo({
+      wx.switchTab({
         url: '../index-new/index-new',
       })
     }
@@ -97,9 +97,9 @@ Page({
       var postUrl = _urlDetail;
 
     }
-    console.log('相片活动请求的url=', postUrl);
+    console.log('参数',params,'相片活动请求的url=', postUrl);
     app.api.postApi(postUrl, { params},(err,rep)=>{
-      console.log(rep);
+      console.log('返回数据',rep);
       if (err || rep.err_code != 0) {
        that._showError(rep.err_msg);
       ;return;}

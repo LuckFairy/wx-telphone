@@ -31,7 +31,7 @@ Page({
         this.setData({currentTab:opts.page})
       }
     }else{
-      wx.redirectTo({
+      wx.switchTab({
         url: '../index-new/index-new',
       })
     }
@@ -99,7 +99,7 @@ Page({
   // 去查看
   goLook(){
     wx.navigateTo({
-      url: './mycard',
+      url: '../card/mycard',
     })
   },
   //重新上传
@@ -114,7 +114,6 @@ Page({
   },
   // 滑动切换
   swiperChange: function (e) {
-    console.log(e);
     var that = this;
     if (e.currentTarget.dataset.current){
       var insideTab = e.currentTarget.dataset.current;
