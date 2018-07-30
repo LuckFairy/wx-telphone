@@ -156,6 +156,7 @@ Page({
   },
   //多规格 onShow
   onShow: function () {
+    wx.hideShareMenu();
     this.loadData(this.data.param);
     this.loadSucc(this.data.param);
   },

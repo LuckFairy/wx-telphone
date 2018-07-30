@@ -16,6 +16,8 @@ var title = '趣购精选';
 var title_test = '婴众趣购';
 var phonetest = '4006088520';//测试客服电话
 var phone = '4000001312';//正式客服电话趣购精选
+var phoneTxt = '400-000-1312';
+var phonetesttTxt = '400-608-8520';
 var appid = 'wx57d5cde97d7e1fd3';//趣购精选appid:wxaeb0f3eeb93b3574婴众趣购appid: wx57d5cde97d7e1fd3';
 
 export default{
@@ -29,7 +31,9 @@ export default{
   AGENT_ID,
 
   //客服电话
-  serverPhone: phone,
+  serverPhone: isRelease? phone:phonetest,
+
+  severPhoneTxt: isRelease ? phoneTxt : phonetesttTxt,
 
   //店铺id
   sid: isRelease ? sid : sid_test,

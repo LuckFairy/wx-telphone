@@ -133,7 +133,6 @@ Page({
     that.setData({ tuanId, prodId, sellout, uid, phy_id });
     that.loadData(prodId, tuanId);
     that.loadCartInfo();
-
     that._loadOrderData();
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
@@ -191,7 +190,7 @@ Page({
   },
   //多规格 onShow
   onShow: function () {
-  
+    wx.hideShareMenu();
 
   },
   onHide: function () {

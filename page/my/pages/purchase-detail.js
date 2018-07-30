@@ -9,7 +9,8 @@ Page({
     theId: '',
     order_no: '',
     status:'',
-    statustxt: ''
+    statustxt: '',
+    serverPhone:app.serverphone
   },
   calling() {
     app.calling();

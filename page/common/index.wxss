@@ -27,14 +27,14 @@ color:#1b1b1b;
 
 .list-header-image {
   width: 750rpx;
-  height: 230rpx;
+  height: 320rpx;
   background: #fff;
 }
 
 .header-image {
   display: block;
   width: 750rpx;
-  height: 230rpx;
+  height: 320rpx;
   background: #fff;
   background-size: 100% 100%;
 }

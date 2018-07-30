@@ -1,5 +1,5 @@
 <view wx:if="{{posterDetail}}">
-  <image src="{{posterDetail.rediurl}}"></image>
+  <image src="{{posterDetail.rediurl}}" mode="widthFix"></image>
 </view>
 <view wx:if="{{!posterDetail}}" class='no-data'>
   <image src='../../../image/no-data.png'></image>

@@ -1,0 +1,113 @@
+/* page/common/pages/activity-detail.wxss */
+ @import "../../../utils/wxParse/wxParse.wxss"; 
+ view{display: block;}
+page{
+  background: #fff;
+}
+.errorModel {
+  display: flex;
+}
+scroll-view .wrap{
+  /* width: 750rpx; */
+  padding: 0 24rpx;
+  margin-bottom:100rpx;
+  background: #fff;
+}
+.wrap-top{
+  margin: 38rpx 0 28rpx 0;
+}
+.wrap-top text{
+  display: block;
+}
+.title{
+  font-size: 40rpx;
+  color: inherit;
+}
+.title-tip{
+  margin-top:22rpx;
+  font-size: 24rpx;
+  color: #898989;
+}
+/*富文本处理  */
+.html-box{
+  font-size: 28rpx;
+  color:#434343;
+  overflow: hidden;
+}
+.wxParse-p{
+  overflow: hidden;
+}
+ /* .WxEmojiView.wxParse-inline  */
+ .wxParse-p .wxParse-img{
+   width: 100%;
+  margin: 0;
+  padding:0;
+  display: block; 
+}
+ 
+/*文本结束  */
+.footer{
+  display: flex;
+  width:750rpx;
+  height: 98rpx; 
+  position: fixed;
+  bottom: 0;
+  
+}
+ #gohository{
+   display: flex;
+   width: 50%;
+   height: 100%;
+  font-size: 28rpx;
+  color: #535353;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background: #fbfafa;
+}
+ #gohository image{
+   width: 30rpx;
+   height: 30rpx;
+   margin-right: 12rpx;
+ }
+#gojoin{
+  display: flex;
+  width: 50%;
+  height: 100%;
+  font-size: 36rpx;
+  background: #ffe71c;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.overlay-content{
+  height:288rpx;
+  width: 620rpx;
+  display: block;
+  overflow: hidden;
+}
+.overlay-content .title{
+  padding: 0 64rpx;
+  display: flex;
+  height: 200rpx;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  overflow: hidden;
+}
+.tel-content .modal-button button{
+  height: 90rpx;
+  line-height: 90rpx;
+  color: inherit;
+  font-size: 28rpx;
+  
+}
+.tel-content .modal-firstText{
+  font-size: 30rpx;
+}
+.overlay-content .title{
+  height: 150rpx;
+}
+.tel-content .modal-button button{
+  height: 136rpx;
+}

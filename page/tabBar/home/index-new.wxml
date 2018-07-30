@@ -1,31 +1,33 @@
-  <import src="../../common/template/get-tel.wxml" /> 
-   <!-- <import src="../../common/template/get-info.wxml" />    -->
+<import src="../../common/template/get-tel.wxml" />
+<!-- <import src="../../common/template/get-info.wxml" />    -->
 <import src="../../common/template/share.wxml" />
 <import src="../../common/template/coupon.wxml" />
 
- <template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{locationid}}"></template> 
-  <!-- <template wx:if="{{isInfo==true}}" is="getuserInfo-modal" ></template>    -->
+<template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{locationid}}"></template>
+<!-- <template wx:if="{{isInfo==true}}" is="getuserInfo-modal" ></template>    -->
 <template wx:if="{{showpopteamModle==true}}" is="popteam-modal" data="{{popteamData,popteamUrl,popteamNicke}}"></template>
 <template wx:if="{{showModel==true}}" is="coupon-modal" data="{{showModel,couponList}}"></template>
 
 <scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
   <view class='wrap'>
-    <!--头图  -->
+    <!--轮播图 -->
     <!--拿到数据前的拿到数据之后  -->
     <swiper wx:if='{{dataImg.length > 0}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
       <swiper-item class='list-header-image' wx:for='{{dataImg}}' wx:key="{{index}}">
-        <navigator class='header-image' url="{{item.rediurl +'?categoryid=100&page=1&store_id='+ shopId}}">
-          <image class='header-image' mode='widthFix' lazyLoad="true" src='{{item.banner}}' />
-        </navigator>
+        <view class='header-image' bindtap='areaClickGo' data-redi_type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
+          <image class='header-image' mode='aspectFill' lazyLoad="true" src='{{item.redi_type?item.banner:"../../../image/head-no.png"}}' />
+        </view>
       </swiper-item>
     </swiper>
     <swiper wx:if='{{dataImg.length <1}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
       <swiper-item class='list-header-image'>
-        <navigator class='header-image' url="../../common/pages/shop-promotion">
-          <image src='https://saas.qutego.com/upload/wxapp/banner/index.jpg?{{random}}' mode='aspectFit' lazyLoad="true"></image>
+        <!-- <navigator class='header-image' url="../../common/pages/shop-promotion"> -->
+        <navigator class='header-image'>
+          <image src='../../../image/head-no.png' mode='aspectFill' lazyLoad="true"></image>
         </navigator>
       </swiper-item>
     </swiper>
+    <!-- 轮播图结束 -->
     <!--  切换门店区域 -->
     <view class='shop-area'>
       <view class='shop-area-left'>
@@ -43,7 +45,7 @@
     </view>
     <!--  切换门店区域结束 -->
     <!--列表选项区域  -->
- <form bindsubmit='submitOrder' report-submit='true'>
+    <form bindsubmit='submitOrder' report-submit='true'>
       <view class='list-select-area'>
         <view class="list-select-area-bottom">
           <view class='select-list' bindtap="saoma" data-index="0">
@@ -56,26 +58,30 @@
             <image class='select-list-image' src='{{indexIcon[1].image}}' data-index="1"></image>
             <text class='select-list-text' data-index="1">{{indexIcon[1].title}}</text>
             <button form-type='submit' class='sub-button' data-index="1">按钮</button>
-            
+
           </view>
           <view class='select-list' bindtap="clickGo" data-index="2">
             <image class='select-list-image' src='{{indexIcon[2].image}}' data-index="2"></image>
             <text class='select-list-text' data-index="2">{{indexIcon[2].title}}</text>
             <button form-type='submit' class='sub-button' data-index="2">按钮</button>
-           
+
           </view>
           <view class='select-list' bindtap="clickGo" data-index="3">
             <image class='select-list-image' src='{{indexIcon[3].image}}' data-index="3"></image>
             <text class='select-list-text' data-index="3">{{indexIcon[3].title}}</text>
             <button form-type='submit' class='sub-button' data-index="3">按钮</button>
-            
+
           </view>
           <view class='select-list' bindtap="clickGo" data-index="2" data-flag="false">
             <image class='select-list-image' src='{{indexIcon[4].image}}' data-index="2"></image>
             <text class='select-list-text' data-index="4">{{indexIcon[4].title}}</text>
             <button form-type='submit' class='sub-button' data-index="2">按钮</button>
-            
           </view>
+
+           <!-- <view class='select-list' bindtap="clickGo" data-index="6" >
+            <image class='select-list-image' src='{{indexIcon[4].image}}'></image>
+            <text class='select-list-text' >{{indexIcon[4].title}}</text>
+          </view> -->
         </view>
       </view>
     </form>
@@ -131,7 +137,7 @@
         </view>
       </view> 
     </view> -->
-     <view class='coupon-area' wx:if="{{couponValue.length>0}}">
+    <view class='coupon-area' wx:if="{{couponValue.length>0}}">
       <view class='coupon-area-up'>
         <view wx:for="{{couponValue}}" wx:for-item="value" class="{{value.is_get==1?'coupon-up-item':'coupon-up-item coupon-up-get-item'}}" data-id="{{value.id}}" catchtap="{{value.is_get==1?'getValue':'showError'}}" data-source="{{value.is_get==1?'2':''}}">
           <view class='coupon-up-value'>
@@ -174,17 +180,17 @@
           <image class='pinduoduo-content-image' mode='aspectFill' lazy-load='{{lazyLoad}}' src='{{item.image}}'></image>
           <text class='pinduoduo-content-title'>{{item.name}}</text>
           <view class='pinduoduo-content-price'>
-              <text class='text-red'>已团{{item.count}}件</text>
-              <text class='text'>仅剩{{item.quantity}}件</text>
+            <text class='text-red'>已团{{item.count}}件</text>
+            <text class='text'>仅剩{{item.quantity}}件</text>
           </view>
           <view class='pintuan-content-buttom'>
             <view class='pinduoduo-buttom-aside'>
-             <text class='pinduoduo-content-current'>￥<text class='text-style-1'>{{item.price}}</text></text>
-            <text class='pinduoduo-already'>￥{{item.start_price}}</text>
+              <text class='pinduoduo-content-current'>￥<text class='text-style-1'>{{item.price}}</text></text>
+              <text class='pinduoduo-already'>￥{{item.start_price}}</text>
             </view>
-             <form wx:if="{{item.quantity>0}}" report-submit='true' bindsubmit='submitOrder'>
-                  <button form-type='submit' class='btn'>去开团</button>
-             </form>
+            <form wx:if="{{item.quantity>0}}" report-submit='true' bindsubmit='submitOrder'>
+              <button form-type='submit' class='btn'>去开团</button>
+            </form>
             <!-- <view wx:if="{{item.quantity>0}}" class='btn'>去开团</view> -->
             <view wx:else class='shopping-go-group-end'>已售罄</view>
           </view>
@@ -201,15 +207,15 @@
       <image src='../../../image/start.png'></image>
     </view>
     <block wx:if="{{productData.length>0}}" wx:for="{{productData}}" wx:for-index="{{index}}">
-      <view class='area-content' bindtap='areaClickGo' data-type="{{item.type}}" data-id='{{item.id}}'>
+      <view class='area-content' bindtap='areaClickGo' data-type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
         <view class='area-image-1'>
           <image src='{{item.banner}}' lazyLoad="true" mode='aspectFill'></image>
         </view>
       </view>
-      <view class='area-bottom' bindtap='areaClickGo' data-type="{{item.type}}" data-id='{{item.id}}'>
+      <view class='area-bottom' bindtap='areaClickGo' data-type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
         <view>
-          <text>{{item.title}}</text>
-          <text>剩{{item.tdays}}天</text>
+          <text>{{item.name}}</text>
+          <text>{{item.tdays_txt}}</text>
         </view>
         <view hidden>
           <image src='../../../image/discount.png'></image>

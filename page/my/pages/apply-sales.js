@@ -11,7 +11,8 @@ Page({
     productId:'',
     rtnCode:'',
     showHide:true,
-    isSale:true
+    isSale:true,
+    serverPhone:app.serverphone
   },
   calling(){
     app.calling();

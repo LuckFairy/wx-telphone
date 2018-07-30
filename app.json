@@ -1,6 +1,14 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/common/pages/activity-hository",
+    "page/common/pages/activity-hosDet",
+    "page/common/pages/activity-detail",
+    "page/common/pages/activity-join",
+    "page/common/pages/hotsale",        
+    "page/common/pages/mycard",
+    "page/common/pages/mycardHistory",        
+    "page/common/pages/index-mom",          
     "page/tabBar/shopping/shoppstore-index",
     "page/tabBar/goods/cart",
     "page/tabBar/my/myself",
@@ -10,12 +18,9 @@
     "page/common/pages/card_detail",
     "page/common/pages/card_summary",
     "page/common/pages/goods-detail",
-    "page/common/pages/hotsale",
     "page/common/pages/index-activity",
     "page/common/pages/index-boabao",
-    "page/common/pages/index-mom",
     "page/common/pages/my-order",
-    "page/common/pages/mycard",
     "page/common/pages/mydata",
     "page/common/pages/open-result",
     "page/common/pages/redbox",
@@ -25,7 +30,6 @@
     "page/common/pages/shop-promotion",
     "page/common/pages/store-detail",
     "page/common/pages/store-list",
-
     "page/group-buying/group-buying",
     "page/group-buying/index-seckill",
     "page/group-buying/grouplist",
@@ -109,5 +113,6 @@
       ]
     }
   ],
+ 
   "debug": true
 }

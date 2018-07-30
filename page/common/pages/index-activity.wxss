@@ -36,7 +36,7 @@
 }
 
 .area-content, .area-image-1 {
-  height: 230rpx;
+  height: 320rpx;
   width: 750rpx;
   overflow: hidden;
 }

@@ -13,6 +13,7 @@ App({
   api: ajax,
   store_id: __config.sid,
   WxService: new WxService,
+  serverphone: __config.severPhoneTxt,
   globalData: {
     code: null,
     userInfo: null,

@@ -60,14 +60,14 @@ Page({
     tabCheck: false,//多属性是否选中
   },
   onShareAppMessage(res) {
-   let that = this;
-   let dataset = res.target.dataset;
-  console.log('action',that.data.action);
-   return {
-     title: dataset.title,
-     path: `/page/common/pages/goods-detail?prodId=${that.data.product_id}&action=${that.data.action}`,
-     imageUrl: dataset.imgurl
-   }
+    let that = this;
+    let dataset = res.target.dataset;
+    console.log('action', that.data.action);
+    return {
+      title: dataset.title,
+      path: `/page/common/pages/goods-detail?prodId=${that.data.product_id}&action=${that.data.action}`,
+      imageUrl: dataset.imgurl
+    }
   },
   goStoreServer() {
     wx.navigateTo({
@@ -207,7 +207,7 @@ Page({
     var uid = wx.getStorageSync('userUid');
     physical_id = wx.getStorageSync('phy_id');
 
-    if(uid==undefined||uid==''){
+    if (uid == undefined || uid == '') {
       wx.switchTab({
         url: '../../tabBar/home/index-new',
       })
@@ -216,14 +216,13 @@ Page({
       uid, store_id
     })
     // 页面初始化 options为页面跳转所带来的参数
-    let { prodId, action, params, categoryid = '' } = options;
+    let { prodId, action, params, categoryid = '', cateId } = options;
 
     this.loadData(prodId, action, categoryid);
 
     //this.setData({ 'newCartNum': 0 });
 
-    var cateId = options.cateId;
-    this.setData({ action, 'cateId': cateId, 'product_id': prodId });
+    this.setData({ 'cateId': cateId, 'product_id': prodId });
 
     //购物车的数量
     app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
@@ -274,7 +273,6 @@ Page({
   loadData(prodId, action, categoryid) {
     var that = this;
     wx.showLoading({ title: '加载中' });
-  
     //这里是严选
     let url = 'wxapp.php?c=product&a=detail_of_product';
     var params = {
@@ -290,11 +288,23 @@ Page({
           title: resp.err_msg,
         })
       } else {
-        wx.hideLoading();
         var product = resp.err_msg.product;
+        if (action == 'present') {
+          console.log('新品试用');
+          action = action
+        } else {
+          if (product.card_set_ids > 0) {
+            console.log('卡包商品');
+            action = product.card_set_ids
+
+          } else {
+            action = null
+            console.log('普通商品');
+          }
+        }
         that.setData({
-          product
-        })
+          product, action
+        });
       }
 
     });
@@ -516,16 +526,16 @@ Page({
   getOrderId(opts) {
     console.log('opts', opts)
     var { quantity, product_id, uid, store_id, sku_id, baokuan_action } = opts;
-    var params ={
-        uid,
+    var params = {
+      uid,
       product_id,
       store_id,
       quantity,
       sku_id,
       physical_id
-      };
-      console.log('购买参数',params);
-    app.api.postApi(addOrderUrl, {params}, (err, rep) => {
+    };
+    console.log('购买参数', params);
+    app.api.postApi(addOrderUrl, { params }, (err, rep) => {
       console.log(rep);
       if (err) { console.log('err ', err); return }
       var { err_code, err_msg } = rep;

@@ -1,0 +1,32 @@
+<scroll-view scroll-y="true" class='scroll-lists'>
+     <!-- <view class='activity-box'> -->
+          <view  class='activity-item'>
+            <view class='box-top'>
+              <text class='box-time gray'>上传时间：{{dataList.create_time}}</text>
+              <text class='red'>{{status}}</text>
+            </view>
+            <text class='box-txt'>{{dataList.activity_name}}</text>
+          </view>
+
+
+          <view class='box-bottom'>
+            <view class='box-line border-b'>
+              <text class='gray'>姓名</text>
+              <text>{{dataList.user_name}}</text>
+            </view>
+            <view class='box-line border-b'>
+              <text class='gray'>联系方式</text>
+              <text>{{dataList.phone}}</text>
+            </view>
+            <view class="question-containner" wx:if="{{dataList.my_answer.length>0}}">
+              <view class="question-view" wx:for="{{dataList.my_answer}}" wx:for-item="item" wx:for-index="i">
+                <label class="question-label">问题{{i+1}}：{{item.q}}</label>
+                <input class="question-input" value='{{item.a}}' disabled="true"/>
+              </view>
+          </view>
+            <view class='box-line-img' >
+             <image class='box-image' wx:for="{{imgList}}" wx:for-item="item" wx:for-index="index" src='{{item}}' bindtap='preview' data-index="{{index}}"></image>
+            </view>
+          </view>
+      <!-- </view> -->
+    </scroll-view>
