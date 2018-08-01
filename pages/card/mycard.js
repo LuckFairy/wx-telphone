@@ -1,9 +1,12 @@
-// pages/card/mycard.js
+
 var app = getApp();
 var _tapLock = false;    // 点击锁
 
 Page({
   data: {
+    updateone: false,//点击刷新
+    updatetwo: false,
+    updatethree:false,
     isLoaded2: false,//是否已经加载了已过期数据
     isLoaded3: false,//是否已经加载了已使用数据
     loading: true,
@@ -97,6 +100,17 @@ Page({
     that.loadData2(that);
     that.loadData3(that);
   },
+  update() {
+    let that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      that.loadData1(that,1,0);
+      that.loadData2(that,1,0);
+      that.loadData3(that,1,0);
+    }, 1000)
+  },
   pullUpLoadone(e) {
     var that = this;
     var { loadingone, pagesone } = that.data;
@@ -108,7 +122,6 @@ Page({
     that.setData({ pagesone })
     setTimeout(function () {
       that.loadData1(that);
-
     }, 1000)
   },
   pullUpLoadtwo(e) {
@@ -232,36 +245,39 @@ Page({
     });
   },
   //加载页面数据
-  loadData1: function (that) {
+  loadData1: function (that,page) {
     var { normal=[], pagesone, store_id, uid, category } = that.data;//msgList长度;0/1之间判断切换
     var params = {
       page: pagesone, store_id, uid: uid, type: 'unused', category
     }
+    if(page){params.page=1;}
     console.log('params..',params);
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
+    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps,code) => {
         wx.hideLoading();
-      if (err && reps.err_code != 0) return;
+      if (err || code != 200 || reps.err_code != 0) { that.setData({ updateone: true }); return; }
+      
       var { image, coupon_list=[], next_page } = reps.err_msg;
       var list = [...normal, ...coupon_list];
       //更新数据
       that.setData({
         loadingone: next_page,
+        updateone:false,
         loading: false,
         normal: list,
         image: image,
       });
-      wx.hideLoading();
     });
   },
-  loadData2: function (that) {
+  loadData2: function (that,page) {
     var { expiredMsg, expired, ex_image, pagestwo, store_id, uid, category, loadingtwo } = that.data;
     
     var params = {
       page: pagestwo, store_id, uid: uid, type: 'expired', category
     }
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
+    if(page){params.page=1;}
+    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps,code) => {
       wx.hideLoading();
-      if (err && reps.err_code != 0) return;
+      if (err || code != 200 || reps.err_code != 0) { that.setData({ updatetwo: true }); return; }
       that.setData({
         isLoaded2: true
       });
@@ -271,23 +287,24 @@ Page({
       //更新数据
       that.setData({
         loadingtwo: next_page,
+        updatetwo:false,
         loading: false,
         expired: list,
         ex_image: imageList,
       });
-      wx.hideLoading();
+
     });
   },
-  loadData3: function (that) {
+  loadData3: function (that,page) {
     var { usedMsg, used, use_image, pagesthree, store_id, uid, category } = that.data;
   
     var params = {
       page: pagesthree, store_id, uid: uid, type: 'use', category
     }
-
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
+    if(page){params.page=1;}
+    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps,code) => {
       wx.hideLoading();
-      if (err && reps.err_code != 0) return;
+      if (err || code != 200 || reps.err_code != 0) { that.setData({ updatethree: true }); return; }
       that.setData({
         isLoaded3: true
       });
@@ -298,11 +315,12 @@ Page({
       //更新数据
       that.setData({
         loadingthree: next_page,
+        updatethree:false,
         loading: false,
         used: list,
         use_image: imageList,
       });
-      wx.hideLoading();
+
     });
   },
   goDetail(e) {

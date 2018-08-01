@@ -35,8 +35,9 @@
     
     <swiper-item>
       <scroll-view scroll-y="true" bindscrolltolower='pullUpLoadone' lower-threshold='0' scroll-top="{{scrollTop}}">
-        <view wx:if="{{normal.length>0}}" class="card-list-view">
-          <block  wx:for="{{normal}}" wx:for-item="card" wx:key="{{index}}">
+        <view wx:if="{{updateone||normal.length>0}}" class="card-list-view">
+          <view  wx:if="{{updateone}}" catchtap='update'  class='update-btn'>网络超时，点击刷新</view>
+          <block wx:if="{{normal.length>0}}"  wx:for="{{normal}}" wx:for-item="card" wx:key="{{index}}">
             <!--正常活动卡券-->
             <view class="card-item-view {{mendiancard?mendiancard:''}} {{onlinecard?onlinecard:''}}" bindtap='goDetail' data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.id}}' data-distinguish='{{0}}'>
               <navigator class="card-item-left" style="display:flex;" data-recid="{{card.recId}}" data-url-param="cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}'>
@@ -62,8 +63,10 @@
             </view>
             <!--/正常活动卡券-->
           </block>
-          <text wx:if="{{!loadingone}}" class='dropload-noData'>已无更多</text>
-          <text wx:else class='dropload-noData'>上拉加载更多...</text>
+          <view wx:if="{{normal.length>0}}" class='footer'>
+            <text wx:if="{{!loadingone}}" class='dropload-noData'>已无更多</text>
+            <text wx:else class='dropload-noData'>上拉加载更多...</text>
+          </view>
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
@@ -75,8 +78,9 @@
 
     <swiper-item>
       <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadtwo' lower-threshold='0' scroll-top="{{scrollTop}}">
-        <view wx:if="{{ expired.length>0}}" class="card-list-view">
-          <block wx:for="{{expired}}" wx:for-item="card" wx:key="{{index}}">
+        <view wx:if="{{updatetwo||expired.length>0}}" class="card-list-view">
+          <view  wx:if="{{updatetwo}}" catchtap='update' class='update-btn'>网络超时，点击刷新</view>
+          <block wx:if="{{expired.length>0}}" wx:for="{{expired}}" wx:for-item="card" wx:key="{{index}}">
             <!--过期卡券-->
             <view class="card-item-views">
               <navigator class="card-item-left" style="display:flex;" data-recid="{{card.coupon_id}}">
@@ -100,8 +104,10 @@
             </view>
             <!--/过期卡券-->
           </block>
-          <text wx:if="{{!loadingtwo}}" class='dropload-noData'>已无更多</text>
-          <text wx:else class='dropload-noData'>上拉加载更多...</text>
+          <view wx:if="{{expired.length>0}}" class='footer'>
+            <text wx:if="{{!loadingtwo}}" class='dropload-noData'>已无更多</text>
+            <text wx:else class='dropload-noData'>上拉加载更多...</text>
+          </view>
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
@@ -113,8 +119,9 @@
 
     <swiper-item>
       <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadthree' lower-threshold='0' scroll-top="{{scrollTop}}">
-        <view wx:if="{{used.length>0}}" class="card-list-view">
-          <block wx:for="{{used}}" wx:for-item="card" wx:key="{{index}}">
+        <view wx:if="{{updatethree||used.length>0}}" class="card-list-view">
+          <view  wx:if="{{updatethree}}" catchtap='update' class='update-btn'>网络超时，点击刷新</view>
+          <block wx:if="{{used.length>0}}" wx:for="{{used}}" wx:for-item="card" wx:key="{{index}}">
             <!--已经使用过的卡券-->
             <view class="card-item-views">
               <navigator class="card-item-left" style="display:flex;" url="" data-recid="{{card.coupon_id}}">
@@ -139,8 +146,10 @@
             </view>
             <!--/已经使用过的卡券-->
           </block>
-          <text wx:if="{{!loadingthree}}" class='dropload-noData'>已无更多</text>
-          <text wx:else class='dropload-noData'>上拉加载更多...</text>
+          <view wx:if="{{used.length>0}}" class='footer'>
+            <text wx:if="{{!loadingthree}}" class='dropload-noData'>已无更多</text>
+            <text wx:else class='dropload-noData'>上拉加载更多...</text>
+          </view>
         </view>
         <view wx:else class="no-data-view">
           <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
