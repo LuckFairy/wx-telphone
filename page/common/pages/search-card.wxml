@@ -19,10 +19,10 @@
   <!-- nav详细内容展示区-->
   <!--one  -->
   <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadone' lower-threshold='0' scroll-top="{{scrollTop}}">
-    <view class='overlay' style="display:{{showHide ? 'none' : 'flex'}}" bindtap='closeBtn'></view>
+    <view class='overlay' style="display:{{showHide ? 'none' : 'flex'}}"></view>
     <block wx:if="{{normal || normal.length}}" wx:for='{{normal}}' wx:for-item="card">
-      <view wx:if='{{(card.is_use==0)&&(card.is_expired==0)}}' data-distinguish='{{0}}' class='mom-list {{onlinecard?onlinecard:""}} {{mendiancard?mendiancard:""}}' bindtap='goDetail' data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.id}}'>
-        <view class='mon-list-left'>
+      <view wx:if='{{(card.is_use==0)&&(card.is_expired==0)}}' data-distinguish='{{0}}' class='card-list-view normal-item'  data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.id}}'>
+   <!--      <view class='mon-list-left'>
           <view class='mon-image-title'>
             <text class='mon-title'>{{card.cname}}</text>
           </view>
@@ -31,60 +31,114 @@
             <text class='mon-day' wx:if='{{category==3}}'>券码：{{card.card_no}}</text>
             <text class='mon-day' wx:if='{{category==1}}'>券ID：{{card.id}}</text>
           </view>
-        </view>
-        <view class='mon-list-right'>
+        </view> -->
+      <!--   <view class='mon-list-right'>
           <view class='mon-money-right'>
-            <!-- <text class='money-right-cn'>￥</text> -->
             <text class='money-right-text'>￥{{card.face_money}}</text>
           </view>
           <text class='mon-right-go'>立即使用</text>
-        </view>
+        </view> -->
+
+      <!--正常券-->
+            <view class="card-item-view" bindtap='goDetail' data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.coupon_id}}' data-distinguish='{{0}}'>
+
+              <view class="card-list-view-left">
+                 <view data-recid="{{card.recId}}" data-url-param="cardId={{card.coupon_id}}&cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' class='card-item-up'>
+                  <view class="card-item-up-left">
+                    <view class="card-money-text">￥<text>{{card.face_money}}</text></view>
+                    <view  class="card-limit-text">{{card.type_left}}</view>
+                    
+                  </view>
+                  <view class='card-item-up-middle card-item-up-middle-normal'>
+                    <view class="card-title-text">{{card.cname}}</view>
+                    <!-- <view wx:if="{{category==3}}" class='card-tip'>现金券</view>
+                    <view wx:if="{{category==1 && card.limit_money==0}}" class='card-tip'>通用券</view>
+                    <view wx:if="{{category==1 && card.limit_money!=0}}" class='card-tip'>满减券</view> -->
+
+                    <view class="card-time-text">{{card.start_time_str}}-{{card.end_time_str}}</view>
+                  </view>
+                       
+                </view>
+                <view class="card-item-down" wx:if='{{category==3}}'>券码：{{card.card_no}}</view>
+                <view class="card-item-down" wx:if='{{category==1}}'>券ID：{{card.id}}</view>
+              </view>
+              <view class="card-list-view-right">
+                <view class="card-list-view-right-text">{{card.type_right}}</view>
+              </view>
+
+            <view class="card-item-btn-view card-item-btn-view-normal">
+                  <text>立即使用</text>
+            </view>
+
+            </view>
+
       </view>
-      <!--two  -->
-      <view wx:elif='{{(card.is_use==0)&&(card.is_expired==1)}}' class='mom-list-two' data-activity-id='{{card.activity_id}}' data-id='{{card.id}}'>
-        <view class='mon-list-left'>
-          <view class='mon-image-title'>
-            <!-- <image class='mon-image' src='{{card.mch_imgurl}}'></image> -->
-            <text class='mon-title'>{{card.cname}}</text>
-          </view>
-          <view class='mon-price-day'>
-            <text class='mon-price'>期限：{{card.start_time_str}}-{{card.end_time_str}}</text>
-            <text class='mon-day' wx:if='{{category==3}}'>券码：{{card.card_no}}</text>
-            <text class='mon-day' wx:if='{{category==1}}'>券ID：{{card.id}}</text>
-          </view>
-        </view>
-        <view class='mon-list-right'>
-          <view class='mon-money-right'>
-            <!-- <text class='money-right-cn'>￥</text> -->
-            <text class='money-right-text'>￥{{card.face_money}}</text>
-          </view>
-          <text class='mon-right-go'>已使用</text>
-        </view>
+      <!--two  已过期-->
+      <view wx:elif='{{(card.is_use==0)&&(card.is_expired==1)}}' class='card-list-view normal-item' data-activity-id='{{card.activity_id}}' data-id='{{card.id}}'>
+          <view class="bj-nouse"  data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.coupon_id}}' data-distinguish='{{0}}'>
+
+              <view class="card-list-view-left">
+                 <view data-recid="{{card.recId}}" data-url-param="cardId={{card.coupon_id}}&cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' class='card-item-up'>
+                  <view class="card-item-up-left">
+                    <view class="card-money-text unuse">￥<text>{{card.face_money}}</text></view>
+                    <view class="card-limit-text unuse">{{card.type_left}}</view>
+ 
+                  </view>
+                  <view class='card-item-up-middle card-item-up-middle-normal'>
+                    <view class="card-title-text unuse">{{card.cname}}</view>
+                   
+                    <view class="card-time-text">{{card.start_time_str}}-{{card.end_time_str}}</view>
+                  </view >
+                  <view class="card-item-btn-view" style="visibility:hidden;">
+                      <text>立即使用</text>
+                    </view>
+                  
+                </view>
+                <view class="card-item-down unuse">券ID：{{card.id}}</view>
+              </view>
+              <view class="card-list-view-right-unused">
+                <view class="card-list-view-right-text">{{card.type_right}}</view>
+              </view>
+              <view  class="card-item-up-right-unused expired"></view>
+             
+
+            </view>
       </view>
-      <!--three-->
-      <view wx:else class='mom-list-two' data-activity-id='{{card.activity_id}}' data-id='{{card.id}}'>
-        <view class='mon-list-left'>
-          <view class='mon-image-title'>
-            <!-- <image class='mon-image' src='{{logo}}'></image> -->
-            <text class='mon-title'>{{card.name}}</text>
-          </view>
-          <view class='mon-price-day'>
-            <text class='mon-price'>期限：{{card.start_time_str}}-{{card.end_time_str}}</text>
-            <text class='mon-day' wx:if='{{category==3}}'>券码：{{card.card_no}}</text>
-            <text class='mon-day' wx:if='{{category==1}}'>券ID：{{card.id}}</text>
-          </view>
-        </view>
-        <view class='mon-list-right'>
-          <view class='mon-money-right'>
-            <!-- <text class='money-right-cn'>￥</text> -->
-            <text class='money-right-text'>￥{{card.face_money}}</text>
-          </view>
-          <text class='mon-right-go'>已过期</text>
-        </view>
+      <!--three 已使用-->
+      <view wx:else class='card-list-view normal-item' data-activity-id='{{card.activity_id}}' data-id='{{card.id}}'>
+       
+                 <view class="bj-nouse"  data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.coupon_id}}' data-distinguish='{{0}}'>
+
+              <view class="card-list-view-left">
+                 <view data-recid="{{card.recId}}" data-url-param="cardId={{card.coupon_id}}&cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' class='card-item-up'>
+                  <view class="card-item-up-left">
+                    <view class="card-money-text unuse">￥<text>{{card.face_money}}</text></view>
+                    <view class="card-limit-text unuse">{{card.type_left}}</view>
+ 
+                  </view>
+                  <view class='card-item-up-middle card-item-up-middle-normal'>
+                    <view class="card-title-text unuse">{{card.cname}}</view>
+                   
+                    <view class="card-time-text">{{card.start_time_str}}-{{card.end_time_str}}</view>
+                  </view >
+                  <view class="card-item-btn-view" style="visibility:hidden;">
+                      <text>立即使用</text>
+                    </view>
+                  
+                </view>
+                <view class="card-item-down unuse">券ID：{{card.id}}</view>
+              </view>
+              <view class="card-list-view-right-unused">
+                <view class="card-list-view-right-text">{{card.type_right}}</view>
+              </view>
+              <view  class="card-item-up-right-unused used"></view>
+             
+
+            </view>
       </view>
     </block>
     <view wx:if='{{nullList}}' class="no-data-view">
-      <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+      <image src="../../../image/ma_card_no_1.png" class="no-data-image" />
       <text class="mText" class="no-data-text">哎呀，未搜索到优惠券</text>
       <text class="mText" class="no-data-text">换个字眼试试</text>
       <!-- <button class='no-data-btn' bindtap='getCoupon'>去领券</button> -->

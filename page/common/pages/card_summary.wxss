@@ -10,6 +10,11 @@ view {
   display: flex;
 }
 
+.shop-title{
+  color: #1b1b1b;
+  font-size: 30rpx;
+}
+
 .hide {
   display: none;
 }
@@ -31,7 +36,7 @@ view {
 .card-summary-containner {
   flex-direction: row;
   justify-content: center;
-  background-color: #ffe546;
+  background-color: #eeeeee;
   height: 100%;
   padding-top: 20px;
 }
@@ -39,16 +44,28 @@ view {
 .card-smy-view {
   flex-direction: column;
   width: 710rpx;
+	height: 1000rpx;
+  background-color: #fff
+}
+
+.card-smy-wrapper {
+  flex-direction: column;
+  width: 710rpx;
+}
+
+.card-smy-top {
+  
+  width: 710rpx;
+	height: 30rpx;
 }
 
 .card-head-view {
-  background-color: white;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  padding-left: 10px;
-  padding-top: 10px;
-  flex-direction: row;
-  align-items: center;
+  display: flex;
+  height: 80rpx;
+  width: 100%;
+  margin: 30rpx;
+  align-items: center
+
 }
 .card-img-view{
   position: absolute;
@@ -57,10 +74,15 @@ view {
   margin-left: -50rpx;
 }
 .mch-icon {
-	width: 100rpx;
-	height: 100rpx;
+	width: 80rpx;
+	height: 80rpx;
 	background-color: #ff3030;
   border-radius: 50%;
+}
+
+.limit-money{
+  color: #707070;
+  font-size: 32rpx;
 }
 
 .split-img-view {
@@ -77,10 +99,10 @@ view {
 }
 
 .card-title-view {
+  margin-left: 28rpx;
   font-size: 30rpx;
   color: #1b1b1b;
   text-align: center;
-  margin: 90rpx auto 40rpx;
 }
 
 .card-name-view {
@@ -119,6 +141,40 @@ view {
 	letter-spacing: 0px;
 	color: #999999;
 
+}
+
+.detail{
+  margin-top: 30rpx;
+  width: 710rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-title{
+  color: #1b1b1b;
+  font-size: 30rpx;
+  padding-left: 29rpx;
+  padding-right: 29rpx;
+}
+
+.detail-content{
+  color: #1b1b1b;
+  font-size: 26rpx;
+  margin-top: 28rpx;
+  padding-left: 29rpx;
+  padding-right: 29rpx;
+}
+
+.card-bottom {
+  align-items: center;
+  justify-content: center;
+	width: 100%;
+	height: 88rpx;
+	background-color: rgba(255, 231, 28, 1);
+  font-size: 32rpx;
+	color: #1b1b1b;
+  position:fixed; 
+  bottom:0; 
 }
 
 .card-btn-use {

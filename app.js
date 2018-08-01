@@ -77,9 +77,10 @@ App({
   },
   login: function (__opts) {
     console.log('弹窗登陆。。。');
+    let that = this;
     let iv = __opts.iv, encryptedData = __opts.encryptedData, key = that.globalData.sessionKey;
     var params = { "session_key": key, iv, encryptedData, "store_id": __config.sid };
-    that.getPhone(params)
+    return that.getPhone(params)
       .then(data => {
         that.globalData.phone = data.phone;
         wx.setStorageSync('phone', data.phone);
@@ -90,6 +91,7 @@ App({
         }
         return that.loginNew(params);
       }).then(data => {
+        console.log('uid',data.uid);
         that.globalData.uid = data.uid;
         wx.setStorageSync('userUid', data.uid); //存储uid
         //绑定门店

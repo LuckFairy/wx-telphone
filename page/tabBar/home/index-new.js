@@ -74,7 +74,17 @@ Page({
         encryptedData,
         locationid
       }
-      app.login(params);
+      app.login(params).then(()=>{
+        console.log('弹窗取消')
+        that.setData({
+          hasPhone: true
+        })
+      }).catch(()=>{
+        console.log('弹窗弹窗')
+        that.setData({
+          hasPhone: false
+        })
+      })
     } else {
       that.setData({
         hasPhone: false
@@ -106,7 +116,7 @@ Page({
     })
     //检查是否有手机号
     app.checkphone().then(data=>{
-        console.log(data);
+        console.log('有手机号',data);
         that.setData({ hasPhone: true, uid: data.uid, phone: data.phone });
         app.globalData.uid = data.uid;uid=data.uid;
         app.globalData.phone = data.phone;

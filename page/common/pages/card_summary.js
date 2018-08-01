@@ -2,9 +2,9 @@ var app = getApp();
 const store_id = app.store_id;
 let openid = wx.getStorageSync('openid');
 let uid = wx.getStorageSync('userUid');
-let saveUrl = 'wxapp.php?c=coupon&a=get_coupon';//保存优化券老接口
+let saveUrl = 'wxapp.php?c=coupon&a=get_coupon_v2';//保存优化券老接口
 let saveNewUrl = 'wxapp.php?c=activity&a=get_hot_coupon';//保存优化券新接口
-let getUrl = 'wxapp.php?c=coupon&a=coupon_detail';//优惠券详情接口
+let getUrl = 'wxapp.php?c=coupon&a=coupon_detail_v2';//优惠券详情接口
 let getNewUrl = 'wxapp.php?c=coupon&a=coupon_list_detail';//优惠券详情新接口
 let isDoGetCard = false;//是否显示按钮，false显示，true不显示
 Page({
@@ -63,6 +63,7 @@ Page({
       if (that.distinguish != 0) {
         that.setData({
           detailData,
+          distinguish:0,
           qrUrl: detailData.qrUrl
         })
       } else {
@@ -86,7 +87,8 @@ Page({
       }
       var detailData = resp.err_msg;
       that.setData({
-        detailData
+        detailData,
+        distinguish: 1
       })
     });
   },
@@ -106,7 +108,7 @@ Page({
     let { activityid, id } = e.currentTarget.dataset;
 
     var params = {//领券老接口
-      activityId: activityid,
+      // activityId: activityid,
       id,
       store_id,
       uid
@@ -129,7 +131,8 @@ Page({
       }
       if (resp.err_code == 0) {
         isDoGetCard = true;//isUsedOrGet隐藏按钮
-        that.setData({ source: false });//将按钮变成立即使用
+        that.setData({ isDoGetCard });//将按钮隐藏
+        // that.setData({ source: false });//将按钮变成立即使用
         if (that.data.lotteryId) { that.getLottery();}
         // 领取成功
         wx.showModal({

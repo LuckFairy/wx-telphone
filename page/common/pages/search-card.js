@@ -1,6 +1,7 @@
 // pages/card/mycard.js
 var app = getApp();
 var _tapLock = false;    // 点击锁
+var isFirst = true;//是否首次进入页面
 
 Page({
   data: {
@@ -79,11 +80,7 @@ Page({
     var that = this;
     // 事件代理拿到点击目标
     var { indexSelect, normal } = that.data.indexSelect;
-   if(e){
-     var select = e.target.dataset.select ? e.target.dataset.select : indexSelect;
-   }else{
-     var select =indexSelect;
-   }
+    var select = e.target.dataset.select;
     if (indexSelect == select) { return; }
     that.setData({
       indexSelect: select, normal: [], showHide: true, pagesone: 1, loadingone: true,
@@ -151,6 +148,13 @@ Page({
   },
   onShow: function () {
     // 页面显示
+    if (!isFirst) {
+      var that = this;
+      that.loadData1(that);
+    } else {
+      isFirst = false;
+    }
+
 
   },
   onHide: function () {
@@ -162,9 +166,6 @@ Page({
   closeOverlay: function () {
     this.setData({ showOverlay: false });
   },
-  closeBtn:function(){
-    this.goSelect();
-  },
   showCheckQr: function (event) {
     let qrUrl = event.currentTarget.dataset.qrImageUrl;
     this.setData({ qrImageUrl: qrUrl, showOverlay: true });
@@ -175,22 +176,24 @@ Page({
       title: '加载中',
     })
     var { searchValue, pagesone, store_id, uid, category, nullList, normal = [] } = that.data;
+    // var params = {
+    //   page: pagesone, store_id, uid: uid, type: 'all', category: category, keyword: searchValue
+    // }
     var params = {
-      page: pagesone, store_id, uid: uid, type: 'all', category: category, keyword: searchValue
+      page: pagesone, store_id, uid: uid, type: category, tagId: 0, keyword: searchValue
     }
-    app.api.postApi('wxapp.php?c=coupon&a=my', { params }, (err, reps) => {
+    app.api.postApi('wxapp.php?c=coupon&a=my_v2', { params }, (err, reps) => {
       if (err && reps.err_code != 0) { wx.hideLoading(); return; }
       var { image, coupon_list = [], next_page } = reps.err_msg;
       //第一次加载无数据显示
-      if (pagesone == 1 && coupon_list.length == 0) {
-        that.setData({ nullList: true });
+      if (coupon_list.length == 0) {
+        that.setData({ nullList: true, loadingone: next_page, normal: [] }); wx.hideLoading(); return;
       }
-      var list = [...normal, ...coupon_list];
       that.setData({
         nullList: false,
         loadingone: next_page,
         loading: false,
-        normal: list,
+        normal: coupon_list,
         image: image,
         selectCardone: 0
       });
