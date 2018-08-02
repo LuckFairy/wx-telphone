@@ -31,6 +31,11 @@ Page({
     app.api.postApi(getCategoryList, { params }, (err, resp) => {
       wx.hideLoading();
       var dataList = resp.err_msg.products || [];
+      if (dataList.length > 1) {
+        for (var i in dataList) {
+          dataList[i].diff = Number(dataList[i].original_price - dataList[i].price).toFixed(2);
+        }
+      }
       that.setData({
         dataList: dataList,
         currentTab: insideTab
@@ -50,7 +55,12 @@ Page({
     }
     app.api.postApi(getCategoryList, { params }, (err, resp) => {
       wx.hideLoading();
-      var dataList = resp.err_msg.products
+      var dataList = resp.err_msg.products;
+      if (dataList.length > 1) {
+        for (var i in dataList) {
+          dataList[i].diff = Number(dataList[i].original_price - dataList[i].price).toFixed(2);
+        }
+      }
       that.setData({
         dataList: dataList,
         currentTab: curTab
@@ -75,11 +85,11 @@ Page({
   onLoad: function (opts) {
     var that = this;
     // 5个tab数据 仅仅头部tab 不包括列表
-    app.api.fetchApi(`${getCategoryUrl}&categoryId=96`, (err, response) => {
+    app.api.fetchApi(`${getCategoryUrl}&categoryId=96`, (err, rep) => {
       wx.hideLoading();
-      if (err) return;
-      var cat_list = response.err_msg.cat_list;
-      this.setData({ cat_list: cat_list });
+      if (err||rep.err_code) return;
+      var cat_list = rep.err_msg.cat_list;
+      this.setData({ cat_list });
     });
     //列表数据
     that.getDataList(opts);

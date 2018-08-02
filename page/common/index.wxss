@@ -26,7 +26,8 @@ color:#1b1b1b;
 }
 
 .list-header-image {
-  width: 750rpx;
+  /* width: 750rpx;
+  height: 230rpx; */
   height: 320rpx;
   background: #fff;
 }
@@ -139,7 +140,8 @@ color:#1b1b1b;
   font-size: 24rpx;
   color: #1b1b1b;
   vertical-align: middle;
-  line-height: 10rpx;
+  height: 48rpx;
+  line-height: 18rpx;
 }
 
 .card_text_2 {
@@ -753,3 +755,5 @@ color:#1b1b1b;
 /*分享成功后*/
 @import "./template/share.wxss";
 /*结束*/
+
+.weui-navbar{display:-webkit-box;display:-webkit-flex;display:flex;position:absolute;z-index:500;top:0;width:100%;border-bottom:1rpx solid #ccc}.weui-navbar__item{position:relative;display:block;-webkit-box-flex:1;-webkit-flex:1;flex:1;padding:13px 0;text-align:center;font-size:0}.weui-navbar__item.weui-bar__item_on{color:#1aad19}.weui-navbar__slider{position:absolute;content:" ";left:0;bottom:0;width:6em;height:3px;background-color:#1aad19;-webkit-transition:-webkit-transform .3s;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s}.weui-navbar__title{display:inline-block;font-size:15px;max-width:8em;width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal}

@@ -4,11 +4,11 @@ import {firstOpen, getCoupon,cancelCoupon} from '../../common/template/coupon.js
 let app = getApp();
 
 const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon'; //优惠券列表数据
-const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num'; //我的卡包接口
-// const activityUrl = 'wxapp.php?c=index_activity&a=activity_index'; //活动页接口
+// const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num'; //我的卡包接口
+// const activityUrl = 'wxapp.php?c=index_activity&a=activity_index'; //精选活动接口
 const activityUrl = 'wxapp.php?c=index_activity&a=jx_activity';//精选活动（第三版）
-const activityNewUrl = 'screen.php?c=index&a=activity_index'; //大屏首页取代活动页
-const tabUrl = 'wxapp.php?c=category&a=get_category_by_pid_new'; //tab接口地址
+// const activityNewUrl = 'screen.php?c=index&a=activity_index'; //大屏首页取代活动页
+// const tabUrl = 'wxapp.php?c=category&a=get_category_by_pid_new'; //tab接口地址
 // const headImg = 'wxapp.php?c=product&a=banner_list'; //轮播图接口
 const headImg = 'wxapp.php?c=product&a=banner_list_v2';//轮播图接口（新）
 const physicalUrl = 'wxapp.php?c=physical&a=physical_list'; //las门店列表接口
@@ -43,18 +43,15 @@ Page({
     dataImg: [], //首页轮播图数据
     showhide: true,
     cat_list: [],
-    //2017年12月21日18:50:42 by leo
     card_num: 0,
     uid, //用户id
-    iconOne: [],
-    //indexImage: null,//4个大图图片列表
     showModel: false, //是否显示弹窗模板
     couponList: [], //弹窗专用券列表
     coupon_id_arr: [], //弹窗优惠券id
     couponValue: [], //领取优惠券面值列表
     couponValueLast: [],
     productData: [], //活动图列表
-    valueList: ['正品保障', '假一赔三', '破损包邮', '7天退换'],
+    valueList: [{txt:'正品保障',src:'./imgs/card-1.png'},{txt: '假一赔三',src:'./imgs/card-2.png'},{txt: '破损包邮',src:'./imgs/card-2.png'}, {txt:'7天退换',src:'imgs/card-4.png'}],
     saoma_url: null,
     set_flag: false, //是否設置為默認
     physicalClost: '', //最近门店信息
@@ -518,8 +515,9 @@ Page({
       wx.hideLoading();
       if (err || rep.err_code != 0) return;
       var data = rep.err_msg;
+     
       this.setData({
-        groupData: data
+        groupData: [data[0]]
       });
     });
   },
