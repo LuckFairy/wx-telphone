@@ -16,6 +16,7 @@ const headImg = 'wxapp.php?c=product&a=banner_list_v2';//轮播图接口（新�
 const physicalUrl = 'wxapp.php?c=physical&a=physical_list';//las门店列表接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
 const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index';//拼团活动列表
+const iconUrl = "wxapp.php?c=index&a=get_icon_v3";//栏目地址
 
 
 let store_id = app.store_id;
@@ -60,7 +61,7 @@ Page({
     couponValue: [],//领取优惠券面值列表
     couponValueLast: [],
     productData: [],//活动图列表
-    valueList: ['正品保障', '假一赔三', '破损包邮', '7天退换'],
+    valueList: [{ txt: '正品保障', src: './imgs/card-1.png' }, { txt: '假一赔三', src: './imgs/card-2.png' }, { txt: '破损包邮', src: './imgs/card-2.png' }, { txt: '7天退换', src: 'imgs/card-4.png' }],
     saoma_url: null,
     set_flag: false,//是否設置為默認
     physicalClost: '',//最近门店信息
@@ -140,7 +141,7 @@ Page({
       }
     })
 
-    app.api.postApi('wxapp.php?c=index&a=get_icon_v2', { "params": { store_id } }, (err, rep) => {
+    app.api.postApi(iconUrl, { "params": { store_id } }, (err, rep) => {
       if (!err && rep.err_code == 0) {
         this.setData({
           indexIcon: rep.err_msg.icon_list
@@ -658,11 +659,11 @@ Page({
     console.log('精选活动跳链', params);
     var type = e.currentTarget.dataset.redi_type;
     var id = e.currentTarget.dataset.rediurl;
-    
+
     console.log('type', type);
     console.log('id', id);
     //跳转类型，栏目1 ，商品2，送券活动4
-    if (type==1){
+    if (type == 1) {
       switch (id) {
         //四个banner模块
         case "1": var url = `../../common/pages/shop-list?categoryid=100&page=1&store_id=${store_id}&title=爆款专区`; break;
@@ -677,16 +678,23 @@ Page({
         case "9": var url = `../../common/pages/index-boabao?listId=4&catId=97`; break;
         //礼包特卖模块
         case "10": var url = `../../common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`; break;
-        
+        //拼团
+        case "11": var url= `../../group-buying/grouplist`; break;
+        //增值活动
+        case "12": var url = `../../common/pages/index-mom`; break;
+
       }
     } else if (type == 2) {
-
-      var url = `../../common/pages/goods-detail?prodId=`+id;
+      var url = `../../common/pages/goods-detail?prodId=` + id;
 
     } else if (type == 4) {
       console.log('要跳到送券活动');
       var url = `../../common/pages/activity-detail?id=` + id;
-    }else{
+    } else if (type = 5) {
+      console.log('dm海报');
+      var url = `../../common/pages/index-activity`;
+    }
+    else {
       console.log('未定义的跳转url');
     }
 

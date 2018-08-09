@@ -50,7 +50,7 @@ Page({
       }
       let { err_code, err_msg: { err_log } } = resp;
       if (err_code != 0) {
-        return this._showError(err_log);
+        return;
       }
       let { err_msg: { acrivity_element = [] } } = resp;
       this.setData({ productData: acrivity_element });

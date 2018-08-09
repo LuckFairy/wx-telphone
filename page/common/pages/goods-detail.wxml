@@ -125,7 +125,7 @@
       <text class='invite-car-num'>{{newCartNum}}</text>
       <text class='cart-ke-server-text'>购物车</text>
     </view>
-    <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
+    <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style="visibility:hidden">
       <text class='add-invite-car-child'>加入购物车</text>
     </view>
     <view class='current-buying invite-total no-goods' >

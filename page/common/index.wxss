@@ -1,4 +1,118 @@
-@import "./pages/index-activity.wxss";
+/*精选活动样式  */
+
+.inherit {
+  padding: 0 10rpx;
+  font-size: 22rpx;
+  color: #1b1b1b;
+}
+
+.wrap {
+  display: block;
+  background: #efefef;
+  width: 750rpx;
+  font-size: 0rpx;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.area-title {
+  height: 88rpx;
+  line-height: 88rpx;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  margin-top: 16rpx;
+}
+
+.area-title image {
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.area-title text {
+  margin: 0 23rpx;
+  color: #434343;
+  font-size: 28rpx;
+}
+
+.area-content, .area-image-1 {
+  height: 320rpx;
+  width: 750rpx;
+  overflow: hidden;
+}
+
+.area-image-1 image {
+  width: 100%;
+  height: auto;
+}
+
+/* .area-bottom{
+margin-bottom: 16rpx;
+  height: 116rpx;
+  line-height: 1;
+  background: #fff;
+  flex-direction: column;
+}
+.area-bottom view:first-child{
+  margin: 20rpx 24rpx 18rpx;
+  justify-content: space-between;
+  font-size: 30rpx;
+  color: #313131;
+}
+.area-bottom view:first-child text:last-child{
+  color: #999;
+  font-size: 26rpx;
+}
+.area-bottom view:last-child{
+  color: #476ab1;
+  font-size: 22rpx;
+    margin: 0 24rpx;
+}
+.area-bottom view:last-child image{
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 14rpx;
+} */
+
+.area-bottom {
+  margin-bottom: 16rpx;
+  /* height: 116rpx; */
+  line-height: 1;
+  background: #fff;
+  flex-direction: column;
+}
+
+.area-bottom view:first-child {
+  margin: 20rpx 24rpx 18rpx;
+  justify-content: space-between;
+  font-size: 30rpx;
+  color: #313131;
+}
+
+.area-bottom view:first-child text:last-child {
+  color: #999;
+  font-size: 26rpx;
+}
+
+.area-bottom view:last-child {
+  color: #476ab1;
+  font-size: 22rpx;
+  margin: 0 24rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.area-bottom view:last-child image {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 14rpx;
+}
+
+.gray {
+  background: #eee;
+  color: #a9a9a9;
+}
+
 .shopping-go-group-end{
   width: 130rpx;
   font-size: 24rpx;
@@ -109,31 +223,29 @@ color:#1b1b1b;
 }
 
 .card {
-  height: 80rpx;
-  margin-top: 24rpx;
+  height: 100rpx;
+  margin:16rpx 0;
   background-color: #fff;
- 
   justify-content: space-between;
   align-items: center;
+  padding:0 24rpx;
 }
+
 .card_body{
   justify-content: space-around;
   align-items: center;
-  margin-left: 24rpx;
-
 }
 
 .card_img_1 {
-  width: 50rpx;
-  height: 50rpx;
+  width: 60rpx;
+  height: 60rpx;
   margin-right: 40rpx;
 }
 
 .card_img_2 {
-  width: 12rpx;
-  height: 24rpx;
+  width: 146rpx;
+  height: 66rpx;
   vertical-align: middle;
-  margin-right: 24rpx;
 }
 
 .card_text_1 {
@@ -748,8 +860,8 @@ color:#1b1b1b;
   align-items: center;
 }
 .card-banner-item image{
-  width: 23rpx;
-  height: 23rpx;
+  width: 36rpx;
+  height: 36rpx;
   margin-right: 10rpx;
 }
 /*分享成功后*/

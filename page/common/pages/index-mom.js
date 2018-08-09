@@ -175,10 +175,7 @@ Page({
     let page = this.data.page;
     let index=parseInt(this.data.current);
     let activity_err_msg = this.data.activity_err_msg;
-    var activityid = '';
-    if (activity_err_msg[index].tagId){
-      activityid = activity_err_msg[index].tagId;
-    }
+    var activityid = activity_err_msg[index].tagId ? activity_err_msg[index].tagId:'';
     this.loadData(uid, store_id, page, activityid);
   },
 

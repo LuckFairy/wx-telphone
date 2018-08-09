@@ -8,10 +8,10 @@
     <view>
       <view class='myself-photo'>
         <open-data type="userAvatarUrl" class="heading"></open-data> 
-         <!-- <image class='myself-image' src='{{userImg}}'></image>  -->
+         
       </view>
       <view class='myself-detail'>
-         <!-- <text class='myself-id'>{{nickName}}</text>  -->
+      
          <open-data type="userNickName" class='myself-id'></open-data>
         <view class='myself-address' bindtap='goaddress'>
           <text class='myself-addr-text'>收货地址</text>

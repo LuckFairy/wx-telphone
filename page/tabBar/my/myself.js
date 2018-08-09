@@ -97,32 +97,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-
     var uid = wx.getStorageSync('userUid');
-    var userInfo = wx.getStorageSync('userInfo');
-
-    wx.getUserInfo({
-      success: function (res) {
-        var userInfo = res.userInfo
-        var nickName = userInfo.nickName
-        var avatarUrl = userInfo.avatarUrl
-        that.setData({
-          nickName: nickName,
-          userImg: avatarUrl
-        })
-      },
-      fail: function () {
-        var userInfo = wx.getStorageSync('userInfo');
-        if (userInfo) {
-          that.setData({
-            nickName: userInfo.nickName,
-            userImg: userInfo.avatarUrl
-          })
-        } else {
-          that.checkPhone();
-        }
-      }
-    })
+    if(uid){this.setData({uid})}
+    
 
   },
 
@@ -137,9 +114,15 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var uid = wx.getStorageSync('userUid');
+    if (uid) { this.setData({ uid }) }else{
+      wx.switchTab({
+        url: '../home/index-new',
+      });
+      return;
+    }
     var hasPhone = wx.getStorageSync('hasPhone');
     var phone = wx.getStorageSync('phone');
-    // phone = this.substring(phone);
     this.setData({ hasPhone, phone });
   },
 

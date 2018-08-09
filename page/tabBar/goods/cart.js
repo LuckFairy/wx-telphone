@@ -246,7 +246,7 @@ Page({
    
   },
   goindex(){
-    wx.reLaunch({ url:'../home/index-new'});
+    wx.switchTab({ url:'../home/index-new'});
   },
 
   onLoad: function (options) {

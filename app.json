@@ -41,8 +41,8 @@
   ],
   "window": {
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#FFE546",
-    "navigationBarTitleText": "趣购精选",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "咿呀悦购官方商城",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
