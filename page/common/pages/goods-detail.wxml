@@ -83,7 +83,7 @@
 
 <!--按钮  -->
 <!-- 有库存 -->
-<block wx:if="{{product.quantity > 1}}">
+<block wx:if="{{product.quantity >= 1}}">
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
       <image class='invite-index-image' src='../../../image/index-list.png'></image>
