@@ -1,0 +1,88 @@
+<!-- <view wx:if="{{error}}" class="form-err-view">
+  <text class="form-err-text">{{error}}</text>
+</view> -->
+
+<!-- <view  class="form-err-view">
+  <text class="form-err-text">报错啦！！！</text>
+</view> -->
+
+<scroll-view class='content-container' scroll-y="{{true}}">
+
+  <view class='error-tip'>
+      <image class='error-tip-image' src='../../image/pur-defeat.png'>
+      </image>
+
+      <view class='error-tip-text'>
+        <view class='error-tip-text1'>
+        拼团还没成功
+        </view>
+        <view class='error-tip-text2'>
+        赶紧召唤小伙伴来拼团吧~
+        </view>
+      </view>
+
+  </view>
+
+  <view class='addr-sec-lists' wx:if="{{address.address_user!=''||address.address_user.length<0}}">
+    <view class='addr-section'>
+      <view class='address-list'>
+        <image class='address-image' src='../../image/address.png'></image>
+      </view>
+      <view class="addr-item-view">
+        <view class="name-phone-view">
+          {{address.address_user}}：{{address.address_tel}}
+        </view>
+        <view class="addr-dtl-view">{{address.province}}{{address.city}}{{address.area}}{{address.address}}</view>
+      </view>
+    </view>
+ </view>
+
+
+  <view class='purchase-data-sd'>
+    <text class='purchase-data-number'>{{dateText}}</text>
+     <!-- <text class='purchase-data-back'>{{statusText}}</text>  -->
+  </view>
+  <view class='purchase-shop-list'>
+    <image class='purchase-shop-image' mode='aspectFit' src='{{product_list.image}}'></image>
+    <view class='purchase-shop-detail'>
+      <view class='purchase-shop-text'>
+        <text class='purchase-shop-title'>{{product_list.name}}</text>
+        <text class='purchase-shop-num'>x{{product_list.pro_num}}</text>
+      </view>
+      <view class='purchase-shop-bottom'>
+        <text class='purchase-price goods-pro-price'><text class='gray'>实付款：</text>￥{{product_list.pro_price}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="product-bottom">
+    <text class="purchase-status-detail" data-order-id="1"  catchtap="onTuanDetailClick">查看团详情</text>
+  </view>
+
+  <view class="hot-list-gro" wx:if="{{hotData.length>0}}">
+  <text class="hot-list-gro-text">热门推荐</text>
+</view>
+<!--拼团区域  -->
+<view class='yiya-pinduoduo-area' wx:if="{{hotData.length>0}}">
+  <view class='pinduoduo-content'>
+    <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{hotData}}" wx:key="{{item}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="{{item.quantity>0?'goGroupDetail':''}}">
+      <image class='pinduoduo-content-image' mode='{{mode}}' lazy-load='{{lazyLoad}}' src='{{item.image}}'></image>
+      <text class='pinduoduo-content-title'>{{item.name}}</text>
+      <view class='pinduoduo-content-price'>
+        <text class='text-red'>已团{{item.count}}件</text>
+        <text class='text'>仅剩{{item.quantity-item.count}}件</text>
+      </view>
+      <view class='pintuan-content-buttom'>
+        <view class='pinduoduo-buttom-aside'>
+          <text class='pinduoduo-content-current'>￥<text class='text-style-1'>{{item.price}}</text></text>
+          <text class='pinduoduo-already'>￥{{item.start_price}}</text>
+        </view>
+        <view wx:if="{{item.quantity>0}}" class='btn'>去开团</view>
+        <view wx:else class='btn shopping-go-group-end'>已售罄</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+
+  </scroll-view>
+

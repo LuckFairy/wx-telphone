@@ -1,0 +1,95 @@
+/* page/common/pages/activity-hository.wxss */
+ /* page{background: #efefef;}  */
+.baobao-use{height: 80rpx;top:0rpx;z-index:9999;background: #fff;}
+.baobao-use>view{height: 80rpx;line-height: 80rpx;justify-content: space-around;}
+.baobao-thing{height:80rpx;width:250rpx; line-height:80rpx;color:#999;font-size:30rpx;justify-content: center;} 
+.baobao-some-thing{display:block;font-size:30rpx;text-align:center;}
+.chooseTab{border-bottom:4rpx solid #ffe71c;color:#1b1b1b}
+swiper {
+  display: flex;
+  height: 100%;
+  width: 750rpx;
+
+}
+
+
+.red{
+  color:#ff3853;
+  font-size: 24rpx;
+}
+.gray{
+  color: #898989;
+  font-size: 24rpx;
+}
+.activity-box {
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+color: inherit;
+}
+.activity-item{
+  flex-direction: column;
+  width: 100%;
+padding: 28rpx 0;
+background: #fff;
+margin: 20rpx 0 ;
+}
+.box-top{
+  justify-content: space-between;
+  padding: 0 24rpx 16rpx;
+}
+.box-top text{
+  line-height: 1.2;
+  height: 26rpx;
+}
+
+.box-txt {
+  font-size: 28rpx;
+  padding:0 24rpx;
+  color: #313131;
+  height: 36rpx;
+  width: 100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  /* white-space:nowrap; */
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical
+}
+.box-image{
+  width: 100%;
+  height: 320rpx;
+  margin: 28rpx 0 0;
+  background: #999;
+}
+.box-bottom{
+  justify-content: space-between;
+  margin:18rpx 0 0;
+  padding:0 24rpx;
+}
+.box-txt2{
+  font-size: 26rpx;
+  margin-top: 10rpx;
+}
+.box-bottom>view{
+  flex: 1;
+  flex-direction: column;
+}
+.box-btn{
+  width: 150rpx;
+	height: 56rpx;
+	background: #ffe71c;
+	border-radius: 10rpx;
+  font-size: 26rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  margin-left: 10rpx;
+}
+.box-btn-look{
+  background: #fff;
+  border: solid #999 1px;
+}
+

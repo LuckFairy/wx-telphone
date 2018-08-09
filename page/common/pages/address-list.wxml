@@ -1,0 +1,61 @@
+
+<view class="addr-list-view">
+  <view wx:for="{{addrList}}" wx:key="{{index}}" class="addr-item-view">
+    <view class="content"  bindtap="changeAdress"  data-address-id="{{item.address_id}}" >
+
+      <view class='content-address'>
+        <view class="name-phone-view">
+        <view class="">{{item.name}}</view>
+        <view style='margin-left:40rpx;'>{{item.tel}}</view>
+      </view>
+      <view class="addr-dtl-view">{{item.province_txt + item.city_txt + item.area_txt + item.address}}</view>
+      </view>
+      
+
+    <view wx:if="{{!isFromMy}}" class='content-tip'>
+    使用
+    </view>
+    
+
+    </view>
+    <view class="sep-line"></view>
+    <view class="addr-op-view">
+    <!--  -->
+      <view style="line-height:100%;flex-direction:row;" catchtap="changeDefaultAdress" data-is-default="{{item.default}}" data-address-id="{{item.address_id}}" data-index="{{index}}">
+        <icon wx:if="{{item.default==1}}" type="success" size="14"  />
+        <icon wx:else type="circle" size="14" />
+        <!-- <i wx:if="{{item.default==1}}" class="fa fa-lg fa-check-circle" ></i>
+        <i wx:else class="fa fa-lg fa-circle-thin" ></i> -->
+        <text style="margin-left:5px;">默认地址</text>
+      </view>
+      <view>
+        <view style="line-height:100%;align-items:center;" bindtap="updateAddress" data-address-id="{{item.address_id}}">
+           <image class='editImg' 
+            mode="aspectFit" src='../../../image/icon_edit_address.png'>
+          </image>
+          <text class="navigator" style="margin-right:10px;">编辑</text>
+        </view>
+        <view style="line-height:100%;align-items:center;" bindtap="bindDelAddr" data-index="{{index}}" data-address-id="{{item.address_id}}">
+          <image class='editImg'mode="aspectFit" src='../../../image/icon_delete.png'></image>
+          <text style="margin-right:10px;">删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- <view class="add-addr-btn-view" bindtap="gotoAddAddr">
+    <text class="add-btn">新建收货地址</text> </view> -->
+
+ <view class="address-add-bottom" >
+    <view class='address-add-bottom-left'>
+    <view class='bottom-text' style='font-size: 36rpx;font-size: 36rpx;' bindtap="gotoAddAddr">
+        手动添加
+    </view>
+    </view>
+      <view class='address-add-bottom-right' style='color: #09bb07;font-size: 36rpx;' bindtap='onWxAddClick'>
+    <view >
+        微信添加
+    </view>
+    </view>  
+ </view>
+
+</view>

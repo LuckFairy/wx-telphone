@@ -1,0 +1,25 @@
+.section-summary-list{
+    display: flex;
+    flex-direction: column;
+}
+.section-summary-containner{
+    padding:30rpx;
+}
+
+.section-summary-cover-view {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom:40rpx;
+}
+.section-summary-cover-img{
+    width:100%;
+}
+.section-summary-title{
+    font-size: 35rpx;
+    padding-bottom:25rpx;
+}
+.section-summary-desc{
+    font-size: 25rpx;
+    padding-bottom:25rpx;
+    color:#373839;
+}

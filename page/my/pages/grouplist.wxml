@@ -1,0 +1,37 @@
+
+<scroll-view class="bac-color">
+    <view class="goods-list-containner">
+        <view class="group-shop-father">  
+            <view class="group-shop" wx:for="{{err_msg}}" wx:key="{{item.product_id}}" bindtap='goGroupDetail' data-productId='{{item.product_id}}' data-groupbyId='{{item.tuan_id}}' data-sellDetail='{{(item.quantity>0)?1:0}}'>
+                <image class="group-shop-image" src="{{item.image}}"></image>
+                <text class="group-shop-title">{{item.name}}</text>
+                <view class='group-shopping-wraps'>
+                  <text class="gro-pre">已团{{item.count}}件</text>
+                </view>
+                <!--在售  -->
+               <view class="group-shop-bottom" wx:if='{{item.quantity>0}}'>
+                    <view class='group-shopping-father'>
+                      <text class="group-shop-num">
+                        <text>￥</text><text class="group-shop-num2">{{item.start_price?item.start_price:item.price}}</text></text>
+                      <text class="group-shop-num group-shop-num-two">￥{{item.price}}</text>
+                     <!--<text class="gro-pre">仅剩{{item.quantity}}件</text>--> 
+                    </view>
+                    <text class='shopping-go-group'>去开团</text>
+               </view>
+                <!--在售  -->
+                <!--已售罄  -->
+                <view class="group-shop-bottom" wx:if='{{item.quantity<=0}}'>
+                    <view class='group-shopping-father'>
+                      <text class="group-shop-num">
+                        <text>￥</text><text class="group-shop-num2">{{item.start_price?item.start_price:item.price}}</text></text>
+                      <text class="group-shop-num group-shop-num-two">￥{{item.price}}</text>
+                     <!--<text class="gro-pre">仅剩{{item.quantity}}件</text>--> 
+                    </view>
+                    <text class='shopping-go-group-end'>已售罄</text>
+                </view>
+                <!--已售罄结束  -->
+            </view>
+        </view>
+        <!--拼团购  -->
+    </view>
+</scroll-view>

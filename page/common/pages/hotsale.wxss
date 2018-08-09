@@ -1,0 +1,255 @@
+/*  -------------闪购-------------------- */
+
+
+.goods-list-containner {
+    flex-direction: column;
+    align-items: center;
+    width: 750rpx;
+}
+
+.goods-list-header-view {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 80rpx;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 750rpx;
+    z-index: 10;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.nav-text {
+    font-size: 13px;
+    padding: 3px 40rpx;
+    box-sizing: border-box;
+}
+
+.nav-active {
+    background-color: black;
+    color: white;
+}
+
+.nav-inactive {
+    background-color: white;
+    color: #9c9c9c;
+}
+
+.left-nav {
+    border-right: 0px;
+}
+
+.right-nav {
+    border-left: 0px;
+}
+
+.next-sale-time-view {
+    font-size: 20rpx;
+    color: grey;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* .prod-name-text {
+  display: inline-block;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 14px;
+    margin-right: 10rpx;
+    width: 400rpx;
+    text-overflow: ellipsis;
+} */
+
+.prod-name-text {
+  font-size: 28rpx;
+  line-height: 28rpx;
+  color: #313131;
+  height: 60rpx;
+  width: 100%;
+ overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.goods-list-view {
+    flex-direction: column;
+    align-items: center;
+    width: 750rpx;
+}
+
+.goods-item-view {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 30rpx solid #f3f3f3;
+}
+
+.goods-cover-img {
+    width: 750rpx;
+}
+
+.goods-info-view {
+  width: 100%;
+  /* height: 150rpx; */
+  display: flex;
+  padding:20rpx;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+.goods-left{
+  display: flex;
+  flex-direction: column;
+}
+
+.goods-left-text1{
+  font-size: 36rpx;
+  color: #ff3030;
+}
+
+.goods-left-text2{
+  font-size: 24rpx;
+  color: #999999;
+  /* margin-top: 25rpx; */
+  text-decoration:line-through;
+
+}
+
+.goods-right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.goods-right-text1{
+  font-size: 24rpx;
+  color: #999999;
+  margin-right: 15rpx;
+}
+
+.goods-right-text2{
+  width: 150rpx;
+	height: 56rpx;
+	background-color: rgba(255, 48, 48, 1);
+	border-radius: 6px 6px 6px 6px;
+  font-size: 28rpx;
+  color: #ffffff;
+  justify-content: center;
+  align-items: center;
+}
+
+.goods-content{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25rpx;
+
+}
+
+.goods-title {
+  color: #313131;
+  font-size: 28px;
+}
+
+.goods-info-left-view {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 30rpx;
+    flex: 1;
+}
+
+.goods-info-right-view {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 30rpx;
+}
+
+.time-text {
+    background-color: black;
+    color: white;
+    margin: 0px 3px;
+    width: 40rpx;
+    text-align: center;
+}
+
+/* .left-time-view {
+  width: 200rpx;
+} */
+.prod-time-godown{
+  width: 320rpx;
+  justify-content: flex-end;
+}
+.scroll-view {
+    height: 100%;
+}
+/*拼团购  */
+.group-shop-father{
+  display: block;
+  width: 750rpx;
+}
+.group-shop{
+  width: 367rpx;
+  display: inline-block;
+  background: #fff;
+  margin-top: 15rpx;
+}
+.group-shop-image{
+  width: 367rpx;
+  height: 367rpx;
+}
+.group-shop-title{
+  width: 367rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 24rpx;
+  display: block;
+  padding: 0 20rpx;
+}
+.bac-color{
+   background: #eeeeee;
+   width: 100%;
+}
+.group-shop:nth-child(2n){
+  margin-left: 16rpx;
+}
+.group-shop-num{
+  font-size: 22rpx;
+  margin-left: 20rpx;
+  border: 1rpx solid #c3c3c3;
+  padding: 2rpx 10rpx;
+}
+.group-shop-bottom{
+  margin-top: 10rpx;
+  vertical-align: bottom;
+  height: 54rpx;
+  margin-bottom: 20rpx;
+}
+.gro-now{
+  font-size: 30rpx;
+  color: #C10A0A;
+  margin-left: 20rpx;
+  line-height: 80rpx;
+}
+.gro-pre{
+  font-size: 22rpx;
+  color: #c3c3c3;
+  margin-left: 10rpx;
+  line-height: 85rpx;
+  margin-right: 30rpx;
+  
+}
+.go-gro{
+  font-size: 32rpx;
+  background: #FF1D82;
+  padding: 0rpx 20rpx;
+  color: #fff;
+  height: 54rpx;
+  line-height: 54rpx;
+}

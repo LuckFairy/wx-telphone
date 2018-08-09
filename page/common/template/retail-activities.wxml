@@ -1,0 +1,65 @@
+<template name="categoryActivities">
+  <view class="main-container">
+
+    <!-- 头部导航条 -->
+    <view class="nav-header-view">
+      <block wx:for="{{err_msg}}" wx:for-index="idx">{{err_msg[1].activityAlias}}
+        <view class="header-col-view {{templateData.curSwiperIdx == idx ? 'show-border-bottom' : '' }}" data-idx='{{idx}}' bindtap="swichSwiperItem">
+          <text>{{item}}</text>
+        </view>
+      </block>
+    </view>
+
+    <!-- nav详细内容展示区-->
+    <swiper bindchange="swiperChange" current="{{templateData.curSwiperIdx}}">
+      <block wx:for="{{templateData.activityList}}" wx:for-item="actItem" wx:key="dtl-{{actItem.activityId}}" wx:for-index="swiperIdx">
+        <!-- swiper 页面 -->
+        <swiper-item class="card-act-sp-itm">
+          <scroll-view scroll-y="{{true}}">
+            <view class="card-list-view">
+              <block wx:for="{{templateData.cardList}}" wx:for-item="card" wx:key="{{card.cardId}}" wx:for-index="cardIdx">
+              <block wx:if="{{actItem.activityId == card.activityId}}" >
+                <!--广告封面图-->
+                <view wx:if="{{card.isCover}}" class="card-ad-view" url="">
+                  <image src="{{card.coverImgUrl}}" mode="widthFix" class="card-ad-img"></image>
+                </view>
+
+                <!--正常活动卡券-->
+                <view wx:if="{{card.isCover != true }}">
+                  <view class="card-item-view" catchtap="getCard" data-available="{{card.exist==1 ? 0 : 1}}" data-activity-id="{{card.activityId}}" data-card-id="{{card.cardId}}">
+                    <view class="card-item-left">
+                      <view class="card-item-title-view">
+                        <image src="{{card.mchImgurl}}" mode="widthFix" class="card-item-mch-icon"></image>
+                        <view class="card-title-text">{{card.cardName}}</view>
+                      </view>
+                      <view class="card-info-text-normal">{{card.cardMoney}}</view>
+                      <view class="card-info-text-small">有效期: {{card.cardValidity}}</view>
+                    </view>
+                    <view class="card-item-right {{card.exist == 1 ? 'card-bg-disable' : 'card-bg-available'}}">
+                      <view class="card-item-value">
+                        <text style="font-size:25rpx;">￥</text>
+                        <text>{{card.value/100}}</text>
+                      </view>
+                      <view class="card-item-btn-view">
+                        <text style="text-align:right;">
+                          {{card.exist == 0 ? '立即领取' : '已领取'}}
+                        </text>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+                 </block>
+              </block>
+            </view>
+          </scroll-view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class="overlay" style="display:{{templateData.showOverlay=='1' ? 'flex;' : 'none;'}}" bindtap="hideOverlay">
+    <view class="activity-overlay-tip-view">
+      <image src="../../../image/use-ruler.png" mode="widthFix" style="width:100rpx;margin-top:20px;"></image>
+      <view class="activity-overlay-tip-text-view">{{templateData.overlayText}}</view>
+    </view>
+  </view>
+</template>   

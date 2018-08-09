@@ -1,0 +1,273 @@
+<!-- <import src="../../common/template/get-tel.wxml" /> -->
+ <import src="../../common/template/get-info.wxml" /> 
+<import src="../../common/template/share.wxml" />
+<import src="../../common/template/coupon.wxml" />
+
+<!-- <template wx:if="{{!hasPhone}}" is="getphone-modal" data="{{templateData}}"></template> -->
+ <template wx:if="{{infoFlag}}"  is="getuserInfo-modal" ></template> 
+<template wx:if="{{showpopteamModle}}" is="popteam-modal" data="{{popteamData,popteamUrl,popteamNicke}}"></template>
+<template wx:if="{{showModel}}" is="coupon-modal" data="{{showModel,couponList}}"></template>
+
+<scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
+  <view class='wrap'>
+    <!--轮播图 -->
+    <!--拿到数据前的拿到数据之后  -->
+    <swiper wx:if='{{dataImg.length > 0}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
+      <swiper-item class='list-header-image' wx:for='{{dataImg}}' wx:key="{{index}}">
+        <view class='header-image' bindtap='areaClickGo' data-redi_type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
+          <image class='header-image' mode='aspectFill' lazyLoad="true" src='{{item.redi_type?item.banner:"../../../image/head-no.png"}}' />
+        </view>
+      </swiper-item>
+    </swiper>
+    <swiper wx:if='{{dataImg.length <1}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
+      <swiper-item class='list-header-image'>
+        <!-- <navigator class='header-image' url="../../common/pages/shop-promotion"> -->
+        <navigator class='header-image'>
+          <image src='../../../image/head-no.png' mode='aspectFill' lazyLoad="true"></image>
+        </navigator>
+      </swiper-item>
+    </swiper>
+<!-- 轮播图结束 -->
+    <!--  切换门店区域 -->
+    <view class='shop-area'>
+      <view class='shop-area-left'>
+        <text class='title'>{{physicalClost.name}}</text>
+        <text class='message'>{{physicalClost.address}}</text>
+      </view>
+      <!-- <view  class='shop-area-right' catchtap='setClick'>
+        <image class='icon' src="{{set_flag? '../../image/shop-set-select.png':'../../image/shop-set.png'}}"></image>
+        <text>设为默认</text>
+      </view> -->
+      <navigator wx:if="{{changeFlag}}" url="../../common/pages/store-list?check=true&index=true&flag=true" class='shop-area-right'>
+        <image class='icon' src='../../../image/shop-icon.png'></image>
+        <text>切换门店</text>
+      </navigator>
+    </view>
+    <!--  切换门店区域结束 -->
+    <!--列表选项区域  -->
+ <form bindsubmit='submitOrder' report-submit='true'>
+      <view class='list-select-area'>
+        <view class="list-select-area-bottom">
+          <view class='select-list' bindtap="saoma" data-index="0"  >
+            <image class='select-list-image' src='{{indexIcon[0].image}}'></image>
+            <text class='select-list-text'>{{indexIcon[0].title}}</text>
+             <web-view wx:if="{{saoma_url}}" src="{{saoma_url}}" hidden>扫码跳链</web-view>
+            <button form-type='submit' class='sub-button' data-index="0">按钮</button>
+            <!-- <button form-type='submit' class='sub-button' catchtap="clickGo" data-index="0">按钮</button> -->
+          </view>
+          <view class='select-list' bindtap="clickGo" data-index="1">
+            <image class='select-list-image' src='{{indexIcon[1].image}}' data-index="1"></image>
+            <text class='select-list-text' data-index="1">{{indexIcon[1].title}}</text>
+            <button form-type='submit' class='sub-button' data-index="1">按钮</button>
+          </view>
+          <view class='select-list' bindtap="clickGo" data-index="2">
+            <image class='select-list-image' src='{{indexIcon[2].image}}' data-index="2"></image>
+            <text class='select-list-text' data-index="2">{{indexIcon[2].title}}</text>
+            <button form-type='submit' class='sub-button' data-index="2">按钮</button>
+          </view>
+          <view class='select-list' bindtap="clickGo" data-index="3">
+            <image class='select-list-image' src='{{indexIcon[3].image}}' data-index="3"></image>
+            <text class='select-list-text' data-index="3">{{indexIcon[3].title}}</text>
+            <button form-type='submit' class='sub-button' data-index="3">按钮</button>
+            
+          </view>
+          <view class='select-list' bindtap="clickGo" data-index="5" >
+            <image class='select-list-image' src='{{indexIcon[4].image}}'></image>
+            <text class='select-list-text' >{{indexIcon[4].title}}</text>
+          </view>
+
+           <!-- <view class='select-list' bindtap="clickGo" data-index="6" >
+            <image class='select-list-image' src='{{indexIcon[5].image}}'></image>
+            <text class='select-list-text' >{{indexIcon[5].title}}</text>
+          </view> -->
+
+        </view>
+      </view>
+    </form>
+
+    <!-- 卡包选项区开始 -->
+    <view class='card' bindtap='goCardLists'>
+      <view class='card_body'>
+        <image src="../../../image/home_3.png" class='card_img_1'></image>
+        <view class='card_view'>
+          <text class='card_text_1'>
+          有<text class='card_text_3_red'>{{card_num}}</text>张未使用券</text>
+        </view>
+      </view>
+      <image src="../../../image/right_2.png" class='card_img_2'></image>
+    </view>
+    <!--優惠券區域  -->
+    <!-- <view class='coupon-area' wx:if="{{couponValue.length>0}}">
+      <view class='coupon-area-up'>
+        <view wx:for="{{couponValue}}" wx:for-item="value" class="coupon-up-item" data-id="{{value.id}}" catchtap="{{value.is_get==1?'getValue':'showError'}}" data-source="{{value.is_get==1?'2':''}}">
+          <view class='coupon-up-value'>
+            <view>
+              <text>￥</text>
+              <text class='font-big'>{{value.face_money}}</text>
+            </view>
+            <text>{{value.is_all_product==0?'全场通用':'限定商品'}}</text>
+          </view>
+          <view wx:if="{{value.is_get==1}}">
+            <text>马上领取</text>
+            <image src='../../../image/coupon-arow.png'></image>
+          </view>
+          <view wx:else>
+            <text>已领取</text>
+          </view>
+        </view>
+      </view>
+       <view class="coupon-area-down" data-id="{{couponValueLast.id}}" catchtap="{{couponValueLast.is_get==1?'getValue':'showError'}}" data-source="{{couponValueLast.is_get==1?'2':''}}">
+        <view class='coupon-down-left'>
+          <view>
+            <text>￥</text>
+            <text class='font-big'>{{couponValueLast.face_money}}</text>
+          </view>
+          <view>
+            <text style='margin-bottom:10rpx;'>{{couponValueLast.is_all_product==0?'全场通用':'限定商品'}}</text>
+            <text wx:if="{{couponValueLast.limit_money > 0}}">满{{couponValueLast.limit_money}}可用</text>
+          </view>
+        </view>
+        <view wx:if="{{couponValueLast.is_get==1}}" class='coupon-down-right'>
+          <text>马上</text>
+          <text>领取</text>
+        </view>
+        <view class='coupon-down-right' wx:else>
+          <text>已领取</text>
+        </view>
+      </view> 
+    </view> -->
+     <view class='coupon-area' wx:if="{{couponValue.length>0}}">
+      <view class='coupon-area-up'>
+        <view wx:for="{{couponValue}}" wx:for-item="value" class="{{value.is_get==1?'coupon-up-item':'coupon-up-item coupon-up-get-item'}}" data-id="{{value.id}}" catchtap="{{value.is_get==1?'getValue':'showError'}}" data-source="{{value.is_get==1?'2':''}}">
+          <view class='coupon-up-value'>
+            <view>
+              <text>￥</text>
+              <text class='font-big'>{{value.face_money}}</text>
+            </view>
+            <text>{{value.is_all_product==0?'全场通用':'限定商品'}}</text>
+          </view>
+          <view wx:if="{{value.is_get==1}}">
+            <text>马上领取</text>
+            <image src='../../../image/coupon-arow.png'></image>
+          </view>
+          <view wx:else>
+            <text>已领取</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!--正品保障区域  -->
+    <view class='card-banner-area'>
+      <view wx:for="{{valueList}}" class='card-banner-item'>
+        <image src='../../../image/ma_card_check.png'></image>
+        <text>{{item}}</text>
+      </view>
+    </view>
+
+    <!--拼团区域  -->
+    <view class='yiya-pinduoduo-area'>
+      <view class='pinduoduo-title'>
+        <text class='pinduodudo-text-title'>趣购拼团</text>
+        <view class='pinduoduo-more' bindtap="clickGoGroup">
+          <text class='more-text'>查看全部</text>
+          <image class='more-image' src='../../../image/next-page.png'></image>
+        </view>
+      </view>
+
+      <view class='pinduoduo-content'>
+        <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{groupData}}" wx:key="{{item}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="clickGoGroupProduct">
+          <image class='pinduoduo-content-image' mode='aspectFill' lazy-load='{{lazyLoad}}' src='{{item.image}}'></image>
+          <text class='pinduoduo-content-title'>{{item.name}}</text>
+          <view class='pinduoduo-content-price'>
+              <text class='text-red'>已团{{item.count}}件</text>
+              <text class='text'>仅剩{{item.quantity}}件</text>
+          </view>
+          <view class='pintuan-content-buttom'>
+            <view class='pinduoduo-buttom-aside'>
+             <text class='pinduoduo-content-current'>￥<text class='text-style-1'>{{item.price}}</text></text>
+            <text class='pinduoduo-already'>￥{{item.start_price}}</text>
+            </view>
+             <form wx:if="{{item.quantity>0}}" report-submit='true' bindsubmit='submitOrder'>
+                  <button form-type='submit' class='btn'>去开团</button>
+             </form>
+            <!-- <view wx:if="{{item.quantity>0}}" class='btn'>去开团</view> -->
+            <view wx:else class='shopping-go-group-end'>已售罄</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!--拼多多区域结束  -->
+
+    <!--精选专区区域  -->
+    <view class='area-title'>
+      <image src='../../../image/start.png'></image>
+      <text>精/选/活/动</text>
+      <image src='../../../image/start.png'></image>
+    </view>
+    <block wx:if="{{productData.length>0}}" wx:for="{{productData}}" wx:for-index="{{index}}">
+      <view class='area-content' bindtap='areaClickGo' data-redi_type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
+        <view class='area-image-1'>
+          <image src='{{item.banner}}' lazyLoad="true" mode='aspectFill'></image>
+        </view>
+      </view>
+      <view class='area-bottom' bindtap='areaClickGo' data-redi_type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
+        <view>
+          <text>{{item.name}}</text>
+          <text>{{item.tdays_txt}}</text>
+        </view>
+        <view hidden>
+          <image src='../../../image/discount.png'></image>
+          <text>{{item.msg}}</text>
+        </view>
+      </view>
+    </block>
+
+    <view wx:if="{{productData.length<1}}" class='no-data'>
+      <image src='../../../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无内容</view>
+    </view>
+
+
+  </view>
+
+</scroll-view>
+
+<!--返回顶部按钮开始  -->
+<image wx:if="{{goTop_show}}" bindtap="goTopFun" class='yiya-top-image' src='../../../image/go-to-top.png'></image>
+<!--返回顶部按钮结束  -->
+
+
+
+
+<!-- <view wx:if="{{showModel}}" bindtap="cancelCoupon" class="overlay">
+  <view class="overlay-content getCoupon-content">
+    <view class="getCoupon-title">
+      <text class="modal-firstText">新用户专享券</text>
+    </view>
+    <view class='couponlist-wrap'>
+      <block wx:if="{{couponList.length > 0}}" wx:for="{{couponList}}">
+        <view class='couponlist-item' bindtap='getItem'>
+          <view class='coupon-list-item-left'>
+            <text class='list-title'>{{item.name}}</text>
+            <text class='list-time'>有效期到{{item.end_time_str}}</text>
+          </view>
+          <view class='coupon-list-item-right'>
+            <view class='list-up'>
+              ￥
+              <text class='big'>{{item.face_money}}</text>
+            </view>
+            <view>
+              <button>抵扣券</button>
+            </view>
+          </view>
+        </view>
+      </block>
+
+    </view>
+    <view class="getcoupon-bottom-button-wrap">
+      <button class='couponConfirm' catchtap='getCoupon'>立即领取</button>
+    </view>
+    <icon class='couponCancel' catchtap='cancelCoupon' type='cancel' size='30' color='#fff'></icon>
+  </view>
+</view> -->

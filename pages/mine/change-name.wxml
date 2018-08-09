@@ -1,8 +1,0 @@
-<view class="container">
-  <view class="textContainer sp-border">
-    <input class="normalText" value="{{nickname}}" bindinput="onInput" /> 
-  </view>
-  <view class="bottom">
-    <text bindtap="save" class="button navigator hotBackgroundColor mText">保存</text>
-  </view>
-</view>

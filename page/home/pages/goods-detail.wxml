@@ -1,0 +1,209 @@
+<view class="goods-detail-containner">
+  <view class="goods-banner-view">
+    <swiper class="goods-banner-swiper" indicator-dots="{{true}}" indicator-color="lightgrey" indicator-active-color="white" autoplay="{{true}}">
+      <swiper-item wx:for="{{data.images}}" wx:for-item="src" wx:key="{{index}}">
+        <image src="{{src}}" mode="aspectFit" class="banner-img"></image>
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class="goods-name-view">
+    <!--秒杀倒计时开始  -->
+  <view class='seckill-count-down'>
+    <!-- <image class='seckill-count-image' src='../../../image/seckill-down.png'></image> -->
+    <view class='seckill-text-detail'>
+      <text class='seckill-text-hint'>限时秒杀</text>
+      <view class='seckill-text-times'>
+        <text class='sec-list-text sec-list-distance'>距离结束仅剩</text>
+        <text class='sec-list-dyn'>{{countDown.hour}}</text>
+        <text class='sec-list-text'>时</text>
+        <text class='sec-list-dyn'>{{countDown.minute}}</text>
+        <text class='sec-list-text'>分</text>
+        <text class='sec-list-dyn'>{{countDown.second}}</text>
+        <text class='sec-list-text'>秒</text>
+      </view>
+    </view>
+  </view>
+  <!--秒杀倒计时结束  -->
+  </view>
+  <!-- <view class="price-info-view">
+
+    <view class="now-price-view">
+      <text style="font-size:25rpx;line-height:40rpx;">￥</text>{{skPrice}} 
+    </view>
+
+
+    <view class="ori-price-view">￥{{productPrice}}</view>
+    <view wx:for="{{data.tag}}" wx:key="{{index}}" class="price-tag-view">{{item}}</view>
+    <text wx:if="{{data.sales}}" class="shop-sales">{{'销售量: ' + data.sales}}</text>
+  </view> -->
+<!--商品详情区域开始  -->
+  <view class="middle-box">
+      <text class="middle-title">{{data.name}}</text>
+      <view class="middle-detail">
+        <view class='mid-list-wrap'>
+          <text class="mid-list-zero">￥</text>      
+          <text class="mid-list-one">{{skPrice}}</text>
+          <text class="mid-list-two">￥{{productPrice}}</text>
+          <block wx:if="{{data.tag}}" wx:for="{{data.tag}}" wx:key="{{index}}" >
+          <text class="mid-list-three mid-total">{{item}}</text>
+          </block>
+        </view>
+        <view class='mid-list-wraps-image' wx:if="{{data.quantity>0}}">
+          <button class='mid-open-list' open-type='share' data-title="{{data.name}}" data-price="{{skPrice}}" data-imgurl="{{data.images[0]}}"></button>
+          <text class="mid-list-six-top">分享给好友</text>
+        </view>
+      </view>
+       <view class='mid-list-wraps'>
+          <text class="mid-list-six">已售</text>
+          <text class="mid-list-seven">{{hadnum}}</text>
+          <text class="mid-list-six">件</text>
+        </view> 
+  </view>
+  <!--商品详情区域结束  -->
+  <!--商品简介-->
+<text class='shop-introduce'>商品简介</text>
+  <!--多规格内容 2017年8月14日15:55:23  by leo-->
+  <view class="commodity_attr_list">
+    <!--每组属性-->
+    <view class="attr_box" wx:for="{{attrValueList}}" wx:for-item="attrValueObj" wx:for-index="attrIndex">
+      <!--属性名-->
+      <view class="attr_name">{{attrValueObj.attrKey}}</view>
+      <!--属性值-->
+      <view class="attr_value_box">
+        <!--每个属性值-->
+        <view class="attr_value {{attrIndex==firstIndex || attrValueObj.attrValueStatus[valueIndex]?(value==attrValueObj.selectedValue?'attr_value_active':''):'attr_value_disabled'}}" bindtap="selectAttrValue" data-status="{{attrValueObj.attrValueStatus[valueIndex]}}"
+          data-value="{{value}}" data-key="{{attrValueObj.attrKey}}" data-index="{{attrIndex}}" data-selectedvalue="{{attrValueObj.selectedValue}}" wx:for="{{attrValueObj.attrValues}}" wx:for-item="value" wx:for-index="valueIndex">{{value}}</view>
+      </view>
+
+    </view>
+
+    <view class="attr_box_test" wx:if="{{skuId}}">
+      <view class="attr_name">库存</view>
+      <view class="attr_value_box">{{num}}</view>
+    </view>
+
+    <!-- 数量的增减start -->
+    <block wx:if="{{cateId==76 || cateId==77}}">
+    <view class="stepper" style='display:none' data-cateId='{{cateId}}' hidden='true'>
+      <text class='ste-number'>购买数量</text>
+      <view class='stepper-father'>
+        <!-- 减号 -->
+        <text class="{{minusStatus}} ste-reduce" bindtap="bindMinus">-</text>
+        <!-- 数值 -->
+        <input class='ste-input-num' type="number" bindchange="bindManual" value="{{num}}" />
+        <!-- 加号 -->
+        <text class="normal ste-add" bindtap="bindPlus">+</text>
+      </view>
+    </view>
+    </block>
+
+    <block wx:else>
+    <view class="stepper" hidden='true'>
+      <text class='ste-number'>购买数量</text>
+      <view class='stepper-father'>
+        <!-- 减号 -->
+        <text class="{{minusStatus}} ste-reduce" bindtap="bindMinus">-</text>
+        <!-- 数值 -->
+        <input class='ste-input-num' type="number" bindchange="bindManual" value="{{num}}" />
+        <!-- 加号 -->
+        <text class="normal ste-add" bindtap="bindPlus">+</text>
+      </view>
+    </view>
+    </block>
+    <!-- 数量的增减end -->
+
+  </view>
+  <!--多规格内容 end-->
+
+
+
+  <view class="goods-detail-view">
+    <image wx:for="{{data.description}}" wx:key="{{index}}" src="{{item}}" mode="widthFix" class="detail-img"></image>
+  </view>
+</view>
+
+
+<!---底部开始-->
+<!-- <block wx:if="{{action=='present'}}">
+<view  class="buy-btn-view" bindtap="doBuy" data-status="1">
+    <text class="buy-btn">申请试用</text>
+</view>
+</block>
+
+<block wx:else>
+    <block wx:if="{{cateId==76 || cateId==77}}">
+    <view  class="buy-btn-view" bindtap="doBuy" data-status="1">
+        <text class="buy-btn">立即购买</text>
+    </view>
+    </block>
+
+    <block wx:else>
+    <view class="footfixed tc" wx:if="{{action !== 'present'}}" data-cateId='{{cateId}}'>
+      <view class="fl_l w40 font_12 hui03 df">
+        <view class="df_1 l_h15 pt5 bre server-total" bindtap="gotoCart">
+          <image class="icon_kf" src="/image/btn-tabs_05.png" class="service-image-one"></image>
+            <text class="service-number" wx:if="{{newCartNum}}">{{newCartNum}}</text>
+            <text class="service-number" wx:else >{{data.cartcount}}</text>
+        </view>
+        <view class="df_1 l_h15 pt5 bre server-total-two server-total">
+           <view session-from="productId_{{itemData.id}}">
+          <contact-button class="pos"></contact-button> 
+          <image class="icon_kf" src="/image/kefu.png" class="service-image"></image>
+                    <view class="service-text">客服</view>
+          </view> 
+        </view>
+      </view>
+      <view class="w60">
+        <view class="w50 fl_l add-to-car" bindtap="addShopCart" data-type="addcart">加入购物车</view>
+        <view wx:if="{{action !== 'havealook'}}" class="bg_red white w50 fl_l current-to-buy" bindtap="doBuy" data-status="1">
+          立即购买
+        </view>
+
+      </view>
+    </view>
+    </block>
+</block> -->
+<!--底部结束  -->
+<!--立即购买  -->
+<!--按钮  -->
+
+<view class="invite-friend-cluster">
+    <view class='invite-index invite-total' bindtap="clickGoIndex">
+      <image class='invite-index-image' src='../../../image/index-list.png'></image>
+      <text class='invite-index-text'>首页</text>
+    </view>
+    <view class='invite-ke-server invite-total' bindtap="goStoreServer">
+      <image class='invite-ke-server-img' src='../../../image/ke-server.png'></image>
+      <text class='invite-ke-server-text'>客服</text>
+    </view>
+    <view class='invite-car invite-total'>
+      <!-- <image class='invite-car-img' src='../../../image/shop-cart2.png'></image>
+      <text class='invite-car-num'>81</text> -->
+    </view>
+    <!-- <view class='add-invite-car invite-total'>
+      <text class='add-invite-car-child'>加入购物车</text>
+    </view> -->
+    <block wx:if="{{data.quantity>0}}">
+      <block wx:if="{{activityStatus==1 || activityStatus==2}}">
+      <view class='current-buying invite-total' bindtap="doBuy" data-status="1">
+        <text class='current-buying-child'>立即购买</text>
+      </view>
+      </block>
+      <block wx:else>
+      <view class='current-buying invite-total'>
+        <text class='current-buying-child'>即将开抢</text>
+      </view>
+      </block>
+    </block>  
+    <block wx:else>
+    <view class='current-buying invite-total'>
+        <text class='current-buying-child sale-all'>已售罄</text>
+    </view>
+    </block>
+</view>
+
+<!--按钮结束  -->
+
+
+
+

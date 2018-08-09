@@ -1,95 +1,48 @@
 {
   "pages": [
-    "pages/index-new/index-new",
-    "pages/canvas/canvas",
-    "pages/card/mycard",
-    "pages/shopping/buycard",
-    "pages/shopping/address-list",
-    "pages/shopping/address",
-    "pages/index-new/index-boabao",
-    "pages/card/search-card",
-    "pages/index-new/shop-promotion",
-    "pages/index-new/index-mom",
-    "pages/sale-after/apply-sales",
-    "pages/sale-after/purchase-refund",
-    "pages/sale-after/purchase-detail",
-    "pages/shopping/my-order",
-    "pages/index-new/server-wechat",
-    "pages/index-new/detail-shopping",
-    "pages/index-new/myself",
-    "pages/index-new/baobao-detail",
-    "pages/index-new/index-seckill",
-    "pages/group-buying/current-buy",
-    "pages/present/present",
-    "pages/activity/category-1",
-    "pages/qrcode/qr-entry",
-    "pages/shopping/trial-apply",
-    "pages/shopping/goods-detail",
-    "pages/shopping/list",
-    "pages/shopping/order-express",
-    "pages/shopping/order-detail",
-    "pages/shopping/buy",
-    "pages/store/store-list",
-    "pages/store/store-detail",
-    "pages/card/card_summary",
-    "pages/card/card_detail",
-    "pages/activity/activity",
-    "pages/activity/hotsale",
-    "pages/activity/activity-detail",
-    "pages/activity/activity-hosDet",
-    "pages/activity/activity-hository",
-    "pages/activity/activity-join",
-    "pages/cart/cart",
-    "pages/score/score",
-    "pages/present/present-apply",
-    "pages/credit/credit",
-    "pages/credit/credit-rule",
-    "pages/credit/in-ex-details",
-    "pages/credit/credit-exchange",
-    "pages/credit/recharge",
-    "pages/message/message",
-    "pages/message/no-conform",
-    "pages/redbox/redbox",
-    "pages/redbox/open-result",
-    "pages/redbox/mydata",
-    "pages/cart/buy",
-    "pages/cart/address",
-    "pages/cart/address-list",
-    "pages/group-buying/group-buying",
-    "pages/cluster/cluser-wait",
-    "pages/cluster/failed-detail",
-    "pages/cluster/failed",
-    "pages/cluster/cluster",
-    "pages/cluster/cluster-in",
-    "pages/cluster/cluster-wait-detail",
-    "pages/cluster/grouplist",
-    "pages/group-buying/colonel",
-    "pages/cluster/cluster-other",
-    "pages/group-buying/test-link",
-    "pages/group-buying/group-hot",
-    "pages/cluster/cluster-success",
-    "pages/cluster/submit-order",
-    "pages/group-buying/buy",
-    "pages/group-buying/group-join",
-    "pages/group-buying/address",
-    "pages/group-buying/address-list",
-    "pages/index-new/goods-detail",
-    "pages/index-new/address",
-    "pages/index-new/address-list",
-    "pages/index-new/buy",
-    "pages/index-new/setting",
-    "pages/index-new/bingPhone",
-    "pages/index-new/index-baokuan",
-    "pages/index-new/index-festival",
-    "pages/index-new/index-goods",
-    "pages/index-new/index-hotsale",
-    "pages/list/list",
-    "pages/lottery/dazhuanpan"
+    "page/tabBar/home/index-new",
+    "page/common/pages/activity-hository",
+    "page/common/pages/activity-hosDet",
+    "page/common/pages/activity-detail",
+    "page/common/pages/activity-join",
+    "page/common/pages/hotsale",        
+    "page/common/pages/mycard",
+    "page/common/pages/mycardHistory",        
+    "page/common/pages/index-mom",          
+    "page/tabBar/shopping/shoppstore-index",
+    "page/tabBar/goods/cart",
+    "page/tabBar/my/myself",
+    "page/common/pages/address-list",
+    "page/common/pages/address",
+    "page/common/pages/buy",
+    "page/common/pages/card_detail",
+    "page/common/pages/card_summary",
+    "page/common/pages/goods-detail",
+    "page/common/pages/index-activity",
+    "page/common/pages/index-boabao",
+    "page/common/pages/my-order",
+    "page/common/pages/mydata",
+    "page/common/pages/open-result",
+    "page/common/pages/redbox",
+    "page/common/pages/score",
+    "page/common/pages/search-card",
+    "page/common/pages/shop-list",
+    "page/common/pages/shop-promotion",
+    "page/common/pages/store-detail",
+    "page/common/pages/store-list",
+    "page/group-buying/group-buying",
+    "page/group-buying/index-seckill",
+    "page/group-buying/grouplist",
+    "page/group-buying/my-order",
+    "page/group-buying/detail",
+    "page/group-buying/group-join",
+    "page/group-buying/tuan-detail",
+    "pages/qrcode/qr-entry"
   ],
   "window": {
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "咿呀悦购",
+    "navigationBarBackgroundColor": "#FFE546",
+    "navigationBarTitleText": "趣购精选",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -99,24 +52,67 @@
     "backgroundColor": "#fff",
     "list": [
       {
-        "pagePath": "pages/index-new/index-new",
+        "pagePath": "page/tabBar/home/index-new",
         "text": "首页",
         "iconPath": "image/index-list.png",
         "selectedIconPath": "image/index-list-select.png"
       },
       {
-        "pagePath": "pages/cart/cart",
+        "pagePath": "page/tabBar/shopping/shoppstore-index",
+        "text": "商城",
+        "iconPath": "image/shoppstore.png",
+        "selectedIconPath": "image/shoppstore-select.png" 
+      },
+      {
+        "pagePath": "page/tabBar/goods/cart",
         "text": "购物车",
         "iconPath": "image/shoppingcart.png",
         "selectedIconPath": "image/shoppingcart-select.png"
       },
       {
-        "pagePath": "pages/index-new/myself",
+        "pagePath": "page/tabBar/my/myself",
         "text": "我的",
         "iconPath": "image/mine-msg.png",
         "selectedIconPath": "image/mine-msg-select.png"
       }
     ]
   },
+  "subPackages": [
+    {
+      "root": "page/home/",
+      "pages": [
+        "pages/poster-detail",
+        "pages/present",
+        "pages/present-apply"
+      ]
+    },
+    {
+      "root": "page/shopping/",
+      "pages": [
+        "pages/buycard",
+        "pages/list",
+        "pages/order-detail",
+        "pages/order-express",
+        "pages/trial-apply"
+      ]
+    },
+    {
+      "root": "page/goods/",
+      "pages": [
+
+      ]
+    },
+    {
+      "root": "page/my/",
+      "pages": [
+        "pages/server-wechat",
+        "pages/purchase-detail",
+        "pages/apply-sales",
+        "pages/bingPhone",
+        "pages/setting"
+      ]
+    }
+  ],
+ 
   "debug": true
 }

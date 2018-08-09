@@ -1,0 +1,9 @@
+
+/* 拼团新样式 */
+@import "../tabBar/home/index-new.wxss";
+.yiya-pinduoduo-area{
+  margin-top: -10rpx;
+}
+.pintuan-content-list{
+  margin-top: 10rpx;
+}

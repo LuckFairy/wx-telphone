@@ -1,0 +1,447 @@
+/* pages/card/card_summary.wxss */
+
+page {
+  height: 100%;
+  font-size: 28rpx;
+  color: #fff;
+}
+
+view {
+  display: flex;
+}
+
+.shop-title{
+  color: #1b1b1b;
+  font-size: 30rpx;
+}
+
+.hide {
+  display: none;
+}
+
+.flex-row-center-all {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-colunm-center-all {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-summary-containner {
+  flex-direction: row;
+  justify-content: center;
+  background-color: #eeeeee;
+  height: 100%;
+  padding-top: 20px;
+}
+
+.card-smy-view {
+  flex-direction: column;
+  width: 710rpx;
+	height: 1000rpx;
+  background-color: #fff
+}
+
+.card-smy-wrapper {
+  flex-direction: column;
+  width: 710rpx;
+}
+
+.card-smy-top {
+  
+  width: 710rpx;
+	height: 30rpx;
+}
+
+.card-head-view {
+  display: flex;
+  height: 80rpx;
+  width: 100%;
+  margin: 30rpx;
+  align-items: center
+
+}
+.card-img-view{
+  position: absolute;
+  top: -35rpx;
+  left: 50%;
+  margin-left: -50rpx;
+}
+.mch-icon {
+	width: 80rpx;
+	height: 80rpx;
+	background-color: #ff3030;
+  border-radius: 50%;
+}
+
+.limit-money{
+  color: #707070;
+  font-size: 32rpx;
+}
+
+.split-img-view {
+  width: 100%;
+}
+
+.summary-detail-view {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.card-title-view {
+  margin-left: 28rpx;
+  font-size: 30rpx;
+  color: #1b1b1b;
+  text-align: center;
+}
+
+.card-name-view {
+  margin-top: 25px;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.card-money-view {
+	font-family: PingFangSC-Regular;
+	font-size: 78rpx;
+	font-stretch: normal;
+	letter-spacing: 0px;
+	color: #1b1b1b;
+  font-weight: normal;
+  margin-top: 40rpx;
+}
+
+.card-category-view {
+  margin-top: 10px;
+  font-size: 20rpx;
+  color: white;
+}
+
+.card-category-text {
+  border-radius: 17rpx;
+  background-color: #ff1d33;
+  padding: 5rpx 30rpx;
+}
+
+.card-vlidate-date-view {
+  margin:37rpx auto 70rpx;
+	font-family: PingFangSC-Regular;
+	font-size: 26rpx;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0px;
+	color: #999999;
+
+}
+
+.detail{
+  margin-top: 30rpx;
+  width: 710rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-title{
+  color: #1b1b1b;
+  font-size: 30rpx;
+  padding-left: 29rpx;
+  padding-right: 29rpx;
+}
+
+.detail-content{
+  color: #1b1b1b;
+  font-size: 26rpx;
+  margin-top: 28rpx;
+  padding-left: 29rpx;
+  padding-right: 29rpx;
+}
+
+.card-bottom {
+  align-items: center;
+  justify-content: center;
+	width: 100%;
+	height: 88rpx;
+	background-color: rgba(255, 231, 28, 1);
+  font-size: 32rpx;
+	color: #1b1b1b;
+  position:fixed; 
+  bottom:0; 
+}
+
+.card-btn-use {
+  justify-content: center;
+	width: 360rpx;
+	height: 70rpx;
+	background-color: #ffe71c;
+	border-radius: 6rpx;
+	border: solid 1px #ffd21c;
+  font-size: 36rpx;
+	line-height: 70rpx;
+	color: #1b1b1b;
+}
+
+.card-btn-save {
+  justify-content: center;
+	width: 360rpx;
+	height: 70rpx;
+	background-color: #ffe71c;
+	border-radius: 6rpx;
+	border: solid 1px #ffd21c;
+  font-size: 36rpx;
+	line-height: 70rpx;
+	color: #1b1b1b;
+}
+
+.func-list-view {
+  padding: 25rpx 20rpx;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-top: 1px solid #f7f7f7;
+}
+
+.func-list-introduction-view {
+  padding: 25rpx 20rpx;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid #f7f7f7;
+}
+.mText{
+  font-size: 30rpx;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0px;
+	color: #1b1b1b;
+}
+/* --------------卡券二维码 ----------------*/
+
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 750rpx;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.3);
+}
+
+
+/*扫码核销弹窗  */
+.qr-view {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  background-color: #fff;
+  color: grey;
+  font-size: 26rpx;
+  position: relative;
+  margin-top: -165rpx;
+  width: 600rpx;
+  min-height: 900rpx;
+  padding-bottom: 20rpx;
+  border-radius: 5px;
+}
+.qr-title{
+  height: 88rpx;
+  width: 100%;
+  background: #fafafa;
+  justify-content: space-between;
+  align-items: center;
+}
+.qr-title-left{
+  align-items: center;
+  font-size: 43rpx;
+  color: #29a54c;
+}
+.qr-title-left image{
+  width: 36rpx;
+  height: 36rpx;
+  margin: auto 20rpx;
+}
+.qr-title>image{
+  width: 36rpx;
+  height:36rpx;
+  margin-right: 20rpx;
+}
+.qr-view .code-txt{
+  margin-top: 20rpx ;
+  color: #313131;
+  font-size: 32rpx;
+}
+.code-imgone{
+  margin-top: 40rpx;
+  max-width: 80%;
+  /* height: 280rpx;  */
+}
+.code-imgtwo{
+  margin-top:100rpx;  
+  max-width: 80%;
+    height: 120rpx;  
+}
+.qrcode-list {
+  color: #999;
+  font-size: 26rpx;
+  display: block;
+}  
+/*核销结束  */
+
+.close-icon {
+  position: absolute;
+  right: 2px;
+  top: 0px;
+  font-size: 55rpx;
+}
+
+/* 首次领取优惠券 */
+
+.first_pull_down {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 160rpx 45rpx 0 45rpx;
+  flex-direction: column;
+}
+
+.first_pull_down>view {
+  width: 660rpx;
+  flex-direction: column;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  box-shadow: 0 8rpx 6rpx 0 #fe6422;
+  background: linear-gradient(to right, #f47e16, #ff6123);
+  margin-bottom: 6rpx;
+}
+
+.first_pull_view {
+  padding: 35rpx 0rpx 20rpx 0rpx;
+  font-size: 46rpx;
+  text-align: center;
+}
+
+.pull_down_top {
+  display: inline-block;
+  width: 660rpx;
+  text-align: center;
+}
+
+.pull_down_bottom {
+  text-align: center;
+  margin-bottom: 34rpx;
+}
+
+.pull_down_img {
+  position: absolute;
+  width: 40rpx;
+  height: 40rpx;
+  top: 20rpx;
+  right: 20rpx;
+}
+
+.first_pull_form {
+  background-color: #fff !important;
+  width: 560rpx;
+  padding: 0 50rpx;
+}
+
+.first_pull_login {
+  padding: 36rpx 0rpx;
+  border-bottom: 1rpx solid #c7c7c7;
+}
+
+.first_pull_login > label {
+  color: #999;
+  margin-right: 60rpx;
+  margin-top: 7rpx;
+  width: 108rpx;
+}
+
+.pull_label_3 {
+  margin-right: 30rpx;
+}
+
+.pull_input_3 {
+  width: 180rpx;
+}
+
+.first_pull_login > input {
+  color: #000;
+  vertical-align: middle;
+}
+
+input-placeholder {
+  color: #c7c7c7;
+}
+
+.get_code {
+  padding: 22rpx 30rpx;
+  color: #f67919;
+  border: 2rpx solid #f67919;
+  vertical-align: middle;
+  position: absolute;
+  top: 20rpx;
+  right: 0rpx;
+}
+
+.input-placeholder {
+  color: #c7c7c7;
+}
+
+.post_code {
+  margin-top: 72rpx;
+  background-color: #f47e16;
+  font-size: 30rpx;
+  padding: 32rpx 0rpx;
+  width: 560rpx;
+  margin-bottom: 50rpx;
+  border-radius: 10rpx;
+  color: #fff;
+}
+.errMsg {
+  display: block;
+  width: 420rpx;
+  padding: 37rpx 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -210rpx;
+  margin-top: -100rpx;
+  border-radius: 10rpx;
+}
+
+.frist {
+  animation: myfirst 5s;
+}
+
+@keyframes myfirst {
+  from {
+    left: 5rpx;
+  }
+
+  to {
+    left: 50rpx;
+  }
+}
+
+

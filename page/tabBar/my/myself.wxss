@@ -1,0 +1,188 @@
+/*顶部个人信息  */
+page{
+  background: #ececec;
+}
+.heading {
+  width: 122rpx;
+  height: 122rpx;
+  border-radius: 50%;
+  object-fit: cover;
+  clip-path: circle(50% at center);
+  display: block;
+  float: left;
+}
+.myself-id {
+  margin-right: 24rpx;
+  font-size: 36rpx;
+  color: #1b1b1b;
+}
+.myself{
+  display: block;
+}
+.myself-top{
+   justify-content: space-between;
+  height: 170rpx;
+  width: 750rpx;
+  background: #FFE71C; 
+}
+.myself-photo{
+  display: inline-block;
+  width: 122rpx;
+  height: 122rpx;
+  margin-top: 19rpx;
+  margin-left: 24rpx;
+  border-radius: 50%;
+}
+.myself-detail{
+  display: inline-block;
+  font-size: 0rpx;
+  margin-top: 35rpx;
+  margin-left: 42rpx;
+}
+.myself-image{
+  width: 122rpx;
+  height: 122rpx;
+  border-radius: 50%;
+  border: 1rpx #fff solid;
+}
+.myself-addr-text{
+  font-size: 30rpx;
+  color: #1b1b1b;
+}
+.myself-id{
+  margin-right: 24rpx;
+  font-size: 36rpx;
+  color: #1b1b1b;
+ 
+}
+.myself-addr-image{
+  width: 16rpx;
+  height: 26rpx;
+  padding-left: 10rpx;
+}
+.myself-address{
+  margin-top: 10rpx;
+  display: flex;
+  font-size: 0rpx;
+  justify-content: flex-start;
+  align-items: center;
+}
+/*顶部个人信息结束  */
+/*个人信息  */
+.myself-order{
+  display: flex;
+  font-size: 0rpx;
+  justify-content: space-between;
+  /* align-items: center; */
+  height: 88rpx;
+  line-height: 88rpx;
+  padding: 0rpx 24rpx;
+  border-bottom: 1rpx solid #ececec;
+  background: #ffffff;
+}
+.myself-order-total{
+  font-size: 0rpx;
+  display: flex;
+  align-items: center;
+}
+.myself-order-image{
+  width: 18rpx;
+  height: 28rpx;
+  display: inline-block;
+}
+.myself-order-list{
+  font-size: 30rpx;
+  display: inline-block;
+  color: #1b1b1b;
+}
+.myself-order-going{
+  font-size: 26rpx;
+  color: #1b1b1b;
+  display: inline-block;
+  margin-right: 10rpx;
+  color: #999999;
+}
+/*个人信息  */
+/*代付款、待成团..  */
+.wait-shopping-list{
+  height: 128rpx;
+  display: flex;
+  width: 750rpx;
+  justify-content: space-around;
+  background: #ffffff;
+  margin-bottom: 16rpx;
+}
+.wait-order-wrap{
+  font-size: 0rpx;
+  display: inline-block;
+  width: 150rpx;
+  height: 128rpx;
+  text-align: center;
+  padding-top: 16rpx;
+  /*下面一句为修改*/
+  margin-bottom: 10rpx;
+}
+.wait-order-image{
+  width: 52rpx;
+  height: 52rpx;
+  display: block;
+  padding-left: 50rpx;
+}
+.wait-order-text{
+  font-size: 24rpx;
+  color: #666666;
+  display: block;
+  margin-top:8rpx;
+}
+/*代付款、待成团..  */
+/*拼团、卡包、指南、客服  */
+.my-detail-msg{
+  display: flex;
+  width: 750rpx;
+  height: 88rpx;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #ececec;
+  background: #ffffff;
+}
+.my-detail-gro{
+  font-size: 0rpx;
+  display: flex;
+  align-items: center;
+  height: 88rpx;
+  margin-left: 24rpx;
+}
+.my-gro-go{
+  display: flex;
+  height: 88rpx;
+  align-items: center;
+  margin-right: 24rpx;
+}
+.my-gro-text{
+  font-size: 30rpx;
+  color: #1b1b1b;
+  margin-left: 28rpx;
+  display: inline-block;
+}
+.my-gro-img{
+  width: 44rpx;
+  height: 44rpx;
+}
+.my-go-img{
+  width: 18rpx;
+  height: 28rpx;
+}
+.my-store-service{
+  margin-top: 16rpx;
+}
+/*拼团、卡包、指南、客服  */
+.changePhone{
+  margin:0 auto;
+  margin-top:50rpx;
+	width: 690rpx;
+	height: 88rpx;
+  line-height: 88rpx;
+	background-color: #ffffff;
+	border-radius: 6rpx;
+	border: solid 1rpx #e5e5e5;
+  text-align: center;
+}

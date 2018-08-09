@@ -1,0 +1,13 @@
+/* pages/index-new/poster-detail.wxss */
+view{
+  width: 750rpx;
+  height: 100vh;
+  overflow-y: auto;
+}
+image{
+  display: block;
+  width: 100%;
+}
+.no-data image{
+  margin-top: -400rpx;
+}

@@ -1,0 +1,27 @@
+<import src="../common/template/share.wxml" />
+<template wx:if="{{showpopteamModle}}" is="popteam-modal" data="{{popteamData,popteamUrl,popteamNicke}}"></template>
+
+
+<scroll-view>
+  <!--拼团区域  -->
+  <view class='yiya-pinduoduo-area'>
+    <view class='pinduoduo-content' >
+      <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{err_msg}}" wx:key="{{item}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="clickGoGroupProduct">
+        <image class='pinduoduo-content-image'  lazy-load='{{lazyLoad}}' mode='aspectFill' src='{{item.image}}'></image>
+        <text class='pinduoduo-content-title'>{{item.name}}</text>
+        <view class='pinduoduo-content-price'>
+          <text class='text-red'>已团{{item.count}}件</text>
+          <text class='text'>仅剩{{item.quantity}}件</text>
+        </view>
+        <view class='pintuan-content-buttom'>
+          <view class='pinduoduo-buttom-aside'>
+            <text class='pinduoduo-content-current'>￥<text class='text-style-1'>{{item.price}}</text></text>
+            <text class='pinduoduo-already'>￥{{item.start_price}}</text>
+          </view>
+          <view wx:if="{{item.quantity>0}}" class='btn'>去开团</view>
+          <view wx:else class='shopping-go-group-end'>已售罄</view>
+        </view>
+      </view>
+    </view>
+    </view>
+</scroll-view>

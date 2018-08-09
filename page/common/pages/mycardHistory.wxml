@@ -1,0 +1,154 @@
+<view class="main-container">
+  <!-- 头部导航条 -->
+  <view class="nav-header-view" style='background:#fff'>
+    <view  class="header-col-view {{curActIndex == '0' ? 'show-border-bottom' : '' }}" data-idx='0' bindtap="swichSwiperItem">
+      <text data-idx='0'>门店券</text>
+    </view>
+    <view  class="header-col-view {{curActIndex == '1' ? 'show-border-bottom' : '' }}" data-idx='1' bindtap="swichSwiperItem">
+      <text data-idx='1'>线上券</text>
+    </view>
+
+   
+  </view>
+  <!--搜索  -->
+  <view class='search-msg'>
+    <view class='search-input' bindtap='goInput'>
+      <image class='search-image' src='../../../image/search.png'></image>
+      <input class='search-text' placeholder='输入券名称直接搜索'></input>
+    </view>
+    <view class='search-select'>
+      <view class='search-current' bindtap='goSelect'>
+        <text class='search-current-text'>{{typeText}}</text>
+        <text class="{{showHide ? 'down': 'up'}}"></text>
+      </view>
+    </view>
+  </view>
+  <view class='wait-choose' hidden='{{showHide}}' bindtap='goChooseCard'  wx:for="{{keyword}}">
+  <block wx:for="{{keyword}}">
+    <text class='online-offline {{keynum==index?"key-current":""}}' data-select='{{index}}'>{{item}}</text>
+
+  </block>
+
+
+  </view>
+  <!-- <view class='footer-choose' bindtap='goChooseCate'>
+    <text class='{{category==3?"category":""}}' data-select='3'>门店券</text>
+    <text class='{{category==1?"category":""}}' data-select='1'>线上券</text>
+  </view> -->
+  <!-- nav详细内容展示区-->
+  <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
+  
+    <swiper-item>
+            <view class='overlay-transparent' style="display:{{showHide ? 'none' : 'flex'}};background-color:#fff;"></view>
+      <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadtwo' lower-threshold='0' scroll-top="{{scrollTop}}">
+        <view wx:if="{{ offlineData.length>0}}" class="card-list-view">
+          <block wx:for="{{offlineData}}" wx:for-item="card" wx:key="{{index}}">
+            <!--门店卡券-->
+
+                 <view class="bj-nouse"  data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.coupon_id}}' data-distinguish='{{0}}'>
+
+              <view class="card-list-view-left">
+                 <view data-recid="{{card.recId}}" data-url-param="cardId={{card.coupon_id}}&cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' class='card-item-up'>
+                  <view class="card-item-up-left">
+                    <view class="card-money-text unuse">￥<text>{{card.face_money}}</text></view>
+                    <view class="card-limit-text unuse">{{card.type_left}}</view>
+  
+                  </view>
+                  <view class='card-item-up-middle'>
+                    <view class="card-title-text unuse">{{card.cname}}</view>
+                    <!-- <view wx:if="{{category==3}}" class='card-tip'>现金券</view>
+                    <view wx:if="{{category==1 && card.limit_money==0}}" class='card-tip'>通用券</view>
+                    <view wx:if="{{category==1 && card.limit_money!=0}}" class='card-tip'>满减券</view> -->
+
+                    <view class="card-time-text">{{card.start_time_str}}-{{card.end_time_str}}</view>
+                  </view >
+                  <view class="card-item-btn-view" style="visibility:hidden;">
+                      <text>立即使用</text>
+                    </view>
+                  
+                </view>
+                <view class="card-item-down unuse">券码： {{card.card_no}}</view>
+              </view>
+              <view class="card-list-view-right-unused">
+                <view class="card-list-view-right-text">{{card.type_right}}</view>
+              </view>
+              <view wx:if="{{card.is_use == 1}}" class="card-item-up-right-unused used"></view>
+              <view wx:else class="card-item-up-right-unused expired"></view>
+            </view>
+
+            <!--/门店卡券-->
+          </block>
+          <text wx:if="{{!loadingtwo}}" class='dropload-noData'>已无更多</text>
+          <text wx:else class='dropload-noData'>上拉加载更多...</text>
+        </view>
+        <view wx:else class="no-data-view">
+          <image src="../../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+          <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
+          <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
+        </view>
+      </scroll-view>
+    </swiper-item>
+
+    <swiper-item>
+            <view class='overlay-transparent' style="display:{{showHide ? 'none' : 'flex'}};background-color:#fff;"></view>
+
+      <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadtwo' lower-threshold='0' scroll-top="{{scrollTop}}">
+        <view wx:if="{{ onlineData.length>0}}" class="card-list-view">
+          <block wx:for="{{onlineData}}" wx:for-item="card" wx:key="{{index}}">
+            <!--线上券-->
+
+                 <view class="bj-nouse"  data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.coupon_id}}' data-distinguish='{{0}}'>
+
+              <view class="card-list-view-left">
+                 <view data-recid="{{card.recId}}" data-url-param="cardId={{card.coupon_id}}&cardId={{card.cardId}}&saved=1&activityId={{card.activityId}}" data-qr-url='{{card.qrUrl}}' class='card-item-up'>
+                  <view class="card-item-up-left">
+                    <view class="card-money-text unuse">￥<text>{{card.face_money}}</text></view>
+                    <view class="card-limit-text unuse">{{card.type_left}}</view>
+ 
+                  </view>
+                  <view class='card-item-up-middle'>
+                    <view class="card-title-text unuse">{{card.cname}}</view>
+                   
+                    <view class="card-time-text">{{card.start_time_str}}-{{card.end_time_str}}</view>
+                  </view >
+                  <view class="card-item-btn-view" style="visibility:hidden;">
+                      <text>立即使用</text>
+                    </view>
+                  
+                </view>
+                <view class="card-item-down unuse">券ID：{{card.id}}</view>
+              </view>
+              <view class="card-list-view-right-unused">
+                <view class="card-list-view-right-text">{{card.type_right}}</view>
+              </view>
+              <view wx:if="{{card.is_use == 1}}" class="card-item-up-right-unused used"></view>
+              <view wx:else class="card-item-up-right-unused expired"></view>
+
+            </view>
+
+            <!--/线上卡券-->
+          </block>
+          <text wx:if="{{!loadingtwo}}" class='dropload-noData'>已无更多</text>
+          <text wx:else class='dropload-noData'>上拉加载更多...</text>
+        </view>
+        <view wx:else class="no-data-view">
+          <image src="../../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+          <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
+          <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
+        </view>
+      </scroll-view>
+    </swiper-item>
+
+   
+  </swiper>
+</view>
+
+<view class="overlay" style="display:{{showOverlay ? 'flex' : 'none'}}">
+  <view class="qr-view">
+    <image src="{{qrImageUrl}}" class="qr-image" mode="widthFix"></image>
+    <text>将二维码出示给门店核销员</text>
+    <text>由门店核销即可</text>
+    <i class="fa fa-times close-icon" catchtap="closeOverlay"></i>
+  </view>
+
+</view>

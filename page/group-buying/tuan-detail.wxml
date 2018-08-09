@@ -1,0 +1,191 @@
+<import src="../common/template/share.wxml" />
+<template wx:if="{{showShareModal}}" is="share-modal" data="{{...shareData}}" />
+<!-- 顶部团情况 -->
+<view wx:if="{{tuanType==0}}" style='display:block'>
+  <view class="all-list">
+    <view class="all-com-fri-det">
+      <view class="all-commodity-img">
+        <image class="all-com" src="{{product.image}}"></image>
+      </view>
+      <view class="all-commodity-text">
+        <view class="all-com-tit">
+          <text class="all-com-detail">{{product.name}}</text>
+          <!-- <text class="all-com-num">x 1</text> -->
+        </view>
+        <view class="current-price-time">
+          <text class="now-price">参团价：</text>
+          <text class="now-pri-text">￥{{product.price}}</text>
+          <text class="count-down">原价：</text>
+          <text class="group-now">￥{{product.original_price}}</text>
+        </view>
+        <view class='people-groups'>
+          <text class='peo-gro-num'>{{product.poeple}}人团</text>
+          <text class='join-people'>已团{{product.sales}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="invite-friend-group">
+    <scroll-view scroll-x class="invite-friend-pho">
+      <view wx:if="{{tuanSatue==0}}" class='invite-friend-img'>
+        <text class='header-tuan'>团长</text>
+        <image src="{{head_tuan.avatar}}" class="inv-image"></image>
+      </view>
+      <view wx:if="{{people_tuan}}" wx:for="{{people_tuan}}" class='invite-friend-img'>
+        <image src="{{item.avatar}}" class="inv-image"></image>
+      </view>
+      <view wx:if="{{imgNull.length>0}}" wx:for="{{imgNull}}" class='invite-friend-img'>
+        <!-- <image src="{{item.img}}" class="inv-image"></image> -->
+        <icon class='inv-image-no'></icon>
+      </view>
+    </scroll-view>
+    <view class="invite-fri-num">
+      <text class="peo-time total-peo-number"  >
+       <text wx:if="{{tuan.end_time>0}}">
+      仅剩 <text style='color:red'> {{tuan.diff_people}} </text> 名额，{{countdownText['hour']}}:{{countdownText['minute']}}:{{countdownText['second']}}后结束
+      </text>  
+        <text class='last-time' wx:else>已结束</text>
+      </text>
+    </view>
+    <view class="invite-friend-cluster">
+      <button open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.image}}" class="invite-friend-text">邀请好友参团</button>
+    </view>
+  </view>
+  <view class='pro-detail'>
+    <label catchtap='detailClick'>
+      <text class='item-text-one'>商品详情</text>
+      <icon class='right-go'></icon>
+    </label>
+    <label>
+      <text class='item-text-one'>开团时间</text>
+      <text class='item-text-two'>{{tuan.start_time_txt}}</text>
+    </label>
+    <label>
+      <text class='item-text-one'>拼团须知 </text>
+      <text class='item-text-two'>好友参团.人满发货.人不满退款</text>
+    </label>
+  </view>
+  <!--中间一键结束  -->
+</view>
+<view wx:else>
+  <view class='pintuan-succ'>
+    <view class='pintuan-succ-one'>
+      <image class='pintuan-succ-img' src='../../../image/check.png'></image>
+      <text class='pintuan-succ-text'>拼团成功</text>
+    </view>
+    <button class='pintuan-succ-btn' catchtap='goGrouplist'>去拼团栏看看</button>
+    <scroll-view scroll-x class="invite-friend-pho">
+      <view wx:if="{{head_tuan}}" class='invite-friend-img'>
+        <text class='header-tuan'>团长</text>
+        <image src="{{head_tuan.avatar}}" class="inv-image"></image>
+      </view>
+      <view wx:if="{{people_tuan}}" wx:for="{{people_tuan}}" class='invite-friend-img'>
+        <image src="{{item.avatar}}" class="inv-image"></image>
+      </view>
+    </scroll-view>
+    <view class='pro-detail'>
+      <label catchtap='detailClick'>
+        <text class='item-text-one'>商品详情</text>
+        <icon class='right-go'></icon>
+      </label>
+      <label>
+        <text class='item-text-one'>收货人</text>
+        <text class='item-text-two'>{{addressList.address_user}}</text>
+      </label>
+      <label>
+        <text class='item-text-one'>手机号码</text>
+        <text class='item-text-two'>{{addressList.address_tel}}</text>
+      </label>
+      <label>
+        <text class='item-text-one'>收货地址</text>
+        <text class='item-text-two'>{{addressList.address}}</text>
+      </label>
+
+      <label>
+        <text class='item-text-one'>成团时间</text>
+        <text class='item-text-two'>{{addressList.start_time_txt}}</text>
+      </label>
+      <label>
+        <text class='item-text-one'>拼团须知 </text>
+        <text class='item-text-two'>好友参团.人满发货.人不满退款</text>
+      </label>
+    </view>
+  </view>
+
+</view>
+<!--顶部团情况结束  -->
+
+<!--热门推荐  -->
+<view class="hot-list-gro" wx:if="{{hotData.length>0}}">
+  <text class="hot-list-gro-text">热门推荐</text>
+</view>
+<!--拼团区域  -->
+<view class='yiya-pinduoduo-area' wx:if="{{hotData.length>0}}">
+  <view class='pinduoduo-content'>
+    <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{hotData}}" wx:key="{{item}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="{{item.quantity>0?'goGroupDetail':''}}">
+      <image class='pinduoduo-content-image' mode='aspectFill' lazy-load='{{lazyLoad}}' src='{{item.image}}'></image>
+      <text class='pinduoduo-content-title'>{{item.name}}</text>
+      <view class='pinduoduo-content-price'>
+        <text class='text-red'>已团{{item.count}}件</text>
+        <text class='text'>仅剩{{item.quantity-item.count}}件</text>
+      </view>
+      <view class='pintuan-content-buttom'>
+        <view class='pinduoduo-buttom-aside'>
+          <text class='pinduoduo-content-current'>￥<text class='text-style-1'>{{item.price}}</text></text>
+          <text class='pinduoduo-already'>￥{{item.start_price}}</text>
+        </view>
+        <view wx:if="{{item.quantity>0}}" class='btn'>去开团</view>
+        <view wx:else class='btn shopping-go-group-end'>已售罄</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!--热门推荐结束  -->
+<!--购买选择属性  -->
+<view wx:if='{{moreChoose}}'>
+  <view class='commodity_attr_list-wrap' bindtap='goImageClose'></view>
+  <view class="commodity_attr_list">
+    <view class='shopping-images-wrap'>
+      <view class='shopping-images'>
+        <image class='order-images' src='{{product.image}}'></image>
+      </view>
+      <view class='shopping-detail'>
+        <view class='shopping-detail-title-price'>
+          <view class='shopping-detail-title'>
+            <text class='shopping-detail-text'>{{product.name}}</text>
+            <image bindtap='goImageClose' class='shopping-detail-image' src='../../../image/close.png'></image>
+          </view>
+          <text class='shopping-detail-price'>价格 {{product.price}}</text>
+          <text class='shopping-detail-have'>库存 {{quantity}}件</text>
+        </view>
+      </view>
+    </view>
+    <!--每组属性-->
+    <view class='shopping-property'>
+      <block wx:if='{{sku_list.length>0}}' wx:for='{{property_list}}' wx:for-item='pid' wx:for-index="idx" wx:key='{{idx}}'>
+        <view class='property-list'>
+          <text class='property-title'>{{pid.name}}</text>
+          <view class='property-value-list'>
+            <block wx:for='{{pid.values}}' wx:for-item='vid' wx:key='{{index}}'>
+              <text data-pid='{{pid.pid}}' data-vid='{{vid.vid}}' class='pro-val-list  {{curTabs[index] ==(pid.pid+vid.vid) ? "chooseTab" : ""}}' bindtap='chooseProperty' data-pidvid='{{pid.pid+vid.vid}}'>{{vid.value}}</text>
+            </block>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class="stepper">
+      <text class='ste-number'>购买数量</text>
+      <view class='stepper-father'>
+        <!-- 减号 -->
+        <text class="ste-reduce" bindtap="bindMinus">-</text>
+        <!-- 数值 -->
+        <input class='ste-input-num' type="number" disabled="true" bindchange="bindManual" value="{{num}}" />
+        <!-- 加号 -->
+        <text class="normal ste-add" bindtap="bindPlus">+</text>
+      </view>
+    </view>
+    <!--一般购买  -->
+    <text bindtap='goPayment' class='go-confirm'>确定</text>
+  </view>
+</view>

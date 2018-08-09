@@ -1,0 +1,54 @@
+<!-- ************* 分享成功返回的弹出框 **************-->
+<!-- 
+	couponCancel:  点击取消按钮事件
+  couponConfirm: 点击确认按钮事件
+ -->
+<template name="share-modal">
+  <view catchtap="cancelCoupon" class="overlay">
+    <view class="overlay-content share-content">
+    <icon class='shareCancel' catchtap='cancelCoupon'></icon>
+      
+      <view class="share-title">
+        <text class="share-firstText">分享成功{{text}}</text>
+        <text class='share-twoText'>分享3次以上，成团率能高达96%哦</text>
+      </view>
+      <button class='share-btn' open-type='share'>继续分享</button>
+
+      <!-- <block wx:if="{{couponList}}" hidden>
+        <view class='share-line'>
+        <icon class='share-line-img'></icon>
+     
+        </view>
+        <view class='couponlist-wrap'>
+          <view class='couponlist-item' wx:for="{{couponList}}">
+            <view class='coupon-list-item-left'>
+              <text class='list-title'>{{item.name}}</text>
+              <text class='list-time'>有效期到{{item.end_time_str}}</text>
+            </view>
+            <view class='coupon-list-item-right'>
+              <view class='list-up'>
+                ￥
+                <text class='big'>{{item.face_money}}</text>
+              </view>
+              <view>
+                <button>抵扣券</button>
+              </view>
+            </view>
+          </view>
+
+        </view>
+        <view class="share-bottom-button-wrap">
+          <button class='shareConfirm' catchtap='getCoupon'>立即领取</button>
+        </view>
+      </block> -->
+    </view>
+  </view>
+</template>
+<!--弹窗拼团信息-->
+<template name="popteam-modal">
+<navigator class='pintuan-head' url='{{popteamUrl}}?prodId=null&tuanId={{popteamData.tuan_id}}&type=1&teamId={{popteamData.team_id}}&itemId={{popteamData.item_id}}'>
+  <image class='pintuan-head-img' src='{{popteamData.user.avatar}}'></image>
+  <text class='pintuan-head-text' wx:if="{{popteamText}}">{{popteamNicke}} {{popteamText}}</text>
+  <text class='pintuan-head-text' wx:else>{{popteamNicke}} {{popteamData.second}}前发起了拼团</text>
+</navigator>
+</template>

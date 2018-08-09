@@ -1,0 +1,120 @@
+<view class='navigation' enable-back-to-top='true'>
+  <!--顶部tab开始  -->
+
+  <!-- <scroll-view scroll-x="true" class='child-list' wx:if="{{activity_err_msg.length > 0}}">
+      <view wx:for="{{activity_err_msg}}" wx:for-index="index" class='list-tab {{index==current?"current":""}}' data-current='{{index}}' data-activityid="{{item.activityId}}" bindtap='clickGo'>
+        <text class='child-list-text'>{{item.activityAlias}}</text>
+      </view>
+    </scroll-view> -->
+
+  <view class="navbar">
+
+
+    <view class='navbar-content'>
+
+      <view class="nav-1">
+        <scroll-view scroll-x="{{true}}" class="nav-1-left" scroll-left="{{scrollLeftValue}}">
+          <view wx:for="{{activity_err_msg}}" wx:for-index="index" data-idx="{{index}}" class="item {{current==index ? 'active' : ''}}" data-current='{{index}}' data-activityid="{{item.tagId}}" bindtap='clickGo'>{{item.tagName}}</view>
+        </scroll-view>
+        <!-- <view class="nav-1-left" wx:if="{{isPickerShow}}">
+        <view class="item left2Font">{{activity_err_msg[current].activityAlias}}</view>
+      </view> -->
+        <!-- <view class="nav-1-left" wx:if="{{isPickerShow}}">
+      </view> -->
+        <!-- <view class="blankblock"></view> -->
+        <button class="navbarBtn" bindtap="navbarBtnClick">
+          <image src="../../../image/back.png" class="navbarBtn icon {{isPickerShow ? 'active' : ''}}"></image>
+        </button>
+      </view>
+
+
+      <view id='picker' class="picker" wx:if="{{isPickerShow}}">
+        <view class="spitLine"></view>
+        <view class="picker-contain">
+          <view class="picker-contain-item {{current==index ? 'item-current' : ''}}" wx:for="{{activity_err_msg}}" data-idx="{{index}}" wx:key="unique" bindtap="navbarTap">{{item.tagName}}</view>
+        </view>
+      </view>
+      <view class='picker-content' wx:if="{{isPickerShow}}"></view>
+
+    </view>
+
+
+
+  </view>
+
+  <swiper class="itemContainer" bindchange="swiperChange" current="{{current}}">
+    <block wx:for="{{activity_err_msg}}">
+      <swiper-item>
+          <scroll-view scroll-y='true' class='content'>
+
+        <block wx:if="{{dataList.length>0}}" wx:for='{{dataList}}'>
+          <view class='mom-list' wx:if='{{item.receive_count==0}}' bindtap='goDetail' data-source='{{item.source}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}' data-name='{{item.name}}' data-original-price='{{item.is_original_price}}' data-start-time='{{item.start_time}}'
+            data-end-time='{{item.end_time}}' data-face-money='{{item.face_money}}' data-logo='{{logo}}'>
+
+            <view wx:if="{{item.limit_money == 0 }}" class='mon-list-tip'>无门槛券</view>
+            <view wx:else class='mon-list-tip'>满{{item.limit_money}}元使用</view>
+
+            <view class='mon-list-left'>
+              <view class='mon-image-title'>
+                <image class='mon-image' src='{{item.app_imgurl}}'></image>
+              </view>
+              <view class='mon-price-day'>
+                <text class='mon-title'>{{item.name}}</text>
+                 <text class='mon-price'>{{item.face_money}}{{item.type_right}}</text>
+
+                <text class='mon-day'>{{item.start_time_str}}至{{item.end_time_str}}</text>
+              </view>
+            </view>
+            <view class='mon-list-right'>
+              <view class='mon-money-right'>
+                  <text class='money-right-text'>{{item.type_right}}</text>
+              </view>
+              <text class='mon-right-go'>立即领取</text>
+            </view>
+          </view>
+          <view class='mom-list-two' wx:elif='{{item.receive_count != 0}}' data-activity-id='{{item.activity_id}}' data-id='{{item.id}}'>
+            <view  class='mon-list-tip' style='background-color: #c7c7c7;'>{{item.type_left}}</view>
+            <view class='mon-list-left'>
+              <view class='mon-image-title'>
+                <image class='mon-image' src='{{item.app_imgurl}}'></image>
+              </view>
+              <view class='mon-price-day'>
+                <text class='mon-title'>{{item.name}}</text>
+                <text class='mon-price'>{{item.face_money}}{{item.type_right}}</text>
+                <text class='mon-day'>{{item.start_time_str}}至{{item.end_time_str}}</text>
+              </view>
+            </view>
+            <view class='mon-list-right'>
+              <view class='mon-money-right'>
+                <text class='money-right-text'>{{item.type_right}}</text>
+              </view>
+              <text class='mon-right-go'>已领取</text>
+            </view>
+          </view>
+        </block>
+        <block wx:if="{{!dataList||dataList.length<1}}">
+          <view class="no-data-view">
+            <image src="../../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+            <text class="mText" class="no-data-text">暂无优惠券</text>
+          </view>
+
+        </block>
+          </scroll-view >
+
+      </swiper-item>
+
+    </block>
+    
+
+
+  </swiper>
+
+  <!-- 透明遮盖层 -->
+  <view class="picker-contain-bg {{isPickerShow? 'show' : ''}}" wx:if="{{isBgNeed}}" bindtap="bgTap"></view>
+
+
+  <!--顶部tab结束  -->
+
+
+
+</view>

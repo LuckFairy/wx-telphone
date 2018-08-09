@@ -1,0 +1,48 @@
+
+
+<template name="goods-list">
+    <view class="goods-list-containner">
+        <!-- 头部导航条 -->
+        <view class="goods-list-header-view">
+            <text class="nav-text left-nav {{tabName=='online' ? 'nav-active' : ''}}" data-status="online" bindtap="switchTab">正在进行</text>
+            <text class="nav-text right-nav {{tabName=='ongoing' ? 'nav-active' : ''}}" data-status="ongoing" bindtap="switchTab">即将进行</text>
+        </view>
+        <view wx:if="{{tabName=='ongoing'}}" class="next-sale-time-view">17:20</view>
+        <view wx:if="{{tabName=='online'}}" class="next-sale-time-view">  </view>
+        
+        
+        <view class="goods-list-view">
+            <navigator url="../../home/pages/goods-detail?goodsId=" class="goods-item-view">
+                <image src="../../../image/card.png" mode="widthFix" class="goods-cover-img"></image>
+                <view class="goods-info-view">
+                    <view class="goods-info-left-view">
+                        <text>移动充电器</text>
+                        <view style="font-size:25rpx;color:grey;flex-direction:row;">已有<text style="color:#FF7D86;">190</text>人购买</view>
+                    </view>
+                    <view class="goods-info-right-view">
+                        <text>仅剩</text>：
+                        <text class="time-text">09</text>:
+                        <text class="time-text">14</text>:
+                        <text class="time-text">49</text>
+                    </view>
+                </view>
+            </navigator>
+            <navigator url="" class="goods-item-view">
+                <image src="../../../image/card.png" mode="widthFix" class="goods-cover-img"></image>
+                <view class="goods-info-view">
+                    <view class="goods-info-left-view">
+                        <text>移动充电器</text>
+                        <view style="font-size:25rpx;color:grey;flex-direction:row;">已有<text style="color:#FF7D86;">190</text>人购买</view>
+                    </view>
+                    <view class="goods-info-right-view">
+                        <text>仅剩</text>：
+                        <text class="time-text">09</text>:
+                        <text class="time-text">14</text>:
+                        <text class="time-text">49</text>
+                    </view>
+                </view>
+            </navigator>
+        </view>
+    </view>
+
+</template>

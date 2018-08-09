@@ -1,0 +1,157 @@
+<!-- 会员卡 -->
+<template name="mem_card">
+    <view class="mem-card-container">
+        <view class="mem-card">
+            <!-- 会员信息区 -->
+            <view class="mem-card-info">
+                
+                <!--头像-->
+                <view class="mem-card-img-view">
+                    <image src="{{data.userInfo.avatarUrl}}" class="mem-card-avatar" mode="widthFix"></image>
+                </view>
+                <!-- 姓名，积分 -->
+                <view class="mem-card-userinfo-view">
+                    <view class="mem-card-nickname-view">
+                        <view style="margin-top:10px;">{{data.userInfo.nickName}}</view>
+                        <!-- 先屏蔽消息 -->
+                        <!--<navigator url=""><image src="../../../image/dialog.png" mode="widthFix" style="width:50rpx;margin-top:5px;"></image></navigator>-->                        
+                        <navigator url="../cart/cart" open-type="reLaunch">
+                          <view class="the-cart">
+                            <image class="cart-image" src="../../../image/shop-cart2.png"></image>
+                            <text class="cart-text">{{data.cartcount ? data.cartcount : 0}}</text>
+                          </view>
+                        </navigator>
+                        
+                    </view>
+                    <view class="mem-card-score-view">
+                        <view>
+                            <navigator url="../score/score">
+                                <text>积分: {{data.score ? data.score : 0}}</text>
+                            </navigator>
+                        </view>
+                        <!--<view style="color:#AF7E35;margin-left:50rpx;">
+                            <navigator url="../score/score">
+                                <text>积分兑换 ></text>
+                            </navigator>
+                        </view>-->
+                    </view>
+                </view>
+            </view>
+            <!-- /会员信息区 -->
+
+            <!--分隔线-->
+            <!--<view class="mem-card-sp-line"></view>-->
+
+            <!--  条码区 -->
+            <view class="mem-card-bcode">
+                <image class="mem-card-bcode-img" src="{{data.bcode}}" mode="scaleToFill"></image>
+            </view>
+        </view>
+    </view>
+</template>
+
+<!-- 菜单tabbar -->
+<template name="menu_bar">
+    <view class="menu-bar-container">
+        <block wx:for="{{data}}" wx:for-item="menuItem" wx:key="menu-{{Math.rand()}}" >
+            <navigator url="{{menuItem.link}}" open-type="navigate" bindtap="{{menuItem.bindtap ? menuItem.bindtap : ''}}">
+                <view class="menu-bar-item-view" style="width:{{750/data.length}}rpx;">
+                    <view class="menu-bar-icon-view">
+                        <image src="{{menuItem.icon}}" class="menu-bar-icon" mode="widthFix"></image>
+                    </view>
+                    <view class="menu-bar-icon-txt-view">{{menuItem.name}}</view>
+                </view>
+            </navigator>
+        </block>
+    </view>
+</template>
+
+<template name="func_list">
+    <view class="func-list-container">
+        <block wx:for="{{data}}" wx:for-item="funcItem" wx:key="func-{{Math.rand()}}">
+            <navigator url="{{funcItem.link}}">
+                <view class="func-list-item-view" bindtap="{{funcItem.bindtap}}">
+                    <view>
+                        <image src="{{funcItem.icon}}" class="func-list-itm-icon-img" mode="widthFix"></image>
+                    </view>
+                    <view class="func-list-itm-desc-view">
+                        <view class="func-list-itm-title-view"><text>{{funcItem.title}}</text></view>
+                        <view class="func-list-itm-sub-title-view"><text>{{funcItem.subTitle}}</text></view>
+                        <view><image src="../../../image/ma_card_rught.png" mode="widthFix" style="width:20rpx;"></image></view>
+                    </view>
+                </view>
+            </navigator>
+            <view class="sp-line"></view>
+        </block>
+    </view>
+</template>
+
+
+
+<!-- 5.6 新需求 -->
+<template name="func_grid">
+    <view class="func-grid-container">
+        <block wx:for="{{data}}" wx:key="{{item.position}}" wx:for-index="idx" wx:if="{{ idx < 3 }}">
+        <navigator url="{{item.url}}">
+            <view class="func-grid-cell">
+                <image wx:if="{{item.imageUrl}}" class="func-grid-image" src="{{item.imageUrl}}" mode="widthFix" />
+                <text wx:if="{{item.title}}" class="func-title-text">{{item.title}}</text>
+            </view>
+        </navigator>
+        </block>
+    </view>
+
+    <view class="func-grid-container" style="margin-top:0px;">
+        <block wx:for="{{data}}" wx:key="{{item.position}}" wx:for-index="idx" wx:if="{{ idx >= 3 }}">
+        <navigator url="{{item.url}}">
+            <view class="func-grid-cell">
+                <image wx:if="{{item.imageUrl}}" class="func-grid-image" src="{{item.imageUrl}}" mode="widthFix" />
+                <text wx:if="{{item.title}}" class="func-title-text">{{item.title}}</text>
+            </view>
+        </navigator>
+        </block>
+    </view>
+</template>
+ 
+<template name="func_title">
+    <!-- <view class="func-title">
+        <text class="func-text">{{data}}</text>
+        <view class="func-underline"></view>
+    </view> -->
+</template> 
+
+<!-- <template name="func_hotsale">
+   <swiper indicator-dots="{{true}}"
+    autoplay="{{true}}" interval="{{5000}}" duration="{{1000}}" circular="{{true}}" indicator-active-color="rgba(220, 220, 50, 0.8)">
+    <block wx:for="{{data}}" wx:key="{{item.hotProdId}}">
+        <swiper-item>
+            <navigator url="../shopping/goods-detail?prodId={{item.prodId}}">
+                <image src="{{item.bannerImage}}" class="func-hotsale-container" mode="widthFix"/>
+            </navigator>
+        </swiper-item>
+    </block>
+  </swiper>
+</template> -->
+<!-- 5.6 新需求 -->
+
+<!--拼团列表开始  -->
+  <template name="func_hotsale">
+    <view class='fun-yiya-total' >
+      <text class='background-color'></text>
+      <view class='yiya-group'>
+          <text class='yiya-group-duoduo'>咿呀拼多多</text>
+          <text class='search-total' bindtap='goSearchGroup'>查看全部</text>
+      </view>
+      <view class='yiya-image-wrap'wx:for="{{data}}" wx:key="{{item}}" >
+      <navigator url="../group-buying/group-buying?prodId={{item.productId}}&groupbuyId={{item.groupbuyId}}">
+        <image class='yiya-child-image' src='{{item.bannerimage}}'></image>
+        <view class='yiya-product-title-wrap'>
+          <text class='yiya-product-title'>{{item.productName}}</text>
+          <text class='yiya-product-go'>去开团</text>
+        </view>
+      </navigator>
+      <text class='background-color'></text>   
+      </view>
+    </view>
+  </template>
+<!--拼团列表结束  -->

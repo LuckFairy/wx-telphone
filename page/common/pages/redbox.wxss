@@ -1,0 +1,92 @@
+page{
+    background-color: #FFE546;
+}
+
+.containner{
+    flex-direction: column; align-items: center;
+}
+.redbox-view{
+    width:750rpx;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30rpx;
+    position:relative;
+}
+.redbox-view-img{
+  width: 650rpx;
+  height: 900rpx;
+}
+
+.redbox-cover-view{
+    position: absolute;
+    left: 0rpx;top:0rpx;width: 100%;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+.cover-button-view{
+    flex:5;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+.cover-text-view{
+    flex:3;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size:35rpx;
+    color: white;
+}
+
+.cover-bottom-btn-view{flex:4;flex-direction:column; justify-content:center;align-items:center;}
+.bottom-btn{width:450rpx;flex-direction: row;justify-content:center;background-color:#FFE546;padding:15rpx 0rpx;text-align: center;}
+
+
+.bottom-view{
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20rpx;
+}
+.open-btn-img{
+    width:150rpx;
+}
+
+.btn-myflow{
+    border-style: solid;
+    border-width: 1rpx;
+    border-color: #000;
+    padding: 8rpx 40rpx;
+    color:#000;
+    font-size:30rpx;
+    border-radius: 5rpx;
+}
+
+.show{
+    display: flex;
+}
+.hide{
+    display: none;
+}
+
+.statistics{
+    margin-top: 50rpx;
+    width: 630rpx;
+    border-radius: 6rpx;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0.1px 0.1px 20px 0.1px rgba(0, 0, 0, 0.2);
+    padding: 30rpx 24rpx;
+}
+.statistics .divider {
+    width: 1px;
+    background-color: #999;
+}
+.prize{
+  width: 130rpx;
+  height: 130rpx;
+  position: fixed;
+  bottom: 6%;
+  left: 30rpx;
+}
