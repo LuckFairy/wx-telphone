@@ -36,8 +36,13 @@ Page({
   },
 
   onLoad: function (options) {
-    let uid = wx.getStorageSync('userUid');
-    let phy_id = wx.getStorageSync('phy_id');
+    var uid = wx.getStorageSync('userUid'), phy_id = wx.getStorageSync('phy_id');
+    if (uid == undefined || uid == '') {
+      wx.switchTab({
+        url: '../tabBar/home/index-new',
+      })
+    }
+
     let { prodId, tuanId, groupbuyOrderId, params, lacknum, action, tuantype=1} = options;
     this.setData({
       prodId,
@@ -55,6 +60,7 @@ Page({
   },
   //多规格 onShow
   onShow: function () {
+    wx.hideShareMenu();
     this.loadData(this.data.options);
     this._loadOrderData(); //换一批数据
   },
@@ -435,7 +441,7 @@ Page({
     return false;
   },
   /**
-   * 他人团书记
+   * 他人团
    * 
    */
   _loadOrderData(url) {

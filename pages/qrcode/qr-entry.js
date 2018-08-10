@@ -2,66 +2,86 @@
 import { getUrlQueryParam } from '../../utils/util.js';
 import { Api } from '../../utils/api_2';
 let app = getApp();
-var qrData = '';
+let qrData = '';
+let locationId = 155;
+let indexUrl = '../index-new/index-new';
 Page({
   data: {
     store_id: '',
     uid: null,
-    locationId: 0
   },
   onLoad: function (options) {
-    let { q } = options;
-    let that = this,
-    store_id = app.store_id,  
-     uid = wx.getStorageSync('userUid');
-    if (uid) { } else {
-      wx.showModal({
-        title: '请求结果',
-        content: '等待超时，跳转到首页',
-      });
-      setTimeout(() => {
-        wx.switchTab({
-          url: '../../page/tabBar/home/index-new',
-        });
-      }, 2000);
-    }
-    wx.showLoading({ title: '加载中...', mask: true, });
+    // 页面初始化 options为页面跳转所带来的参数
+    let {q} = options;
+    let that = this;
+    var store_id = app.store_id; //store_id    
+    var uid = wx.getStorageSync('userUid');
+    console.log('uid',uid)
 
+    this.setData({
+      store_id,
+      uid
+    });
 
+    wx.showLoading({
+      title: '加载中...',
+      mask: true,
+    });
     if (q) {
       q = decodeURIComponent(q);
       try {
         let params = getUrlQueryParam(q, 'data');
         qrData = JSON.parse(params);
-        let locationId = qrData.location_id;
-        if (!locationId) {locationId = 0;}
-        wx.setStorageSync('locationId', locationId);//存储locationId
-        that.setData({ uid: uid, store_id: store_id, locationId });
-       
+        console.log('qrData......', qrData);
+        locationId = qrData.location_id;
+        if (!locationId) {
+          locationId = 155;
+        }
+        wx.setStorageSync('locationid', locationId); //存储locationId
+        if (!uid) {
+          console.log('ui', uid);
+          setTimeout(function () {
+            wx.switchTab({
+              url: `${indexUrl}?locationid=${locationId}`,
+            })
+          }, 1000);
+          return;
+        }
+
+        if (uid) {
+          that.redirctPageNew(); // 加载数据，关闭定时器
+        } else {
+          setTimeout(() => {
+            wx.switchTab({
+              url: `${indexUrl}?locationid=${locationId}`,
+            });
+          }, 3000)
+        }
+
       } catch (e) {
         setTimeout(() => {
           wx.switchTab({
-            url: '../../page/tabBar/home/index-new',
+            url: `${indexUrl}?locationid=${locationId}`,
           });
-        }, 3000);
+        }, 3000)
       }
+
     }
+    
   },
   onReady: function () {
     // 页面渲染完成
   },
   onShow: function () {
-    var that = this;
-    var uid = that.data.uid;
-    if(uid){
-    that.redirctPageNew();   // 加载数据
-    }else{
-      setTimeout(()=>{
-        uid = wx.getStorageSync('userUid');
-        that.setData({uid});
-        that.redirctPageNew();   // 加载数据
-      },4000);
-    }
+    var uid = wx.getStorageSync('userUid');
+    if (!uid) {
+      setTimeout(function () {
+        wx.switchTab({
+          url: indexUrl + `?locationid=${locationId}`,
+        })
+      }, 1000);
+      return;
+    } 
   },
   onHide: function () {
     // 页面隐藏
@@ -71,6 +91,7 @@ Page({
   },
 
   redirctPageNew: function () {
+    console.log('进入页面',qrData)
     this.buildRedirctUrlNew();
     this.checkUserFirstVisitNew();
   },
@@ -78,7 +99,7 @@ Page({
   checkUserFirstVisitNew: function () {
     var params = {
       store_id: this.data.store_id,
-      item_store_id: this.data.locationId,
+      item_store_id: locationId,
       uid: this.data.uid
     }
     app.api.postApi('screen.php?c=index&a=binding_user', { params }, (err, resp) => {
@@ -107,10 +128,10 @@ Page({
     console.log('qrData', qrData);
     console.log('restype',resType)
     switch (resType) {
-      //云屏活动
+        //云屏活动
       case 'cloud_screen': console.log('reditype',reditype,rediurl);
-        // reditype栏目1 ，商品2，送券活动4
-        //rediurl对应第二级栏目id
+        // reditype栏目1 ，商品2，送券活动4，dm海报5，
+        // rediurl对应第二级栏目1爆款专区 2热销专区 3活动专区 4百货专区 5，6,7,8,9宝宝模块 10礼包特卖 11拼团 12增值活动
         if (reditype == "1") {
           switch (rediurl) {
             //四个banner模块
@@ -126,14 +147,22 @@ Page({
             case "9":  url = `../../page/common/pages/index-boabao?listId=4&catId=97`; break;
             //礼包特卖模块
             case "10": url = `../../page/common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`; break;
-            default: url ='';break;
+            //拼团
+            case "11": url = `../../page/group-buying/grouplist`; break;
+            //增值活动
+            case "12": url = `../../page/common/pages/index-mom`; break;
+           
           }
         } else if (type == "2") {
           url = `../../page/common/pages/goods-detail?prodId=` + rediurl;
         } else if (type == "4") {
            url = `../../page/common/pages/activity-detail?id=` + rediurl;
-        } else {
-          url='';
+        } else if (type = 5) {
+          console.log('dm海报');
+          url = `../../page/common/pages/index-activity`;
+        }
+        else {
+          console.log('未定义的跳转url');
         }
         break;
       //跳转到卡券领取页面
@@ -177,9 +206,7 @@ Page({
         url = '../../page/common/pages/goods-detail?prodId=' + resId + '&productPrice=' + price + '&skPrice=' + skPrice + '&activityStatus=' + status + '&expireTime=' + expire_time + '&hadnum=' + hadnum + '&pskid=' + pskId + '&qrEntry=1';
         break;
       //首页
-      default:
-        url = '';
-        break;
+      default:url = ''; break;
     }
   
     if (url.length > 0) {

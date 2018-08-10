@@ -15,9 +15,8 @@ Page({
     tuan: null,
     statusText:''
   },
-
+// 查看团详情
   onTuanDetailClick() {
-
     wx.navigateTo({
       url: './tuan-detail?&status=' + '0' + '&prodId=' + that.data.product_list.product_id + '&tuanId=' + that.data.tuan.tuan_id + '&type=' + that.data.order_type.type +
       '&itemId=' + that.data.tuan.item_id + '&teamId=' + that.data.tuan.team_id
@@ -26,15 +25,19 @@ Page({
 
   onLoad: function (options) {
     that = this;
-    if (!uid) {
-      uid = wx.getStorageSync('userUid');
+    var uid = wx.getStorageSync('userUid'), phy_id = wx.getStorageSync('phy_id');
+    if (uid == undefined || uid == '') {
+      wx.switchTab({
+        url: '../tabBar/home/index-new',
+      })
     }
+    wx.hideShareMenu();
     this.loadHotData(); //热门推荐数据
     var params = { "uid": uid, order_no: options.order_no };
     this.setData({
       dateText: options.date_text
     });
-
+    //团详情
     app.api.postApi("wxapp.php?c=tuan_v2&a=order_detail", { "params": params }, (err, resp) => {
       wx.hideLoading();
       if (err) {

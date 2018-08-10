@@ -1,6 +1,6 @@
 <scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
   <!--5栏选项  -->
-  <view class='list-select-area' wx:if="{{indexIcon.length == 10}}">
+  <view class='list-select-area' wx:if="{{indexIcon.length >4}}">
     <view class="list-select-area-bottom">
       <view class='select-list' bindtap="clickGoCategory" data-index='0' data-cat-id='{{indexIcon[5].cat_id}}'>
         <image class='select-list-image' src='{{indexIcon[5].image}}'></image>

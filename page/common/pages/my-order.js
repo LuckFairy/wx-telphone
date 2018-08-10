@@ -317,28 +317,14 @@ Page({
     // 页面关闭
     clearInterval(timer);
   },
-  swiperChange: function (event) {
-    console.log("current：" + event.detail.current);
-    let index = event.detail.current;//待拼团对应下标
-    var that = this;
-    if (index == 2) {
-      this.setData({
-        curActIndex: ORDER_TUAN_PENDING
-      });
-      // that.loadTuanData();
-    } else if (index > 2) {
-      this.setData({
-        curActIndex: index - 1
-      });
-    } else {
-      this.setData({
-        curActIndex: event.detail.current
-      });
-    }
-
-    if (event.detail.current == 4) {
+  swiperChange: function (e) {
+    console.log("current：" + e.detail.current);
+    let index = e.detail.current;//待拼团对应下标
+    let that = this;
+    if (index == 4) {
       that.listReturnFun();
     }
+    that.setData({ curSwiperIdx:index});
   },
   swichSwiperItem: function (event) {
     var that = this;

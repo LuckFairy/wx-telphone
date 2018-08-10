@@ -39,7 +39,7 @@
       <icon class='inv-image-no'></icon>
     </view> 
   </scroll-view>
-  <block wx:if="{{tuantype==1}}">
+  <block wx:if="{{tuantype==1||tuan.diff_people<=0}}">
     <view class="invite-fri-num">
       <text class="peo-time total-peo-number">仅剩 {{tuan.diff_people}} 名额，{{tuan.countDown['hour']}}:{{tuan.countDown['minute']}}:{{tuan.countDown['second']}}后结束
         <text class='peo-pro-last-time' wx:if="{{!tuan.countDown}}">已结束</text>

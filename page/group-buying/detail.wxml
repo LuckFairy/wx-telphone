@@ -7,9 +7,8 @@
 </view> -->
 
 <scroll-view class='content-container' scroll-y="{{true}}">
-
-  <view class='error-tip'>
-      <image class='error-tip-image' src='../../image/pur-defeat.png'>
+  <view class='error-tip'> 
+      <image class='error-tip-image' src='./resource/fail.png'>
       </image>
 
       <view class='error-tip-text'>
@@ -20,7 +19,6 @@
         赶紧召唤小伙伴来拼团吧~
         </view>
       </view>
-
   </view>
 
   <view class='addr-sec-lists' wx:if="{{address.address_user!=''||address.address_user.length<0}}">

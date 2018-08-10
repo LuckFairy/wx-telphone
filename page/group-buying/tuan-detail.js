@@ -102,18 +102,29 @@ Page({
     });
   },
   onLoad: function (options) {
-    let uid = wx.getStorageSync('userUid');
-    let phy_id = wx.getStorageSync('phy_id');
+    var uid = wx.getStorageSync('userUid'), phy_id = wx.getStorageSync('phy_id');
+    if (uid == undefined || uid == '') {
+      wx.switchTab({
+        url: '../tabBar/home/index-new',
+      })
+    }
     var tuanType = '0';
 
     let { tuanId, type, itemId, teamId, params, lacknum } = options;
     if (params) {
       var opts = JSON.parse(unescape(params));
+      //status	拼团状态，0：进行中，1：成功，2：失败
+      // tuanType: 0,//拼团状态，1已成团，0未成团
+      if(opts.status==1){
+        var tuanType = 1
+      }else{
+        var tuanType =0;
+      }
       this.setData({
         tuanId: opts.tuan_id,
         param: opts,
         groupbuyOrderId: opts.order_no,
-        uid, phy_id
+        uid, phy_id, tuanType
       });
     } else {
       var opts = { tuan_id: tuanId, type, item_id: itemId, team_id: teamId }
@@ -123,22 +134,6 @@ Page({
         uid, phy_id
       });
     }
-    //status	拼团状态，0：进行中，1：成功，2：失败
-    // if (opts.is_tuan && opts.is_tuan==1){//待成团
-    //   tuanType = '0';
-    // }else if (options.status) {
-    //   tuanType = options.status;
-    // } else if (opts.status) {
-    //   tuanType = opts.status;
-    // }
-    // if (tuanType == '1') {//成功
-    //   this.loadSucc(opts);
-    // } else if (tuanType == '0') {//进行中
-    //   this.loadData(opts);
-    // }
-    this.setData({
-      tuanType: opts.status
-    });
     this.loadHotData(); //热门推荐数据
 
   },
@@ -195,7 +190,8 @@ Page({
         }
         this.setData({ imgNull })
       }
-      this.startCountDown(tuan);
+      if (len>0) { this.startCountDown(tuan);}
+     
       this.setData({
         product, head_tuan, tuanSatue, sellout, people_tuan, param, quantity: product.quantity, prodId, tuan
       })

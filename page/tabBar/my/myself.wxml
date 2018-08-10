@@ -23,7 +23,7 @@
       <text class='myself-id'>{{phone}}</text>
     </view>   -->
     <view wx:if='{{uid}}' class='myself-address myself-phone'>
-      <text class='myself-id'>{{uid}}</text>
+      <text class='myself-id'>UID:{{uid}}</text>
     </view>
   </view>
   <!--top  个人信息-->

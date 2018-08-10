@@ -123,6 +123,12 @@ Page({
   onLoad: function (options) {
     var that = this;
     var uid = wx.getStorageSync('userUid'), phy_id = wx.getStorageSync('phy_id');
+    if (uid == undefined || uid == '') {
+      wx.switchTab({
+        url: '../tabBar/home/index-new',
+      })
+    }
+
     var { tuanId, prodId, sellout = null } = options;
     that.setData({ tuanId, prodId, sellout, uid, phy_id });
     that.loadData(prodId, tuanId);
@@ -185,7 +191,7 @@ Page({
   },
   //多规格 onShow
   onShow: function () {
-    
+    wx.hideShareMenu();
   },
   onHide: function () {
     // 页面隐藏

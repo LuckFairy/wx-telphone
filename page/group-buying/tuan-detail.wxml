@@ -41,7 +41,7 @@
     </scroll-view>
     <view class="invite-fri-num">
       <text class="peo-time total-peo-number"  >
-       <text wx:if="{{tuan.end_time>0}}">
+       <text wx:if="{{tuan.end_time>0&&tuan.diff_people>0}}">
       仅剩 <text style='color:red'> {{tuan.diff_people}} </text> 名额，{{countdownText['hour']}}:{{countdownText['minute']}}:{{countdownText['second']}}后结束
       </text>  
         <text class='last-time' wx:else>已结束</text>

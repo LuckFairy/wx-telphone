@@ -140,7 +140,7 @@
           <image src="../../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
           <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
           <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
-           <text class='footer-text-history' >查看历史</text>
+           <text class='footer-text-history'  bindtap='goHistory'>查看历史</text>
         </view>
       </scroll-view>
     </swiper-item>

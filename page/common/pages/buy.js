@@ -475,22 +475,32 @@ Page({
   _onPaySuccess(res) {
     wx.removeStorageSync('couponInfo');
     var that = this;
-    
     //推送消息
     app.send(that.data.orderId);
     that.setData({
       matteShow: true, submitOk: true
     });
-    //支付成功，拼团商品跳转待成团列表，其余商品跳转待收货列表
-    let url = that.data.orderType == 6 ? '../../group-buying/my-order?orderstatus=0' : './my-order' ;
+    // 支付成功跳到首页
+    wx.showToast({
+      title: '支付成功',
+      icon: 'loading',
+      duration: 2000
+    })
     setTimeout(function () {
-      wx.redirectTo({
-        url
-      });
-    }, 1000);
-    var params = {
-      order_no: that.data.orderId
-    };
+      wx.switchTab({
+        url: '../../tabBar/home/index-new',
+      })
+    }, 2000)
+    //支付成功，拼团商品跳转待成团列表，其余商品跳转待收货列表
+    // let url = that.data.orderType == 6 ? '../../group-buying/my-order?orderstatus=0' : './my-order' ;
+    // setTimeout(function () {
+    //   wx.redirectTo({
+    //     url
+    //   });
+    // }, 1000);
+    // var params = {
+    //   order_no: that.data.orderId
+    // };
     //给卡券接口
     // app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
     //   console.log('卡券结果', resp)
@@ -507,24 +517,35 @@ Page({
     that.setData({
       submitOk: true
     });
-    //let status = that.data.status;
-    wx.showModal({
+    //支付失败，跳转到首页
+    wx.showToast({
       title: '支付失败',
-      content: '订单支付失败，请到[订单-待付款]列表里重新支付',
-      cancelColor: '#FF0000',
-      confirmText: '好的',
-      success: function (res) {
-        // if (res.confirm) {
-          //失败跳我的订单-待付款
-          wx.redirectTo({
-            url: `./my-order?page=1`
-          });
-        // } else if (res.cancel) {
-        //   return;
-        // }
+      icon: 'loading',
+      duration: 2000
+    })
+    setTimeout(function () {
+      wx.switchTab({
+        url: '../../tabBar/home/index-new',
+      })
+    }, 2000)
+    //let status = that.data.status;
+    // wx.showModal({
+    //   title: '支付失败',
+    //   content: '订单支付失败，请到[订单-待付款]列表里重新支付',
+    //   cancelColor: '#FF0000',
+    //   confirmText: '好的',
+    //   success: function (res) {
+    //     // if (res.confirm) {
+    //       //失败跳我的订单-待付款
+    //     //   wx.redirectTo({
+    //     //     url: `./my-order?page=1`
+    //     //   });
+    //     // // } else if (res.cancel) {
+    //     //   return;
+    //     // }
         
-      },
-    });
+    //   },
+    // });
   },
   //关闭弹窗
   closeBtn() {
