@@ -134,6 +134,7 @@
                   </view>
                 </view>
               </view>
+              <!-- 拼团状态id,0=进行中，1=成功，2=失效，3=去支付 -->
               <view class="purchase-satus goods-satus" wx:if="{{order.tuan_info.status==0}}">
                 <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share'  data-params="{{order}}" data-price="{{order.total}}"  data-title="{{order.order_product_list[0].name}}" data-imgurl="{{order.order_product_list[0].shareUrl?order.order_product_list[0].shareUrl:order.order_product_list[0].image}}">邀好友参团</button>
                 <text class="purchase-status-detail" data-order-date="{{order.tuan_info.datelineText}}" data-order-no="{{order.order_no_txt}}" catchtap="onOrdeDetailClick">订单详情</text>
@@ -253,10 +254,22 @@
                 </view>
               </view>
             </view>
-            <view wx:if="{{order.tuan_info.status!=2}}" class="purchase-satus goods-satus">
-              <button wx:if="{{order.tuan_info.status!=1}}" class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-price="{{order.total}}"  data-title="{{order.order_product_list[0].name}}" data-imgurl="{{order.order_product_list[0].shareUrl?order.order_product_list[0].shareUrl:order.order_product_list[0].image}}">邀好友参团</button>
-              <text class="purchase-status-detail" data-order-date="{{order.tuan_info.datelineText}}" data-order-no="{{order.order_no_txt}}" catchtap="onOrdeDetailClick">订单详情</text>
-            </view>
+              <!-- 拼团状态id,0=进行中，1=成功，2=失效，3=去支付 -->
+              <view class="purchase-satus goods-satus" wx:if="{{order.tuan_info.status==0}}">
+                <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share'  data-params="{{order}}" data-price="{{order.total}}"  data-title="{{order.order_product_list[0].name}}" data-imgurl="{{order.order_product_list[0].shareUrl?order.order_product_list[0].shareUrl:order.order_product_list[0].image}}">邀好友参团</button>
+                <text class="purchase-status-detail" data-order-date="{{order.tuan_info.datelineText}}" data-order-no="{{order.order_no_txt}}" catchtap="onOrdeDetailClick">订单详情</text>
+              </view>
+              <view class="purchase-satus goods-satus" wx:if="{{order.tuan_info.status ==1}}">
+                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除</text>
+                <text class='purchase-status-detail' data-pro-id='{{order.order_product_list[0].id}}' catchtap='againBuy'>再次购买</text>
+              </view>
+              <view class="purchase-satus goods-satus" wx:if="{{order.tuan_info.status ==2}}">
+                <text class="purchase-status-detail" data-order-date="{{order.tuan_info.datelineText}}" data-order-no="{{order.order_no_txt}}" catchtap="onOrdeDetailClick">订单详情</text>
+              </view>
+              <view class='purchase-satus goods-satus' wx:if="{{order.tuan_info.status ==3}}">
+                <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
+                <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
+              </view>
           </view>
         </view>
         <view wx:else class="no-data-view">

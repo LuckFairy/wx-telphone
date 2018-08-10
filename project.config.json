@@ -8,7 +8,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.7.2",
+	"libVersion": "1.0.6",
 	"appid": "wxaeb0f3eeb93b3574",
 	"projectname": "趣购精选",
 	"condition": {

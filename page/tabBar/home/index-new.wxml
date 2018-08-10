@@ -89,11 +89,10 @@
       </view>
     </view>
     <!-- tab栏目 -->
-    <view class='list-area'>
-      <image class='list-area-item' src='./imgs/bg-1.png'></image>
-      <image class='list-area-item' src='./imgs/bg-1.png'></image>
-      <image class='list-area-item' src='./imgs/bg-1.png'></image>
-      <image class='list-area-item' src='./imgs/bg-1.png'></image>
+    <view class='list-area' wx:if="{{indexIcon.length>1}}">
+      <block wx:for="{{indexIcon}}">
+        <image class='list-area-item' mode='scaleToFill' catchtap='clickGo' data-index="{{item.redi_type}}" src='{{item.icon}}'></image>
+      </block>
     </view>
     <!--拼团区域  -->
     <view class='yiya-pinduoduo-area'>

@@ -1,5 +1,4 @@
 /*精选活动样式  */
-
 .inherit {
   padding: 0 10rpx;
   font-size: 22rpx;

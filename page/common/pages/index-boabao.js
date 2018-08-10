@@ -91,6 +91,7 @@ Page({
       var cat_list = rep.err_msg.cat_list;
       this.setData({ cat_list });
     });
+    if (opts.listId) { that.setData({ currentTab:opts.listId})};
     //列表数据
     that.getDataList(opts);
   },
