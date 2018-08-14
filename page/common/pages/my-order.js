@@ -80,6 +80,9 @@ Page({
     refundingOrders: [],   //退款中
     ReceivedOrders: [],  //已收货
     transOrders: [],    // 待收货(已发货)
+    waitOrders: [],  //待成团
+    endOrders: [],  //已成团
+    failOrders: [],  //已成团
     sku_arr: [],//多属性列表
 
 
@@ -89,9 +92,7 @@ Page({
     groupbuyOrders: [], // 团购订单 使用新接口获取如果这个可以的话，就不用groupOrders了
     currentTab: 0,
     showclose: true,
-    waitOrders: [],  //待成团
-    endOrders: [],  //已成团
-    failOrders: [],  //已成团
+    
     curSwiperIdx: '',
     curActIndex: '',
     showshare: false,
@@ -326,17 +327,18 @@ Page({
     }
     that.setData({ curSwiperIdx:index});
   },
-  swichSwiperItem: function (event) {
+  swichSwiperItem: function (e) {
     var that = this;
-    this.setData({
-      curSwiperIdx: event.target.dataset.idx,
-      curActIndex: event.target.dataset.idx
-    });
-    if (event.detail.current == 4) {
+    console.log("current：" + e.target.dataset.idx);
+    let index = e.target.dataset.idx;//待拼团对应下标
+    if (index == 4) {
       that.listReturnFun();
-    } else if (event.detail.current == 5) {
+    } else if (index == 5) {
       // that.loadTuanData();
     }
+    this.setData({
+      curSwiperIdx:index,
+    });
   },
   // showExpressInfo: function (e) {
   //   let { kuaidiCompanyCode, kuaidiNumber, kuaidiCompanyName } = e.currentTarget.dataset;
@@ -423,10 +425,10 @@ Page({
 
   /**
    * 加载订单数据 //加载订单数据，新接口使用post方法
-   * onLoaded: 加载成功回调函数
+   * callback: 加载成功回调函数
    * opt是传过来的参数type(类型),page（页码）,store_id（店铺id),uid(用户id)
    */
-  _loadOrderData(onLoaded, opt) {
+  _loadOrderData(callback, opt) {
     var that = this;
     wx.showLoading({ title: '加载中...', mask: true, });
     //新方法
@@ -484,7 +486,9 @@ Page({
               ReceivedOrders.push(item);//已收货
             }
           } else if (tuan_status == 0) {
+           
             waitOrders.push(item);//待成团
+
           } else if (tuan_status == 3) {
             unpayOrders.push(item);//待付款
           }
@@ -502,11 +506,11 @@ Page({
         }
 
       });
-
+      console.log('待成团',waitOrders);
       this.setData({ allOrders, momentOrders, unpayOrders, transOrders, ReceivedOrders, finishedOrders, uncheckOrders, groupOrders, waitOrders });
       that.nowTime();
       timer = setInterval(that.nowTime, 1000);
-      typeof onLoaded === 'function' && onLoaded();
+      typeof callback === 'function' && callback();
     });
 
   },
@@ -795,36 +799,7 @@ Page({
 
   },
 
-  /**
- * 团购订单列表
- */
-  loadGroupbuyOrder() {
-    // wx.showLoading({ title: '加载中...', mask: true, });
 
-    // let groupbuyOrders = [], waitOrders = [], endOrders = [], failOrders = [];
-    // app.api.fetchApi("order/OrderList", (err, resp) => {
-    //   wx.hideLoading();
-    //   if (err) {
-    //     return this._showError('网络出错，请稍候重试');
-    //   }
-    //   let { rtnCode, rtnMessage, data = [] } = resp;
-    //   if (rtnCode != 0) {
-    //     return this._showError(rtnMessage);
-    //   }
-    //   let groupbuyOrders = data;
-    //   data.forEach(item => {
-    //     let status = item.groupbuyOrderStatus;
-    //     if (status == 1) {
-    //       waitOrders.push(item);
-    //     } else if (status == 2) {
-    //       endOrders.push(item);
-    //     } else {
-    //       failOrders.push(item);
-    //     }
-    //   });
-    //   this.setData({ groupbuyOrders, waitOrders, endOrders, failOrders });
-    // });
-  },
 
   //处理分享的数据
   listClick: function (event) {
@@ -928,31 +903,17 @@ Page({
     });
 
   },
-  nowTime() {//时间函数  
-    let that = this;
-    var isUpdate = false;
-    let allOrders = that.data.allOrders;
-    let allOrdersTemp;
-    if (!allOrders || allOrders.length < 1) {
-      clearInterval(timer);
-      return;
-    }
-
-    let waitOrdersTemp = [];
-
-
-    let len = allOrders.length;//时间数据长度 
-    for (var i = 0; i < len; i++) {
-      let isTuan = allOrders[i].is_tuan;
-
-      if (isTuan == 1) {
-        var status = allOrders[i].tuan_info.status;
-        if (status == '1') {
-          continue;
-        }
-        var intDiff = allOrders[i].tuan_info.diffTime;//获取数据中的时间戳  
-        // console.log(intDiff)  
-        var day = 0, hour = 0, minute = 0, second = 0;
+  nowTime() {//时间函数  intDiff是时间戳
+    let that = this, isUpdate = false,waitOrder_int=[];
+    let {waitOrders,allOrders }=that.data;
+    if (!waitOrders||waitOrders.length < 0) {clearInterval(timer);return;}
+    let day = 0, hour = 0, minute = 0, second = 0;
+    let timestamp = Date.parse(new Date())/1000;
+   //0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 7 已收货（已收货） 5已取消 6 退款中（处理中）
+   //拼团状态,0=进行中，1=成功，2=失效，3=去支付
+    for (var i = 0; i < allOrders.length; i++) {
+      if (allOrders[i].is_tuan == 1 || allOrders[i].tuan_info.status==0){
+        let intDiff = (allOrders[i].tuan_info.end_time-timestamp);
         if (intDiff > 0) {//转换时间  
           day = Math.floor(intDiff / (60 * 60 * 24));
           hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
@@ -962,38 +923,17 @@ Page({
           if (hour <= 9) hour = '0' + hour;
           if (minute <= 9) minute = '0' + minute;
           if (second <= 9) second = '0' + second;
-          allOrders[i].tuan_info.diffTime = allOrders[i].tuan_info.diffTime - 1;
           var str = hour + ':' + minute + ':' + second + '后结束';
         } else {
-          // allOrders[i].tuan_info.status=3;
           var str = "";
-          // clearInterval(timer);
         }
-        allOrders[i].tuan_info.countdownText = str;//在数据中添加difftime参数名，把时间放进去 
-        if (allOrders[i].tuan_info.diffTime > 0) {
-          waitOrdersTemp.push(allOrders[i]);
-        } else {
-          // clearInterval(timer);
-          // that._loadOrderData();
-          // isUpdate = false;
-          // break;
-        }
+        allOrders[i].tuan_info.countdownText = str;
+        waitOrder_int.push(allOrders[i]);
       }
-
-      isUpdate = true;
-
     }
-    if (isUpdate) {
-      that.setData({
-        allOrders,
-        waitOrders: waitOrdersTemp
-      })
-    }
-
-
-  }
-
-
-
+    that.setData({
+      allOrders, waitOrders: waitOrder_int
+    })
+  },
 
 })

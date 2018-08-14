@@ -128,6 +128,13 @@ Page({
       uid,
     })
   },
+  //购物车为空，去下单
+  goToHotSale() {
+    console.log('购物车为空，去首页');
+    wx.reLaunch({ url: '../tabBar/home/index-new' });
+
+  },
+
   goDetail(e) {
     var theId = e.target.dataset.theId;
     var order_no = e.target.dataset.orderNo;

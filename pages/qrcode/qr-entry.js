@@ -4,7 +4,7 @@ import { Api } from '../../utils/api_2';
 let app = getApp();
 let qrData = '';
 let locationId = 155;
-let indexUrl = '../index-new/index-new';
+let indexUrl = '../../page/tabBar/index-new/index-new';
 Page({
   data: {
     store_id: '',
