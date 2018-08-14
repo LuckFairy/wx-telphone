@@ -21,9 +21,7 @@
     "page/common/pages/index-activity",
     "page/common/pages/index-boabao",
     "page/common/pages/my-order",
-    "page/common/pages/mydata",
-    "page/common/pages/open-result",
-    "page/common/pages/redbox",
+  
     "page/common/pages/score",
     "page/common/pages/search-card",
     "page/common/pages/shop-list",
@@ -42,7 +40,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
-    "navigationBarTitleText": "婴众趣购官方商城",
+    "navigationBarTitleText": "趣购精选官方商城",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
