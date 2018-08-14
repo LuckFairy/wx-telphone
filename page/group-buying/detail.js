@@ -5,7 +5,6 @@ let uid = wx.getStorageSync('userUid');
 let that
 
 Page({
-
   data: {
     order_type: null,
     dateText: '',

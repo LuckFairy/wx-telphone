@@ -844,9 +844,9 @@ Page({
     app.pushId(e).then(ids => {
       app.saveId(ids)
     });
-    var { type, tuanId, teamId, itemId } = e.currentTarget.dataset;
+    var { tuanId, teamId, itemId } = e.currentTarget.dataset;
     var prodId = this.data.prodId;
-    let url = `./group-join?prodId=${prodId}&tuanId=${tuanId}&type=${type}&teamId=${teamId}&itemId=${itemId}`;
+    let url = `./group-join?prodId=${prodId}&tuanId=${tuanId}&teamId=${teamId}&itemId=${itemId}`;
     wx.navigateTo({ url: url })
   },
 

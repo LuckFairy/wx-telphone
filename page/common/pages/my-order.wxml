@@ -38,41 +38,35 @@
       <text data-idx='4' >待审核</text>
     </view> -->
   </scroll-view>
-
-  <!-- nav详细内容展示区-->
+  <!-- order.status 0  临时订单 1 未支付 2 未发货 3已发货（对应待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中）-->
+  <!-- order.tuan_info.status拼团状态id,0=进行中，1=成功，2=失效，3=去支付 -->
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
-
     <!--全部  -->
     <swiper-item style='overflow-y: auto'>
       <scroll-view scroll-y="{{true}}" class='scroll-lists wait-money'>
+
         <view class="no-data-view" wx:if='{{!allOrders || allOrders.length < 1}}'>
           <icon class="no-data-image"></icon>
           <text class="mText" class="no-data-text">暂时没有订单哦 </text>
           <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
         </view>
 
-        <!-- 0  临时订单 1 未支付 2 未发货 3已发货（对应待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中）-->
         <block wx:else>
-          <view wx:for='{{allOrders}}' wx:for-item="order" wx:key="{{order.order_no_txt}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-status='{{order.status}}' data-new-trial="{{order.is_trial_product}}"
-            bindtap="pushToOrderDetail" class='purchase-data-total'>
+          <view wx:for='{{allOrders}}' wx:for-item="order" wx:key="{{order.order_no_txt}}" class="order-item-view navigator purchase-data-total" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}"  data-new-trial="{{order.is_trial_product}}" bindtap="{{(order.is_tuan==1&&order.tuan_info.status==2)?'':'pushToOrderDetail'}}">
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>
-
               <text wx:if='{{order.is_tuan==1}}' class='purchase-data-back'>拼团{{order.tuan_info.status_txt}}</text>
-
               <text wx:elif='{{order.is_tuan==0&&order.status==1}}' class='purchase-data-back'>未支付</text>
               <!--新品试用  -->
               <text wx:elif='{{order.status==2}}' class='purchase-data-back'>
-                  <text class='purchase-data-back' wx:if="{{order.is_trial_product==1}}">待收货</text>
+              <text class='purchase-data-back' wx:if="{{order.is_trial_product==1}}">待收货</text>
               <text class='purchase-data-back' wx:if="{{order.is_trial_product==0}}">未发货</text>
               </text>
               <text wx:elif='{{order.status==3}}' class='purchase-data-back'>待收货</text>
               <text wx:elif='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
               <text wx:elif='{{order.status==5}}' class='purchase-data-back'>已取消</text>
             </view>
-
             <block wx:if="{{order.is_tuan==0}}">
-
               <block>
                 <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
                   <view class='purchase-shop-list'>
@@ -88,9 +82,6 @@
                       <text class='purchase-price goods-pro-price'><text class='gray'>金额：</text>￥{{item.pro_price}}</text>
                     </view>
                   </view>
-                  <!-- <view class='purchase-satus goods-satus' wx:if='{{order.status==4 ||order.status==7}}'>
-                  <text class='purchase-status-detail' data-pro-id='{{item.id}}' catchtap='againBuy'>再次购买</text>
-                </view> -->
                 </view>
               </block>
               <view class="goods-price-view">
@@ -104,26 +95,20 @@
                 <text class='purchase-status-detail' data-isnewprod='{{order.is_trial_product}}' data-qrcode='{{order.trial_product_qrcode}}' catchtap='confirmNewGoods'>确认取货</text>
               </view>
               <!--新品试用  -->
-
               <view class='purchase-satus goods-satus' wx:if="{{order.status == 1}}">
                 <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
                 <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
               </view>
-
               <view class='purchase-satus goods-satus' wx:if="{{order.status == 3}}">
                 <!-- <text class='purchase-status-detail' catchtap='goSearch' >查看物流</text> -->
                 <!-- <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text> -->
                 <!-- <text class="purchase-status-detail" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text> -->
                 <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
-
               </view>
-
               <view class='purchase-satus goods-satus' wx:if="{{order.status == 4 || order.status == 7}}">
                 <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
                 <text class='purchase-status-detail' data-pro-id='{{order.order_product_list[0].id}}' catchtap='againBuy'>再次购买</text>
               </view>
-
-
             </block>
 
             <block wx:if="{{order.is_tuan==1}}">
@@ -142,7 +127,7 @@
               </view>
               <!-- 拼团状态id,0=进行中，1=成功，2=失效，3=去支付 -->
               <view wx:if="{{order.tuan_info.status ==0}}" class="purchase-satus goods-satus">
-                <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-imgurl='{{order.order_product_list[0].image}}' data-title="{{order.order_product_list[0].name}}" data-price="{{order.order_product_list[0].total}}">邀好友参团</button>
+                <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-imgurl='{{order.order_product_list[0].image}}' data-title="{{order.order_product_list[0].name}}" data-price="{{order.order_product_list[0].pro_price}}">邀好友参团</button>
                 <text class="purchase-status-detail" data-order-date="{{order.tuan_info.datelineText}}" data-order-no="{{order.order_no_txt}}" catchtap="onOrdeDetailClick">订单详情</text>
               </view>
               <view wx:if="{{order.tuan_info.status ==1}}" class="purchase-satus goods-satus">
@@ -172,8 +157,8 @@
         <view wx:if="{{unpayOrders && unpayOrders.length}}" class="order-list-view">
 
           <!--待付款-->
-          <view wx:for="{{unpayOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-status='{{order.status}}' data-new-trial="{{order.is_trial_product}}"
-            bindtap="pushToOrderDetail">
+          <view wx:for="{{unpayOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}"  data-new-trial="{{order.is_trial_product}}"
+ bindtap="pushToOrderDetail">
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>
               <text wx:if='{{order.status==1}}' class='purchase-data-back'>未支付</text>
@@ -265,7 +250,7 @@
             </view>
             <!-- 拼团状态id,0=进行中，1=成功，2=失效，3=去支付 -->
             <view wx:if="{{order.tuan_info.status ==0}}" class="purchase-satus goods-satus">
-              <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-imgurl='{{order.order_product_list[0].image}}' data-title="{{order.order_product_list[0].name}}" data-price="{{order.order_product_list[0].total}}">邀好友参团</button>
+              <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-imgurl='{{order.order_product_list[0].image}}' data-title="{{order.order_product_list[0].name}}" data-price="{{order.order_product_list[0].pro_price}}">邀好友参团</button>
               <text class="purchase-status-detail" data-order-date="{{order.tuan_info.datelineText}}" data-order-no="{{order.order_no_txt}}" catchtap="onOrdeDetailClick">订单详情</text>
             </view>
             <view wx:if="{{order.tuan_info.status ==1}}" class="purchase-satus goods-satus">
@@ -289,7 +274,7 @@
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists'>
         <view wx:if="{{transOrders && transOrders.length}}" class="order-list-view">
-          <view wx:for="{{transOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-status='{{order.status}}' data-new-trial="{{order.is_trial_product}}"
+          <view wx:for="{{transOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-new-trial="{{order.is_trial_product}}"
             bindtap="pushToOrderDetail">
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>
@@ -364,7 +349,7 @@
 
         <view wx:if="{{ReceivedOrders && ReceivedOrders.length}}" class="order-list-view">
 
-          <view wx:for="{{ReceivedOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].product_id}}" data-status='{{order.status}}' data-new-trial="{{order.is_trial_product}}"
+          <view wx:for="{{ReceivedOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].product_id}}"  data-new-trial="{{order.is_trial_product}}"
             bindtap="pushToOrderDetail">
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>

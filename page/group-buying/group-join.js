@@ -35,25 +35,30 @@ Page({
     imgNull:[],//剩余名额的图片数组
   },
 
-  onLoad: function (options) {
+  onLoad: function (opts) {
     var uid = wx.getStorageSync('userUid'), phy_id = wx.getStorageSync('phy_id');
     if (uid == undefined || uid == '') {
       wx.switchTab({
         url: '../tabBar/home/index-new',
       })
     }
-
-    let { prodId, tuanId, groupbuyOrderId, params, lacknum, action, tuantype=1} = options;
+    let  prodId=null, tuanId=null,  params={}, action=null;
+    if(opts.action){action=opts.action;this.setData({action})}
+    if(opts.type){this.setData({type:opts.type})}
+    if(opts.params){
+      opts.params = JSON.parse(opts.params);
+      params = opts.params; tuanId = opts.params.tuan_id; prodId=opts.params.prodId;
+    }else{
+      params = { "tuan_id": opts.tuanId,  "item_id": opts.itemId, "team_id": opts.teamId };
+      tuanId = opts.tuanId; prodId = opts.prodId;
+    }
+    console.log('params', params);
     this.setData({
       prodId,
       tuanId,
-      groupbuyOrderId,
-      uid, phy_id, tuantype, options
+      uid, phy_id, params
     });
-    
-    
     this.loadHotData(); //热门推荐数据
-
   },
   onReady: function () {
     // 页面渲染完成
@@ -61,7 +66,7 @@ Page({
   //多规格 onShow
   onShow: function () {
     wx.hideShareMenu();
-    this.loadData(this.data.options);
+    this.loadData(this.data.params);
     this._loadOrderData(); //换一批数据
   },
   onHide: function () {
@@ -77,7 +82,11 @@ Page({
     })
   },
   loadData(params) {
-    app.api.postApi(tuanDataUrl, { "params": { "tuan_id": params.tuanId, "type": params.type, "item_id": params.itemId, "team_id": params.teamId } }, (err, rep) => {
+    let that = this;
+    let type = this.data.type?this.data.type:1;
+    params = { "tuan_id": params.tuan_id, "type": type, "item_id": params.item_id, "team_id": params.team_id } ;
+    console.log('参团参数',params)
+    app.api.postApi(tuanDataUrl, {params}, (err, rep) => {
       
       if (err || rep.err_code != 0) { return that._showError('该团已经过期');};
       var { product, param, tuan, head_tuan, people_tuan } = rep.err_msg;

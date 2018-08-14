@@ -1,55 +1,6 @@
 
-const ORDER_STATUS_MOMENT = 0;    // 临时
-const ORDER_STATUS_PENDING = 1;    // 待处理（待付款）
-const ORDER_STATUS_PROCESSING = 2;    // 处理中（待发货）
-const ORDER_STATUS_SHIPPED = 3;    // 已发货
-const ORDER_STATUS_COMPLETE = 4;    // 已完成
-const ORDER_STATUS_CANCELED = 5;    // 已取消
-const ORDER_STATUS_REFUNDING = 6;   //退款中
-const ORDER_STATUS_RECEIVED = 7;   //已收货
-const ORDER_STATUS_DENIED = 8;    // 已拒绝（赠品申请时可拒绝）
-const ORDER_STATUS_FAILED = 10;   // 失败
-const ORDER_STATUS_UNCHECK = 17;   // 待审核（赠品申请时，订单状态为待审核）
-const ORDER_TUAN_PENDING = 5;   // 待拼团对应的index是5
-
-/*
-order_status_id	name	name
-1   等待处理	Pending
-2	  处理中	  Processing
-3	  已配送	  Shipped
-5	  完成	   Complete
-7	  已取消	  Canceled
-8	  已拒绝	  Denied
-9	  撤销取消	Canceled Reversal
-10	失败	   Failed
-11	已退款	   Refunded
-12	已撤单　	Reversed
-13	拒付	   Chargeback
-14	失效	   Expired
-15	已处理	   Processed
-16	无效	   Voided
-*/
-// 订单分类type
-/*
-order_type  name
-unpay        待付款
-unsend      待发货
-send        待收货
-complete    已完成
-all         全部
-*/
-/*订单状态码id
-order_status_id		name
-0     临时
-1     未支付
-2     未发货
-3     已发货
-4     已完成
-5     已取消
-6     退款中
-7     已收货
-*/
-
+ //order.status订单状态status,0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中）
+//order.tuan_info.status拼团状态tuan_info.status,0=进行中，1=成功，2=失效，3=去支付
 
 const util = require('../../../utils/util.js');
 let share = require('../template/share.js');
@@ -118,16 +69,18 @@ Page({
   onShareAppMessage: function (res) {
     let that = this, dataset = res.target.dataset;
     let store_id = that.data.storeId, uid = that.data.uid;
-    let opt, order;
-    order = dataset.params;
+    let opt, params;
+    params = dataset.params.tuan_info;
+    params.prodId = dataset.params.order_product_list[0].id;
+    params = JSON.stringify(params);
     that.setData({ showShareModal: false });
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
     }
-
+    console.log('params', params);
     var tip = `快来参团！${dataset.price}元包邮${dataset.title}这里比其他平台购买还便宜！！！猛戳.......`;
-    let url = `/page/group-buying/group-join?tuanId=${order.tuan_info.tuan_id}&type=${order.status}&itemId=${order.tuan_info.team_id}&teamId=${order.tuan_info.team_id}`;
+    let url = `/page/group-buying/group-join?params=${params}`;
     return {
       title: tip,
       path: url,
@@ -183,6 +136,7 @@ Page({
     });
   },
   onLoad: function (options) {
+    
     var that = this;
     var groupbuyId = options.groupbuyId;
     var groupbuyOrderId = options.groupbuyOrderId;
@@ -207,57 +161,6 @@ Page({
     let { page = 0 } = options;
     if (list) { page = list; }
     this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId: groupbuyId, groupbuyOrderId: groupbuyOrderId, prodId: prodId, uid: uid });
-    // wx.getStorage({
-    //   key: 'showclose',
-    //   success: function (res) {
-    //     that.setData({
-    //       showclose: res.data
-    //     })
-    //   }
-    // })
-    // // 判断是否从“我的”页面跳到拼团
-    // if (group == 0) {
-    //   that.setData({ curSwiperIdx: 1, curActIndex: 1, currentTab: 0 });
-    // }
-    // if(list==0){
-    //   that.setData({ curSwiperIdx: 0, curActIndex: 0});
-    // }else if(list==1){
-    //   that.setData({ curSwiperIdx: 1, curActIndex: 1, currentTab: 1 });
-    // } else if (list == 2) {
-    //   that.setData({ curSwiperIdx: 2, curActIndex: 2});
-    // } else if (list == 3) {
-    //   that.setData({ curSwiperIdx: 3, curActIndex: 3 });
-    // } else if (orderstatus==2){
-    //   that.setData({ curSwiperIdx: 2, curActIndex: 2 });
-    // } else if (list == 4){
-    //   that.setData({ curSwiperIdx: 4, curActIndex: 4 });
-    // }
-    // else if (groundBuy == 1) { 
-    //   //拿到点击了“不再提醒”后的存储值，以后都不再显示这个分享框
-    //   var stoList = wx.getStorageSync("showshare");
-    //   if (stoList == "false"){
-    //       that.setData({
-    //         showshare : false
-    //       })
-    //   }else{
-    //       that.setData({
-    //         showshare : true
-    //       })
-    //   }
-    //   that.setData({
-    //     curSwiperIdx: 1,
-    //     curActIndex: 1,
-    //     currentTab: 1,
-    //   });
-    // }
-    // else if (orderstatus == 2) {
-    //   that.setData({ curSwiperIdx: 2, curActIndex: 2});
-    // } else if (listsIndex ==4){
-    //   that.setData({ curSwiperIdx: 4, curActIndex: 4 });
-    // }
-    // // 确认收货跳转
-    // this.setData({ curSwiperIdx: goodsindex, curActIndex: goodsindex});
-    // 退换售后开始
     that.listReturnFun();
   },
   listReturnFun: function () {
@@ -415,8 +318,7 @@ Page({
       })
     } else {
       that.setData({
-        curSwiperIdx: 2,
-        curActIndex: 2
+        curSwiperIdx: 2
       });
     }
 
@@ -508,6 +410,7 @@ Page({
       });
       console.log('待成团',waitOrders);
       this.setData({ allOrders, momentOrders, unpayOrders, transOrders, ReceivedOrders, finishedOrders, uncheckOrders, groupOrders, waitOrders });
+      clearInterval(timer);
       that.nowTime();
       timer = setInterval(that.nowTime, 1000);
       typeof callback === 'function' && callback();
@@ -755,7 +658,7 @@ Page({
    * 查看订单详情 
    */
   pushToOrderDetail(e) {
-    let { orderId, productId, status, newTrial } = e.currentTarget.dataset;
+    let { orderId, productId, newTrial } = e.currentTarget.dataset;
     wx.navigateTo(
       { url: '../../shopping/pages/order-detail?orderId=' + orderId + '&productId=' + productId + '&newTrial=' + newTrial }
     );
@@ -904,7 +807,7 @@ Page({
 
   },
   nowTime() {//时间函数  intDiff是时间戳
-    let that = this, isUpdate = false,waitOrder_int=[];
+    let that = this,waitOrder_int=[];
     let {waitOrders,allOrders }=that.data;
     if (!waitOrders||waitOrders.length < 0) {clearInterval(timer);return;}
     let day = 0, hour = 0, minute = 0, second = 0;
@@ -912,7 +815,7 @@ Page({
    //0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 7 已收货（已收货） 5已取消 6 退款中（处理中）
    //拼团状态,0=进行中，1=成功，2=失效，3=去支付
     for (var i = 0; i < allOrders.length; i++) {
-      if (allOrders[i].is_tuan == 1 || allOrders[i].tuan_info.status==0){
+      if (allOrders[i].is_tuan == 1 && allOrders[i].tuan_info.status==0){
         let intDiff = (allOrders[i].tuan_info.end_time-timestamp);
         if (intDiff > 0) {//转换时间  
           day = Math.floor(intDiff / (60 * 60 * 24));

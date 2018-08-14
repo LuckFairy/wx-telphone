@@ -54,7 +54,7 @@ Page({
     var tip = `快来参团！${dataset.price}元包邮${dataset.title}这里比其他平台购买还便宜！！！猛戳.......`;
     return {
       title: tip,
-      path: `/page/group-buying/group-join?tuanId=${opt.tuan_id}&type=${opt.type}&itemId=${opt.item_id}&teamId=${opt.team_id}`,
+      path: `/page/group-buying/group-join?tuanId=${opt.tuan_id}&prodId=${opt.product_id}&itemId=${opt.item_id}&teamId=${opt.team_id}`,
       imageUrl: dataset.imgurl,
       success: function (res) {
         //开启分享成功弹窗

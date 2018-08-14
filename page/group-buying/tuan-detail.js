@@ -49,7 +49,7 @@ Page({
     var tip = `快来参团！${dataset.price}元包邮${dataset.title}这里比其他平台购买还便宜！！！猛戳.......`;
     return {
       title:tip,
-      path: `/page/group-buying/group-join?tuanId=${opt.tuan_id}&type=${opt.type}&itemId=${opt.item_id}&teamId=${opt.team_id}`,
+      path: `/page/group-buying/group-join?tuanId=${opt.tuan_id}&prodId=${that.data.prodId}&itemId=${opt.item_id}&teamId=${opt.team_id}`,
       imageUrl: dataset.imgurl,
       success: function (res) {
         //开启分享成功弹窗
@@ -110,7 +110,7 @@ Page({
     }
     var tuanType = '0';
 
-    let { tuanId, type, itemId, teamId, params, lacknum } = options;
+    let { tuanId, type, itemId, teamId, params } = options;
     if (params) {
       var opts = JSON.parse(unescape(params));
       //status	拼团状态，0：进行中，1：成功，2：失败
@@ -152,6 +152,7 @@ Page({
   },
   onUnload: function () {
     // 页面关闭
+    that.stopCountDown();
   },
   /**去商品详情 */
   detailClick() {
@@ -520,11 +521,11 @@ Page({
   */
   startCountDown(data) {
     var that = this;
+    that.stopCountDown();
     wx.showLoading({ title: '加载中', mask: true });
     this.timer = setInterval(() => {
       let now = new Date().getTime();
       var expireTime = data.end_time * 1000;
-      console.log('现在时间：', now, 'end_time:', expireTime);
       var leftTime = (expireTime - now) / 1000;
       var countdownText = this.countDown(leftTime);
       that.setData({countdownText});
