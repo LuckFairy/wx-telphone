@@ -33,7 +33,6 @@ Page({
     showSuccessModal: false,//确认模式层
     showShareModal: false,//分享成功后模式层
     shareData: [],//分享数据
-    share_tuan:[],
     isShow: true,//是否显示,默认全部显示
     currentTab: 0,
     showclose: true,
@@ -55,7 +54,7 @@ Page({
     var tip = `快来参团！${dataset.price}元包邮${dataset.title}这里比其他平台购买还便宜！！！猛戳.......`;
     return {
       title: tip,
-      path: `/page/group-buying/group-join?tuanId=${opt.tuan_id}&type=${opt.type}&itemId=${opt.item_id}&teamId=${opt.team_id}`,
+      path: `/page/group-buying/group-join?tuanId=${opt.tuan_id}&prodId=${opt.product_id}&itemId=${opt.item_id}&teamId=${opt.team_id}`,
       imageUrl: dataset.imgurl,
       success: function (res) {
         //开启分享成功弹窗
@@ -73,17 +72,12 @@ Page({
         })
       },
       fail: function (res) {
-        // wx.showModal({
-        //   title: '提示',
-        //   content: '分享失败！',
-        // })
+        wx.showModal({
+          title: '提示',
+          content: '分享失败！',
+        })
       }
     }
-  },
-  goToHotSale(){
-    wx.navigateTo({
-      url: './grouplist',
-    })
   },
   getCoupon() {
     let that = this;
@@ -126,7 +120,6 @@ Page({
       });
     }
     let { orderstatus } = options;
-    console.log('options',options)
     if (orderstatus == 0) { that.setData({ curActIndex: 1, curActIndex: 1 }) }//待成团
     else if (orderstatus == 1) { that.setData({ curActIndex: 2, curActIndex: 2 }) };//已成团
     uid = wx.getStorageSync('userUid');
@@ -135,6 +128,13 @@ Page({
       uid,
     })
   },
+  //购物车为空，去下单
+  goToHotSale() {
+    console.log('购物车为空，去首页');
+    wx.reLaunch({ url: '../tabBar/home/index-new' });
+
+  },
+
   goDetail(e) {
     var theId = e.target.dataset.theId;
     var order_no = e.target.dataset.orderNo;
@@ -186,6 +186,7 @@ Page({
     // 页面渲染完成
   },
   onShow: function () {
+    wx.hideShareMenu();
     // 页面显示
     this._loadOrderData();
   },
@@ -258,7 +259,7 @@ Page({
         return this._showError('网络出错，请稍候重试');
       }
       //console.info('订单数据 ',resp)
-      let { err_code, err_msg: { next_page=0, order_list = [] } } = resp;
+      let { err_code, err_msg: { next_page, order_list = [] } } = resp;
       if (err_code != 0) {
         return this._showError(err_msg);
       }
@@ -269,7 +270,7 @@ Page({
         let expireTime = item.end_time * 1000;
         item.diffTime = (expireTime - now) / 1000;
         allOrders.push(item);
-        let status = item.status;//0进行中，1成功，2失败，3去支付
+        let status = item.status;
         if (status == ORDER_TYPE_PENDING) {     //0：进行中
           waitOrders.push(item);
         } if (status == ORDER_TYPE_SUCCESS) { //1：成功

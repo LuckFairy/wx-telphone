@@ -7,9 +7,8 @@
 </view> -->
 
 <scroll-view class='content-container' scroll-y="{{true}}">
-
-  <view class='error-tip'>
-      <image class='error-tip-image' src='../../image/pur-defeat.png'>
+  <view class='error-tip'> 
+      <image class='error-tip-image' src='./resource/fail.png'>
       </image>
 
       <view class='error-tip-text'>
@@ -20,7 +19,6 @@
         赶紧召唤小伙伴来拼团吧~
         </view>
       </view>
-
   </view>
 
   <view class='addr-sec-lists' wx:if="{{address.address_user!=''||address.address_user.length<0}}">
@@ -40,7 +38,7 @@
 
   <view class='purchase-data-sd'>
     <text class='purchase-data-number'>{{dateText}}</text>
-    <!-- <text class='purchase-data-back'>进行中</text> -->
+     <!-- <text class='purchase-data-back'>{{statusText}}</text>  -->
   </view>
   <view class='purchase-shop-list'>
     <image class='purchase-shop-image' mode='aspectFit' src='{{product_list.image}}'></image>

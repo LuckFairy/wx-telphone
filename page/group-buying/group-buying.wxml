@@ -23,7 +23,7 @@
           </block> -->
         </view>
         <view class='mid-list-wraps-image' wx:if='{{sellout==1}}'>
-          <button class='mid-open-list' open-type='share' data-imgurl='{{image_lists[0]}}'  data-price="{{product.price}}" data-title='{{product.name}}'></button>
+          <button class='mid-open-list' open-type='share' data-imgurl='{{image_lists[0]}}'  data-price="{{product.price}}" data-title='{{product.name}}' ></button>
           <text class="mid-list-six-top">分享给好友</text>
         </view>
       </view>

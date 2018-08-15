@@ -1,7 +1,7 @@
 <import src="../common/template/share.wxml" />
 <template wx:if="{{showShareModal}}" is="share-modal" data="{{...shareData}}" />
 <!-- 顶部团情况 -->
-<view wx:if="{{tuanStatus=='0'}}" style='display:block'>
+<view wx:if="{{tuanType==0}}" style='display:block'>
   <view class="all-list">
     <view class="all-com-fri-det">
       <view class="all-commodity-img">
@@ -27,7 +27,7 @@
   </view>
   <view class="invite-friend-group">
     <scroll-view scroll-x class="invite-friend-pho">
-      <view wx:if="{{diffPeople==0}}" class='invite-friend-img'>
+      <view wx:if="{{tuanSatue==0}}" class='invite-friend-img'>
         <text class='header-tuan'>团长</text>
         <image src="{{head_tuan.avatar}}" class="inv-image"></image>
       </view>
@@ -41,14 +41,14 @@
     </scroll-view>
     <view class="invite-fri-num">
       <text class="peo-time total-peo-number"  >
-       <text wx:if="{{tuan.end_time>0}}">
+       <text wx:if="{{tuan.end_time>0&&tuan.diff_people>0}}">
       仅剩 <text style='color:red'> {{tuan.diff_people}} </text> 名额，{{countdownText['hour']}}:{{countdownText['minute']}}:{{countdownText['second']}}后结束
       </text>  
         <text class='last-time' wx:else>已结束</text>
       </text>
     </view>
     <view class="invite-friend-cluster">
-      <button open-type='share' class="invite-friend-text" data-params="{{product}}" data-imgurl="{{product.image}}" data-title="{{product.name}}" data-price="{{product.price}}">邀请好友参团</button>
+      <button open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.image}}" class="invite-friend-text">邀请好友参团</button>
     </view>
   </view>
   <view class='pro-detail'>
@@ -67,105 +67,13 @@
   </view>
   <!--中间一键结束  -->
 </view>
-<view  wx:elif="{{tuanStatus=='1'}}">
+<view wx:else>
   <view class='pintuan-succ'>
     <view class='pintuan-succ-one'>
       <image class='pintuan-succ-img' src='../../../image/check.png'></image>
       <text class='pintuan-succ-text'>拼团成功</text>
     </view>
     <button class='pintuan-succ-btn' catchtap='goGrouplist'>去拼团栏看看</button>
-    <scroll-view scroll-x class="invite-friend-pho">
-      <view wx:if="{{head_tuan}}" class='invite-friend-img'>
-        <text class='header-tuan'>团长</text>
-        <image src="{{head_tuan.avatar}}" class="inv-image"></image>
-      </view>
-      <view wx:if="{{people_tuan}}" wx:for="{{people_tuan}}" class='invite-friend-img'>
-        <image src="{{item.avatar}}" class="inv-image"></image>
-      </view>
-    </scroll-view>
-    <view class='pro-detail'>
-      <label catchtap='detailClick'>
-        <text class='item-text-one'>商品详情</text>
-        <icon class='right-go'></icon>
-      </label>
-      <label>
-        <text class='item-text-one'>收货人</text>
-        <text class='item-text-two'>{{addressList.address_user}}</text>
-      </label>
-      <label>
-        <text class='item-text-one'>手机号码</text>
-        <text class='item-text-two'>{{addressList.address_tel}}</text>
-      </label>
-      <label>
-        <text class='item-text-one'>收货地址</text>
-        <text class='item-text-two'>{{addressList.address}}</text>
-      </label>
-
-      <label>
-        <text class='item-text-one'>成团时间</text>
-        <text class='item-text-two'>{{addressList.start_time_txt}}</text>
-      </label>
-      <label>
-        <text class='item-text-one'>拼团须知 </text>
-        <text class='item-text-two'>好友参团.人满发货.人不满退款</text>
-      </label>
-    </view>
-  </view>
-
-</view>
-<view  wx:elif="{{tuanStatus=='2'}}">
-  <view class='pintuan-succ'>
-    <view class='pintuan-succ-one'>
-      <image class='pintuan-succ-img' src='../../../image/choose-close.png'></image>
-      <text class='pintuan-succ-text'>拼团失败</text>
-    </view>
-    <button class='pintuan-succ-btn' catchtap='goGrouplist'>去拼团栏看看</button>
-    <scroll-view scroll-x class="invite-friend-pho">
-      <view wx:if="{{head_tuan}}" class='invite-friend-img'>
-        <text class='header-tuan'>团长</text>
-        <image src="{{head_tuan.avatar}}" class="inv-image"></image>
-      </view>
-      <view wx:if="{{people_tuan}}" wx:for="{{people_tuan}}" class='invite-friend-img'>
-        <image src="{{item.avatar}}" class="inv-image"></image>
-      </view>
-    </scroll-view>
-    <view class='pro-detail'>
-      <label catchtap='detailClick'>
-        <text class='item-text-one'>商品详情</text>
-        <icon class='right-go'></icon>
-      </label>
-      <label>
-        <text class='item-text-one'>收货人</text>
-        <text class='item-text-two'>{{addressList.address_user}}</text>
-      </label>
-      <label>
-        <text class='item-text-one'>手机号码</text>
-        <text class='item-text-two'>{{addressList.address_tel}}</text>
-      </label>
-      <label>
-        <text class='item-text-one'>收货地址</text>
-        <text class='item-text-two'>{{addressList.address}}</text>
-      </label>
-
-      <label>
-        <text class='item-text-one'>成团时间</text>
-        <text class='item-text-two'>{{addressList.start_time_txt}}</text>
-      </label>
-      <label>
-        <text class='item-text-one'>拼团须知 </text>
-        <text class='item-text-two'>好友参团.人满发货.人不满退款</text>
-      </label>
-    </view>
-  </view>
-
-</view>
-<view  wx:else="{{tuanStatus=='3'}}">
-  <view class='pintuan-succ'>
-    <view class='pintuan-succ-one'>
-      <image class='pintuan-succ-img' src='../../../image/choose-close.png'></image>
-      <text class='pintuan-succ-text'>去支付</text>
-    </view>
-    <button class='pintuan-succ-btn' catchtap='goPayment'>去支付</button>
     <scroll-view scroll-x class="invite-friend-pho">
       <view wx:if="{{head_tuan}}" class='invite-friend-img'>
         <text class='header-tuan'>团长</text>

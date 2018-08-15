@@ -64,8 +64,8 @@
             </view>
 
             <view class="purchase-satus goods-satus">
-              <text wx:if="{{order.status==1}}" class="purchase-status-detail" data-order-id="{{order.order_id}}" catchtap="lookOrder" data-params="{{order}}">查看团详情</text>
-              <button wx:elif="{{order.status==0}}" class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-price="{{order.total}}"  data-title="{{order.name}}" data-imgurl="{{order.shareUrl?order.shareUrl:order.image}}">邀好友参团</button>
+              <text wx:if="{{order.status==1}}" class="purchase-status-detail"  data-order-id="{{order.order_id}}" catchtap="lookOrder" data-params="{{order}}">查看团详情</text>
+              <button wx:elif="{{order.status==0}}" class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}"  data-title="{{order.name}}" data-price="{{order.total}}" data-imgurl="{{order.image}}">邀好友参团</button>
               <text class="purchase-status-detail"  data-order-status="{{order.status}}" data-order-date="{{order.datelineText}}" data-order-no="{{order.order_no}}" catchtap="onOrdeDetailClick">订单详情</text>
             </view>
           </view>
@@ -101,7 +101,7 @@
               </view>
             </view>
             <view class="purchase-satus goods-satus">
-              <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-price="{{order.total}}"  data-title="{{order.name}}" data- data-imgurl="{{order.shareUrl?order.shareUrl:order.image}}">邀好友参团</button>
+              <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-title="{{order.name}}" data-price="{{order.total}}" data-imgurl="{{order.image}}">邀好友参团</button>
               <text class="purchase-status-detail" data-order-date="{{order.datelineText}}" data-order-no="{{order.order_no}}" catchtap="onOrdeDetailClick">订单详情</text>
             </view>
           </view>

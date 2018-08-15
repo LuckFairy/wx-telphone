@@ -55,7 +55,7 @@ Page({
     des_html: ["1、团购价购买此商品", "2、邀请好友来参团", "3、达到开团人数，商品发货。", "4、没达到开团人数，直接退款。"],//拼团规则
   },
   onShareAppMessage: function (res) {
-    let that = this, dataset = res.target.dataset;
+    let that = this,dataset=res.target.dataset;
     let { uid, store_id, prodId, tuanId, sellout } = that.data;
     that.setData({ showShareModal: false });
     if (res.from === 'button') {
@@ -133,6 +133,7 @@ Page({
     that.setData({ tuanId, prodId, sellout, uid, phy_id });
     that.loadData(prodId, tuanId);
     that.loadCartInfo();
+
     that._loadOrderData();
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
@@ -191,7 +192,6 @@ Page({
   //多规格 onShow
   onShow: function () {
     wx.hideShareMenu();
-
   },
   onHide: function () {
     // 页面隐藏
@@ -210,20 +210,7 @@ Page({
     wx.showLoading({ title: '加载中' });
     app.api.postApi(tuanDataUrl, { "params": { "tuan_id": tuanId } }, (err, rep) => {
       wx.hideLoading();
-      if (err || rep.err_code != 0) {
-        wx.showToast({
-          title: rep.err_msg,
-          icon: 'loading',
-          duration: 2000,
-          mask:true,
-          success:()=>{
-            setTimeout(()=>{
-              wx.navigateBack();
-            },2000);
-          }
-        });
-        
-        return };
+      if (err || rep.err_code != 0) { return };
       var { product, product_image_lists, store, tuan, tuan_config_list } = rep.err_msg;
       tuan_config_list.forEach(item => {
         if (item.grade_type == 0) {
@@ -839,6 +826,7 @@ Page({
     return { day, hour, minute, second };
 
   },
+
   //点击换一批
   clickReplace: function () {
     this.stopCountDown();
@@ -856,9 +844,9 @@ Page({
     app.pushId(e).then(ids => {
       app.saveId(ids)
     });
-    var { type, tuanId, teamId, itemId } = e.currentTarget.dataset;
+    var { tuanId, teamId, itemId } = e.currentTarget.dataset;
     var prodId = this.data.prodId;
-    let url = `./group-join?prodId=${prodId}&tuanId=${tuanId}&type=${type}&teamId=${teamId}&itemId=${itemId}`;
+    let url = `./group-join?prodId=${prodId}&tuanId=${tuanId}&teamId=${teamId}&itemId=${itemId}`;
     wx.navigateTo({ url: url })
   },
 

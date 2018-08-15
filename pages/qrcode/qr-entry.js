@@ -7,7 +7,7 @@ Page({
   data: {
     store_id: '',
     uid: null,
-    locationId: 0
+    locationId: 155
   },
   onLoad: function (options) {
     let { q } = options;
@@ -34,7 +34,7 @@ Page({
         let params = getUrlQueryParam(q, 'data');
         qrData = JSON.parse(params);
         let locationId = qrData.location_id;
-        if (!locationId) {locationId = 0;}
+        if (!locationId) {locationId = 155;}
         wx.setStorageSync('locationId', locationId);//存储locationId
         that.setData({ uid: uid, store_id: store_id, locationId });
        
@@ -43,7 +43,7 @@ Page({
           wx.switchTab({
             url: '../../page/tabBar/home/index-new',
           });
-        }, 3000);
+        }, 2000);
       }
     }
   },
@@ -71,6 +71,7 @@ Page({
   },
 
   redirctPageNew: function () {
+    console.log('进入页面', qrData)
     this.buildRedirctUrlNew();
     this.checkUserFirstVisitNew();
   },
@@ -101,36 +102,47 @@ Page({
     let hadnum = qrData.hadnum; //商品数量
     let pskId = qrData.pskId; //秒杀产品ID
     let action = qrData.action; //新品试用
-    let { resType, resId, activityId, location_id, lotteryId, prize,reditype,rediurl} = qrData;//跳链页面类型,
+    let { resType, resId, activityId, location_id, lotteryId, prize, reditype, rediurl } = qrData;//跳链页面类型,
     //resType跳转类型
-    let url = '',store_id = this.data.store_id;
+    let url = '', store_id = this.data.store_id;
+    console.log('qrData', qrData);
+    console.log('restype', resType)
     switch (resType) {
       //云屏活动
-      case 'cloud_screen':
-        // reditype栏目1 ，商品2，送券活动4
-        if (type == 1) {
+      case 'cloud_screen': console.log('reditype', reditype, rediurl);
+        // reditype栏目1 ，商品2，送券活动4，dm海报5，
+        // rediurl对应第二级栏目1爆款专区 2热销专区 3活动专区 4百货专区 5，6,7,8,9宝宝模块 10礼包特卖 11拼团 12增值活动
+        if (reditype == "1") {
           switch (rediurl) {
             //四个banner模块
-            case "1":  url = `../../page/common/pages/shop-list?categoryid=100&page=1&store_id=${store_id}&title=爆款专区`; break;
-            case "2":  url = `../../page/common/pages/shop-list?categoryid=101&page=1&store_id=${store_id}&title=热销专区`; break;
-            case "3":  url = `../../page/common/pages/shop-list?categoryid=105&page=1&store_id=${store_id}&title=活动专区`; break;
-            case "4":  url = `../../page/common/pages/shop-list?categoryid=102&page=1&store_id=${store_id}&title=百货专区`; break;
+            case "1": url = `../../page/common/pages/shop-list?categoryid=100&page=1&store_id=${store_id}&title=爆款专区`; break;
+            case "2": url = `../../page/common/pages/shop-list?categoryid=101&page=1&store_id=${store_id}&title=热销专区`; break;
+            case "3": url = `../../page/common/pages/shop-list?categoryid=105&page=1&store_id=${store_id}&title=活动专区`; break;
+            case "4": url = `../../page/common/pages/shop-list?categoryid=102&page=1&store_id=${store_id}&title=百货专区`; break;
             //宝宝模块
-            case "5":  url = `../../page/common/pages/index-boabao?listId=0&catId=92`; break;
-            case "6":  url = `../../page/common/pages/index-boabao?listId=1&catId=93`; break;
-            case "7":  url = `../../page/common/pages/index-boabao?listId=2&catId=94`; break;
-            case "8":  url = `../../page/common/pages/index-boabao?listId=3&catId=95`; break;
-            case "9":  url = `../../page/common/pages/index-boabao?listId=4&catId=97`; break;
+            case "5": url = `../../page/common/pages/index-boabao?listId=0&catId=92`; break;
+            case "6": url = `../../page/common/pages/index-boabao?listId=1&catId=93`; break;
+            case "7": url = `../../page/common/pages/index-boabao?listId=2&catId=94`; break;
+            case "8": url = `../../page/common/pages/index-boabao?listId=3&catId=95`; break;
+            case "9": url = `../../page/common/pages/index-boabao?listId=4&catId=97`; break;
             //礼包特卖模块
-            case "10": url = `../../common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`; break;
-            default: url ='';break;
+            case "10": url = `../../page/common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`; break;
+            //拼团
+            case "11": url = `../../page/group-buying/grouplist`; break;
+            //增值活动
+            case "12": url = `../../page/common/pages/index-mom`; break;
+
           }
-        } else if (type == 2) {
+        } else if (type == "2") {
           url = `../../page/common/pages/goods-detail?prodId=` + rediurl;
-        } else if (type == 4) {
-           url = `../../page/common/pages/activity-detail?id=` + rediurl;
-        } else {
-          url='';
+        } else if (type == "4") {
+          url = `../../page/common/pages/activity-detail?id=` + rediurl;
+        } else if (type = 5) {
+          console.log('dm海报');
+          url = `../../page/common/pages/index-activity`;
+        }
+        else {
+          console.log('未定义的跳转url');
         }
         break;
       //跳转到卡券领取页面
@@ -157,7 +169,7 @@ Page({
           url = url + JSON.stringify(data);
         })
         break;
-    //无这个页面
+      //无这个页面
       case 'redbox':
         url = '../../redbox/redbox?qrEntry=1';
         break;
@@ -174,18 +186,16 @@ Page({
         url = '../../page/common/pages/goods-detail?prodId=' + resId + '&productPrice=' + price + '&skPrice=' + skPrice + '&activityStatus=' + status + '&expireTime=' + expire_time + '&hadnum=' + hadnum + '&pskid=' + pskId + '&qrEntry=1';
         break;
       //首页
-      default:
-        url = '';
-        break;
+      default: url = ''; break;
     }
-  
+
     if (url.length > 0) {
       wx.redirectTo({
         url
       });
     } else {
       wx.switchTab({
-        url:'../../page/tabBar/home/index-new'//首页
+        url: indexUrl + `?locationid=${locationId}`,
       });
     }
     wx.hideLoading();

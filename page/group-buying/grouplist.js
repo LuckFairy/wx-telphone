@@ -49,6 +49,7 @@ Page({
     // 页面渲染完成
   },
   onShow:function(){
+    wx.hideShareMenu();
     // 页面显示
     //this.startCountDown();
   },

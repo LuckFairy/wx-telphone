@@ -15,7 +15,7 @@ Page({
   data: {
     showShareModal: false,//分享成功后模式层
     shareData: [],//分享數據
-    tuanStatus: 0,//拼团状态，0进行，1成功，2失败，3去支付
+    tuanType: 0,//拼团状态，1已成团，0未成团
     myType: 1,//1已成团，6未成团
     quantity: 0,//库存
     sku_list: [],//多属性列表
@@ -46,14 +46,10 @@ Page({
   onShareAppMessage: function (res) {
     let that = this, store_id = this.data.store_id, uid = this.data.uid, opt = this.data.param,dataset=res.target.dataset;
     that.setData({ showShareModal: false });
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
     var tip = `快来参团！${dataset.price}元包邮${dataset.title}这里比其他平台购买还便宜！！！猛戳.......`;
     return {
-      title: tip,
-      path: `/page/group-buying/group-join?tuanId=${opt.tuan_id}&type=${opt.type}&itemId=${opt.item_id}&teamId=${opt.team_id}`,
+      title:tip,
+      path: `/page/group-buying/group-join?tuanId=${opt.tuan_id}&prodId=${that.data.prodId}&itemId=${opt.item_id}&teamId=${opt.team_id}`,
       imageUrl: dataset.imgurl,
       success: function (res) {
         //开启分享成功弹窗
@@ -106,16 +102,29 @@ Page({
     });
   },
   onLoad: function (options) {
-    let uid = wx.getStorageSync('userUid');
-    let phy_id = wx.getStorageSync('phy_id');
-    let { tuanId, type, itemId, teamId, params, lacknum} = options;
+    var uid = wx.getStorageSync('userUid'), phy_id = wx.getStorageSync('phy_id');
+    if (uid == undefined || uid == '') {
+      wx.switchTab({
+        url: '../tabBar/home/index-new',
+      })
+    }
+    var tuanType = '0';
+
+    let { tuanId, type, itemId, teamId, params } = options;
     if (params) {
       var opts = JSON.parse(unescape(params));
+      //status	拼团状态，0：进行中，1：成功，2：失败
+      // tuanType: 0,//拼团状态，1已成团，0未成团
+      if(opts.status==1){
+        var tuanType = 1
+      }else{
+        var tuanType =0;
+      }
       this.setData({
         tuanId: opts.tuan_id,
         param: opts,
         groupbuyOrderId: opts.order_no,
-        uid, phy_id
+        uid, phy_id, tuanType
       });
     } else {
       var opts = { tuan_id: tuanId, type, item_id: itemId, team_id: teamId }
@@ -125,31 +134,8 @@ Page({
         uid, phy_id
       });
     }
-    //status	拼团状态，0：进行中，1：成功，2：失败
-    console.log('opts.......',opts);
-    if (opts.status){
-      var satus = opts.tuan_info?opts.tuan_info.status:opts.status;
-      this.setData({
-        tuanStatus: satus
-      });
-    }
     this.loadHotData(); //热门推荐数据
 
-  },
-  /**
-* 热门推荐数据处理
-*
-*/
-  loadHotData() {
-    var that = this;
-    var store_id = that.data.store_id, page = 1;
-    app.api.postApi(tuanlistsUrl, { "params": { store_id, page } }, (err, rep) => {
-      if (err || rep.err_code != 0) return;
-      var hotData = rep.err_msg;
-      that.setData({
-        hotData
-      })
-    });
   },
   onReady: function () {
     // 页面渲染完成
@@ -166,6 +152,7 @@ Page({
   },
   onUnload: function () {
     // 页面关闭
+    that.stopCountDown();
   },
   /**去商品详情 */
   detailClick() {
@@ -195,22 +182,23 @@ Page({
       var { product, param, tuan, head_tuan, people_tuan } = rep.err_msg;
       var len = tuan.diff_people, imgNull = [];
       var prodId = product.product_id;
-      var diffPeople = len > 0 ? 0 : len;
+      var tuanSatue = len > 0 ? 0 : 1;
       var sellout = product.quantity > 0 ? 1 : 0;
       if (len > 0) {
-        var j = len ;
+        var j = len > 2 ? 2 : len;
         for (let i = 0; i < j; i++) {
           imgNull.push({ img: '../../../image/noNull.png' });
         }
         this.setData({ imgNull })
       }
-      this.startCountDown(tuan);
+      if (len>0) { this.startCountDown(tuan);}
+     
       this.setData({
-        product, head_tuan, diffPeople, sellout, people_tuan, param, quantity: product.quantity, prodId, tuan
+        product, head_tuan, tuanSatue, sellout, people_tuan, param, quantity: product.quantity, prodId, tuan
       })
     });
   },
-  doBuy: function () { 
+  doBuy: function () {
     //弹窗属性窗口
     var moreChoose = !this.data.moreChoose;
     this.setData({ moreChoose });
@@ -533,6 +521,7 @@ Page({
   */
   startCountDown(data) {
     var that = this;
+    that.stopCountDown();
     wx.showLoading({ title: '加载中', mask: true });
     this.timer = setInterval(() => {
       let now = new Date().getTime();
@@ -581,7 +570,23 @@ Page({
       url: 'group-join'
     });
   },
+  /**
+ * 热门推荐数据处理
+ *
+ */
+  loadHotData() {
+    var that = this;
+    var store_id = that.data.store_id, page = 1;
 
+    app.api.postApi(tuanlistsUrl, { "params": { store_id, page } }, (err, rep) => {
+
+      if (err || rep.err_code != 0) return;
+      var hotData = rep.err_msg;
+      that.setData({
+        hotData
+      })
+    });
+  },
   //跳到拼团商品页
   goGroupDetail: function (e) {
     var { prodid, tuanid, quantity } = e.currentTarget.dataset;//商品id,团购id，数量
