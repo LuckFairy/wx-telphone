@@ -3,7 +3,7 @@ var app = getApp();
 let uid = wx.getStorageSync('userUid');
 let openid = wx.getStorageSync('openid');
 let store_id = app.store_id;
-var isFirst = true;//是否首次进入页面
+var isFirst = false;//是否首次进入页面
 // let categoryUrl = 'wxapp.        php?c=coupon&a=get_category_activity';//tab菜单接口
 const categoryUrl = 'wxapp.php?c=coupon&a=get_tag';//tab菜单接口
 const listUrl = 'wxapp.php?c=coupon&a=coupon_list_v2';//获取分类列表数据
@@ -17,15 +17,15 @@ Page({
     scrollLeftValue: 0,
     isPickerShow: false,
     isBgNeed: false,
-    isEmpty:true,
+    isEmpty: true,
     dataLength: 0,
-    showBjHeight:0,//显示分类时下部分背景高度
-    loadingone:false,//是否有下一页，true有，false没有
+    showBjHeight: 0,//显示分类时下部分背景高度
+    loadingone: false,//是否有下一页，true有，false没有
     current: 0,
-    dataList:null,
-    page:1,
-    activityid:1,
-    activity_err_msg:'',//tab列表
+    dataList: null,
+    page: 1,
+    activityid: 1,
+    activity_err_msg: [],//tab列表
     logo: ''
   },
 
@@ -68,7 +68,7 @@ Page({
 
     this.setData({
       current: e.detail.current,
-      isBgNeed:false,
+      isBgNeed: false,
       isPickerShow: false
     })
     this.loadIndexData();
@@ -106,44 +106,33 @@ Page({
     // 头部信息接口开始
     var params = {
       store_id,
-     // cate_id:2
+      // cate_id:2
     }
-    app.api.postApi(categoryUrl, { params}, (err, resp) => {
+    app.api.postApi(categoryUrl, { params }, (err, resp) => {
       wx.hideLoading();
+      if (err || resp.err_code != 0) { return; }
       var activity_err_msg = resp.err_msg;
-      that.setData({
-        activity_err_msg
-      });
-
-      if(activity_err_msg){
-        let tagId = activity_err_msg[0].tagId;
-        if(tagId){
-          that.setData({
-            activityid: tagId
-          });
-          // 加载内容
-          that.loadData(uid, store_id, page, tagId);
-        }
-      }
-      
-  
+      if (activity_err_msg.length <= 0) { return; }
+      that.setData({ activity_err_msg });
+      // 加载内容
+      that.loadData(uid, store_id, page, activity_err_msg[0].tagId);
     });
-    isFirst=false;
-   
+    isFirst = true;
+
   },
-  loadData(uid, store_id, page, activityid){
+  loadData(uid, store_id, page, activityid) {
     // 列表信息接口开始
     var that = this;
     var activityId = that.data.activityid;//优惠券类型，精选，奶粉，纸尿裤，玩具，棉品，辅食，其他
-    var params = { uid, store_id, page, tagId: activityid}
-    
+    var params = { uid, store_id, page, tagId: activityid }
+
     app.api.postApi(listUrl, { params }, (err, resp) => {
       wx.hideLoading();
       var dataList = resp.err_msg.list;
       var logo = resp.err_msg.logo;
       var loadingone = !resp.err_msg.noNextPage;
-      var dataLength=0;
-      if(dataList&&dataList.length>0){
+      var dataLength = 0;
+      if (dataList && dataList.length > 0) {
         dataLength = dataList.length;
       }
       that.setData({
@@ -155,31 +144,31 @@ Page({
     });
     //列表信息接口结束
   },
-  clickGo(e){
+  clickGo(e) {
     var that = this;
     // 拿到页码
     let page = that.data.page;
     // 获取current确定点击哪里
-   let { current,activityid } = e.currentTarget.dataset;
-    console.log(e,current,activityid);
+    let { current, activityid } = e.currentTarget.dataset;
+    console.log(e, current, activityid);
     that.setData({
       current, activityid
     });
     that.loadIndexData();
-    
+
     // that.loadData(uid, store_id, page, activityid);
   },
 
-  loadIndexData(){
+  loadIndexData() {
     // 拿到页码
     let page = this.data.page;
-    let index=parseInt(this.data.current);
+    let index = parseInt(this.data.current);
     let activity_err_msg = this.data.activity_err_msg;
-    var activityid = activity_err_msg[index].tagId ? activity_err_msg[index].tagId:'';
+    let activityid = activity_err_msg[index].tagId;
     this.loadData(uid, store_id, page, activityid);
   },
 
-  goDetail(e){
+  goDetail(e) {
     var activityid = e.currentTarget.dataset.activityId;
     var id = e.currentTarget.dataset.id;
     var endTime = e.currentTarget.dataset.endTime
@@ -197,14 +186,14 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if(!isFirst){
+    if (!isFirst) {
       this.loadIndexData();
     }
   },
@@ -213,34 +202,34 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

@@ -138,16 +138,6 @@ Page({
   onLoad: function (options) {
     
     var that = this;
-    var groupbuyId = options.groupbuyId;
-    var groupbuyOrderId = options.groupbuyOrderId;
-    var prodId = options.prodId;
-    var listsIndex = options.listsIndex;
-
-    var orderstatus = options.orderstatus;
-    var groundBuy = options.groundBuy;
-    var group = options.group;
-    var list = options.list;
-    var goodsindex = options.goodsindex;
     var showFlag = options.show;
     if (showFlag != 'undefined' && showFlag == 1) {
       that.setData({
@@ -155,12 +145,11 @@ Page({
       });
     }
     let uid = wx.getStorageSync('userUid');
-    // let uid = 7;
-
+   
     // 页面初始化 options为页面跳转所带来的参数
-    let { page = 0 } = options;
+    let { page = 0, list, groupbuyId='', groupbuyOrderId='', prodId=''} = options;
     if (list) { page = list; }
-    this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId: groupbuyId, groupbuyOrderId: groupbuyOrderId, prodId: prodId, uid: uid });
+    this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId, groupbuyOrderId,  prodId, uid });
     that.listReturnFun();
   },
   listReturnFun: function () {

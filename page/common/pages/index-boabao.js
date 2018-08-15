@@ -1,5 +1,5 @@
 var app = getApp();
-const getCategoryUrl = 'wxapp.php?c=category&a=get_category_by_pid';//宝宝title名称数据
+const getCategoryUrl = 'wxapp.php?c=index&a=get_icon';//宝宝title名称数据
 const getCategoryList = 'wxapp.php?c=product&a=babyCategory';//宝宝列表数据
 Page({
 
@@ -75,7 +75,7 @@ Page({
   onLoad: function (opts) {
     var that = this;
     // 5个tab数据 仅仅头部tab 不包括列表
-    app.api.postApi('wxapp.php?c=index&a=get_icon', { params:{ store_id: that.data.store_id } }, (err, rep) => {
+    app.api.postApi(getCategoryUrl, { params:{ store_id: that.data.store_id } }, (err, rep) => {
       if (!err && rep.err_code == 0) {
         this.setData({
           cat_list: rep.err_msg.icon_list

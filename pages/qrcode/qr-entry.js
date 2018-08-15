@@ -17,7 +17,6 @@ Page({
     var store_id = app.store_id; //store_id    
     var uid = wx.getStorageSync('userUid');
     console.log('uid',uid)
-
     this.setData({
       store_id,
       uid
@@ -215,7 +214,7 @@ Page({
       });
     } else {
       wx.switchTab({
-        url:'../../page/tabBar/home/index-new'//首页
+        url: indexUrl + `?locationid=${locationId}`,
       });
     }
     wx.hideLoading();
