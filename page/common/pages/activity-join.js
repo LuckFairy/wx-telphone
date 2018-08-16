@@ -55,9 +55,10 @@ Page({
       var len  = res.err_msg.pig_num;
       var pullimage = [];
       for(var i=0;i<len;i++){
-        pullimage.push({ url:"../../imgs/icon-upload.png",flag:true});
+        pullimage.push({ url:"../imgs/icon-upload.png",flag:true});
       }
       if (len == 0) { pullimage=[];}
+      // console.log(pullimage);
       this.setData({ queList, pullimage})
     })
   },
@@ -157,6 +158,12 @@ Page({
     }
     answerList.push(opt);
     this.setData({answerList})
+  },
+  bindChange: function (e) {
+    const val = e.detail.value
+    this.setData({
+      
+    })
   },
   goCofirm(){
     let that =this,arr=[],arr2;

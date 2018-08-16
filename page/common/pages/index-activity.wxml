@@ -10,7 +10,7 @@
       </view>
       <view class='area-bottom' bindtap='areaClickGo' data-type="{{item.type}}" data-id="{{item.id}}" data-src="{{item.content}}">
         <view>
-          <text>{{item.title}}</text>
+          <text class='nowrap'>{{item.title}}</text>
           <text>剩{{item.tdays}}天</text>
         </view>
         <view hidden>

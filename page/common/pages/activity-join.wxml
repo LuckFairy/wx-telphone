@@ -17,7 +17,12 @@
   <view class="question-containner" wx:if="{{queList.length>0}}">
       <view class="question-view" wx:for="{{queList}}" wx:for-item="item" wx:for-index="i">
         <label class="question-label">问题{{i+1}}：{{item.question}}</label>
-        <input class="question-input" data-id='{{item.id}}' placeholder="请如实填写" bindblur='queChange' />
+        <input wx:if="{{item.type==1}}" class="question-input" data-id='{{item.id}}' placeholder="请如实填写" bindblur='queChange' />
+         <!-- <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+            <view class="picker">
+              当前选择：{{array[index]}}
+            </view>
+          </picker> -->
       </view>
   </view>
 

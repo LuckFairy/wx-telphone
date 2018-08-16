@@ -742,11 +742,13 @@ color:#1b1b1b;
   justify-content: center;
   padding: 0 42rpx;
   padding-bottom: 38rpx;
+  line-height: 60rpx;
 }
 .card-banner-item{
   flex: 1;
   justify-content: center;
   align-items: center;
+  height: 60rpx;
 }
 .card-banner-item image{
   width: 36rpx;

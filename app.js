@@ -45,7 +45,6 @@ App({
     }
     //1、登录
     return new Promise((resolve, reject) => {
-
       that.WxService.login()
       .then(data => {
           console.log('jscode', data);
@@ -57,7 +56,7 @@ App({
           // 2、获取sessionkey
           return that.getSessionkey(params);
         }).then(data => {
-          console.log(data);
+          console.log('获取sessionkey',data);
           that.globalData.sessionKey = data.session_key;
           that.globalData.openid = data.openid;
           wx.setStorageSync('sessionKey', data.session_key);
@@ -343,7 +342,8 @@ App({
   loadJumpPin() {
     var that = this;
     var params = {
-      "num": 4
+      "num": 4,
+      "store_id": that.store_id
     };
     return new Promise(resolve => {
       that.api.postApi(__config.jumpintuanUrl, {

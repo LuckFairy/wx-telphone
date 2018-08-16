@@ -7,13 +7,27 @@
 page {
   background-color: #eee;
 }
-
+.nowrap{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.twowrap{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 view {
   display: flex;
   position: relative;
   box-sizing: border-box;
 }
-
+.modal-button{
+  justify-content: center;
+  border-top:#eee 1rpx solid;
+}
 .show-block {
   display: block;
 }
