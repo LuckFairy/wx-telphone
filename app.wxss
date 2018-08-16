@@ -13,7 +13,10 @@ view {
   position: relative;
   box-sizing: border-box;
 }
-
+.modal-button{
+  justify-content: center;
+  border-top:#eee 1rpx solid;
+}
 .show-block {
   display: block;
 }

@@ -1,17 +1,17 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/tabBar/shopping/shoppstore-index",
+    "page/tabBar/goods/cart",
+    "page/tabBar/my/myself",
     "page/common/pages/activity-hository",
     "page/common/pages/activity-hosDet",
     "page/common/pages/activity-detail",
     "page/common/pages/activity-join",
-    "page/common/pages/hotsale",        
+    "page/common/pages/hotsale",
     "page/common/pages/mycard",
-    "page/common/pages/mycardHistory",        
-    "page/common/pages/index-mom",          
-    "page/tabBar/shopping/shoppstore-index",
-    "page/tabBar/goods/cart",
-    "page/tabBar/my/myself",
+    "page/common/pages/mycardHistory",
+    "page/common/pages/index-mom",
     "page/common/pages/address-list",
     "page/common/pages/address",
     "page/common/pages/buy",
@@ -21,7 +21,6 @@
     "page/common/pages/index-activity",
     "page/common/pages/index-boabao",
     "page/common/pages/my-order",
- 
     "page/common/pages/score",
     "page/common/pages/search-card",
     "page/common/pages/shop-list",
@@ -59,7 +58,7 @@
         "pagePath": "page/tabBar/shopping/shoppstore-index",
         "text": "商城",
         "iconPath": "image/shoppstore.png",
-        "selectedIconPath": "image/shoppstore-select.png" 
+        "selectedIconPath": "image/shoppstore-select.png"
       },
       {
         "pagePath": "page/tabBar/goods/cart",
@@ -96,9 +95,7 @@
     },
     {
       "root": "page/goods/",
-      "pages": [
-
-      ]
+      "pages": []
     },
     {
       "root": "page/my/",
@@ -111,6 +108,5 @@
       ]
     }
   ],
- 
   "debug": true
 }

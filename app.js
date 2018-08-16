@@ -184,7 +184,7 @@ App({
   },
   loadJumpPin() {
     var that = this;
-    var params = { "num": 4 };
+    var params = { "num": 4 ,"store_id":that.store_id};
     return new Promise(resolve => {
       that.api.postApi(config.jumpintuanUrl, { params }, (err, rep) => {
         if (err || rep.err_code != 0) { console.error(err || rep.err_msg); return; }
@@ -195,5 +195,3 @@ App({
     })
   }
 })
-
-

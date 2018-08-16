@@ -1,5 +1,5 @@
-<import src="../../common/template/get-tel.wxml" />
- <template wx:if="{{!hasPhone}}" is="getphone-modal" data="{{templateData}}"></template> 
+<!-- <import src="../../common/template/get-tel.wxml" />
+ <template wx:if="{{!hasPhone}}" is="getphone-modal" data="{{templateData}}"></template>  -->
 
 <view class='myself'>
   <!--top  个人信息-->

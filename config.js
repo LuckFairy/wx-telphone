@@ -61,7 +61,7 @@ var config = {
 
 
   //弹窗提示参团信息
-  jumpintuanUrl: `wxapp.php?c=tuan_v2&a=pop_team_list`,
+  jumpintuanUrl: `wxapp.php?c=tuan_v2&a=pop_team_list_v2`,
 
   // 测试的请求地址，用于测试会话
   requestUrl: `https://${host}/testRequest`,
