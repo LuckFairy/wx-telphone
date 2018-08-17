@@ -6,7 +6,7 @@
  * AGENT  api请求中的hear参数
  * sid   店铺id
  */
-var isRelease = true;
+var isRelease = false;
 var host = "https://saas.qutego.com/"
 var testhost = "https://api.ljxhlaw.com/"
 var AGENT_ID = 2
@@ -16,8 +16,8 @@ var title = '趣购精选';
 var title_test = '婴众趣购';
 var phonetest = '4006088520';//测试客服电话
 var phone = '4000001312';//正式客服电话趣购精选
-var phoneTxt = '400-000-1312';
-var phonetesttTxt = '400-608-8520';
+var phoneTxt = '400-000-131';
+var serverTxt = 'yzkf139';
 var appid = 'wx57d5cde97d7e1fd3';//趣购精选appid:wxaeb0f3eeb93b3574婴众趣购appid: wx57d5cde97d7e1fd3';
 
 export default{
@@ -33,7 +33,11 @@ export default{
   //客服电话
   serverPhone: isRelease? phone:phonetest,
 
-  severPhoneTxt: isRelease ? phoneTxt : phonetesttTxt,
+  //客服电话txt
+  phoneTxt,
+
+  //客服微信
+  serverTxt,
 
   //店铺id
   sid: isRelease ? sid : sid_test,

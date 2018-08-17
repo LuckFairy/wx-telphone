@@ -16,6 +16,7 @@ page{
   align-items: center;
   height: 80rpx;
   background-color: #fff;
+  box-sizing: content-box;
 }
 
 .title {
@@ -26,7 +27,12 @@ page{
   color: #1b1b1b;
   margin-left: 25rpx;
 }
-
+.item-date-wrap .title{
+  width: 300rpx;
+}
+.add-baobao{
+  background:greenyellow;
+}
 
 .question-containner {
   margin-top: 20rpx;
@@ -56,6 +62,18 @@ page{
 	height: 80rpx;
 	background-color: rgba(244, 243, 243, 1);
 	border: solid 2px rgba(238, 238, 238, 1);
+}
+.question-select{
+  font-size: 28rpx;
+  padding:0 20rpx;
+  margin-top: 20rpx;
+  width: 600rpx;
+	height: 80rpx;
+  line-height: 80rpx;
+	background-color: rgba(244, 243, 243, 1);
+	border: solid 2px rgba(238, 238, 238, 1);
+  justify-content:space-between;
+  align-items: center;
 }
 
 .upload-containner {

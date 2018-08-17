@@ -37,8 +37,8 @@
 </text>
     <view class='apply-applications-wechat'>
       <text class='apply-applications-text'>客服电话:</text>
-        <text catchtap='calling' class='calling'>{{serverPhone}}</text>
-      <!-- <text class='apply-applications-rem' selectable='true'>zyyytxwd</text> -->
+        <text catchtap='calling' class='calling'>{{phoneTxt}}</text>
+      <!-- <text class='apply-applications-rem' selectable='true'>{{serverTxt}}</text> -->
     </view>
     <!-- <text class='apply-applications-copy'>长按微信号可复制</text>-->
     <text class='apply-applications-submit apply-applications-submit-total' bindtap="{{isSale?goSubmit:''}}" data-order-id='{{orderId}}' data-status='{{turnStatus}}' data-product-id='{{productId}}' wx:if='{{showHide}}'>提交申请</text>

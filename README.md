@@ -192,7 +192,7 @@ export default{
   //客服电话
   serverPhone: isRelease? phone:phonetest,
 
-  severPhoneTxt: isRelease ? phoneTxt : phonetesttTxt,
+  phoneTxt,
 
   //店铺id
   sid: isRelease ? sid : sid_test,

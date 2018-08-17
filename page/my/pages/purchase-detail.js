@@ -10,7 +10,8 @@ Page({
     order_no: '',
     status:'',
     statustxt: '',
-    serverPhone:app.serverphone
+    phoneTxt:app.config.phoneTxt,
+    serverTxt:app.config.serverTxt
   },
   calling() {
     app.calling();

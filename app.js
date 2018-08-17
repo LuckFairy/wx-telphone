@@ -13,7 +13,7 @@ App({
   api: ajax,
   store_id: __config.sid,
   WxService: new WxService,
-  serverphone: __config.severPhoneTxt,
+  config: __config,
   globalData: {
     code: null,
     userInfo: null,
@@ -235,12 +235,8 @@ App({
       } else {
         that.globalData.uid = uid;
       }
-      let {
-        detail: {
-          formId = ''
-        }
-      } = e;
-      let timeStamp = Date.parse(new Date()) / 1000; //时间戳
+      let { detail: { formId = '' } } = e;
+      let timeStamp = Date.parse(new Date()) / 1000;//时间戳
       if (formId.includes('formId')) {
         wx.showToast({
           title: '请用手机调试',
@@ -248,20 +244,18 @@ App({
           duration: 2000
         });
         reject('要使用手机调试才有formId！');
+        return;
       };
-      if (formId == '') {
-        reject('formId不能为空');
-      }
-      let ids = that.globalData.formIds || [];
+
+      if (formId == '') { reject('formId不能为空'); return; }
+      let ids = [];
       ids.push({
         timeStamp,
         token: formId,
       })
-      that.globalData.formIds = ids;
       console.info('form提交.....ids ', ids);
       resolve(ids);
     })
-
   },
   /**
    * 提交订单

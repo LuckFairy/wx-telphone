@@ -4,7 +4,7 @@
 page {
   background: #fff;
 }
-
+button.current-buying::after{border:none;}
 .item-split-line {
   width: 750rpx;
   height: 10px;

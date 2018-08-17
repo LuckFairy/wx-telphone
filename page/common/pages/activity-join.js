@@ -18,6 +18,8 @@ Page({
     pullimage:[],
     error:null,
     imgFlag:true,
+    index:0,
+    otherRequest:[],
   },
 
   onLoad: function (options) {
@@ -52,14 +54,29 @@ Page({
       console.log(res);
       if(err||res.err_code!=0){return false;}
       var queList = res.err_msg.questions;
+      var request_other = res.err_msg.request_other[0];
       var len  = res.err_msg.pig_num;
+      if(request_other==1){
+        var index = 1, otherRequest=[];
+        otherRequest=[
+          {
+            title:`*宝宝${index}生日（预产期）`,
+            date: '2018-01-01',
+            sex:[
+              { name: 'boy', value: '男孩', checked: 'true' },
+              { name: 'girl', value: '女孩' },
+              { name: 'no', value: '未知' },
+            ]
+          }
+        ];
+      }
       var pullimage = [];
       for(var i=0;i<len;i++){
         pullimage.push({ url:"../imgs/icon-upload.png",flag:true});
       }
       if (len == 0) { pullimage=[];}
       // console.log(pullimage);
-      this.setData({ queList, pullimage})
+      this.setData({ queList, pullimage, otherRequest})
     })
   },
   chooseImage(e){
@@ -117,7 +134,7 @@ Page({
   delImage(e){
     let pullimage = this.data.pullimage;
     let that = this, index = e.target.dataset.index;
-    var opt = { url: "../../../image/icon-upload.png", flag: true };
+    var opt = { url: "../imgs/icon-upload.png", flag: true };
     pullimage.splice(index, 1, opt);
     that.setData({ pullimage });
   },
@@ -159,11 +176,43 @@ Page({
     answerList.push(opt);
     this.setData({answerList})
   },
-  bindChange: function (e) {
-    const val = e.detail.value
+  bindPickerChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
-      
+      index: e.detail.value
     })
+  },
+  bindChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      index: e.detail.value
+    })
+  },
+  bindDateChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      date: e.detail.value
+    })
+  },
+  radioChange: function (e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value)
+  },
+  addList:function(){
+    let that = this;
+    let { otherRequest}  = that.data;
+    let index = otherRequest.length+1;
+    let item = 
+      {
+        title: `*宝宝${index}生日（预产期）`,
+        date: '2018-01-01',
+        sex: [
+          { name: 'boy', value: '男孩', checked: 'true' },
+          { name: 'girl', value: '女孩' },
+          { name: 'no', value: '未知' },
+        ]
+      };
+    otherRequest.push(item);
+    that.setData({ otherRequest})
   },
   goCofirm(){
     let that =this,arr=[],arr2;

@@ -10,24 +10,47 @@
     </view>
     <view class="item-view">
       <label class="title">手机号码*</label>
-      <input style="flex:1;" bindblur="telChange" type="number"  maxlength="18"  value='{{tel}}'  placeholder="请输入你的手机号码" />
+      <input style="flex:1;" bindblur="telChange" type="number" maxlength="18" value='{{tel}}' placeholder="请输入你的手机号码" />
     </view>
   </view>
 
   <view class="question-containner" wx:if="{{queList.length>0}}">
-      <view class="question-view" wx:for="{{queList}}" wx:for-item="item" wx:for-index="i">
-        <label class="question-label">问题{{i+1}}：{{item.question}}</label>
-        <input wx:if="{{item.type==1}}" class="question-input" data-id='{{item.id}}' placeholder="请如实填写" bindblur='queChange' />
-         <!-- <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
-            <view class="picker">
-              当前选择：{{array[index]}}
-            </view>
-          </picker> -->
+    <view class="question-view" wx:for="{{queList}}" wx:for-item="item" wx:for-index="i">
+      <label class="question-label">问题{{i+1}}：{{item.question}}</label>
+      <input wx:if="{{item.type=='1'}}" class="question-input" data-id='{{item.id}}' placeholder="请如实填写" bindblur='queChange' />
+      <picker wx:if="{{item.type=='2'}}" bindchange="bindPickerChange" value="{{index}}" range="{{item.answers}}">
+        <view class="question-select">
+          {{item.answers[index]}}
+          <image src='../imgs/down.png' style='width:29rpx;height:17rpx;float:right;'></image>
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class="item-containner item-date-wrap" wx:if="{{otherRequest.length>0}}">
+    <block wx:for="{{otherRequest}}" wx:for-item="item">
+      <view class="item-view">
+        <label class="title">宝宝1生日（预产期）*</label>
+        <picker mode="date" value="{{item.date}}" start="1900-09-01" end="2020-09-01" bindchange="bindDateChange">
+          <view class="picker" style="flex:1;">
+            {{item.date}}
+          </view>
+        </picker>
       </view>
+      <view class="item-view">
+        <label class="title" style='width:160rpx;'>*性别</label>
+        <radio-group  class="radio-group" bindchange="radioChange">
+          <block wx:for="{{item.sex}}" wx:for-item="sex">
+            <radio   value="{{sex.name}}" checked="{{sex.checked}}" />{{sex.value}}
+           </block>
+        </radio-group>
+      </view>
+    </block>
+    <view class='item-view' style="padding:20rpx 0">
+      <button catchtap='addList' class='add-baobao'>再添加一个宝宝</button>
+    </view>
   </view>
 
   <view class="upload-containner" wx:if="{{pullimage.length>0}}">
-
     <view class="upload-tip">
       上传图片
       <text class="upload-tip-text">（照片不能超过5M）</text>

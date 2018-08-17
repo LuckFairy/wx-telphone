@@ -1275,6 +1275,7 @@ top:200rpx;
   z-index: 22222;
   overflow: hidden;
   overflow-y: auto;
+  justify-content: space-between;
 }
 
 .invite-total {
@@ -1380,7 +1381,17 @@ top:200rpx;
   text-align: center;
   color: #1b1b1b;
 }
-
+button.current-buying-child{
+  background:none;
+  border-radius: 0;
+  padding: 0;
+  box-sizing: content-box;
+  -webkit-tap-highlight-color:transparent;
+  border-color: none;
+  }
+button.current-buying-child::after{
+  border:none;
+}
 /*即将开抢  */
 
 .current-rob {

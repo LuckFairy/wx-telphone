@@ -74,7 +74,6 @@
     </view>
     <!--他人正在开团结束  -->
 
-
     <!--拼团规则开始  -->
     <view class="gro-products" wx:if="{{des_html.length>0}}" bindtap='showDetail' data-liststatus='{{listStatus}}'>
       <text class='gro-buy-pro'>拼团规则</text>
@@ -170,9 +169,8 @@
       </view>
     </view>
     <!--一般购买  -->
-    <form report-submit='true' bindsubmit="goPayment" data-status="1">
+    <form report-submit='true' bindsubmit="goPayment">
       <button form-type='submit' class='go-confirm'> 确定</button>
     </form>
-    <!-- <text  data-status="1" bindtap='goPayment'  class='go-confirm'>确定</text> -->
   </view>
 </view>

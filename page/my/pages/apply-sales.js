@@ -12,7 +12,8 @@ Page({
     rtnCode:'',
     showHide:true,
     isSale:true,
-    serverPhone:app.serverphone
+    phoneTxt:app.config.phoneTxt,
+    serverTxt:app.config.serverTxt
   },
   calling(){
     app.calling();

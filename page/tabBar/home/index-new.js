@@ -654,7 +654,7 @@ Page({
   //点击事件banner菜单
   clickGo: function (e) {
     let that = this;
-    let { index } = e.currentTarget.dataset;
+    let { index } = e.detail.target.dataset;
     //1:扫一扫,2:DM海报,3:领券,4:新品试用,5:母婴服务,6:送券活动,7:礼包特卖,8:秒杀专区,9:孕妈馆,10:萌宝潮搭,11:宝贝成长,12:新生儿馆
     let url =null;
     switch(index){
