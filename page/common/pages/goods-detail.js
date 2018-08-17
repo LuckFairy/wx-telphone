@@ -330,18 +330,7 @@ Page({
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
     console.log('加入购物车', e)
-    var product_id = e.currentTarget.dataset.productId;
-    // that.setData({
-    //   moreChoose: true,
-    //   oneMatching: oneMatching,
-    //   oriPid: "",
-    //   curTabs: '',
-    //   arrone: '',
-    //   arrotwo: "",
-    //   product_id: product_id,
-    //   goAddCard: true,
-    //   goPayment: false
-    // });
+    var product_id = e.detail.target.dataset.productId;
     var uid = that.data.uid;
     var store_id = that.data.store_id;
     var params = {
@@ -350,6 +339,7 @@ Page({
       store_id
     }
     that.loadCartInfo(params);
+    
   },
   goImageClose() {
     var that = this;

@@ -1132,6 +1132,7 @@ button[type=warn] {
   z-index: 22222;
   overflow: hidden;
   overflow-y: auto;
+  justify-content: space-between;
 }
 
 .invite-total {
@@ -1190,7 +1191,17 @@ button[type=warn] {
   line-height: 88rpx;
   text-align: center;
 }
-
+button.current-buying-child{
+  background:none;
+  border-radius: 0;
+  padding: 0;
+  box-sizing: content-box;
+  -webkit-tap-highlight-color:transparent;
+  border-color: none;
+  }
+button.current-buying-child::after{
+  border:none;
+}
 .invite-car-img {
   width: 44rpx;
   height: 44rpx;

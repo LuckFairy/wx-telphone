@@ -104,9 +104,12 @@
     <view wx:if="{{action =='present'}}" class='current-buying invite-total'  data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'  bindtap="goPreApply" >
       <text class='current-buying-child'>申请试用</text>
     </view>
-     <view wx:if="{{action !='present'}}" class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
+     <!-- <view wx:if="{{action !='present'}}" class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
       <text class='current-buying-child'>立即购买</text>
-    </view>
+    </view> -->
+    <form bindsubmit='doBuy' report-submit='true' wx:if="{{action !='present'}}" class='current-buying invite-total'  >
+    <button form-type='submit' class='current-buying-child' data-product-id='{{product.product_id}}'>立即购买</button>
+    </form>
   </view>
 </block>
 <!--已经售罄  -->

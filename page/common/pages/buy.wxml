@@ -280,9 +280,6 @@
   <form report-submit='true' bindsubmit="{{submitOk?'submitOrder':''}}" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>
     <button form-type='submit' class='current-buying invite-total'> 立即购买</button>
   </form>
-  <!-- <view class='current-buying invite-total' bindtap="submitOrder"  data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>
-        <text class='current-buying-child'>立即购买</text>
-      </view> -->
 
 </view>
 <!--购买成功之后弹窗  -->

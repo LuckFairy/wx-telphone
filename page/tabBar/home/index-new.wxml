@@ -41,13 +41,13 @@
       </view>
     </view>
     <!--列表选项区域  -->
-    <form bindsubmit='submitOrder' report-submit='true' wx:if='{{indexIcon.length>0}}'>
+    <form bindsubmit='areaClickGo' report-submit='true' wx:if='{{indexIcon.length>0}}'>
       <view class='list-select-area '>
         <view class="list-select-area-bottom">
-          <view wx:for="{{indexIcon}}" class='select-list ' bindtap='areaClickGo' data-redi_type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}">
+          <view wx:for="{{indexIcon}}" class='select-list' >
             <image class='select-list-image ' src='{{item.image}} '></image>
             <text class='select-list-text '>{{item.title}}</text>
-            <!-- <button form-type='submit ' class='sub-button ' bindtap='areaClickGo '>按钮</button> -->
+            <button form-type='submit' class='sub-button' data-redi_type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}">按钮</button>
           </view>
         </view>
       </view>

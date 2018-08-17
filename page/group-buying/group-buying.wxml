@@ -170,9 +170,9 @@
       </view>
     </view>
     <!--一般购买  -->
-    <form report-submit='true' bindsubmit="goPayment" data-status="1">
-      <button form-type='submit' class='go-confirm'> 确定</button>
+    <form report-submit='true' bindsubmit="goPayment" >
+      <button form-type='submit'  class='go-confirm'> 确定</button>
     </form>
-    <!-- <text  data-status="1" bindtap='goPayment'  class='go-confirm'>确定</text> -->
+    
   </view>
 </view>

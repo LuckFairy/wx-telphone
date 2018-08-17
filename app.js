@@ -98,7 +98,6 @@ App({
   pushId(e) {
     console.info('form提交..... ', e.detail);
     var that = this;
-
     return new Promise((resolve, reject) => {
       var uid = wx.getStorageSync('userUid');
       if (uid == undefined || uid == '') {
@@ -119,20 +118,21 @@ App({
           duration: 2000
         });
         reject('要使用手机调试才有formId！');
+        return;
       };
-      if (formId == '') { reject('formId不能为空'); }
-      let ids = that.globalData.formIds || [];
+  
+      if (formId == '') { reject('formId不能为空');return;}
+      let ids =[];
       ids.push({
         timeStamp,
         token: formId,
       })
-      that.globalData.formIds = ids;
       console.info('form提交.....ids ', ids);
       resolve(ids);
     })
   },
   /**
- * 提交订单
+ * 收集formid
  */
   saveId: function (formIds) {
     var that = this; var uid = wx.getStorageSync('userUid');
@@ -145,8 +145,8 @@ App({
     } else {
       that.globalData.uid = uid;
     }
-    if (formIds.length == 0) {
-      wx.showToast({ title: '推送消息失败，无formIds', });
+    if (!formIds||formIds.length <=0) {
+      // wx.showToast({ title: '推送消息失败，无formIds', });
       return;
     };
     var params = {

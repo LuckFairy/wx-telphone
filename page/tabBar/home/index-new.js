@@ -95,6 +95,7 @@ Page({
   * 提交订单
   */
   submitOrder: function (e) {
+    console.log('formid')
     let that = this;
     //保存formid
     app.pushId(e).then(ids => {
@@ -655,10 +656,18 @@ Page({
    * 精选活动跳链
    */
   areaClickGo(e) {
-    var params = e.currentTarget.dataset;
-    console.log('精选活动跳链', params);
-    var type = e.currentTarget.dataset.redi_type;
-    var id = e.currentTarget.dataset.rediurl;
+    let that = this;
+    //保存formid
+    app.pushId(e).then(ids => {
+      app.saveId(ids)
+    });
+    console.log(e);
+    let { redi_type, rediurl } = e.detail.target.dataset;
+    // var params = e.currentTarget.dataset;
+    // console.log('精选活动跳链', params);
+    // var type = e.currentTarget.dataset.redi_type;
+    // var id = e.currentTarget.dataset.rediurl;
+    var type=redi_type,id=rediurl;
 
     console.log('type', type);
     console.log('id', id);

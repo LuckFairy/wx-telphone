@@ -55,7 +55,7 @@ Page({
       var len  = res.err_msg.pig_num;
       var pullimage = [];
       for(var i=0;i<len;i++){
-        pullimage.push({ url:"../../imgs/icon-upload.png",flag:true});
+        pullimage.push({ url:"../imgs/icon-upload.png",flag:true});
       }
       if (len == 0) { pullimage=[];}
       this.setData({ queList, pullimage})
@@ -116,7 +116,7 @@ Page({
   delImage(e){
     let pullimage = this.data.pullimage;
     let that = this, index = e.target.dataset.index;
-    var opt = { url: "../../../image/icon-upload.png", flag: true };
+    var opt = { url: "../imgs/icon-upload.png", flag: true };
     pullimage.splice(index, 1, opt);
     that.setData({ pullimage });
   },

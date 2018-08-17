@@ -630,6 +630,7 @@ page {
   box-shadow: 0;
   border: none;
 }
+button.current-buying::after{border:none;}
 
 .current-buying-child {
   display: block;

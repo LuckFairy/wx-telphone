@@ -1,4 +1,4 @@
-
+button.go-confirm::after{border:none}
 .group-buy-wrap {
   width: 750rpx;
   display: block;

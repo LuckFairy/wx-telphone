@@ -38,6 +38,11 @@ Page({
         return this._showError(err_msg);
       }
       data = null ? [] : data;
+      if (data.length > 1) {
+        for (var i in data) {
+          data[i].diff = Number(data[i].original_price - data[i].price).toFixed(2);
+        }
+      }
       this.setData({ dataList: data });
 
     });
