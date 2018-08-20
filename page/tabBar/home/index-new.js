@@ -399,19 +399,6 @@ Page({
     });
   },
   /**
-   * 消息推送
-   */
-  sub(e) {
-    app.pushId(e);
-  },
-  submit() {
-    app.submit();
-  },
-  send() {
-    app.send();
-  },
-
-  /**
    * 新用户领券
    */
   getCoupon() {

@@ -5,10 +5,10 @@
     "page/tabBar/goods/cart",
     "page/tabBar/my/myself",
 
+    "page/common/pages/activity-join",
     "page/common/pages/activity-hository",
     "page/common/pages/activity-hosDet",
     "page/common/pages/activity-detail",
-    "page/common/pages/activity-join",
     "page/common/pages/hotsale",        
     "page/common/pages/mycard",
     "page/common/pages/mycardHistory",        

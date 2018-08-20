@@ -51,7 +51,7 @@ Page({
     }
     app.api.postApi(_urlDetail, { params }, (err, res)=>{
       wx.hideLoading();
-      console.log(res);
+      console.log('返回的数据',res);
       if(err||res.err_code!=0){return false;}
       var queList = res.err_msg.questions;
       var request_other = res.err_msg.request_other[0];
@@ -60,13 +60,8 @@ Page({
         var index = 1, otherRequest=[];
         otherRequest=[
           {
-            title:`*宝宝${index}生日（预产期）`,
-            date: '2018-01-01',
-            sex:[
-              { name: 'boy', value: '男孩', checked: 'true' },
-              { name: 'girl', value: '女孩' },
-              { name: 'no', value: '未知' },
-            ]
+            birthday: '2018-01-01',
+            sex:'1'
           }
         ];
       }
@@ -166,20 +161,29 @@ Page({
     this.setData({tel:val});
   },
   queChange(e){
-    console.log(e)
     let val = e.detail.value, id = e.target.dataset.id, answerList = this.data.answerList;
     if(!val||val.length<1){return;}
     var opt={
       question_id:id,
       answer:val,
+      type:1
     }
     answerList.push(opt);
     this.setData({answerList})
   },
   bindPickerChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
+    console.log('picker发送选择改变，携带值为', e.detail.value);
+    let val = e.detail.value, id = e.target.dataset.id, answerList = this.data.answerList;
+    if (!val || val.length < 1) { return; }
+    var opt = {
+      question_id: id,
+      answer: val,
+      type: 2
+    }
+    answerList.push(opt);
     this.setData({
-      index: e.detail.value
+      index: val,
+      answerList
     })
   },
   bindChange: function (e) {
@@ -189,13 +193,20 @@ Page({
     })
   },
   bindDateChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
+    console.log('picker发送选择改变，携带值为', e.detail.value, e.target.dataset.index);
+    let {index}=e.target.dataset,val = e.detail.value;
+    let { otherRequest}=this.data;
+    otherRequest[index].birthday = val;
     this.setData({
-      date: e.detail.value
+      otherRequest
     })
   },
   radioChange: function (e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    console.log('radio发生change事件，携带value值为：', e.detail.value, e.target.dataset.index);
+    let { index } = e.target.dataset, val = e.detail.value;
+    let { otherRequest } = this.data;
+    otherRequest[index].sex = val;
+    this.setData({ otherRequest})
   },
   addList:function(){
     let that = this;
@@ -203,20 +214,15 @@ Page({
     let index = otherRequest.length+1;
     let item = 
       {
-        title: `*宝宝${index}生日（预产期）`,
-        date: '2018-01-01',
-        sex: [
-          { name: 'boy', value: '男孩', checked: 'true' },
-          { name: 'girl', value: '女孩' },
-          { name: 'no', value: '未知' },
-        ]
+        birthday: '2018-01-01',
+        sex:'1'
       };
     otherRequest.push(item);
     that.setData({ otherRequest})
   },
   goCofirm(){
     let that =this,arr=[],arr2;
-    let { fullname, tel, answerList, pullimage,id,uid,sid,imgFlag}=that.data;
+    let { fullname, tel, answerList, pullimage, id, uid, sid, imgFlag, otherRequest}=that.data;
     if(!imgFlag){
       that._showError("等待图片上传完成");
       return;
@@ -242,8 +248,10 @@ Page({
       "user_name": fullname,
       "user_phone": tel,
       "imgs": arr,
-      "answers": answerList
+      "answers": answerList,
+      "baby_data": otherRequest
     }
+    console.log(_urlsubmit,params);
     app.api.postApi(_urlsubmit,{params},(err,res)=>{
       if(err||res.err_code!=0){return that._showError(res.err_msg)}
       wx.redirectTo({
