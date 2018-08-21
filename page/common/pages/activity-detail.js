@@ -86,7 +86,7 @@ Page({
         store_id: that.data.storeId
       }
       var postUrl = _urlDetail_v2;
-    
+      
     }else{
       var params = {
         id: id,
@@ -96,7 +96,7 @@ Page({
       var postUrl = _urlDetail;
 
     }
-    console.log('uid',uid,'相片活动请求的url=', postUrl);
+    console.log('uid',that.data.uid,'相片活动请求的url=', postUrl);
     app.api.postApi(postUrl, { params},(err,rep)=>{
       console.log(rep);
       if (err || rep.err_code != 0) {

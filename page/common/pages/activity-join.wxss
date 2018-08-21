@@ -1,7 +1,9 @@
 page{
   background-color:#efefef;
 }
-
+scroll-view.scroll-wrap{
+padding-bottom: 98rpx;
+}
 .item-containner {
   /* margin-top: 20rpx; */
   flex-direction: column;
@@ -67,7 +69,7 @@ page{
   font-size: 28rpx;
   padding:0 20rpx;
   margin-top: 20rpx;
-  width: 600rpx;
+  width: 690rpx;
 	height: 80rpx;
   line-height: 80rpx;
 	background-color: rgba(244, 243, 243, 1);
@@ -138,4 +140,18 @@ page{
   line-height: 98rpx;
   background: #ffe71c;
   text-align: center;
+}
+.item-btn{
+  height: 118rpx;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+}
+.item-btn image{
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 6rpx;
+}
+.item-btn text{
+  font-size: 28rpx;
 }

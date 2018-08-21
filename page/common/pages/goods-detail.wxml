@@ -8,6 +8,17 @@
   </view>
   <!--商品详情区域开始  -->
   <view class="middle-box">
+  <block wx:if="{{product.sold_time>0}}">
+    <view class='pre_time'>
+      <image class='pre_time_img' src='/image/icon_pre_buy.png'></image>
+      <view class='pre_time_text'>距开始时间仅剩余
+        <text class='pre_time_bj'>{{preTimeText.hour}}</text> 时
+        <text class='pre_time_bj'>{{preTimeText.minute}}</text> 分
+        <text class='pre_time_bj'>{{preTimeText.second}}</text> 秒
+      </view>
+    </view>
+  </block>
+  
     <text class="middle-title">{{product.name}}</text>
     <view class="middle-detail">
       <!-- <view class='mid-list-wrap'>
@@ -33,15 +44,15 @@
         <text class="mid-list-two">￥{{product.original_price}}</text>
       </view>
       <view class='mid-list-wraps-image'>
-        <button class='mid-open-list' open-type='share' data-title="{{product.name}}" data-imgurl="{{product.product_image_list[0]}}"></button>
+        <button class='mid-open-list' open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.product_image_list[0]}}"></button>
         <text class="mid-list-six-top">分享给好友</text>
       </view>
     </view>
-    <!-- <view class='mid-list-wraps' wx:if="{{product.sales}}" >
+    <view class='mid-list-wraps' wx:if="{{product.sales}}">
       <text class="mid-list-six">已售</text>
       <text class="mid-list-seven">{{product.sales}}</text>
       <text class="mid-list-six">件</text>
-    </view> -->
+    </view>
   </view>
   <!--商品详情区域结束  -->
   <!-- 商品优惠券区域  is_get 是否可以领取 1可以领取 0不可以领取 -->
@@ -92,23 +103,28 @@
       <image class='invite-ke-server-img' src='../../../image/ke-server.png'></image>
       <text class='invite-ke-server-text'>客服</text>
     </view>
-    <view class='invite-car invite-total' bindtap='goCart' style="{{action&&action!=0?'visibility:hidden':''}}">
-      <image class='invite-car-img' src='../../../image/shop-cart2.png'></image>
-      <text class='invite-car-num'>{{newCartNum}}</text>
-      <text class='cart-ke-server-text'>购物车</text>
-    </view>
-    <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
-      <text class='add-invite-car-child'>加入购物车</text>
-    </view>
-    <view wx:if="{{action =='present'}}" class='current-buying invite-total'  data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'  bindtap="goPreApply" >
-      <text class='current-buying-child'>申请试用</text>
-    </view>
-     <!-- <view wx:if="{{action !='present'}}" class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
-      <text class='current-buying-child'>立即购买</text>
-    </view> -->
-    <form bindsubmit='doBuy' report-submit='true' wx:if="{{action !='present'}}" class='current-buying invite-total'  >
-    <button form-type='submit' class='current-buying-child' data-product-id='{{product.product_id}}'>立即购买</button>
-    </form>
+    <block wx:if="{{product.sold_time==0}}">
+      <view class='invite-car invite-total' bindtap='goCart' style="{{action&&action!=0?'visibility:hidden':''}}">
+        <image class='invite-car-img' src='../../../image/shop-cart2.png'></image>
+        <text class='invite-car-num'>{{newCartNum}}</text>
+        <text class='cart-ke-server-text'>购物车</text>
+      </view>
+      <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
+        <text class='add-invite-car-child'>加入购物车</text>
+      </view>
+      <view wx:if="{{action =='present'}}" class='current-buying invite-total' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' bindtap="goPreApply">
+        <text class='current-buying-child'>申请试用</text>
+      </view>
+      <view wx:if="{{action !='present'}}" class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
+        <text class='current-buying-child'>立即购买</text>
+      </view>
+    </block>
+
+    <block wx:if="{{product.sold_time>0}}">
+      <view wx:if="{{action !='present'}}" class='current-buying invite-total pre_width pre_buy_bj' bindtap='showPreBuyTip'>
+        <text class='current-buying-child pre_width pre_buy_text'>立即购买</text>
+      </view>
+    </block>
   </view>
 </block>
 <!--已经售罄  -->
@@ -122,21 +138,34 @@
       <image class='invite-ke-server-img' src='../../../image/ke-server.png'></image>
       <text class='invite-ke-server-text'>客服</text>
     </view>
-    <view class='invite-car invite-total' bindtap='goCart' style="{{action&&action!=0?'visibility:hidden':''}}">
-      <image class='invite-car-img' src='../../../image/shop-cart2.png'></image>
-      <text class='invite-car-num'>{{newCartNum}}</text>
-      <text class='cart-ke-server-text'>购物车</text>
-    </view>
-    <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
-      <text class='add-invite-car-child'>加入购物车</text>
-    </view>
-    <view class='current-buying invite-total no-goods' >
-      <text class='current-buying-child'>已售罄</text>
-    </view>
+
+    <block wx:if="{{product.sold_time==0}}">
+      <view class='invite-car invite-total' bindtap='goCart' style="{{action&&action!=0?'visibility:hidden':''}}">
+        <image class='invite-car-img' src='../../../image/shop-cart2.png'></image>
+        <text class='invite-car-num'>{{newCartNum}}</text>
+        <text class='cart-ke-server-text'>购物车</text>
+      </view>
+      <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
+        <text class='add-invite-car-child'>加入购物车</text>
+      </view>
+      <view class='current-buying invite-total no-goods'>
+        <text class='current-buying-child'>已售罄</text>
+      </view>
+    </block>
+
+    <block wx:if="{{product.sold_time>0}}">
+      <view class='current-buying invite-total no-goods pre_width'>
+        <text class='current-buying-child pre_width'>已售罄</text>
+      </view>
+    </block>
+
+
+
   </view>
 </block>
-<!--按钮结束  -->
 
+
+<!--按钮结束  -->
 <view wx:if='{{moreChoose}}'>
   <view class='commodity_attr_list-wrap' bindtap='goImageClose'></view>
   <view class="commodity_attr_list">
@@ -191,7 +220,7 @@
     <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
     <!--新品试用  -->
     <text wx:elif='{{action == "present"}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPreApply'>确定</text>
-    <!--严选、闪购  -->
+    <!--虚拟商品 -->
     <text wx:elif='{{(action != 0) && action }}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment' data-baokuan_action='{{action}}'>确定</text>
     <!--一般购买  -->
     <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>确定</text>
@@ -199,3 +228,6 @@
   </view>
 </view>
 <!--多规格内容 end-->
+<view class='pre_time_tip_bj' wx:if="{{isShowPre}}">
+<text class='pre_time_tip_text'>还没到售卖时间，暂不支持购买</text>
+</view>

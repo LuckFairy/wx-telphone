@@ -6,7 +6,10 @@ page {
 view {
   display: flex;
 }
-
+.dropload-noData{
+  font-size: 24rpx;
+  color: #999999;
+}
 swiper {
   display: flex;
   height: 100%;

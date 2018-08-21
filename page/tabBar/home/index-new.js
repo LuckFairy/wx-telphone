@@ -644,17 +644,20 @@ Page({
     let { index } = e.detail.target.dataset;
     //1:扫一扫,2:DM海报,3:领券,4:新品试用,5:母婴服务,6:送券活动,7:礼包特卖,8:秒杀专区,9:孕妈馆,10:萌宝潮搭,11:宝贝成长,12:新生儿馆
     let url =null;
+    console.log(index);
     switch(index){
       case '1':that.saoma();break;
       case '2': url = `../../common/pages/index-activity`;break;
       case '3': url = `../../common/pages/index-mom`;break;
       case '4': url = `../../home/pages/present`;break;
       case '5': url = '../../common/pages/index-boabao';break;
-      case '6': url = '../../common/pages/activity-detail?id=${}';break;
+      case '6': url = '../../common/pages/activity-detail';break;
       case '7': url = `../../common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`; break;
+      case '8': url = `../../common/pages/index-boabao?listId=0&catId=92`; break;
+      case "9": url = `../../common/pages/index-boabao?listId=3&catId=95`; break;
       case '10': url = `../../common/pages/index-boabao?listId=1&catId=93`; break;
       case '11': url = `../../common/pages/index-boabao?listId=2&catId=94`;break;
-      case '12':url = ``;break;
+      case '12': url = `../../common/pages/index-boabao?listId=4&catId=97`; break;
     }
     
     if (url) {

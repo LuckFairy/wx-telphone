@@ -14,7 +14,7 @@
     <!--拿到数据前的拿到数据之后  -->
     <swiper wx:if='{{dataImg.length > 0}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
       <swiper-item class='list-header-image' wx:for='{{dataImg}}' wx:key="{{index}}">
-        <view class='header-image' bindtap='areaClickGo' data-redi_type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
+        <view class='header-image' bindtap='areaClickGo' data-type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
           <image class='header-image' mode='aspectFill' lazyLoad="true" src='{{item.redi_type?item.banner:"./imgs/head-no.png"}}' />
         </view>
       </swiper-item>
@@ -91,10 +91,10 @@
     <!-- tab栏目 -->
     <form bindsubmit='clickGo' report-submit='true' wx:if='{{indexIcon.length>0}}'>
     <view class='list-area'>
-      <block wx:for="{{indexIcon}}">
+      <view wx:for="{{indexIcon}}">
         <image class='list-area-item' mode='scaleToFill' src='{{item.icon}}'></image>
         <button form-type='submit' class='sub-button' data-index="{{item.redi_type}}">按钮</button>
-      </block>
+      </view>
     </view>
     </form>
     <!--拼团区域  -->

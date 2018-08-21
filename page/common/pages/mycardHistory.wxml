@@ -40,7 +40,7 @@
   
     <swiper-item>
             <view class='overlay-transparent' style="display:{{showHide ? 'none' : 'flex'}};background-color:#fff;"></view>
-      <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadtwo' lower-threshold='0' scroll-top="{{scrollTop}}">
+      <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadone' lower-threshold='0' scroll-top="{{scrollTop}}">
         <view wx:if="{{ offlineData.length>0}}" class="card-list-view">
           <block wx:for="{{offlineData}}" wx:for-item="card" wx:key="{{index}}">
             <!--门店卡券-->
@@ -78,7 +78,7 @@
 
             <!--/门店卡券-->
           </block>
-          <text wx:if="{{!loadingtwo}}" class='dropload-noData'>已无更多</text>
+          <text wx:if="{{!loadingone}}" class='dropload-noData'>已无更多</text>
           <text wx:else class='dropload-noData'>上拉加载更多...</text>
         </view>
         <view wx:else class="no-data-view">

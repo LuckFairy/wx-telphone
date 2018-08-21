@@ -118,7 +118,7 @@ Page({
     pagesone++;
     that.setData({ pagesone })
     setTimeout(function () {
-      that.loadData1(that);
+      that.loadData1(that, true);
       wx.hideLoading();
     }, 1000)
   },
@@ -170,8 +170,13 @@ Page({
     let qrUrl = event.currentTarget.dataset.qrImageUrl;
     this.setData({ qrImageUrl: qrUrl, showOverlay: true });
   },
-  //加载页面数据
+
   loadData1: function (that) {
+    this.loadData1(that, false);
+  },
+
+  //加载页面数据
+  loadData1: function (that, isLoadMore) {
     wx.showLoading({
       title: '加载中',
     })
@@ -185,10 +190,25 @@ Page({
     app.api.postApi('wxapp.php?c=coupon&a=my_v2', { params }, (err, reps) => {
       if (err && reps.err_code != 0) { wx.hideLoading(); return; }
       var { image, coupon_list = [], next_page } = reps.err_msg;
-      //第一次加载无数据显示
-      if (coupon_list.length == 0) {
-        that.setData({ nullList: true, loadingone: next_page, normal: [] }); wx.hideLoading(); return;
+
+
+      if (isLoadMore) {
+        var arrayList = [];
+        var nowDatas = that.data.normal;
+        arrayList = nowDatas;;
+        var i = 0;
+        var length = coupon_list.length;
+        for (i = 0; i < length; i++) {
+          arrayList.push(coupon_list[i]);
+        }
+        coupon_list = arrayList
+      } else {
+        //第一次加载无数据显示
+        if (coupon_list.length == 0) {
+          that.setData({ nullList: true, loadingone: next_page, normal: [] }); wx.hideLoading(); return;
+        }
       }
+
       that.setData({
         nullList: false,
         loadingone: next_page,

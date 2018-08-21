@@ -90,7 +90,7 @@ Page({
   //去详情
   goDetail(e){
     let that = this,{item} = e.target.dataset;
-    var data = JSON.stringify(item);
+    var data = escape(JSON.stringify(item));
     wx.navigateTo({
       url: `./activity-hosDet?data=${data}`,
     })

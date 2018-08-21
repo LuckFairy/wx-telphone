@@ -1,5 +1,7 @@
 
 const app = getApp();
+let store_id = app.store_id;
+let uid = wx.getStorageSync('userUid');
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 let physical_id = wx.getStorageSync('phy_id'); //门店id
 const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
@@ -57,7 +59,9 @@ Page({
     price: [],      //所有价格列表
     choPrice: '',//单品价格
     choQuantity: '',//单品库存
-    tabCheck: false,//多属性是否选中
+    tabCheck: false,//多属性是否选中,
+    preTimeText: null,
+    isShowPre: false//显示预售商品提示
   },
   onShareAppMessage(res) {
     let that = this;
@@ -274,9 +278,9 @@ Page({
     var that = this;
     wx.showLoading({ title: '加载中' });
     //这里是严选
-    let url = 'wxapp.php?c=product&a=detail_of_product';
+    let url = 'wxapp.php?c=product&a=detail_of_product_v4';
     var params = {
-      "product_id": prodId
+      "product_id": prodId, uid, store_id
     }
     app.api.postApi(url, { params }, (err, resp) => {
       console.log("错误解决方法");
@@ -305,6 +309,7 @@ Page({
         that.setData({
           product, action
         });
+        that.startCountDown(product.sold_time);
       }
 
     });
@@ -329,8 +334,7 @@ Page({
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
-    console.log('加入购物车', e)
-    var product_id = e.detail.target.dataset.productId;
+    var product_id = e.currentTarget.dataset.productId;
     // that.setData({
     //   moreChoose: true,
     //   oneMatching: oneMatching,
@@ -816,7 +820,80 @@ Page({
     wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
     //this.setData({ error: errorMsg });
     return false;
-  }
+  },
   //加入购物车end
+
+  /**
+   * 倒计时处理
+   */
+  startCountDown(preTime) {
+    if (preTime == 0) {
+      return
+    }
+    this.timer = setInterval(() => {
+      let now = new Date().getTime();
+      now = now / 1000;
+      let leftTime = preTime - now;
+      let time = this.countDown(leftTime);
+      this.setData({ preTimeText: time });
+
+
+
+      // let len = replaceData.length;
+      // for (let i = len - 1; i >= 0; i--) {
+      //   let item = replaceData[i];
+      //   let expireTime = item.end_time * 1000;
+      //   let leftTime = (expireTime - now) / 1000;
+      //   if (leftTime < 0) {
+      //     replaceData.splice(i, 1);   // 到了失效时间，从活动里删除
+      //     continue;
+      //   } else {
+      //     item.countDown = this.countDown(leftTime);
+      //   }
+      // }
+    }, 1000);
+  },
+  /**
+   * 停止倒计时
+   */
+  stopCountDown() {
+    this.timer && clearInterval(this.timer);
+  },
+  /**
+* 格式化倒计时显示
+*/
+  countDown(leftTime) {
+    var day = 0, hour = 0, minute = 0, second = 0;
+    if (leftTime > 0) {//转换时间  
+      day = Math.floor(leftTime / (60 * 60 * 24));
+      hour = Math.floor(leftTime / (60 * 60)) - (day * 24);
+      minute = Math.floor(leftTime / 60) - (day * 24 * 60) - (hour * 60);
+      second = Math.floor(leftTime) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+      hour = day * 24 + hour;
+      if (hour <= 9) hour = '0' + hour;
+      if (minute <= 9) minute = '0' + minute;
+      if (second <= 9) second = '0' + second;
+    } else {
+      clearInterval(timer);
+      var prodId = this.data.prodId;
+      var action = this.data.action;
+      this.loadData(prodId, action, '');
+    }
+    return { hour, minute, second };
+
+  },
+
+  showPreBuyTip() {
+    var that = this;
+    that.setData({
+      isShowPre: true
+    });
+    setTimeout(function () {
+      that.setData({
+        isShowPre: false
+      });
+    }, 2000);
+  }
+
 
 })

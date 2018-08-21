@@ -20,6 +20,7 @@ Page({
     imgFlag:true,
     index:0,
     otherRequest:[],
+    note:null
   },
 
   onLoad: function (options) {
@@ -56,6 +57,7 @@ Page({
       var queList = res.err_msg.questions;
       var request_other = res.err_msg.request_other[0];
       var len  = res.err_msg.pig_num;
+      var note = res.err_msg.note;
       if(request_other==1){
         var index = 1, otherRequest=[];
         otherRequest=[
@@ -65,13 +67,18 @@ Page({
           }
         ];
       }
+      for(var j=0;j<queList.length;j++){
+        if(queList[j].type==2){
+          queList[j].index=0
+        }
+      }
       var pullimage = [];
       for(var i=0;i<len;i++){
         pullimage.push({ url:"../imgs/icon-upload.png",flag:true});
       }
       if (len == 0) { pullimage=[];}
       // console.log(pullimage);
-      this.setData({ queList, pullimage, otherRequest})
+      this.setData({ queList, pullimage, otherRequest,note})
     })
   },
   chooseImage(e){
@@ -161,30 +168,17 @@ Page({
     this.setData({tel:val});
   },
   queChange(e){
-    let val = e.detail.value, id = e.target.dataset.id, answerList = this.data.answerList;
+    let val = e.detail.value, id = e.target.dataset.id, index=e.target.dataset.index,queList = this.data.queList;
     if(!val||val.length<1){return;}
-    var opt={
-      question_id:id,
-      answer:val,
-      type:1
-    }
-    answerList.push(opt);
-    this.setData({answerList})
+    queList[index].answers=val;
+    this.setData({ queList})
   },
   bindPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value);
-    let val = e.detail.value, id = e.target.dataset.id, answerList = this.data.answerList;
+    let val = e.detail.value, id = e.target.dataset.id, index = e.target.dataset.index, queList = this.data.queList;
     if (!val || val.length < 1) { return; }
-    var opt = {
-      question_id: id,
-      answer: val,
-      type: 2
-    }
-    answerList.push(opt);
-    this.setData({
-      index: val,
-      answerList
-    })
+    queList[index].index = val;
+    this.setData({ queList })
   },
   bindChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -222,7 +216,24 @@ Page({
   },
   goCofirm(){
     let that =this,arr=[],arr2;
-    let { fullname, tel, answerList, pullimage, id, uid, sid, imgFlag, otherRequest}=that.data;
+    let { fullname, tel, queList, pullimage, id, uid, sid, imgFlag, otherRequest}=that.data;
+    let answerList = [];
+    for (var j = 0; j < queList.length; j++) {
+      if (queList[j].type == 2) {
+        var opt={
+          "question_id":queList[j].id,
+          "answer":queList[j].index,
+          "type":2
+        }
+      }else{
+        var opt ={
+          "question_id": queList[j].id,
+          "answer": queList[j].answers,
+          "type": 1
+        }
+      }
+      answerList.push(opt);
+    }
     if(!imgFlag){
       that._showError("等待图片上传完成");
       return;
@@ -240,6 +251,7 @@ Page({
         arr.push(pullimage[i].url);
       }
     }
+    // arr = ['https://api.ljxhlaw.com/upload/images/voucher/20180720/5b515d104e15c.jpg'];
     var params = {
       "activity_id": id,
       "user_id": uid,
@@ -269,7 +281,7 @@ Page({
     this.setData({ error: errorMsg });
     setTimeout(() => {
       this.setData({ error: null });
-    }, 3000);
+    }, 2000);
     return false;
   },
 })
