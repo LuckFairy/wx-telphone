@@ -25,7 +25,7 @@ Page({
         });
       }, 2000);
     }
-    wx.showLoading({ title: '加载中...', mask: true, });
+    // wx.showLoading({ title: '加载中...', mask: true, });
 
 
     if (q) {
@@ -90,7 +90,7 @@ Page({
   },
 
 
-  buildRedirctUrlNew: function () {
+  buildRedirctUrlNew: function () { 
     let groupbuyId = qrData.groupbuyId;
     let groupbuyOrderId = qrData.groupbuyOrderId;
     let sellout = qrData.sellout; //是否售罄 0售罄 1未售罄
@@ -106,7 +106,6 @@ Page({
     //resType跳转类型
     let url = '', store_id = this.data.store_id;
     console.log('qrData', qrData);
-    console.log('restype', resType)
     switch (resType) {
       //云屏活动
       case 'cloud_screen': console.log('reditype', reditype, rediurl);
@@ -133,11 +132,11 @@ Page({
             case "12": url = `../../page/common/pages/index-mom`; break;
 
           }
-        } else if (type == "2") {
+        } else if (reditype == "2") {
           url = `../../page/common/pages/goods-detail?prodId=` + rediurl;
-        } else if (type == "4") {
+        } else if (reditype == "4") {
           url = `../../page/common/pages/activity-detail?id=` + rediurl;
-        } else if (type = 5) {
+        } else if (reditype = 5) {
           console.log('dm海报');
           url = `../../page/common/pages/index-activity`;
         }
@@ -157,7 +156,7 @@ Page({
       case 'goods':
         url = '../../page/common/pages/goods-detail?prodId=' + resId + '&action=' + action + '&qrEntry=1';
         break;
-      //赠品领取页面
+      //（老的）赠品领取页面
       case 'trial':
         url = '../../page/home/pages/present-apply?qrEntry=1&options=';
         app.api.fetchApi('trial/item/' + resId, (err, response) => {

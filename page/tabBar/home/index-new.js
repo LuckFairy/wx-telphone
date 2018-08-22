@@ -158,6 +158,7 @@ Page({
       if (!err && rep.err_code == 0) {
         if (rep.err_msg.data.template_id=='1'){return;}
         console.log(rep.err_msg.data.channel_content)
+        var len = rep.err_msg.data.channel_content.length,arr=[];
         this.setData({
           indexIcon: rep.err_msg.data.channel_content
         })

@@ -11,7 +11,12 @@
     </view>
     <view class="item-view">
       <label class="title">*手机号码</label>
-      <input style="flex:1;" bindblur="telChange" type="number" maxlength="18" value='{{tel}}' placeholder="请输入你的手机号码" />
+      <input style="flex:1;" bindinput="telChange" type="number" maxlength="18" value='{{tel}}' placeholder="请输入你的手机号码" />
+      <button class='timer-btn' catchtap="{{codeFlag?'codeClick':''}}">{{timer}}</button>
+    </view>
+     <view class="item-view">
+      <label class="title">*验证码</label>
+      <input style="flex:1;" bindblur="codeChange" type="text" maxlength="18" value='{{code}}' placeholder="请输入短信验证码" />
     </view>
   </view>
 

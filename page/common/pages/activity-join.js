@@ -4,7 +4,7 @@ import { checkMobile } from '../../../utils/util.js';
 const _urlDetail = 'wxapp.php?c=voucher&a=voucher_info';//获取活动问题数据
 const _urlsubmit = "wxapp.php?c=voucher&a=voucher_join";//马上参与提交接口
 const _urlimg = config.host+'wxapp.php?c=voucher&a=image_upload';
-
+const _urlCode = "wxapp.php?c=voucher&a=get_code";//获取验证码
 
 Page({
   data: {
@@ -12,7 +12,7 @@ Page({
     uid: null,
     fullname:null,
     tel:null,
-    id:null,//活动id
+    id:8,//活动id
     queList:'',//活动信息列表
     answerList:[],//回答问题列表
     pullimage:[],
@@ -20,7 +20,10 @@ Page({
     imgFlag:true,
     index:0,
     otherRequest:[],
-    note:null
+    note:null,
+    timer:'短信验证码',
+    code:null,
+    codeFlag:true,
   },
 
   onLoad: function (options) {
@@ -202,6 +205,11 @@ Page({
     otherRequest[index].sex = val;
     this.setData({ otherRequest})
   },
+  codeChange(e) {
+    this.setData({
+      code: e.detail.value
+    })
+  },
   addList:function(){
     let that = this;
     let { otherRequest}  = that.data;
@@ -214,9 +222,51 @@ Page({
     otherRequest.push(item);
     that.setData({ otherRequest})
   },
+  codeClick(){
+    let that = this;
+    let {tel,sid}=this.data;
+    if(!tel||tel==''){
+      that._showError('手机号码不能为空');
+      return;
+    }
+    if (!checkMobile(tel)) {
+      that._showError('手机号码格式不正确');
+      return;
+    }
+    var params = {
+        "phone":tel,
+        "store_id":sid
+    }
+    app.api.postApi(_urlCode, { params }, (err, res) => {
+      if (err || res.err_code != 0) { return that._showError('发送失败！') }
+      clearInterval(that.codeTimers);
+      that.codeInterl();
+    })
+  },
+  codeInterl(opt){
+    let that =this;
+    this.setData({codeFlag:false});
+    clearInterval(this.codeTimers);
+   var opts = Object.assign({
+     times:60,
+     text:'s',
+     end:'短信验证码'
+   }, opt);
+   
+    that.setData({ timer:`${opts.times}${opts.text}`});
+    this.codeTimers=setInterval(()=>{
+      opts.times--;
+      that.setData({ timer: `${opts.times}${opts.text}` });
+      if(opts.times<1){
+        clearInterval(that.codeTimers);
+        that.setData({ timer: `${opts.end}`, codeFlag:true});
+      }
+   },1000)
+  },
+ 
   goCofirm(){
     let that =this,arr=[],arr2;
-    let { fullname, tel, queList, pullimage, id, uid, sid, imgFlag, otherRequest}=that.data;
+    let { fullname, tel, queList, pullimage, id, uid, sid, imgFlag, otherRequest,code}=that.data;
     let answerList = [];
     for (var j = 0; j < queList.length; j++) {
       if (queList[j].type == 2) {
@@ -261,14 +311,18 @@ Page({
       "user_phone": tel,
       "imgs": arr,
       "answers": answerList,
-      "baby_data": otherRequest
+      "baby_data": otherRequest,
+      "code":code
     }
     console.log(_urlsubmit,params);
     app.api.postApi(_urlsubmit,{params},(err,res)=>{
       if(err||res.err_code!=0){return that._showError(res.err_msg)}
-      wx.redirectTo({
-        url: `./activity-hository?index=2&id=${id}&page=1`,
-      })
+      that._showError('提交成功！感谢您的参与');
+      setTimeout(()=>{
+        wx.redirectTo({
+          url: `./activity-hository?index=2&id=${id}&page=1`,
+        })
+      },2000);
     })
   },
   /**

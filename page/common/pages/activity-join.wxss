@@ -4,6 +4,14 @@ page{
 scroll-view.scroll-wrap{
 padding-bottom: 98rpx;
 }
+button.timer-btn{
+  font-size: 28rpx;
+  background:#ffe71c;
+  margin-right: 25rpx;
+}
+button.timer-btn::after{
+  border: none;
+}
 .item-containner {
   /* margin-top: 20rpx; */
   flex-direction: column;
