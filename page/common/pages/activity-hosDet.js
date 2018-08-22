@@ -21,7 +21,7 @@ Page({
   onLoad: function (options) {
     let that = this,txt='';
     let {data} = options;
-    data = JSON.parse(data);
+    data = JSON.parse(unescape(data));
     console.log(data);
     switch(data.status){
       case "-1": txt = "已拒绝";break;

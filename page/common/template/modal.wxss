@@ -91,3 +91,27 @@
   margin:60rpx 0 50rpx;
   line-height: 1;
 }
+/*********************绑定手机、马上参与错误提示样式*******************/
+.errorModel {
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 400rpx;
+   min-height: 120rpx; 
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10rpx;
+  opacity: 0.7;
+}
+
+.errorModel text {
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  font-weight: normal;
+  font-stretch: normal;
+  color: #fff;
+  text-align: center;
+}

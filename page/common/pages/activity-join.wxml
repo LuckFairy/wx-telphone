@@ -1,28 +1,63 @@
+
 <view class='errorModel' wx:if="{{error}}">
   <text>{{error}}</text>
 </view>
-<scroll-view>
+<scroll-view class='scroll-wrap'>
 
   <view class="item-containner">
     <view class="item-view">
-      <label class="title">姓名*</label>
+      <label class="title">*姓名</label>
       <input style="flex:1;" focus='true' bindblur="fullnameChange" value='{{fullname}}' type="text" maxlength="18" placeholder="请输入真实姓名" />
     </view>
     <view class="item-view">
-      <label class="title">手机号码*</label>
-      <input style="flex:1;" bindblur="telChange" type="number"  maxlength="18"  value='{{tel}}'  placeholder="请输入你的手机号码" />
+      <label class="title">*手机号码</label>
+      <input style="flex:1;" bindinput="telChange" type="number" maxlength="18" value='{{tel}}' placeholder="请输入你的手机号码" />
+      <button class='timer-btn' catchtap="{{codeFlag?'codeClick':''}}">{{timer}}</button>
+    </view>
+     <view class="item-view">
+      <label class="title">*验证码</label>
+      <input style="flex:1;" bindblur="codeChange" type="text" maxlength="18" value='{{code}}' placeholder="请输入短信验证码" />
     </view>
   </view>
 
   <view class="question-containner" wx:if="{{queList.length>0}}">
-      <view class="question-view" wx:for="{{queList}}" wx:for-item="item" wx:for-index="i">
-        <label class="question-label">问题{{i+1}}：{{item.question}}</label>
-        <input class="question-input" data-id='{{item.id}}' placeholder="请如实填写" bindblur='queChange' />
+    <view class="question-view" wx:for="{{queList}}" wx:for-item="item" wx:for-index="i">
+      <label class="question-label">问题{{i+1}}：{{item.question}}</label>
+      <input wx:if="{{item.type=='1'}}" class="question-input" data-id='{{item.id}}' data-index='{{i}}' placeholder="请如实填写" bindblur='queChange' />
+      <picker wx:if="{{item.type=='2'}}" data-id='{{item.id}}' data-index='{{i}}' bindchange="bindPickerChange" value="{{item.index}}" range="{{item.answers}}">
+        <view class="question-select">
+          {{item.answers[item.index]}}
+          <image src='../imgs/down.png' style='width:29rpx;height:17rpx;float:right;'></image>
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class="item-containner item-date-wrap" wx:if="{{otherRequest.length>0}}">
+    <block wx:for="{{otherRequest}}" wx:for-item="item" wx:for-index="i">
+      <view class="item-view">
+        <label class="title">*宝宝{{i+1}}生日（预产期）</label>
+        <picker mode="date" value="{{item.birthday}}" start="1900-09-01" end="2020-09-01" data-index="{{i}}" bindchange="bindDateChange">
+          <view class="picker" style="flex:1;">
+            {{item.birthday}}
+          </view>
+        </picker>
       </view>
+      <view class="item-view">
+        <label class="title" style='width:160rpx;'>*性别</label>
+        <radio-group  class="radio-group" bindchange="radioChange" data-index="{{i}}">
+            <radio  value="1" checked="{{item.sex=='1'?true:''}}" />男孩
+            <radio  value="2" checked="{{item.sex=='2'?true:''}}" />女孩
+            <radio  value="0" checked="{{item.sex=='0'?true:''}}" />未知
+        </radio-group>
+      </view>
+    </block>
+    <view class='item-btn' catchtap='addList' style="padding:20rpx 0">
+        <image src='../imgs/add-btn.png'></image>
+        <text>再添加一个宝宝</text>
+    </view>
   </view>
 
   <view class="upload-containner" wx:if="{{pullimage.length>0}}">
-
     <view class="upload-tip">
       上传图片
       <text class="upload-tip-text">（照片不能超过5M）</text>
@@ -42,8 +77,7 @@
         </block>
       </view>
     </view>
-
-    <view class='upload-tip-warn'>注：所有照片只作为本次活动使用，咿呀保证不擅自做他用。</view>
+    <view class='upload-tip-warn' wx:if="{{note}}">注：{{note}}</view>
 
   </view>
   <text class='go-confirm' catchtap='goCofirm'>提交</text>

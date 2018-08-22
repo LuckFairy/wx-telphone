@@ -6,16 +6,19 @@
  * AGENT  api请求中的hear参数
  * sid   店铺id
  */
-var isRelease = true;
+var isRelease = false;
 var host = "https://saas.qutego.com/"
-var testhost = "https://api.ljxhlaw.com/"
+// var testhost = "https://api.ljxhlaw.com/"
+var testhost = "https://saas.qutego.com/"
 var AGENT_ID = 2
 var sid = 310;//咿呀
 var sid_test = 293;//婴众趣购590
 var title = '咿呀';
 var title_test = '婴众趣购';
 var phonetest = '4006088520';//测试客服电话
-var phone = '4000001312';//正式客服电话趣购精选
+var phone = '4006897779';//正式客服电话趣购精选
+var phoneTxt = '400-689-7779';
+var serverTxt = '702060';
 var appid = 'wx79871653a25c3be2';//咿呀appid:wx79871653a25c3be2婴众趣购appid: wx57d5cde97d7e1fd3';
 
 var config = {
@@ -30,7 +33,12 @@ var config = {
 
   //客服电话
   serverPhone: phone,
+  
+  //客服电话txt
+  phoneTxt,
 
+  //客服微信
+  serverTxt,
   //店铺id
   sid: isRelease ? sid : sid_test,
 

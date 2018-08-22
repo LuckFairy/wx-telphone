@@ -9,7 +9,9 @@ Page({
     theId: '',
     order_no: '',
     status:'',
-    statustxt: ''
+    statustxt: '',
+    serveTxt: app.config.serverTxt,
+    phoneTxt:app.config.phoneTxt
   },
   calling() {
     app.calling();

@@ -346,18 +346,6 @@ Page({
       })
     });
   },
-  /**
-   * 消息推送
-   */
-  sub(e) {
-    app.pushId(e);
-  },
-  submit() {
-    app.submit();
-  },
-  send() {
-    app.send();
-  },
   /*
   *首次打开小程序事件
   *
@@ -661,16 +649,20 @@ Page({
     app.pushId(e).then(ids => {
       app.saveId(ids)
     });
+    let redi_type = null, rediurl=null;
     console.log(e);
-    let { redi_type, rediurl } = e.detail.target.dataset;
-    // var params = e.currentTarget.dataset;
-    // console.log('精选活动跳链', params);
-    // var type = e.currentTarget.dataset.redi_type;
-    // var id = e.currentTarget.dataset.rediurl;
+    if (e.detail.formId){
+      rediurl = e.detail.target.dataset.rediurl;
+      redi_type = e.detail.target.dataset.redi_type;
+    }else{
+      rediurl = e.currentTarget.dataset.rediurl;
+      redi_type = e.currentTarget.dataset.redi_type;
+    }
+    
     var type=redi_type,id=rediurl;
 
-    console.log('type', type);
-    console.log('id', id);
+    console.log('type', type, redi_type);
+    console.log('id', id, rediurl);
     //跳转类型，栏目1 ，商品2，送券活动4
     if (type == 1) {
       switch (id) {

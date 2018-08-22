@@ -10,7 +10,8 @@ Page({
     orderId:'',
     productId:'',
     rtnCode:'',
-    showHide:true
+    showHide:true,
+    phoneTxt: app.config.phoneTxt
   },
   calling(){
     app.calling();

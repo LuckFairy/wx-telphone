@@ -4,6 +4,7 @@ App({
   api: sign.api,
   store_id: sign.store_id,
   sign: sign.signin,
+  config:config,
   globalData: {
     systemInfo: wx.getSystemInfoSync(),//系统信息
     userInfo: "",//用户信息
