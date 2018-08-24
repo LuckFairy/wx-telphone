@@ -40,7 +40,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
-    "navigationBarTitleText": "趣购精选官方商城",
+    "navigationBarTitleText": "趣购精选",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

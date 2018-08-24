@@ -151,9 +151,9 @@
           <text>{{item.name}}</text>
           <text>剩{{item.tdays}}天</text>
         </view>
-        <view>
+        <view hidden>
           <image src='../../../image/discount.png'></image>
-          <text>{{item.msg}}会员尊享6折优惠</text>
+          <text >{{item.msg}}会员尊享6折优惠</text>
         </view>
       </view>
     </block>

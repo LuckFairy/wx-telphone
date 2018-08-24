@@ -39,24 +39,35 @@ Page({
   onLoad: function (options) {
     var that = this;
     //检查是否有手机号
-    app.checkphone().then(data => {
-      console.log(data);
-      that.setData({ hasPhone: true,uid:data.uid,phone:data.phone });
-      app.globalData.uid = data.uid;
-      app.globalData.phone = data.phone;
+
+    // app.checkphone().then(data => {
+    //   console.log(data);
+    //   that.setData({ hasPhone: true,uid:data.uid,phone:data.phone });
+    //   app.globalData.uid = data.uid;
+    //   app.globalData.phone = data.phone;
      
-      wx.setStorageSync('userUid', data.uid); //存储uid
-      wx.setStorageSync('phone', data.phone); //存储uid
-    }).catch(data => {
-      that.setData({ hasPhone: false });
-    })
+    //   wx.setStorageSync('userUid', data.uid); //存储uid
+    //   wx.setStorageSync('phone', data.phone); //存储uid
+    // }).catch(data => {
+    //   that.setData({ hasPhone: false });
+    // })
 
   },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    let that =this;
+    uid = wx.getStorageSync("userUid");
+    phone = wx.getStorageSync("phone");
+    if(!uid){
+      that.setData({ hasPhone: false });
+      wx.switchTab({
+        url: '../home/index-new',
+      })
+    }else{
+      that.setData({ hasPhone: true, uid: uid, phone: phone });
+    }
   },
 
   /**手机号脱敏 */
