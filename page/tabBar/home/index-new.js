@@ -1,20 +1,26 @@
-import {getUrlQueryParam,checkBingPhone,getPhoneNumber} from '../../../utils/util';
+import {
+  getUrlQueryParam,
+  checkBingPhone,
+  getPhoneNumber
+} from '../../../utils/util';
 import sign from '../../../utils/api_4'
-import {firstOpen, getCoupon,cancelCoupon} from '../../common/template/coupon.js';
+import {
+  firstOpen,
+  getCoupon,
+  cancelCoupon
+} from '../../common/template/coupon.js';
 let app = getApp();
 
 const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon'; //优惠券列表数据
 // const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num'; //我的卡包接口
 // const activityUrl = 'wxapp.php?c=index_activity&a=activity_index'; //精选活动接口
-const activityUrl = 'wxapp.php?c=index_activity&a=jx_activity';//精选活动（第三版）
+const activityUrl = 'wxapp.php?c=index_activity&a=jx_activity_v2'; //精选活动（第三版）
 // const activityNewUrl = 'screen.php?c=index&a=activity_index'; //大屏首页取代活动页
-// const headImg = 'wxapp.php?c=product&a=banner_list'; //轮播图接口
-const headImg = 'wxapp.php?c=product&a=banner_list_v2';//轮播图接口（新）
+const headImg = 'wxapp.php?c=product&a=banner_list_v3'; //轮播图接口（第三版）
 const physicalUrl = 'wxapp.php?c=physical&a=physical_list'; //las门店列表接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical'; //总店信息
 const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index'; //拼团活动列表
-// const tabUrl ="wxapp.php?c=index&a=get_icon_v2";
-const tabUrl = "wxapp.php?c=wxapp_index&a=get_content";//tab栏目接口(新)
+const tabUrl = "wxapp.php?c=wxapp_index&a=get_content"; //tab栏目接口(新)
 let store_id = app.store_id;
 let uid = wx.getStorageSync('userUid');
 let openid = wx.getStorageSync('userOpenid');
@@ -52,7 +58,19 @@ Page({
     couponValue: [], //领取优惠券面值列表
     couponValueLast: [],
     productData: [], //活动图列表
-    valueList: [{txt:'正品保障',src:'./imgs/card-1.png'},{txt: '假一赔三',src:'./imgs/card-2.png'},{txt: '破损包邮',src:'./imgs/card-3.png'}, {txt:'7天退换',src:'imgs/card-4.png'}],
+    valueList: [{
+      txt: '正品保障',
+      src: './imgs/card-1.png'
+    }, {
+      txt: '假一赔三',
+      src: './imgs/card-2.png'
+    }, {
+      txt: '破损包邮',
+      src: './imgs/card-3.png'
+    }, {
+      txt: '7天退换',
+      src: 'imgs/card-4.png'
+    }],
     saoma_url: null,
     set_flag: false, //是否設置為默認
     physicalClost: '', //最近门店信息
@@ -72,12 +90,12 @@ Page({
         encryptedData,
         locationid
       }
-      app.login(params).then(()=>{
+      app.login(params).then(() => {
         console.log('弹窗取消')
         that.setData({
           hasPhone: true
         })
-      }).catch(()=>{
+      }).catch(() => {
         console.log('弹窗弹窗')
         that.setData({
           hasPhone: false
@@ -113,42 +131,36 @@ Page({
       title: '加载中',
     })
     //检查是否有手机号
-    app.checkphone().then(data=>{
-        console.log('有手机号',data);
-        that.setData({ hasPhone: true, uid: data.uid, phone: data.phone });
-        app.globalData.uid = data.uid;uid=data.uid;
-        app.globalData.phone = data.phone;
-        wx.setStorageSync('userUid', data.uid); //存储uid
-        wx.setStorageSync('phone', data.phone); //存储uid
-        //绑定门店
-        if (locationid) {
-          var opts = {
-            store_id: __config.sid,
-            item_store_id:locationid,
-            uid: data.uid
-          }
-          app.bingUserScreen(opts);
+    app.checkphone().then(data => {
+      console.log('有手机号', data);
+      that.setData({
+        hasPhone: true,
+        uid: data.uid,
+        phone: data.phone
+      });
+      app.globalData.uid = data.uid;
+      uid = data.uid;
+      app.globalData.phone = data.phone;
+      wx.setStorageSync('userUid', data.uid); //存储uid
+      wx.setStorageSync('phone', data.phone); //存储uid
+      //绑定门店
+      if (locationid) {
+        var opts = {
+          store_id: __config.sid,
+          item_store_id: locationid,
+          uid: data.uid
         }
-        that._parse();
+        app.bingUserScreen(opts);
+      }
+      that._parse();
     }).catch(data => {
-      that.setData({ hasPhone: false });
+      that.setData({
+        hasPhone: false
+      });
     })
     that.loadMainLocation(); //默认总店
-    that.loadactivityData(); //活动图数据
     that.loadGroupData(); //拼多多数据
-    // 顶部轮播图  
-    app.api.postApi(headImg, {
-      "params": {
-        store_id
-      }
-    }, (err, resp) => {
-      if (resp && resp.err_code == 0) {
-        var dataImg = resp.err_msg.banners;
-        that.setData({
-          dataImg
-        })
-      }
-    })
+
 
     app.api.postApi(tabUrl, {
       "params": {
@@ -156,9 +168,12 @@ Page({
       }
     }, (err, rep) => {
       if (!err && rep.err_code == 0) {
-        if (rep.err_msg.data.template_id=='1'){return;}
+        if (rep.err_msg.data.template_id == '1') {
+          return;
+        }
         console.log(rep.err_msg.data.channel_content)
-        var len = rep.err_msg.data.channel_content.length,arr=[];
+        var len = rep.err_msg.data.channel_content.length,
+          arr = [];
         this.setData({
           indexIcon: rep.err_msg.data.channel_content
         })
@@ -195,11 +210,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    if (app.globalData.uid){
+    if (app.globalData.uid) {
       this.loadMyCardNumData(); //我的卡包数量
       this.getCoupValue(); //优惠券数据
     }
-    
+
   },
   _parse() {
     var that = this;
@@ -209,7 +224,79 @@ Page({
     that.loadMyCardNumData(); //我的卡包数量
     that.getCoupValue(); //优惠券数据
   },
+  /**顶部轮播图  **/
+  loadHeadicon(phy_id) {
+    let that = this;
+    app.api.postApi(headImg, {
+      "params": {
+        store_id,
+        physical_id: phy_id
+      }
+    }, (err, resp) => {
+      if (resp.err_code == 0) {
+        var dataImg = resp.err_msg.banners;
+        console.log('轮播图。。。', dataImg)
+        that.setData({
+          dataImg
+        })
+      }
+    })
+  },
+  /**
+   * 首页精选活动数据
+   */
+  loadactivityData(phy_id) {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true,
+    });
+    var params = {
+      store_id, //店铺id
+      physical_id: phy_id,
+      page: '1',
+    };
+    app.api.postApi(activityUrl, {
+      params
+    }, (err, resp) => {
+      console.log('精选活动=', resp);
+      wx.hideLoading();
+      if (err) {
+        return this._showError('网络出错，请稍候重试');
+      }
+      let {
+        err_code,
+        err_msg
+      } = resp;
+      if (err_code != 0) {
+        console.error(activityUrl, resp.err_msg);
+        return;
+      }
 
+      this.setData({
+        productData: resp.err_msg.acrivity_element
+      });
+
+    });
+  },
+  loadMyCardNumData: function() {
+    var uid = this.data.uid,
+      params = {},
+      that = this;
+    params = {
+      uid,
+      store_id,
+    }
+    app.api.postApi('wxapp.php?c=coupon&a=my_card_num', {
+      params
+    }, (err, response) => {
+      if (err || response.err_code != 0) return;
+      var card_num = response.err_msg.card_num;
+      this.setData({
+        card_num
+      });
+    });
+
+  },
   /*
    *首次打开小程序事件
    *
@@ -329,7 +416,6 @@ Page({
             return;
           }
           phyDefualt = resp.err_msg.physical_list[0];
-          wx.setStorageSync('phy_id', phyDefualt.phy_id);
           that.setData({
             physicalClost: phyDefualt
           })
@@ -344,12 +430,15 @@ Page({
             that.setData({
               logLat
             });
-            // that._parse();
             if (logLat) {
+              console.log('loglat........', logLat);
               clearInterval(that.timer1);
               that.loadLocation(data);
             }
           }, 1000);
+        } else {
+          console.log('loglat........', logLat);
+          that.loadLocation(data);
         }
       })
   },
@@ -358,7 +447,6 @@ Page({
    */
   loadLocation(phyDefualt) {
     var that = this;
-    console.log('loglat........', logLat);
     if (!logLat) {
       that.setData({
         changeFlag: false
@@ -375,14 +463,15 @@ Page({
       long: logLat[0],
       lat: logLat[1]
     }
-    var url = physicalUrl;
-
     app.api.postApi(physicalUrl, {
       params
     }, (err, resp) => {
       // 列表数据
       wx.hideLoading();
       if (resp.err_code != 0) {
+        wx.setStorageSync('phy_id', phyDefualt.phy_id);
+        that.loadHeadicon(phyDefualt.phy_id); //首页轮播图
+        that.loadactivityData(phyDefualt.phy_id); //活动图数据
         return;
       }
       var list = resp.err_msg.physical_list;
@@ -394,6 +483,10 @@ Page({
       if (phyDefualt.length == 0) {
         phyDefualt = list[0];
       }
+      console.log('phyDefualt.....', phyDefualt);
+      wx.setStorageSync('phy_id', phyDefualt.phy_id);
+      that.loadHeadicon(phyDefualt.phy_id); //首页轮播图
+      that.loadactivityData(phyDefualt.phy_id); //活动图数据
       that.setData({
         physicalClost: phyDefualt
       })
@@ -506,7 +599,7 @@ Page({
       wx.hideLoading();
       if (err || rep.err_code != 0) return;
       var data = rep.err_msg;
-     
+
       this.setData({
         groupData: [data[0]]
       });
@@ -640,109 +733,111 @@ Page({
     return false;
   },
   //点击事件banner菜单
-  clickGo: function (e) {
+  clickGo: function(e) {
     let that = this;
-    let { index } = e.detail.target.dataset;
+    let {
+      index
+    } = e.detail.target.dataset;
     //1:扫一扫,2:DM海报,3:领券,4:新品试用,5:母婴服务,6:送券活动,7:礼包特卖,8:秒杀专区,9:孕妈馆,10:萌宝潮搭,11:宝贝成长,12:新生儿馆
-    let url =null;
+    let url = null;
     console.log(index);
-    switch(index){
-      case '1':that.saoma();break;
-      case '2': url = `../../common/pages/index-activity`;break;
-      case '3': url = `../../common/pages/index-mom`;break;
-      case '4': url = `../../home/pages/present`;break;
-      case '5': url = '../../common/pages/index-boabao';break;
-      case '6': url = '../../common/pages/activity-detail';break;
-      case '7': url = `../../common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`; break;
-      case '8': url = `../../common/pages/index-boabao?listId=0&catId=92`; break;
-      case "9": url = `../../common/pages/index-boabao?listId=3&catId=95`; break;
-      case '10': url = `../../common/pages/index-boabao?listId=1&catId=93`; break;
-      case '11': url = `../../common/pages/index-boabao?listId=2&catId=94`;break;
-      case '12': url = `../../common/pages/index-boabao?listId=4&catId=97`; break;
+    switch (index) {
+      case '1':
+        that.saoma();
+        break;
+      case '2':
+        url = `../../common/pages/index-activity`;
+        break;
+      case '3':
+        url = `../../common/pages/index-mom`;
+        break;
+      case '4':
+        url = `../../home/pages/present`;
+        break;
+      case '5':
+        url = '../../common/pages/index-boabao';
+        break;
+      case '6':
+        url = '../../common/pages/activity-detail';
+        break;
+      case '7':
+        url = `../../common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`;
+        break;
+      case '8':
+        url = `../../common/pages/index-boabao?listId=0&catId=92`;
+        break;
+      case "9":
+        url = `../../common/pages/index-boabao?listId=3&catId=95`;
+        break;
+      case '10':
+        url = `../../common/pages/index-boabao?listId=1&catId=93`;
+        break;
+      case '11':
+        url = `../../common/pages/index-boabao?listId=2&catId=94`;
+        break;
+      case '12':
+        url = `../../common/pages/index-boabao?listId=4&catId=97`;
+        break;
     }
-    
+
     if (url) {
-      wx.navigateTo({ url});
+      wx.navigateTo({
+        url
+      });
     }
   },
-  getProductData(categoryid) {
-    var params = {
-      store_id, //店铺id
-      page: '1',
-    };
-    app.api.postApi(activityUrl, { params }, (err, resp) => {
-      console.log('精选活动=', resp);
-      wx.hideLoading();
-      if (err) {
-        return this._showError('网络出错，请稍候重试');
-      }
-      let { err_code, err_msg } = resp;
-      if (err_code != 0) {
-        // return this._showError('无数据')
-        console.error(activityUrl, resp.err_msg);
-        return;
-      }
 
-      this.setData({ productData: resp.err_msg.acrivity_element });
 
-    });
-  },
-
-  loadMyCardNumData: function() {
-    var uid = this.data.uid,
-      params = {},
-      that = this;
-      params = {
-        uid,
-        store_id,
-      }
-      app.api.postApi('wxapp.php?c=coupon&a=my_card_num', {
-        params
-      }, (err, response) => {
-        if (err || response.err_code != 0) return;
-        var card_num = response.err_msg.card_num;
-        this.setData({
-          card_num
-        });
-      });
-   
-  },
 
   /**
-   * 首页精选活动数据
+   * 精选活动跳链
    */
-  loadactivityData() {
-    wx.showLoading({
-      title: '加载中...',
-      mask: true,
-    });
-    this.getProductData();
-  },
-  /**
-  * 精选活动跳链
-  */
   areaClickGo(e) {
     var params = e.currentTarget.dataset;
     console.log('精选活动跳链', params);
-    var { type, id, rediurl}=params;
+    var {
+      type,
+      id,
+      rediurl
+    } = params;
     console.log('type', type);
     console.log('id', id);
     //跳转类型，栏目1 ，商品2，送券活动4
     if (type == 1) {
       switch (rediurl) {
         //四个banner模块
-        case "1": var url = `../../common/pages/shop-list?categoryid=100&page=1&store_id=${store_id}&title=爆款专区`; break;
-        case "2": var url = `../../common/pages/shop-list?categoryid=101&page=1&store_id=${store_id}&title=热销专区`; break;
-        case "3": var url = `../../common/pages/shop-list?categoryid=105&page=1&store_id=${store_id}&title=活动专区`; break;
-        case "4": var url = `../../common/pages/shop-list?categoryid=102&page=1&store_id=${store_id}&title=百货专区`; break;
-        //宝宝模块
-        case "5": var url = `../../common/pages/index-boabao?listId=0&catId=92`; break;
-        case "6": var url = `../../common/pages/index-boabao?listId=1&catId=93`; break;
-        case "7": var url = `../../common/pages/index-boabao?listId=2&catId=94`; break;
-        case "8": var url = `../../common/pages/index-boabao?listId=3&catId=95`; break;
-        case "9": var url = `../../common/pages/index-boabao?listId=4&catId=97`; break;
-        //礼包特卖模块
-        case "10": var url = `../../common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`; break;
+        case "1":
+          var url = `../../common/pages/shop-list?categoryid=100&page=1&store_id=${store_id}&title=爆款专区`;
+          break;
+        case "2":
+          var url = `../../common/pages/shop-list?categoryid=101&page=1&store_id=${store_id}&title=热销专区`;
+          break;
+        case "3":
+          var url = `../../common/pages/shop-list?categoryid=105&page=1&store_id=${store_id}&title=活动专区`;
+          break;
+        case "4":
+          var url = `../../common/pages/shop-list?categoryid=102&page=1&store_id=${store_id}&title=百货专区`;
+          break;
+          //宝宝模块
+        case "5":
+          var url = `../../common/pages/index-boabao?listId=0&catId=92`;
+          break;
+        case "6":
+          var url = `../../common/pages/index-boabao?listId=1&catId=93`;
+          break;
+        case "7":
+          var url = `../../common/pages/index-boabao?listId=2&catId=94`;
+          break;
+        case "8":
+          var url = `../../common/pages/index-boabao?listId=3&catId=95`;
+          break;
+        case "9":
+          var url = `../../common/pages/index-boabao?listId=4&catId=97`;
+          break;
+          //礼包特卖模块
+        case "10":
+          var url = `../../common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`;
+          break;
 
       }
     } else if (type == 2) {

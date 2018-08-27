@@ -1,7 +1,6 @@
 var app = getApp();
-// const activityUrl = 'wxapp.php?c=index_activity&a=activity_index';//活动页接口
-const activityUrl = 'wxapp.php?c=index_activity&a=activity_index_v3';//DM海报接口
-// const activityNewUrl = 'wxapp.php?c=index_activity&=index';//DM海报接口
+const activityUrl = 'wxapp.php?c=index_activity&a=dm_activity_v4';//DM海报接口（第四版）
+// const activityUrl = 'wxapp.php?c=index_activity&a=activity_index_v3';//DM海报接口
 Page({
 
   /**
@@ -34,11 +33,10 @@ Page({
 */
   loadactivityData() {
     wx.showLoading({ title: '加载中...', mask: true, });
-    this.getProductData();
-  },
-  getProductData(categoryid) {
+    var phy_id = wx.getStorageSync("phy_id");
     var params = {
       store_id: this.data.store_id, //店铺id
+      physical_id: phy_id,
       flag: "poster",
       page: '1',
     };
@@ -57,6 +55,7 @@ Page({
 
     });
   },
+
   /**
      * 精选活动跳链
      */

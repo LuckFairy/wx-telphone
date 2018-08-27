@@ -2,7 +2,7 @@ let share = require('../common/template/share.js');
 const shareLaterUrl = 'wxapp.php?c=activity&a=tuan_share_coupon';//拼团活动分享之后的优惠券列表
 let config = require('../../config.js');
 const app = getApp();
-const tuanDataUrl = 'wxapp.php?c=tuan_v2&a=tuan_detail';//加载团购商品数据
+const tuanDataUrl = 'wxapp.php?c=tuan_v2&a=tuan_detail_v2';//加载团购商品数据
 const otherGroupUrl = "wxapp.php?c=tuan_v2&a=team_list";//他人团数据
 const changeGroupUrl = "wxapp.php?c=tuan_v2&a=change_team_list";//换一批
 const cartInfoUrl = 'wxapp.php?c=cart&a=info';//获取属性弹窗
@@ -53,6 +53,9 @@ Page({
     tuanId: null,//拼团id
     ordertype: 0,//购买类型，1单独购买，2一键开团
     des_html: ["1、团购价购买此商品", "2、邀请好友来参团", "3、达到开团人数，商品发货。", "4、没达到开团人数，直接退款。"],//拼团规则
+    preTimeText: { hour: 0, minute: 0, second: 0 },
+    preTime:0,
+    isShowPre: false//显示预售商品提示
   },
   onShareAppMessage: function (res) {
     let that = this,dataset=res.target.dataset;
@@ -131,10 +134,8 @@ Page({
 
     var { tuanId, prodId, sellout = null } = options;
     that.setData({ tuanId, prodId, sellout, uid, phy_id });
-    that.loadData(prodId, tuanId);
     that.loadCartInfo();
-
-    that._loadOrderData();
+ 
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
       let len = data.length, i = 0;
@@ -191,14 +192,17 @@ Page({
   },
   //多规格 onShow
   onShow: function () {
+    let that = this;
     wx.hideShareMenu();
+    that.loadData();
+    that._loadOrderData();
   },
   onHide: function () {
-    // 页面隐藏
     this.stopCountDown();
   },
   onUnload: function () {
     // 页面关闭
+    this.stopCountDown();
   },
   goImageClose() {
     var that = this;
@@ -206,7 +210,9 @@ Page({
       moreChoose: false,
     });
   },
-  loadData(prodId, tuanId) {
+  loadData() {
+    this.tuanTimer && clearInterval(this.tuanTimer);
+    let { prodId, tuanId}=this.data;
     wx.showLoading({ title: '加载中' });
     app.api.postApi(tuanDataUrl, { "params": { "tuan_id": tuanId } }, (err, rep) => {
       wx.hideLoading();
@@ -224,6 +230,7 @@ Page({
       if (tuan.description_html && tuan.description_html.length>0){
         des_html= tuan.description_html;
       }
+      this.tuanCountDown(product.sold_time);
       this.setData({
         image_lists: product_image_lists, product, tuan, des_html
       })
@@ -795,11 +802,13 @@ Page({
       this.setData({ replaceData });
     }, 1000);
   },
+ 
   /**
    * 停止倒计时
    */
   stopCountDown() {
     this.timer && clearInterval(this.timer);
+    this.tuanTimer && clearInterval(this.tuanTimer);
   },
   /**
 * 格式化倒计时显示
@@ -826,7 +835,52 @@ Page({
     return { day, hour, minute, second };
 
   },
-
+  /**
+ * 预售倒计时处理
+ */
+  tuanCountDown(preTime) {
+    if (preTime <= 0) {return;}
+    let now = (new Date().getTime()) / 1000;
+    let leftTime = preTime - now;
+    if(leftTime<=0){
+      this.setData({ preTime: leftTime });
+      return;
+    }
+    let that = this;
+    that.tuanTimer = setInterval(() => {
+       now = (new Date().getTime()) / 1000;
+       leftTime = preTime - now;
+      var day = 0, hour = 0, minute = 0, second = 0;
+      if (leftTime > 0) {//转换时间  
+        day = Math.floor(leftTime / (60 * 60 * 24));
+        hour = Math.floor(leftTime / (60 * 60)) - (day * 24);
+        minute = Math.floor(leftTime / 60) - (day * 24 * 60) - (hour * 60);
+        second = Math.floor(leftTime) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+        hour = day * 24 + hour;
+        if (hour <= 9) hour = '0' + hour;
+        if (minute <= 9) minute = '0' + minute;
+        if (second <= 9) second = '0' + second;
+        var time = { hour, minute, second };
+        this.setData({ preTimeText: time, preTime: leftTime });
+      } else {
+        clearInterval(that.tuanTimer);
+        this.setData({ preTime: leftTime });
+        console.log('结束预售倒计时')
+        that.loadData();
+      }
+    }, 1000);
+  },
+  showPreBuyTip() {
+    var that = this;
+    that.setData({
+      isShowPre: true
+    });
+    setTimeout(function () {
+      that.setData({
+        isShowPre: false
+      });
+    }, 2000);
+  },
   //点击换一批
   clickReplace: function () {
     this.stopCountDown();

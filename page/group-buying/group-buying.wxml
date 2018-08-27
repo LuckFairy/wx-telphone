@@ -12,6 +12,18 @@
     </swiper>
     <!--商品详情区域开始  -->
     <view class="middle-box">
+      <block wx:if="{{preTime>0}}">
+        <view class='pre_time'>
+          <image class='pre_time_img' src='/image/icon_pre_buy.png'></image>
+          <view class='pre_time_text'>距开始时间仅剩余
+            <text class='pre_time_bj'>{{preTimeText.hour}}</text> 时
+            <text class='pre_time_bj'>{{preTimeText.minute}}</text> 分
+            <text class='pre_time_bj'>{{preTimeText.second}}</text> 秒
+          </view>
+        </view>
+      </block>
+
+
       <text class="middle-title">{{product.name}}</text>
       <view class="middle-detail">
         <view class='mid-list-wrap'>
@@ -23,7 +35,7 @@
           </block> -->
         </view>
         <view class='mid-list-wraps-image' wx:if='{{sellout==1}}'>
-          <button class='mid-open-list' open-type='share' data-imgurl='{{image_lists[0]}}'  data-price="{{product.price}}" data-title='{{product.name}}' ></button>
+          <button class='mid-open-list' open-type='share' data-imgurl='{{image_lists[0]}}' data-price="{{product.price}}" data-title='{{product.name}}'></button>
           <text class="mid-list-six-top">分享给好友</text>
         </view>
       </view>
@@ -107,14 +119,26 @@
         <icon class='invite-ke-server-img'></icon>
         <text class='invite-ke-server-text'>客服</text>
       </view>
-      <view class="menu-add-car" bindtap="doBuy" data-ordertype="1" wx:if='{{sellout==1}}'>
-        <text class="menu-add-text menu-add-price" data-number="{{selfBuy.number}}">￥{{selfBuy.price}}</text>
-        <text class="menu-add-text">单独购买</text>
-      </view>
-      <view class="menu-current-sell" bindtap="doBuy" data-ordertype="2" wx:if='{{sellout==1}}'>
-        <text class="menu-current-text menu-current-price" data-number="{{pintuanBuy.number}}">￥{{pintuanBuy.price}}</text>
-        <text class="menu-current-text">一键开团</text>
-      </view>
+      <block wx:if="{{preTime<=0&&sellout==1}}">
+        <view class="menu-add-car" bindtap="doBuy" data-ordertype="1">
+          <text class="menu-add-text menu-add-price" data-number="{{selfBuy.number}}">￥{{selfBuy.price}}</text>
+          <text class="menu-add-text">单独购买</text>
+        </view>
+        <view class="menu-current-sell" bindtap="doBuy" data-ordertype="2">
+          <text class="menu-current-text menu-current-price" data-number="{{pintuanBuy.number}}">￥{{pintuanBuy.price}}</text>
+          <text class="menu-current-text">一键开团</text>
+        </view>
+      </block>
+      <block wx:if="{{preTime>0&&sellout==1}}">
+        <view class="menu-add-car pre_self_bj" bindtap="showPreBuyTip">
+          <text class="menu-add-text menu-add-price pre_buy_text" >￥{{selfBuy.price}}</text>
+          <text class="menu-add-text pre_buy_text">单独购买</text>
+        </view>
+        <view class="menu-current-sell pre_buy_bj " bindtap="showPreBuyTip">
+          <text class="menu-current-text menu-current-price pre_buy_text" >￥{{pintuanBuy.price}}</text>
+          <text class="menu-current-text pre_buy_text">一键开团</text>
+        </view>
+      </block>
       <!--已售罄  -->
       <view class="menu-current-sell sellout" data-ordertype="2" wx:if='{{sellout==0}}'>
         <text class="menu-current-text sellout">已售罄</text>
@@ -173,4 +197,7 @@
       <button form-type='submit' class='go-confirm'> 确定</button>
     </form>
   </view>
+</view>
+<view class='pre_time_tip_bj' wx:if="{{isShowPre}}">
+  <text class='pre_time_tip_text'>还没到售卖时间，暂不支持购买</text>
 </view>

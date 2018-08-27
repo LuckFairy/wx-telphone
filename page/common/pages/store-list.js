@@ -15,6 +15,7 @@ Page({
     checkModel: false,//默认是门店指南模块
     index: false,//是否是首页切换门店
     physicalClost: '',//最近门店信息
+    error:null,
     uid: '',
     sotre_id:'',
     logLat:'',
@@ -83,15 +84,19 @@ Page({
     var params = { "store_id":this.data.store_id, "uid":this.data.uid, "physical_id":phy_id }
     var url = 'wxapp.php?c=physical&a=select_physical';
     app.api.postApi(url, { params }, (err, resp) => {
+      if(err||resp.err_code!=0){this._showError('更改门店失败！');return;}
       if (resp.err_code == 0){
-        console.log('更改门店成功');
-        let pages = getCurrentPages();
-        let prevPage = pages[pages.length - 2];
-        prevPage.setLocation(this.data.physicalClost);
+        this._showError(resp.err_msg);
+        setTimeout(()=>{
+          let pages = getCurrentPages();
+          let prevPage = pages[pages.length - 2];
+          console.log('选择门店数据', this.data.physicalClost);
+          wx.setStorageSync('phy_id', this.data.physicalClost.phy_id);
+          prevPage.setData({ physicalClost: this.data.physicalClost});
+          wx.navigateBack();
+        },1000)
       }
-      if(resp.err_code==0 || resp.err_code==1001){
-        wx.navigateBack();
-      }
+      
     })
     
   },
@@ -174,5 +179,15 @@ Page({
   },
   onUnload: function () {
     // 页面关闭
-  }
+  },
+  /**
+* 显示错误信息
+*/
+  _showError(errorMsg) {
+    this.setData({ error: errorMsg });
+    setTimeout(() => {
+      this.setData({ error: null });
+    }, 1000);
+    return false;
+  },
 })

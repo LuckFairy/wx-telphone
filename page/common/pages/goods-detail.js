@@ -60,7 +60,8 @@ Page({
     choPrice: '',//单品价格
     choQuantity: '',//单品库存
     tabCheck: false,//多属性是否选中,
-    preTimeText: null,
+    preTimeText: { hour:0, minute:0, second :0},
+    preTime:0,
     isShowPre: false//显示预售商品提示
   },
   onShareAppMessage(res) {
@@ -222,11 +223,9 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     let { prodId, action, params, categoryid = '', cateId } = options;
 
-    this.loadData(prodId, action, categoryid);
-
     //this.setData({ 'newCartNum': 0 });
 
-    this.setData({ 'cateId': cateId, 'product_id': prodId });
+    this.setData({ 'cateId': cateId, 'product_id': prodId ,action,prodId});
 
     //购物车的数量
     app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
@@ -265,17 +264,21 @@ Page({
   },
   //多规格 onShow
   onShow: function () {
-    physical_id = wx.getStorageSync('phy_id');
+    this.loadData();
   },
   onHide: function () {
     // 页面隐藏
+    this.stopCountDown();
   },
   onUnload: function () {
     // 页面关闭
+    this.stopCountDown();
   },
 
-  loadData(prodId, action, categoryid) {
-    var that = this;
+  loadData() {
+    let that = this;
+    let { prodId, action}=that.data;
+    this.timer && clearInterval(this.timer);
     wx.showLoading({ title: '加载中' });
     //这里是严选
     let url = 'wxapp.php?c=product&a=detail_of_product_v4';
@@ -283,8 +286,7 @@ Page({
       "product_id": prodId, uid, store_id
     }
     app.api.postApi(url, { params }, (err, resp) => {
-      console.log("错误解决方法");
-      console.log(resp);
+      console.log('商品數據',resp);
       wx.hideLoading();
       if (err) return;
       if (resp.err_code != 0) {
@@ -827,30 +829,19 @@ Page({
    * 倒计时处理
    */
   startCountDown(preTime) {
-    if (preTime == 0) {
+    if (preTime <= 0) {
       return
     }
+    let now = (new Date().getTime()) / 1000;
+    let leftTime = preTime - now;
+    if(leftTime<=0){
+      this.setData({preTime: leftTime });return;
+    }
     this.timer = setInterval(() => {
-      let now = new Date().getTime();
-      now = now / 1000;
-      let leftTime = preTime - now;
+      now = (new Date().getTime())/1000;
+      leftTime = preTime - now;
       let time = this.countDown(leftTime);
-      this.setData({ preTimeText: time });
-
-
-
-      // let len = replaceData.length;
-      // for (let i = len - 1; i >= 0; i--) {
-      //   let item = replaceData[i];
-      //   let expireTime = item.end_time * 1000;
-      //   let leftTime = (expireTime - now) / 1000;
-      //   if (leftTime < 0) {
-      //     replaceData.splice(i, 1);   // 到了失效时间，从活动里删除
-      //     continue;
-      //   } else {
-      //     item.countDown = this.countDown(leftTime);
-      //   }
-      // }
+      this.setData({ preTimeText: time, preTime: leftTime});
     }, 1000);
   },
   /**
@@ -874,13 +865,10 @@ Page({
       if (minute <= 9) minute = '0' + minute;
       if (second <= 9) second = '0' + second;
     } else {
-      clearInterval(timer);
-      var prodId = this.data.prodId;
-      var action = this.data.action;
-      this.loadData(prodId, action, '');
+      clearInterval(this.timer);
+      this.loadData();
     }
     return { hour, minute, second };
-
   },
 
   showPreBuyTip() {
