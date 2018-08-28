@@ -1,5 +1,5 @@
 <import src="../template/count-down.wxml" />
-<scroll-view class="bac-color" scroll-y="true" lower-threshold='0' bindscrolltolower='pullUpLoadone' style="height: {{windowHeight}}px; width: {{windowWidth}}px;">
+<scroll-view class="bac-color" scroll-y="true" lower-threshold='0' bindscrolltolower='pullUpLoadone' >
     <view class="goods-list-containner">
         <view class="goods-list-view">
             <navigator wx:for="{{dataList}}"  wx:key="{{index}}" data-product-id='{{item.product_id}}' class="goods-item-view" url="./goods-detail?prodId={{item.product_id}}&action={{item.card_set_ids}}">

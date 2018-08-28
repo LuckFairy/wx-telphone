@@ -14,15 +14,7 @@ Page({
     that.setData({
       store_id
     });
-    // 自动获取手机宽高
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          windowHeight: res.windowHeight,
-          windowWidth: res.windowWidth
-        })
-      }
-    })
+
     that.loadData(that);
   },
   // 上拉加载

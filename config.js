@@ -8,7 +8,7 @@
  */
 var isRelease = false;
 var host = "https://saas.qutego.com/"
-var testhost = "https://api.ljxhlaw.com/"
+var testhost = "https://zy.qutego.com/"
 var AGENT_ID = 2
 var sid = 293;//趣购精选293
 var sid_test = 293;//婴众趣购590
