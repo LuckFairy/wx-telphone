@@ -1,121 +1,193 @@
+// pages/store/store-list.js
 var app = getApp();
+let phy_id = null;//选择的门店id
+const physicalUrl = 'wxapp.php?c=address&a=physical_list';//门店列表老接口
+const physicalNewUrl = 'wxapp.php?c=physical&a=physical_list';//门店列表新接口
+
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-    dataList: [], //数据数组
+    pageData: null,        // 门店列表数据
+    page: 1,
+    windowHeight: '',
+    windowWidth: '',
+    physical_list: [],
+    checkModel: false,//默认是门店指南模块
+    index: false,//是否是首页切换门店
+    physicalClost: '',//最近门店信息
+    error: null,
+    uid: '',
+    sotre_id: '',
+    logLat: '',
   },
-  
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-    if (options.title) {
-      wx.setNavigationBarTitle({
-        title: options.title
+    let store_id = app.store_id;
+    let uid = wx.getStorageSync('userUid');
+    let logLat = wx.getStorageSync('logLat');
+    phy_id = wx.getStorageSync('phy_id');
+
+    this.setData({
+      store_id, uid, logLat
+    })
+    var { check, index } = options;
+    if (check) {
+      this.setData({ checkModel: true, index }); wx.setNavigationBarTitle({
+        title: '门店列表'
       })
-    }
-    this.loadData(options)
+    };
+
+    var that = this;
+    // 页面初始化 options为页面跳转所带来的参数
+    // 自动获取手机宽高
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          windowHeight: res.windowHeight,
+          windowWidth: res.windowWidth
+        })
+      }
+    })
+    this._loadData();
+  },
+  gobottom(e) {
+    console.log(e);
+    var that = this;
+    var page = that.data.page;
+    page++
+    that.setData({
+      page
+    })
+    that._loadData();
   },
   /**
-     * 加载商品列表数据
-     */
-  getProductData(opt) {
-    var { categoryid, page, store_id, title } = opt;
-
-    var params = { "store_id": store_id, "page": page, "categoryid": categoryid };
-    let url = 'wxapp.php?c=product&a=get_product_list';
-    app.api.postApi(url, { "params": params }, (err, resp) => {
-      wx.hideLoading();
-      if (err) {
-        return this._showError('网络出错，请稍候重试');;
-      }
-
-      let { err_code, err_msg: { products: data = [] } } = resp;
-      if (err_code != 0) {
-        return this._showError(err_msg);
-      }
-      data = null ? [] : data;
-      if (data.length > 1) {
-        for (var i in data) {
-          data[i].diff = Number(data[i].original_price - data[i].price).toFixed(2);
-        }
-      }
-      this.setData({ dataList: data });
-
-    });
+   * 首页选择门店
+   */
+  selectPhysical(e) {
+    let { locationId, index, type } = e.currentTarget.dataset;
+    let that = this;
+    var list = that.data.physical_list;
+    list[index].select_physical = (list[index].select_physical == 0 ? 1 : 1);
+    var select = list[index].select_physical;
+    for (let i = 0; i < list.length; i++) {
+      if (i != index) { list[i].select_physical = 0 }
+    }
+    that.setData({
+      physical_list: list,
+      physicalClost: list[index]
+    })
+    phy_id = locationId;
   },
-  goDetails(e) {
+  setStore() {
+    if (this.data.physicalClost.length <= 0 || !this.data.physicalClost) {
+      wx.navigateBack(); return;
+    }
+    var params = { "store_id": this.data.store_id, "uid": this.data.uid, "physical_id": phy_id }
+    var url = 'wxapp.php?c=physical&a=select_physical';
+    app.api.postApi(url, { params }, (err, resp) => {
+      if (err || resp.err_code != 0) { this._showError('更改门店失败！'); return; }
+      if (resp.err_code == 0) {
+        this._showError(resp.err_msg);
+        setTimeout(() => {
+          let pages = getCurrentPages();
+          let prevPage = pages[pages.length - 2];
+          console.log('选择门店数据', this.data.physicalClost);
+          wx.setStorageSync('phy_id', this.data.physicalClost.phy_id);
+          prevPage.setData({ physicalClost: this.data.physicalClost });
+          wx.navigateBack();
+        }, 1000)
+      }
+
+    })
+
+  },
+  /**
+   * 选择门店
+   */
+  checkStore(e) {
+    var phy_id = e.target.dataset.locationId;
+    let pages = getCurrentPages();
+    let prevPage = pages[pages.length - 2];
+    prevPage.loadLocation(phy_id);
+    wx.navigateBack();
+  },
+  onReady: function () {
+    // 页面渲染完成
+  },
+  onShow: function () {
+    // 页面显示
+  },
+
+  /**
+   * 加载页面数据  加载门店列表数据
+   */
+  _loadData() {
+    var that = this;
+    let logLat = that.data.logLat;
+    let uid = that.data.uid;
+    let store_id = that.data.store_id;
+    //不是门店指南模块
+    if (that.data.checkModel) {
+      if (!logLat || logLat == '') { return; }
+      var url = physicalNewUrl;
+      var params = {
+        uid,
+        store_id,
+        page: '1',
+        long: logLat[0],
+        lat: logLat[1]
+      }
+    } else {
+      var url = physicalUrl;
+      var params = {
+        uid,
+        store_id,
+        page: '1',
+      }
+    }
+
     wx.showLoading({
       title: '加载中'
-    })
-    var categoryid = e.currentTarget.dataset.categoryid;
-    var productid = e.currentTarget.dataset.productid;
-    wx.navigateTo({
-      url: './goods-detail?prodId=' + productid
-    })
-    wx.hideLoading();
-  },
-
-  /**
-* 专区数据
-*/
-  loadData(categoryid) {
-    wx.showLoading({
-      title: '加载中...',
-      mask: true
     });
-    this.getProductData(categoryid);
+    app.api.postApi(url, { params }, (err, resp) => {
+      console.log('门店指南。。。', resp);
+      // 列表数据
+      if (resp) {
+        wx.hideLoading();
+        if (resp.err_code == 0) {
+          that.setData({
+            physical_list: resp.err_msg.physical_list
+          })
+          if (that.data.index) {
+            for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
+              if (resp.err_msg.physical_list[j].select_physical == 1) {
+                phy_id = resp.err_msg.physical_list[j].phy_id;
+              }
+            }
+          }
+        } else {
+          wx.showToast({
+            title: '亲，没有数据了',
+            image: '../../image/use-ruler.png',
+            duration: 1000
+          })
+        }
+      }
+    });
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
-
+    // 页面隐藏
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
-
+    // 页面关闭
   },
-
   /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
+* 显示错误信息
+*/
+  _showError(errorMsg) {
+    this.setData({ error: errorMsg });
+    setTimeout(() => {
+      this.setData({ error: null });
+    }, 1000);
+    return false;
   },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

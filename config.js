@@ -6,10 +6,10 @@
  * AGENT  api请求中的hear参数
  * sid   店铺id
  */
-var isRelease = false;
+var isRelease = true;
 var host = "https://saas.qutego.com/"
-// var testhost = "https://api.ljxhlaw.com/"
-var testhost = "https://saas.qutego.com/"
+var testhost = "https://api.ljxhlaw.com/"
+// var testhost = "https://saas.qutego.com/"
 var AGENT_ID = 2
 var sid = 310;//咿呀
 var sid_test = 293;//婴众趣购590

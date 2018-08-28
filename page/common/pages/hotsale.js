@@ -1,28 +1,20 @@
 var app = getApp();
 Page({
-  data:{
-    page:1,
-    store_id:'',
-    windowHeight:'',
-    windowWidth:'',
-    msgList:[],
-    dataList:'' 
+  data: {
+    page: 1,
+    store_id: '',
+    windowHeight: '',
+    windowWidth: '',
+    msgList: [],
+    dataList: ''
   },
-  onLoad:function(options){
+  onLoad: function (options) {
     var that = this;
     var store_id = app.store_id;
     that.setData({
       store_id
     });
-    // 自动获取手机宽高
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          windowHeight: res.windowHeight,
-          windowWidth: res.windowWidth
-        })
-      }
-    })
+
     that.loadData(that);
   },
   // 上拉加载
@@ -44,7 +36,7 @@ Page({
     // 上拉加载结束 
   },
   // 数据
-  loadData(that){
+  loadData(that) {
     var page = that.data.page;
     var store_id = that.data.store_id;
     var msgList = that.data.msgList;//空数组
@@ -55,38 +47,38 @@ Page({
     var params = {
       page, store_id
     }
-    app.api.postApi('wxapp.php?c=product&a=get_product_by_catid', { params}, (err, response) => {
+    app.api.postApi('wxapp.php?c=product&a=get_product_by_catid', { params }, (err, response) => {
       wx.hideLoading();
       if (err) return;
       var products = response.err_msg.products
-      if (products){
+      if (products) {
         console.log(products, 'products')
         for (var j = 0; j < products.length; j++) {
           msgList.push(products[j]);
         }
-        console.log(msgList,'msgList');
+        console.log(msgList, 'msgList');
         //更新数据
         that.setData({
           dataList: msgList
         });
-      }else{
+      } else {
         wx.showToast({
           title: '亲，没有了', icon: "loading", duration: 1000
         })
       }
-      
+
     });
   },
-  onReady:function(){
-    
+  onReady: function () {
+
   },
-  onShow:function(){
-   
+  onShow: function () {
+
   },
-  onHide:function(){
-   
+  onHide: function () {
+
   },
-  onUnload:function(){
-   
+  onUnload: function () {
+
   }
 })

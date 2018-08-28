@@ -64,16 +64,17 @@
 } */
 
 .prod-name-text {
+  height: 54rpx;
+  width: 100%;
   font-size: 28rpx;
   line-height: 28rpx;
   color: #313131;
-  height: 60rpx;
-  width: 100%;
- overflow : hidden;
-  text-overflow: ellipsis;
+  overflow:hidden;
+  text-overflow:ellipsis;
+   /* white-space:nowrap;  */
   display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical
 }
 
 .goods-list-view {
@@ -96,7 +97,7 @@
 
 .goods-info-view {
   width: 100%;
-  /* height: 150rpx; */
+  height: 154rpx;
   display: flex;
   padding:20rpx;
   flex-direction: column;
@@ -116,7 +117,7 @@
 .goods-left-text2{
   font-size: 24rpx;
   color: #999999;
-  /* margin-top: 25rpx; */
+  margin-top: 25rpx;
   text-decoration:line-through;
 
 }
@@ -215,6 +216,7 @@
 .bac-color{
    background: #eeeeee;
    width: 100%;
+   height: 100%;
 }
 .group-shop:nth-child(2n){
   margin-left: 16rpx;
