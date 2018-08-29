@@ -36,7 +36,8 @@ Page({
     var phy_id = wx.getStorageSync("phy_id");
     var params = {
       store_id: this.data.store_id, //店铺id
-      physical_id: phy_id,
+      // physical_id: phy_id,
+      uid:this.data.uid,
       flag: "poster",
       page: '1',
     };

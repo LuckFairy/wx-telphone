@@ -29,7 +29,7 @@
     </swiper>
     <!-- 轮播图结束 -->
     <!--  切换门店区域 -->
-    <view class='shop-area'>
+    <view class='shop-area hide'>
       <view class='shop-area-left'>
         <text class='title'>{{physicalClost.name}}</text>
         <text class='message'>{{physicalClost.address}}</text>
@@ -100,7 +100,7 @@
     <!--拼团区域  -->
     <view class='yiya-pinduoduo-area'>
       <view class='pinduoduo-title'>
-        <text class='pinduodudo-text-title'>趣购拼团</text>
+        <text class='pinduodudo-text-title'>拼团</text>
         <view class='pinduoduo-more' bindtap="clickGoGroup">
           <text class='more-text'>查看全部</text>
           <image class='more-image' src='./imgs/pt-next-page.png'></image>

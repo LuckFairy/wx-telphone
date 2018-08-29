@@ -230,7 +230,8 @@ Page({
     app.api.postApi(headImg, {
       "params": {
         store_id,
-        physical_id: phy_id
+        // physical_id: phy_id
+        uid
       }
     }, (err, resp) => {
       if (resp.err_code == 0) {
@@ -252,7 +253,8 @@ Page({
     });
     var params = {
       store_id, //店铺id
-      physical_id: phy_id,
+      // physical_id: phy_id,
+      uid,
       page: '1',
     };
     app.api.postApi(activityUrl, {
@@ -423,23 +425,26 @@ Page({
         });
       })
       .then(data => {
-        logLat = wx.getStorageSync('logLat');
-        if (logLat == '' || logLat == null) {
-          that.timer1 = setInterval(() => {
-            logLat = wx.getStorageSync('logLat');
-            that.setData({
-              logLat
-            });
-            if (logLat) {
-              console.log('loglat........', logLat);
-              clearInterval(that.timer1);
-              that.loadLocation(data);
-            }
-          }, 1000);
-        } else {
-          console.log('loglat........', logLat);
-          that.loadLocation(data);
-        }
+        wx.setStorageSync('phy_id', data.phy_id);
+        that.loadHeadicon(data.phy_id); //首页轮播图
+        that.loadactivityData(data.phy_id); //活动图数据
+      //   logLat = wx.getStorageSync('logLat');
+      //   if (logLat == '' || logLat == null) {
+      //     that.timer1 = setInterval(() => {
+      //       logLat = wx.getStorageSync('logLat');
+      //       that.setData({
+      //         logLat
+      //       });
+      //       if (logLat) {
+      //         console.log('loglat........', logLat);
+      //         clearInterval(that.timer1);
+      //         that.loadLocation(data);
+      //       }
+      //     }, 1000);
+      //   } else {
+      //     console.log('loglat........', logLat);
+      //     that.loadLocation(data);
+      //   }
       })
   },
   /**

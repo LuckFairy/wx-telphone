@@ -283,7 +283,7 @@ Page({
     //这里是严选
     let url = 'wxapp.php?c=product&a=detail_of_product_v4';
     var params = {
-      "product_id": prodId, uid, store_id
+      "product_id": prodId, uid:that.data.uid, store_id
     }
     app.api.postApi(url, { params }, (err, resp) => {
       console.log('商品數據',resp);

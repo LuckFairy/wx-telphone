@@ -6,19 +6,19 @@
  * AGENT  api请求中的hear参数
  * sid   店铺id
  */
-var isRelease = false;
+var isRelease = true;
 var host = "https://saas.qutego.com/"
 var testhost = "https://zy.qutego.com/"
 var AGENT_ID = 2
-var sid = 293;//趣购精选293
+var sid = 295;
 var sid_test = 293;//婴众趣购590
-var title = '趣购精选';
+var title = '宝宝康';
 var title_test = '婴众趣购';
 var phonetest = '4006088520';//测试客服电话
-var phone = '4000001312';//正式客服电话趣购精选
-var phoneTxt = '400-000-131';
-var serverTxt = 'yzkf139';
-var appid = 'wx57d5cde97d7e1fd3';//趣购精选appid:wxaeb0f3eeb93b3574婴众趣购appid: wx57d5cde97d7e1fd3';
+var phone = '7146310999';//正式客服电话
+var phoneTxt = '714-631-0999';
+var serverTxt = 'BBK2000SSCZ';
+var appid = 'wx57d5cde97d7e1fd3';
 
 export default{
 

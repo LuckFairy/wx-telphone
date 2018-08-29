@@ -41,7 +41,7 @@
     </view>
     <view class="item-view">
         <label class="title">详细地址：</label>
-        <input style="flex:1;" bindblur="bindAddressChange" value='{{addressiinfo.address}}' type="text" placeholder=""  maxlength="128" />
+        <input style="flex:1;" bindinput="bindAddressChange" value='{{addressiinfo.address}}' type="text" placeholder=""  maxlength="128" />
     </view>
        <!-- <view class="item-view" bindtap='onSetDefault'>
             <icon wx:if="{{isDefault}}" type="success" size="24" />

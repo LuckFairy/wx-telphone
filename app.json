@@ -1,6 +1,7 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/common/pages/goods-detail",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
     "page/tabBar/goods/cart",
@@ -18,7 +19,6 @@
     "page/common/pages/buy",
     "page/common/pages/card_detail",
     "page/common/pages/card_summary",
-    "page/common/pages/goods-detail",
     "page/common/pages/index-activity",
     "page/common/pages/index-boabao",
     "page/common/pages/my-order",
@@ -40,7 +40,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
-    "navigationBarTitleText": "趣购精选",
+    "navigationBarTitleText": "宝宝康",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

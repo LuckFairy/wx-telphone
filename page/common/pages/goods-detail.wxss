@@ -1165,8 +1165,8 @@ button[type=warn] {
 }
 
 .mid-list-sharefriend, .mid-open-list {
-  width: 56rpx;
-  height: 56rpx;
+  width:56rpx;
+  height:56rpx;
   text-align: center;
 }
 

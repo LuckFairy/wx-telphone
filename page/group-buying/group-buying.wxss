@@ -13,6 +13,9 @@
 .cl_h, .clear {
   clear: both;
 }
+.share-txt {
+left:30rpx !important;
+}
 
 /*
 用于预购按钮设置宽度
