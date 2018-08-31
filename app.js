@@ -9,6 +9,7 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs);
     this.getLocation();//获取位置信息
+    this.getTelWx();
   },
   api: ajax,
   store_id: __config.sid,
@@ -24,6 +25,22 @@ App({
     sid: __config.sid, //商店id
     logLat: null, //当前位置
     formIds: [], //消息推送id
+  },
+  getTelWx:function(){
+      let that = this;
+      let params={store_id:that.store_id};
+    that.api.postApi(that.config.getTelWxUrl,{params},(err,res)=>{
+      if(res.err_code==0){
+        //客服电话
+        that.config.serverPhone = res.err_msg.TelnWx.service_tel;
+
+        //客服电话txt
+        that.config.phoneTxt = res.err_msg.TelnWx.service_tel.replace(/(.{3})/g, "$1-");
+
+        //客服微信
+        that.config.serverTxt = res.err_msg.TelnWx.service_weixin;
+      }
+    })
   },
   getLocation: function () {
     this.WxService.getLocation()

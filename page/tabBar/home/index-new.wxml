@@ -1,10 +1,9 @@
 <import src="../../common/template/get-tel.wxml" />
-<!-- <import src="../../common/template/get-info.wxml" />    -->
 <import src="../../common/template/share.wxml" />
 <import src="../../common/template/coupon.wxml" />
 
 <template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{locationid}}"></template>
-<!-- <template wx:if="{{isInfo==true}}" is="getuserInfo-modal" ></template>    -->
+<template wx:if="{{isInfo==false}}" is="getuserInfo-modal" ></template>   
 <template wx:if="{{showpopteamModle==true}}" is="popteam-modal" data="{{popteamData,popteamUrl,popteamNicke}}"></template>
 <template wx:if="{{showModel==true}}" is="coupon-modal" data="{{showModel,couponList}}"></template>
 
@@ -29,7 +28,7 @@
     </swiper>
     <!-- 轮播图结束 -->
     <!--  切换门店区域 -->
-    <view class='shop-area hide'>
+    <view class='shop-area'>
       <view class='shop-area-left'>
         <text class='title'>{{physicalClost.name}}</text>
         <text class='message'>{{physicalClost.address}}</text>
@@ -51,13 +50,12 @@
       <view class='card_body'>
         <image src="./imgs/mycard.png" class='card_img_1'></image>
         <view class='card_view'>
-          <text class='card_text_1'>
-          有<text class='card_text_3_red'>{{card_num}}</text>张未使用券</text>
+          有<text class='card_text_3_red'>{{card_num}}</text>张未使用券
         </view>
       </view>
       <view class='card-more'>
-        <text class='more-text'>去看看</text>
-        <image class='more-image' src='../../../image/next-page.png'></image>
+        去看看
+        <image class='more-image' src='./imgs/next-page.png'></image>
       </view>
     </view>
     <!--優惠券區域  -->
@@ -98,17 +96,17 @@
     </view>
     </form>
     <!--拼团区域  -->
-    <view class='yiya-pinduoduo-area'>
+    <view class='yiya-pinduoduo-area' wx:if="{{groupData&&groupData.length>0}}">
       <view class='pinduoduo-title'>
-        <text class='pinduodudo-text-title'>拼团</text>
+        <text class='pinduodudo-text-title'>{{pt_txt}}</text>
         <view class='pinduoduo-more' bindtap="clickGoGroup">
           <text class='more-text'>查看全部</text>
           <image class='more-image' src='./imgs/pt-next-page.png'></image>
         </view>
       </view>
-      <view class='pinduoduo-content' wx:if="{{groupData&&groupData.length>0}}">
+      <view class='pinduoduo-content' >
         <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{groupData}}" wx:key="{{item}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="clickGoGroupProduct">
-          <image class='pinduoduo-content-image' mode='aspectFill' lazy-load='{{lazyLoad}}' src='{{item.image}}'></image>
+          <image class='pinduoduo-content-image' mode='aspectFill' src='{{item.image}}'></image>
           <view class='pt-right'>
               <view style='display:block;'>
                 <text class='pinduoduo-content-title'>{{item.name}}</text>

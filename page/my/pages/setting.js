@@ -6,7 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    phone:null
+    phone:null,
+    uid:null,
   },
 
   /**
@@ -28,7 +29,8 @@ Page({
    */
   onShow: function () {
     var phone = wx.getStorageSync('phone');
-    this.setData({phone})
+    var uid = wx.getStorageSync("userUid");
+    this.setData({phone,uid})
   },
 
   /**

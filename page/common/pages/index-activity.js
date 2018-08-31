@@ -1,5 +1,5 @@
 var app = getApp();
-const activityUrl = 'wxapp.php?c=index_activity&a=dm_activity_v4';//DM海报接口（第四版）
+const activityUrl = 'wxapp.php?c=index_activity&a=dm_activity_v5';//DM海报接口（第四版）
 // const activityUrl = 'wxapp.php?c=index_activity&a=activity_index_v3';//DM海报接口
 Page({
 
@@ -36,8 +36,8 @@ Page({
     var phy_id = wx.getStorageSync("phy_id");
     var params = {
       store_id: this.data.store_id, //店铺id
-      // physical_id: phy_id,
-      uid:this.data.uid,
+      physical_id: phy_id,
+      // uid:this.data.uid,
       flag: "poster",
       page: '1',
     };

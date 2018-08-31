@@ -75,27 +75,44 @@ Page({
   onLoad: function (options) {
     var that = this;
     physical_id = wx.getStorageSync('phy_id'); //门店id
+    let uid = wx.getStorageSync("userUid");
     that.loadBaoKuanData();
+    if (uid) {
+      that.setData({uid})
+    } else {
+      wx.switchTab({
+        url: '../home/index-new',
+      })
+    }
     //检查是否有手机号
-    app.checkphone().then(data => {
-      console.log(data);
-      that.setData({ hasPhone: true, uid: data.uid, phone: data.phone });
-      app.globalData.uid = data.uid;
-      app.globalData.phone = data.phone;
-      wx.setStorageSync('userUid', data.uid); //存储uid
-      wx.setStorageSync('phone', data.phone); //存储uid
-      var params = {
-        store_id: that.data.store_id,
-        uid: data.uid
-      };
-      that.loadList(params);
-    }).catch(data => {
-      that.setData({ hasPhone: false });
-    })
+    // app.checkphone().then(data => {
+    //   console.log(data);
+    //   that.setData({ hasPhone: true, uid: data.uid, phone: data.phone });
+    //   app.globalData.uid = data.uid;
+    //   app.globalData.phone = data.phone;
+    //   wx.setStorageSync('userUid', data.uid); //存储uid
+    //   wx.setStorageSync('phone', data.phone); //存储uid
+    //   that.setData({uid:data.uid})
+    // }).catch(data => {
+    //   that.setData({ hasPhone: false });
+    // })
   },
   onShow: function () {
+    wx.hideShareMenu();
     var that = this;
-    physical_id = wx.getStorageSync('phy_id'); //门店id
+    if (that.data.uid) {
+      var params = {
+        store_id: that.data.store_id,
+        uid: that.data.uid
+      };
+      that.loadList(params);
+    } else {
+      wx.switchTab({
+        url: '../home/index-new',
+      })
+    }
+    
+   
   },
   /**
 * 首页爆款专区数据

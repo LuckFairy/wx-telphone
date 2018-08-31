@@ -8,7 +8,7 @@ Page({
     turnStatus:null,
     dataList:'',
     orderId:'',
-    productId:'',
+    productId: '', 
     rtnCode:'',
     showHide:true,
     isSale:true,
@@ -74,45 +74,49 @@ Page({
     var orderProductId = this.data.orderProductId;
     var orderId = this.data.orderId;
     var uid = this.data.uid;
+   
+  if (turnStatus == null) {
+    wx.showToast({
+      title: '请选择服务类型',
+      icon: 'loading',
+      duration: 2000
+    })
+    return;
+  } 
+    wx.showLoading({
+      title: '加载中',
+    })
+    var params = {
+      "order_no": orderId,
+      "pigcms_id": orderProductId,
+      "uid": uid,
+      "type": turnStatus
+    };
     that.setData({
       isSale: false,
     })
+    console.log('请求参数', params);
+    var url = 'wxapp.php?c=return&a=doReturn';
+    app.api.postApi(url, { params }, (err, resp) => {
+      wx.hideLoading();
+      if (resp.err_code == 0) {
+        that.setData({
+          isSale: false,
+          showHide: false
+        })
+        wx.showToast({
+          title: '提交成功',
+          icon: 'loading',
+          duration: 1500
+        })
+      } else {
+        that.setData({
+          isSale: true,
+        })
+      }
+    });
 
-    if (turnStatus == null) {
-      wx.showToast({
-        title: '请选择服务类型',
-        icon: 'loading',
-        duration: 2000
-      })
-    } else {
-      setTimeout(() => {
-        var params = {
-          "order_no": orderId,
-          "pigcms_id": orderProductId,
-          "uid": uid,
-          "type": turnStatus
-        };
-        console.log('请求参数', params);
-        var url = 'wxapp.php?c=return&a=doReturn';
-        app.api.postApi(url, { params }, (err, resp) => {
-          if (resp.err_code == 0) {
-            that.setData({
-              isSale: false,
-              showHide: false
-            })
-            wx.showToast({
-              title: '提交成功',
-              icon: 'loading',
-              duration: 1500
-            })
-          } else {
-            that.setData({
-              isSale: true,
-            })
-          }
-        });
-      }, 1000)
-    }
+    
 
   },
   // 选择服务类型

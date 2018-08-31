@@ -321,6 +321,7 @@ no-border {
   font-stretch: normal;
   letter-spacing: 0rpx;
   color: #09bb07;
+  border: none;
 }
 
 .dropload-noData {

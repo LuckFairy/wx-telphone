@@ -32,7 +32,7 @@
   <!--服务类型选项结束  -->
   <!--提交申请开始  -->
   <view class='apply-applications'>
-    <image class='apply-applications-image' src='../.../../image/server-wechat.png'></image>
+    <image class='apply-applications-image' src='../../../image/server-wechat.png'></image>
     <text class='apply-applications-hint'>注:提交申请后,请再联系客服电话
 </text>
     <view class='apply-applications-wechat'>
@@ -41,7 +41,7 @@
       <!-- <text class='apply-applications-rem' selectable='true'>{{serverTxt}}</text> -->
     </view>
     <!-- <text class='apply-applications-copy'>长按微信号可复制</text>-->
-    <text class='apply-applications-submit apply-applications-submit-total' bindtap="{{isSale?goSubmit:''}}" data-order-id='{{orderId}}' data-status='{{turnStatus}}' data-product-id='{{productId}}' wx:if='{{showHide}}'>提交申请</text>
+    <text class='apply-applications-submit apply-applications-submit-total' bindtap="{{isSale?'goSubmit':''}}" data-order-id='{{orderId}}' data-status='{{turnStatus}}' data-product-id='{{productId}}' wx:if='{{showHide}}'>提交申请</text>
      <text wx:if='{{!showHide}}' class='apply-applications-yet apply-applications-submit-total'>已经提交申请</text>  
   </view>
   <!--提交申请结束  -->

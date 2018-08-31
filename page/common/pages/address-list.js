@@ -26,7 +26,7 @@ Page({
       uid = wx.getStorageSync('userUid');
     }
     this.setData({ addressId: options.addressId ,uid});
-    this.addrLists();
+    
   },
   addrLists(e) {
     var that = this;
@@ -55,6 +55,7 @@ Page({
   },
   onShow: function () {
     // 页面显示
+    this.addrLists();
   },
   onHide: function () {
     // 页面隐藏
@@ -158,7 +159,6 @@ Page({
    * 更新地址
    */
   updateAddress(e) {
-    console.log('点击编辑的时候', e)
     var that = this;
     var uid = that.data.uid;
     var address_id = e.currentTarget.dataset.addressId;

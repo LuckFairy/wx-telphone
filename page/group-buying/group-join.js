@@ -111,17 +111,19 @@ Page({
       if (err || rep.err_code != 0) { return that._showError('该团已经过期');};
       var { product, param, tuan, head_tuan, people_tuan } = rep.err_msg;
       var len = tuan.diff_people, imgNull = [];
+      console.log('tuan..',tuan);
       var tuantype = len > 0 ? 1 : 2;
       if (len > 0) {
         var j = len > 2 ? 2 : len;
         for (let i = 0; i < j; i++) {
           imgNull.push({ img: '../../../image/noNull.png' });
         }
-        this.setData({imgNull})
+        this.setData({imgNull});
+        this.startCountDown(tuan);
       }
-      this.startCountDown(tuan);
+      
       this.setData({
-        product, head_tuan, tuantype, people_tuan, param, quantity: product.quantity
+        product, head_tuan, tuantype, people_tuan, param, quantity: product.quantity,tuan
       })
     });
   },

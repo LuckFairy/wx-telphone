@@ -137,26 +137,15 @@ Page({
         store_id: that.data.store_id
       }
       app.api.postApi(addAddressUrl, { params }, (err, resp) => {
-
-        if (err) {
+        if (err || resp.err_code!=0) {
+          wx.showLoading({
+            title: '添加地址失败'
+          })
           return;
         }
-        if (resp.err_code == 0) {
-          if (resp.err_msg.result == '添加成功') {
-            console.log('resp.err_msg', resp.err_msg)
-            console.log('添加地址成功')
-            wx.showLoading({
-              title: '添加地址成功'
-            })
-            setTimeout(function () {
-              wx.hideLoading()
-
-            }, 1000)
-            wx.redirectTo({
-              url: './address-list'
-            })
-          }
-        }
+        wx.redirectTo({
+          url: './address-list'
+        })
       });
     } else {
       this._showError('请完善信息！')

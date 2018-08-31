@@ -8,3 +8,11 @@
       <!-- <image class='my-go-img' src='../../../image/group-go.png'></image> -->
     </view>
   </view>
+  <view class='my-detail-msg' bindtap='goSetting'>
+    <view class='my-detail-gro'>
+      <text class='my-gro-text'>UID</text>
+    </view>
+    <view class='my-gro-go'>
+    <text class='my-go-text'>{{uid}}</text>
+    </view>
+  </view>

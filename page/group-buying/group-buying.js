@@ -54,7 +54,7 @@ Page({
     ordertype: 0,//购买类型，1单独购买，2一键开团
     des_html: ["1、团购价购买此商品", "2、邀请好友来参团", "3、达到开团人数，商品发货。", "4、没达到开团人数，直接退款。"],//拼团规则
     preTimeText: { hour: 0, minute: 0, second: 0 },
-    preTime:0,
+    preTime:444,
     isShowPre: false//显示预售商品提示
   },
   onShareAppMessage: function (res) {
@@ -230,10 +230,14 @@ Page({
       if (tuan.description_html && tuan.description_html.length>0){
         des_html= tuan.description_html;
       }
-      this.tuanCountDown(product.sold_time);
       this.setData({
         image_lists: product_image_lists, product, tuan, des_html
       })
+      if (product.sold_time <= 0) {
+        this.setData({ preTime: product.sold_time })
+      } else {
+        this.tuanCountDown(product.sold_time);
+      }
     });
   },
   /*
@@ -839,7 +843,7 @@ Page({
  * 预售倒计时处理
  */
   tuanCountDown(preTime) {
-    if (preTime <= 0) {return;}
+   
     let now = (new Date().getTime()) / 1000;
     let leftTime = preTime - now;
     if(leftTime<=0){

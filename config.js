@@ -19,6 +19,9 @@ var phone = '7146310999';//正式客服电话
 var phoneTxt = '714-631-0999';
 var serverTxt = 'BBK2000SSCZ';
 var appid = 'wx57d5cde97d7e1fd3';
+var config ={
+  pt_txt:'超值拼团'
+}
 
 export default{
 
@@ -47,6 +50,11 @@ export default{
   
   //分享标题
   shareTitle: isRelease ? title : title_test,
+
+  pt_txt:config.pt_txt,
+  
+  //获取小程序客服微信
+  getTelWxUrl:`api.php?c=common&a=getTelnWx`,
 
   // 登录地址，用于建立会话
   loginUrl: `wxapp.php?c=wechatapp_v2&a=login_new`,

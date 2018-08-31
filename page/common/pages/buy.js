@@ -425,6 +425,9 @@ Page({
             that.setData({ submitOk: true });
             //推送消息
             app.send(that.data.orderId); 
+            wx.switchTab({
+              url: '../../tabBar/home/index-new',
+            })
           }
         });return;
       }
@@ -432,8 +435,11 @@ Page({
 
         // 调起微信支付
         if (resp.err_dom) {
-          wx.navigateTo({
-            url: './my-order?goodsindex=' + 2
+          // wx.navigateTo({
+          //   url: './my-order?goodsindex=' + 2
+          // })
+          wx.switchTab({
+            url: '../../tabBar/home/index-new',
           })
         } else {
           // 调起微信支付
@@ -464,9 +470,12 @@ Page({
     //支付成功，拼团商品跳转待成团列表，其余商品跳转待收货列表
     let url = that.data.orderType == 6 ? '../../group-buying/my-order?orderstatus=0':'./my-order';
     setTimeout(function () {
-      wx.redirectTo({
-        url
-      });
+      // wx.redirectTo({
+      //   url
+      // });
+      wx.switchTab({
+        url: '../../tabBar/home/index-new',
+      })
     }, 1000);
   },
   /**
@@ -484,9 +493,12 @@ Page({
     //支付成功，拼团商品跳转待成团列表，其余商品跳转待收货列表
     let url = that.data.orderType == 6 ? '../../group-buying/my-order?orderstatus=0' : './my-order' ;
     setTimeout(function () {
-      wx.redirectTo({
-        url
-      });
+      // wx.redirectTo({
+      //   url
+      // });
+      wx.switchTab({
+        url: '../../tabBar/home/index-new',
+      })
     }, 1000);
     var params = {
       order_no: that.data.orderId
@@ -516,9 +528,12 @@ Page({
       success: function (res) {
         // if (res.confirm) {
           //失败跳我的订单-待付款
-          wx.redirectTo({
-            url: `./my-order?page=1`
-          });
+          // wx.redirectTo({
+          //   url: `./my-order?page=1`
+          // });
+        wx.switchTab({
+          url: '../../tabBar/home/index-new',
+        })
         // } else if (res.cancel) {
         //   return;
         // }

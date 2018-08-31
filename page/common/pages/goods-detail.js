@@ -61,7 +61,7 @@ Page({
     choQuantity: '',//单品库存
     tabCheck: false,//多属性是否选中,
     preTimeText: { hour:0, minute:0, second :0},
-    preTime:0,
+    preTime:234,
     isShowPre: false//显示预售商品提示
   },
   onShareAppMessage(res) {
@@ -311,7 +311,12 @@ Page({
         that.setData({
           product, action
         });
+        if (product.sold_time <= 0) {
+          that.setData({ preTime: product.sold_time})
+        }else{
+
         that.startCountDown(product.sold_time);
+        }
       }
 
     });
@@ -559,7 +564,6 @@ Page({
         console.log(err_msg);
         return
       }
-
       var url = './buy?orderId=' + err_msg.order_no + '&uid=' + uid + '&baokuan_action=' + baokuan_action;
       wx.navigateTo({ url });
     })
@@ -829,9 +833,7 @@ Page({
    * 倒计时处理
    */
   startCountDown(preTime) {
-    if (preTime <= 0) {
-      return
-    }
+    
     let now = (new Date().getTime()) / 1000;
     let leftTime = preTime - now;
     if(leftTime<=0){

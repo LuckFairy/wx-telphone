@@ -14,9 +14,9 @@ let app = getApp();
 const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon'; //优惠券列表数据
 // const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num'; //我的卡包接口
 // const activityUrl = 'wxapp.php?c=index_activity&a=activity_index'; //精选活动接口
-const activityUrl = 'wxapp.php?c=index_activity&a=jx_activity_v2'; //精选活动（第三版）
+const activityUrl = 'wxapp.php?c=index_activity&a=jx_activity_v3'; //精选活动（第三版）
 // const activityNewUrl = 'screen.php?c=index&a=activity_index'; //大屏首页取代活动页
-const headImg = 'wxapp.php?c=product&a=banner_list_v3'; //轮播图接口（第三版）
+const headImg = 'wxapp.php?c=product&a=banner_list_v4'; //轮播图接口（第三版）
 const physicalUrl = 'wxapp.php?c=physical&a=physical_list'; //las门店列表接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical'; //总店信息
 const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index'; //拼团活动列表
@@ -31,12 +31,14 @@ Page({
   data: {
     random: parseInt(40 * Math.random()), //随机数
     hasPhone: false, //是否有手机
+    isInfo:true,
     showpopteamModle: false, //true有拼团信息，弹窗
     popteamData: null, //弹窗拼团信息
     popteamNicke: null, //弹窗名字
     popteamUrl: '../../group-buying/group-join',
     mode: 'aspectFit',
     lazyLoad: 'true',
+    pt_txt: app.config.pt_txt,
     scroll_top: 0,
     goTop_show: false,
     hotData: [], //热点推荐数据
@@ -93,7 +95,7 @@ Page({
       app.login(params).then(() => {
         console.log('弹窗取消')
         that.setData({
-          hasPhone: true
+          hasPhone: true, isInfo:false
         })
       }).catch(() => {
         console.log('弹窗弹窗')
@@ -107,7 +109,29 @@ Page({
       })
     }
   },
-
+  onGotUserInfo(e){
+    let that = this;
+    console.log('getUserInfo....',e.detail);
+    if (e.detail.errMsg == "getUserInfo:ok"){
+      that.setData({
+        isInfo: true
+      });
+    let userTimer= setInterval(()=>{
+        uid = wx.getStorageSync('userUid');
+        if (uid){
+          clearInterval(userTimer);
+          //获取用户信息
+          var url = "wxapp.php?c=wechatapp_v2&a=bind_userinfo";
+          var params = { "uid": uid, "store_id": app.store_id, "userinfo": e.detail.userInfo }
+          app.api.postApi(url, { params }, (err, res) => { })
+        }
+      },1000);
+    }else{
+      that.setData({
+        isInfo: false
+      });
+    }
+  },
   /**
    * 收集formid
    */
@@ -159,8 +183,6 @@ Page({
       });
     })
     that.loadMainLocation(); //默认总店
-    that.loadGroupData(); //拼多多数据
-
 
     app.api.postApi(tabUrl, {
       "params": {
@@ -214,7 +236,8 @@ Page({
       this.loadMyCardNumData(); //我的卡包数量
       this.getCoupValue(); //优惠券数据
     }
-
+    this.loadGroupData(); //拼多多数据
+    
   },
   _parse() {
     var that = this;
@@ -230,8 +253,8 @@ Page({
     app.api.postApi(headImg, {
       "params": {
         store_id,
-        // physical_id: phy_id
-        uid
+        physical_id: phy_id
+        // uid
       }
     }, (err, resp) => {
       if (resp.err_code == 0) {
@@ -253,8 +276,8 @@ Page({
     });
     var params = {
       store_id, //店铺id
-      // physical_id: phy_id,
-      uid,
+      physical_id: phy_id,
+      // uid,
       page: '1',
     };
     app.api.postApi(activityUrl, {
@@ -426,25 +449,25 @@ Page({
       })
       .then(data => {
         wx.setStorageSync('phy_id', data.phy_id);
-        that.loadHeadicon(data.phy_id); //首页轮播图
-        that.loadactivityData(data.phy_id); //活动图数据
-      //   logLat = wx.getStorageSync('logLat');
-      //   if (logLat == '' || logLat == null) {
-      //     that.timer1 = setInterval(() => {
-      //       logLat = wx.getStorageSync('logLat');
-      //       that.setData({
-      //         logLat
-      //       });
-      //       if (logLat) {
-      //         console.log('loglat........', logLat);
-      //         clearInterval(that.timer1);
-      //         that.loadLocation(data);
-      //       }
-      //     }, 1000);
-      //   } else {
-      //     console.log('loglat........', logLat);
-      //     that.loadLocation(data);
-      //   }
+        // that.loadHeadicon(data.phy_id); //首页轮播图
+        // that.loadactivityData(data.phy_id); //活动图数据
+        logLat = wx.getStorageSync('logLat');
+        if (logLat == '' || logLat == null) {
+          that.timer1 = setInterval(() => {
+            logLat = wx.getStorageSync('logLat');
+            that.setData({
+              logLat
+            });
+            if (logLat) {
+              console.log('loglat........', logLat);
+              clearInterval(that.timer1);
+              that.loadLocation(data);
+            }
+          }, 1000);
+        } else {
+          console.log('loglat........', logLat);
+          that.loadLocation(data);
+        }
       })
   },
   /**

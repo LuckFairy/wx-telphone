@@ -133,14 +133,6 @@ Page({
     that.setData({
       mendiancard:'mendiancard',
     })
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          windowHeight: res.windowHeight,
-          windowWidth: res.windowWidth
-        })
-      }
-    })
     var store_id = app.store_id;//store_id
     var uid = wx.getStorageSync('userUid');
     that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
@@ -239,7 +231,7 @@ Page({
       if (err || code != 200 || reps.err_code != 0) {that.setData({ updateone:true}); return;}
       console.log('rep', reps)
       var { image, coupon_list = [], next_page } = reps.err_msg;
-      var list = [...offlineData, ...coupon_list];
+      var list = [...coupon_list];
       //更新数据
       that.setData({
         loadingone: next_page,
@@ -271,7 +263,7 @@ Page({
       });
       console.log('rep',reps)
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
-      var list = [...onlineData, ...coupon_list];
+      var list = [...coupon_list];
       //更新数据
       that.setData({
         loadingtwo: next_page,
