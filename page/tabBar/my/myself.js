@@ -21,14 +21,9 @@ Page({
     clearInterval(phoneTime);
     let phoneTime = setInterval(() => {
       var hasPhone = wx.getStorageSync('hasPhone');
-      // var userInfo = wx.getStorageSync('userInfo');
       if (hasPhone) {
         clearInterval(phoneTime);
         that.setData({ hasPhone });
-        // that.setData({
-        //   nickName: userInfo.nickName,
-        //   userImg: userInfo.avatarUrl
-        // })
       }
     }, 5000)
   },

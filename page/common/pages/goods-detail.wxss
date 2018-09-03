@@ -14,6 +14,97 @@
   clear: both;
 }
 
+/*
+用于预购按钮设置宽度
+**/
+.pre_width{
+  width: 550rpx !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pre_buy_bj{
+  background-color: rgba(153, 153, 153, 1) !important;
+}
+
+.pre_buy_text{
+  font-size: 36rpx !important;
+  color: #ffffff !important;
+}
+
+.pre_time{
+  display: flex;
+  align-items: center;
+  width: 100%;
+	height: 90rpx;
+	background-image: linear-gradient(90deg, 
+		rgba(255, 78, 77, 1) 0%, 
+		rgba(255, 106, 81, 1) 100%), 
+	linear-gradient(
+		rgba(255, 255, 255, 1), 
+		rgba(255, 255, 255, 1));
+	background-blend-mode: normal, 
+		normal;
+}
+
+.pre_time_img{
+  width: 170rpx;
+	height: 40rpx;
+  margin-left: 25rpx;
+}
+
+.pre_time_text{
+  color: #ffffff;
+  font-size: 26rpx;
+  margin-left: 80rpx;
+}
+
+.pre_time_bj{
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40rpx;
+	height: 40rpx;
+	background-color: rgba(0, 0, 0, 1);
+	border-radius: 6rpx 6rpx 6rpx 6rpx;
+	opacity: 0.5;
+}
+
+.pre_time_tip_bj{
+  width: 440rpx;
+	height: 120rpx;
+	background-color: rgba(0, 0, 0, 1);
+	border-radius: 10px 10px 10px 10px;
+	opacity: 0.7;
+  position: absolute;
+  z-index: 99;
+}
+
+.pre_time_tip_bj{
+  width: 440rpx;
+	height: 120rpx;
+	background-color: rgba(0, 0, 0, 1);
+	border-radius: 10px 10px 10px 10px;
+	opacity: 0.7;
+  position: absolute;
+  z-index: 99;
+  float:left;
+  top:480rpx;
+  left:155rpx;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.pre_time_tip_text{
+  font-size: 26rpx;
+  color: #ffffff;
+}
+
+
 .buy-btn-view, .container, .discount-area, .discount-list-text,
 .goods-detail-containner, .goods-detail-view, .price-info-view {
   -webkit-box-direction: normal;

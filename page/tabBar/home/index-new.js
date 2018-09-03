@@ -79,6 +79,7 @@ Page({
     locationid = wx.getStorageSync('locationid');
     console.log('getuserinfo....location', locationid);
     app.login(e.detail, function () {
+      //  wx.setStorageSync('userUid', "94810");//存储uid
       that.setData({ infoFlag: true });
       app.globalData.info_flag = true;
     }, locationid);
@@ -88,6 +89,7 @@ Page({
   checkPhone() {
     let that = this;
     checkBingPhone(this.data.uid, store_id).then(flag=>{
+      // wx.setStorageSync('userUid',"94810");//存储uid
       that.setData({ hasPhone:flag });
     })
   },

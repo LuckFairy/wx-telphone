@@ -251,22 +251,19 @@ Page({
 
   onLoad: function (options) {
     var that = this;
-    physical_id = wx.getStorageSync('phy_id'); //门店id
-    hasPhone = wx.getStorageSync('hasPhone');
-    // 获取店铺id shopId
-    var store_id = that.data.store_id;
-    // Api.signin();//获取以及存储openid、uid
     // 获取uid
     var uid = wx.getStorageSync('userUid');
-    that.setData({
-      uid, store_id
-    });
-    var params ={
-      store_id,
-      uid
-    };
-    that.loadList(params);
-    that.loadBaoKuanData();
+    if(uid){
+
+      that.setData({
+        uid
+      });
+      that.loadBaoKuanData();
+    }else{
+      wx.switchTab({
+        url: '../home/index-new',
+      })
+    }
     
   },
   onShow: function () {
@@ -275,12 +272,12 @@ Page({
    var hasShop = that.data.hasShop;//有无商品
    hasPhone = wx.getStorageSync('hasPhone');
    that.setData({ hasPhone });
-      var store_id = that.data.store_id;
-      var uid = that.data.uid;
-      var params = {
-        store_id, uid
-      }
-      that.loadList(params);
+  var store_id = that.data.store_id;
+  var uid = that.data.uid;
+  var params = {
+    store_id, uid
+  }
+  that.loadList(params);
   },
   onHide: function () {
 

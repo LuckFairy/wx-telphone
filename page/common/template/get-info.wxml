@@ -1,6 +1,4 @@
-<!-- 
-	couponCancel:  点击取消按钮
- -->
+
 <template name="getuserInfo-modal">
 <view  class="overlay">
   <view class='overlay-shade'></view>

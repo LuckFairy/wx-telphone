@@ -2,7 +2,7 @@
   <image class='server-image' src='../resources/server-wechat.png'></image>
   <view class='server-text'>
     <text style='text-align:center;margin-bottom:30rpx;'>欢迎光临！</text>
-    <view>客户服务热线：<text catchtap='calling' class='calling'>400-689-7779</text></view>
+    <view>客户服务热线：<text catchtap='calling' class='calling'>{{phoneTxt}}</text></view>
     <text>客服在线时间：周一至周五 9:30至18:30</text>
     <text>为了给您提供更优质的服务，请在服务时间内来电咨询。非工作时间建议留言至微信客服，我们会第一时间给您解决疑问。</text>
   </view>

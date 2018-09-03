@@ -1,6 +1,20 @@
 import { sign } from './utils/api_3';
 let config = require('./config.js');
 App({
+  onLaunch: function (opts) {
+    let that = this;
+    //处理兼容高频使用的高版本方法。
+    if (!wx.showLoading) {
+      wx.showLoading = (obj) => { console.log('mock wx.showLoading. do nothing...'); }
+    }
+    if (!wx.hideLoading) {
+      wx.hideLoading = () => { console.log('mock wx.hideLoading. do nothing...'); }
+    }
+    this.getTelWx();
+  },
+  onShow: function (opts) {
+    // console.log('App Show', opts)
+  },
   api: sign.api,
   store_id: sign.store_id,
   sign: sign.signin,
@@ -18,21 +32,23 @@ App({
     formIds: [],//消息推送id
     info_flag: true,//是否一键授权用户信息
   },
-  onLaunch: function (opts) {
-    // console.log('App Launch', opts)
+  getTelWx: function () {
     let that = this;
-    //处理兼容高频使用的高版本方法。
-    if (!wx.showLoading) {
-      wx.showLoading = (obj) => { console.log('mock wx.showLoading. do nothing...'); }
-    }
-    if (!wx.hideLoading) {
-      wx.hideLoading = () => { console.log('mock wx.hideLoading. do nothing...'); }
-    }
+    let params = { store_id: that.store_id };
+    that.api.postApi(that.config.getTelWxUrl, { params }, (err, res) => {
+      if (res.err_code == 0) {
+        //客服电话
+        that.config.serverPhone = res.err_msg.TelnWx.service_tel;
 
+        //客服电话txt
+        that.config.phoneTxt = res.err_msg.TelnWx.service_tel.replace(/(.{3})/g, "$1-");
+        console.log('电话', that.config.phoneTxt)
+        //客服微信
+        that.config.serverTxt = res.err_msg.TelnWx.service_weixin;
+      }
+    })
   },
-  onShow: function (opts) {
-    // console.log('App Show', opts)
-  },
+  
   login: function (info, callback2, locationid) {
     let that = this;
     that.sign(null, 3, info, callback2, locationid);
@@ -81,7 +97,7 @@ App({
   /**
    * 拨打电话
    */
-  calling: function (phone = config.serverPhone) {
+  calling: function (phone = this.config.serverPhone) {
     wx.makePhoneCall({
       phoneNumber: phone,
       success: function () {
@@ -118,8 +134,6 @@ App({
         //   icon: 'loading',
         //   duration: 2000
         // });
-        reject('要使用手机调试才有formId！');
-        return;
       };
   
       if (formId == '') { reject('formId不能为空');return;}

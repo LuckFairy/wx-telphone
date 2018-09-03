@@ -11,7 +11,8 @@ Page({
     productId:'',
     rtnCode:'',
     showHide:true,
-    phoneTxt: app.config.phoneTxt
+    phoneTxt: app.config.phoneTxt,
+    serverTxt: app.config.serverTxt,
   },
   calling(){
     app.calling();
