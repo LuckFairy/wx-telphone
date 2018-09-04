@@ -4,10 +4,10 @@ import { ajax } from './utils/api_1'
 import WxService from './utils/WxService'
 App({
   onLaunch: function() {
-    var logs = wx.getStorageSync('logs') || []
+    // var logs = wx.getStorageSync('logs') || []
     // unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs);
+    // logs.unshift(Date.now())
+    // wx.setStorageSync('logs', logs);
     this.getLocation();//获取位置信息
     this.getTelWx();
   },

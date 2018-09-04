@@ -1,6 +1,7 @@
 var app = getApp();
-const activityUrl = 'wxapp.php?c=index_activity&a=dm_activity_v5';//DM海报接口（第四版）
-// const activityUrl = 'wxapp.php?c=index_activity&a=activity_index_v3';//DM海报接口
+const activityUrl_v4 = 'wxapp.php?c=index_activity&a=dm_activity_v4';//DM海报接口（第四版）
+const activityUrl_v5 = 'wxapp.php?c=index_activity&a=dm_activity_v5';//DM海报接口（第五版）
+
 Page({
 
   /**
@@ -34,13 +35,26 @@ Page({
   loadactivityData() {
     wx.showLoading({ title: '加载中...', mask: true, });
     var phy_id = wx.getStorageSync("phy_id");
-    var params = {
-      store_id: this.data.store_id, //店铺id
-      physical_id: phy_id,
-      // uid:this.data.uid,
-      flag: "poster",
-      page: '1',
-    };
+    var flag = wx.getStorageSync("phy_flag");
+    if (flag) {
+      var params = {
+        store_id: this.data.store_id, //店铺id
+        physical_id: phy_id,
+        uid:this.data.uid,
+        flag: "poster",
+        page: '1',
+      },
+        activityUrl = activityUrl_v5;
+    } else {
+      var params = {
+        store_id: this.data.store_id, //店铺id
+        uid:this.data.uid,
+        flag: "poster",
+        page: '1',
+      },
+        activityUrl = activityUrl_v4;
+    }
+    
     app.api.postApi(activityUrl, { params }, (err, resp) => {
       console.info('DM海报数据', resp)
       wx.hideLoading();

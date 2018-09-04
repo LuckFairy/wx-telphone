@@ -61,10 +61,6 @@ Page({
     let that = this,dataset=res.target.dataset;
     let { uid, store_id, prodId, tuanId, sellout } = that.data;
     that.setData({ showShareModal: false });
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
     var tip = `快来参团！${dataset.price}元包邮${dataset.title}这里比其他平台购买还便宜！！！猛戳.......`;
     return {
       // title: config.shareTitle,
@@ -134,7 +130,7 @@ Page({
 
     var { tuanId, prodId, sellout = null } = options;
     that.setData({ tuanId, prodId, sellout, uid, phy_id });
-    that.loadCartInfo();
+    
  
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
@@ -233,10 +229,11 @@ Page({
       this.setData({
         image_lists: product_image_lists, product, tuan, des_html
       })
-      if (product.sold_time <= 0) {
-        this.setData({ preTime: product.sold_time })
-      } else {
+      if (product.sold_time > 0) {
         this.tuanCountDown(product.sold_time);
+      } else {
+        this.loadCartInfo();
+        this.setData({ preTime: 0 })
       }
     });
   },
@@ -847,6 +844,7 @@ Page({
     let now = (new Date().getTime()) / 1000;
     let leftTime = preTime - now;
     if(leftTime<=0){
+      this.loadCartInfo();
       this.setData({ preTime: leftTime });
       return;
     }
@@ -868,6 +866,7 @@ Page({
         this.setData({ preTimeText: time, preTime: leftTime });
       } else {
         clearInterval(that.tuanTimer);
+        this.loadCartInfo();
         this.setData({ preTime: leftTime });
         console.log('结束预售倒计时')
         that.loadData();

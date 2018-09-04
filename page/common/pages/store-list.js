@@ -92,6 +92,7 @@ Page({
           let prevPage = pages[pages.length - 2];
           console.log('选择门店数据', this.data.physicalClost);
           wx.setStorageSync('phy_id', this.data.physicalClost.phy_id);
+          wx.setStorageSync('phy_flag', true);
           prevPage.setData({ physicalClost: this.data.physicalClost});
           wx.navigateBack();
         },1000)

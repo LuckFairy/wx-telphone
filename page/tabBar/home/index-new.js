@@ -13,10 +13,10 @@ let app = getApp();
 
 const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon'; //优惠券列表数据
 // const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num'; //我的卡包接口
-// const activityUrl = 'wxapp.php?c=index_activity&a=activity_index'; //精选活动接口
-const activityUrl = 'wxapp.php?c=index_activity&a=jx_activity_v3'; //精选活动（第三版）
-// const activityNewUrl = 'screen.php?c=index&a=activity_index'; //大屏首页取代活动页
-const headImg = 'wxapp.php?c=product&a=banner_list_v4'; //轮播图接口（第三版）
+const activityUrl_v1 ="wxapp.php?c=index_activity&a=jx_activity_v2";//精选活动（第二版）
+const activityUrl_v2 = 'wxapp.php?c=index_activity&a=jx_activity_v3'; //精选活动（第三版）
+const headImg_v3 = 'wxapp.php?c=product&a=banner_list_v3'; //轮播图接口（第三版）
+const headImg_v4 = 'wxapp.php?c=product&a=banner_list_v4'; //轮播图接口（第四版）
 const physicalUrl = 'wxapp.php?c=physical&a=physical_list'; //las门店列表接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical'; //总店信息
 const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index'; //拼团活动列表
@@ -250,12 +250,24 @@ Page({
   /**顶部轮播图  **/
   loadHeadicon(phy_id) {
     let that = this;
+    var flag = wx.getStorageSync("phy_flag");
+    if (flag) {
+      var params = {
+        store_id, //店铺id
+        physical_id: phy_id,
+        uid,
+      },
+        headImg = headImg_v4;
+    } else {
+      var params = {
+        store_id, //店铺id
+        uid,
+      },
+        headImg = headImg_v3;
+    }
+
     app.api.postApi(headImg, {
-      "params": {
-        store_id,
-        physical_id: phy_id
-        // uid
-      }
+      params
     }, (err, resp) => {
       if (resp.err_code == 0) {
         var dataImg = resp.err_msg.banners;
@@ -274,12 +286,24 @@ Page({
       title: '加载中...',
       mask: true,
     });
-    var params = {
-      store_id, //店铺id
-      physical_id: phy_id,
-      // uid,
-      page: '1',
-    };
+    var flag = wx.getStorageSync("phy_flag");
+    if(flag){
+      var params = {
+        store_id, //店铺id
+        physical_id: phy_id,
+        uid,
+        page: '1',
+      },
+      activityUrl=activityUrl_v2;
+    }else{
+      var params = {
+        store_id, //店铺id
+        uid,
+        page: '1',
+      },
+      activityUrl = activityUrl_v1;
+    }
+    
     app.api.postApi(activityUrl, {
       params
     }, (err, resp) => {
