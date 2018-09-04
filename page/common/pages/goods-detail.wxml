@@ -10,7 +10,7 @@
   <view class="middle-box">
     <block wx:if="{{preTime>0}}">
       <view class='pre_time'>
-        <image class='pre_time_img' src='/image/icon_pre_buy.png'></image>
+        <image class='pre_time_img' src='../imgs/icon_pre_buy.png'></image>
         <view class='pre_time_text'>距开始时间仅剩余
           <text class='pre_time_bj'>{{preTimeText.hour}}</text> 时
           <text class='pre_time_bj'>{{preTimeText.minute}}</text> 分
