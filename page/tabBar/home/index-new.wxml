@@ -28,7 +28,7 @@
     </swiper>
     <!-- 轮播图结束 -->
     <!--  切换门店区域 -->
-    <view class='shop-area'>
+    <view class='shop-area' wx:if="{{changeFlag}}">
       <view class='shop-area-left'>
         <text class='title'>{{physicalClost.name}}</text>
         <text class='message'>{{physicalClost.address}}</text>

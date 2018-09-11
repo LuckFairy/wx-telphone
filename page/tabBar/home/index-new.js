@@ -183,7 +183,12 @@ Page({
         hasPhone: false
       });
     })
-    that.loadMainLocation(); //默认总店
+
+    that.isLoglat().then(data=>{
+      that.loadLocation();
+    }).catch(data=>{
+      that.loadMainLocation();
+    })
 
     app.api.postApi(tabUrl, {
       "params": {
@@ -448,15 +453,39 @@ Page({
     })
   },
   /**
+   * 是否定位成功
+   */
+  isLoglat(){
+    let that = this;
+    return new Promise((resolve,reject)=>{
+      logLat = wx.getStorageSync('logLat');
+      if(!logLat||logLat==''){
+        that.timer1 = setTimeout(() => {
+          logLat = wx.getStorageSync('logLat');
+          if (logLat) {
+            resolve();
+          }else{
+            reject();
+          }
+        }, 1500);
+      }else{
+        resolve();
+      }
+    })
+  },
+  /**
    * 获取总店信息
    */
   loadMainLocation() {
     let that = this;
-    let phyDefualt = that.data.phyDefualt;
+    let phyDefualt = [];
     var url = physicalMainUrl;
     var params = {
       store_id
     };
+    wx.showLoading({
+      title: '加载中'
+    });
     new Promise(resolve => {
         app.api.postApi(url, {
           params
@@ -464,6 +493,7 @@ Page({
           // 列表数据
           wx.hideLoading();
           if (resp.err_code != 0) {
+            that.setData({changeFlag: false});//总店没有返回值
             return;
           }
           phyDefualt = resp.err_msg.physical_list[0];
@@ -475,38 +505,17 @@ Page({
       })
       .then(data => {
         wx.setStorageSync('phy_id', data.phy_id);
-        // that.loadHeadicon(data.phy_id); //首页轮播图
-        // that.loadactivityData(data.phy_id); //活动图数据
-        logLat = wx.getStorageSync('logLat');
-        if (logLat == '' || logLat == null) {
-          that.timer1 = setInterval(() => {
-            logLat = wx.getStorageSync('logLat');
-            that.setData({
-              logLat
-            });
-            if (logLat) {
-              console.log('loglat........', logLat);
-              clearInterval(that.timer1);
-              that.loadLocation(data);
-            }
-          }, 1000);
-        } else {
-          console.log('loglat........', logLat);
-          that.loadLocation(data);
-        }
+        that.loadHeadicon(data.phy_id); //首页轮播图
+        that.loadactivityData(data.phy_id); //活动图数据
+        that.setData({ physicalClost: data })
       })
   },
   /**
    * 获取当前门店位置
    */
-  loadLocation(phyDefualt) {
-    var that = this;
-    if (!logLat) {
-      that.setData({
-        changeFlag: false
-      })
-      return;
-    }
+  loadLocation() {
+    let that = this;
+    let phyDefualt = [];
     wx.showLoading({
       title: '加载中'
     });
@@ -523,9 +532,7 @@ Page({
       // 列表数据
       wx.hideLoading();
       if (resp.err_code != 0) {
-        wx.setStorageSync('phy_id', phyDefualt.phy_id);
-        that.loadHeadicon(phyDefualt.phy_id); //首页轮播图
-        that.loadactivityData(phyDefualt.phy_id); //活动图数据
+        that.setData({ changeFlag: false });//总店没有返回值
         return;
       }
       var list = resp.err_msg.physical_list;
@@ -537,13 +544,10 @@ Page({
       if (phyDefualt.length == 0) {
         phyDefualt = list[0];
       }
-      console.log('phyDefualt.....', phyDefualt);
       wx.setStorageSync('phy_id', phyDefualt.phy_id);
       that.loadHeadicon(phyDefualt.phy_id); //首页轮播图
       that.loadactivityData(phyDefualt.phy_id); //活动图数据
-      that.setData({
-        physicalClost: phyDefualt
-      })
+      that.setData({ physicalClost: phyDefualt})
     });
   },
   /**
