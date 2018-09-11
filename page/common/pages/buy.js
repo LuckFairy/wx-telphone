@@ -196,11 +196,13 @@ Page({
     wx.removeStorageSync('recid');
     wx.removeStorageSync('cname');
     wx.removeStorageSync('face_money');
-    let { uid, pid, skuId, storeId, qrEntry, orderId, baokuan_action, quantity, ordertype=0, diff_people } = options;
+    let {  pid, skuId, storeId, qrEntry, orderId, baokuan_action, quantity, ordertype=0, diff_people } = options;
     if (diff_people) { this.data.setData({ diff_people }) };
-    uid = wx.getStorageSync('userUid');
+    let uid = wx.getStorageSync('userUid');
     physical_id = wx.getStorageSync('phy_id'); //门店id
-    this.setData({ orderId, uid, baokuan_action, pinType:ordertype });
+    if (baokuan_action) { this.setData({ baokuan_action})}
+    if (!orderId) { orderId = this.data.orderId}
+    this.setData({ orderId, uid,  pinType:ordertype });
     this.getAddress(uid);
     this.showOrderList({ orderId });
   },

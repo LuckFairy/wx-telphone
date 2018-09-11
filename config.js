@@ -20,7 +20,7 @@ var phoneTxt = '400-000-1312';
 var serverTxt = 'yzkf139';
 var appid = 'wx57d5cde97d7e1fd3';
 var config ={
-  pt_txt:'趣购拼团'
+  pt_txt:'超值拼团'
 }
 
 export default{

@@ -36,6 +36,7 @@ App({
 
         //客服电话txt
         that.config.phoneTxt = res.err_msg.TelnWx.service_tel.replace(/(.{3})/g, "$1-");
+        // that.config.phoneTxt = res.err_msg.TelnWx.service_tel;
 
         //客服微信
         that.config.serverTxt = res.err_msg.TelnWx.service_weixin;

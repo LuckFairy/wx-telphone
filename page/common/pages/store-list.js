@@ -57,6 +57,7 @@ Page({
     that.setData({
       page
     })
+    console.log('page',page)
     that._loadData();
   },
   /**
@@ -93,6 +94,8 @@ Page({
           console.log('选择门店数据', this.data.physicalClost);
           wx.setStorageSync('phy_id', this.data.physicalClost.phy_id);
           wx.setStorageSync('phy_flag', true);
+          prevPage.loadHeadicon(this.data.physicalClost.phy_id,true); //首页轮播图
+          prevPage.loadactivityData(this.data.physicalClost.phy_id,true); //活动图数据
           prevPage.setData({ physicalClost: this.data.physicalClost});
           wx.navigateBack();
         },1000)
@@ -123,9 +126,7 @@ Page({
    */
   _loadData() {
     var that = this;
-    let logLat = that.data.logLat;
-    let uid = that.data.uid;
-    let store_id = that.data.store_id;
+    let {logLat,uid,store_id,page}=that.data;
    //不是门店指南模块
     if (that.data.checkModel){
       if(!logLat || logLat == ''){return;}
@@ -133,7 +134,7 @@ Page({
       var params = {
           uid,
           store_id,
-          page: '1',
+          page: page,
           long: logLat[0],
           lat: logLat[1]
         }
@@ -142,7 +143,7 @@ Page({
       var params = {
         uid,
         store_id,
-        page: '1',
+        page: page,
       }
     }
 
@@ -155,8 +156,11 @@ Page({
       if (resp) {
         wx.hideLoading();
         if (resp.err_code == 0) {
+          let physical_list = that.data.physical_list;
+          let list = resp.err_msg.physical_list;
+          physical_list = [...physical_list,...list];
           that.setData({
-            physical_list: resp.err_msg.physical_list
+            physical_list
           })
           if (that.data.index) {
             for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
@@ -168,7 +172,7 @@ Page({
         } else {
           wx.showToast({
             title: '亲，没有数据了',
-            image: '../../image/use-ruler.png',
+            image: '../imgs/use-ruler.png',
             duration: 1000
           })
         }

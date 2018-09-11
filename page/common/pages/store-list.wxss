@@ -8,10 +8,12 @@
 
 .store-list-containner {
   flex-direction: column;
-  background-color: #fff;
 }
-
+.store-containner{
+  padding-bottom: 98rpx;
+}
 .list-view-wrap {
+  background-color: #fff;
   flex-direction: column;
   justify-content: flex-start;
 }
@@ -69,7 +71,7 @@
   height: 98rpx;
   bottom: 0;
   left: 0;
-  margin-top: 98rpx;
+ 
 }
 
 .store-footer text {

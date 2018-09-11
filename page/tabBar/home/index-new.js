@@ -17,7 +17,7 @@ const activityUrl_v1 ="wxapp.php?c=index_activity&a=jx_activity_v2";//精选活�
 const activityUrl_v2 = 'wxapp.php?c=index_activity&a=jx_activity_v3'; //精选活动（第三版）
 const headImg_v3 = 'wxapp.php?c=product&a=banner_list_v3'; //轮播图接口（第三版）
 const headImg_v4 = 'wxapp.php?c=product&a=banner_list_v4'; //轮播图接口（第四版）
-const physicalUrl = 'wxapp.php?c=physical&a=physical_list'; //las门店列表接口
+const physicalUrl = 'wxapp.php?c=physical&a=physical_list'; //门店列表接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical'; //总店信息
 const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index'; //拼团活动列表
 const tabUrl = "wxapp.php?c=wxapp_index&a=get_content"; //tab栏目接口(新)
@@ -80,6 +80,7 @@ Page({
     changeFlag: true, //是否切换门店
     indexIcon: [], //首页图标
   },
+
   getPhoneNumber(e) {
     let that = this;
     console.log(e.detail);
@@ -232,6 +233,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    console.log(this.route)
     if (app.globalData.uid) {
       this.loadMyCardNumData(); //我的卡包数量
       this.getCoupValue(); //优惠券数据
@@ -248,9 +250,9 @@ Page({
     that.getCoupValue(); //优惠券数据
   },
   /**顶部轮播图  **/
-  loadHeadicon(phy_id) {
+  loadHeadicon(phy_id,flag) {
     let that = this;
-    var flag = wx.getStorageSync("phy_flag");
+    var flag = flag||wx.getStorageSync("phy_flag");
     if (flag) {
       var params = {
         store_id, //店铺id
@@ -281,12 +283,12 @@ Page({
   /**
    * 首页精选活动数据
    */
-  loadactivityData(phy_id) {
+  loadactivityData(phy_id,flag) {
     wx.showLoading({
       title: '加载中...',
       mask: true,
     });
-    var flag = wx.getStorageSync("phy_flag");
+    var flag =flag|| wx.getStorageSync("phy_flag");
     if(flag){
       var params = {
         store_id, //店铺id

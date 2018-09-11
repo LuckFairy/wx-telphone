@@ -1,6 +1,7 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/common/pages/buy",
     "page/common/pages/goods-detail",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
@@ -16,7 +17,6 @@
     "page/common/pages/index-mom",          
     "page/common/pages/address-list",
     "page/common/pages/address",
-    "page/common/pages/buy",
     "page/common/pages/card_detail",
     "page/common/pages/card_summary",
     "page/common/pages/index-activity",

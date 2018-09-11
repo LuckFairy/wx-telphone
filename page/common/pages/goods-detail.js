@@ -543,7 +543,7 @@ Page({
       store_id,
       quantity,
       sku_id,
-      physical_id
+      // physical_id
     };
     console.log('购买参数', params);
     app.api.postApi(addOrderUrl, { params }, (err, rep) => {
