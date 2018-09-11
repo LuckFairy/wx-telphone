@@ -127,7 +127,7 @@
 
 
     <!--拼团区域  -->
-    <view class='yiya-pinduoduo-area'>
+    <view class='yiya-pinduoduo-area' wx:if="{{groupData.length>0}}">
       <view class='pinduoduo-title'>
         <image src='./imgs/gopintuan.png' class='left-title-image'></image>
         <!-- <text class='pinduodudo-text-title'>趣购拼团</text> -->

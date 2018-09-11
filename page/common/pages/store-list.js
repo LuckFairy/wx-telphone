@@ -117,26 +117,24 @@ Page({
    */
   _loadData() {
     var that = this;
-    let logLat = that.data.logLat;
-    let uid = that.data.uid;
-    let store_id = that.data.store_id;
-   //不是门店指南模块
-    if (that.data.checkModel){
-      if(!logLat || logLat == ''){return;}
+    let { logLat, uid, store_id, page } = that.data;
+    //不是门店指南模块
+    if (that.data.checkModel) {
+      if (!logLat || logLat == '') { return; }
       var url = physicalNewUrl;
       var params = {
-          uid,
-          store_id,
-          page: '1',
-          long: logLat[0],
-          lat: logLat[1]
-        }
-    }else{
+        uid,
+        store_id,
+        page: page,
+        long: logLat[0],
+        lat: logLat[1]
+      }
+    } else {
       var url = physicalUrl;
       var params = {
         uid,
         store_id,
-        page: '1',
+        page: page,
       }
     }
 
@@ -144,17 +142,20 @@ Page({
       title: '加载中'
     });
     app.api.postApi(url, { params }, (err, resp) => {
-      console.log('门店指南。。。',resp);
+      console.log('门店指南。。。', resp);
       // 列表数据
       if (resp) {
         wx.hideLoading();
         if (resp.err_code == 0) {
+          let physical_list = that.data.physical_list;
+          let list = resp.err_msg.physical_list;
+          physical_list = [...physical_list, ...list];
           that.setData({
-            physical_list: resp.err_msg.physical_list
+            physical_list
           })
           if (that.data.index) {
             for (var j = 0; j < resp.err_msg.physical_list.length; j++) {
-              if (resp.err_msg.physical_list[j].select_physical==1){
+              if (resp.err_msg.physical_list[j].select_physical == 1) {
                 phy_id = resp.err_msg.physical_list[j].phy_id;
               }
             }
@@ -162,11 +163,11 @@ Page({
         } else {
           wx.showToast({
             title: '亲，没有数据了',
-            image: '../../image/use-ruler.png',
+            image: '../imgs/use-ruler.png',
             duration: 1000
           })
         }
-      } 
+      }
     });
   },
   onHide: function () {
