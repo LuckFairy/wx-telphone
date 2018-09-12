@@ -217,13 +217,16 @@ Page({
     var pinType = this.data.pinType;
     var baokuan_action = this.data.baokuan_action;
     let couponInfo = wx.getStorageSync('couponInfo') || [];
-    if (couponInfo.length > 0 || pinType != 1 || orderType != 6 || baokuan_action != 'undefined') {
-      var user_coupon_id = [];
-      user_coupon_id.push(couponInfo[0]);
-      this.setData({
-        user_coupon_id,
-        discounts: couponInfo[2], couponInfo
-      })
+    if (couponInfo.length >= 2) {
+      if (pinType == 0 || orderType != 6 || baokuan_action == 'undefined') {
+        var user_coupon_id = [];
+        user_coupon_id.push(couponInfo[0]);
+        this.setData({
+          user_coupon_id,
+          discounts: couponInfo[2], couponInfo
+        })
+
+      }
     }
 
   },

@@ -17,7 +17,7 @@ const activityUrl_v1 ="wxapp.php?c=index_activity&a=jx_activity_v2";//精选活�
 const activityUrl_v2 = 'wxapp.php?c=index_activity&a=jx_activity_v3'; //精选活动（第三版）
 const headImg_v3 = 'wxapp.php?c=product&a=banner_list_v3'; //轮播图接口（第三版）
 const headImg_v4 = 'wxapp.php?c=product&a=banner_list_v4'; //轮播图接口（第四版）
-const physicalUrl = 'wxapp.php?c=physical&a=physical_list'; //门店列表接口
+const physicalUrl = 'wxapp.php?c=address&a=getaphysical'; //獲取門店
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical'; //总店信息
 const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index'; //拼团活动列表
 const tabUrl = "wxapp.php?c=wxapp_index&a=get_content"; //tab栏目接口(新)
@@ -184,11 +184,7 @@ Page({
       });
     })
 
-    that.isLoglat().then(data=>{
-      that.loadLocation();
-    }).catch(data=>{
-      that.loadMainLocation();
-    })
+    
 
     app.api.postApi(tabUrl, {
       "params": {
@@ -253,6 +249,11 @@ Page({
     that.jumpCoupon(); /*首页弹窗 */
     that.loadMyCardNumData(); //我的卡包数量
     that.getCoupValue(); //优惠券数据
+    that.isLoglat().then(data => {
+      that.loadLocation();
+    }).catch(data => {
+      that.loadMainLocation();
+    })
   },
   /**顶部轮播图  **/
   loadHeadicon(phy_id,flag) {
@@ -522,7 +523,6 @@ Page({
     var params = {
       uid,
       store_id,
-      page: '1',
       long: logLat[0],
       lat: logLat[1]
     }
@@ -532,22 +532,23 @@ Page({
       // 列表数据
       wx.hideLoading();
       if (resp.err_code != 0) {
+        console.log(resp.err_msg);
         that.setData({ changeFlag: false });//总店没有返回值
         return;
       }
-      var list = resp.err_msg.physical_list;
-      for (var j = 0; j < list.length; j++) {
-        if (list[j].select_physical == "1") {
-          phyDefualt = list[j];
-        }
-      }
-      if (phyDefualt.length == 0) {
-        phyDefualt = list[0];
-      }
-      wx.setStorageSync('phy_id', phyDefualt.phy_id);
-      that.loadHeadicon(phyDefualt.phy_id); //首页轮播图
-      that.loadactivityData(phyDefualt.phy_id); //活动图数据
-      that.setData({ physicalClost: phyDefualt})
+      var list = resp.err_msg.physical_info;
+      // for (var j = 0; j < list.length; j++) {
+      //   if (list[j].select_physical == "1") {
+      //     phyDefualt = list[j];
+      //   }
+      // }
+      // if (phyDefualt.length == 0) {
+      //   phyDefualt = list[0];
+      // }
+      wx.setStorageSync('phy_id', list.pigcms_id);
+      that.loadHeadicon(list.pigcms_id); //首页轮播图
+      that.loadactivityData(list.pigcms_id); //活动图数据
+      that.setData({ physicalClost: list})
     });
   },
   /**
@@ -657,10 +658,11 @@ Page({
       wx.hideLoading();
       if (err || rep.err_code != 0) return;
       var data = rep.err_msg;
-
-      this.setData({
-        groupData: [data[0]]
-      });
+      if(data&&data.length>0){
+        this.setData({
+          groupData: [data[0]]
+        });
+      }
     });
   },
   //跳到拼团商品页

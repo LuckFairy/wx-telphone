@@ -25,7 +25,7 @@ Page({
     attrPrice: '', //多属性的价格
     newCartNum: 0,//读取后台购物车数量多少件
     //cartNum :0,//购物车初始化0件
-    cateId: 0,
+
     moreChoose: false,
     product: '',
     store_id: "",
@@ -60,8 +60,8 @@ Page({
     choPrice: '',//单品价格
     choQuantity: '',//单品库存
     tabCheck: false,//多属性是否选中,
-    preTimeText: { hour:0, minute:0, second :0},
-    preTime:234,
+    preTimeText: { hour: 0, minute: 0, second: 0 },
+    preTime: 234,
     isShowPre: false//显示预售商品提示
   },
   onShareAppMessage(res) {
@@ -221,11 +221,11 @@ Page({
       uid, store_id
     })
     // 页面初始化 options为页面跳转所带来的参数
-    let { prodId, action, params, categoryid = '', cateId } = options;
+    let { prodId, action, params, categoryid = '' } = options;
 
     //this.setData({ 'newCartNum': 0 });
-
-    this.setData({ 'cateId': cateId, 'product_id': prodId ,action,prodId});
+    if (action) { this.setData({ action }) }
+    this.setData({ 'product_id': prodId, prodId });
 
     //购物车的数量
     app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
@@ -277,16 +277,16 @@ Page({
 
   loadData() {
     let that = this;
-    let { prodId, action}=that.data;
+    let { prodId, action } = that.data;
     this.timer && clearInterval(this.timer);
     wx.showLoading({ title: '加载中' });
     //这里是严选
     let url = 'wxapp.php?c=product&a=detail_of_product_v4';
     var params = {
-      "product_id": prodId, uid:that.data.uid, store_id
+      "product_id": prodId, uid: that.data.uid, store_id
     }
     app.api.postApi(url, { params }, (err, resp) => {
-      console.log('商品數據',resp);
+      console.log('商品數據', resp);
       wx.hideLoading();
       if (err) return;
       if (resp.err_code != 0) {
@@ -312,10 +312,10 @@ Page({
           product, action
         });
         if (product.sold_time <= 0) {
-          that.setData({ preTime: product.sold_time})
-        }else{
+          that.setData({ preTime: product.sold_time })
+        } else {
 
-        that.startCountDown(product.sold_time);
+          that.startCountDown(product.sold_time);
         }
       }
 
@@ -543,7 +543,7 @@ Page({
       store_id,
       quantity,
       sku_id,
-      // physical_id
+      physical_id
     };
     console.log('购买参数', params);
     app.api.postApi(addOrderUrl, { params }, (err, rep) => {
@@ -599,13 +599,15 @@ Page({
           price.push(sku_list[i].price);//s所有价格情况
         }
       }
+      if (property_list) { that.setData({ property_list }) }
+      if (sku_list) { that.setData({ sku_list }) }
       console.log(multiattribute, 'multiattribute');
       that.setData({
         activity_err_msg,
-        property_list,
+
         multiattribute,
         quantitys,
-        sku_list
+
       });
     });
   },
@@ -833,17 +835,17 @@ Page({
    * 倒计时处理
    */
   startCountDown(preTime) {
-    
+
     let now = (new Date().getTime()) / 1000;
     let leftTime = preTime - now;
-    if(leftTime<=0){
-      this.setData({preTime: leftTime });return;
+    if (leftTime <= 0) {
+      this.setData({ preTime: leftTime }); return;
     }
     this.timer = setInterval(() => {
-      now = (new Date().getTime())/1000;
+      now = (new Date().getTime()) / 1000;
       leftTime = preTime - now;
       let time = this.countDown(leftTime);
-      this.setData({ preTimeText: time, preTime: leftTime});
+      this.setData({ preTimeText: time, preTime: leftTime });
     }, 1000);
   },
   /**
@@ -884,6 +886,5 @@ Page({
       });
     }, 2000);
   }
-
 
 })

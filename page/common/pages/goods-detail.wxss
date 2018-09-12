@@ -1372,7 +1372,7 @@ button[type=warn] {
   display: inline-block;
   font-size: 30rpx;
   color: #999;
-  width: 153rpx;
+  min-width: 153rpx;
   height: 57rpx;
   border: 1rpx solid #999;
   border-radius: 5rpx;
