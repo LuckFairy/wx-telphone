@@ -12,7 +12,6 @@ import {
 let app = getApp();
 
 const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon'; //优惠券列表数据
-// const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num'; //我的卡包接口
 const activityUrl_v1 ="wxapp.php?c=index_activity&a=jx_activity_v2";//精选活动（第二版）
 const activityUrl_v2 = 'wxapp.php?c=index_activity&a=jx_activity_v3'; //精选活动（第三版）
 const headImg_v3 = 'wxapp.php?c=product&a=banner_list_v3'; //轮播图接口（第三版）
@@ -191,7 +190,7 @@ Page({
         store_id
       }
     }, (err, rep) => {
-      if (!err && rep.err_code == 0) {
+      if (!err && rep.err_code == 0 && rep.err_msg.data.length>0) {
         if (rep.err_msg.data.template_id == '1') {
           return;
         }
@@ -494,7 +493,7 @@ Page({
           // 列表数据
           wx.hideLoading();
           if (resp.err_code != 0) {
-            that.setData({changeFlag: false});//总店没有返回值
+            //that.setData({changeFlag: false});//总店没有返回值
             return;
           }
           phyDefualt = resp.err_msg.physical_list[0];
@@ -533,7 +532,7 @@ Page({
       wx.hideLoading();
       if (resp.err_code != 0) {
         console.log(resp.err_msg);
-        that.setData({ changeFlag: false });//总店没有返回值
+        //that.setData({ changeFlag: false });//总店没有返回值
         return;
       }
       var list = resp.err_msg.physical_info;
