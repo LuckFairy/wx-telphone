@@ -183,14 +183,12 @@ Page({
       });
     })
 
-
-
     app.api.postApi(tabUrl, {
       "params": {
         store_id
       }
     }, (err, rep) => {
-      if (!err && rep.err_code == 0) {
+      if (!err && rep.err_code == 0 && rep.err_msg.data.length>0) {
         if (rep.err_msg.data.template_id == '1') {
           return;
         }
@@ -233,7 +231,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log(this.route)
+   console.log(this.route)
     if (app.globalData.uid) {
       this.loadMyCardNumData(); //我的卡包数量
       this.getCoupValue(); //优惠券数据
@@ -288,6 +286,7 @@ Page({
   /**
    * 首页精选活动数据
    */
+
   loadactivityData(phy_id, flag) {
     wx.showLoading({
       title: '加载中...',

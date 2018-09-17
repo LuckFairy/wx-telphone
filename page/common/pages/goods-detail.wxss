@@ -1,3 +1,10 @@
+.share-btn{
+  position: absolute;
+  visibility: hidden;
+  width: 120rpx;
+  height: 60rpx;
+  z-index: 999;
+}
 .ad, .attr_box_test {
   display: none;
 }
@@ -1131,6 +1138,7 @@ button[type=warn] {
   width: 120rpx;
   vertical-align: bottom;
   position: relative;
+  flex-direction: column;
 }
 
 .mid-list-wrap {
@@ -1364,7 +1372,7 @@ button[type=warn] {
   display: inline-block;
   font-size: 30rpx;
   color: #999;
-  width: 153rpx;
+  min-width: 153rpx;
   height: 57rpx;
   border: 1rpx solid #999;
   border-radius: 5rpx;

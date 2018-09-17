@@ -84,6 +84,7 @@ Page({
       wx.navigateBack(); return;
     }
 
+
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2];
     console.log('选择门店数据', this.data.physicalClost);
@@ -113,7 +114,6 @@ Page({
     //     },1000)
     //   }
     // })
-
   },
   /**
    * 选择门店
@@ -149,6 +149,7 @@ Page({
         lat: logLat[1]
       }
     } else {
+
       var url = physicalUrl;
       var params = {
         uid,
@@ -168,7 +169,9 @@ Page({
         if (resp.err_code == 0) {
           let physical_list = that.data.physical_list;
           let list = resp.err_msg.physical_list;
+
           physical_list = [...physical_list, ...list];
+
           that.setData({
             physical_list
           })

@@ -276,7 +276,6 @@ Page({
     });
 
   },
-
   _prepare(prodId, skuid, quantity, groupbuyId) {
     checkTimer = setInterval(() => {
       if (getApp().hasSignin) {

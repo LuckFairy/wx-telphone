@@ -60,8 +60,8 @@ Page({
     choPrice: '',//单品价格
     choQuantity: '',//单品库存
     tabCheck: false,//多属性是否选中,
-    preTimeText: { hour:0, minute:0, second :0},
-    preTime:234,
+    preTimeText: { hour: 0, minute: 0, second: 0 },
+    preTime: 234,
     isShowPre: false//显示预售商品提示
   },
   onShareAppMessage(res) {
@@ -96,11 +96,12 @@ Page({
     var isaddCart = e.currentTarget.dataset.isaddCart;
     var productId = e.currentTarget.dataset.productId;
     var skuId = e.currentTarget.dataset.skuId;
+
   
     var uid = e.currentTarget.dataset.uid;
     var storeId = e.currentTarget.dataset.storeId;
     var skuid_list = that.data.skuid_list;
-    
+
     if (skuid_list.length > 0) {
       if (!skuId) {
         wx.showLoading({
@@ -117,7 +118,7 @@ Page({
       // 直接发送请求添加到购物车
       that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
     }
-  
+
   },
   goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId) {
     var that = this;
@@ -223,7 +224,9 @@ Page({
     let { prodId, action, params, categoryid = '' } = options;
 
     //this.setData({ 'newCartNum': 0 });
+
     if (action) { this.setData({ action})}
+
     this.setData({ 'product_id': prodId, prodId });
 
     //购物车的数量
@@ -276,16 +279,15 @@ Page({
 
   loadData() {
     let that = this;
-    let { prodId, action}=that.data;
+    let { prodId, action } = that.data;
     this.timer && clearInterval(this.timer);
     wx.showLoading({ title: '加载中' });
     //这里是严选
     let url = 'wxapp.php?c=product&a=detail_of_product_v4';
     var params = {
-      "product_id": prodId, uid:that.data.uid, store_id
+      "product_id": prodId, uid: that.data.uid, store_id
     }
     app.api.postApi(url, { params }, (err, resp) => {
-     
       wx.hideLoading();
       if (err) return;
       if (resp.err_code != 0) {
@@ -311,10 +313,10 @@ Page({
           product, action
         });
         if (product.sold_time <= 0) {
-          that.setData({ preTime: product.sold_time})
-        }else{
+          that.setData({ preTime: product.sold_time })
+        } else {
 
-        that.startCountDown(product.sold_time);
+          that.startCountDown(product.sold_time);
         }
       }
 
@@ -591,20 +593,19 @@ Page({
           multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
           quantitys.push(sku_list[i].quantity);//所有可能库存情况
           skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
-         
+
           price.push(sku_list[i].price);//s所有价格情况
         }
       }
       // if (property_list) { that.setData({ property_list})}
       // if (sku_list) { that.setData({ sku_list})}
-     
       that.setData({
         activity_err_msg: product,
         property_list,
         sku_list,
         multiattribute,
         quantitys,
-        
+
       });
     });
   },
@@ -621,7 +622,6 @@ Page({
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
-  
     var product_id = e.currentTarget.dataset.productId;
     that.setData({
       moreChoose: true,
@@ -644,6 +644,7 @@ Page({
     that.loadCartInfo(params);
   },
   chooseProperty(e) {
+
   
     let that = this;
     let {pid,vid} = e.currentTarget.dataset;
@@ -653,7 +654,6 @@ Page({
     let arr_gropv = [];
     let gropv = pid + ':' + vid;
     arr_gropv.push(gropv);//点击选择属性的id选项组合
-   
     let theLength = property_list.length;//多属性种类
     if (theLength == 1) {
       if ((oriPid != pid) && oneMatching.length == 0) {
@@ -663,7 +663,7 @@ Page({
             if (multiattribute[k][g] == arr_gropv) {
               
               oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
-             
+
             }
           }
           that.setData({
@@ -676,15 +676,17 @@ Page({
           curTabs: pid + vid,
           oriPid: pid
         })
-        
+
       } else if ((oriPid == pid) && oneMatching.length != 0) {
         oneMatching.splice(0, oneMatching.length);//清空数组
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
+
               
               oneMatching.push(multiattribute[k]);//重新加入匹配项
              
+
             }
           }
           that.setData({
@@ -697,7 +699,7 @@ Page({
           curTabs: pid + vid,
           oriPid: pid
         })
-        
+
       }
     } else if (theLength == 2) {
       if ((oriPid != pid) && oneMatching.length == 0) {
@@ -705,9 +707,11 @@ Page({
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
+
              
               oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
               
+
             }
           }
         }
@@ -717,15 +721,17 @@ Page({
           curTabs: pid + vid,
           oriPid: pid
         })
-       
+
       } else if ((oriPid == pid) && oneMatching.length != 0) {
         oneMatching.splice(0, oneMatching.length);//清空数组
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
+
              
               oneMatching.push(multiattribute[k]);//重新加入匹配项
               
+
             }
           }
         }
@@ -735,6 +741,7 @@ Page({
           curTabs: pid + vid,
           oriPid: pid
         })
+
        
       } else if ((oriPid != pid) && oneMatching.length != 0) {//换行选中后
         for (var k = 0; k < multiattribute.length; k++) {
@@ -745,15 +752,16 @@ Page({
               for (var o = 0; o < oneMatching.length; o++) {
                 if (oneMatching[o] == multiattribute[k]) {
                  
+
                   if (quantitys[k] <= 0) {
                     wx.showLoading({
                       title: '卖完了'
                     });
                     setTimeout(function () {
-                      wx.hideLoading()
+                      wx.hideLoading();
                     }, 2000)
                   } else {
-                    
+
                     var oneprice = price[k].toFixed(2);
                     that.setData({
                       sku_id: skuid_list[k],
@@ -785,6 +793,7 @@ Page({
                     })
                    
 
+
                   }
                 }
               }
@@ -812,17 +821,17 @@ Page({
    * 倒计时处理
    */
   startCountDown(preTime) {
-    
+
     let now = (new Date().getTime()) / 1000;
     let leftTime = preTime - now;
-    if(leftTime<=0){
-      this.setData({preTime: leftTime });return;
+    if (leftTime <= 0) {
+      this.setData({ preTime: leftTime }); return;
     }
     this.timer = setInterval(() => {
-      now = (new Date().getTime())/1000;
+      now = (new Date().getTime()) / 1000;
       leftTime = preTime - now;
       let time = this.countDown(leftTime);
-      this.setData({ preTimeText: time, preTime: leftTime});
+      this.setData({ preTimeText: time, preTime: leftTime });
     }, 1000);
   },
   /**
