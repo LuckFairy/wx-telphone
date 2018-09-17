@@ -6,7 +6,7 @@
  * AGENT  api请求中的hear参数
  * sid   店铺id
  */
-var isRelease = true;
+var isRelease = false;
 var host = "https://saas.qutego.com/"
 var testhost = "https://zy.qutego.com/"
 var AGENT_ID = 2

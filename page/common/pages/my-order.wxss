@@ -698,12 +698,12 @@ button::after {
 .purchase-data-sd{
   /* display: block; */
   font-size: 0rpx;
-  margin: 0 24rpx;
+  padding: 0 24rpx;
   display: flex;
   justify-content: space-between;
   height: 80rpx;
   line-height: 80rpx;
-  width: 700rpx;
+  width: 750rpx;
 }
 .purchase-data-number{
   font-size: 26rpx;

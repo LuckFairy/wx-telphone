@@ -1,10 +1,14 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/common/pages/my-order",
+    "page/common/pages/store-change",
+    "page/tabBar/goods/cart",
+    "page/common/pages/buy",
+    "page/group-buying/my-order",
     "page/common/pages/goods-detail",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
-    "page/tabBar/goods/cart",
     "page/tabBar/my/myself",
 
     "page/common/pages/activity-hository",
@@ -16,12 +20,10 @@
     "page/common/pages/index-mom",          
     "page/common/pages/address-list",
     "page/common/pages/address",
-    "page/common/pages/buy",
     "page/common/pages/card_detail",
     "page/common/pages/card_summary",
     "page/common/pages/index-activity",
     "page/common/pages/index-boabao",
-    "page/common/pages/my-order",
     "page/common/pages/score",
     "page/common/pages/search-card",
     "page/common/pages/shop-list",
@@ -31,7 +33,6 @@
     "page/group-buying/group-buying",
     "page/group-buying/index-seckill",
     "page/group-buying/grouplist",
-    "page/group-buying/my-order",
     "page/group-buying/detail",
     "page/group-buying/group-join",
     "page/group-buying/tuan-detail",
@@ -40,7 +41,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
-    "navigationBarTitleText": "宝宝康",
+    "navigationBarTitleText": "婴众趣购",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -107,7 +108,8 @@
         "pages/purchase-detail",
         "pages/apply-sales",
         "pages/bingPhone",
-        "pages/setting"
+        "pages/setting",
+        "pages/erwei"
       ]
     }
   ],

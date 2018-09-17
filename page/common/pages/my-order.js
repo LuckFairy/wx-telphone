@@ -36,7 +36,6 @@ Page({
     failOrders: [],  //已成团
     sku_arr: [],//多属性列表
 
-
     checkQrImgUrl: null,   // 赠品领用核销二维码url
     uncheckOrders: [],  // 待审核订单（赠品）
     groupOrders: [], // 团购订单
@@ -324,10 +323,12 @@ Page({
     var that = this;
     wx.showLoading({ title: '加载中...', mask: true, });
     //新方法
-    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.storeId, type: "all" }, opt);
+    // species 列表类型，1 - 普通 2 - 配送 默认1
+    // send_type(非必需，不传表示全部，2表示自提订单)
+    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.storeId, type: "all","species":1}, opt);
 
     console.log('请求的参数params ', params)
-    app.api.postApi("wxapp.php?c=order_v2&a=order_list", { "params": params }, (err, resp) => {
+    app.api.postApi("wxapp.php?c=order_v2&a=order_list_v2", { "params": params }, (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('网络出错，请稍候重试');
@@ -407,7 +408,16 @@ Page({
     });
 
   },
-
+/**
+ * 自提二维码
+ */
+  goErwei(e){
+    let { orderId }=e.currentTarget.dataset;
+    if (!orderId){return;}
+    wx.navigateTo({
+      url: `../../my/pages/erwei?order_no=${orderId}`,
+    })
+  },
   /**
    * 确认收货
    */

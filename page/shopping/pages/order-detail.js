@@ -1,6 +1,6 @@
 import { formatTime } from '../../../utils/util';
 var app = getApp();
-const orderUrl = 'wxapp.php?c=order&a=mydetail';    // 订单详情接口
+const orderUrl = 'wxapp.php?c=order&a=mydetail_v2';    // 订单详情接口
 const logisticsUrl = 'order/track/';  // 订单物流查询接口
 let _orderId = '';
 let _kuaidiCompanyCode , _kuaidiNumber, _kuaidiCompanyName;
@@ -24,9 +24,10 @@ Page({
     user_coupon_id: 0,
     is_app: false,
     payType: 'weixin',
+    physical_info:null,//自提門店信息
     showErrModal: false,//错误模式层
     userTel:'',//收货人电话号码
-    newType:1,//是否新品试用，1是，0否        
+    newType:0,//是否新品试用，1是，0否        
   },
   onLoad:function(options){
     var that = this;
@@ -60,6 +61,16 @@ Page({
       });
       this._loadData(orderId);
     }
+  },
+  /**
+ * 自提二维码
+ */
+  goErwei(e) {
+    let orderId = this.data.orderData.order_no;
+    if (!orderId) { return; }
+    wx.navigateTo({
+      url: `../../my/pages/erwei?order_no=${orderId}`,
+    })
   },
   // 查看售后
   searchSales() {
@@ -301,41 +312,7 @@ Page({
    * 获取订单详情数据
    */
   _loadData(orderId) {
-    // app.api.fetchApi(orderUrl + orderId, (err, data) => {   // 赠品领用提交
-    //   if(!err && data.rtnCode == 0) {
-    //     let {kuaidiCompanyCode, kuaidiNumber, kuaidiCompanyName} = data.data;
-    //     [_kuaidiCompanyCode, _kuaidiNumber, _kuaidiCompanyName] = [kuaidiCompanyCode, kuaidiNumber, kuaidiCompanyName];
-
-    //     if(kuaidiCompanyCode && kuaidiNumber) {
-    //       app.api.postApi(logisticsUrl, {kuaidiCompanyCode, kuaidiNumber}, (err, kuaidiData) => {
-    //         wx.hideLoading();
-    //         if(!err && kuaidiData.rtnCode == 0) {
-    //           this.setData({
-    //             orderData: data.data,
-    //             kuaidiData: kuaidiData.data
-    //           });
-    //         } else {
-    //           this.setData({
-    //             orderData: data.data,
-    //             kuaidiData: null
-    //           });
-    //         }
-    //       });
-    //     } else {
-    //       wx.hideLoading();
-    //       this.setData({
-    //         orderData: data.data,
-    //         kuaidiData: null
-    //       });
-    //     }
-    //   } else {
-    //   }
-    // });
-
-    //2017-12-16amy
     var self = this;
-    // var pages = getCurrentPages();
-    // console.log('pages ',pages);
     var params = orderId;
     if (! orderId.includes('PIG')){
        params = 'PIG' + orderId;
@@ -352,6 +329,7 @@ Page({
         
       }
       if(!err && rep.err_code==0){
+        let {err_msg}=rep;
         var tel = rep.err_msg.orderdata.address_tel.substring(0, 3) + "****" + rep.err_msg.orderdata.address_tel.substring(8, 11);
         self.setData({
           orderData: rep.err_msg.orderdata,
@@ -364,7 +342,9 @@ Page({
           user_coupon_id: rep.err_msg.orderdata.user_coupon_id,
           userTel: tel
         });
-        
+        if(err_msg.send_type[0]==2){
+          self.setData({ physical_info: err_msg.physical_info.default_physical})
+        }
       }
     })
   },

@@ -4,20 +4,55 @@
 page {
   background: #fff;
 }
-button.current-buying::after{border:none;}
+
+button:after {
+  border: none;
+}
+
 .item-split-line {
   width: 750rpx;
   height: 10px;
   background-color: #f5f5f5;
 }
 
+button {
+  color: #bfbfbf;
+  text-align: center;
+  font-size: 28rpx;
+  border-radius: 0;
+  border-width: 0;
+  border-color: none;
+  box-shadow: 0;
+  border: 0;
+}
+
+.pick-btn, .distri-btn {
+  width: 140rpx;
+  height: 60rpx;
+  /* padding: 16rpx 44rpx; */
+  line-height: 60rpx;
+  border: solid 1rpx #bfbfbf;
+  background: #fff;
+}
+
+.pick-btn {
+  margin-right: 30rpx;
+}
+
+.distri-btn {
+  margin-right: 24rpx;
+}
+
+.btn-active {
+  background: #ffe71c;
+  color: #1b1b1b;
+  border: none;
+}
+
 .border-bottom {
-  /* border-bottom: 1px solid #ececec; */
   padding-bottom: 10px;
   padding-top: 10px;
 }
-
-
 
 .content-view {
   flex: 1;
@@ -108,12 +143,14 @@ button.current-buying::after{border:none;}
   font-size: 25rpx;
   margin-top: 10px;
 }
+
 .ship-method-item {
   margin-right: 50rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
 .addr-sec-lists {
   background: #fff;
   height: 100%;
@@ -121,11 +158,14 @@ button.current-buying::after{border:none;}
 
 .addr-section {
   background-color: #fff;
-  padding-top: 30rpx;
   position: relative;
-  flex-direction:row;
-  align-items: center
+  align-items: center;
+  margin-top: 16rpx;
+  min-height: 88rpx;
+  max-height: 168rpx;
+  justify-content: space-between;
 }
+
 .addr-view {
   width: 700rpx;
   flex-direction: row;
@@ -153,18 +193,27 @@ button.current-buying::after{border:none;}
   align-items: center;
   background-color: white;
   display: inline-block;
-  margin-right: 4rpx;
-  justify-content:flex-start;
+  justify-content: flex-start;
   overflow-y: auto;
+  margin:30rpx 0;
+  margin-right: 4rpx;
+  flex: 1;
 }
-.addressNew{
+
+.addressNew {
   position: relative;
   justify-content: flex-start;
-  color:#1b1b1b;
-  font-size:30rpx;
+  color: #1b1b1b;
+  font-size: 30rpx;
   width: 600rpx;
   margin-right: 24rpx;
 }
+
+.distriNew {
+  flex: 1;
+  width: auto;
+}
+
 .name-phone-view {
   font-size: 25rpx;
   width: 600rpx;
@@ -172,12 +221,16 @@ button.current-buying::after{border:none;}
 
 .addr-dtl-view {
   font-size: 25rpx;
-  margin: 5px 0px;
-  margin-bottom: 5px;
-  padding-bottom: 5px;
   width: 600rpx;
+  margin-top: 10rpx;
 }
-
+.name-store-view{
+  font-size: 25rpx;
+}
+.addr-store-view{
+  font-size: 25rpx;
+  margin-top: 10rpx;
+}
 .addr-op-view {
   width: 100%;
   flex-direction: row;
@@ -362,7 +415,6 @@ button.current-buying::after{border:none;}
   top: 20rpx;
 }
 
-
 /*公众号开始  */
 
 .official-accounts {
@@ -449,22 +501,29 @@ button.current-buying::after{border:none;}
 }
 
 .address-list {
-  width: 30rpx;
   margin-left: 24rpx;
   margin-right: 24rpx;
-  padding-top: 17rpx;
 }
 
 .address-image {
-  width: 30rpx;
+  width: 40rpx;
   height: 40rpx;
 }
 
-.address-go, .address-go-image {
-  width: 15rpx;
-  height: 27rpx;
+.address-go-image{
+  width: 24rpx;
+  height: 24rpx;
+  }
+.store-go{
+  align-items: center;
+  margin-right: 24rpx;
+  justify-content: flex-end;
 }
-
+.store-go text{
+  font-size: 26rpx;
+  color: #999;
+  margin-right: 12rpx;
+}
 .shadow-list {
   display: block;
 }
@@ -510,8 +569,8 @@ button.current-buying::after{border:none;}
 .discount-go {
   display: inline-block;
   vertical-align: -7%;
-  width: 15rpx;
-  height: 27rpx;
+  width: 24rpx;
+  height: 24rpx;
 }
 
 .discount-ticket-price {
@@ -624,7 +683,7 @@ page {
   text-align: center;
   color: #1b1b1b;
   line-height: 88rpx;
-  border-radius:0;
+  border-radius: 0;
   border-width: 0;
   border-color: none;
   box-shadow: 0;
@@ -679,8 +738,10 @@ page {
 /*底部菜单栏结束  */
 
 /*购买成功提示开始  */
+
 /*购买成功提示开始  */
-.matte-hint-father{
+
+.matte-hint-father {
   display: block;
   width: 750rpx;
   min-height: 100%;
@@ -689,6 +750,7 @@ page {
   z-index: 9999999999;
   top: 0rpx;
 }
+
 .matte-hint {
   width: 626rpx;
   height: 500rpx;
@@ -746,12 +808,15 @@ page {
 }
 
 /*购买成功提示结束  */
+
 /*商品列表  */
+
 .goods-info-view {
   height: 210rpx;
   /* display: block; */
   width: 750rpx;
-  background: #ffffff;
+  background: #fff;
+  margin: 16rpx 0;
 }
 
 .goods-img {
@@ -772,35 +837,40 @@ page {
   flex: 1;
   flex-direction: column;
 }
-.goods-title-name{
+
+.goods-title-name {
   font-size: 28rpx;
   color: #1b1b1b;
   display: block;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-box-orient:vertical;
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   margin-left: 18rpx;
   margin-right: 24rpx;
   margin-top: 34rpx;
 }
-.goods-size-name{
+
+.goods-size-name {
   font-size: 0rpx;
   height: 75rpx;
   line-height: 75rpx;
 }
-.goods-color-name,.goods-footage-name{
+
+.goods-color-name, .goods-footage-name {
   font-size: 28rpx;
   color: #1b1b1b;
   margin-left: 18rpx;
   display: inline-block;
 }
-.goods-number{
+
+.goods-number {
   font-size: 24rpx;
   color: #b3b1b1;
 }
-.goods-price-number{
+
+.goods-price-number {
   font-size: 0rpx;
   display: flex;
   justify-content: space-between;
@@ -808,17 +878,21 @@ page {
   margin-right: 24rpx;
   align-items: flex-end;
 }
-.goods-price{
+
+.goods-price {
   display: inline-block;
   font-size: 28rpx;
   color: #1b1b1b;
 }
-.discount-ticket-checked{
-  color:inherit;
+
+.discount-ticket-checked {
+  color: inherit;
 }
-discount-ticket-have{
-  color:orange;
+
+discount-ticket-have {
+  color: orange;
 }
-.discount-ticket-no{
-  color:#a9a9a9;
+
+.discount-ticket-no {
+  color: #a9a9a9;
 }

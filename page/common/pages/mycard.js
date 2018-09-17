@@ -160,8 +160,7 @@ Page({
           keyword.push(activity_err_msg[j].tagName);
           tagData.push(activity_err_msg[j]);
         }
-        console.log(tagData);
-        console.log(tagData[0].tagId);
+      
 
         that.setData({
           keyword,
@@ -229,7 +228,7 @@ Page({
       wx.hideLoading();
       //网络异常
       if (err || code != 200 || reps.err_code != 0) {that.setData({ updateone:true}); return;}
-      console.log('rep', reps)
+
       var { image, coupon_list = [], next_page } = reps.err_msg;
       var list = [...coupon_list];
       //更新数据
@@ -261,7 +260,7 @@ Page({
       that.setData({
         isLoaded2: true
       });
-      console.log('rep',reps)
+      
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
       var list = [...coupon_list];
       //更新数据

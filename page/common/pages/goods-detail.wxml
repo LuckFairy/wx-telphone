@@ -2,7 +2,7 @@
   <view class="goods-banner-view">
     <swiper class="goods-banner-swiper" indicator-dots="{{true}}" indicator-color="lightgrey" indicator-active-color="white" autoplay="{{true}}">
       <swiper-item wx:for="{{product.product_image_list}}" wx:for-item="src" wx:key="{{index}}">
-        <image src="{{src.image}}" mode="{{mode}}" class="banner-img"></image>
+        <image src="{{src.image}}" mode="aspectFill" class="banner-img"></image>
       </swiper-item>
     </swiper>
   </view>
@@ -44,7 +44,7 @@
         <text class="mid-list-two">￥{{product.original_price}}</text>
       </view>
       <view class='mid-list-wraps-image'>
-        <button class='mid-open-list share-bt' open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.product_image_list[0]}}"></button>
+        <button class='mid-open-list share-bt' open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.shareUrl?product.shareUrl:product.product_image_list[0]}}"></button>
         <text class="mid-list-six-top share-txt">分享</text>
       </view>
     </view>
@@ -145,7 +145,7 @@
         <text class='invite-car-num'>{{newCartNum}}</text>
         <text class='cart-ke-server-text'>购物车</text>
       </view>
-      <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
+      <view class='add-invite-car invite-total eee' data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
         <text class='add-invite-car-child'>加入购物车</text>
       </view>
       <view class='current-buying invite-total no-goods'>
@@ -180,8 +180,8 @@
             <icon bindtap='goImageClose' class='shopping-detail-image'></icon>
 
           </view>
-          <text wx:if="{{product.special}}" class='shopping-detail-price'>价格 {{activity_err_msg.price}}</text>
-          <text wx:elif="{{product.price}}" class='shopping-detail-price'>价格 {{choPrice?choPrice:activity_err_msg.price}}</text>
+          <!-- <text wx:if="{{product.special}}" class='shopping-detail-price'>价格 {{activity_err_msg.price}}</text> -->
+          <text wx:if="{{product.price}}" class='shopping-detail-price'>价格 {{choPrice?choPrice:activity_err_msg.price}}</text>
           <text wx:else class='shopping-detail-price'>价格 {{activity_err_msg.original_price}}</text>
           <text class='shopping-detail-have'>库存 {{choQuantity?choQuantity:activity_err_msg.quantity}}件</text>
         </view>

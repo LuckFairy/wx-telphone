@@ -1,3 +1,28 @@
+/* page/common/pages/store-change.wxss */
+/* 选择区域 */
+.setction-top{
+  height: 88rpx;
+  align-items: center;
+  justify-content: space-around;
+  background: #fff;
+  color: #7d7d7d;
+  font-size: 28rpx;
+}
+.section{
+  width: 220rpx;
+  padding: 0 24rpx;
+  justify-content: space-between;
+  align-items: center;
+}
+.store-down{
+  width: 24rpx;
+  height: 24rpx;
+}
+/* 列表部分 */
+.check{
+  width: 36rpx;
+  height: 36rpx;
+}
 
 .list-item-dtl-icon-view {
   margin-right: 20rpx;
@@ -9,13 +34,20 @@
 .store-list-containner {
   flex-direction: column;
 }
-.store-containner{
+/* .store-containner{
   padding-bottom: 98rpx;
-}
+} */
 .list-view-wrap {
-  background-color: #fff;
   flex-direction: column;
   justify-content: flex-start;
+  background-color: #fff;
+}
+.list-view-wrap:first-child{
+  border-width:0;
+  border-top-width:1px;
+  border-color:#eaeaea;
+  border-style:solid;
+
 }
 
 .list-item-view {
@@ -23,7 +55,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 16rpx 20rpx;
+  padding: 32rpx 24rpx;
 }
 .list-item-view navigator{
   display: flex;
@@ -71,7 +103,7 @@
   height: 98rpx;
   bottom: 0;
   left: 0;
- 
+  
 }
 
 .store-footer text {
@@ -83,4 +115,23 @@
   line-height: 98rpx;
   text-align: center;
   font-size: 36rpx;
+}
+/* 区域弹窗*/
+.couponlist-wrap{
+  display: block;
+  overflow-y: auto;
+}
+.area-content{
+  width:640rpx;
+  height:889rpx;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 4rpx;
+}
+.area-item{
+  height: 88rpx;
+  padding-left: 30rpx;
+  font-size: 30rpx;
+  align-items: center;
+  width: 100%;
 }

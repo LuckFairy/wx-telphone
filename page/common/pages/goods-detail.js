@@ -25,7 +25,7 @@ Page({
     attrPrice: '', //多属性的价格
     newCartNum: 0,//读取后台购物车数量多少件
     //cartNum :0,//购物车初始化0件
-    cateId: 0,
+
     moreChoose: false,
     product: '',
     store_id: "",
@@ -67,7 +67,7 @@ Page({
   onShareAppMessage(res) {
     let that = this;
     let dataset = res.target.dataset;
-    console.log('action', that.data.action);
+
     return {
       title: dataset.title,
       path: `/page/common/pages/goods-detail?prodId=${that.data.product_id}&action=${that.data.action}`,
@@ -96,12 +96,11 @@ Page({
     var isaddCart = e.currentTarget.dataset.isaddCart;
     var productId = e.currentTarget.dataset.productId;
     var skuId = e.currentTarget.dataset.skuId;
-    console.log("是否拿到skuId", skuId);
+  
     var uid = e.currentTarget.dataset.uid;
     var storeId = e.currentTarget.dataset.storeId;
     var skuid_list = that.data.skuid_list;
-    //var the_length = that.data.property_list.length;
-    console.log(skuid_list, 'skuid_listddddddddddddd')
+    
     if (skuid_list.length > 0) {
       if (!skuId) {
         wx.showLoading({
@@ -118,7 +117,7 @@ Page({
       // 直接发送请求添加到购物车
       that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
     }
-    console.log('e', e);
+  
   },
   goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId) {
     var that = this;
@@ -221,11 +220,11 @@ Page({
       uid, store_id
     })
     // 页面初始化 options为页面跳转所带来的参数
-    let { prodId, action, params, categoryid = '', cateId } = options;
+    let { prodId, action, params, categoryid = '' } = options;
 
     //this.setData({ 'newCartNum': 0 });
-
-    this.setData({ 'cateId': cateId, 'product_id': prodId ,action,prodId});
+    if (action) { this.setData({ action})}
+    this.setData({ 'product_id': prodId, prodId });
 
     //购物车的数量
     app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
@@ -286,7 +285,7 @@ Page({
       "product_id": prodId, uid:that.data.uid, store_id
     }
     app.api.postApi(url, { params }, (err, resp) => {
-      console.log('商品數據',resp);
+     
       wx.hideLoading();
       if (err) return;
       if (resp.err_code != 0) {
@@ -435,7 +434,7 @@ Page({
   /* 输入框事件w */
   bindManual: function (e) {
     var that = this;
-    console.log(e, '3')
+
     var shopNum = e.detail.value;
     if (shopNum <= 1) {
       wx.showLoading({
@@ -456,7 +455,7 @@ Page({
   /**严选，立即购买，一般购买 */
   goPayment(e) {
     var that = this;
-    console.log('e判断是否从严选、闪购过来', e);
+    console.log('严选，立即购买，一般购买');
     var baokuan_action = e.target.dataset.baokuan_action;
     var { buyQuantity, productId, uid, storeId, skuId } = e.currentTarget.dataset;
     var skuid_list = that.data.skuid_list;
@@ -496,6 +495,7 @@ Page({
   *新品试用，立即购买
   */
   goPreApply(e) {
+    console.log('新品试用立即购买');
     var that = this;
     var { buyQuantity, productId, uid, storeId, skuId } = e.currentTarget.dataset;
     var skuid_list = that.data.skuid_list;
@@ -547,7 +547,6 @@ Page({
     };
     console.log('购买参数', params);
     app.api.postApi(addOrderUrl, { params }, (err, rep) => {
-      console.log(rep);
       if (err) { console.log('err ', err); return }
       var { err_code, err_msg } = rep;
       //if (err_code != 0) { console.log(err_msg); return }
@@ -584,28 +583,28 @@ Page({
     //多属性列表接口
     app.api.postApi('wxapp.php?c=cart&a=info', { params }, (err, resp) => {
       wx.hideLoading();
-      var activity_err_msg = resp.err_msg.product;//商品数据集合
-      var property_list = resp.err_msg.property_list;//多属性数据集合
-      var sku_list = resp.err_msg.sku_list;//多属性价格库存数据集合
+      //product商品数据集合,property_list多属性数据集合,sku_list多属性价格库存数据集合
+      let { product, property_list = null, sku_list = null } = resp.err_msg;
       if (sku_list && sku_list.length > 0) {
         for (var i = 0; i < sku_list.length; i++) {
-          console.log(sku_list[i].properties);
-          console.log(sku_list[i].quantity);
-          console.log(sku_list[i].properties.split(';'));//分割多属性字符串
+         
           multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
           quantitys.push(sku_list[i].quantity);//所有可能库存情况
           skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
-          console.log(skuid_list, 'skuid_list所有sku_id的情况')
+         
           price.push(sku_list[i].price);//s所有价格情况
         }
       }
-      console.log(multiattribute, 'multiattribute');
+      // if (property_list) { that.setData({ property_list})}
+      // if (sku_list) { that.setData({ sku_list})}
+     
       that.setData({
-        activity_err_msg,
+        activity_err_msg: product,
         property_list,
+        sku_list,
         multiattribute,
         quantitys,
-        sku_list
+        
       });
     });
   },
@@ -622,7 +621,7 @@ Page({
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
-    console.log('加入购物车', e)
+  
     var product_id = e.currentTarget.dataset.productId;
     that.setData({
       moreChoose: true,
@@ -645,42 +644,26 @@ Page({
     that.loadCartInfo(params);
   },
   chooseProperty(e) {
-    console.log('e', e)
-    var that = this;
-    var curTab = that.data.curTab;
-    var arr_gropv = [];
-    console.log(e, '多属性点击');
-    var pid = e.currentTarget.dataset.pid;
-    var vid = e.currentTarget.dataset.vid;
-    console.log('pid', pid)
-    console.log(' vid', vid)
-    var gropv = pid + ':' + vid;
+  
+    let that = this;
+    let {pid,vid} = e.currentTarget.dataset;
+    //multiattribute多属性所有可能选项列表,quantitys所有可能库存情况,price所有可能价格情况,oneMatching点击之后匹配情况入数组,skuid_list选择之后的skuid_list的sku_id,初始pid oriPid,
+    let { curTab, multiattribute, quantitys, price, oneMatching, skuid_list, oriPid, property_list}=that.data;
+
+    let arr_gropv = [];
+    let gropv = pid + ':' + vid;
     arr_gropv.push(gropv);//点击选择属性的id选项组合
-    console.log('arr_gropv', arr_gropv)
-    var multiattribute = that.data.multiattribute;//多属性所有可能选项列表
-    console.log("所有多属性啊啊啊", multiattribute)
-    var quantitys = that.data.quantitys;//所有可能库存情况
-    console.log("所有库存啊啊啊", quantitys)
-    var price = that.data.price;//所有可能价格情况
-    console.log("所有价格啊啊啊", price)
-    var oneMatching = that.data.oneMatching;//点击之后匹配情况入数组
-    console.log(oneMatching.length, '数组情况')
-    var skuid_list = that.data.skuid_list;
-    console.log(skuid_list, '选择之后的skuid_list的sku_id')
-    console.log(skuid_list, 'skuid_list')
-    console.log(skuid_list, 'skuid_list')
-    var oriPid = that.data.oriPid;//初始pid
-    console.log('quantitys', quantitys)
-    var theLength = that.data.property_list.length;//多属性种类
+   
+    let theLength = property_list.length;//多属性种类
     if (theLength == 1) {
       if ((oriPid != pid) && oneMatching.length == 0) {
         oneMatching.splice(0, oneMatching.length);//清空数组
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
-              console.log(multiattribute[k], 'g')//获取点击匹配的可选项
+              
               oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
-              console.log(oneMatching, '首次push的匹配值')
+             
             }
           }
           that.setData({
@@ -693,15 +676,15 @@ Page({
           curTabs: pid + vid,
           oriPid: pid
         })
-        console.log('fffffffff')
+        
       } else if ((oriPid == pid) && oneMatching.length != 0) {
         oneMatching.splice(0, oneMatching.length);//清空数组
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
-              console.log(multiattribute[k], 'g')//获取点击匹配的可选项
+              
               oneMatching.push(multiattribute[k]);//重新加入匹配项
-              console.log('oneMatching重新匹配', oneMatching)
+             
             }
           }
           that.setData({
@@ -714,7 +697,7 @@ Page({
           curTabs: pid + vid,
           oriPid: pid
         })
-        console.log('ttttttttttt')
+        
       }
     } else if (theLength == 2) {
       if ((oriPid != pid) && oneMatching.length == 0) {
@@ -722,9 +705,9 @@ Page({
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
-              console.log(multiattribute[k], 'g')//获取点击匹配的可选项
+             
               oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
-              console.log(oneMatching, '首次push的匹配值')
+              
             }
           }
         }
@@ -734,15 +717,15 @@ Page({
           curTabs: pid + vid,
           oriPid: pid
         })
-        console.log('执行1')
+       
       } else if ((oriPid == pid) && oneMatching.length != 0) {
         oneMatching.splice(0, oneMatching.length);//清空数组
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
-              console.log(multiattribute[k], 'g')//获取点击匹配的可选项
+             
               oneMatching.push(multiattribute[k]);//重新加入匹配项
-              console.log('oneMatching重新匹配', oneMatching)
+              
             }
           }
         }
@@ -752,19 +735,16 @@ Page({
           curTabs: pid + vid,
           oriPid: pid
         })
-        console.log('执行2')
+       
       } else if ((oriPid != pid) && oneMatching.length != 0) {//换行选中后
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
-            console.log(multiattribute[k].length, 'multiattribute[k].length3')
+           
             if (multiattribute[k][g] == arr_gropv) {
-              console.log(multiattribute[k], 'g3')//获取点击匹配的可选项
-              console.log(multiattribute[k][g], 'ggg3')//获取点击匹配的可选项
-              console.log('是否执行到这里')
+        
               for (var o = 0; o < oneMatching.length; o++) {
                 if (oneMatching[o] == multiattribute[k]) {
-                  console.log(multiattribute[k], quantitys[k], 'multiattribute[k]点击匹配项');//设置匹配项颜色
-                  console.log(quantitys[k], 'quantitys[k]')
+                 
                   if (quantitys[k] <= 0) {
                     wx.showLoading({
                       title: '卖完了'
@@ -773,38 +753,37 @@ Page({
                       wx.hideLoading()
                     }, 2000)
                   } else {
-                    console.log(skuid_list[k], '匹配项的sku_id')
+                    
+                    var oneprice = price[k].toFixed(2);
                     that.setData({
                       sku_id: skuid_list[k],
-                      choPrice: price[k],
+                      choPrice: oneprice,
                       choQuantity: quantitys[k]
                     });
                     var arrObj = [];
                     for (var d = 0; d < multiattribute[k].length; d++) {
-                      console.log(multiattribute[k][d], 'multiattribute[k][d]');
+                    
                       arrObj.push(multiattribute[k][d].split(':'));
-                      console.log(arrObj, 'arrObj')
+                      
                       var array = multiattribute[k][d].split(':');
-                      console.log(array, 'array')
-                      console.log(array[0], 'array[0]');
+                    
                     }
-                    console.log(arrObj, 'arrObj')
+                    
                     var objArr = [];
                     for (var u = 0; u < arrObj.length; u++) {
-                      console.log(arrObj[u], 'arrObj[u]');
+                      
                       for (var q = 0; q < arrObj[u].length; q++) {
                         objArr.push(arrObj[u][q]);
                       }
-                      console.log(objArr, 'objArr啊啊啊啊啊啊')
+                     
                     }
                     var arrone = objArr[0] + objArr[1];
                     var arrotwo = objArr[2] + objArr[3];
-                    console.log(arrone, 'arrone');
-                    console.log(arrotwo, 'arrotwo');
+                  
                     that.setData({
                       arrone, arrotwo, curTabs: ''
                     })
-                    console.log('执行3')
+                   
 
                   }
                 }

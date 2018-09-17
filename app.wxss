@@ -7,6 +7,10 @@
 page {
   background-color: #eee;
 }
+.yellow-bg{background: #fffbe8 !important;}
+.block{display: block !important;line-height: 1;width: 100%;}
+.m-n{margin: 0 !important;}
+.b-t{border-top: solid #eaeaea 1rpx;}
 .nowrap{
   overflow:hidden;
   text-overflow:ellipsis;
@@ -38,7 +42,7 @@ view {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 page {

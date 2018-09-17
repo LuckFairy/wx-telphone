@@ -43,7 +43,7 @@ App({
     })
   },
   getLocation: function () {
-    this.WxService.getLocation()
+    return this.WxService.getLocation()
       .then(res => {
         var latitude = res.latitude, longitude = res.longitude //维度，经度
         var logLat = [longitude, latitude];
