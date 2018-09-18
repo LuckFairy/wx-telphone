@@ -98,6 +98,11 @@ Page({
       url: '../../common/pages/mycard'
     });
   },
+  goMoney(){
+    wx.navigateTo({
+      url: '../../distribution/invite'
+    });
+  },
   gostore (){
     wx.navigateTo({
       url: '../../common/pages/store-list'

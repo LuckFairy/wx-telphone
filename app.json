@@ -1,5 +1,8 @@
 {
   "pages": [
+    "page/tabBar/my/myself",
+    "page/distribution/moneyIndex",
+    "page/distribution/invite",
     "page/tabBar/home/index-new",
     "page/common/pages/my-order",
     "page/common/pages/store-change",
@@ -9,7 +12,6 @@
     "page/common/pages/goods-detail",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
-    "page/tabBar/my/myself",
 
     "page/common/pages/activity-hository",
     "page/common/pages/activity-hosDet",

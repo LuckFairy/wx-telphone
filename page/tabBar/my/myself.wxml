@@ -86,7 +86,16 @@
       <image class='my-go-img' src='../../../image/group-go.png'></image>
     </view>
   </view>
-  <view class='my-detail-msg' bindtap='gostore'>
+  <view class='my-detail-msg' bindtap='goMoney'>
+    <view class='my-detail-gro'>
+      <image class='my-gro-img' src='./imgs/m-1.png'></image>
+      <text class='my-gro-text'>分享赚钱</text>
+    </view>
+    <view class='my-gro-go'>
+      <image class='my-go-img' src='../../../image/group-go.png'></image>
+    </view>
+  </view>
+  <view class='my-detail-msg my-store-service' bindtap='gostore'>
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../../image/store-fingerpost.png'></image>
       <text class='my-gro-text'>门店指南</text>
@@ -95,7 +104,7 @@
       <image class='my-go-img' src='../../../image/group-go.png'></image>
     </view>
   </view>
-  <view class='my-detail-msg my-store-service' bindtap='goStoreServer'>
+  <view class='my-detail-msg ' bindtap='goStoreServer'>
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../../image/store-service.png'></image>
       <text class='my-gro-text'>商城客服</text>

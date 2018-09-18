@@ -83,7 +83,7 @@
 
 </view>
 <view>
-
+<!-- order.status订单状态status,0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中） -->
   <!-- 新品試用 -->
   <block wx:if="{{ newType == 1}}">
     <view class='bottom-btn-view mText'>
@@ -93,7 +93,8 @@
   <!-- 新品試用 -->
   <block wx:if="{{ physical_info}}">
     <view class='bottom-btn-view mText'>
-      <text  class="yellow-btn"  data-order-id="{{order.order_no_txt}}" catchtap="goErwei" style='background:#fae53b'>自提二维码</text>
+      <text wx:if="{{orderData.status == '2'||orderData.status == '3'}}" catchtap="goErwei" class="yellow-btn"  data-order-id="{{order.order_no_txt}}"  style='background:#fae53b'>自提二维码</text>
+    <text wx:if="{{orderData.status == '1'}}" catchtap="pay" data-order-id="{{order_no}}" class="yellow-btn" style='background:#fae53b'>确认支付</text>
     </view>
   </block>
   <block wx:else>

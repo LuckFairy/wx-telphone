@@ -5,11 +5,7 @@ const myAddressUrl = 'wxapp.php?c=address&a=MyAddress';//默认的收货地址
 const orderDetailUrl = 'wxapp.php?c=order&a=mydetail_v2';//订单详情
 const couponDataUrl = 'wxapp.php?c=coupon&a=store_coupon_use';//优惠券信息
 const _buyUrl = 'wap/wxapp_saveorder.php?action=pay_xcx';//立即購買接口
-const DetailURL = 'store/detail';    // 门店详情
-const methodUrl = 'buy/shipping/method';//邮寄方式
-const phyURL = 'store/ls';          // 门店列表
-const addressList = ''; //地址详情
-const orderList = '';//订单详情
+
 var checkTimer = null;
 let _prodId;                          // 记录商品 id
 let skuid;                          // 记录商品多属性标识 id
