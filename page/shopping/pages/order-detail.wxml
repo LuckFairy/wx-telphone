@@ -2,7 +2,7 @@
 <template wx:if="{{showErrModal}}" is="text-erwei-modal" data="{{...errModalConfig}}" />
 
 
-<view class="containner" wx:if="{{orderData}}">
+<view class="containner">
   <view class="order-no-view">
     <view class='order-list-wrap'>
       <view class="mText order-number-one">订单号：{{orderData.order_no}}</view>
@@ -11,20 +11,17 @@
       <!-- <view class="mText order-number-two grayText">{{orderData.histories[orderData.histories.length - 1].status}}</view> -->
     </view>
   </view>
-  <!-- //快递到达某地   -->
-  <!-- <view wx:if="{{kuaidiData}}" bindtap="pushToKuaiDi" class="express-sts-view mText navigator">{{kuaidiData[kuaidiData.length - 1].acceptstation}}</view> -->
 
   <view class="order-info-view item-area" style='margin-top:0;'>
     <!-- 自提 -->
-    <block wx:if="{{physical_info}}">
-     <view class="name-phone-view">
+    <block wx:if="{{send_type==2}}">
+      <view class="name-phone-view">
         <view class="mText address-order-list">
           <image class='address-image' src='../../../image/address.png'></image>
           自提门店：{{physical_info.name}}
         </view>
       </view>
-      <view wx:if="{{physical_info.address}}" class="addr-view">{{physical_info.address}}</view>
-  
+      <view class="addr-view">{{physical_info.address}}</view>
     </block>
     <block wx:else>
       <view class="name-phone-view">
@@ -83,7 +80,7 @@
 
 </view>
 <view>
-<!-- order.status订单状态status,0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中） -->
+  <!-- order.status订单状态status,0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中） -->
   <!-- 新品試用 -->
   <block wx:if="{{ newType == 1}}">
     <view class='bottom-btn-view mText'>
@@ -91,10 +88,10 @@
     </view>
   </block>
   <!-- 新品試用 -->
-  <block wx:if="{{ physical_info}}">
+  <block wx:if="{{ send_type==2}}">
     <view class='bottom-btn-view mText'>
-      <text wx:if="{{orderData.status == '2'||orderData.status == '3'}}" catchtap="goErwei" class="yellow-btn"  data-order-id="{{order.order_no_txt}}"  style='background:#fae53b'>自提二维码</text>
-    <text wx:if="{{orderData.status == '1'}}" catchtap="pay" data-order-id="{{order_no}}" class="yellow-btn" style='background:#fae53b'>确认支付</text>
+      <text wx:if="{{orderData.status == '2'||orderData.status == '3'}}" catchtap="goErwei" class="yellow-btn" data-order-id="{{order.order_no_txt}}" style='background:#fae53b'>自提二维码</text>
+      <text wx:if="{{orderData.status == '1'}}" catchtap="pay" data-order-id="{{order_no}}" class="yellow-btn" style='background:#fae53b'>确认支付</text>
     </view>
   </block>
   <block wx:else>
