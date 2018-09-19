@@ -1,7 +1,7 @@
 {
   "pages": [
-    "page/tabBar/my/myself",
     "page/distribution/moneyIndex",
+    "page/tabBar/my/myself",
     "page/distribution/invite",
     "page/tabBar/home/index-new",
     "page/common/pages/my-order",

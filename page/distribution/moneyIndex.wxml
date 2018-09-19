@@ -1,2 +1,57 @@
 <!--page/distribution/moneyIndex.wxml-->
-<text>page/distribution/moneyIndex.wxml</text>
+<!--top  个人信息-->
+<view class='myself-top gradient'>
+  <view>
+    <view class='myself-photo'>
+      <open-data type="userAvatarUrl" class="heading"></open-data>
+    </view>
+    <view class='myself-detail'>
+      <open-data type="userNickName" class='myself-id white'></open-data>
+      <view class='myself-address m-t24' bindtap='goaddress'>
+        <text class='myself-addr-text gray'>一级分销商</text>
+      </view>
+    </view>
+  </view>
+  <view class='myself-address myself-phone'>
+    <text class='myself-id gray'>ID:{{uid}}3452345</text>
+  </view>
+</view>
+<view class='midBox'>
+  <view  class='midBox-top'>
+    <text class='shallowGray'>当前店铺累计收益（元）</text>
+    <text>0.00</text>
+    <text class='shallowGray'>包含待结算0.00元</text>
+  </view>
+  <navigator class='height padding line'>
+    <view>
+      <text class='black'>可提现佣金</text>
+      <text class='black'>0.00元</text>
+    </view>
+    <view>
+      <text class='shallowBlack'>立即提现</text>
+      <image src='./imgs/c-1.png' style='margin-left:16rpx;width:16rpx;height:28rpx;'></image>
+    </view>
+  </navigator>
+</view>
+<view class='m-t16 midBox-item'>
+  <view>
+    <text class='blue'>1</text>
+    <text class='black'>累计客户</text>
+  </view>
+  <view>
+    <text class='blue'>1</text>
+    <text class='black'>累计邀请</text>
+  </view>
+  <view>
+    <text class='blue'>1</text>
+    <text class='black'>推广订单</text>
+  </view>
+</view>
+<view  class='m-t16 midBox-footer padding'>
+  <navigator>
+    <image src='./imgs/ee-1.png'></image>
+  </navigator>
+  <navigator>
+    <image src='./imgs/ee-2.png'></image>
+  </navigator>
+</view>

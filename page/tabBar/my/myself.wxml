@@ -3,7 +3,6 @@
 
 <view class='myself'>
   <!--top  个人信息-->
-
   <view class='myself-top'>
     <view>
       <view class='myself-photo'>

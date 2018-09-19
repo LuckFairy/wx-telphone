@@ -1,0 +1,15 @@
+<!--page/components/wxparse-page.wxml-->
+<import src="../../utils/wxParse/wxParse.wxml" />
+<scroll-view>
+  <view class='wrap'>
+    <view class='wrap-top'>
+      <text class='title'>{{title}}</text>
+      <text class='title-tip'>活动时间：{{date_msg}}</text>
+    </view>
+    <view class='html-box' >
+      <template is="wxParse" data="{{wxParseData:activity_detail.nodes}}"/>
+    </view>
+  </view>
+  <slot name="footer"></slot>
+</scroll-view>
+<slot name="overlay"></slot>
