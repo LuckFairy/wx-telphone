@@ -81,7 +81,7 @@ function getAddress() {
   })
 }
 /**
- * 调用微信地址
+ * 调用定位接口
  */
 function getLocation() {
   return new Promise((resolve, reject) => {
