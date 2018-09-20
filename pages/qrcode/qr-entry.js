@@ -2,6 +2,7 @@
 import { getUrlQueryParam } from '../../utils/util.js';
 import { Api } from '../../utils/api_2';
 let app = getApp();
+let indexUrl = '../../page/tabBar/home/index-new';
 var qrData = '';
 Page({
   data: {
@@ -194,7 +195,7 @@ Page({
       });
     } else {
       wx.switchTab({
-        url: indexUrl + `?locationid=${locationId}`,
+        url: indexUrl + `?locationid=${this.data.locationId}`,
       });
     }
     wx.hideLoading();

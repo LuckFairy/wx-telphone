@@ -1,2 +1,17 @@
 <!--page/distribution/invite.wxml-->
-<text>page/distribution/invite.wxml</text>
+<filter-panel detail="{{ac_detail}}" title="{{ac_title}}"  time="{{ac_time}}">
+<view class='footer' slot="footer">
+    申请成为分享达人
+</view>
+<view class="overlay" slot="overlay">
+  <view class='overlay-shade'></view>
+  <view class="overlay-content back-content">
+    <image src='./imgs/w-1.png'></image>
+    <text>资格审核中  （10s）</text>
+    <view class="modal-button">
+       <button  catchtap='goback'>返回上一页</button> 
+    </view>
+  </view>
+</view>
+</filter-panel>
+

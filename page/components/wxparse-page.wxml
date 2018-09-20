@@ -2,12 +2,12 @@
 <import src="../../utils/wxParse/wxParse.wxml" />
 <scroll-view>
   <view class='wrap'>
-    <view class='wrap-top'>
+    <view class='wrap-top' wx:if="{{title}}">
       <text class='title'>{{title}}</text>
-      <text class='title-tip'>活动时间：{{date_msg}}</text>
+      <text wx:if="{{time}}" class='title-tip'>活动时间：{{time}}</text>
     </view>
     <view class='html-box' >
-      <template is="wxParse" data="{{wxParseData:activity_detail.nodes}}"/>
+      <template is="wxParse" data="{{wxParseData:detail.nodes}}"/>
     </view>
   </view>
   <slot name="footer"></slot>
