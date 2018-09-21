@@ -412,10 +412,11 @@ Page({
  * 自提二维码
  */
   goErwei(e){
-    let { orderId }=e.currentTarget.dataset;
+    let { orderId ,physical}=e.currentTarget.dataset;
+    physical = JSON.stringify(physical);
     if (!orderId){return;}
     wx.navigateTo({
-      url: `../../my/pages/erwei?order_no=${orderId}`,
+      url: `../../my/pages/erwei?order_no=${orderId}&physical_info=${physical}`,
     })
   },
   /**

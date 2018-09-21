@@ -17,8 +17,9 @@
         </view>
       </view>
     </view>
-    <view wx:if='{{phone}}' class='myself-address myself-phone'>
+    <view class='myself-phone'>
       <text class='myself-id'>{{phone}}</text>
+      <text class='myself-id'>UID:{{uid}}</text>
     </view>
     <!-- <view wx:if='{{uid}}' class='myself-address myself-phone'>
       <text class='myself-id'>{{uid}}</text>

@@ -53,10 +53,11 @@ Page({
  * 自提二维码
  */
   goErwei(e) {
-    let orderId = this.data.orderData.order_no;
+    let { orderId, physical } = e.currentTarget.dataset;
+    physical = JSON.stringify(physical);
     if (!orderId) { return; }
     wx.navigateTo({
-      url: `../../my/pages/erwei?order_no=${orderId}`,
+      url: `../../my/pages/erwei?order_no=${orderId}&physical_info=${physical}`,
     })
   },
   // 查看售后

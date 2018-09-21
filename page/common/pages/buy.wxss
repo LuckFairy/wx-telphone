@@ -4,7 +4,10 @@
 page {
   background: #fff;
 }
-
+.black{
+  color: #1b1b1b !important;
+  font-size: 26rpx;
+}
 button:after {
   border: none;
 }

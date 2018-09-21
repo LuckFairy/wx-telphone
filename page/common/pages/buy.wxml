@@ -61,9 +61,9 @@
     <view class='address-list'>
       <image class='address-image' src='../imgs/store.png'></image>
     </view>
-    <view class="addr-item-view">
+    <view class="addr-item-view black">
       <view class="name-store-view">
-        <view class="people-name">{{pickupPhy.name}} </view>
+        <view class="people-name">自提门店：{{pickupPhy.name}} </view>
       </view>
       <view class="addr-store-view"> {{pickupPhy.address}}</view>
     </view>

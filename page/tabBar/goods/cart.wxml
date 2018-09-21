@@ -1,6 +1,4 @@
-<!--pages/cart/cart.wxml-->
-<!-- <import src="../../template/modal.wxml" /> -->
-<!-- <template wx:if="{{showErrModal==true}}" is="text-error-modal" data="{{...errModalConfig}}" /> -->
+
 
 <import src="../../template/get-tel.wxml" />
 <template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{templateData}}"></template>
@@ -79,7 +77,10 @@
       </text>
     <!-- <text class="not-wrap-price">不含运费，已优惠￥0.222</text> -->
   </view>
-  <view class="button" bindtap='bindCheckout'>去结算</view>
+  <form bindsubmit='bindCheckout' report-submit='true'  class=''>
+        <button form-type='submit' class='button' data-product-id='{{product.product_id}}'>去结算</button>
+      </form>
+  <!-- <view class="button" bindtap='bindCheckout'>去结算</view> -->
 </view>
 <!-- 热门推荐-->
  <view class="hot-recommend" wx:if="{{baokuanList.length > 0}}">

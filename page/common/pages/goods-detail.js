@@ -97,7 +97,6 @@ Page({
     var productId = e.currentTarget.dataset.productId;
     var skuId = e.currentTarget.dataset.skuId;
 
-  
     var uid = e.currentTarget.dataset.uid;
     var storeId = e.currentTarget.dataset.storeId;
     var skuid_list = that.data.skuid_list;
@@ -224,9 +223,7 @@ Page({
     let { prodId, action, params, categoryid = '' } = options;
 
     //this.setData({ 'newCartNum': 0 });
-
-    if (action) { this.setData({ action})}
-
+    if (action) { this.setData({ action }) }
     this.setData({ 'product_id': prodId, prodId });
 
     //购物车的数量
@@ -288,6 +285,7 @@ Page({
       "product_id": prodId, uid: that.data.uid, store_id
     }
     app.api.postApi(url, { params }, (err, resp) => {
+
       wx.hideLoading();
       if (err) return;
       if (resp.err_code != 0) {
@@ -342,7 +340,7 @@ Page({
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
-    var product_id = e.currentTarget.dataset.productId;
+    var product_id = e.detail.target.dataset.productId;
     // that.setData({
     //   moreChoose: true,
     //   oneMatching: oneMatching,
@@ -457,7 +455,7 @@ Page({
   /**严选，立即购买，一般购买 */
   goPayment(e) {
     var that = this;
-    console.log('严选，立即购买，一般购买');
+    console.log('e判断是否从严选、闪购过来', e);
     var baokuan_action = e.target.dataset.baokuan_action;
     var { buyQuantity, productId, uid, storeId, skuId } = e.currentTarget.dataset;
     var skuid_list = that.data.skuid_list;
@@ -497,7 +495,6 @@ Page({
   *新品试用，立即购买
   */
   goPreApply(e) {
-    console.log('新品试用立即购买');
     var that = this;
     var { buyQuantity, productId, uid, storeId, skuId } = e.currentTarget.dataset;
     var skuid_list = that.data.skuid_list;
@@ -589,7 +586,7 @@ Page({
       let { product, property_list = null, sku_list = null } = resp.err_msg;
       if (sku_list && sku_list.length > 0) {
         for (var i = 0; i < sku_list.length; i++) {
-         
+
           multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
           quantitys.push(sku_list[i].quantity);//所有可能库存情况
           skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
@@ -599,6 +596,7 @@ Page({
       }
       // if (property_list) { that.setData({ property_list})}
       // if (sku_list) { that.setData({ sku_list})}
+
       that.setData({
         activity_err_msg: product,
         property_list,
@@ -622,7 +620,8 @@ Page({
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
-    var product_id = e.currentTarget.dataset.productId;
+
+    var product_id = e.detail.target.dataset.productId;
     that.setData({
       moreChoose: true,
       oneMatching: oneMatching,
@@ -645,15 +644,15 @@ Page({
   },
   chooseProperty(e) {
 
-  
     let that = this;
-    let {pid,vid} = e.currentTarget.dataset;
+    let { pid, vid } = e.currentTarget.dataset;
     //multiattribute多属性所有可能选项列表,quantitys所有可能库存情况,price所有可能价格情况,oneMatching点击之后匹配情况入数组,skuid_list选择之后的skuid_list的sku_id,初始pid oriPid,
-    let { curTab, multiattribute, quantitys, price, oneMatching, skuid_list, oriPid, property_list}=that.data;
+    let { curTab, multiattribute, quantitys, price, oneMatching, skuid_list, oriPid, property_list } = that.data;
 
     let arr_gropv = [];
     let gropv = pid + ':' + vid;
     arr_gropv.push(gropv);//点击选择属性的id选项组合
+
     let theLength = property_list.length;//多属性种类
     if (theLength == 1) {
       if ((oriPid != pid) && oneMatching.length == 0) {
@@ -661,7 +660,7 @@ Page({
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
-              
+
               oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
 
             }
@@ -683,9 +682,7 @@ Page({
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
 
-              
               oneMatching.push(multiattribute[k]);//重新加入匹配项
-             
 
             }
           }
@@ -708,9 +705,7 @@ Page({
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
 
-             
               oneMatching.push(multiattribute[k]);//首次点击之后把所有可能匹配的入数
-              
 
             }
           }
@@ -728,9 +723,7 @@ Page({
           for (var g = 0; g < multiattribute[k].length; g++) {
             if (multiattribute[k][g] == arr_gropv) {
 
-             
               oneMatching.push(multiattribute[k]);//重新加入匹配项
-              
 
             }
           }
@@ -742,16 +735,14 @@ Page({
           oriPid: pid
         })
 
-       
       } else if ((oriPid != pid) && oneMatching.length != 0) {//换行选中后
         for (var k = 0; k < multiattribute.length; k++) {
           for (var g = 0; g < multiattribute[k].length; g++) {
-           
+
             if (multiattribute[k][g] == arr_gropv) {
-        
+
               for (var o = 0; o < oneMatching.length; o++) {
                 if (oneMatching[o] == multiattribute[k]) {
-                 
 
                   if (quantitys[k] <= 0) {
                     wx.showLoading({
@@ -770,28 +761,27 @@ Page({
                     });
                     var arrObj = [];
                     for (var d = 0; d < multiattribute[k].length; d++) {
-                    
+
                       arrObj.push(multiattribute[k][d].split(':'));
-                      
+
                       var array = multiattribute[k][d].split(':');
-                    
+
                     }
-                    
+
                     var objArr = [];
                     for (var u = 0; u < arrObj.length; u++) {
-                      
+
                       for (var q = 0; q < arrObj[u].length; q++) {
                         objArr.push(arrObj[u][q]);
                       }
-                     
+
                     }
                     var arrone = objArr[0] + objArr[1];
                     var arrotwo = objArr[2] + objArr[3];
-                  
+
                     that.setData({
                       arrone, arrotwo, curTabs: ''
                     })
-                   
 
 
                   }

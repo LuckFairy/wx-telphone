@@ -31,11 +31,12 @@ page{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 80rpx;
+  padding-bottom: 64rpx;
 }
 .m-t40{
   margin-top: 40rpx;
 }
+
 .qr-view text{
   color:#999;
   font-size: 28rpx;
@@ -46,4 +47,9 @@ page{
 image.erwei{
   width: 420rpx;
   box-sizing: border-box;
+}
+.qr-view .m-t64{
+  margin-top:64rpx;
+  color: #222;
+  font-size: 28rpx;
 }

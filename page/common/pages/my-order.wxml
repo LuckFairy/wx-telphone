@@ -84,7 +84,7 @@
               </view>
               <view class='purchase-satus goods-satus'>
                 <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
-                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="goErwei">自提二维码</text>
+                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" data-physical="{{order.physical_info}}" catchtap="goErwei">自提二维码</text>
               </view>
             </block>
             <!-- 非自提 -->
@@ -322,7 +322,7 @@
               <!-- 自提 -->
               <view wx:if="{{order.send_type == 2}}" class="purchase-satus goods-satus">
                 <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
-                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="goErwei">自提二维码</text>
+                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" data-physical="{{order.physical_info}}" catchtap="goErwei">自提二维码</text>
               </view>
               <view wx:else class="purchase-satus goods-satus">
                 <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
