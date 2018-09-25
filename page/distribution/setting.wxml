@@ -1,0 +1,15 @@
+<!--page/distribution/setting.wxml-->
+<view class="item-view">
+  <label class="title">银行：</label>
+  <input style="flex:1;" placeholder='请选择银行' type="text" maxlength="64" />
+</view>
+<view class="item-view">
+  <label class="title">银行卡卡号：</label>
+  <input style="flex:1;" placeholder='请输入银行卡卡号' type="text" maxlength="64" />
+</view>
+<view class="item-view">
+  <label class="title">姓名：</label>
+  <input style="flex:1;" placeholder='输入姓名' type="text" maxlength="64" />
+</view>
+
+ <button class='content-btn'>完成</button>

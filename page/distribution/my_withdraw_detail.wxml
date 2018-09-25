@@ -1,2 +1,39 @@
 <!--page/distribution/my_withdraw_detail.wxml-->
-<text>page/distribution/my_withdraw_detail.wxml</text>
+<page>
+<view class='item top'>
+  <text class='text'>可提现金额</text>
+  <text class='text'>¥360.00</text>
+</view>
+
+<view class='line'>
+</view>
+
+<view class='item'>
+  <text class='text'>本次提现</text>
+  <input class='text text-input' placeholder-style='input' type='digit' placeholder='银行卡单笔最高提现5万'></input>
+</view>
+
+
+<view class='item top'>
+  <text class='text'>提现账户</text>
+  <view class='item-right'>
+    <text class='text text-right'>去修改</text>
+    <image class='item-icon' src='../distribution/imgs/c-1.png'></image>
+  </view>
+</view>
+
+  <view class='item-account'>
+    <view class='item-account-content'>
+      <text class='item-account-text'>姓名</text>
+      <text class='item-account-text'>谢美美</text>
+    </view>
+
+    <view class='item-account-content'>
+      <text class='item-account-text'>中国招商银行</text>
+      <text class='item-account-text'>6214823011158913</text>
+    </view>
+
+  </view>
+
+   <button class='content-btn'>提现</button>
+</page>

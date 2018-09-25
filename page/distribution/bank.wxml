@@ -1,0 +1,8 @@
+<!--page/distribution/bank.wxml-->
+<page>
+
+<view class='content'>
+  中国工商银行
+</view>
+
+</page>

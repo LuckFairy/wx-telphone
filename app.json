@@ -1,9 +1,14 @@
 {
   "pages": [
-        "page/distribution/my_withdraw_detail",
-        "page/distribution/my_withdraw",
-            "page/distribution/my_income",
-    "page/tabBar/home/index-new",
+
+    "page/distribution/bank",
+    "page/distribution/my_record",
+        "page/tabBar/home/index-new",
+        
+    "page/distribution/setting",
+    "page/distribution/my_withdraw_detail",
+    "page/distribution/my_withdraw",
+    "page/distribution/my_income",
     "page/distribution/my_customer",
     "page/distribution/invite",
     "page/distribution/moneyIndex",
@@ -42,6 +47,7 @@
     "page/group-buying/group-join",
     "page/group-buying/tuan-detail",
     "pages/qrcode/qr-entry"
+    
   ],
   "window": {
     "backgroundTextStyle": "dark",
