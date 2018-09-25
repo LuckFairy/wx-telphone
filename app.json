@@ -1,7 +1,11 @@
 {
   "pages": [
-    "page/distribution/invite",
+        "page/distribution/my_withdraw_detail",
+        "page/distribution/my_withdraw",
+            "page/distribution/my_income",
     "page/tabBar/home/index-new",
+    "page/distribution/my_customer",
+    "page/distribution/invite",
     "page/distribution/moneyIndex",
     "page/tabBar/my/myself",
     "page/common/pages/my-order",
@@ -12,14 +16,13 @@
     "page/common/pages/goods-detail",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
-
     "page/common/pages/activity-hository",
     "page/common/pages/activity-hosDet",
     "page/common/pages/activity-detail",
-    "page/common/pages/hotsale",        
+    "page/common/pages/hotsale",
     "page/common/pages/mycard",
-    "page/common/pages/mycardHistory",        
-    "page/common/pages/index-mom",          
+    "page/common/pages/mycardHistory",
+    "page/common/pages/index-mom",
     "page/common/pages/address-list",
     "page/common/pages/address",
     "page/common/pages/card_detail",
@@ -62,7 +65,7 @@
         "pagePath": "page/tabBar/shopping/shoppstore-index",
         "text": "商城",
         "iconPath": "image/shoppstore.png",
-        "selectedIconPath": "image/shoppstore-select.png" 
+        "selectedIconPath": "image/shoppstore-select.png"
       },
       {
         "pagePath": "page/tabBar/goods/cart",
@@ -99,9 +102,7 @@
     },
     {
       "root": "page/goods/",
-      "pages": [
-
-      ]
+      "pages": []
     },
     {
       "root": "page/my/",
@@ -115,6 +116,5 @@
       ]
     }
   ],
- 
   "debug": true
 }

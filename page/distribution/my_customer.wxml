@@ -1,0 +1,40 @@
+
+<view class="main-container">
+  <!-- 头部导航条 -->
+  <view scroll-x='true' class="nav-header-view" style='background:#fff'>
+    <view class="header-col-view {{curActIndex == '0' ? 'show-border-bottom' : '' }}" data-idx='0' bindtap="swichSwiperItem">
+      <text data-idx='0' >有效邀请</text>
+    </view>
+    <view class="header-col-view {{curActIndex == '1' ? 'show-border-bottom' : '' }}" data-idx='1' bindtap="swichSwiperItem">
+      <text data-idx='1' >无效邀请</text>
+    </view>
+  
+  </view>
+
+
+  <swiper bindchange="swiperChange" >
+        <swiper-item>
+        <view class='main-content'>
+        <view>
+         <image class='main-content-img' src='/image/use-ruler.png'>
+         </image>
+         <view class='main-content-text'>
+         <text>谢美美</text>
+        <text>订单： 0</text>
+         </view>
+        </view>
+        <view class='main-content-price'>
+          <text>成交金额： ¥0.00</text>
+        </view>
+        </view>
+        </swiper-item>
+     
+  </swiper>
+
+</view>
+
+
+
+
+
+<!-- <empty_tip></empty_tip> -->

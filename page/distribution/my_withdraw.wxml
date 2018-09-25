@@ -1,0 +1,23 @@
+<!--page/distribution/my_withdraw.wxml-->
+
+<page>
+
+  <view class='content bi-wrapper'>
+    <image class='bi' src='../distribution/imgs/icon_bi.png'></image>
+  </view>
+
+  <view class='content content-text'>可提现金额</view>
+  <view class='content content-price'>¥ 200.00</view>
+
+ <button class='content-btn'>提现</button>
+
+ <view class='content-item item-top'>
+  <text class='item-text'>收支明细</text>
+  <image class='item-icon' src='../distribution/imgs/c-1.png'></image>
+ </view>
+ <view class='content-item'>
+  <text class='item-text'>提现记录</text>
+  <image class='item-icon' src='../distribution/imgs/c-1.png'></image>
+ </view>
+
+</page>
