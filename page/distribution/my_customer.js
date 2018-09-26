@@ -1,6 +1,6 @@
 // page/distribution/invite.js
 let app = getApp();
-const _urlDetail = "wxapp.php?c=voucher&a=voucher_info";//获取活动详情   有活动id
+const _get_user = "wxapp.php?c=fx_user_middle&a=get_self_user";
 
 Page({
 
@@ -11,12 +11,33 @@ Page({
     curActIndex:0,
     list0:[],
     list1:[],
+    storeId: app.store_id,
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    var params = {
+      "fx_id": 83046,
+      "type": 'my',
+      "store_id": this.data.storeId
+    };
+    app.api.postApi(_get_user, { params }, (err, resp) => {
+      wx.hideLoading();
+      if (resp) {
+        if (resp.err_code == 0) {
+          
+        } else {
+         
+        }
+
+      }
+
+    });
+
   },
 
   /**

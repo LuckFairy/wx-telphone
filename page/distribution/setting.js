@@ -5,6 +5,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    bank:'',
+    card:'',
+    name:''
 
   },
 
@@ -26,6 +29,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+
+    let pages = getCurrentPages();
+    let currPage = pages[pages.length - 1];
+    console.log(currPage.data.bank);
+    if (currPage.data.bank != "") {
+      this.setData({//将携带的参数赋值
+        bank: currPage.data.bank
+      });
+    } 
+
 
   },
 
@@ -62,5 +75,28 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  bindCardChange: function (e){
+    this.setData({
+      card: e.detail.value
+    })
+  },
+
+  bindNameChange: function (e){
+    this.setData({
+      name: e.detail.value
+    })
+
+  },
+
+  onOkClick(){
+
+  },
+  onBankClick(){
+    wx.navigateTo({
+      url: './bank'
+    });
   }
+
 })

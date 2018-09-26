@@ -62,5 +62,25 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  onItemClick(e){
+    let value = e.target.dataset.value;
+
+    var pages = getCurrentPages();
+    var currPage = pages[pages.length - 1];   //当前页面
+    var prevPage = pages[pages.length - 2];  //上一个页面
+    prevPage.setData({//直接给上移页面赋值
+      bank: value
+    });
+    wx.navigateBack({
+      delta: 1
+    })
+
+   
+
+
   }
+
+
 })

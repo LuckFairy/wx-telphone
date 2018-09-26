@@ -1,7 +1,7 @@
 <!--page/distribution/bank.wxml-->
 <page>
 
-<view class='content'>
+<view class='content' data-value='中国工商银行' bindtap='onItemClick'>
   中国工商银行
 </view>
 

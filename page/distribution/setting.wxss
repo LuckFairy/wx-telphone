@@ -7,15 +7,20 @@
   font-size: 26rpx;
   align-items: center;
   height: 88rpx;
-  	background-color: rgba(255, 255, 255, 1);
-
+  background-color: rgba(255, 255, 255, 1);
 }
+
+
 
 .title {
   width: 160rpx;
   margin-left: 25rpx;
   margin-right: 15rpx;
-  color: #666;
+  color: #222222;
+}
+
+.text{
+    color: #666;
 }
 
 .content-btn{

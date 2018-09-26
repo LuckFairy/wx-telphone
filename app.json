@@ -1,15 +1,16 @@
 {
   "pages": [
-
-    "page/distribution/bank",
-    "page/distribution/my_record",
-        "page/tabBar/home/index-new",
+        "page/distribution/my_withdraw",
         
-    "page/distribution/setting",
-    "page/distribution/my_withdraw_detail",
-    "page/distribution/my_withdraw",
-    "page/distribution/my_income",
+        "page/distribution/setting",
+        
+        "page/distribution/bank",
+        
     "page/distribution/my_customer",
+    "page/distribution/my_record",
+    "page/tabBar/home/index-new",
+    "page/distribution/my_withdraw_detail",
+    "page/distribution/my_income",
     "page/distribution/invite",
     "page/distribution/moneyIndex",
     "page/tabBar/my/myself",
