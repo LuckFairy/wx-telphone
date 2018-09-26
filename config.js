@@ -11,7 +11,7 @@ var host = "https://saas.qutego.com/"
 var testhost = "https://zy.qutego.com/"
 // var testhost = "https://saas.qutego.com/"
 var AGENT_ID = 2
-var sid = 310;//咿呀
+var sid = 293;//咿呀
 var sid_test = 293;//婴众趣购590
 var title = '咿呀';
 var title_test = '婴众趣购';
@@ -56,10 +56,15 @@ var config = {
 
   //判断用户是否绑定了手机
   checkBingUrl: `wxapp.php?c=wechatapp_v2&a=check_phone`,
-  // checkBingUrl: `wxapp.php?c=wechatapp_v2&a=check_phone_v2`,
 
   //获取sessionkey
   sessionUrl: `wxapp.php?c=wechatapp_v2&a=get_session_key`,
+
+  //获取手机号
+  getPhoneUrl:`wxapp.php?c=wechatapp_v2&a=get_phone`,
+
+  //绑定手机号
+  bingPhoneUrl:`wxapp.php?c=wechatapp_v2&a=bind_phone`,
 
   //用code换取openId 第一版本接口
   openIdOldUrl: `wxapp.php?c=wechatapp&a=login_new`,
@@ -74,23 +79,7 @@ var config = {
   //弹窗提示参团信息
   jumpintuanUrl: `wxapp.php?c=tuan_v2&a=pop_team_list_v2`,
 
-  // 测试的请求地址，用于测试会话
-  requestUrl: `https://${host}/testRequest`,
 
-  // 测试的信道服务接口
-  tunnelUrl: `https://${host}/tunnel`,
-
-  // 生成支付订单的接口
-  paymentUrl: `https://${host}/payment`,
-
-  // 发送模板消息接口
-  templateMessageUrl: `https://${host}/templateMessage`,
-
-  // 上传文件接口
-  uploadFileUrl: `https://${host}/upload`,
-
-  // 下载示例图片接口
-  downloadExampleUrl: `https://${host}/static/weapp.jpg`,
 
 };
 

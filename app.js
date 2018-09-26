@@ -1,15 +1,8 @@
 import { sign } from './utils/api_3';
+import WxService from './utils/WxService'
 let config = require('./config.js');
 App({
   onLaunch: function (opts) {
-    let that = this;
-    //处理兼容高频使用的高版本方法。
-    if (!wx.showLoading) {
-      wx.showLoading = (obj) => { console.log('mock wx.showLoading. do nothing...'); }
-    }
-    if (!wx.hideLoading) {
-      wx.hideLoading = () => { console.log('mock wx.hideLoading. do nothing...'); }
-    }
     this.getTelWx();
   },
   onShow: function (opts) {
@@ -18,6 +11,7 @@ App({
   api: sign.api,
   store_id: sign.store_id,
   sign: sign.signin,
+  WxService: new WxService,
   config:config,
   globalData: {
     systemInfo: wx.getSystemInfoSync(),//系统信息
@@ -48,52 +42,14 @@ App({
       }
     })
   },
-  
+ 
   login: function (info, callback2, locationid) {
     let that = this;
     that.sign(null, 3, info, callback2, locationid);
-
-
-
-    // that.sign(null, null,info).then(opt => {
-    //   // wx.getUserInfo({
-    //   //   success: function (res) {
-    //   //     that.globalData.userInfo = res.userInfo;
-    //   //   }
-    //   // });
-    //   if (opt.hasSign) {//用户登录成功
-    //     that.globalData = Object.assign(that.globalData, {
-    //       uid: wx.getStorageSync('userUid'),
-    //       sid: that.store_id,
-    //       openid: wx.getStorageSync('userOpenid'),
-    //       hasSign: true
-    //     })
-    //   }
-    //   if (opt.hasPhone) {//获取用户手机号码成功
-    //     that.globalData = Object.assign(that.globalData, {
-    //       uid: wx.getStorageSync('userUid'),
-    //       sid: that.store_id,
-    //       openid: wx.getStorageSync('userOpenid'),
-    //       hasSign: true,
-    //       phone: wx.getStorageSync('phone'),
-    //     })
-    //   }
-    //   if (opt.logLat) {//获取用户位置成功
-    //     that.globalData = Object.assign(that.globalData, {
-    //       uid: wx.getStorageSync('userUid'),
-    //       sid: that.store_id,
-    //       openid: wx.getStorageSync('userOpenid'),
-    //       hasSign: true,
-    //       // phone: wx.getStorageSync('phone'),
-    //       logLat: wx.getStorageSync('logLat')
-    //     })
-    //   }
-    // })
   },
   onHide: function () {
     console.log('App Hide')
   },
-
   /**
    * 拨打电话
    */

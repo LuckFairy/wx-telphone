@@ -2,9 +2,15 @@ let util = require('../../utils/util.js');
 let config = require('../../config.js');
 let share = require('../common/template/share.js');
 const shareLaterUrl = 'wxapp.php?c=activity&a=tuan_share_coupon';//拼团活动分享之后的优惠券列表
+
+//status 拼团状态 0进行中 1成功 2失败
+//o_status 订单状态 1 未付款 2未发货 3已发货 4已完成（最终完成）5已取消 6 退款中 7 已收货
 const ORDER_TYPE_PENDING = 0;   // 进行中
 const ORDER_TYPE_SUCCESS = 1;   // 成功
 const ORDER_TYPE_FAIL = 2;   // 失败
+
+
+
 let pageNum = 1;
 let app = getApp();
 let store_id = app.store_id;
@@ -134,7 +140,17 @@ Page({
     wx.reLaunch({ url: '../tabBar/home/index-new' });
 
   },
-
+  /**
+  * 自提二维码
+  */
+  goErwei(e) {
+    let { orderId, physical } = e.currentTarget.dataset;
+    physical = JSON.stringify(physical);
+    if (!orderId) { return; }
+    wx.navigateTo({
+      url: `../../my/pages/erwei?order_no=${orderId}&physical_info=${physical}`,
+    })
+  },
   goDetail(e) {
     var theId = e.target.dataset.theId;
     var order_no = e.target.dataset.orderNo;
@@ -256,7 +272,7 @@ Page({
     app.api.postApi("wxapp.php?c=groupbuy&a=my_tuan", { "params": params }, (err, resp) => {
       wx.hideLoading();
       if (err) {
-        return this._showError('网络出错，请稍候重试');
+        return this._showError(resp.err_msg);
       }
       //console.info('订单数据 ',resp)
       let { err_code, err_msg: { next_page, order_list = [] } } = resp;

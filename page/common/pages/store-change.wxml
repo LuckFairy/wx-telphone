@@ -1,0 +1,54 @@
+<!-- 选择省份，区域，地区 -->
+<view class='setction-top'>
+  <view class="section" catchtap='{{provinFlag?"changeitem":""}}' data-type='1'>
+    <view class="section__title">{{provinces?provinces:'省'}}</view>
+    <image src='../imgs/down-gray.png' class='store-down'></image>
+  </view>
+  <view class="section" catchtap='{{cityFlag?"changeitem":""}}' data-type='2'>
+    <view class="section__title">{{city?city:'市'}}</view>
+    <image src='../imgs/down-gray.png' class='store-down'></image>
+  </view>
+  <view class="section" catchtap='{{areaFlag?"changeitem":""}}' data-type='3'>
+    <view class="section__title">{{area?area:'区'}}</view>
+    <image src='../imgs/down-gray.png' class='store-down'></image>
+  </view>
+</view>
+
+<scroll-view lower-threshold='0px' scroll-y='true'>
+  <view class="store-list-containner store-containner">
+    <view class="list-view-wrap" wx:for="{{physical_list}}" wx:for-index="index">
+      <view class="list-item-view sp-border">
+        <view class='list-item-dtl-icon-view' catchtap='selectPhysical'  data-index="{{index}}">
+          <image src="{{item.select_physical==1?'../imgs/check.png':'../imgs/uncheck.png'}}" class='check'></image>
+        </view>
+        <navigator class="list-item-dtl-left-view" hover-class="none" url="{{'./store-detail?phy_id=' + item.phy_id}}">
+          <text class="list-item-title-view normalText">{{item.name}}</text>
+          <text class="list-item-addr-view mText grayText">{{item.address}}</text>
+        </navigator>
+
+      </view>
+    </view>
+  </view>
+</scroll-view>
+
+
+<view class='no-data' wx:if="{{physical_list.length<1}}">
+  <image src='../../../image/no-data.png'></image>
+  <view class='no-data-txt'>定位失败，请重新打开小程序！</view>
+</view>
+<view class='errorModel' wx:if="{{error}}">
+  <text>{{error}}</text>
+</view>
+
+  <!-- 选择项弹窗 -->
+<view wx:if="{{itemList.length>0&&showModel}}" bindtap="cancelCoupon" class="overlay">
+  <view class="overlay-content area-content">
+    <view class='couponlist-wrap'>
+      <block wx:for="{{itemList}}">
+        <view class='area-item sp-border' data-id='{{item.id}}' data-name='{{item.name}}' bindtap='getItem'>
+          {{item.name}}
+        </view>
+      </block>
+    </view>
+  </view>
+  </view>

@@ -1,9 +1,10 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/tabBar/goods/cart",
+    "page/common/pages/store-change",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
-    "page/tabBar/goods/cart",
     "page/tabBar/my/myself",
     "page/common/pages/activity-hository",
     "page/common/pages/activity-hosDet",
@@ -104,7 +105,8 @@
         "pages/purchase-detail",
         "pages/apply-sales",
         "pages/bingPhone",
-        "pages/setting"
+        "pages/setting",
+        "pages/erwei"
       ]
     }
   ],

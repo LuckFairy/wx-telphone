@@ -1,6 +1,5 @@
 
 var app = getApp();
-import { getPhoneNumber } from '../../common/template/get-tel.js';
 let phone = wx.getStorageSync('phone');
 let uid = wx.getStorageSync('userUid');
 Page({
@@ -14,18 +13,6 @@ Page({
     userImg: '',
     uid,
     phone: null,
-  },
-  getPhoneNumber: getPhoneNumber,
-  checkPhone() {
-    let that = this;
-    clearInterval(phoneTime);
-    let phoneTime = setInterval(() => {
-      var hasPhone = wx.getStorageSync('hasPhone');
-      if (hasPhone) {
-        clearInterval(phoneTime);
-        that.setData({ hasPhone });
-      }
-    }, 5000)
   },
   /**手机号脱敏 */
   substring(str) {

@@ -1,5 +1,5 @@
 
- //order.status订单状态status,0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中）
+//order.status订单状态status,0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中）
 //order.tuan_info.status拼团状态tuan_info.status,0=进行中，1=成功，2=失效，3=去支付
 
 const util = require('../../../utils/util.js');
@@ -36,14 +36,13 @@ Page({
     failOrders: [],  //已成团
     sku_arr: [],//多属性列表
 
-
     checkQrImgUrl: null,   // 赠品领用核销二维码url
     uncheckOrders: [],  // 待审核订单（赠品）
     groupOrders: [], // 团购订单
     groupbuyOrders: [], // 团购订单 使用新接口获取如果这个可以的话，就不用groupOrders了
     currentTab: 0,
     showclose: true,
-    
+
     curSwiperIdx: '',
     curActIndex: '',
     showshare: false,
@@ -136,7 +135,7 @@ Page({
     });
   },
   onLoad: function (options) {
-    
+
     var that = this;
     var showFlag = options.show;
     if (showFlag != 'undefined' && showFlag == 1) {
@@ -145,11 +144,11 @@ Page({
       });
     }
     let uid = wx.getStorageSync('userUid');
-   
+
     // 页面初始化 options为页面跳转所带来的参数
-    let { page = 0, list, groupbuyId='', groupbuyOrderId='', prodId=''} = options;
+    let { page = 0, list, groupbuyId = '', groupbuyOrderId = '', prodId = '' } = options;
     if (list) { page = list; }
-    this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId, groupbuyOrderId,  prodId, uid });
+    this.setData({ curSwiperIdx: page, curActIndex: page, currentTab: 0, groupbuyId, groupbuyOrderId, prodId, uid });
     that.listReturnFun();
   },
   listReturnFun: function () {
@@ -200,6 +199,7 @@ Page({
     // 页面渲染完成
   },
   onShow: function () {
+    wx.hideShareMenu();
     // 页面显示
     this._loadOrderData();
   },
@@ -217,7 +217,7 @@ Page({
     if (index == 4) {
       that.listReturnFun();
     }
-    that.setData({ curSwiperIdx:index});
+    that.setData({ curSwiperIdx: index });
   },
   swichSwiperItem: function (e) {
     var that = this;
@@ -229,7 +229,7 @@ Page({
       // that.loadTuanData();
     }
     this.setData({
-      curSwiperIdx:index,
+      curSwiperIdx: index,
     });
   },
   // showExpressInfo: function (e) {
@@ -323,10 +323,12 @@ Page({
     var that = this;
     wx.showLoading({ title: '加载中...', mask: true, });
     //新方法
-    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.storeId, type: "all" }, opt);
+    // species 列表类型，1 - 普通 2 - 配送 默认1
+    // send_type(非必需，不传表示全部，2表示自提订单)
+    var params = Object.assign({ "uid": this.data.uid, store_id: this.data.storeId, type: "all", "species": 1 }, opt);
 
     console.log('请求的参数params ', params)
-    app.api.postApi("wxapp.php?c=order_v2&a=order_list", { "params": params }, (err, resp) => {
+    app.api.postApi("wxapp.php?c=order_v2&a=order_list_v2", { "params": params }, (err, resp) => {
       wx.hideLoading();
       if (err) {
         return this._showError('网络出错，请稍候重试');
@@ -377,7 +379,7 @@ Page({
               ReceivedOrders.push(item);//已收货
             }
           } else if (tuan_status == 0) {
-           
+
             waitOrders.push(item);//待成团
 
           } else if (tuan_status == 3) {
@@ -397,7 +399,7 @@ Page({
         }
 
       });
-      console.log('待成团',waitOrders);
+      console.log('待成团', waitOrders);
       this.setData({ allOrders, momentOrders, unpayOrders, transOrders, ReceivedOrders, finishedOrders, uncheckOrders, groupOrders, waitOrders });
       clearInterval(timer);
       that.nowTime();
@@ -406,7 +408,17 @@ Page({
     });
 
   },
-
+  /**
+   * 自提二维码
+   */
+  goErwei(e) {
+    let { orderId, physical } = e.currentTarget.dataset;
+    physical = JSON.stringify(physical);
+    if (!orderId) { return; }
+    wx.navigateTo({
+      url: `../../my/pages/erwei?order_no=${orderId}&physical_info=${physical}`,
+    })
+  },
   /**
    * 确认收货
    */
@@ -796,16 +808,16 @@ Page({
 
   },
   nowTime() {//时间函数  intDiff是时间戳
-    let that = this,waitOrder_int=[];
-    let {waitOrders,allOrders }=that.data;
-    if (!waitOrders||waitOrders.length < 0) {clearInterval(timer);return;}
+    let that = this, waitOrder_int = [];
+    let { waitOrders, allOrders } = that.data;
+    if (!waitOrders || waitOrders.length < 0) { clearInterval(timer); return; }
     let day = 0, hour = 0, minute = 0, second = 0;
-    let timestamp = Date.parse(new Date())/1000;
-   //0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 7 已收货（已收货） 5已取消 6 退款中（处理中）
-   //拼团状态,0=进行中，1=成功，2=失效，3=去支付
+    let timestamp = Date.parse(new Date()) / 1000;
+    //0  临时订单 1 未支付 2 未发货（待发货） 3已发货（待收货） 4 已完成 7 已收货（已收货） 5已取消 6 退款中（处理中）
+    //拼团状态,0=进行中，1=成功，2=失效，3=去支付
     for (var i = 0; i < allOrders.length; i++) {
-      if (allOrders[i].is_tuan == 1 && allOrders[i].tuan_info.status==0){
-        let intDiff = (allOrders[i].tuan_info.end_time-timestamp);
+      if (allOrders[i].is_tuan == 1 && allOrders[i].tuan_info.status == 0) {
+        let intDiff = (allOrders[i].tuan_info.end_time - timestamp);
         if (intDiff > 0) {//转换时间  
           day = Math.floor(intDiff / (60 * 60 * 24));
           hour = Math.floor(intDiff / (60 * 60)) - (day * 24);

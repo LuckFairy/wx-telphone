@@ -1,9 +1,10 @@
-<!-- <import src="../../common/template/get-tel.wxml" /> -->
+
+
 <import src="../../common/template/get-info.wxml" />
 <import src="../../common/template/share.wxml" />
 <import src="../../common/template/coupon.wxml" />
 
-<!-- <template wx:if="{{!hasPhone}}" is="getphone-modal" data="{{templateData}}"></template> -->
+
 <template wx:if="{{infoFlag}}" is="getuserInfo-modal"></template>
 <template wx:if="{{showpopteamModle}}" is="popteam-modal" data="{{popteamData,popteamUrl,popteamNicke}}"></template>
 <template wx:if="{{showModel}}" is="coupon-modal" data="{{showModel,couponList}}"></template>
@@ -33,6 +34,18 @@
       </swiper-item>
     </swiper>
     <!-- 轮播图结束 -->
+    <!--  切换门店区域 -->
+    <view class='shop-area'>
+      <view class='shop-area-left'>
+        <text class='title'>{{physicalClost.name}}</text>
+        <text class='message'>{{physicalClost.address}}</text>
+      </view>
+      <navigator wx:if="{{changeFlag}}" url="../../common/pages/store-list?check=true&index=true&flag=true" class='shop-area-right'>
+        <image class='icon' src='../../../image/shop-icon.png'></image>
+        <text>切换门店</text>
+      </navigator>
+    </view>
+    <!--  切换门店区域结束 -->
     <!--正品保障区域  -->
     <view class='card-banner-area'>
       <view wx:for="{{valueList}}" class='card-banner-item'>
@@ -139,7 +152,7 @@
 
       <view class='pinduoduo-content'>
         <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{groupData}}" wx:key="{{item}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="clickGoGroupProduct">
-          <image class='pinduoduo-content-image' mode='aspectFill' lazy-load='{{lazyLoad}}' src='{{item.image}}'></image>
+          <image class='pinduoduo-content-image' mode='aspectFill' lazy-load='true' src='{{item.image}}'></image>
           <text class='pinduoduo-content-title'>{{item.name}}</text>
           <view class='pinduoduo-content-price'>
             <text class='text-red'>已团{{item.count}}件</text>

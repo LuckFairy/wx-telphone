@@ -1,18 +1,15 @@
+import {  getPhoneNumber, checkBingPhone } from '../../../utils/util.js';
 var app = getApp(); 
-import { getPhoneNumber } from '../../common/template/get-tel.js';
 const  shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';//购物车生成订单接口（多个商品）
 const goodsListUrl = 'wxapp.php?c=cart&a=cart_list';//购物车列表
 const addReduceUrl = 'wxapp.php?c=cart&a=quantity';//购物车商品加减
 const deleteUrl = 'wxapp.php?c=cart&a=delete';//删除购物车商品
 const baokuanUrl = 'wxapp.php?c=product&a=get_product_list';//加载爆款数据
 let physical_id = wx.getStorageSync('phy_id'); //门店id
-let errModalConfig = {
-  title: '有错误！',
-};
-let hasPhone = wx.getStorageSync('hasPhone');
+
 Page({
   data: {
-    hasPhone,//true有手機號，不彈窗
+    phoneFlag: true,//true手机弹窗，false不弹窗
     hasShop: 0,//购物车数量
     //2017年12月19日14:55:05
     //carts: [],//购物车列表
@@ -22,19 +19,16 @@ Page({
     total:0,//结算合计金额
     cartSHow:false,//是否显示底部结算
     baokuanList: [], //爆款列表
-    showErrModal:false,
+    showErrModal: false,
+    error: null,
   },
-  getPhoneNumber: getPhoneNumber,
-  cancelPhone() {
+  getPhoneNumber(e){
     let that = this;
-    clearInterval(phoneTime);
-    let phoneTime = setInterval(() => {
-       hasPhone = wx.getStorageSync('hasPhone');
-      if (hasPhone) {
-        clearInterval(phoneTime);
-        that.setData({ hasPhone });
-      }
-    }, 5000)
+    getPhoneNumber(e).then(data=>{
+      that.setData({ phoneFlag:false})
+    }).catch(err=>{
+      that.setData({ phoneFlag: true })
+    })
   },
   /**
 * 首页爆款专区数据
@@ -210,7 +204,7 @@ Page({
     }
   },
   //去结算
-  bindCheckout: function () {
+  bindCheckout: function (e) {
     var that = this;
     // 初始化字符串
     var ids = [], len = this.data.cart_list.length;
@@ -223,16 +217,17 @@ Page({
       }
     }
     if (ids === undefined ||ids.length == 0){
-      that.showModel({ title: "请选择要结算的商品"})
+      that._showError({ title: "请选择要结算的商品"})
     
       return false;
     }
-   
+    //保存formid
+    app.pushId(e).then(ids => { app.saveId(ids) });
     console.log('购物车选择提交的ids' + ids); 
     var uid = wx.getStorageSync('userUid'),store_id = that.data.store_id;
     //多商品下订单
-    
-    app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop: '0', physical_id} }, (err, rep) => {
+    let oldparams = { uid, store_id, ids, point_shop: '0', physical_id };
+    app.api.postApi(shoppUrl, { "params": { uid, store_id, ids, point_shop: '0',physical_id} }, (err, rep) => {
       if (!err && rep.err_code == 0) {
         var orderId= rep.err_msg.order_no;
         //下完订单，取的订单id
@@ -240,7 +235,7 @@ Page({
         wx.navigateTo({ url });
       }else{
         var msg = err || rep.err_msg;
-        that.showModel({ title: msg})
+        that._showError({ title: msg})
       }     
     });
    
@@ -254,11 +249,20 @@ Page({
     // 获取uid
     var uid = wx.getStorageSync('userUid');
     if(uid){
-
       that.setData({
         uid
       });
       that.loadBaoKuanData();
+      let params ={
+        store_id:this.data.store_id,
+        uid
+      }
+      checkBingPhone(params).then(data=>{
+        that.setData({ phoneFlag: false })
+      }).catch(err => {
+        that.setData({ phoneFlag: true })
+      })
+   
     }else{
       wx.switchTab({
         url: '../home/index-new',
@@ -270,8 +274,7 @@ Page({
    var that = this;
    physical_id = wx.getStorageSync('phy_id'); //门店id
    var hasShop = that.data.hasShop;//有无商品
-   hasPhone = wx.getStorageSync('hasPhone');
-   that.setData({ hasPhone });
+ 
   var store_id = that.data.store_id;
   var uid = that.data.uid;
   var params = {
@@ -443,27 +446,13 @@ Page({
     // return { title: '', path: '' }
   },
   /**
-   * 显示错误信息
-   */
+* 显示错误信息
+*/
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
-  },
-  /**
-    * 显示模态框
-    */
-  showModel(config) {  // type: success||err
-      errModalConfig = Object.assign(errModalConfig, config);
-      this.setData({
-        errModalConfig: errModalConfig,
-        showErrModal: true
-      });
-  },
-
-  /**
-   * 点击隐藏模态框(错误模态框)
-   */
-  tabModal() {
-    this.setData({ showErrModal: false });
+    setTimeout(() => {
+      this.setData({ error: null });
+    }, 1000);
+    return false;
   },
 })

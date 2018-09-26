@@ -84,11 +84,9 @@ var Api = {
         },
         method: 'POST',
         success(resp) {
-          // if (resp.err_code != 0) { console.log("_doSignin失败！","加密失败"); _tryAgain(); callback2(); return;}
-          console.log("_doSignin成功！")
           let { rtnCode, rtnMessage, data } = resp;
-          // // 进入第4步
-          // _onSignin(data);
+          if (data.err_code != 0) { console.log("_doSignin失败！","加密失败"); _tryAgain(); callback2(); return;}
+          console.log("_doSignin成功！")
           wx.setStorageSync('userOpenid', data.err_msg.openid);//存储openid
           wx.setStorageSync('userUid', data.err_msg.uid);//存储uid
           wx.setStorageSync('hasSignin', 'true');//存储uid

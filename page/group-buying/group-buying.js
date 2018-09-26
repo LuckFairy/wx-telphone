@@ -127,9 +127,7 @@ Page({
     var that = this;
     var uid = wx.getStorageSync('userUid'), phy_id = wx.getStorageSync('phy_id');
     if (uid == undefined || uid == '') {
-      wx.switchTab({
-        url: '../tabBar/home/index-new',
-      })
+      this.goIndex();
     }
 
     var { tuanId, prodId, sellout = null } = options;

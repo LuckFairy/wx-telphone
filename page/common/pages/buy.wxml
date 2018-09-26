@@ -1,3 +1,5 @@
+<import src="../common/template/modal.wxml" />
+<template wx:if="{{phoneFlag}}" is="getphone-modal"></template>
 <!-- //错误信息提示 -->
 <view wx:if="{{error==false?false:error}}" class="form-err-view">
   <view class="form-err-view">
@@ -6,100 +8,30 @@
 </view>
 <!-- //错误信息提示结束 -->
 
-<view class="swiper-main-container">
-  <!-- 头部导航条 -->
-  <view class="nav-header-view normalText" wx:if='{{false}}'>
-    <view class="ship-method-item" data-idx="0" data-method="flat.flat" wx:if="{{hasFlatShip}}" bindtap="changeCurActIndex">
-      <i class="fa fa-lg {{curActIndex == 0? 'fa-check-circle':'fa-circle-thin'}}" />
-      <text style="margin-left: 12rpx">邮寄</text>
+<!-- 邮寄样式 -->
+  <view wx:if="{{sendMethod=='1'}}" class="addr-section"  bindtap="addrViewClick">
+    <view class='address-list'>
+      <image class='address-image' src='../imgs/address.png'></image>
     </view>
-    <view wx:if='{{false}}' class="ship-method-item" data-idx="1" data-method="pickup.pickup" wx:if="{{hasPickupShip}}" bindtap="changeCurActIndex">
-      <i class="fa fa-lg {{curActIndex > 0? 'fa-check-circle':'fa-circle-thin'}}" />
-      <text style="margin-left: 12rpx">自提</text>
+    <view wx:if="{{address}}" class="addr-item-view">
+      <view class="name-phone-view">
+        <view class="people-name">{{address.name}}: </view>
+        <view class="people-name">{{address.tel}}</view>
+        <view wx:if="{{address.default==1}}" class='people-default'>默认</view>
+      </view>
+      <view class="addr-dtl-view">收货地址： {{address.province_txt + address.city_txt + address.area_txt + address.address}}</view>
+    </view>
+    <view wx:else class="addressNew">
+      手动添加收货地址
+    </view>
+    <view class='address-go' style='margin-right:24rpx;'>
+      <image class='address-go-image' src='../imgs/next-page.png'></image>
     </view>
   </view>
-  <!-- .nav-header-view -->
-  <!-- nav详细内容展示区-->
-  <swiper class="nav-body-view" bindchange="swiperChange" current="{{curActIndex}}" duration="300">
-    <swiper-item>
-      <scroll-view class='addr-sec-lists' scroll-y="true">
-        <view class="addr-section" bindtap="addrViewClick">
-          <view class='address-list'>
-            <image class='address-image' src='../../../image/address.png'></image>
-          </view>
-          <view wx:if="{{address}}" class="addr-item-view">
-            <view class="name-phone-view">
-              <view class="people-name">{{address.name}}: </view>
-              <view class="people-name">{{address.tel}}</view>
-              <view wx:if="{{address.default==1}}" class='people-default'>默认</view>
-            </view>
-            <view class="addr-dtl-view">收货地址： {{address.province_txt + address.city_txt + address.area_txt + address.address}}</view>
-          </view>
-          <view wx:else class="addressNew">
-            新建收货地址
-          </view>
-          <view class='address-go'>
-            <image class='address-go-image' src='../../../image/address-go.png'></image>
-          </view>
-          <!-- <view wx:if="{{addrList.length}}" class="addr-view border-bottom" bindtap="addrViewClick"> -->
-          <!-- <view class="" style="margin-right: 10px;">收货地址</view> -->
-          <!--
-                            <text>{{address.fullname}}({{address.shippingTelephone}})</text>
-                            <text style="flex:1;overflow:hidden;">{{address.zone + address.city + address.district + address.address}}</text>
-                            -->
-          <!-- <view style="flex:1"></view>
-                <i wx:if="{{true}}" class="fa fa-chevron-right"></i>
-              </view> -->
 
-          <!--<view wx:else class="addr-edit-view" style="background-color: #fff">
-            <input class="addr-input" placeholder="收件人姓名（请填写真实姓名）" data-name="fullname" bindinput="bindFullnameChange" value="{{fullname}}" />
-            <input class="addr-input" placeholder="手机号码" data-name="shippingTelephone" bindinput="bindShippingTelephoneChange" value="{{shippingTelephone}}" />
-            <!--<input disabled class="addr-input" placeholder="所在地区" data-name="zone" bindtap="showAreaPickerView" value="{{areaText}}" />
-            <text class="addr-input-text {{areaText ? '' : 'addr-input-placeholder'}}" bindtap="showAreaPickerView" data-name="zone">{{areaText || '所在地区'}}</text>
-            <input class="addr-input" placeholder="详细地址" data-name="address" bindinput="bindLocationChange" value="{{location}}" />
-          </view>-->
 
-        </view>
-      </scroll-view>
 
-    </swiper-item>
-    <swiper-item wx:if="{{hasPickupShip}}">
-      <scroll-view style="height:100%" scroll-y="{{true}}">
-        <radio-group bindchange="onStoreSelected">
-          <view class="store-list-containner" wx:for="{{shopListData}}" wx:key="{{item.store_id}}">
-            <view class="list-view-wrap">
-              <view class="list-item-view sp-border" data-index="{{index}}">
-                <view class="list-item-dtl-select-view">
-                  <radio value="{{item.store_id}}" checked="{{pickupStoreId == item.store_id}}" />
-                </view>
-                <view class="list-item-dtl-left-view" bindtap="bindStoreTap" data-store-id="{{item.store_id}}">
-                  <text class="list-item-title-view normalText">{{item.product.name}}</text>
-                  <text class="list-item-addr-view mText grayText">{{item.product.address}}</text>
-                </view>
-                <navigator class="list-item-dtl-select-view" url="{{'./store-detail?storeId=' + item.store_id}}">
-                  <i class="fa fa-chevron-right" style="color: #ccc;" />
-                </navigator>
-                <view class="list-item-dtl-right-view">
-                  <text class="list-item-location-dist-view xmText">5.6公里</text>
-                  <i class="list-item-location-icon-view fa fa-lg fa-map-marker hotTextColor" />
-                </view>
-              </view>
-            </view>
-          </view>
-        </radio-group>
-      </scroll-view>
-    </swiper-item>
-  </swiper>
-  <!-- swiper -->
-</view>
-<!--阴影  -->
-<view class='shadow-list'>
-  <image class='shadow-color' src='../../../image/shadow-color.png'></image>
-  <text class='shadow-bg'></text>
-</view>
 <!--订单列表开始  -->
-
-
 <view wx:for="{{shopListData.product}}" wx:key="{{item}}" class="goods-info-view">
   <image src="{{item.image}}" mode='aspectFill' class="goods-img"></image>
   <view class="goods-name-view-wrap">
@@ -115,74 +47,36 @@
 </view>
 <!--订单列表结束  -->
 
-
-<view wx:if="{{!isLoading}}" class="buy-containner">
-  <view class="content-view">
-    <view class="goods-section" wx:for="{{productList}}" wx:key="{{index}}">
-      <view class="goods-view border-bottom">
-        <view class="goods-icon-view">
-          <image class="goods-image" src="{{item.image}}" mode='aspectFill' style="width:100%;"></image>
-        </view>
-        <view class="order-info-view">
-          <view class="goods-name-view">
-            <view class="">{{item.name}}</view>
-            <view style="font-size:20rpx;color:grey;margin-bottom:5px;"></view>
-          </view>
-          <block wx:if="{{productColor}}">
-            <view class="prod-price-view">
-              颜色：{{productColor}} 尺码：{{productSize}}
-            </view>
-          </block>
-          <block wx:else>
-            <view class="prod-price-view">
-              数量：{{item.pro_num}}
-            </view>
-          </block>
-
-          <view class="prod-price-view pro-yet-price">
-            <view class="money-text">{{shopListData.sub_total}}</view>
-            <view class="base-price" style="margin-left: 20rpx;">{{item.pro_price}}</view>
-            <view style="flex: 1"></view>
-            <view class="amount">x{{item.pro_num}}</view>
-          </view>
-        </view>
-      </view>
-      <!--
-        <view class="discount-view border-bottom">
-            <view class="">活动优惠价</view>
-            <view class="money-text">{{item.priceText}}</view>
-        </view>
-        -->
-      <!-- <view class="prod-fee-view">
-        <view class="">需付费</view>
-        <view style="flex: 1"></view>
-        <view class="money-text">{{item.totalText}}</view>
-      </view> -->
-      <view class="item-split-line"></view>
+<!-- 配送方式 -->
+  <view class="addr-section m-n">
+    <view class='address-list'>
+      <image class='address-image' src='../imgs/distribution.png'></image>
     </view>
-
-    <!-- .swiper-main-container -->
+    <view class="addressNew distriNew ">
+      配送方式
+    </view>
+    <button wx:if="{{showmail}}" class="{{sendMethod=='1'?'pick-btn btn-active':'pick-btn'}}" data-method='1' catchtap='putchange'>邮寄</button>
+    <button wx:if="{{showself}}" class="{{sendMethod=='2'?'distri-btn btn-active':'distri-btn'}}" data-method='2'  catchtap='putchange'>自提</button>
   </view>
-  <!-- .content-view -->
-
-  <!-- .bottom-view -->
-  <view wx:if="{{showAreaPicer}}" style="position: absolute; width: 100%; height: 250px;  bottom: 0">
-    <picker-view class="addr-picker-view" indicator-style="height: 50px;" value="{{[selectedZoneIndex, selectedCityIndex, selectedDistrictIndex]}}" bindchange="bindAddrPickerChange">
-      <picker-view-column>
-        <view wx:for="{{zoneList}}" wx:key="{{index}}" class="picker-item-view" style="padding-left: 15px;">{{item.name}}</view>
-      </picker-view-column>
-      <picker-view-column>
-        <view wx:for="{{cityList}}" wx:key="{{index}}" class="picker-item-view">{{item.name}}</view>
-      </picker-view-column>
-      <picker-view-column>
-        <view wx:for="{{districtList}}" wx:key="{{index}}" class="picker-item-view" style="padding-right: 15px;">{{item.name}}</view>
-      </picker-view-column>
-    </picker-view>
-    <text class="navigator specialRedText areaButton" catchtap="hideAreaPickerView" style="z-index: 100000000;">确定</text>
+  <!-- 自提方式样式 -->
+   <view wx:if="{{sendMethod=='2'}}" class="addr-section m-n b-t">
+    <view class='address-list'>
+      <image class='address-image' src='../imgs/store.png'></image>
+    </view>
+    <view class="addr-item-view black">
+      <view class="name-store-view">
+        <view class="people-name">自提门店：{{pickupPhy.name}} </view>
+      </view>
+      <view class="addr-store-view"> {{pickupPhy.address}}</view>
+    </view>
+    <view class='store-go' bindtap="storeViewClick">
+      <text>切换门店</text>
+      <image class='address-go-image' src='../imgs/next-page.png'></image>
+    </view>
   </view>
-</view>
+
 <!--优惠券选择  -->
-<view hidden="{{orderType==6||pinType==1|| baokuan_action!='undefined'}}" class='discount' bindtap='changeCoupon' data-product_id='{{product_id}}' data-pro_price='{{pro_price}}'>
+<view hidden="{{orderType==6||pinType==1|| baokuan_action!='undefined'}}" style='margin-top:16rpx;' class='discount' bindtap='changeCoupon' data-product_id='{{product_id}}' data-pro_price='{{pro_price}}'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
     <block wx:if="{{couponInfo.length}}">
@@ -194,12 +88,12 @@
     <block wx:else>
       <text class='discount-ticket discount-ticket-no'>无可用</text>
     </block>
-    <image class='discount-go ' src='../../../image/address-go.png'></image>
+    <image class='discount-go ' src='../imgs/next-page.png'></image>
   </view>
 </view>
 <!--优惠券选择结束  -->
 <view class="item-split-line"></view>
-<view class='discount discount-list'>
+<view class='discount'>
   <text class='discount-text'>商品金额</text>
   <view class='discount-father'>
     <text class='discount-ticket-price discount-color-red'>￥{{totals}}</text>
@@ -222,45 +116,7 @@
     </block>
   </view>
 </view>
-<!--公众号开始 
-<view wx:if="{{showAreaPicer}}" catchtap="hideAreaPickerView" class="overlayer"></view>
 
-<view class='official-accounts' wx:if="{{showwechat}}">
-  <view class='off-acc-title'>
-    <image class='off-acc-close' src="../../../image/close-btn.png" bindtap='closewechat'></image>
-    <image class='off-acc-decorade' src='../../../image/longpress.png'></image>
-  </view>
-  <view class='atttention-wechat-wrap'>
-    <text class='atten-webchat-title atten-webchat-notice'>注：</text>
-    <text class='atten-webchat-title atten-webchat-text'>关注公众号“婴众趣购”，才能收到免单购获奖通知哦</text>
-    <view class='attention-wechat'>
-      <text class='wechat-public'>微信公众号：</text>
-      <text class='wechat-public-tetx' selectable="true">yzqg123</text>
-      <text class='wechat-copy'>长按可复制</text>
-    </view>
-  </view>
-</view>
- -->
-<!--公众号结束  -->
-<!-- <view class="bottom-view">
-   <view wx:if="{{totals.shipping}}" class="sub-fee-view">
-    <view class="">邮费</view>
-    <view class="money-text">{{totals.shipping.text}}</view>
-  </view>
-  <view class="total-fee-view">
-    <view class="">应付总额</view>
-    <view class="money-text">{{totals.total.text}}</view>
-  </view> 
-
-   <view class="confirm-btn-view">
-    <text class=''>实付款</text>
-    <text>{{totals.total.text}}</text>
-    <text class="confirm-btn" bindtap="submitOrder">提交订单</text> 
-        <text wx:if="{{!error}}" class="confirm-btn" bindtap="submitOrder">提交订单</text>
-        <text wx:else class="confirm-btn">提交订单</text>
-        
-  </view> 
-</view>  -->
 <view class="invite-friend-cluster">
   <block wx:if="{{orderType==6||pinType==1||baokuan_action !='undefined'}}">
     <view class='invite-total actual-payment'>
@@ -280,6 +136,7 @@
   <form report-submit='true' bindsubmit="{{submitOk?'submitOrder':''}}" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>
     <button form-type='submit' class='current-buying invite-total'> 立即购买</button>
   </form>
+
 
 </view>
 <!--购买成功之后弹窗  -->

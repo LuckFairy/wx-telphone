@@ -11,6 +11,11 @@ page{
   display: block;
   float: left;
 }
+.myself-phone{
+  flex-direction: column;
+  justify-content:center;
+
+}
 .myself-id {
   margin-right: 24rpx;
   font-size: 36rpx;

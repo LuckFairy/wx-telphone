@@ -79,7 +79,7 @@ text {
   overflow: hidden;
   font-size: 30rpx;
   background-color: FFE546;
-  margin: 0px;
+  /* margin: 0px auto; */
   padding: 0px;
   
 }
@@ -101,7 +101,7 @@ text {
   -webkit-overflow-scrolling: touch;
   text-align: justify;
   overflow-x: initial;
-  position: fixed;
+  /* position: fixed; */
   top: 0rpx;
   z-index: 99999999999;
   opacity: 1;
@@ -109,7 +109,7 @@ text {
   border-bottom:1rpx solid #efefef;
 }
 .scroll-lists{
-  margin-top: 80rpx;
+  /* margin-top: 80rpx; */
 }
 .header-col-view {
   height: 80rpx;
@@ -698,12 +698,12 @@ button::after {
 .purchase-data-sd{
   /* display: block; */
   font-size: 0rpx;
-  margin: 0 24rpx;
+  padding: 0 24rpx;
   display: flex;
   justify-content: space-between;
   height: 80rpx;
   line-height: 80rpx;
-  width: 700rpx;
+  width: 750rpx;
 }
 .purchase-data-number{
   font-size: 26rpx;

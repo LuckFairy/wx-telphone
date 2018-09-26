@@ -1,0 +1,14 @@
+  
+<view class='box'>
+  <view class='qr-top'>
+    <image src='../resources/sao.png'></image>
+    <text>自提核销</text>
+  </view>
+  <view class="qr-view">
+    <text class='ma m-t40'>{{order_no}}</text>
+    <image src="{{code}}" mode="aspectFit" class='m-t40 erwei'></image>
+    <text class='m-t40'>将二维码出示给门店核销员</text>
+    <text>由门店核销即可</text>
+    <text class='m-t64'>自提门店：{{physical_info.name}}</text>
+  </view>
+</view>

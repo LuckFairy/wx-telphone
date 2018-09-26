@@ -1,5 +1,4 @@
-<!-- <import src="../../common/template/get-tel.wxml" />
- <template wx:if="{{!hasPhone}}" is="getphone-modal" data="{{templateData}}"></template>  -->
+
 
 <view class='myself'>
   <!--top  个人信息-->
@@ -19,10 +18,11 @@
         </view>
       </view>
     </view>
-    <!-- <view wx:if='{{phone}}' class='myself-address myself-phone'>
+    <!-- <view wx:if='{{phone}}' class='myself-phone'>
       <text class='myself-id'>{{phone}}</text>
+      <text class='myself-id'>UID:{{uid}}</text>
     </view>   -->
-    <view wx:if='{{uid}}' class='myself-address myself-phone'>
+    <view wx:if='{{uid}}' class='myself-phone'>
       <text class='myself-id'>UID:{{uid}}</text>
     </view>
   </view>

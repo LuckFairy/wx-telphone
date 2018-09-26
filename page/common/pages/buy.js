@@ -1,15 +1,11 @@
 
-import { util, getAddress, formatTime } from '../../../utils/util';
+import { util, getAddress, formatTime, getPhoneNumber, checkBingPhone } from '../../../utils/util';
 const app = getApp();
 const myAddressUrl = 'wxapp.php?c=address&a=MyAddress';//默认的收货地址
-const orderDetailUrl = 'wxapp.php?c=order&a=mydetail';//订单详情
+const orderDetailUrl = 'wxapp.php?c=order&a=mydetail_v2';//订单详情
 const couponDataUrl = 'wxapp.php?c=coupon&a=store_coupon_use';//优惠券信息
-const ListURL = 'wxapp.php?c=order_v2&a=add'; // 生成订单
-const DetailURL = 'store/detail';    // 门店详情
-const methodUrl = 'buy/shipping/method';//邮寄方式
-const phyURL = 'store/ls';          // 门店列表
-const addressList = ''; //地址详情
-const orderList = '';//订单详情
+const _buyUrl = 'wap/wxapp_saveorder.php?action=pay_xcx';//立即購買接口
+
 var checkTimer = null;
 let _prodId;                          // 记录商品 id
 let skuid;                          // 记录商品多属性标识 id
@@ -17,16 +13,17 @@ let quantity;                          // 购买商品的数量
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 let physical_id = wx.getStorageSync('phy_id'); //门店id
 let hasWxLocation = wx.getStorageSync('hasWxLocation');//是否是初次使用微信地址
+// orderId = PIG20180913164958600963 & uid=93853 & baokuan_action=undefined
 Page({
   data: {
+    phoneFlag: false,//true手机弹窗，false不弹窗
     error: false,
     products: [],
     submitOk: true,//是否可以发起支付
     totals: [],//商品总价
-    isLoading: true,
-    showwechat: false,
-    shippingMethod: 'flat.flat',  // 邮寄方式，默认平邮   flat.flat-平邮  pickup.pickup 到店自提
-    shippingMethods: [],    // 有效的配送方式
+    // isLoading: true,
+    sendMethod: '1',  // 邮寄方式 1邮寄 2自提
+    send_type: [],    // 有效的配送方式
     hasFlatShip: false,
     hasPickupShip: false,
     showAreaPicer: false,
@@ -52,7 +49,6 @@ Page({
     productSize: '',   // 商品尺码
     matteShow: false,  //购买成功弹窗
 
-
     orderData: '',//订单数据
     orderId: '',//订单号
     storeId: app.store_id,//商店id
@@ -60,7 +56,8 @@ Page({
     address: null,    // 存放当前收货地址数据
     addressList: [],  //地址列表
     addressId: 0,     // 选择的收货地址id
-    pickupStoreId: 0, // 自提门店id
+    pickupPhy: {},//自提门店地址
+    pickupStoreId: null, // 自提门店id
     productList: null,//产品列表
     fee: 0,//运费
     lastPay: 0,//实付
@@ -80,8 +77,86 @@ Page({
     discounts: 0,
     product_id: '',
     pro_price: '',
-   
+    // 自提參數
+    showself: true,
+    showmail: true,
 
+  },
+  getPhoneNumber(e) {
+    let that = this;
+    getPhoneNumber(e).then(data => {
+      that.setData({ phoneFlag: false })
+    }).catch(err => {
+      that.setData({ phoneFlag: true })
+    })
+  },
+  onLoad: function (options) {
+    wx.removeStorageSync('couponInfo');
+    wx.removeStorageSync('recid');
+    wx.removeStorageSync('cname');
+    wx.removeStorageSync('face_money');
+    let that = this;
+    let { pid, skuId, storeId, qrEntry, orderId, baokuan_action, quantity, ordertype = 0, diff_people } = options;
+    if (diff_people) { this.data.setData({ diff_people }) };
+    let uid = wx.getStorageSync('userUid');
+    physical_id = wx.getStorageSync('phy_id'); //门店id
+    let params = {
+      store_id: this.data.storeId,
+      uid
+    }
+    checkBingPhone(params).then(data => {
+      that.setData({ phoneFlag: false })
+    }).catch(err => {
+      that.setData({ phoneFlag: true })
+    })
+    if (baokuan_action) { this.setData({ baokuan_action }) }
+    if (!orderId) { orderId = this.data.orderId }
+    this.setData({ orderId, uid, pinType: ordertype });
+    this.getAddress(uid);
+    this.showOrderList({ orderId });
+  },
+  onReady: function () {
+    // 页面渲染完成
+  },
+  onShow: function () {
+    //显示订单列表
+    var uid = this.data.uid;
+    var orderId = this.data.orderId;
+    var orderType = this.data.orderType;
+    var pinType = this.data.pinType;
+    var baokuan_action = this.data.baokuan_action;
+    let couponInfo = wx.getStorageSync('couponInfo') || [];
+    if (couponInfo.length >= 2) {
+      if (pinType == 0 || orderType != 6 || baokuan_action == 'undefined') {
+        var user_coupon_id = [];
+        user_coupon_id.push(couponInfo[0]);
+        this.setData({
+          user_coupon_id,
+          discounts: couponInfo[2], couponInfo
+        })
+
+      }
+    }
+
+  },
+  onHide: function () {
+
+  },
+  onUnload: function () {
+    // 页面关闭
+  },
+  putchange(e) {
+    let { method } = e.target.dataset, { shopListData } = this.data;
+    if (!method) { return; }
+    //自提运费为0
+    console.log(method);
+    if (method == '2') { var fee = 0 } else { var fee = shopListData.product.postage_int };
+    this.setData({ sendMethod: method, fee });
+  },
+  storeViewClick() {
+    wx.navigateTo({
+      url: `./store-change?prodId=${this.data.product_id}`,
+    })
   },
   /*
   *订单详情列表
@@ -89,20 +164,45 @@ Page({
   showOrderList(opt) {
     let that = this;
     let orderId = opt.orderId;
+    let phy_id = wx.getStorageSync('phy_id');
     app.api.postApi(orderDetailUrl, {
       "params": {
-        "order_no": opt.orderId
+        "order_no": opt.orderId,
+        "default_physical": phy_id
       }
     }, (err, rep) => {
-      if (err) { console.log('err ', err); return; }
-      var { err_code, err_msg: { orderdata } } = rep;
-      if (err_code != 0) { return; }
+      if (err || rep.err_code != 0) { console.log('err ', err); return; }
+      var { err_msg: { orderdata, send_type = [], physical_info } } = rep;
       var user_coupon_id = orderdata.user_coupon_id;//优惠券id
-
       var product_id = orderdata.product[0].product_id;
-
       var pro_price = orderdata.product[0].pro_price;
-      that.setData({ "shopListData": orderdata, "productList": orderdata.product, totals: orderdata.sub_total, fee: orderdata.postage_int, lastPay: (orderdata.sub_total - orderdata.postage_int), orderId, postage_list: orderdata.postage, product_id: product_id, pro_price: pro_price, orderType: orderdata.type, status: orderdata.status });
+      var sendMethod = '1', showmail = true, showself = true;
+      if (send_type.length >= 2) { sendMethod = '1'; }
+      else if (send_type.length = 1) {
+        sendMethod = send_type[0];
+        if (sendMethod == 1) { showself = false }
+        else { showmail = false; }
+      }
+      console.log('physical_info', physical_info);
+      if (physical_info) {
+        let default_physical = physical_info.default_physical;
+        that.setData({ pickupPhy: default_physical, pickupStoreId: default_physical.phy_id })
+      }
+      that.setData({
+        "shopListData": orderdata,
+        "productList": orderdata.product,
+        totals: orderdata.sub_total,
+        fee: orderdata.postage_int,
+        lastPay: (orderdata.sub_total - orderdata.postage_int),
+        orderId, postage_list: orderdata.postage,
+        product_id: product_id,
+        pro_price: pro_price,
+        orderType: orderdata.type,
+        status: orderdata.status,
+        sendMethod,
+        send_type,
+        showmail, showself
+      });
       //优惠券信息
       that.loadCouponData(product_id);
     })
@@ -111,15 +211,15 @@ Page({
   /**
    * 可用优惠券信息
    */
-  useCoupon(id){
-   var len = id.length;
-   if (len == 0) {//无可用券
+  useCoupon(id) {
+    var len = id.length;
+    if (len == 0) {//无可用券
 
-   } else if (len == 1) {//可用一张券
+    } else if (len == 1) {//可用一张券
 
-   } else {//可用多张券
+    } else {//可用多张券
 
-   }
+    }
   },
   //优惠券的数量
   loadCouponData: function (pro_price, product_id) {
@@ -191,48 +291,6 @@ Page({
     });
 
   },
-  onLoad: function (options) {
-    wx.removeStorageSync('couponInfo');
-    wx.removeStorageSync('recid');
-    wx.removeStorageSync('cname');
-    wx.removeStorageSync('face_money');
-    let { uid, pid, skuId, storeId, qrEntry, orderId, baokuan_action, quantity, ordertype=0, diff_people } = options;
-    if (diff_people) { this.data.setData({ diff_people }) };
-    uid = wx.getStorageSync('userUid');
-    physical_id = wx.getStorageSync('phy_id'); //门店id
-    this.setData({ orderId, uid, baokuan_action, pinType:ordertype });
-    this.getAddress(uid);
-    this.showOrderList({ orderId });
-  },
-  onReady: function () {
-    // 页面渲染完成
-  },
-  onShow: function () {
-    //显示订单列表
-    var uid = this.data.uid;
-    var orderId = this.data.orderId;
-    var orderType = this.data.orderType;
-    var pinType = this.data.pinType;
-    var baokuan_action = this.data.baokuan_action;
-    let couponInfo = wx.getStorageSync('couponInfo') || [];
-    if (couponInfo.length > 0 || pinType != 1 || orderType != 6 || baokuan_action != 'undefined') {
-      var user_coupon_id = [];
-      user_coupon_id.push(couponInfo[0]);
-      this.setData({
-        user_coupon_id,
-        discounts: couponInfo[2], couponInfo
-      })
-    }
-
-  },
-  onHide: function () {
-
-  },
-  onUnload: function () {
-    console.log('页面关闭');
-    // 页面关闭
-  },
-
   _prepare(prodId, skuid, quantity, groupbuyId) {
     checkTimer = setInterval(() => {
       if (getApp().hasSignin) {
@@ -253,7 +311,6 @@ Page({
    * 设置完成后需重新刷新订单
    */
   changeAddress(addressId) {
-    if (addressId){this.setData({error:false})};
     var uid = this.data.uid;
     var that = this, store_id = this.data.storeId;
     var address = that.data.address;
@@ -266,6 +323,7 @@ Page({
               if (item.address_id == addressId) address = item;
             })
             this.setData({
+              error: null,
               address,
               addressId
             });
@@ -314,7 +372,7 @@ Page({
       return this._showError(rtnMessage);
     }
 
-    let { products, addrList, totals, preOrderId, shippingMethods, shippingMethod } = data;
+    let { products, addrList, totals, preOrderId, send_type, sendMethod } = data;
     let { zoneList } = this.data;
 
     let addressId = false;
@@ -332,21 +390,20 @@ Page({
     }
 
     let hasFlatShip = false, hasPickupShip = false;
-    for (let i = 0; shippingMethods && shippingMethods.length && i < shippingMethods.length; i++) {
-      if (shippingMethods[i].code == 'flat.flat') hasFlatShip = true;
-      if (shippingMethods[i].code == 'pickup.pickup') hasPickupShip = true;
+    for (let i = 0; send_type && send_type.length && i < send_type.length; i++) {
+      if (send_type[i].code == 1) hasFlatShip = true;
+      if (send_type[i].code == 2) hasPickupShip = true;
     }
 
     let curActIndex = this.data.curActIndex;
     if (this.data.isLoading) {  // 第一次加载
-      if (shippingMethod == 'flat.flat') {
+      if (sendMethod == '1') {
         curActIndex = 0;
-      } else if (shippingMethod == 'pickup.pickup') {
+      } else if (sendMethod == '2') {
         curActIndex = 1;
       }
     }
-
-    this.setData({ products, totals, addrList, address, addressId, isLoading: false, shippingMethods, shippingMethod, hasFlatShip, hasPickupShip, curActIndex });
+    this.setData({ products, totals, addrList, address, addressId, isLoading: false, send_type, sendMethod, hasFlatShip, hasPickupShip, curActIndex });
   },
 
   /**
@@ -364,44 +421,54 @@ Page({
 
     this.setData({ products, totals, isLoading: false });
   },
-  // 关闭微信公众号复制选项
-  closewechat() {
-    var that = this;
-    that.setData({
-      showwechat: false
-    })
-  },
   /**
    * 提交订单
    */
   submitOrder: function (e) {
-    console.log(e);
     let that = this;
     //保存formid
-    app.pushId(e).then(ids => {
-      app.saveId(ids)
-    });
-    // 显示公众号复制提示
-    that.setData({
-      showwechat: true, submitOk: false
-    })
+    app.pushId(e).then(ids => { app.saveId(ids) });
+    let { sendMethod } = that.data;//1邮寄 2自提
+    // 是否可以立即购买
+    that.setData({ submitOk: false });
     if (!that.checkAddress()) { that.setData({ submitOk: true }); return false; }
-    // 收货地址
+    if (sendMethod == '1') {
+      console.log('邮寄', sendMethod)
+      that.buyPay();
+    } else if (sendMethod == '2') {
+      console.log('自提', sendMethod);
+      let { pickupStoreId, storeId, orderId, uid } = that.data;
+      let pickUrl = 'wxapp.php?c=order_v2&a=update_order_send_type';
+      app.api.postApi(pickUrl, {
+        "params": {
+          "order_no": orderId,
+          "send_type": 2,
+          "physical_id": pickupStoreId,
+          "uid": uid,
+          "store_id": storeId
+        }
+      }, (err, resp) => {
+        if (err || resp.err_code != 0) {
+          wx.showToast({
+            title: resp.err_msg,
+            icon: 'loading',
+            duration: 2000
+          })
+          that.setData({ submitOk: true }); return;
+        }
+        that.buyPay();
+      })
+    }
+
+  },
+  /**
+   * 立即购买
+   */
+  buyPay() {
+    let that = this;
+    let { payType, is_app, postage_list, uid, storeId, user_coupon_id, shipping_method, orderId, sendMethod } = that.data;
     let address_params = that.buildAddressParams();
     let address_id = address_params.addressId;
-    if (!address_id) {
-      that.setData({ submitOk: true })
-      wx.showModal({
-        title: '支付失败',
-        content: '收货地址不能为空',
-        confirmText: '好的',
-        success: function () {
-          that.setData({ submitOk: true });
-        }
-      }); return;
-    }
-    let { payType, is_app, postage_list, uid, storeId, user_coupon_id, shipping_method, orderId } = that.data;
-
     var params = {
       payType: payType,
       orderNo: orderId,
@@ -412,9 +479,10 @@ Page({
       uid: uid,
       store_id: storeId,
       user_coupon_id: user_coupon_id,
+      send_type: sendMethod
     }
     wx.showLoading({ title: '请稍候...', mask: true, });
-    app.api.postApi('wap/wxapp_saveorder.php?action=pay_xcx', { params }, (err, resp) => {
+    app.api.postApi(_buyUrl, { params }, (err, resp) => {
       wx.hideLoading();
       if (err || resp.err_code != 0) {
         wx.showModal({
@@ -424,27 +492,30 @@ Page({
           success: function () {
             that.setData({ submitOk: true });
             //推送消息
-            app.send(that.data.orderId); 
+            app.send(that.data.orderId);
+            wx.switchTab({
+              url: '../../tabBar/home/index-new',
+            })
           }
-        });return;
+        }); return;
       }
-       
 
+
+      // 调起微信支付
+      if (resp.err_dom) {
+        // wx.navigateTo({
+        //   url: './my-order?goodsindex=' + 2
+        // })
+        wx.switchTab({
+          url: '../../tabBar/home/index-new',
+        })
+      } else {
         // 调起微信支付
-        if (resp.err_dom) {
-          wx.navigateTo({
-            url: './my-order?goodsindex=' + 2
-          })
-        } else {
-          // 调起微信支付
-          this._startPay(resp.err_msg);
-        }
-      
+        this._startPay(resp.err_msg);
+      }
+
     });
-
-
   },
-
   /**
    * 调起微信支付
    */
@@ -462,11 +533,14 @@ Page({
   _onSubmitNoPay() {
     wx.showToast({ title: "提交成功", icon: "success", duration: 1000 });
     //支付成功，拼团商品跳转待成团列表，其余商品跳转待收货列表
-    let url = that.data.orderType == 6 ? '../../group-buying/my-order?orderstatus=0':'./my-order';
+    let url = that.data.orderType == 6 ? '../../group-buying/my-order?orderstatus=0' : './my-order';
     setTimeout(function () {
-      wx.redirectTo({
-        url
-      });
+      // wx.redirectTo({
+      //   url
+      // });
+      wx.switchTab({
+        url: '../../tabBar/home/index-new',
+      })
     }, 1000);
   },
   /**
@@ -475,32 +549,25 @@ Page({
   _onPaySuccess(res) {
     wx.removeStorageSync('couponInfo');
     var that = this;
+
     //推送消息
     app.send(that.data.orderId);
     that.setData({
       matteShow: true, submitOk: true
     });
-    // 支付成功跳到首页
-    wx.showToast({
-      title: '支付成功',
-      icon: 'loading',
-      duration: 2000
-    })
+    //支付成功，拼团商品跳转待成团列表，其余商品跳转待收货列表
+    let url = that.data.orderType == 6 ? '../../group-buying/my-order?orderstatus=0' : './my-order';
     setTimeout(function () {
+      // wx.redirectTo({
+      //   url
+      // });
       wx.switchTab({
         url: '../../tabBar/home/index-new',
       })
-    }, 2000)
-    //支付成功，拼团商品跳转待成团列表，其余商品跳转待收货列表
-    // let url = that.data.orderType == 6 ? '../../group-buying/my-order?orderstatus=0' : './my-order' ;
-    // setTimeout(function () {
-    //   wx.redirectTo({
-    //     url
-    //   });
-    // }, 1000);
-    // var params = {
-    //   order_no: that.data.orderId
-    // };
+    }, 1000);
+    var params = {
+      order_no: that.data.orderId
+    };
     //给卡券接口
     // app.api.postApi('wxapp.php?c=order&a=save_card_set', { params }, (err, resp) => {
     //   console.log('卡券结果', resp)
@@ -517,35 +584,27 @@ Page({
     that.setData({
       submitOk: true
     });
-    //支付失败，跳转到首页
-    wx.showToast({
-      title: '支付失败',
-      icon: 'loading',
-      duration: 2000
-    })
-    setTimeout(function () {
-      wx.switchTab({
-        url: '../../tabBar/home/index-new',
-      })
-    }, 2000)
     //let status = that.data.status;
-    // wx.showModal({
-    //   title: '支付失败',
-    //   content: '订单支付失败，请到[订单-待付款]列表里重新支付',
-    //   cancelColor: '#FF0000',
-    //   confirmText: '好的',
-    //   success: function (res) {
-    //     // if (res.confirm) {
-    //       //失败跳我的订单-待付款
-    //     //   wx.redirectTo({
-    //     //     url: `./my-order?page=1`
-    //     //   });
-    //     // // } else if (res.cancel) {
-    //     //   return;
-    //     // }
-        
-    //   },
-    // });
+    wx.showModal({
+      title: '支付失败',
+      content: '订单支付失败，请到[订单-待付款]列表里重新支付',
+      cancelColor: '#FF0000',
+      confirmText: '好的',
+      success: function (res) {
+        // if (res.confirm) {
+        //失败跳我的订单-待付款
+        // wx.redirectTo({
+        //   url: `./my-order?page=1`
+        // });
+        wx.switchTab({
+          url: '../../tabBar/home/index-new',
+        })
+        // } else if (res.cancel) {
+        //   return;
+        // }
+
+      },
+    });
   },
   //关闭弹窗
   closeBtn() {
@@ -558,15 +617,16 @@ Page({
 
     if (that.data.orderType == 6) {//拼团订单
       // if (that.data.status == 1) { status = 2 } else { status = 5 }//2已成团，5待成团
-      status=2;
+      status = 2;
     }
-    let url = (that.data.orderType == 6) ? `../../group-buying/my-order?orderstatus=${status}` : `./my-order?page=${status}` ;
+    let url = (that.data.orderType == 6) ? `../../group-buying/my-order?orderstatus=${status}` : `./my-order?page=${status}`;
     setTimeout(function () {
       wx.redirectTo({
         url
       });
     }, 1000);
   },
+
 
   // 更改收货地址
   addrViewClick() {
@@ -575,18 +635,20 @@ Page({
     });
 
   },
+
+
+  /**  新增地址相关 */
   /**
    * 校验地址输入
    */
   checkAddress() {
-    let { addressId, zoneId, cityId, districtId, fullname, shippingTelephone, location, shippingMethod, pickupStoreId } = this.data;
+    let { addressId, zoneId, cityId, districtId, fullname, shippingTelephone, location, sendMethod, pickupStoreId } = this.data;
 
-    if (shippingMethod == 'flat.flat') {
+    if (sendMethod == '1') {
       if (addressId) return true;   // 有选了地址
       else {
         return this._showError('请先新增收货地址');
       }
-      // 新增地址，校验输入，ps：这个需求已被更改，不需要了，故以下代码注销
       if (!fullname) {
         return this._showError('请填写收货人姓名');
       }
@@ -608,26 +670,27 @@ Page({
       if (!districtId) {
         return this._showError('请选择县区');
       }
-      return true;
-    } else if (shippingMethod == 'pickup.pickup') {
+
+    } else if (sendMethod == '2') {
       if (!pickupStoreId) {
         return this._showError('请选择自提门店');
       }
     }
+    return true;
   },
 
   /**
    * 组装地址参数
    */
   buildAddressParams() {
-    let { addressId, zoneId, cityId, districtId, fullname, shippingTelephone, location, shippingMethod, pickupStoreId } = this.data;
+    let { addressId, zoneId, cityId, districtId, fullname, shippingTelephone, location, sendMethod, pickupStoreId } = this.data;
     let params;
 
-    if (shippingMethod == 'flat.flat') {
+    if (sendMethod == 1) {
       if (addressId) {
         params = {
           'addressId': addressId,
-          'shippingMethod': shippingMethod,
+          'sendMethod': sendMethod,
         }
       } else {
         params = {
@@ -637,13 +700,14 @@ Page({
           'address[fullname]': fullname,
           'address[shipping_telephone]': shippingTelephone,
           'address[address]': location,
-          'shippingMethod': shippingMethod,
+          'sendMethod': sendMethod,
         }
       }
-    } else if (shippingMethod == 'pickup.pickup') {
+    } else if (sendMethod == 2) {
       params = {
         'pickupStoreId': pickupStoreId,
-        'shippingMethod': shippingMethod,
+        'sendMethod': sendMethod,
+        'addressId': -1
       };
     }
 
@@ -775,8 +839,8 @@ Page({
   /**
    * 设置邮寄方式
    */
-  setShippingMethod(method) {
-    this.setData({ shippingMethod: method });
+  setsendMethod(method) {
+    this.setData({ sendMethod: method });
     let params = { shipping_method: method };
     wx.showLoading({ title: '加载中...', mask: true, });
     app.api.postApi('buy/shipping_method', params, (err, resp) => {
@@ -796,7 +860,7 @@ Page({
    * 显示错误信息
    */
   _showError(errorMsg) {
-    // wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
+    wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
     return false;
   },
@@ -813,6 +877,7 @@ Page({
     //   } else {
     //   }
     // });
+
 
   },
 
@@ -884,11 +949,12 @@ Page({
   changeCurActIndex(e) {
     let { idx: curActIndex, method } = e.currentTarget.dataset;
     this.setData({ curActIndex });
-    this.setShippingMethod(method);
+    this.setsendMethod(method);
   },
   //2017年12月22日15:58:39 选择优惠券
   changeCoupon: function (event) {
-    var pro_price = event.currentTarget.dataset.pro_price;
+    // var pro_price = event.currentTarget.dataset.pro_price;
+    var pro_price = this.data.totals;
     var product_id = event.currentTarget.dataset.product_id;
     wx.navigateTo({
       url: '../../shopping/pages/buycard?product_id=' + product_id + '&pro_price=' + pro_price
