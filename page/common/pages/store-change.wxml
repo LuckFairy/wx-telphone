@@ -1,15 +1,15 @@
 <!-- 选择省份，区域，地区 -->
 <view class='setction-top'>
   <view class="section" catchtap='{{provinFlag?"changeitem":""}}' data-type='1'>
-    <view class="section__title">{{provinces?provinces:'请选择'}}</view>
+    <view class="section__title">{{provinces?provinces:'省'}}</view>
     <image src='../imgs/down-gray.png' class='store-down'></image>
   </view>
   <view class="section" catchtap='{{cityFlag?"changeitem":""}}' data-type='2'>
-    <view class="section__title">{{city?city:'请选择'}}</view>
+    <view class="section__title">{{city?city:'市'}}</view>
     <image src='../imgs/down-gray.png' class='store-down'></image>
   </view>
   <view class="section" catchtap='{{areaFlag?"changeitem":""}}' data-type='3'>
-    <view class="section__title">{{area?area:'请选择'}}</view>
+    <view class="section__title">{{area?area:'区'}}</view>
     <image src='../imgs/down-gray.png' class='store-down'></image>
   </view>
 </view>

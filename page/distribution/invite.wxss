@@ -1,4 +1,11 @@
 /* page/distribution/invite.wxss */
+.share-btn{
+  position: absolute;
+  width: 100%;
+  height:100%;
+  z-index: 222;
+  visibility: hidden;
+}
 .footer{
   display: flex;
   width:750rpx;
@@ -37,4 +44,37 @@
   font-size: 28rpx;
   margin: 36rpx auto;
   line-height: 1;
+  border: none;
+}
+.modal-button button::after{
+  border: none;
+}
+.invite-content{
+  background: #fff;
+  width: 750rpx;
+  position: fixed;
+  bottom: 0;
+ z-index: 2222;
+ flex-direction: column;
+ font-size: 32rpx;
+ color: #313131;
+ padding: 64rpx 0;
+}
+.invite-content text{
+  display: block;
+  text-align: center;
+}
+.item-box{
+  margin-top: 50rpx;
+}
+.item{
+  width: 50%;
+  float: left;
+  text-align: center;
+  font-size: 26rpx;
+}
+.item image{
+  width: 100rpx;
+  height: 100rpx;
+  margin-bottom: 20rpx;
 }

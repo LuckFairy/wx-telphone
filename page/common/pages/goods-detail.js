@@ -5,9 +5,12 @@ let uid = wx.getStorageSync('userUid');
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 let physical_id = wx.getStorageSync('phy_id'); //门店id
 const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
+const fxUserUrl = "wxapp.php?c=promote&a=is_fx_user";//判断是否是分销员
 Page({
   data: {
-    mode: 'aspectFit',//图片缩放模式
+    isFx:0,//是否分销员，1是 0否
+    shareShade: false,
+
     loading: false,
     data: null,
     prodId: null,
@@ -20,11 +23,11 @@ Page({
     attrValueList: [],
     firstIndex: -1,
     numShow: '',//库存
-    //skuId:'', //多属性标识
+
     skuId: 0, //修改 2017年8月31日16:34:42
     attrPrice: '', //多属性的价格
     newCartNum: 0,//读取后台购物车数量多少件
-    //cartNum :0,//购物车初始化0件
+
 
     moreChoose: false,
     product: '',
@@ -74,6 +77,17 @@ Page({
       imageUrl: dataset.imgurl
     }
   },
+  isFx(params){
+    app.api.postApi(fxUserUrl,{params},(err,res)=>{
+      if(res.err_code==0){
+        this.setData({ isFx: res.err_msg.fx_user})
+      }
+    })
+  },
+  showShare(){
+    this.setData({ shareShade:true})
+  },
+ 
   goStoreServer() {
     wx.navigateTo({
       url: '../../my/pages/server-wechat'
@@ -221,7 +235,7 @@ Page({
       uid, store_id
     })
     // 页面初始化 options为页面跳转所带来的参数
-    let { prodId, action, params, categoryid = '' } = options;
+    let { prodId='1786', action, params, categoryid = '' } = options;
 
     //this.setData({ 'newCartNum': 0 });
 
@@ -259,7 +273,9 @@ Page({
         });
       }
     });
-
+    //判断是否是分销商品
+    let opt = { uid, store_id }
+    that.isFx(opt);
   },
   onReady: function () {
     // 页面渲染完成
@@ -871,7 +887,9 @@ Page({
         isShowPre: false
       });
     }, 2000);
-  }
-
+  },
+  cacelShade() {
+    this.setData({ shareShade: false })
+  },
 
 })

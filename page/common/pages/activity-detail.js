@@ -2,7 +2,7 @@
 let app = getApp();
 const _urlDetail = "wxapp.php?c=voucher&a=voucher_info";//获取活动详情   有活动id
 const _urlDetail_v2 = "wxapp.php?c=voucher&a=store_voucher";//获取活动详情  没有活动id的
-var WxParse = require('../../../utils/wxParse/wxParse.js');
+// var WxParse = require('../../../utils/wxParse/wxParse.js');
 Page({
 
   /**
@@ -12,11 +12,10 @@ Page({
     storeId: app.store_id,//店铺id
     id:null,//活动id
     uid: null,
-    activity_detail:'',//活动内容
-    title: '',//活动标题
-    date_msg:'', //活动日期
-    //富文本内容处理
-    dkheight: 300,
+    ac_detail: {},
+    ac_title: '',
+    ac_time: '',
+
     able:1,//1可以参与，0不可以
     uid:'',
     error:null,
@@ -98,16 +97,15 @@ Page({
     }
     console.log('uid',that.data.uid,'相片活动请求的url=', postUrl);
     app.api.postApi(postUrl, { params},(err,rep)=>{
-      console.log(rep);
       if (err || rep.err_code != 0) {
         this.setData({ error: rep.err_msg,able:0});
       ;return;}
-      var date_msg = rep.err_msg.start_time_date + ' 至 ' + rep.err_msg.end_time_date;
-      WxParse.wxParse('activity_detail', 'html', rep.err_msg.detail, that);
- 
+      let date_msg = rep.err_msg.start_time_date + ' 至 ' + rep.err_msg.end_time_date;
+      let ac_detail = {nodes: rep.err_msg.detail}
       that.setData({
-        "title": rep.err_msg.title,
-        "date_msg": date_msg,
+        "ac_title": rep.err_msg.title,
+        "ac_time": date_msg,
+        "ac_detail": ac_detail,
         "able": rep.err_msg.able,
         "limit": rep.err_msg.limit,
         "id": rep.err_msg.id
