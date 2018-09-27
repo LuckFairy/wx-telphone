@@ -32,7 +32,6 @@ Page({
 
     let pages = getCurrentPages();
     let currPage = pages[pages.length - 1];
-    console.log(currPage.data.bank);
     if (currPage.data.bank != "") {
       this.setData({//将携带的参数赋值
         bank: currPage.data.bank
@@ -91,6 +90,43 @@ Page({
   },
 
   onOkClick(){
+
+    let bank=this.data.bank;
+    let card=this.data.card;
+    let name=this.data.name;
+    if(!bank){
+      wx.showToast({
+        title: '银行不能为空！',
+        icon: 'success',
+        duration: 2000
+      })
+      return;
+    } else if (!card){
+      wx.showToast({
+        title: '卡号不能为空！',
+        icon: 'success',
+        duration: 2000
+      })
+      return;
+    } else if (!name) {
+      wx.showToast({
+        title: '姓名不能为空！',
+        icon: 'success',
+        duration: 2000
+      })
+      return;
+    }
+
+    let data = this.data;
+
+    wx.setStorage({
+      key: 'bankAccount',
+      data: data,
+      success:function(){
+        wx.navigateBack(); 
+      }
+    })
+
 
   },
   onBankClick(){

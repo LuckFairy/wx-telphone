@@ -21,7 +21,7 @@ Page({
   onLoad: function (options) {
 
     var params = {
-      "fx_id": 83046,
+      "fx_id": 2,
       "type": 'my',
       "store_id": this.data.storeId
     };

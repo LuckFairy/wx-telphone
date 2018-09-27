@@ -6,13 +6,27 @@ Page({
    */
   data: {
 
+    type:0
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let type = options.type;
+    let title='';
+    this.setData({
+      type
+    });
+    if(type==0){
+      title ='收支明细';
+    }else{
+      title ='提现记录'
+    }
+    wx.setNavigationBarTitle({
+      title//页面标题为路由参数
+    })
   },
 
   /**

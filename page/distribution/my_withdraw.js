@@ -13,6 +13,25 @@ Page({
    */
   onLoad: function (options) {
 
+    var params = {
+      "fx_id": 83046,
+      "type": 'my',
+      "store_id": this.data.storeId
+    };
+    app.api.postApi(_get_user, { params }, (err, resp) => {
+      wx.hideLoading();
+      if (resp) {
+        if (resp.err_code == 0) {
+
+        } else {
+
+        }
+
+      }
+
+    });
+
+
   },
 
   /**
@@ -62,5 +81,22 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  onWithDrawClick(){
+    wx.navigateTo({
+      url: './my_withdraw_detail'
+    });
+  },
+  onDetailClick(){
+    wx.navigateTo({
+      url: './my_record?type=0'
+    });
+  },
+  onRecordClick(){
+    wx.navigateTo({
+      url: './my_record?type=1'
+    });
   }
+
 })

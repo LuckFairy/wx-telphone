@@ -14,23 +14,23 @@
 </view>
 
 
-<view class='item top'>
+<view class='item top' bindtap='onSettingClick'>
   <text class='text'>提现账户</text>
   <view class='item-right'>
-    <text class='text text-right'>去修改</text>
+    <text class='text text-right'>{{tip}}</text>
     <image class='item-icon' src='../distribution/imgs/c-1.png'></image>
   </view>
 </view>
 
-  <view class='item-account'>
+  <view class='item-account' wx:if="{{account}}">
     <view class='item-account-content'>
       <text class='item-account-text'>姓名</text>
-      <text class='item-account-text'>谢美美</text>
+      <text class='item-account-text'>{{account.name}}</text>
     </view>
 
     <view class='item-account-content'>
-      <text class='item-account-text'>中国招商银行</text>
-      <text class='item-account-text'>6214823011158913</text>
+      <text class='item-account-text'>{{account.bank}}</text>
+      <text class='item-account-text'>{{account.card}}</text>
     </view>
 
   </view>

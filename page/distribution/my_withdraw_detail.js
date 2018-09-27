@@ -1,10 +1,13 @@
 // page/distribution/my_withdraw_detail.js
+var that;
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    tip:'去设置',
+    account:null,
 
   },
 
@@ -12,6 +15,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    that=this;
 
   },
 
@@ -26,6 +30,23 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+
+    wx.getStorage({
+      key: 'bankAccount',
+      success: function(res) {
+        console.log(res.data);
+        let account = res.data;
+        if(account){
+          let tip ='去修改';
+            that.setData({
+              account,
+              tip
+            })
+        }
+        
+      },
+    })
+
 
   },
 
@@ -62,5 +83,12 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  onSettingClick(){
+    wx.navigateTo({
+      url: './setting'
+    });
   }
+  
 })
