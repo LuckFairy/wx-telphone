@@ -75,6 +75,9 @@ Page({
       that.setData({ phoneFlag: true })
     })
   },
+  cancelshade(){
+    this.setData({ phoneFlag: false})
+  },
   onShareAppMessage(res) {
     let that = this;
     let dataset = res.target.dataset;
@@ -102,7 +105,7 @@ Page({
   },
   /**购物车立即购买 */
   doGoBuy(e) {
-    var that = this;
+    let that = this;
     var buyQuantity = e.currentTarget.dataset.buyQuantity;
     var isaddCart = e.currentTarget.dataset.isaddCart;
     var productId = e.currentTarget.dataset.productId;
@@ -110,6 +113,7 @@ Page({
     var uid = e.currentTarget.dataset.uid;
     var storeId = e.currentTarget.dataset.storeId;
     var skuid_list = that.data.skuid_list;
+    let params = {store_id: storeId,uid}
     if (skuid_list.length > 0) {
       if (!skuId) {
         wx.showLoading({
@@ -119,14 +123,25 @@ Page({
           wx.hideLoading()
         }, 2000)
       } else {
-        // 选择属性之后发送请求添加到购物车
-        that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
+        checkBingPhone(params).then(data => {
+          that.setData({ phoneFlag: false })
+          // 选择属性之后发送请求添加到购物车
+          that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
+        }).catch(err => {
+          that.setData({ phoneFlag: true })
+        })
+        
       }
     } else {
-      // 直接发送请求添加到购物车
-      that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
+      checkBingPhone(params).then(data => {
+        that.setData({ phoneFlag: false })
+        // 直接发送请求添加到购物车
+        that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
+      }).catch(err => {
+        that.setData({ phoneFlag: true })
+      })
     }
-    console.log('e', e);
+
   },
   goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId) {
     var that = this;
@@ -719,7 +734,9 @@ Page({
       uid,
       store_id
     }
+    // 加入购物车
     that.loadCartInfo(params);
+ 
   },
   chooseProperty(e) {
   

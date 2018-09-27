@@ -539,7 +539,7 @@ page {
 }
 
 .commodity_attr_list-wrap {
-  z-index: 9999999;
+  z-index: 33333;
   height: 100%;
   background: #525252;
   opacity: 0.6;
@@ -548,7 +548,7 @@ page {
 .commodity_attr_list {
   background: #fff;
   font-size: 26rpx;
-  z-index: 99999999999999;
+  z-index: 33333;
   opacity: 1;
 }
 
@@ -1009,9 +1009,9 @@ button[type=warn] {
 }
 
 .go-confirm {
-  height: 98rpx;
+  height: 88rpx;
   background: #ffe71c;
-  line-height: 98rpx;
+  line-height: 88rpx;
   font-size: 36rpx;
   margin-top: 146rpx;
 }

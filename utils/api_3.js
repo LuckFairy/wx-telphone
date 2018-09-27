@@ -90,6 +90,7 @@ var Api = {
           wx.setStorageSync('userOpenid', data.err_msg.openid);//存储openid
           wx.setStorageSync('userUid', data.err_msg.uid);//存储uid
           wx.setStorageSync('hasSignin', 'true');//存储uid
+          getApp().globalData.uid=data.err_msg.uid;
           getApp().globalData.hasSignin = true;
           getApp().globalData.info_flag = false;
           //进入第5步：验证是否有手机号

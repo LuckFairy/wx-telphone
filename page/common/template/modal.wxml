@@ -159,7 +159,7 @@
 	绑定手机模板
  -->
 <template name="getphone-modal">
-<view  class="overlay">
+<view  class="overlay" catchtap='cancelshade'>
   <view class='overlay-shade'></view>
   <view class="overlay-content tel-content">
     <view class="title">

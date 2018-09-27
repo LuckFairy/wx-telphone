@@ -1,4 +1,4 @@
-<import src="../common/template/modal.wxml" />
+<import src="../template/modal.wxml" />
 <template wx:if="{{phoneFlag}}" is="getphone-modal"></template>
 <view class="goods-detail-containner">
   <view class="goods-banner-view">

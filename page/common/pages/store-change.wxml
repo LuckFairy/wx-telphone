@@ -34,7 +34,7 @@
 
 <view class='no-data' wx:if="{{physical_list.length<1}}">
   <image src='../../../image/no-data.png'></image>
-  <view class='no-data-txt'>定位失败，请重新打开小程序！</view>
+  <view class='no-data-txt'>无门店数据！</view>
 </view>
 <view class='errorModel' wx:if="{{error}}">
   <text>{{error}}</text>

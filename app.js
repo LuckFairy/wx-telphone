@@ -1,8 +1,10 @@
 import { sign } from './utils/api_3';
 import WxService from './utils/WxService'
+import { getLocation } from './utils/util'
 let config = require('./config.js');
 App({
   onLaunch: function (opts) {
+    getLocation();
     this.getTelWx();
   },
   onShow: function (opts) {

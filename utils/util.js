@@ -122,33 +122,23 @@ function getAddress() {
  */
 function getLocation() {
   return new Promise((resolve, reject) => {
-    // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
-    wx.getSetting({
-      success(res) {
-        if (!res.authSetting['scope.userLocation']) {
-          wx.authorize({
-            scope: 'scope.userLocation',
-            success() {
-              // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
-              wx.getLocation({
-                success: function(res) {
-                  var latitude = res.latitude, longitude = res.longitude //维度，经度
-                  var logLat = [longitude, latitude];
-                  wx.setStorageSync('logLat', logLat);
-                  resolve(logLat);
-                },
-                fail: function(err) {
-                  reject(err || '用户定位失敗')
-                }
-              })
-            }
-          })
-        }else{
-          var logLat = getStorageSync("logLat");
+    let logLat = wx.getStorageSync("logLat");
+    if (logLat && logLat != []) {
+      resolve(logLat)
+    } else {
+      wx.getLocation({
+        success: function(res) {
+          var latitude = res.latitude,
+            longitude = res.longitude //维度，经度
+          var logLat = [longitude, latitude];
+          wx.setStorageSync('logLat', logLat);
           resolve(logLat);
+        },
+        fail: function(err) {
+          reject(err || '用户定位失敗')
         }
-      }
-    })
+      })
+    }
   })
 }
 /**检验是否绑定手机 */
@@ -177,55 +167,39 @@ function checkBingPhone(params) {
 /**
  * 登陆获取jscoode
  */
-function login(opt) {
+function login() {
   return new Promise(resolve => {
-    wx.checkSession({
-      success: function() {
-        //session 未过期，并且在本生命周期一直有效
-        var jscode = wx.getStorageSync('jscode');
-        if (jscode) {
-          resolve({jscode,opt});
-        } else {
-          //登录态过期
-          wx.login({
-            success: function(res) {
-              wx.setStorageSync("jscode", res.code)
-              resolve({jscode:res.code,opt});
-            }
-          })
-        }
+    // 1、调用微信登录
+    wx.login({
+      success: (res) => {
+        resolve(res.code);
       },
-      fail: function() {
-        //登录态过期
-        wx.login({
-          success: function(res) {
-            wx.setStorageSync("jscode", res.code)
-            resolve({ jscode: res.code, opt });
-          }
-        })
-
+      fail: (res) => {
+        console.log('wx.login()失败！', res);
       }
-    })
+    });
   })
 }
 /**
  * 獲取session_key
  */
-function getSessionKey(params,opt) {
+function getSessionKey(params) {
   return new Promise(resolve => {
     Api.postApi(config.sessionUrl, {
       params
     }, (error, rep) => {
       if (rep.err_code == 0) {
         wx.setStorageSync('sessionKey', rep.err_msg.session_key);
-        resolve({session_key:rep.err_msg.session_key,opt})
+        resolve(rep.err_msg.session_key)
+      } else {
+        console.error(rep.err_msg);
       }
     })
   })
 }
 /**获取手机号 */
 function getPhone(params) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     Api.postApi(config.getPhoneUrl, {
       params
     }, (error, rep) => {
@@ -238,7 +212,7 @@ function getPhone(params) {
       } else {
         wx.setStorageSync('hasPhone', false);
         getApp().globalData.hasPhone = false;
-        reject('用户没有绑定手机');
+        reject(rep.err_msg);
       }
     })
   })
@@ -266,21 +240,17 @@ function bingPhone(params) {
  */
 function getPhoneNumber(e) {
   let that = this;
-  console.log(e);
+  let iv = e.detail.iv,
+    encryptedData = e.detail.encryptedData;
   return new Promise((resolve, reject) => {
-    new Promise(resolve=>{
-      let iv = e.detail.iv,
-        encryptedData = e.detail.encryptedData;
+    new Promise(resolve => {
       if (e.detail.errMsg == "getPhoneNumber:ok") {
         wx.showModal({
           title: '提示',
           showCancel: false,
           content: '同意授权',
-          success: function (res) {
-            resolve({
-              iv,
-              encryptedData
-            });
+          success: function(res) {
+            resolve();
           }
         })
       } else {
@@ -288,29 +258,25 @@ function getPhoneNumber(e) {
           title: '提示',
           showCancel: false,
           content: '未授权',
-          success: function (res) {
+          success: function(res) {
             reject();
           }
         })
       }
-    }).then(opt => {
-      let {
-        iv,
-        encryptedData
-      } = opt;
+    }).then(() => {
       //1、login获取jscode
-      return login(opt)
+      return login();
     }).then(data => {
       let params = {
-        "jscode": data.jscode,
+        "jscode": data,
         "store_id": config.sid
       }
       //2.获取ssionKey
-      return getSessionKey(params, data.opt)
+      return getSessionKey(params)
     }).then(data => {
-      let { iv, encryptedData } = data.opt;
+
       let params2 = {
-        "session_key": data.session_key,
+        "session_key": data,
         "iv": iv,
         "encryptedData": encryptedData,
         "store_id": config.sid
@@ -326,7 +292,7 @@ function getPhoneNumber(e) {
       //4、绑定手机号
       let params3 = {
         store_id: config.sid,
-        uid: getApp().globalData.uid,
+        uid: getApp().globalData.uid||wx.getStorageSync("userUid"),
         phone: data
       }
       bingPhone(params3);

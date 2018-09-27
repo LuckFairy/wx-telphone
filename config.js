@@ -11,7 +11,7 @@ var host = "https://saas.qutego.com/"
 var testhost = "https://zy.qutego.com/"
 // var testhost = "https://saas.qutego.com/"
 var AGENT_ID = 2
-var sid = 293;//咿呀
+var sid = 310;//咿呀
 var sid_test = 293;//婴众趣购590
 var title = '咿呀';
 var title_test = '婴众趣购';
@@ -55,7 +55,7 @@ var config = {
   loginUrl: `wxapp.php?c=wechatapp_v2&a=login_new`,
 
   //判断用户是否绑定了手机
-  checkBingUrl: `wxapp.php?c=wechatapp_v2&a=check_phone`,
+  checkBingUrl: `wxapp.php?c=promote&a=check_phone`,
 
   //获取sessionkey
   sessionUrl: `wxapp.php?c=wechatapp_v2&a=get_session_key`,
@@ -64,7 +64,7 @@ var config = {
   getPhoneUrl:`wxapp.php?c=wechatapp_v2&a=get_phone`,
 
   //绑定手机号
-  bingPhoneUrl:`wxapp.php?c=wechatapp_v2&a=bind_phone`,
+  bingPhoneUrl:`wxapp.php?c=wechatapp_v2&a=bind_phone_v2`,
 
   //用code换取openId 第一版本接口
   openIdOldUrl: `wxapp.php?c=wechatapp&a=login_new`,

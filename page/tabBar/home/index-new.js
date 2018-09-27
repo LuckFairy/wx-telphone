@@ -156,10 +156,10 @@ Page({
     that.jumpCoupon();/******首页弹窗 */
     
     //是否定位成功
-    getLocation().then(data=>{
+    getLocation().then(data => {
       logLat = data;
       that.loadLocation();
-    }).catch(err=>{
+    }).catch(err => {
       that.loadMainLocation();
     })
   },
