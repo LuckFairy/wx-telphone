@@ -3,6 +3,14 @@
   color:#1b1b1b;
 }
 
+.swiper-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
 .nav-header-view {
   flex-direction: row;
   justify-content: space-around;
@@ -25,7 +33,9 @@
   justify-content: space-between;
   padding: 24rpx;
   width: 750rpx;
+  height: 169rpx;
   background-color: rgba(255, 255, 255, 1);
+  border-top:1px solid #e5e5e5;
 }
 
 .main-content-img{
@@ -47,4 +57,9 @@
   flex-direction: column-reverse;
   font-size: 24rpx;
   color: #222222;
+}
+
+.content-wrapper{
+  width: 100%;
+  height: 100%
 }

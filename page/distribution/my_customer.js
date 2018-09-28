@@ -20,24 +20,45 @@ Page({
    */
   onLoad: function (options) {
 
+    this.getCustomers(0);
+
+  },
+
+  getCustomers(index){
+   
+    let that=this;
+    that.setData({
+      curActIndex: index,
+    });
+    let type ='my';
+    if(index==1){
+      type ='others';
+    }
+
     var params = {
       "fx_id": 2,
-      "type": 'my',
+      type,
       "store_id": this.data.storeId
     };
     app.api.postApi(_get_user, { params }, (err, resp) => {
       wx.hideLoading();
       if (resp) {
         if (resp.err_code == 0) {
-          
-        } else {
-         
-        }
+          let list = resp.err_msg;
+            if(index==0){
+              that.setData({
+                list0:list,
+              });
+            }else{
+              that.setData({
+                list1: list,
+              });
+            }
+        } 
 
       }
 
     });
-
   },
 
   /**
@@ -93,10 +114,16 @@ Page({
   // 点击切换
   swichSwiperItem: function (event) {
     var that = this;
-    this.setData({
-      curActIndex: event.target.dataset.idx,
-    });
+    let index = event.target.dataset.idx;
+  
+    that.getCustomers(index);
   },
+  swiperChange: function (e) {
+    console.log("current：" + e.detail.current);
+    let index = e.detail.current;//待拼团对应下标
+    let that = this;
+    this.getCustomers(index);
+  }
 
 
 
