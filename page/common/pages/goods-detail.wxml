@@ -21,33 +21,16 @@
   
     <text class="middle-title">{{product.name}}</text>
     <view class="middle-detail">
-      <!-- <view class='mid-list-wrap'>
-        <block wx:if="{{product.special}}">
-          <text class="mid-list-zero">￥</text>
-          <text class="mid-list-one">{{product.price}}</text>
-          <text class="mid-list-two">￥{{product.original_price}}</text>
-        </block>
-        <block wx:else>
-          <block wx:if="{{product.price}}">
-            <text class="mid-list-zero">￥</text>
-            <text class="mid-list-one">{{product.price}}</text>
-          </block>
-          <block wx:else>
-            <text class="mid-list-zero">￥</text>
-            <text class="mid-list-one">{{product.original_price}}</text>
-          </block>
-        </block>
-      </view> -->
       <view class='mid-list-wrap'>
         <text class="mid-list-zero">￥</text>
         <text class="mid-list-one">{{product.price}}</text>
         <text class="mid-list-two">￥{{product.original_price}}</text>
       </view>
-      <view class='mid-list-wraps-image' wx:if="{{isFx==1}}">
+      <view class='mid-list-wraps-image' wx:if="{{isFx==0}}">
         <button class='mid-open-list share-bt' open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.shareUrl?product.shareUrl:product.product_image_list[0]}}"></button>
         <text class="mid-list-six-top share-txt">分享</text>
       </view>
-      <image wx:if="{{isFx==0}}" src='..../../image/distribution/qugo_21.png' catchtap='showShare' class='share-img'></image>
+      <image wx:if="{{isFx==1}}" src='../../image/distribution/qugo_21.png' catchtap='showShare' class='share-img'></image>
     </view>
     <view class='mid-list-wraps' wx:if="{{product.sales}}">
       <text class="mid-list-six">已售</text>
@@ -97,7 +80,7 @@
 <block wx:if="{{product.quantity > 0}}">
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
-      <image class='invite-index-image' src='../../image/index-list.png'></image>
+      <image class='invite-index-image' src='../../../img/index-list.png'></image>
       <text class='invite-index-text'>首页</text>
     </view>
     <view class='invite-ke-server invite-total' bindtap='goStoreServer'>
@@ -132,7 +115,7 @@
 <block wx:elif="{{product.quantity < 1}}">
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
-      <image class='invite-index-image' src='../../image/index-list.png'></image>
+      <image class='invite-index-image' src='../../../img/index-list.png'></image>
       <text class='invite-index-text'>首页</text>
     </view>
     <view class='invite-ke-server invite-total' bindtap='goStoreServer'>
@@ -243,12 +226,12 @@
       <view class='item-box'>
         <view class='item'>
         <button open-type='share' class='share-btn'  data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.shareUrl?product.shareUrl:product.product_image_list[0]}}"></button>
-          <image src='..../../image/distribution/qugo_03.png'></image>
+          <image src='../../image/distribution/qugo_03.png'></image>
           <text>微信好友</text>
         </view>
         <poster  style="flex:1" id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
           <view class='item'  style='width:100%;'>
-            <image src='..../../image/distribution/qugo_08.png'></image>
+            <image src='../../image/distribution/qugo_08.png'></image>
             <text>小程序</text>
           </view>
         </poster>

@@ -1,5 +1,3 @@
-/* page/common/pages/activity-detail.wxss */
- /* @import "../../../utils/wxParse/wxParse.wxss";  */
  view{display: block;}
 page{
   background: #fff;

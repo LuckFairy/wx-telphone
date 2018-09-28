@@ -2,7 +2,7 @@
 let app = getApp();
 const _urlDetail = "wxapp.php?c=voucher&a=voucher_info";//获取活动详情   有活动id
 const _urlDetail_v2 = "wxapp.php?c=voucher&a=store_voucher";//获取活动详情  没有活动id的
-// var WxParse = require('../../../utils/wxParse/wxParse.js');
+let WxParse = require('../../../utils/wxParse/wxParse.js');
 Page({
 
   /**
@@ -27,18 +27,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 获得高度
-    let winPage = this;
-    wx.getSystemInfo({
-      success: function (res) {
-        let winHeight = res.windowHeight;
-        console.log('高度是=',winHeight);
-        winPage.setData({
-          dkheight: winHeight - winHeight * 0.05 - 80
-        })
-      }
-    })
-
     let {id,uid} = this.data;
     uid = wx.getStorageSync("userUid");
     if(uid){
@@ -101,11 +89,11 @@ Page({
         this.setData({ error: rep.err_msg,able:0});
       ;return;}
       let date_msg = rep.err_msg.start_time_date + ' 至 ' + rep.err_msg.end_time_date;
-      let ac_detail = {nodes: rep.err_msg.detail}
+      WxParse.wxParse('ac_detail', 'html', rep.err_msg.detail, that);
+
       that.setData({
         "ac_title": rep.err_msg.title,
         "ac_time": date_msg,
-        "ac_detail": ac_detail,
         "able": rep.err_msg.able,
         "limit": rep.err_msg.limit,
         "id": rep.err_msg.id

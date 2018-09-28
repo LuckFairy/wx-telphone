@@ -1,6 +1,5 @@
-var app = getApp();
-const getCategoryUrl = 'wxapp.php?c=index&a=get_icon';//宝宝title名称数据
-const getCategoryList = 'wxapp.php?c=product&a=babyCategory';//宝宝列表数据
+let app = getApp();
+const getCategoryList = 'wxapp.php?c=fx_product&a=fx_product_list';
 Page({
 
   /**
@@ -9,69 +8,53 @@ Page({
   data: {
     currentTab: 0,
     dataList: {},
+    pageone:1,
+    pagetwo:1,
+    pagethree:1,
+    pagethour:1,
     cat_list: '',
     store_id: app.store_id,//店铺id
+    uid:null,
   },
-  goToList(e) {
-    var that = this;
-    var curTab = that.data.currentTab;
-    var insideTab = e.currentTarget.dataset.current || curTab;
-    var catId = e.currentTarget.dataset.catId || '92';
-    if (curTab == insideTab) {
-      return false;
+  getDataList(e,opts) {
+    let that = this,current=null,sort=null;
+    if (e) {
+      current = e.currentTarget.dataset.current;
+      sort = e.currentTarget.dataset.sort;
+      if(current==that.data.currentTab){return;}
     }
-
+    let old = {
+      store_id: that.data.store_id,
+      uid:this.data.uid,
+      sort: sort||'commission',
+      page:1
+    }
+    
     wx.showLoading({
       title: '加载中'
     })
     wx.showLoading({ title: '加载中...', mask: true, });
-    var params = {
-      categoryId: catId, store_id: that.data.store_id
-    }
+    let params = Object.assign(old,opts);
     app.api.postApi(getCategoryList, { params }, (err, resp) => {
       wx.hideLoading();
-      var dataList = resp.err_msg.products || [];
-      if (dataList.length > 1) {
-        for (var i in dataList) {
-          dataList[i].diff = Number(dataList[i].original_price - dataList[i].price).toFixed(2);
-        }
-      }
+      if(err||resp.err_code!=0){console.error(resp.err_msg);return;}
+      let dataList = resp.err_msg.list;
+      
       that.setData({
         dataList: dataList,
-        currentTab: insideTab
       });
+      if (current) { that.setData({ currentTab: current})}
     });
   },
-  getDataList(opts) {
-    var that = this;
-    var curTab = opts.listId || that.data.currentTab;
-    var catId = opts.catId || '92';
-    wx.showLoading({
-      title: '加载中'
-    })
-    wx.showLoading({ title: '加载中...', mask: true, });
-    var params = {
-      categoryId: catId, store_id: that.data.store_id
+  lower(){
+    let that = this,opts={};let { currentTab,pageone,pagetwo,pagethree,pagethour} = that.data;
+    switch(currentTab){
+      case 0:pageone++;opts.page = pageone;break;
+      case 2:pagetwo++;opts.page = pagetwo;break;
+      case 2:pagethree++;opts.page = pagethree;break;
+      case 3:pagethour++;opts.page = pagethour;break;
     }
-    app.api.postApi(getCategoryList, { params }, (err, resp) => {
-      wx.hideLoading();
-      var dataList = resp.err_msg.products
-      that.setData({
-        dataList: dataList,
-        currentTab: curTab
-      });
-    });
-  },
-  goDetails(e) {
-    wx.showLoading({
-      title: '加载中'
-    })
-    var categoryid = e.currentTarget.dataset.categoryid;
-    var productid = e.currentTarget.dataset.productid;
-    wx.navigateTo({
-      url: './goods-detail?prodId=' + productid
-    })
-    wx.hideLoading();
+    that.getDataList(null,opts);
   },
 
   /**
@@ -79,18 +62,28 @@ Page({
    */
   onLoad: function (opts) {
     var that = this;
-    // 5个tab数据 仅仅头部tab 不包括列表
-    app.api.postApi(getCategoryUrl, { params: { store_id: that.data.store_id } }, (err, rep) => {
-      if (!err && rep.err_code == 0) {
-        this.setData({
-          cat_list: rep.err_msg.icon_list
-        })
-      }
-    })
+    let uid = wx.getStorageSync("userUid");
+    that.setData({uid})
     //列表数据
-    that.getDataList(opts);
+    that.getDataList(null,opts);
   },
-
+  // 搜索卡包
+  searchCard(e) {
+    var that = this,opts={};
+    var searchValue = e.detail.value;//搜索值
+    if (searchValue) {
+      opts.keyword = searchValue;
+      that.getDataList(null, opts);
+    }
+  
+  },
+  goNull(e) {
+    var that = this,opts={};
+    var searchValue = e.detail.value;
+    if (!searchValue) {
+      that.getDataList(null, opts);
+    }
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

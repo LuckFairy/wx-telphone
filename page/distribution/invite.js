@@ -2,6 +2,7 @@
 import Poster from '../components/poster/poster/poster'
 
 let app = getApp();
+let WxParse = require('../../utils/wxParse/wxParse.js');
 const _urlDetail = "wxapp.php?c=voucher&a=voucher_info";//获取活动详情   有活动id
 const _urlDetail_v2 = "wxapp.php?c=voucher&a=store_voucher";//获取活动详情  没有活动id的
 const _urlPoster = "wxapp.php?c=promote&a=wxapp_qrcode";//生成小程序推广二维码
@@ -55,7 +56,7 @@ Page({
     //   })
     // })
     if(prodId){this.setData({prodId})}
-    console.log(this.data.ac_detail)
+    
   },
 
   /**

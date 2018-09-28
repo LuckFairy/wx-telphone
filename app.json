@@ -1,14 +1,15 @@
 {
   "pages": [
 
+    "page/distribution/spreadList",
+    "page/common/pages/goods-detail",
+    "page/common/pages/activity-detail",
     "page/tabBar/home/index-new",
     "page/distribution/invite",
-    "page/common/pages/goods-detail",
     "page/distribution/spreadOrder",
-    "page/distribution/spreadList",
-        "page/distribution/my_customer",
-            "page/distribution/my_invite",
-        "page/distribution/my_withdraw",
+    "page/distribution/my_customer",
+    "page/distribution/my_invite",
+    "page/distribution/my_withdraw",
     "page/distribution/my_withdraw_detail",
     "page/distribution/setting",
     "page/distribution/bank",
@@ -28,7 +29,6 @@
     "page/tabBar/shopping/shoppstore-index",
     "page/common/pages/activity-hository",
     "page/common/pages/activity-hosDet",
-    "page/common/pages/activity-detail",
     "page/common/pages/hotsale",
     "page/common/pages/mycard",
     "page/common/pages/mycardHistory",

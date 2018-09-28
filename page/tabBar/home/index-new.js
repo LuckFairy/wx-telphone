@@ -1,7 +1,8 @@
 import {
   getUrlQueryParam,
   checkBingPhone,
-  getPhoneNumber
+  getPhoneNumber,
+  getLocation
 } from '../../../utils/util';
 import sign from '../../../utils/api_4'
 import {
@@ -61,16 +62,16 @@ Page({
     productData: [], //活动图列表
     valueList: [{
       txt: '正品保障',
-      src: '../../image/tab/card-1.png'
+      src: './imgs/card-1.png'
     }, {
       txt: '假一赔三',
-      src: '../../image/tab/card-2.png'
+      src: './imgs/card-2.png'
     }, {
       txt: '破损包邮',
-      src: '../../image/tab/card-3.png'
+      src: './imgs/card-3.png'
     }, {
       txt: '7天退换',
-        src: '../../image/tab/card-4.png'
+      src: 'imgs/card-4.png'
     }],
     saoma_url: null,
     set_flag: false, //是否設置為默認
@@ -93,10 +94,12 @@ Page({
         locationid
       }
       app.login(params).then(() => {
-        console.log('弹窗取消')
+        console.log('弹窗取消', app.globalData.uid)
+        uid = app.globalData.uid;
         that.setData({
           hasPhone: true, isInfo: false
         })
+        that._parse();
       }).catch(() => {
         console.log('弹窗弹窗')
         that.setData({
@@ -193,9 +196,8 @@ Page({
         return;
       }
       this.setData({
-        indexIcon: rep.err_msg.data.channel_content
+        indexIcon: rep.err_msg.data.channel_content || []
       })
-      
     })
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
@@ -228,7 +230,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   console.log(this.route)
+    console.log(this.route)
     if (app.globalData.uid) {
       this.loadMyCardNumData(); //我的卡包数量
       this.getCoupValue(); //优惠券数据
@@ -237,15 +239,18 @@ Page({
 
   },
   _parse() {
-    var that = this;
+    let that = this;
     wx.hideLoading();
     that.getCoupValue(); //优惠券数据
     that.jumpCoupon(); /*首页弹窗 */
     that.loadMyCardNumData(); //我的卡包数量
     that.getCoupValue(); //优惠券数据
-    that.isLoglat().then(data => {
+    console.log('_parse');
+    //是否定位成功
+    getLocation().then(data => {
+      logLat = data;
       that.loadLocation();
-    }).catch(data => {
+    }).catch(err => {
       that.loadMainLocation();
     })
   },
@@ -445,27 +450,6 @@ Page({
       },
       fail: () => {
         that._showError('请重新扫码');
-      }
-    })
-  },
-  /**
-   * 是否定位成功
-   */
-  isLoglat() {
-    let that = this;
-    return new Promise((resolve, reject) => {
-      logLat = wx.getStorageSync('logLat');
-      if (!logLat || logLat == '') {
-        that.timer1 = setTimeout(() => {
-          logLat = wx.getStorageSync('logLat');
-          if (logLat) {
-            resolve();
-          } else {
-            reject();
-          }
-        }, 1500);
-      } else {
-        resolve();
       }
     })
   },
@@ -779,7 +763,7 @@ Page({
   _showError(errorMsg) {
     wx.showToast({
       title: errorMsg,
-      image: '../../image/use-ruler.png',
+      image: '../../../image/use-ruler.png',
       mask: true
     });
     this.setData({

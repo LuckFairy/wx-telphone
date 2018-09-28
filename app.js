@@ -1,14 +1,15 @@
 import sign from './utils/api_4'
 import __config from './config'
 import { ajax } from './utils/api_1'
+import { getLocation } from './utils/util'
 import WxService from './utils/WxService'
 App({
-  onLaunch: function() {
+  onLaunch: function () {
     // var logs = wx.getStorageSync('logs') || []
     // unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
     // logs.unshift(Date.now())
     // wx.setStorageSync('logs', logs);
-    this.getLocation();//获取位置信息
+    getLocation();
     this.getTelWx();
   },
   api: ajax,
@@ -26,11 +27,11 @@ App({
     logLat: null, //当前位置
     formIds: [], //消息推送id
   },
-  getTelWx:function(){
-      let that = this;
-      let params={store_id:that.store_id};
-    that.api.postApi(that.config.getTelWxUrl,{params},(err,res)=>{
-      if(res.err_code==0){
+  getTelWx: function () {
+    let that = this;
+    let params = { store_id: that.store_id };
+    that.api.postApi(that.config.getTelWxUrl, { params }, (err, res) => {
+      if (res.err_code == 0) {
         //客服电话
         that.config.serverPhone = res.err_msg.TelnWx.service_tel;
 
@@ -43,15 +44,7 @@ App({
       }
     })
   },
-  getLocation: function () {
-    return this.WxService.getLocation()
-      .then(res => {
-        var latitude = res.latitude, longitude = res.longitude //维度，经度
-        var logLat = [longitude, latitude];
-        wx.setStorageSync('logLat', logLat);
-      })
-  },
-  checkphone:function(){
+  checkphone: function () {
     let that = this;
     let uid = wx.getStorageSync('userUid');
     if (uid) {
@@ -64,7 +57,7 @@ App({
     //1、登录
     return new Promise((resolve, reject) => {
       that.WxService.login()
-      .then(data => {
+        .then(data => {
           console.log('jscode', data);
           that.globalData.code = data.code;
           var params = {
@@ -74,7 +67,7 @@ App({
           // 2、获取sessionkey
           return that.getSessionkey(params);
         }).then(data => {
-          console.log('获取sessionkey',data);
+          console.log('获取sessionkey', data);
           that.globalData.sessionKey = data.session_key;
           that.globalData.openid = data.openid;
           wx.setStorageSync('sessionKey', data.session_key);
@@ -85,9 +78,9 @@ App({
           }
           // 3、是否绑定手机
           return that.checkPhone(params)
-        }).then(data=>{
+        }).then(data => {
           resolve(data);
-        }).catch(data=>{
+        }).catch(data => {
           reject(data)
         })
     })
@@ -108,7 +101,7 @@ App({
         }
         return that.loginNew(params);
       }).then(data => {
-        console.log('uid',data.uid);
+        console.log('uid', data.uid);
         that.globalData.uid = data.uid;
         wx.setStorageSync('userUid', data.uid); //存储uid
         //绑定门店
@@ -224,13 +217,13 @@ App({
   /**
    * 拨打电话
    */
-  calling: function(phone = __config.serverPhone) {
+  calling: function (phone = __config.serverPhone) {
     wx.makePhoneCall({
       phoneNumber: phone,
-      success: function() {
+      success: function () {
         console.log("拨打电话成功！")
       },
-      fail: function() {
+      fail: function () {
         console.log("拨打电话失败！")
       }
     })
@@ -256,11 +249,11 @@ App({
       let { detail: { formId = '' } } = e;
       let timeStamp = Date.parse(new Date()) / 1000;//时间戳
       if (formId.includes('formId')) {
-        wx.showToast({
-          title: '请用手机调试',
-          icon: 'loading',
-          duration: 2000
-        });
+        // wx.showToast({
+        //   title: '请用手机调试',
+        //   icon: 'loading',
+        //   duration: 2000
+        // });
         reject('要使用手机调试才有formId！');
         return;
       };
@@ -278,7 +271,7 @@ App({
   /**
    * 提交订单
    */
-  saveId: function(formIds) {
+  saveId: function (formIds) {
     var that = this;
     var uid = wx.getStorageSync('userUid');
     if (uid == undefined || uid == '') {
@@ -323,7 +316,7 @@ App({
     });
   },
   /**发送消息 */
-  send: function(order_no) {
+  send: function (order_no) {
     var that = this;
     var uid = wx.getStorageSync('userUid');
     if (uid == undefined || uid == '') {

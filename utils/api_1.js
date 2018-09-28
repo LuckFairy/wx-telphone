@@ -57,7 +57,7 @@ var Api = {
           if (params != null) {
             paramsText = JSON.stringify(params);
           }
-           console.log("请求: " + url + " 传参: " + paramsText + " 返回：" + JSON.stringify(res.data));
+          //  console.log("请求: " + url + " 传参: " + paramsText + " 返回：" + JSON.stringify(res.data));
         }
         typeof callback === 'function' && callback(null, res.data, res.statusCode)
       },

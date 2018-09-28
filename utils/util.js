@@ -81,32 +81,30 @@ function getAddress() {
   })
 }
 /**
+ * 调用微信地址
+ */
+/**
  * 调用定位接口
  */
 function getLocation() {
   return new Promise((resolve, reject) => {
-    // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
-    wx.getSetting({
-      success(res) {
-        if (!res.authSetting['scope.userLocation	']) {
-          wx.authorize({
-            scope: 'scope.userLocation',
-            success() {
-              // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
-              wx.getLocation({
-                success: function (res) {
-                  resolve(res);
-                },
-                fail: function (err) {
-                  reject(err || '用户定位失敗')
-                }
-              })
-            }
-          })
+    let logLat = wx.getStorageSync("logLat");
+    if (logLat && logLat != []) {
+      resolve(logLat)
+    } else {
+      wx.getLocation({
+        success: function (res) {
+          var latitude = res.latitude,
+            longitude = res.longitude //维度，经度
+          var logLat = [longitude, latitude];
+          wx.setStorageSync('logLat', logLat);
+          resolve(logLat);
+        },
+        fail: function (err) {
+          reject(err || '用户定位失敗')
         }
-      }
-    })
+      })
+    }
   })
 }
-
-module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile, getAddress,getLocation}
+module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile, getAddress, getLocation }
