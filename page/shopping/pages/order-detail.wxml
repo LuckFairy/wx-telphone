@@ -17,7 +17,7 @@
     <block wx:if="{{send_type==2}}">
       <view class="name-phone-view">
         <view class="mText address-order-list">
-          <image class='address-image' src='../../../image/address.png'></image>
+          <image class='address-image' src='../../image/address.png'></image>
           自提门店：{{physical_info.name}}
         </view>
       </view>
@@ -26,7 +26,7 @@
     <block wx:else>
       <view class="name-phone-view">
         <view wx:if="{{newType != 1}}" class="mText address-order-list">
-          <image class='address-image' src='../../../image/address.png'></image>
+          <image class='address-image' src='../../image/address.png'></image>
           收货人：{{orderData.address_user}}
         </view>
         <view wx:if="{{orderData.address_tel}}" class="mText address-order-list">{{userTel}}</view>

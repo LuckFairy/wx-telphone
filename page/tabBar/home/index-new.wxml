@@ -14,7 +14,7 @@
     <swiper wx:if='{{dataImg.length > 0}}' autoplay='autoplay' class='list-header-image' indicator-dots='true' indicator-active-color='#ff3030' indicator-color='#ffffff' interval='3000' circular='true'>
       <swiper-item class='list-header-image' wx:for='{{dataImg}}' wx:key="{{index}}">
         <view class='header-image' bindtap='areaClickGo' data-type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
-          <image class='header-image' mode='aspectFill' lazyLoad="true" src='{{item.redi_type?item.banner:"./imgs/head-no.png"}}' />
+          <image class='header-image' mode='aspectFill' lazyLoad="true" src='{{item.redi_type?item.banner:"../../image/tab/head-no.png"}}' />
         </view>
       </swiper-item>
     </swiper>
@@ -22,7 +22,7 @@
       <swiper-item class='list-header-image'>
         <!-- <navigator class='header-image' url="../../common/pages/shop-promotion"> -->
         <navigator class='header-image'>
-          <image src='./imgs/head-no.png' mode='aspectFill' lazyLoad="true"></image>
+          <image src='../../image/tab/head-no.png' mode='aspectFill' lazyLoad="true"></image>
         </navigator>
       </swiper-item>
     </swiper>
@@ -33,12 +33,9 @@
         <text class='title'>{{physicalClost.name}}</text>
         <text class='message'>{{physicalClost.address}}</text>
       </view>
-      <!-- <view  class='shop-area-right' catchtap='setClick'>
-        <image class='icon' src="{{set_flag? '../../image/shop-set-select.png':'../../image/shop-set.png'}}"></image>
-        <text>设为默认</text>
-      </view> -->
+      
       <navigator wx:if="{{changeFlag}}" url="../../common/pages/store-list?check=true&index=true&flag=true" class='shop-area-right'>
-        <image class='icon' src='../../../image/shop-icon.png'></image>
+        <image class='icon' src='../../image/shop-icon.png'></image>
         <text>切换门店</text>
       </navigator>
     </view>
@@ -48,14 +45,14 @@
     <!-- 卡包选项区开始 -->
     <view class='card' bindtap='goCardLists'>
       <view class='card_body'>
-        <image src="./imgs/mycard.png" class='card_img_1'></image>
+        <image src="../../image/tab/mycard.png" class='card_img_1'></image>
         <view class='card_view'>
           有<text class='card_text_3_red'>{{card_num}}</text>张未使用券
         </view>
       </view>
       <view class='card-more'>
         去看看
-        <image class='more-image' src='./imgs/next-page.png'></image>
+        <image class='more-image' src='../../image/tab/next-page.png'></image>
       </view>
     </view>
     <!--優惠券區域  -->
@@ -71,7 +68,7 @@
           </view>
           <view wx:if="{{value.is_get==1}}">
             <text>马上领取</text>
-            <image src='../../../image/coupon-arow.png'></image>
+            <image src='../../image/coupon-arow.png'></image>
           </view>
           <view wx:else>
             <text>已领取</text>
@@ -90,7 +87,7 @@
     <form bindsubmit='clickGo' report-submit='true' wx:if='{{indexIcon.length>0}}'>
     <view class='list-area'>
       <view wx:for="{{indexIcon}}">
-        <image class='list-area-item' mode='scaleToFill' src='{{item.icon}}'></image>
+        <image class='list-area-item' mode='aspectFill' src='{{item.icon}}'></image>
         <button form-type='submit' class='sub-button' data-index="{{item.redi_type}}">按钮</button>
       </view>
     </view>
@@ -101,7 +98,7 @@
         <text class='pinduodudo-text-title'>{{pt_txt}}</text>
         <view class='pinduoduo-more' bindtap="clickGoGroup">
           <text class='more-text'>查看全部</text>
-          <image class='more-image' src='./imgs/pt-next-page.png'></image>
+          <image class='more-image' src='../../image/tab/pt-next-page.png'></image>
         </view>
       </view>
       <view class='pinduoduo-content' >
@@ -134,9 +131,9 @@
 
     <!--精选专区区域  -->
     <view class='area-title'>
-      <!-- <image src='../../../image/start.png'></image> -->
+      <!-- <image src='../../image/start.png'></image> -->
       <text>精选活动</text>
-      <!-- <image src='../../../image/start.png'></image> -->
+      <!-- <image src='../../image/start.png'></image> -->
     </view>
     <block wx:if="{{productData.length>0}}" wx:for="{{productData}}" wx:for-index="{{index}}">
       <view class='area-content' bindtap='areaClickGo' data-type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
@@ -150,14 +147,14 @@
           <text>剩{{item.tdays}}天</text>
         </view>
         <view hidden>
-          <image src='../../../image/discount.png'></image>
+          <image src='../../image/discount.png'></image>
           <text >{{item.msg}}会员尊享6折优惠</text>
         </view>
       </view>
     </block>
 
     <view wx:if="{{productData.length<1}}" class='no-data'>
-      <image src='../../../image/no-data.png'></image>
+      <image src='../../image/no-data.png'></image>
       <view class='no-data-txt'>暂无内容</view>
     </view>
 
@@ -167,7 +164,7 @@
 </scroll-view>
 
 <!--返回顶部按钮开始  -->
-<image wx:if="{{goTop_show}}" bindtap="goTopFun" class='yiya-top-image' src='../../../image/go-to-top.png'></image>
+<image wx:if="{{goTop_show}}" bindtap="goTopFun" class='yiya-top-image' src='../../image/go-to-top.png'></image>
 <!--返回顶部按钮结束  -->
 
 

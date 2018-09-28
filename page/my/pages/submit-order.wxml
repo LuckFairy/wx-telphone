@@ -2,7 +2,7 @@
     <view class="all-list">
         <view class="all-com-fri-det">
             <view class="all-commodity-img">
-                <image class="all-com" src="../../../image/clus-list-img.jpg"></image>
+                <image class="all-com" src="../../image/clus-list-img.jpg"></image>
             </view>
             <view class="all-commodity-text">
                 <view class="all-com-tit">
@@ -26,7 +26,7 @@
     <!--收货地址列表开始  -->
     <view class='address-wrap'>
       <view class='address-title'>
-        <image class='address-mail-img' src='../../../image/beautiful-see.png'></image>
+        <image class='address-mail-img' src='../../image/beautiful-see.png'></image>
         <text class='address-mail'>邮寄</text>
       </view>
       <view class='address-list'>

@@ -1,6 +1,4 @@
-<!--pages/cart/cart.wxml-->
-<!-- <import src="../../template/modal.wxml" /> -->
-<!-- <template wx:if="{{showErrModal==true}}" is="text-error-modal" data="{{...errModalConfig}}" /> -->
+
 
 <import src="../../template/get-tel.wxml" />
 <template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{templateData}}"></template>
@@ -30,7 +28,7 @@
   <!--样式-->
   <view class="container carts-list" wx:if='{{hasShop==0}}'>
     <view class="pp">
-      <image class='pp-null' src='./imgs/shop-null.png'></image>
+      <image class='pp-null' src='../../image/tab/shop-null.png'></image>
       <text class='pp-text'>购物车还是空的哦</text>
       <view class='pp-goindex' bindtap='goindex'>去逛逛</view>
     </view>
@@ -53,7 +51,7 @@
             
             <text class='cart-text-list' wx:if="{{item.sku_data.length > 0}}" wx:for="{{item.sku_data}}" wx:for-item="item2">{{item2.name}}:{{item2.value}} </text>    
           </view>
-          <image class="cart-img-list" src="../../../image/delete.png" bindtap="removeShopCard" data-uid='{{uid}}' data-card-id='{{item.pigcms_id}}' data-store-id='{{store_id}}' data-index='{{index}}'></image>
+          <image class="cart-img-list" src="../../image/delete.png" bindtap="removeShopCard" data-uid='{{uid}}' data-card-id='{{item.pigcms_id}}' data-store-id='{{store_id}}' data-index='{{index}}'></image>
         </view>
         <view class="cart-frice-list-far">
           <text class="cart-frice-list">￥{{item.price}}</text>
@@ -108,98 +106,3 @@
 <view class='errorModel' wx:if="{{error}}">
   <text>{{error}}</text>
 </view>
-<!--拼团购  -->
-<!-- <view class="group-shop-father">
-  <view class="group-shop" wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}" bindtap='goGroupDetail' data-productId='{{item.productId}}' data-groupbyId='{{item.groupbuyId}}' data-sellDetail='{{(item.quantity>0)?1:0}}'>
-    <image class="group-shop-image" src="{{item.productPic}}"></image>
-    <text class="group-shop-title">{{item.productName}}</text>
-    <view class='group-shopping-wraps'>
-      <text class="group-shop-num">￥{{item.groupbuyPrice}}</text>
-      <text class="group-shop-num group-shop-num-two">￥{{item.productPrice}}</text>
-    </view> -->
-<!--在售  -->
-<!-- <view class="group-shop-bottom" wx:if='{{item.quantity>0}}'>
-      <view class='group-shopping-father'>
-        <text class="gro-pre" style='display:none'>已团{{item.gbnum}}件</text>
-        <text class="gro-pre">仅剩{{item.quantity}}件</text>
-      </view>
-      <text class='shopping-go-group'>去开团</text>
-    </view> -->
-<!--在售  -->
-<!--已售罄  -->
-<!-- <view class="group-shop-bottom" wx:if='{{item.quantity<=0}}'>
-      <view class='group-shopping-father'>
-        <text class="gro-pre">{{item.gbnum+item.quantity}}件已售完</text>
-      </view>
-
-      <text class='shopping-go-group-end'>已售罄</text>
-    </view> -->
-<!--已售罄结束  -->
-<!-- </view>
-</view> -->
-<!--拼团购  -->
-
-
-
-
-<!--222  -->
-<!-- <block wx:for="{{hotsaleGoing}}" wx:key="{{item.prodId}}">
-  <navigator class="goods-item-view" url="../../home/pages/goods-detail?prodId={{item.prodId}}">
-    <view class="hot-img">
-      <image mode='widthFix' class="img-hot-com" src="{{item.bannerImage}}"></image>
-    </view>
-    </navigator>
-    <view class="hot-rec-text-wrap">
-      <text class="hot-rec-text">{{item.prodName}}</text>
-      <view class="hot-rec-text-down">
-        <text class="hot-rec-del">仅剩：</text>
-        <template is="count-down" data="{{...item.countDown}}" />
-      </view>
-    </view>
-  
-</block> -->
-<!-- <view class="hot-list-gro">
-  <text class="hot-list-gro-text">热门推荐</text>
-</view>
-<view class="group-shop-father">
-  <view class="group-shop">
-    <image class="group-shop-image" src="../../../image/group-shop.jpg"></image>
-    <text class="group-shop-title">防火防盗回复的vkldfl</text>
-    <text class="group-shop-num">已团2333件</text>
-    <view class="group-shop-bottom">
-      <text class="gro-now">￥333</text>
-      <text class="gro-pre">￥222</text>
-      <text class="go-gro">去开团</text>
-    </view>
-  </view>
-  <view class="group-shop">
-    <image class="group-shop-image" src="../../../image/group-shop.jpg"></image>
-    <text class="group-shop-title">防火防盗回复的vkldfl</text>
-    <text class="group-shop-num">已团2333件</text>
-    <view class="group-shop-bottom">
-      <text class="gro-now">￥333</text>
-      <text class="gro-pre">￥222</text>
-      <text class="go-gro">去开团</text>
-    </view>
-  </view>
-  <view class="group-shop">
-    <image class="group-shop-image" src="../../../image/group-shop.jpg"></image>
-    <text class="group-shop-title">防火防盗回复的vkldfl</text>
-    <text class="group-shop-num">已团2333件</text>
-    <view class="group-shop-bottom">
-      <text class="gro-now">￥333</text>
-      <text class="gro-pre">￥222</text>
-      <text class="go-gro">去开团</text>
-    </view>
-  </view>
-  <view class="group-shop">
-    <image class="group-shop-image" src="../../../image/group-shop.jpg"></image>
-    <text class="group-shop-title">防火防盗回复的vkldfl</text>
-    <text class="group-shop-num">已团2333件</text>
-    <view class="group-shop-bottom">
-      <text class="gro-now">￥333</text>
-      <text class="gro-pre">￥222</text>
-      <text class="go-gro">去开团</text>
-    </view>
-  </view>
-</view> -->

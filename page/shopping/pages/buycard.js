@@ -304,7 +304,7 @@ Page({
   */
   showModal(type = 'err', config) {  // type: success||err
     var successModalConfig = {
-      image: '../resources/conupon-img.png',
+      image: '../../image/conupon-img.png',
       title: '优惠券使用说明',
       firstText: '1、通用券和指定券不能同时使用',
       secondText: '2、当券的金额大于订单应付金额时，差额不予退还。',

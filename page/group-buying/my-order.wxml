@@ -5,7 +5,7 @@
 <template wx:if="{{showShareModal}}" is="share-modal" data="{{...shareData}}" />
 
 <view wx:if="{{showFlag}}" class='home' bindtap='onClickHome'>
-  <image class='home-image' src='../../image/icon_home.png'>
+  <image class='home-image' src='../image/icon_home.png'>
   </image>
   <view class='home-text'>
    首页
@@ -110,7 +110,6 @@
           </view>
         </view>
         <view wx:else class="no-data-view">
-          <!-- <image src="../../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
           <icon class='no-data-image'></icon>
           <text class="mText" class="no-data-text">暂时没有订单哦 </text>
           <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
@@ -152,7 +151,6 @@
           </view>
         </view>
         <view wx:else class="no-data-view">
-          <!-- <image src="../../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
           <icon class='no-data-image'></icon>
           <text class="mText" class="no-data-text">暂时没有订单哦 </text>
           <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>

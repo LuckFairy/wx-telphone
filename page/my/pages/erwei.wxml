@@ -1,7 +1,7 @@
   
 <view class='box'>
   <view class='qr-top'>
-    <image src='../resources/sao.png'></image>
+    <image src='../../image/sao2.png'></image>
     <text>自提核销</text>
   </view>
   <view class="qr-view">

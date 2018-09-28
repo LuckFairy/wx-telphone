@@ -14,7 +14,7 @@
     <view class="middle-box">
       <block wx:if="{{preTime>0}}">
         <view class='pre_time'>
-          <image class='pre_time_img' src='./resource/icon_pre_buy.png'></image>
+          <image class='pre_time_img' src='../image/icon_pre_buy.png'></image>
           <view class='pre_time_text'>距开始时间仅剩余
             <text class='pre_time_bj'>{{preTimeText.hour}}</text> 时
             <text class='pre_time_bj'>{{preTimeText.minute}}</text> 分
@@ -110,12 +110,10 @@
     <!--按钮  -->
     <view class="invite-friend-cluster">
       <view class='invite-index invite-total' bindtap='goIndex'>
-        <!-- <image class='invite-index-image' src='../../../image/index-list.png'></image>  -->
         <icon class='invite-index-image'></icon>
         <text class='invite-index-text'>首页</text>
       </view>
       <view class='invite-ke-server invite-total' bindtap='goServer'>
-        <!-- <image class='invite-ke-server-img' src='../../../image/ke-server.png'></image>  -->
         <icon class='invite-ke-server-img'></icon>
         <text class='invite-ke-server-text'>客服</text>
       </view>
@@ -161,7 +159,6 @@
           <view class='shopping-detail-title'>
             <text class='shopping-detail-text'>{{actProduct.name}}</text>
             <icon bindtap='goImageClose' class='shopping-detail-image'></icon>
-            <!-- <image bindtap='goImageClose' class='shopping-detail-image' src='../../../image/close.png'></image> -->
           </view>
           <text class='shopping-detail-price'>价格 {{price}}</text>
           <text class='shopping-detail-have'>库存 {{quantity}}件</text>

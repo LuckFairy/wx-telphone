@@ -29,7 +29,7 @@
     </view>
     <view>
       <text class='shallowBlack'>立即提现</text>
-      <image src='./imgs/c-1.png' style='margin-left:16rpx;width:16rpx;height:28rpx;'></image>
+      <image src='../image/distribution/c-1.png' style='margin-left:16rpx;width:16rpx;height:28rpx;'></image>
     </view>
   </navigator>
 </view>
@@ -49,9 +49,9 @@
 </view>
 <view  class='m-t16 midBox-footer padding'>
   <navigator>
-    <image src='./imgs/ee-1.png'></image>
+    <image src='../image/distribution/ee-1.png'></image>
   </navigator>
   <navigator>
-    <image src='./imgs/ee-2.png'></image>
+    <image src='../image/distribution/ee-2.png'></image>
   </navigator>
 </view>

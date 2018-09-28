@@ -13,7 +13,7 @@
     </view>
   </view>
   <view class='use-ruler' bindtap='goDetails'>
-    <image class='use-ruler-image' src='../../../image/use-ruler.png'></image>
+    <image class='use-ruler-image' src='../../image/use-ruler.png'></image>
     <text class='use-ruler-text' class='keyong-card'>使用规则</text>
   </view>
   <!-- nav详细内容展示区-->
@@ -51,7 +51,7 @@
           </view>
         </view>
         <view wx:else class="no-data-view">
-          <image src="../../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+          <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
           <text class="mText" class="no-data-text">还没有可以用的优惠券
             赶紧去领一个吧</text>
         </view>
@@ -85,7 +85,7 @@
           </block>
         </view>
         <view wx:else class="no-data-view">
-          <image src="../../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+          <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
           <text class="mText" class="no-data-text">还没有可以用的优惠券
             赶紧去领一个吧</text>
         </view>

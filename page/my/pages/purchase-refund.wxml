@@ -1,7 +1,7 @@
 <view class="schedule-header">
     <!-- <view class='schedule-header-img'> -->
-       <image src='../../../image/schedule_1.jpg' wx:if="{{curIndex==1}}"></image>
-       <image src='../../../image/schedule_2.jpg' wx:if="{{curIndex==2}}"></image>   
+       <image src='../../image/schedule_1.jpg' wx:if="{{curIndex==1}}"></image>
+       <image src='../../image/schedule_2.jpg' wx:if="{{curIndex==2}}"></image>   
     <!-- </view> -->
     <view class='schedule-header-text'>
        <text class="schedule_1 {{curActIndex == '0' ? 'oning' : '' }}" >退款通知</text>

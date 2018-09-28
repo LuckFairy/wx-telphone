@@ -7,7 +7,7 @@ let share = require('../template/share.js');
 const shareLaterUrl = 'wxapp.php?c=activity&a=tuan_share_coupon';//拼团活动分享之后的优惠券列表
 var app = getApp();
 let errModalConfig = {
-  image: '../../../image/ma_icon_store_1.png',
+  image: '../../image/ma_icon_store_1.png',
   title: '将二维码出示给门店核销员由门店员核销即可',
 };
 let successModalConfig = {
@@ -691,7 +691,7 @@ Page({
    * 显示错误信息
    */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
+    wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
   },
 

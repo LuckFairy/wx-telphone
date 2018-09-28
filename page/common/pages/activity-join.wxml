@@ -27,7 +27,7 @@
       <picker wx:if="{{item.type=='2'}}" data-id='{{item.id}}' data-index='{{i}}' bindchange="bindPickerChange" value="{{item.index}}" range="{{item.answers}}">
         <view class="question-select">
           {{item.answers[item.index]}}
-          <image src='../imgs/down.png' style='width:29rpx;height:17rpx;float:right;'></image>
+          <image src='../../image/common/down.png' style='width:29rpx;height:17rpx;float:right;'></image>
         </view>
       </picker>
     </view>
@@ -52,7 +52,7 @@
       </view>
     </block>
     <view class='item-btn' catchtap='addList' style="padding:20rpx 0">
-        <image src='../imgs/add-btn.png'></image>
+        <image src='../../image/common/add-btn.png'></image>
         <text>再添加一个宝宝</text>
     </view>
   </view>
@@ -68,7 +68,7 @@
         <block wx:if="{{!item.flag}}">
           <image src="{{item.url}}" class="image-content" data-index="{{x}}" catchtap='previewImage'>
           </image>
-          <image src="../imgs/icon-del-img.png" data-index="{{x}}" class="image-delete" catchtap='delImage'>
+          <image src="../../image/common/icon-del-img.png" data-index="{{x}}" class="image-delete" catchtap='delImage'>
           </image>
         </block>
         <block wx:else>

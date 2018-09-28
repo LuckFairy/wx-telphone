@@ -116,7 +116,7 @@ Page({
       if (len > 0) {
         var j = len > 2 ? 2 : len;
         for (let i = 0; i < j; i++) {
-          imgNull.push({ img: '../../../image/noNull.png' });
+          imgNull.push({ img: '../image/noNull.png' });
         }
         this.setData({imgNull});
         this.startCountDown(tuan);
@@ -458,7 +458,7 @@ Page({
  * 显示错误信息
  */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../resource/use-ruler.png', mask: true });
+    wx.showToast({ title: errorMsg, image: '../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
     return false;
   },

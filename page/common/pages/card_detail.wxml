@@ -4,7 +4,7 @@
 </loading>
 <view class="card-detail-container">
   <view class="detail-title-view">
-    <image src="../../../image/ma_card_check.png" mode="widthFix" style="width:15px;"></image>
+    <image src="../../image/ma_card_check.png" mode="widthFix" style="width:15px;"></image>
     <view class="detail-title-text-view">优惠券详情</view>
   </view>
   <view class="detail-desc-view">

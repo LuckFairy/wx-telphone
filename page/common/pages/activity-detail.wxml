@@ -1,8 +1,8 @@
-<!-- <import src="../../../utils/wxParse/wxParse.wxml" /> -->
+
 <filter-panel detail="{{ac_detail}}" title="{{ac_title}}" time="{{ac_time}}">
   <view class='footer' slot="footer">
     <view id='gohository' bindtap='gohisitory'>
-      <image src='../imgs/hisitory-icon.png'></image>
+      <image src='../../image/common/hisitory-icon.png'></image>
       参与记录
     </view>
     <view id='gojoin' bindtap="gojoin" data-id='{{id}}'>马上参与</view>

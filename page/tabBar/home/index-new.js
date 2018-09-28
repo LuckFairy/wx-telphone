@@ -61,16 +61,16 @@ Page({
     productData: [], //活动图列表
     valueList: [{
       txt: '正品保障',
-      src: './imgs/card-1.png'
+      src: '../../image/tab/card-1.png'
     }, {
       txt: '假一赔三',
-      src: './imgs/card-2.png'
+      src: '../../image/tab/card-2.png'
     }, {
       txt: '破损包邮',
-      src: './imgs/card-3.png'
+      src: '../../image/tab/card-3.png'
     }, {
       txt: '7天退换',
-      src: 'imgs/card-4.png'
+        src: '../../image/tab/card-4.png'
     }],
     saoma_url: null,
     set_flag: false, //是否設置為默認
@@ -188,17 +188,14 @@ Page({
         store_id
       }
     }, (err, rep) => {
-      if (!err && rep.err_code == 0 && rep.err_msg.data.length>0) {
-        if (rep.err_msg.data.template_id == '1') {
-          return;
-        }
-        console.log(rep.err_msg.data.channel_content)
-        var len = rep.err_msg.data.channel_content.length,
-          arr = [];
-        this.setData({
-          indexIcon: rep.err_msg.data.channel_content
-        })
+      if (err && rep.err_code != 0) { console.error(err || rep.err_msg); return; }
+      if (rep.err_msg.data.template_id == '1') {
+        return;
       }
+      this.setData({
+        indexIcon: rep.err_msg.data.channel_content
+      })
+      
     })
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
@@ -782,7 +779,7 @@ Page({
   _showError(errorMsg) {
     wx.showToast({
       title: errorMsg,
-      image: '../../../image/use-ruler.png',
+      image: '../../image/use-ruler.png',
       mask: true
     });
     this.setData({

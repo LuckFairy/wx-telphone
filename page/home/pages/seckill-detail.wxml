@@ -2,19 +2,19 @@
   <!--轮播图开始  -->
   <swiper class='swiper-shopping' indicator-dots='true' indicator-active-color='#ff3030' autoplay='true' interval='6000' circular='true'>
      <swiper-item>
-      <image mode='widthFix' class='swiper-image-list' src='../../../image/group_pic.png'></image>
+      <image mode='widthFix' class='swiper-image-list' src='../../image/group_pic.png'></image>
     </swiper-item>
     <swiper-item>
-      <image mode='widthFix' class='swiper-image-list' src='../../../image/group_pic.png'></image>
+      <image mode='widthFix' class='swiper-image-list' src='../../image/group_pic.png'></image>
     </swiper-item>
     <swiper-item>
-      <image mode='widthFix' class='swiper-image-list' src='../../../image/group_pic.png'></image>
+      <image mode='widthFix' class='swiper-image-list' src='../../image/group_pic.png'></image>
     </swiper-item>
   </swiper> 
   <!--轮播图结束  -->
   <!--秒杀倒计时开始  -->
   <view class='seckill-count-down'>
-    <image class='seckill-count-image' src='../../../image/seckill-down.png'></image>
+    <image class='seckill-count-image' src='../../image/seckill-down.png'></image>
     <view class='seckill-text-detail'>
       <text class='seckill-text-hint'>限时秒杀</text>
       <view class='seckill-text-times'>
@@ -113,25 +113,25 @@
 <!--商品介绍结束  -->
 <!--下底图片详情  -->
 <view class="bot-image">
-    <image class="bot-img-detail" src="../../../image/card.png" mode="aspectFill"></image>
-    <image class="bot-img-detail" src="../../../image/card.png" mode="aspectFill"></image>
-    <image class="bot-img-detail" src="../../../image/card.png" mode="aspectFill"></image>
-    <image class="bot-img-detail" src="../../../image/card.png" mode="aspectFill"></image>
+    <image class="bot-img-detail" src="../../image/card.png" mode="aspectFill"></image>
+    <image class="bot-img-detail" src="../../image/card.png" mode="aspectFill"></image>
+    <image class="bot-img-detail" src="../../image/card.png" mode="aspectFill"></image>
+    <image class="bot-img-detail" src="../../image/card.png" mode="aspectFill"></image>
 </view>
 <!--图片详情结束  -->
 </view>
 <!--按钮  -->
 <view class="invite-friend-cluster">
     <view class='invite-index invite-total'>
-      <image class='invite-index-image' src='../../../image/index-list.png'></image>
+      <image class='invite-index-image' src='../../image/index-list.png'></image>
       <text class='invite-index-text'>首页</text>
     </view>
     <view class='invite-ke-server invite-total'>
-      <image class='invite-ke-server-img' src='../../../image/ke-server.png'></image>
+      <image class='invite-ke-server-img' src='../../image/ke-server.png'></image>
       <text class='invite-ke-server-text'>客服</text>
     </view>
     <view class='invite-car invite-total'>
-      <image class='invite-car-img' src='../../../image/shop-cart2.png'></image>
+      <image class='invite-car-img' src='../../image/shop-cart2.png'></image>
       <text class='invite-car-num'>81</text>
     </view>
     <view class='add-invite-car invite-total'>
