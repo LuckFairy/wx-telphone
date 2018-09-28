@@ -45,7 +45,6 @@
       </view>
       <view class='mid-list-wraps-image'>
         <button class='mid-open-list share-bt' open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.shareUrl?product.shareUrl:product.product_image_list[0]}}"></button>
-        <!-- <button class='mid-open-list share-bt'></button> -->
         <text class="mid-list-six-top share-txt">分享</text>
       </view>
     </view>
@@ -116,9 +115,9 @@
       <view wx:if="{{action =='present'}}" class='current-buying invite-total' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' bindtap="goPreApply">
         <text class='current-buying-child'>申请试用</text>
       </view>
-      <view wx:if="{{action !='present'}}" class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
-        <text class='current-buying-child'>立即购买</text>
-      </view>
+      <form bindsubmit='doBuy' report-submit='true' wx:if="{{action !='present'}}" class='current-buying invite-total'>
+        <button form-type='submit' class='current-buying-child' data-product-id='{{product.product_id}}'>立即购买</button>
+      </form>
     </block>
 
     <block wx:if="{{preTime>0}}">
@@ -146,7 +145,9 @@
         <text class='invite-car-num'>{{newCartNum}}</text>
         <text class='cart-ke-server-text'>购物车</text>
       </view>
-      <view class='add-invite-car invite-total eee'  style="{{action&&action!=0?'visibility:hidden':''}}">
+
+      <view class='add-invite-car invite-total eee' data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
+
         <text class='add-invite-car-child'>加入购物车</text>
       </view>
       <view class='current-buying invite-total no-goods'>
@@ -172,7 +173,7 @@
   <view class="commodity_attr_list">
     <view class='shopping-images-wrap'>
       <view class='shopping-images'>
-        <image class='order-images' src='{{activity_err_msg.image}}'></image>
+        <image class='order-images' mode='aspectFill' src='{{activity_err_msg.image}}'></image>
       </view>
       <view class='shopping-detail'>
         <view class='shopping-detail-title-price'>
@@ -181,8 +182,8 @@
             <icon bindtap='goImageClose' class='shopping-detail-image'></icon>
 
           </view>
-          <text wx:if="{{product.special}}" class='shopping-detail-price'>价格 {{activity_err_msg.price}}</text>
-          <text wx:elif="{{product.price}}" class='shopping-detail-price'>价格 {{choPrice?choPrice:activity_err_msg.price}}</text>
+          <!-- <text wx:if="{{product.special}}" class='shopping-detail-price'>价格 {{activity_err_msg.price}}</text> -->
+          <text wx:if="{{product.price}}" class='shopping-detail-price'>价格 {{choPrice?choPrice:activity_err_msg.price}}</text>
           <text wx:else class='shopping-detail-price'>价格 {{activity_err_msg.original_price}}</text>
           <text class='shopping-detail-have'>库存 {{choQuantity?choQuantity:activity_err_msg.quantity}}件</text>
         </view>

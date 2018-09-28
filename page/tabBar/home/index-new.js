@@ -12,7 +12,7 @@ import {
 let app = getApp();
 
 const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon'; //优惠券列表数据
-const activityUrl_v1 ="wxapp.php?c=index_activity&a=jx_activity_v2";//精选活动（第二版）
+const activityUrl_v1 = "wxapp.php?c=index_activity&a=jx_activity_v2";//精选活动（第二版）
 const activityUrl_v2 = 'wxapp.php?c=index_activity&a=jx_activity_v3'; //精选活动（第三版）
 const headImg_v3 = 'wxapp.php?c=product&a=banner_list_v3'; //轮播图接口（第三版）
 const headImg_v4 = 'wxapp.php?c=product&a=banner_list_v4'; //轮播图接口（第四版）
@@ -30,7 +30,7 @@ Page({
   data: {
     random: parseInt(40 * Math.random()), //随机数
     hasPhone: false, //是否有手机
-    isInfo:true,
+    isInfo: true,
     showpopteamModle: false, //true有拼团信息，弹窗
     popteamData: null, //弹窗拼团信息
     popteamNicke: null, //弹窗名字
@@ -95,7 +95,7 @@ Page({
       app.login(params).then(() => {
         console.log('弹窗取消')
         that.setData({
-          hasPhone: true, isInfo:false
+          hasPhone: true, isInfo: false
         })
       }).catch(() => {
         console.log('弹窗弹窗')
@@ -109,24 +109,24 @@ Page({
       })
     }
   },
-  onGotUserInfo(e){
+  onGotUserInfo(e) {
     let that = this;
-    console.log('getUserInfo....',e.detail);
-    if (e.detail.errMsg == "getUserInfo:ok"){
+    console.log('getUserInfo....', e.detail);
+    if (e.detail.errMsg == "getUserInfo:ok") {
       that.setData({
         isInfo: true
       });
-    let userTimer= setInterval(()=>{
+      let userTimer = setInterval(() => {
         uid = wx.getStorageSync('userUid');
-        if (uid){
+        if (uid) {
           clearInterval(userTimer);
           //获取用户信息
           var url = "wxapp.php?c=wechatapp_v2&a=bind_userinfo";
           var params = { "uid": uid, "store_id": app.store_id, "userinfo": e.detail.userInfo }
           app.api.postApi(url, { params }, (err, res) => { })
         }
-      },1000);
-    }else{
+      }, 1000);
+    } else {
       that.setData({
         isInfo: false
       });
@@ -135,7 +135,7 @@ Page({
   /**
    * 收集formid
    */
-  submitOrder: function(e) {
+  submitOrder: function (e) {
     let that = this;
     app.pushId(e).then(ids => {
       app.saveId(ids)
@@ -144,7 +144,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     let that = this;
     //门店locationid
     if (options.locationid) {
@@ -183,24 +183,18 @@ Page({
       });
     })
 
-    
-
     app.api.postApi(tabUrl, {
       "params": {
         store_id
       }
     }, (err, rep) => {
-      if (!err && rep.err_code == 0 && rep.err_msg.data.length>0) {
-        if (rep.err_msg.data.template_id == '1') {
-          return;
-        }
-        console.log(rep.err_msg.data.channel_content)
-        var len = rep.err_msg.data.channel_content.length,
-          arr = [];
-        this.setData({
-          indexIcon: rep.err_msg.data.channel_content
-        })
+      if (err && rep.err_code != 0 ) {console.error(err||rep.err_msg);return;}
+      if (rep.err_msg.data.template_id == '1') {
+        return;
       }
+      this.setData({
+        indexIcon: rep.err_msg.data.channel_content||[]
+      })
     })
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
@@ -232,14 +226,14 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
-    console.log(this.route)
+  onShow: function () {
+   console.log(this.route)
     if (app.globalData.uid) {
       this.loadMyCardNumData(); //我的卡包数量
       this.getCoupValue(); //优惠券数据
     }
     this.loadGroupData(); //拼多多数据
-    
+
   },
   _parse() {
     var that = this;
@@ -255,9 +249,9 @@ Page({
     })
   },
   /**顶部轮播图  **/
-  loadHeadicon(phy_id,flag) {
+  loadHeadicon(phy_id, flag) {
     let that = this;
-    var flag = flag||wx.getStorageSync("phy_flag");
+    var flag = flag || wx.getStorageSync("phy_flag");
     if (flag) {
       var params = {
         store_id, //店铺id
@@ -288,29 +282,30 @@ Page({
   /**
    * 首页精选活动数据
    */
-  loadactivityData(phy_id,flag) {
+
+  loadactivityData(phy_id, flag) {
     wx.showLoading({
       title: '加载中...',
       mask: true,
     });
-    var flag =flag|| wx.getStorageSync("phy_flag");
-    if(flag){
+    var flag = flag || wx.getStorageSync("phy_flag");
+    if (flag) {
       var params = {
         store_id, //店铺id
         physical_id: phy_id,
         uid,
         page: '1',
       },
-      activityUrl=activityUrl_v2;
-    }else{
+        activityUrl = activityUrl_v2;
+    } else {
       var params = {
         store_id, //店铺id
         uid,
         page: '1',
       },
-      activityUrl = activityUrl_v1;
+        activityUrl = activityUrl_v1;
     }
-    
+
     app.api.postApi(activityUrl, {
       params
     }, (err, resp) => {
@@ -334,7 +329,7 @@ Page({
 
     });
   },
-  loadMyCardNumData: function() {
+  loadMyCardNumData: function () {
     var uid = this.data.uid,
       params = {},
       that = this;
@@ -455,20 +450,20 @@ Page({
   /**
    * 是否定位成功
    */
-  isLoglat(){
+  isLoglat() {
     let that = this;
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       logLat = wx.getStorageSync('logLat');
-      if(!logLat||logLat==''){
+      if (!logLat || logLat == '') {
         that.timer1 = setTimeout(() => {
           logLat = wx.getStorageSync('logLat');
           if (logLat) {
             resolve();
-          }else{
+          } else {
             reject();
           }
         }, 1500);
-      }else{
+      } else {
         resolve();
       }
     })
@@ -487,22 +482,22 @@ Page({
       title: '加载中'
     });
     new Promise(resolve => {
-        app.api.postApi(url, {
-          params
-        }, (err, resp) => {
-          // 列表数据
-          wx.hideLoading();
-          if (resp.err_code != 0) {
-            //that.setData({changeFlag: false});//总店没有返回值
-            return;
-          }
-          phyDefualt = resp.err_msg.physical_list[0];
-          that.setData({
-            physicalClost: phyDefualt
-          })
-          resolve(phyDefualt);
-        });
-      })
+      app.api.postApi(url, {
+        params
+      }, (err, resp) => {
+        // 列表数据
+        wx.hideLoading();
+        if (resp.err_code != 0) {
+          //that.setData({changeFlag: false});//总店没有返回值
+          return;
+        }
+        phyDefualt = resp.err_msg.physical_list[0];
+        that.setData({
+          physicalClost: phyDefualt
+        })
+        resolve(phyDefualt);
+      });
+    })
       .then(data => {
         wx.setStorageSync('phy_id', data.phy_id);
         that.loadHeadicon(data.phy_id); //首页轮播图
@@ -547,7 +542,7 @@ Page({
       wx.setStorageSync('phy_id', list.pigcms_id);
       that.loadHeadicon(list.pigcms_id); //首页轮播图
       that.loadactivityData(list.pigcms_id); //活动图数据
-      that.setData({ physicalClost: list})
+      that.setData({ physicalClost: list })
     });
   },
   /**
@@ -598,7 +593,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
@@ -607,45 +602,45 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
     this.stopCountDown();
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   },
   //跳到拼多多列表页
-  clickGoGroup: function() {
+  clickGoGroup: function () {
     wx.navigateTo({
       url: '../../group-buying/grouplist',
     })
   },
   //咿呀拼多多三条数据
-  loadGroupData: function() {
+  loadGroupData: function () {
     wx.showLoading({
       title: '加载中'
     });
@@ -657,7 +652,7 @@ Page({
       wx.hideLoading();
       if (err || rep.err_code != 0) return;
       var data = rep.err_msg;
-      if(data&&data.length>0){
+      if (data && data.length > 0) {
         this.setData({
           groupData: [data[0]]
         });
@@ -665,7 +660,7 @@ Page({
     });
   },
   //跳到拼团商品页
-  clickGoGroupProduct: function(e) {
+  clickGoGroupProduct: function (e) {
     var {
       prodid,
       tuanid,
@@ -683,7 +678,7 @@ Page({
   },
 
   //跳到秒杀列表页
-  clickGoSecKill: function(e) {
+  clickGoSecKill: function (e) {
     var type = e.currentTarget.dataset.type;
     var index = e.currentTarget.dataset.index;
     wx.navigateTo({
@@ -692,7 +687,7 @@ Page({
 
   },
   //跳到秒杀商品页
-  clickGoSecKillProduct: function(e) {
+  clickGoSecKillProduct: function (e) {
     var prodId = e.target.dataset.prodid; //商品ID
     var productPrice = e.target.dataset.productprice; //商品原来价格
     var skPrice = e.target.dataset.skprice; //商品秒杀价格
@@ -792,7 +787,7 @@ Page({
     return false;
   },
   //点击事件banner菜单
-  clickGo: function(e) {
+  clickGo: function (e) {
     let that = this;
     let {
       index
@@ -877,7 +872,7 @@ Page({
         case "4":
           var url = `../../common/pages/shop-list?categoryid=102&page=1&store_id=${store_id}&title=百货专区`;
           break;
-          //宝宝模块
+        //宝宝模块
         case "5":
           var url = `../../common/pages/index-boabao?listId=0&catId=92`;
           break;
@@ -893,7 +888,7 @@ Page({
         case "9":
           var url = `../../common/pages/index-boabao?listId=4&catId=97`;
           break;
-          //礼包特卖模块
+        //礼包特卖模块
         case "10":
           var url = `../../common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`;
           break;

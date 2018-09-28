@@ -239,7 +239,17 @@ Page({
   onInviteFriends() {
 
   },
-
+  /**
+   * 自提二维码
+   */
+  goErwei(e) {
+    let { orderId, physical } = e.currentTarget.dataset;
+    physical = JSON.stringify(physical);
+    if (!orderId) { return; }
+    wx.navigateTo({
+      url: `../../my/pages/erwei?order_no=${orderId}&physical_info=${physical}`,
+    })
+  },
   /**
    * 加载订单数据 //加载订单数据，新接口使用post方法
    * onLoaded: 加载成功回调函数
@@ -270,7 +280,7 @@ Page({
         let expireTime = item.end_time * 1000;
         item.diffTime = (expireTime - now) / 1000;
         allOrders.push(item);
-        let status = item.status;
+        let status = item.status;//拼团状态,0=进行中，1=成功，2=失效，3=去支付
         if (status == ORDER_TYPE_PENDING) {     //0：进行中
           waitOrders.push(item);
         } if (status == ORDER_TYPE_SUCCESS) { //1：成功

@@ -340,7 +340,7 @@ Page({
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
-    var product_id = e.currentTarget.dataset.productId;
+    var product_id = e.detail.target.dataset.productId;
     // that.setData({
     //   moreChoose: true,
     //   oneMatching: oneMatching,
@@ -620,7 +620,7 @@ Page({
     if (oneMatching.length > 0) {
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
-
+    console.log(e)
     var product_id = e.currentTarget.dataset.productId;
     that.setData({
       moreChoose: true,

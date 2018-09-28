@@ -1,3 +1,18 @@
+button::after{
+  border: 0;
+}
+button{
+  background: #fff;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background:none;
+  border-radius:0;
+  box-sizing:content-box;
+  -webkit-tap-highlight-color:transparent;
+  border-color:none;
+
+}
 .share-btn{
   position: absolute;
   visibility: hidden;
@@ -1314,18 +1329,14 @@ button[type=warn] {
   font-size: 30rpx;
 }
 
-.current-buying {
-  width: 225rpx;
-  background: #ffe71c;
-  font-size: 0rpx;
-}
-
 .current-buying-child {
   display: block;
   height: 88rpx;
   width: 225rpx;
   font-size: 28rpx;
   color: #1b1b1b;
+  background: #ffe71c;
+  border-color:none;
 }
 
 .current-rob {

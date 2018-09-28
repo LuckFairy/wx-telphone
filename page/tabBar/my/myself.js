@@ -1,6 +1,5 @@
 
 var app = getApp();
-// import { getuserInfo } from '../../../utils/util.js';
 let hasPhone = wx.getStorageSync('hasPhone');
 let phone = wx.getStorageSync('phone');
 let uid = wx.getStorageSync('userUid');
@@ -99,6 +98,7 @@ Page({
       url: '../../common/pages/mycard'
     });
   },
+
   gostore (){
     wx.navigateTo({
       url: '../../common/pages/store-list'

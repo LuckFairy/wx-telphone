@@ -17,8 +17,9 @@
         </view>
       </view>
     </view>
-    <view wx:if='{{phone}}' class='myself-address myself-phone'>
+    <view class='myself-phone'>
       <text class='myself-id'>{{phone}}</text>
+      <text class='myself-id'>UID:{{uid}}</text>
     </view>
     <!-- <view wx:if='{{uid}}' class='myself-address myself-phone'>
       <text class='myself-id'>{{uid}}</text>
@@ -86,7 +87,8 @@
       <image class='my-go-img' src='../../../image/group-go.png'></image>
     </view>
   </view>
-  <view class='my-detail-msg' bindtap='gostore'>
+
+  <view class='my-detail-msg my-store-service' bindtap='gostore'>
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../../image/store-fingerpost.png'></image>
       <text class='my-gro-text'>门店指南</text>
@@ -95,7 +97,7 @@
       <image class='my-go-img' src='../../../image/group-go.png'></image>
     </view>
   </view>
-  <view class='my-detail-msg my-store-service' bindtap='goStoreServer'>
+  <view class='my-detail-msg ' bindtap='goStoreServer'>
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../../image/store-service.png'></image>
       <text class='my-gro-text'>商城客服</text>

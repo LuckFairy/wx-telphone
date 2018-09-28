@@ -44,7 +44,7 @@ App({
     })
   },
   getLocation: function () {
-    this.WxService.getLocation()
+    return this.WxService.getLocation()
       .then(res => {
         var latitude = res.latitude, longitude = res.longitude //维度，经度
         var logLat = [longitude, latitude];
@@ -256,11 +256,11 @@ App({
       let { detail: { formId = '' } } = e;
       let timeStamp = Date.parse(new Date()) / 1000;//时间戳
       if (formId.includes('formId')) {
-        wx.showToast({
-          title: '请用手机调试',
-          icon: 'loading',
-          duration: 2000
-        });
+        // wx.showToast({
+        //   title: '请用手机调试',
+        //   icon: 'loading',
+        //   duration: 2000
+        // });
         reject('要使用手机调试才有formId！');
         return;
       };

@@ -3,7 +3,6 @@
 <template wx:if="{{showShareModal}}" is="share-modal" data="{{...shareData}}" />
 <template wx:if="{{showErrModal}}" is="text-erwei-modal" data="{{...errModalConfig}}" />
 <template wx:if="{{showSuccessModal}}" is="text-comfirm-modal" data="{{...successModalConfig}}" />
-
 <view wx:if="{{showFlag}}" class='home' bindtap='onClickHome'>
   <image class='home-image' src='../../../image/icon_home.png'>
   </image>
@@ -40,6 +39,8 @@
   </scroll-view>
   <!-- order.status 0  临时订单 1 未支付 2 未发货 3已发货（对应待收货） 4 已完成 、7 已收货（已收货） 5已取消 6 退款中（处理中）-->
   <!-- order.tuan_info.status拼团状态id,0=进行中，1=成功，2=失效，3=去支付 -->
+  <!-- order.is_trial_product新品试用 0否 1是-->
+  <!-- order.send_type 自提 1否 2是 -->
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
     <!--全部  -->
     <swiper-item style='overflow-y: auto'>
@@ -52,21 +53,14 @@
         </view>
 
         <block wx:else>
-          <view wx:for='{{allOrders}}' wx:for-item="order" wx:key="{{order.order_no_txt}}" class="order-item-view navigator purchase-data-total" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}"  data-new-trial="{{order.is_trial_product}}" bindtap="{{(order.is_tuan==1&&order.tuan_info.status==2)?'':'pushToOrderDetail'}}">
-            <view class='purchase-data-sd'>
-              <text class='purchase-data-number'>{{order.add_time}}</text>
-              <text wx:if='{{order.is_tuan==1}}' class='purchase-data-back'>拼团{{order.tuan_info.status_txt}}</text>
-              <text wx:elif='{{order.is_tuan==0&&order.status==1}}' class='purchase-data-back'>未支付</text>
-              <!--新品试用  -->
-              <text wx:elif='{{order.status==2}}' class='purchase-data-back'>
-              <text class='purchase-data-back' wx:if="{{order.is_trial_product==1}}">待收货</text>
-              <text class='purchase-data-back' wx:if="{{order.is_trial_product==0}}">未发货</text>
-              </text>
-              <text wx:elif='{{order.status==3}}' class='purchase-data-back'>待收货</text>
-              <text wx:elif='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
-              <text wx:elif='{{order.status==5}}' class='purchase-data-back'>已取消</text>
-            </view>
-            <block wx:if="{{order.is_tuan==0}}">
+          <view wx:for='{{allOrders}}' wx:for-item="order" wx:key="{{order.order_no_txt}}" class="order-item-view navigator purchase-data-total" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-new-trial="{{order.is_trial_product}}"
+            bindtap="{{(order.is_tuan==1&&order.tuan_info.status==2)?'':'pushToOrderDetail'}}">
+            <!-- 自提 -->
+            <block wx:if="{{(order.send_type==2&&order.status==2&&order.is_trial_product==0)||(order.send_type==2&&order.status==3)}}">
+              <view class='purchase-data-sd yellow-bg'>
+                <text class='purchase-data-number'>{{order.add_time}}</text>
+                <text class='purchase-data-back'>待自提</text>
+              </view>
               <block>
                 <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
                   <view class='purchase-shop-list'>
@@ -85,64 +79,101 @@
                 </view>
               </block>
               <view class="goods-price-view">
-                <!-- <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view> -->
                 <view style="">实付款：</view>
                 <view style="color:#D84E52;">￥{{order.total}}</view>
               </view>
-              <!-- status 1 未支付 2 未发货 3已发货（对应待收货） 4 已完成 、7 已收货（已收货）-->
-              <!--新品试用  -->
-              <view class='purchase-satus goods-satus' wx:if="{{order.is_trial_product == 1 && order.status == 2 }}">
-                <text class='purchase-status-detail' data-isnewprod='{{order.is_trial_product}}' data-qrcode='{{order.trial_product_qrcode}}' catchtap='confirmNewGoods'>确认取货</text>
-              </view>
-              <!--新品试用  -->
-              <view class='purchase-satus goods-satus' wx:if="{{order.status == 1}}">
+              <view class='purchase-satus goods-satus'>
                 <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
-                <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
-              </view>
-              <view class='purchase-satus goods-satus' wx:if="{{order.status == 3}}">
-                <!-- <text class='purchase-status-detail' catchtap='goSearch' >查看物流</text> -->
-                <!-- <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text> -->
-                <!-- <text class="purchase-status-detail" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text> -->
-                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
-              </view>
-              <view class='purchase-satus goods-satus' wx:if="{{order.status == 4 || order.status == 7}}">
-                <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
-                <text class='purchase-status-detail' data-pro-id='{{order.order_product_list[0].id}}' catchtap='againBuy'>再次购买</text>
+                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" data-physical="{{order.physical_info}}" catchtap="goErwei">自提二维码</text>
               </view>
             </block>
-
-            <block wx:if="{{order.is_tuan==1}}">
-              <view class='purchase-tuan-list' wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
-                <image class='purchase-shop-image' mode='aspectFill' src='{{item.image}}'></image>
-                <view class='purchase-tuan-detail'>
-                  <view class='purchase-shop-text'>
-                    <text class='purchase-shop-title'>{{item.name}}</text>
-                    <text class='purchase-shop-num'>x{{item.pro_num}}</text>
-                  </view>
-                  <view class='purchase-shop-bottom'>
-                    <text class='purchase-price goods-pro-price'><text class='gray'>实付款：</text>￥{{order.total}}</text>
-                    <text class='purchase-time-text'>{{order.tuan_info.countdownText}}</text>
+            <!-- 非自提 -->
+            <block wx:else>
+              <view class='purchase-data-sd'>
+                <text class='purchase-data-number'>{{order.add_time}}</text>
+                <text wx:if='{{order.is_tuan==1}}' class='purchase-data-back'>拼团{{order.tuan_info.status_txt}}</text>
+                <text wx:elif='{{order.is_tuan==0&&order.status==1}}' class='purchase-data-back'>未支付</text>
+                <text wx:elif='{{order.status==2&&order.is_trial_product==1}}' class='purchase-data-back'>待收货</text>
+                <text wx:elif='{{order.status==2&&order.is_trial_product==0}}' class='purchase-data-back'>未发货</text>
+                <text wx:elif='{{order.status==3}}' class='purchase-data-back'>待收货</text>
+                <text wx:elif='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
+                <text wx:elif='{{order.status==5}}' class='purchase-data-back'>已取消</text>
+              </view>
+              <!-- 团购 -->
+              <block wx:if="{{order.is_tuan==1}}">
+                <view class='purchase-tuan-list' wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
+                  <image class='purchase-shop-image' mode='aspectFill' src='{{item.image}}'></image>
+                  <view class='purchase-tuan-detail'>
+                    <view class='purchase-shop-text'>
+                      <text class='purchase-shop-title'>{{item.name}}</text>
+                      <text class='purchase-shop-num'>x{{item.pro_num}}</text>
+                    </view>
+                    <view class='purchase-shop-bottom'>
+                      <text class='purchase-price goods-pro-price'><text class='gray'>实付款：</text>￥{{order.total}}</text>
+                      <text class='purchase-time-text'>{{order.tuan_info.countdownText}}</text>
+                    </view>
                   </view>
                 </view>
-              </view>
-              <!-- 拼团状态id,0=进行中，1=成功，2=失效，3=去支付 -->
-              <view wx:if="{{order.tuan_info.status ==0}}" class="purchase-satus goods-satus">
-                <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-imgurl='{{order.order_product_list[0].image}}' data-title="{{order.order_product_list[0].name}}" data-price="{{order.order_product_list[0].pro_price}}">邀好友参团</button>
-                <text class="purchase-status-detail" data-order-date="{{order.tuan_info.datelineText}}" data-order-no="{{order.order_no_txt}}" catchtap="onOrdeDetailClick">订单详情</text>
-              </view>
-              <view wx:if="{{order.tuan_info.status ==1}}" class="purchase-satus goods-satus">
-                <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
-                <text class='purchase-status-detail' data-pro-id='{{order.order_product_list[0].id}}' catchtap='againBuy'>再次购买</text>
-              </view>
-              <view wx:if="{{order.tuan_info.status == 3}}" class='purchase-satus goods-satus'>
-                <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
-                <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
-              </view>
-
+                <!-- 拼团状态id,0=进行中，1=成功，2=失效，3=去支付 -->
+                <view wx:if="{{order.tuan_info.status ==0}}" class="purchase-satus goods-satus">
+                  <button class="purchase-status-detail-pending" style='background-color: rgba(255, 255, 255, 1);' open-type='share' data-params="{{order}}" data-imgurl='{{order.order_product_list[0].image}}' data-title="{{order.order_product_list[0].name}}" data-price="{{order.order_product_list[0].pro_price}}">邀好友参团</button>
+                  <text class="purchase-status-detail" data-order-date="{{order.tuan_info.datelineText}}" data-order-no="{{order.order_no_txt}}" catchtap="onOrdeDetailClick">订单详情</text>
+                </view>
+                <view wx:if="{{order.tuan_info.status ==1}}" class="purchase-satus goods-satus">
+                  <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
+                  <text class='purchase-status-detail' data-pro-id='{{order.order_product_list[0].id}}' catchtap='againBuy'>再次购买</text>
+                </view>
+                <view wx:if="{{order.tuan_info.status == 3}}" class='purchase-satus goods-satus'>
+                  <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
+                  <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
+                </view>
+              </block>
+              <!-- 非团购 -->
+              <block wx:else>
+                <block>
+                  <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
+                    <view class='purchase-shop-list'>
+                      <image class='purchase-shop-image' mode='aspectFill' src='{{item.image}}'></image>
+                      <view class='purchase-shop-detail'>
+                        <view class='purchase-shop-text'>
+                          <text class='purchase-shop-title'>{{item.name}}</text>
+                          <text class='purchase-shop-num'>x{{item.pro_num}}</text>
+                        </view>
+                        <text class='gray purchase-value' wx:if="{{item.sku_data_arr.length > 0 }}">
+                  <text style='display:inline;'  wx:for="{{item.sku_data_arr}}" wx:for-item="{{item2}}">{{item2.name}}{{item.value}}</text>
+                        </text>
+                        <text class='purchase-price goods-pro-price'><text class='gray'>金额：</text>￥{{item.pro_price}}</text>
+                      </view>
+                    </view>
+                  </view>
+                </block>
+                <view class="goods-price-view">
+                  <!-- <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view> -->
+                  <view style="">实付款：</view>
+                  <view style="color:#D84E52;">￥{{order.total}}</view>
+                </view>
+                <!-- status 1 未支付 2 未发货 3已发货（对应待收货） 4 已完成 、7 已收货（已收货）-->
+                <!--新品试用  -->
+                <view class='purchase-satus goods-satus' wx:if="{{order.is_trial_product == 1 && order.status == 2 }}">
+                  <text class='purchase-status-detail' data-isnewprod='{{order.is_trial_product}}' data-qrcode='{{order.trial_product_qrcode}}' catchtap='confirmNewGoods'>确认取货</text>
+                </view>
+                <!--新品试用  -->
+                <view class='purchase-satus goods-satus' wx:if="{{order.status == 1}}">
+                  <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
+                  <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
+                </view>
+                <view class='purchase-satus goods-satus' wx:if="{{order.status == 3}}">
+                  <!-- <text class='purchase-status-detail' catchtap='goSearch' >查看物流</text> -->
+                  <!-- <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text> -->
+                  <!-- <text class="purchase-status-detail" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text> -->
+                  <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
+                </view>
+                <view class='purchase-satus goods-satus' wx:if="{{order.status == 4 || order.status == 7}}">
+                  <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
+                  <text class='purchase-status-detail' data-pro-id='{{order.order_product_list[0].id}}' catchtap='againBuy'>再次购买</text>
+                </view>
+              </block>
             </block>
-
-
-
           </view>
         </block>
         <!--有数据时  -->
@@ -153,18 +184,12 @@
     <!--待付款  -->
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists'>
-
         <view wx:if="{{unpayOrders && unpayOrders.length}}" class="order-list-view">
-
           <!--待付款-->
-          <view wx:for="{{unpayOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}"  data-new-trial="{{order.is_trial_product}}"
- bindtap="pushToOrderDetail">
+          <view wx:for="{{unpayOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-new-trial="{{order.is_trial_product}}" bindtap="pushToOrderDetail">
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>
-              <text wx:if='{{order.status==1}}' class='purchase-data-back'>未支付</text>
-              <text wx:if='{{order.status==2}}' class='purchase-data-back'>未发货</text>
-              <text wx:if='{{order.status==3}}' class='purchase-data-back'>待收货</text>
-              <text wx:if='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
+              <text class='purchase-data-back'>未支付</text>
             </view>
             <block>
               <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
@@ -181,9 +206,6 @@
                     <text class='purchase-price goods-pro-price'><text class='gray'>金额：</text>￥{{item.pro_price}}</text>
                   </view>
                 </view>
-                <!-- <view class='purchase-satus goods-satus' wx:if='{{order.status==4 ||order.status==7}}'>
-                  <text class='purchase-status-detail' data-pro-id='{{item.id}}' catchtap='againBuy'>再次购买</text>
-                </view> -->
               </view>
             </block>
             <view class="goods-price-view">
@@ -191,18 +213,7 @@
               <view style="">实付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
-            <view wx:if="{{order.status == 3}}" class="yellow-btn-view">
-              <!--catchtap="showExpressInfo"  -->
-              <text class="yellow-btn" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text>
-              <text class="yellow-btn" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
-            </view>
-            <view wx:if="{{order.status == 2}}" class="yellow-btn-view">
-              <text class='yellow-one' bindtap='goSearch'>查看物流</text>
-              <text wx:if="{{order.shippingMethod == 'pickup.pickup'}}" class="yellow-btn" data-order-id="{{order.orderId}}" data-qr="{{order.qrcodeUrl}}" catchtap="showTrialQRcode">到店取货</text>
-              <view wx:else class='yellow-one yellow-two'>待发货</view>
-
-            </view>
-            <view wx:if="{{order.status==1}}" class="purchase-satus goods-satus">
+            <view class="purchase-satus goods-satus">
               <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除</text>
               <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" data-address-id="{{order.address_id}}" data-fx_postage="{{order.fx_postage}}" catchtap="pay">去支付</text>
             </view>
@@ -211,7 +222,6 @@
           <!--</block>-->
         </view>
         <view wx:else class="no-data-view">
-          <!-- <image src="../../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
           <icon class="no-data-image"></icon>
           <text class="mText" class="no-data-text">暂时没有订单哦
       </text>
@@ -224,16 +234,13 @@
     <!--待成团  -->
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists'>
-
         <view wx:if="{{waitOrders && waitOrders.length}}" class="order-list-view">
           <!--待成团-->
           <view wx:for="{{waitOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-status='{{order.status}}' data-params="{{order}}" bindtap="lookOrder">
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>
               <text class='purchase-data-back'>{{order.tuan_info.status_txt}}</text>
-
             </view>
-
 
             <view class='purchase-tuan-list' wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}">
               <image class='purchase-shop-image' mode='aspectFill' src='{{item.image}}'></image>
@@ -260,33 +267,35 @@
           </view>
         </view>
         <view wx:else class="no-data-view">
-          <!-- <image src="../../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
           <icon class="no-data-image"></icon>
           <text class="mText" class="no-data-text">暂时没有订单哦 </text>
           <text bindtap="goToHotSale" class="mText navigator hotBackgroundColor no-data-button">去逛逛</text>
         </view>
-
       </scroll-view>
-
     </swiper-item>
 
     <!--待收货-->
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists'>
         <view wx:if="{{transOrders && transOrders.length}}" class="order-list-view">
-          <view wx:for="{{transOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-new-trial="{{order.is_trial_product}}"
-            bindtap="pushToOrderDetail">
-            <view class='purchase-data-sd'>
-              <text class='purchase-data-number'>{{order.add_time}}</text>
-              <text wx:if='{{order.status==1}}' class='purchase-data-back'>未支付</text>
-              <text wx:if='{{order.status==2}}' class='purchase-data-back'>
-                 <text wx:if="{{order.is_trial_product==1}}">待收货</text>
-              <text wx:if="{{order.is_trial_product==0}}">未发货</text>
-              </text>
-              <text wx:if='{{order.status==3}}' class='purchase-data-back'>待收货</text>
-              <text wx:if='{{order.status==4 ||order.status==7}}' class='purchase-data-back'>已收货</text>
-            </view>
-            <block>
+          <view wx:for="{{transOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-new-trial="{{order.is_trial_product}}" bindtap="pushToOrderDetail">
+            <!-- 自提order.send_type：2 -->
+            <block wx:if='{{order.send_type==2}}'>
+              <view class='purchase-data-sd yellow-bg'>
+                <text class='purchase-data-number'>{{order.add_time}}</text>
+                <text class='purchase-data-back '>待自提</text>
+              </view>
+            </block>
+            <!-- 非自提 -->
+            <block wx:else>
+              <view class='purchase-data-sd'>
+                <text class='purchase-data-number'>{{order.add_time}}</text>
+                <text wx:if='{{order.status==2&&order.is_trial_product==1}}' class='purchase-data-back'>待收货</text>
+                <text wx:if='{{order.status==2&&order.is_trial_product==0}}' class='purchase-data-back'>未发货</text>
+                <text wx:if='{{order.status==3}}' class='purchase-data-back'>待收货</text>
+              </view>
+            </block>
+           
               <view wx:for="{{order.order_product_list}}" wx:key="{{item.product_id}}" style='display:block;'>
                 <view class='purchase-shop-list'>
                   <image class='purchase-shop-image' mode='aspectFill' src='{{item.image}}'></image>
@@ -301,41 +310,33 @@
                     <text class='purchase-price goods-pro-price'><text class='gray'>金额：</text>￥{{item.pro_price}}</text>
                   </view>
                 </view>
-                <!-- <view class='purchase-satus goods-satus' wx:if='{{order.status==4 ||order.status==7}}'>
-                  <text class='purchase-status-detail' data-pro-id='{{item.id}}' catchtap='againBuy'>再次购买</text>
-                </view> -->
               </view>
-            </block>
-
-
-
+         
             <view class="goods-price-view">
               <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view>
               <view style="">实付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
-            <!-- 1 未支付 2 未发货 3已发货 -->
+            <!-- 非新品试用order.is_trial_product：0否，1是 -->
             <block wx:if="{{order.is_trial_product == 0}}">
-              <view wx:if="{{order.status == 3}}" class="purchase-satus goods-satus">
-                <!-- <text class="purchase-status-detail" data-order-id="{{order.orderId}}" data-kuaidi-company-code="{{order.kuaidiCompanyCode}}" data-kuaidi-number="{{order.kuaidiNumber}}" data-kuaidi-company-name="{{order.kuaidiCompanyName}}" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">查看物流</text> -->
-                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
+              <!-- 自提 -->
+              <view wx:if="{{order.send_type == 2}}" class="purchase-satus goods-satus">
+                <text class='purchase-status-detail' data-order-id="{{order.order_no_txt}}" catchtap="delOrder">删除订单</text>
+                <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" data-physical="{{order.physical_info}}" catchtap="goErwei">自提二维码</text>
               </view>
-              <view wx:if="{{order.status == 2}}" class="purchase-satus goods-satus">
+              <view wx:else class="purchase-satus goods-satus">
                 <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" catchtap="confirmDeliver">确认收货</text>
               </view>
             </block>
+            <!--新品试用  -->
             <block wx:else>
-              <!--新品试用  -->
               <view class="purchase-satus goods-satus">
                 <text class="purchase-status-detail" data-order-id="{{order.order_no_txt}}" data-qrcode='{{order.trial_product_qrcode}}' data-isnewprod="{{order.is_trial_product}}" catchtap="confirmNewGoods">确认取货</text>
               </view>
             </block>
           </view>
-          <!--/待收货-->
-          <!--</block>-->
         </view>
         <view wx:else class="no-data-view">
-          <!-- <image src="../../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
           <icon class="no-data-image"></icon>
           <text class="mText" class="no-data-text">暂时没有订单哦
       </text>
@@ -343,13 +344,15 @@
         </view>
       </scroll-view>
     </swiper-item>
+    <!--/待收货-->
+
     <!--已收货-->
     <swiper-item class='swiper-wrap'>
       <scroll-view class="" scroll-y="{{true}}" class='scroll-lists'>
 
         <view wx:if="{{ReceivedOrders && ReceivedOrders.length}}" class="order-list-view">
 
-          <view wx:for="{{ReceivedOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].product_id}}"  data-new-trial="{{order.is_trial_product}}"
+          <view wx:for="{{ReceivedOrders}}" wx:for-item="order" wx:key="{{order.order_no}}" class="order-item-view navigator" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].product_id}}" data-new-trial="{{order.is_trial_product}}"
             bindtap="pushToOrderDetail">
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>{{order.add_time}}</text>
@@ -377,9 +380,7 @@
               </view>
             </block>
 
-
             <view class="goods-price-view">
-              <!-- <view style="margin-right:25rpx;">共{{order.order_product_list.length}}件商品</view> -->
               <view style="">实付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
@@ -388,11 +389,8 @@
               <text class='purchase-status-detail' data-pro-id='{{order.order_product_list[0].id}}' catchtap='againBuy'>再次购买</text>
             </view>
           </view>
-          <!--/已收货-->
-          <!--</block>-->
         </view>
         <view wx:else class="no-data-view">
-          <!-- <image src="../../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
           <icon class="no-data-image"></icon>
           <text class="mText" class="no-data-text">暂时没有订单哦
       </text>
@@ -400,12 +398,12 @@
         </view>
       </scroll-view>
     </swiper-item>
+    <!--/已收货-->
     <!--退换/售后  -->
     <swiper-item>
       <scroll-view scroll-y="{{true}}" class='scroll-lists-back'>
         <!--无数据时  -->
         <view class="no-data-view" style='margin-top:80rpx;' wx:if='{{showSale}}'>
-          <!-- <image src="../../../image/order-icon2.png" mode="widthFix" class="no-data-image" /> -->
           <icon class="no-data-image"></icon>
           <text class="mText" class="no-data-text">暂无任何数据 </text>
         </view>

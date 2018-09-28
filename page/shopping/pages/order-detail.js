@@ -3,19 +3,19 @@ var app = getApp();
 const orderUrl = 'wxapp.php?c=order&a=mydetail';    // 订单详情接口
 const logisticsUrl = 'order/track/';  // 订单物流查询接口
 let _orderId = '';
-let _kuaidiCompanyCode , _kuaidiNumber, _kuaidiCompanyName;
+let _kuaidiCompanyCode, _kuaidiNumber, _kuaidiCompanyName;
 let errModalConfig = {
   image: '../../../image/ma_icon_store_1.png',
   title: '将二维码出示给门店核销员由门店员核销即可',
 };
-
+// orderId = 20180919143520383544 & productId=1985 & newTrial=0
 Page({
-  data:{
+  data: {
     orderData: null, // 订单数据
-    order_no:'',
-    productId:'',
-    rtnCode:'' ,
-    orderTime:'',
+    order_no: '',
+    productId: '',
+    rtnCode: '',
+    orderTime: '',
     uid: '',
     storeId: app.store_id,
     shipping_method: 'express',
@@ -25,34 +25,22 @@ Page({
     is_app: false,
     payType: 'weixin',
     showErrModal: false,//错误模式层
-    userTel:'',//收货人电话号码
-    newType:1,//是否新品试用，1是，0否        
+    userTel: '',//收货人电话号码
+    newType: 0,//是否新品试用，1是，0否     
+    send_type: 1,//1邮寄，2自提   
+    physical_info: null,//自提門店信息
   },
-  onLoad:function(options){
+  onLoad: function (options) {
     var that = this;
     // 页面初始化 options为页面跳转所带来的参数
-    let { orderId, newTrial } = options;
-    let { productId } = options;
+    let { orderId, newTrial, productId } = options;
     that.setData({
       orderId: orderId,
       productId: productId,
       newType: newTrial
     })
-    // 检测是否已经提交过申请
-    // app.api.postApi('order/checkReturn', { "order_id": orderId}, (err, resp) => {
-    //   if (err) {
-    //     return this._showError('网络出错，请稍候重试');
-    //   }
-    //   var rtnCode = resp.rtnCode;
-    //   if (rtnCode==-1){
-    //     that.setData({
-    //       rtnCode: rtnCode
-    //     })
-    //   }
-    // });
-    // 检测是否已经提交过申请结束
-    
-    if(orderId) {
+
+    if (orderId) {
       _orderId = orderId;
       wx.showLoading({
         title: '加载中',
@@ -61,6 +49,17 @@ Page({
       this._loadData(orderId);
     }
   },
+  /**
+ * 自提二维码
+ */
+  goErwei(e) {
+    let { orderId, physical } = e.currentTarget.dataset;
+    physical = JSON.stringify(physical);
+    if (!orderId) { return; }
+    wx.navigateTo({
+      url: `../../my/pages/erwei?order_no=${orderId}&physical_info=${physical}`,
+    })
+  },
   // 查看售后
   searchSales() {
     wx.redirectTo({
@@ -68,14 +67,14 @@ Page({
     })
   },
   // 再次购买了
-  timesBuy(e){
+  timesBuy(e) {
     wx.switchTab({
       url: '../../tabBar/home/index-new'
     })
 
   },
-  goSales(e){
-    var that =this;
+  goSales(e) {
+    var that = this;
     var orderId = e.currentTarget.dataset.orderId;
     var orderProductId = e.currentTarget.dataset.orderProductId;
 
@@ -84,9 +83,9 @@ Page({
     var uid = this.data.uid;
     //判断是否能申请售后，如果可以才跳到售后界面
     var params = {
-      "order_no": orderId, 
-      "pigcms_id": orderProductId, 
-      "uid": uid  
+      "order_no": orderId,
+      "pigcms_id": orderProductId,
+      "uid": uid
     };
     console.log('请求参数', params);
     var url = 'wxapp.php?c=return&a=checkReturn';
@@ -123,7 +122,7 @@ Page({
         wx.navigateTo({
           url: '../../my/pages/apply-sales?orderId=' + orderId + '&productId=' + productId + '&rtnCode=' + rtnCode
         })
-      }else{
+      } else {
         wx.showModal({
           title: '申请提示',
           content: '您已经提交过申请',
@@ -134,7 +133,7 @@ Page({
           }
         })
       }
-      
+
     });
   },
   /**
@@ -260,7 +259,7 @@ Page({
     //跳到订单列表 待收货
     wx.navigateTo({
       url: '../../common/pages/my-order?page=' + 2
-    }) 
+    })
 
 
   },
@@ -275,8 +274,8 @@ Page({
       confirmText: '好的',
     });
   },
- 
-  goGoods (e) {
+
+  goGoods(e) {
     wx.showModal({
       title: '确认收货',
       content: '请确保你先收到货了，避免钱财两空哦',
@@ -286,7 +285,7 @@ Page({
           app.api.fetchApi("order/complete/" + orderId, (err, resp) => {
             if (resp) {
               wx.navigateTo({
-                url: './my-order?page='+3
+                url: './my-order?page=' + 3
               })
             }
           })
@@ -295,80 +294,58 @@ Page({
         }
       }
     })
-    
+
   },
   /**
    * 获取订单详情数据
    */
   _loadData(orderId) {
-    // app.api.fetchApi(orderUrl + orderId, (err, data) => {   // 赠品领用提交
-    //   if(!err && data.rtnCode == 0) {
-    //     let {kuaidiCompanyCode, kuaidiNumber, kuaidiCompanyName} = data.data;
-    //     [_kuaidiCompanyCode, _kuaidiNumber, _kuaidiCompanyName] = [kuaidiCompanyCode, kuaidiNumber, kuaidiCompanyName];
-
-    //     if(kuaidiCompanyCode && kuaidiNumber) {
-    //       app.api.postApi(logisticsUrl, {kuaidiCompanyCode, kuaidiNumber}, (err, kuaidiData) => {
-    //         wx.hideLoading();
-    //         if(!err && kuaidiData.rtnCode == 0) {
-    //           this.setData({
-    //             orderData: data.data,
-    //             kuaidiData: kuaidiData.data
-    //           });
-    //         } else {
-    //           this.setData({
-    //             orderData: data.data,
-    //             kuaidiData: null
-    //           });
-    //         }
-    //       });
-    //     } else {
-    //       wx.hideLoading();
-    //       this.setData({
-    //         orderData: data.data,
-    //         kuaidiData: null
-    //       });
-    //     }
-    //   } else {
-    //   }
-    // });
-
-    //2017-12-16amy
-    var self = this;
-    // var pages = getCurrentPages();
-    // console.log('pages ',pages);
-    var params = orderId;
-    if (! orderId.includes('PIG')){
-       params = 'PIG' + orderId;
+    let self = this;
+    let params = orderId;
+    if (!orderId.includes('PIG')) {
+      params = 'PIG' + orderId;
     }
-    app.api.postApi(orderUrl, {"params": {"order_no": params } },(err,rep) => {
+    app.api.postApi(orderUrl, { "params": { "order_no": params } }, (err, rep) => {
       wx.hideLoading();
-      if (rep.err_code != 0){
+      if (rep.err_code != 0) {
         wx.showToast({
-         title : rep.err_msg,
+          title: rep.err_msg,
         })
         setTimeout(function () {
           wx.navigateBack();
         }, 2000)
-        
+
       }
-      if(!err && rep.err_code==0){
-        var tel = rep.err_msg.orderdata.address_tel.substring(0, 3) + "****" + rep.err_msg.orderdata.address_tel.substring(8, 11);
+      if (!err && rep.err_code == 0) {
+        let { orderdata } = rep.err_msg;
+        if (orderdata.send_type != 2) {
+          let tel = orderdata.address_tel.substring(0, 3) + "****" + orderdata.address_tel.substring(8, 11);
+          self.setData({ userTel: tel });
+        } else {//自提
+          let physical_info = {
+            name: orderdata.take_physical_address,
+            id: orderdata.take_physical_id,
+            address: orderdata.take_physical_name
+          }
+          self.setData({ physical_info });
+        }
+
         self.setData({
-          orderData: rep.err_msg.orderdata,
-          orderTime: formatTime(rep.err_msg.orderdata.add_time),
-          uid: rep.err_msg.orderdata.uid,
-          addressId: rep.err_msg.orderdata.address.address_id,
-          postage_list: rep.err_msg.orderdata.postage,
-          order_no: rep.err_msg.orderdata.order_no,
-          shipping_method: rep.err_msg.orderdata.shipping_method,
-          user_coupon_id: rep.err_msg.orderdata.user_coupon_id,
-          userTel: tel
+          orderData: orderdata,
+          send_type: orderdata.send_type,
+          orderTime: formatTime(orderdata.add_time),
+          uid: orderdata.uid,
+          addressId: orderdata.address.address_id,
+          postage_list: orderdata.postage,
+          order_no: orderdata.order_no,
+          shipping_method: orderdata.shipping_method,
+          user_coupon_id: orderdata.user_coupon_id,
         });
-        
+
       }
     })
   },
-  
+
   /**
    * 查看快递信息
    */
@@ -377,17 +354,17 @@ Page({
   //     url: `./order-express?kuaidiCompanyCode=${_kuaidiCompanyCode}&kuaidiNumber=${_kuaidiNumber}&kuaidiCompanyName=${_kuaidiCompanyName}`
   //   });
   // },
-  
-  onReady:function(){
+
+  onReady: function () {
     // 页面渲染完成
   },
-  onShow:function(){
+  onShow: function () {
     // 页面显示
   },
-  onHide:function(){
+  onHide: function () {
     // 页面隐藏
   },
-  onUnload:function(){
+  onUnload: function () {
     // 页面关闭
   },
 
@@ -426,7 +403,7 @@ Page({
     console.log('购物车为空，去下单');
     //wx.reLaunch({ url: '../../tabBar/pages/index-new' });
     wx.navigateTo({
-      url: '../../common/pages/my-order?page=5' 
+      url: '../../common/pages/my-order?page=5'
     })
   },
   _doConfirmDeliver(orderId, uid) {
@@ -448,7 +425,7 @@ Page({
       //跳到订单列表
       wx.navigateTo({
         url: '../../common/pages/my-order?page=' + 3
-      }) 
+      })
 
     });
   },
@@ -459,7 +436,7 @@ Page({
     wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
   },
-  
+
   /**
  * 显示模态框
  */
@@ -495,7 +472,7 @@ Page({
   tabConfirm() {
     this.setData({ showSuccessModal: false });
   },
-  
+
   /**
 * 购买给卡包
 */
