@@ -1,0 +1,76 @@
+<view class="main-container">
+  <!-- 头部导航条 -->
+  <view scroll-x='true' class="nav-header-view" style='background:#fff'>
+    <view class="header-col-view {{curActIndex == '0' ? 'show-border-bottom' : '' }}" data-idx='0' bindtap="swichSwiperItem">
+      <text data-idx='0'>有效邀请</text>
+    </view>
+    <view class="header-col-view {{curActIndex == '1' ? 'show-border-bottom' : '' }}" data-idx='1' bindtap="swichSwiperItem">
+      <text data-idx='1'>无效邀请</text>
+    </view>
+
+  </view>
+
+
+  <swiper bindchange="swiperChange" class='swiper-item'>
+    <swiper-item >
+    <block   wx:if="{{list0 && list0.length > 0}}" >
+
+    <view class='content-wrapper' wx:for="{{list0}}">
+         <view class='main-content' >
+        <view>
+          <image class='main-content-img' src='{{item.userinfo.avatar}}'>
+          </image>
+          <view class='main-content-text'>
+            <text>{{item.userinfo.nickname}}</text>
+            <text>订单： {{item.order_num}}</text>
+          </view>
+        </view>
+        <view class='main-content-price'>
+          <text>成交金额： ¥{{item.order_money}}</text>
+        </view>
+      </view>
+      
+    </view>
+        
+     
+      </block>
+      <block wx:else>
+        <empty_tip></empty_tip>
+      </block>
+     
+    </swiper-item>
+
+     <swiper-item >
+    <block wx:if="{{list1 && list1.length > 0}}">
+         <view class='content-wrapper' wx:for="{{list1}}">
+         <view class='main-content' >
+        <view>
+          <image class='main-content-img' src='{{item.userinfo.avatar}}'>
+          </image>
+          <view class='main-content-text'>
+            <text>{{item.userinfo.nickname}}</text>
+            <text>订单： {{item.order_num}}</text>
+          </view>
+        </view>
+        <view class='main-content-price'>
+          <text>成交金额： ¥{{item.order_money}}</text>
+        </view>
+      </view>
+      
+    </view>
+      </block>
+      <block wx:else>
+        <empty_tip></empty_tip>
+      </block>
+     
+    </swiper-item>
+
+  </swiper>
+
+</view>
+
+
+
+
+
+<!-- <empty_tip></empty_tip> -->

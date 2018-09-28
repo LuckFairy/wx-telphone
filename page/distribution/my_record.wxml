@@ -1,0 +1,13 @@
+<!--page/distribution/my_record.wxml-->
+
+<page>
+<view class='title'>
+<text class='title-text'>日期</text>
+<text class='title-text'>金额</text>
+</view>
+
+<view class='content'>
+<text class='content-text-left'>2018-09-14</text>
+<text class='content-text-right'>+35.60</text>
+</view>
+</page>

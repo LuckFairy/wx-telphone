@@ -1,0 +1,20 @@
+<!--page/distribution/setting.wxml-->
+<view class="item-view" bindtap='onBankClick'>
+  <label class="title">银行：</label>
+    <view wx:if="{{bank}}" style="flex:1; color: #222222;">{{bank}}</view>
+     <view style="flex:1; color: #999999;" wx:else>请选择银行</view>
+
+    <!-- <text style="flex:1; color: #999999;">请选择银行</text> -->
+
+
+</view>
+<view class="item-view">
+  <label class="title">银行卡卡号：</label>
+  <input style="flex:1;" placeholder='请输入银行卡卡号' bindinput='bindCardChange' type="number" maxlength="64" />
+</view>
+<view class="item-view">
+  <label class="title">姓名：</label>
+  <input style="flex:1;" placeholder='输入姓名' type="text" bindinput='bindNameChange' maxlength="64" />
+</view>
+
+ <button class='content-btn' bindtap='onOkClick'>完成</button>

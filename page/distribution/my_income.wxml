@@ -1,0 +1,25 @@
+<page>
+  <view class='content-container'>
+    <view class='content-top'>
+      <view class='content-top-left'>
+        <view class='content-top-text1'>
+          累计推广收益：
+        </view>
+        <view class='content-top-text2'>0.00</view>
+      </view>
+
+      <view class='content-top-right'>
+        <view class='content-top-right-text'>全部明细</view>
+        <image class='more-image' src='../tabBar/home/imgs/next-page.png'></image>
+      </view>
+    </view>
+
+    <view class='content-bottom'>待结算 0.00</view>
+  </view>
+</page>
+
+
+
+
+
+<!-- <empty_tip></empty_tip> -->

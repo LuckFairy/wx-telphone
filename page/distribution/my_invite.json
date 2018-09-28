@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "累计邀请",
+  "usingComponents": {
+    "empty_tip": "/page/components/empty_tip"
+  }
+ 
+}
