@@ -54,9 +54,9 @@
 
         <block wx:else>
           <view wx:for='{{allOrders}}' wx:for-item="order" wx:key="{{order.order_no_txt}}" class="order-item-view navigator purchase-data-total" data-order-id="{{order.order_no}}" data-product-id="{{order.order_product_list[0].id}}" data-new-trial="{{order.is_trial_product}}"
-            bindtap="{{(order.is_tuan==1&&order.tuan_info.status==2)?'':'pushToOrderDetail'}}">
+            bindtap="{{(order.is_tuan==1&&order.tuan_info.status==2||order.is_tuan==0)?'pushToOrderDetail':''}}">
             <!-- 自提 -->
-            <block wx:if="{{(order.send_type==2&&order.status==2&&order.is_trial_product==0)||(order.send_type==2&&order.status==3)}}">
+            <block wx:if="{{(order.send_type==2&&order.status==2&&order.is_trial_product==0&&order.is_tuan==0)||(order.send_type==2&&order.is_trial_product==0&&order.status==3&&order.is_tuan==0)||(order.send_type==2&&order.is_trial_product==0&&order.tuan_info.status==1&&order.is_tuan==1)}}">
               <view class='purchase-data-sd yellow-bg'>
                 <text class='purchase-data-number'>{{order.add_time}}</text>
                 <text class='purchase-data-back'>待自提</text>

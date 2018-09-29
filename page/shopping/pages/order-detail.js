@@ -323,9 +323,9 @@ Page({
           self.setData({ userTel: tel });
         } else {//自提
           let physical_info = {
-            name: orderdata.take_physical_address,
+            name: orderdata.take_physical_name,
             id: orderdata.take_physical_id,
-            address: orderdata.take_physical_name
+            address: orderdata.take_physical_address
           }
           self.setData({ physical_info });
         }

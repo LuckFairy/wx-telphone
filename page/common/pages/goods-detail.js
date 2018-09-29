@@ -209,7 +209,7 @@ Page({
     var that = this;
     var store_id = app.store_id;
     var uid = wx.getStorageSync('userUid');
-    physical_id = wx.getStorageSync('phy_id');
+    physical_id = wx.getStorageSync('phy_id')||0;
 
     if (uid == undefined || uid == '') {
       wx.switchTab({

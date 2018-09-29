@@ -58,6 +58,7 @@ Page({
     isShowPre: false//显示预售商品提示
   },
   onShareAppMessage: function (res) {
+    
     let that = this,dataset=res.target.dataset;
     let { uid, store_id, prodId, tuanId, sellout } = that.data;
     that.setData({ showShareModal: false });
@@ -127,8 +128,9 @@ Page({
         url: '../tabBar/home/index-new',
       })
     }
-
+    
     var { tuanId, prodId, sellout = null } = options;
+    prodId = 2151 ; tuanId=116 ; sellout=1;
     that.setData({ tuanId, prodId, sellout, uid, phy_id });
     
  

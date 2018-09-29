@@ -1,7 +1,8 @@
 import {
   getUrlQueryParam,
   checkBingPhone,
-  getPhoneNumber
+  getPhoneNumber,
+  getLocation
 } from '../../../utils/util';
 import sign from '../../../utils/api_4'
 import {
@@ -93,10 +94,12 @@ Page({
         locationid
       }
       app.login(params).then(() => {
-        console.log('弹窗取消')
+        console.log('弹窗取消', app.globalData.uid)
+        uid = app.globalData.uid;
         that.setData({
           hasPhone: true, isInfo: false
         })
+        that._parse();
       }).catch(() => {
         console.log('弹窗弹窗')
         that.setData({
@@ -236,15 +239,18 @@ Page({
 
   },
   _parse() {
-    var that = this;
+    let that = this;
     wx.hideLoading();
     that.getCoupValue(); //优惠券数据
     that.jumpCoupon(); /*首页弹窗 */
     that.loadMyCardNumData(); //我的卡包数量
     that.getCoupValue(); //优惠券数据
-    that.isLoglat().then(data => {
+    console.log('_parse');
+    //是否定位成功
+    getLocation().then(data => {
+      logLat = data;
       that.loadLocation();
-    }).catch(data => {
+    }).catch(err => {
       that.loadMainLocation();
     })
   },
@@ -444,27 +450,6 @@ Page({
       },
       fail: () => {
         that._showError('请重新扫码');
-      }
-    })
-  },
-  /**
-   * 是否定位成功
-   */
-  isLoglat() {
-    let that = this;
-    return new Promise((resolve, reject) => {
-      logLat = wx.getStorageSync('logLat');
-      if (!logLat || logLat == '') {
-        that.timer1 = setTimeout(() => {
-          logLat = wx.getStorageSync('logLat');
-          if (logLat) {
-            resolve();
-          } else {
-            reject();
-          }
-        }, 1500);
-      } else {
-        resolve();
       }
     })
   },

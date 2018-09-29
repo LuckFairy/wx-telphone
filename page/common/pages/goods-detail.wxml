@@ -43,10 +43,11 @@
         <text class="mid-list-one">{{product.price}}</text>
         <text class="mid-list-two">￥{{product.original_price}}</text>
       </view>
-      <view class='mid-list-wraps-image'>
-        <button class='mid-open-list share-bt' open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.shareUrl?product.shareUrl:product.product_image_list[0]}}"></button>
-        <text class="mid-list-six-top share-txt">分享</text>
-      </view>
+      <view class='share-box'>
+          <button class='share-bt' open-type='share' data-imgurl='{{product.shareUrl?product.shareUrl:image_lists[0]}}' data-price="{{product.price}}" data-title='{{product.name}}'></button>
+          <text class='share-img'></text>
+          <text class=" share-txt">分享</text>
+        </view>
     </view>
     <view class='mid-list-wraps' wx:if="{{product.sales}}">
       <text class="mid-list-six">已售</text>

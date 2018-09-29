@@ -1,6 +1,7 @@
 import sign from './utils/api_4'
 import __config from './config'
 import { ajax } from './utils/api_1'
+import { getLocation } from './utils/util'
 import WxService from './utils/WxService'
 App({
   onLaunch: function() {
@@ -8,7 +9,7 @@ App({
     // unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
     // logs.unshift(Date.now())
     // wx.setStorageSync('logs', logs);
-    this.getLocation();//获取位置信息
+    getLocation();
     this.getTelWx();
   },
   api: ajax,
@@ -42,14 +43,6 @@ App({
         that.config.serverTxt = res.err_msg.TelnWx.service_weixin;
       }
     })
-  },
-  getLocation: function () {
-    return this.WxService.getLocation()
-      .then(res => {
-        var latitude = res.latitude, longitude = res.longitude //维度，经度
-        var logLat = [longitude, latitude];
-        wx.setStorageSync('logLat', logLat);
-      })
   },
   checkphone:function(){
     let that = this;

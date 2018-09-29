@@ -1,6 +1,7 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/group-buying/group-buying",
     "page/tabBar/my/myself",
     "page/common/pages/my-order",
     "page/common/pages/store-change",
@@ -30,7 +31,7 @@
     "page/common/pages/shop-promotion",
     "page/common/pages/store-detail",
     "page/common/pages/store-list",
-    "page/group-buying/group-buying",
+   
     "page/group-buying/index-seckill",
     "page/group-buying/grouplist",
     "page/group-buying/detail",
