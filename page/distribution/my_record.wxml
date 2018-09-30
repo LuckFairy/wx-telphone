@@ -6,8 +6,24 @@
 <text class='title-text'>金额</text>
 </view>
 
-<view class='content'>
-<text class='content-text-left'>2018-09-14</text>
-<text class='content-text-right'>+35.60</text>
-</view>
+<block wx:if='{{index==0}}'>
+  <view wx:for='{{list0}}'>
+    <view class='content'>
+      <text class='content-text-left'>{{item.add_time_txt}}</text>
+      <text class='content-text-right'>{{item.income}}</text>
+    </view>
+  </view>
+</block>
+<block wx:else>
+
+ <view wx:for='{{list1}}'>
+    <view class='content'>
+      <text class='content-text-left'>{{item.add_time_txt}}</text>
+      <text class='content-text-right'>{{item.forward_cash}}</text>
+    </view>
+  </view>
+
+</block>
+
+
 </page>

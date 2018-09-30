@@ -1,5 +1,7 @@
 // page/distribution/my_withdraw_detail.js
+const url = 'app.php?c=drp_ucenter&a=fx_find_account'
 var that;
+const app = getApp();
 Page({
 
   /**

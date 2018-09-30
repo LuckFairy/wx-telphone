@@ -1,17 +1,21 @@
 // page/distribution/bank.js
+const url ='app.php?c=drp_ucenter&a=bank_info'
+const app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    list:[],
+    
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getList();
 
   },
 
@@ -66,20 +70,29 @@ Page({
 
   onItemClick(e){
     let value = e.target.dataset.value;
+    let bankId = e.target.dataset.id
 
     var pages = getCurrentPages();
     var currPage = pages[pages.length - 1];   //当前页面
     var prevPage = pages[pages.length - 2];  //上一个页面
     prevPage.setData({//直接给上移页面赋值
-      bank: value
+      bank: value,
+      bankId:id
     });
     wx.navigateBack({
       delta: 1
     })
+  },
 
-   
-
-
+  getList(){
+    let that=this;
+    app.api.postApi(url, {  }, (err, reps) => {
+      if (err && reps.err_code != 0) return;
+      that.setData({
+        list: reps.err_msg.bank_info
+      });
+      wx.hideLoading();
+    });
   }
 
 

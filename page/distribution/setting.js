@@ -1,4 +1,7 @@
 // page/distribution/setting.js
+const url = 'app.php?c=drp_ucenter&a=fx_add_account'
+var that;
+const app = getApp();
 Page({
 
   /**
@@ -7,7 +10,8 @@ Page({
   data: {
     bank:'',
     card:'',
-    name:''
+    name:'',
+    bankId:''
 
   },
 

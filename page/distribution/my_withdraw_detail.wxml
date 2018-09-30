@@ -18,7 +18,7 @@
   <text class='text'>提现账户</text>
   <view class='item-right'>
     <text class='text text-right'>{{tip}}</text>
-    <image class='item-icon' src='../distribution/imgs/c-1.png'></image>
+    <image class='item-icon' src='../image/distribution/c-1.png'></image>
   </view>
 </view>
 

@@ -1,18 +1,21 @@
 {
   "pages": [
+        "page/distribution/my_withdraw_detail",
+        
+    "page/distribution/my_withdraw",
+    
+        "page/distribution/bank",
+        "page/tabBar/home/index-new",
+        
 
     "page/distribution/spreadList",
     "page/common/pages/goods-detail",
     "page/common/pages/activity-detail",
-    "page/tabBar/home/index-new",
     "page/distribution/invite",
     "page/distribution/spreadOrder",
     "page/distribution/my_customer",
     "page/distribution/my_invite",
-    "page/distribution/my_withdraw",
-    "page/distribution/my_withdraw_detail",
     "page/distribution/setting",
-    "page/distribution/bank",
     "page/distribution/my_record",
     "page/distribution/my_income",
   

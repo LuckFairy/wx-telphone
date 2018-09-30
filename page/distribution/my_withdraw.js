@@ -1,4 +1,5 @@
 // page/distribution/my_withdraw.js
+const app = getApp();
 Page({
 
   /**
