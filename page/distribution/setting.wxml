@@ -10,11 +10,11 @@
 </view>
 <view class="item-view">
   <label class="title">银行卡卡号：</label>
-  <input style="flex:1;" placeholder='请输入银行卡卡号' bindinput='bindCardChange' type="number" maxlength="64" />
+  <input style="flex:1;" placeholder='请输入银行卡卡号' value='{{card}}' bindinput='bindCardChange' type="number" maxlength="64" />
 </view>
 <view class="item-view">
   <label class="title">姓名：</label>
-  <input style="flex:1;" placeholder='输入姓名' type="text" bindinput='bindNameChange' maxlength="64" />
+  <input style="flex:1;" placeholder='输入姓名' value='{{name}}' type="text" bindinput='bindNameChange' maxlength="64" />
 </view>
 
  <button class='content-btn' bindtap='onOkClick'>完成</button>

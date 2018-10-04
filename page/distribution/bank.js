@@ -77,7 +77,7 @@ Page({
     var prevPage = pages[pages.length - 2];  //上一个页面
     prevPage.setData({//直接给上移页面赋值
       bank: value,
-      bankId:id
+      bankId: bankId
     });
     wx.navigateBack({
       delta: 1

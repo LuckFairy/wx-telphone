@@ -25,12 +25,12 @@
   <view class='item-account' wx:if="{{account}}">
     <view class='item-account-content'>
       <text class='item-account-text'>姓名</text>
-      <text class='item-account-text'>{{account.name}}</text>
+      <text class='item-account-text'>{{account.bank_user_name}}</text>
     </view>
 
     <view class='item-account-content'>
-      <text class='item-account-text'>{{account.bank}}</text>
-      <text class='item-account-text'>{{account.card}}</text>
+      <text class='item-account-text'>{{account.bank_name}}</text>
+      <text class='item-account-text'>{{account.bank_account}}</text>
     </view>
 
   </view>

@@ -2,6 +2,8 @@
 const url = 'app.php?c=drp_ucenter&a=fx_find_account'
 var that;
 const app = getApp();
+var store_id
+
 Page({
 
   /**
@@ -18,6 +20,8 @@ Page({
    */
   onLoad: function (options) {
     that=this;
+    store_id = app.store_id;
+
 
   },
 
@@ -32,22 +36,37 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    let params = { store_id, "uid": "83046"};
+   
 
-    wx.getStorage({
-      key: 'bankAccount',
-      success: function(res) {
-        console.log(res.data);
-        let account = res.data;
-        if(account){
-          let tip ='去修改';
-            that.setData({
-              account,
-              tip
-            })
-        }
+    app.api.postApi(url, { params }, (err, reps) => {
+      if (err && reps.err_code != 0) return;
+      let account = reps.err_msg.fx_account;
+      let tip=that.data.tip;
+      if (account && account.bank_name){
+        tip = '去修改';
+      }
+      that.setData({
+        account,
+        tip
+      });
+    });
+
+    // wx.getStorage({
+    //   key: 'bankAccount',
+    //   success: function(res) {
+    //     console.log(res.data);
+    //     let account = res.data;
+    //     if(account){
+    //       let tip ='去修改';
+    //         that.setData({
+    //           account,
+    //           tip
+    //         })
+    //     }
         
-      },
-    })
+    //   },
+    // })
 
 
   },
