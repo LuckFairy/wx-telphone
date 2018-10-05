@@ -1,13 +1,9 @@
 {
   "pages": [
-        "page/distribution/my_withdraw_detail",
-        
     "page/distribution/my_withdraw",
-    
-        "page/distribution/bank",
-        "page/tabBar/home/index-new",
-        
-
+    "page/distribution/my_withdraw_detail",
+    "page/distribution/bank",
+    "page/tabBar/home/index-new",
     "page/distribution/spreadList",
     "page/common/pages/goods-detail",
     "page/common/pages/activity-detail",
@@ -18,8 +14,6 @@
     "page/distribution/setting",
     "page/distribution/my_record",
     "page/distribution/my_income",
-  
-    
 
     "page/distribution/moneyIndex",
     "page/tabBar/my/myself",

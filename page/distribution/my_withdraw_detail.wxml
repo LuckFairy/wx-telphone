@@ -35,5 +35,5 @@
 
   </view>
 
-   <button class='content-btn'>提现</button>
+   <button class='content-btn' bindtap='onOkClick'>提现</button>
 </page>

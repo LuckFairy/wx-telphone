@@ -1,29 +1,44 @@
 <!--page/distribution/my_record.wxml-->
 
 <page>
-<view class='title'>
-<text class='title-text'>日期</text>
-<text class='title-text'>金额</text>
-</view>
-
-<block wx:if='{{index==0}}'>
-  <view wx:for='{{list0}}'>
-    <view class='content'>
-      <text class='content-text-left'>{{item.add_time_txt}}</text>
-      <text class='content-text-right'>{{item.income}}</text>
-    </view>
-  </view>
-</block>
-<block wx:else>
-
- <view wx:for='{{list1}}'>
-    <view class='content'>
-      <text class='content-text-left'>{{item.add_time_txt}}</text>
-      <text class='content-text-right'>{{item.forward_cash}}</text>
-    </view>
+  <view class='title'>
+    <text class='title-text'>日期</text>
+    <text class='title-text'>金额</text>
   </view>
 
-</block>
+  <block wx:if='{{index==0}}'>
+    <block wx:if="{{list0 && list0.length > 0}}">
+      <view wx:for='{{list0}}'>
+        <view class='content'>
+          <text class='content-text-left'>{{item.add_time_txt}}</text>
+          <text class='content-text-right'>{{item.income}}</text>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <empty_tip></empty_tip>
+    </block>
+
+  </block>
+  <block wx:else>
+
+    <block wx:if="{{list1 && list1.length > 0}}">
+      <view wx:for='{{list1}}'>
+        <view class='content'>
+          <text class='content-text-left'>{{item.add_time_txt}}</text>
+          <text class='content-text-right'>{{item.forward_cash}}</text>
+        </view>
+      </view>
+
+    </block>
+    <block wx:else>
+      <empty_tip></empty_tip>
+    </block>
+
+
+
+
+  </block>
 
 
 </page>
