@@ -7,6 +7,7 @@ let uid = wx.getStorageSync('userUid');
 
 const sendUrl = 'wxapp.php?c=wxapp_login&a=sendsms';//发送验证码
 const checkUrl = 'wxapp.php?c=wxapp_login&a=checksms';//修改手机号
+const loginUrl = "wxapp.php?c=wechatapp_v2&a=phone_login";//根据手机号码和验证码登录小程序（第一版，给腾讯审核人员专用）
 Page({
 
   /**
@@ -16,12 +17,14 @@ Page({
     nickName: '',
     userImg: '',
     uid: '',
-    clearShow:false,//是否显示clear图标
     phone:'',//手机号码
+    clearShow:false,//是否显示clear图标
     phoneClear:false,//是否显示清楚图标
     code:'',//验证码
     codeFlag:false,//验证码是否正确
     codeClear:false,//是否显示清楚图标
+    password:'',//密码
+    passClear:false,//是否显示
     getCode:true,//可以点击获取验证码
     times:'60',
     submit:false,//是否提交表单
@@ -76,6 +79,14 @@ Page({
     that.setData({ phone:value, phoneClear:true});
   },
   /**
+   * 密码输入
+   */
+  passInput:function(e){
+    let that = this;
+    let value = e.detail.value;
+    that.setData({password:value,passClear:true})
+  },
+  /**
    * 验证码输入
    */
   codeInput:function(e){
@@ -94,7 +105,8 @@ Page({
     var type = e.currentTarget.dataset.type;
     switch(type){
       case 'code': that.setData({ code: '', codeClear: false });break;
-      case 'phone': that.setData({ phone: '', phoneClear:false});break;
+      case 'phone': that.setData({ phone: '', phoneClear: false }); break;
+      case 'password': that.setData({ password: '', passClear:false});break;
     }
   },
   /**formSubmit事件
@@ -102,20 +114,36 @@ Page({
    */
   formSubmit: function (e) {
     let that = this;
-    let code = that.data.code,phone = that.data.phone;
-    if(code.length>0){
-      var params =  { "uid": uid, "code": code, "store_id": store_id, "phone": phone } ;
-      app.api.postApi(checkUrl, { params }, (err, rep) => {
-        if (rep.err_code != 0) { var msg = rep.err_msg.err_log; that._showError(msg);}else{
-          let pages = getCurrentPages();
-          let prevPage = pages[pages.length - 2];  //上一个页面
-          prevPage.showPhone(phone);
-          wx.navigateBack();
+    let code = that.data.password,phone = that.data.phone;
+    let flag = checkMobile(phone);
+    if(flag){
+
+        if(code.length>0){
+          var params =  {"code": code, "store_id": store_id, "phone": phone } ;
+          app.api.postApi(loginUrl, { params }, (err, rep) => {
+            if (rep.err_code != 0 || rep.err_msg.is_phone!=1) { var msg = rep.err_msg; that._showError(msg);}else{
+              wx.setStorageSync('openid', rep.err_msg.openid);
+              wx.setStorageSync('phone', rep.err_msg.phone);
+              wx.setStorageSync('userUid', rep.err_msg.uid);
+              app.globalData.openid = rep.err_msg.openid;
+              app.globalData.phone = rep.err_msg.phone;
+              app.globalData.uid = rep.err_msg.uid;
+              setTimeout(()=>{
+              let pages = getCurrentPages();
+              let prevPage = pages[pages.length - 2];  //上一个页面
+                prevPage.setData({ isInfo: true, hasPhone:true,uid:rep.err_msg.uid},()=>{
+                  prevPage._parse();
+                })
+              wx.navigateBack();
+              },2000);
+            }
+      
+          })
+        }else{
+          that._showError('密码不能为空，请重新输入'); return false;
         }
-  
-      })
     }else{
-      that._showError('验证码不正确，请重新输入'); return false;
+      that._showError('请输入正确的手机号码'); return false;
     }
   },
   /**

@@ -40,7 +40,7 @@ button{
   align-items: center;
 }
 
-.pre_buy_bj{
+.pre_buy_bj text{
   background-color: rgba(153, 153, 153, 1) !important;
 }
 

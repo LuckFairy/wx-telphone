@@ -130,7 +130,7 @@ Page({
     }
     
     var { tuanId, prodId, sellout = null } = options;
-    prodId = 2151 ; tuanId=116 ; sellout=1;
+    // prodId = 2151 ; tuanId=116 ; sellout=1;
     that.setData({ tuanId, prodId, sellout, uid, phy_id });
     
  

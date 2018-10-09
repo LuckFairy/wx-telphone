@@ -97,7 +97,7 @@ Page({
         console.log('弹窗取消', app.globalData.uid)
         uid = app.globalData.uid;
         that.setData({
-          hasPhone: true, isInfo: false
+          hasPhone: true, isInfo: false,uid:uid
         })
         that._parse();
       }).catch(() => {
@@ -107,8 +107,13 @@ Page({
         })
       })
     } else {
+      //用户取消授权
       that.setData({
         hasPhone: false
+      },()=>{
+        wx.navigateTo({
+          url: '../../my/pages/bingPhone',
+        })
       })
     }
   },
@@ -123,6 +128,7 @@ Page({
         uid = wx.getStorageSync('userUid');
         if (uid) {
           clearInterval(userTimer);
+          that.setData({uid})
           //获取用户信息
           var url = "wxapp.php?c=wechatapp_v2&a=bind_userinfo";
           var params = { "uid": uid, "store_id": app.store_id, "userinfo": e.detail.userInfo }
@@ -132,6 +138,10 @@ Page({
     } else {
       that.setData({
         isInfo: false
+      },()=>{
+        wx.navigateTo({
+          url: '../../my/pages/bingPhone',
+        })
       });
     }
   },
@@ -230,7 +240,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   console.log(this.route)
     if (app.globalData.uid) {
       this.loadMyCardNumData(); //我的卡包数量
       this.getCoupValue(); //优惠券数据
@@ -262,13 +271,13 @@ Page({
       var params = {
         store_id, //店铺id
         physical_id: phy_id,
-        uid,
+        uid:that.data.uid,
       },
         headImg = headImg_v4;
     } else {
       var params = {
         store_id, //店铺id
-        uid,
+        uid:that.data.uid,
       },
         headImg = headImg_v3;
     }
@@ -299,14 +308,14 @@ Page({
       var params = {
         store_id, //店铺id
         physical_id: phy_id,
-        uid,
+        uid:this.data.uid,
         page: '1',
       },
         activityUrl = activityUrl_v2;
     } else {
       var params = {
         store_id, //店铺id
-        uid,
+        uid:this.data.uid,
         page: '1',
       },
         activityUrl = activityUrl_v1;
@@ -361,7 +370,7 @@ Page({
   jumpCoupon() {
     var that = this;
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id,
       "page": 1
     };
@@ -373,9 +382,10 @@ Page({
    * 优惠券面值列表
    */
   getCoupValue() {
+    let that = this;
     app.api.postApi(couponListUrl, {
       "params": {
-        uid,
+        uid:that.data.uid,
         store_id,
         "page": 1
       }
@@ -500,7 +510,7 @@ Page({
       title: '加载中'
     });
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id,
       long: logLat[0],
       lat: logLat[1]
@@ -546,7 +556,7 @@ Page({
       return;
     }
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id,
       "coupon_id_arr": that.data.coupon_id_arr
     }
@@ -562,7 +572,7 @@ Page({
     })
 
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id
     };
     cancelCoupon(params);
