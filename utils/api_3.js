@@ -44,7 +44,7 @@ var Api = {
       }
     });
   }
-    /* 2、调用 wx.getUserInfo() 获取微信用户信息}*/
+    /* 2、调用 _getUserInfo() 获取微信用户信息}*/
     function _getUserInfo() {
       return new Promise((resolve, reject) => {
         if (user_info) {
@@ -57,9 +57,9 @@ var Api = {
     /**
      * 3、调用服务端登录接口
      * @param  {string}  jscode 调用 wx.login() 返回的 code
-     * @param  {string}  userInfoData 用户信息数据，是调用wx.getUserInfo()返回的rawData
-     * @param  {string}  encryptedData 用户信息的加密数据，是调用wx.getUserInfo()返回的encryptedData
-     * @param  {string}  iv 加密算法的初始向量 调用wx.getUserInfo()返回的 iv
+     * @param  {string}  userInfoData 用户信息数据，是调用_getUserInfo()返回的rawData
+     * @param  {string}  encryptedData 用户信息的加密数据，是调用_getUserInfo()返回的encryptedData
+     * @param  {string}  iv 加密算法的初始向量 调用_getUserInfo()返回的 iv
      */
     //function _doSignin(jscode,userInfo) {
     function _doSignin( userInfoData = '', encryptedData = '', iv = '', userInfo) {

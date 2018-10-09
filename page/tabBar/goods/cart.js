@@ -257,11 +257,16 @@ Page({
         store_id:this.data.store_id,
         uid
       }
-      checkBingPhone(params).then(data=>{
+      let phone = wx.getStorageSync("phone");
+      if(phone){
         that.setData({ phoneFlag: false })
-      }).catch(err => {
-        that.setData({ phoneFlag: true })
-      })
+      }else{
+        checkBingPhone(params).then(data=>{
+          that.setData({ phoneFlag: false })
+        }).catch(err => {
+          that.setData({ phoneFlag: true })
+        })
+      }
    
     }else{
       wx.switchTab({

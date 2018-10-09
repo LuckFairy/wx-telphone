@@ -90,7 +90,7 @@
   <!-- 新品試用 -->
   <block wx:if="{{ send_type==2}}">
     <view class='bottom-btn-view mText'>
-      <text wx:if="{{orderData.status == '2'||orderData.status == '3'}}"  class="yellow-btn" data-physical="{{physical_info}}"   data-order-id="{{order.order_no_txt}}" catchtap="goErwei" style='background:#fae53b'>自提二维码</text>
+      <text wx:if="{{orderData.status == '2'||orderData.status == '3'}}"  class="yellow-btn" data-physical="{{physical_info}}"   data-order-id="{{order.order_no}}" catchtap="goErwei" style='background:#fae53b'>自提二维码</text>
       <text wx:if="{{orderData.status == '1'}}" catchtap="pay" data-order-id="{{order_no}}" class="yellow-btn" style='background:#fae53b'>确认支付</text>
     </view>
   </block>

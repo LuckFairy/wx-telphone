@@ -146,28 +146,7 @@ Page({
     hasSignin = wx.getStorageSync('hasSignin');
     store_id = app.store_id;
     uid = wx.getStorageSync('userUid');
-    wx.getUserInfo({
-      success: function (res) {
-        var userInfo = res.userInfo
-        var nickName = userInfo.nickName
-        var avatarUrl = userInfo.avatarUrl
-        that.setData({
-          nickName: nickName,
-          userImg: avatarUrl
-        })
-      },
-      fail: function () {
-        var userInfo = wx.getStorageSync('userInfo');
-        if (userInfo) {
-          that.setData({
-            nickName: userInfo.nickName,
-            userImg: userInfo.avatarUrl
-          })
-        } else {
-          that.checkPhone();
-        }
-      }
-    })
+   
 
   },
 

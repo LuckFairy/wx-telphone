@@ -1,6 +1,6 @@
 // pages/qrcode/qr-entry.js
 import { getUrlQueryParam } from '../../utils/util.js';
-import { Api } from '../../utils/api_2';
+
 let app = getApp();
 let qrData = '';
 let locationId = 155;

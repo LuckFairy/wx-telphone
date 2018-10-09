@@ -29,24 +29,18 @@ Page({
     this.setData({
       store_id, uid, logLat
     })
-    var { check, index } = options;
+    var { check, index,title } = options;
+    if (title) {
+      wx.setNavigationBarTitle({
+        title: title
+      })}
+  
     if (check) {
       this.setData({ checkModel: true, index }); wx.setNavigationBarTitle({
         title: '门店列表'
       })
     };
 
-    var that = this;
-    // 页面初始化 options为页面跳转所带来的参数
-    // 自动获取手机宽高
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          windowHeight: res.windowHeight,
-          windowWidth: res.windowWidth
-        })
-      }
-    })
     this._loadData();
   },
   gobottom(e) {

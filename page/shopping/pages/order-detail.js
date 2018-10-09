@@ -55,9 +55,9 @@ Page({
   goErwei(e) {
     let { orderId, physical } = e.currentTarget.dataset;
     physical = JSON.stringify(physical);
-    if (!orderId) { return; }
+    if (!orderId){return;}
     wx.navigateTo({
-      url: `../../my/pages/erwei?order_no=${orderId}&physical_info=${physical}`,
+      url: `../../my/pages/erwei?order_no=PIG${orderId}&physical_info=${physical}`,
     })
   },
   // 查看售后
@@ -323,9 +323,9 @@ Page({
           self.setData({ userTel: tel});
         }else{//自提
           let physical_info={
-            name: orderdata.take_physical_address,
+            name: orderdata.take_physical_name,
             id: orderdata.take_physical_id,
-            address: orderdata.take_physical_name
+            address: orderdata.take_physical_address
           }
           self.setData({ physical_info});
         }

@@ -1,6 +1,6 @@
 
 var app = getApp();
-let phone = wx.getStorageSync('phone');
+
 let uid = wx.getStorageSync('userUid');
 Page({
 
@@ -79,7 +79,8 @@ Page({
    */
   onLoad: function (options) {
     uid = wx.getStorageSync('userUid');
-    if(uid){this.setData({uid})}
+    let phone = wx.getStorageSync('phone');
+    if(uid){this.setData({uid,phone})}
     
   },
 

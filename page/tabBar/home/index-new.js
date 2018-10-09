@@ -111,10 +111,8 @@ Page({
       that.timer2 = setInterval(() => {
         i++;
         uid = wx.getStorageSync('userUid');
-        that.setData({ uid, infoFlag: false });
-        that._parse();
-        if (uid || i > 3) { clearInterval(that.timer2); }
-      }, 1500);
+        if (uid || i > 3) { that.setData({ uid, infoFlag: false });that._parse();clearInterval(that.timer2); }
+      }, 4000);
     }
     that.loadGroupData();//拼多多数据
 
@@ -146,10 +144,11 @@ Page({
    */
   onShow: function () {
     this.loadMyCardNumData(); //我的卡包数量
-    this.getCoupValue();//优惠券数据
+    // this.getCoupValue();//优惠券数据
     
   },
   _parse() {
+    console.log('_parse');
     let that = this;
     wx.hideLoading();
     that.getCoupValue();//优惠券数据
@@ -275,8 +274,7 @@ Page({
         })
         resolve(phyDefualt);
       });
-    })
-      .then(data => {
+    }).then(data => {
         wx.setStorageSync('phy_id', data.phy_id);
         that.loadHeadicon(data.phy_id); //首页轮播图
         that.loadactivityData(data.phy_id); //活动图数据
@@ -607,25 +605,25 @@ Page({
         uid,
         store_id,
       }
-      app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {
+      app.api.postApi(myCardUrl, { params }, (err, response) => {
         if (err || response.err_code != 0) return;
         var card_num = response.err_msg.card_num;
         this.setData({ card_num });
       });
     } else {
-      clearInterval(that.timer2);
+      clearInterval(that.timer3);
       var i = 0;
-      that.timer2 = setInterval(() => {
+      that.timer3 = setInterval(() => {
         uid = wx.getStorageSync('userUid');
         i++;
         this.loadMyCardNumData(); //我的卡包数量
         if (uid || i > 3) {
-          clearInterval(that.timer2);
+          clearInterval(that.timer3);
           params = {
             uid: uid,
             store_id,
           }
-          app.api.postApi('wxapp.php?c=coupon&a=my_card_num', { params }, (err, response) => {
+          app.api.postApi(myCardUrl, { params }, (err, response) => {
             if (err || response.err_code != 0) return;
             var card_num = response.err_msg.card_num;
             this.setData({ card_num });
