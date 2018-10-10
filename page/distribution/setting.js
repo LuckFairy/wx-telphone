@@ -1,4 +1,9 @@
 // page/distribution/setting.js
+const url = 'app.php?c=drp_ucenter&a=fx_add_account'
+const getInfoUrl = 'app.php?c=drp_ucenter&a=fx_find_account'
+var that;
+const app = getApp();
+var store_id
 Page({
 
   /**
@@ -7,7 +12,8 @@ Page({
   data: {
     bank:'',
     card:'',
-    name:''
+    name:'',
+    bankId:''
 
   },
 
@@ -15,6 +21,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    that=this;
+    store_id = app.store_id;
+    let params = { store_id, "uid": "83046" };
+    app.api.postApi(getInfoUrl, { params }, (err, reps) => {
+      if (err && reps.err_code != 0) return;
+      let account = reps.err_msg.fx_account;
+      
+      that.setData({
+        bank: account.bank_name,
+        card: account.bank_account,
+        name: account.bank_user_name,
+        bankId: account.bank_id
+      });
+    });
+
 
   },
 
@@ -34,7 +55,8 @@ Page({
     let currPage = pages[pages.length - 1];
     if (currPage.data.bank != "") {
       this.setData({//将携带的参数赋值
-        bank: currPage.data.bank
+        bank: currPage.data.bank,
+        bankId: currPage.data.bankId
       });
     } 
 
@@ -92,6 +114,7 @@ Page({
   onOkClick(){
 
     let bank=this.data.bank;
+    let bankId=this.data.bankId;
     let card=this.data.card;
     let name=this.data.name;
     if(!bank){
@@ -117,15 +140,28 @@ Page({
       return;
     }
 
-    let data = this.data;
-
-    wx.setStorage({
-      key: 'bankAccount',
-      data: data,
-      success:function(){
-        wx.navigateBack(); 
-      }
+    let that = this;
+    let params = { store_id, "uid": "83046", "bank_id": bankId, "bank_account": card, "bank_user_name": name };
+    wx.showLoading({
+      title: '操作中...',
     })
+
+    app.api.postApi(url, { params}, (err, reps) => {
+      wx.hideLoading();
+      if (err && reps.err_code != 0) return;
+       wx.navigateBack();
+    });
+
+
+
+    // let data = this.data;
+    // wx.setStorage({
+    //   key: 'bankAccount',
+    //   data: data,
+    //   success:function(){
+    //     wx.navigateBack(); 
+    //   }
+    // })
 
 
   },

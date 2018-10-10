@@ -1,4 +1,8 @@
 // page/distribution/my_record.js
+const withDrawUrl ='app.php?c=drp_ucenter&a=extract_list';
+const incomUrl ='app.php?c=drp_ucenter&a=brokeragetab_v2'
+const app = getApp();
+var store_id
 Page({
 
   /**
@@ -6,7 +10,7 @@ Page({
    */
   data: {
 
-    type:0
+    index:0
 
   },
 
@@ -14,12 +18,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let type = options.type;
+    // let index = options.type;
+    let index = options.type;
+
+    store_id = app.store_id;
     let title='';
     this.setData({
-      type
+      index
     });
-    if(type==0){
+    if (index==0){
       title ='收支明细';
     }else{
       title ='提现记录'
@@ -27,6 +34,7 @@ Page({
     wx.setNavigationBarTitle({
       title//页面标题为路由参数
     })
+    this.getList(index);
   },
 
   /**
@@ -76,5 +84,37 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+
+  getList(index){
+    let that=this;
+    let params = { store_id, "uid": "83046", "page": "1" };
+
+    if(index==0){
+      app.api.postApi(incomUrl, { params }, (err, resp) => {
+        // wx.hideLoading();
+        if (resp && resp.err_code==0){
+          that.setData({
+            list0: resp.err_msg.result
+          });
+
+        }
+      });
+    }else{
+
+      app.api.postApi(withDrawUrl, { params }, (err, resp) => {
+        // wx.hideLoading();
+        if (resp && resp.err_code == 0) {
+          that.setData({
+            list1: resp.err_msg.extract_list
+          });
+
+        }
+      });
+
+    }
+
   }
+
 })
