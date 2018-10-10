@@ -1,4 +1,7 @@
 {
+  "usingComponents": {
+    "share-panel": "../components/share-page"
+  },
   "navigationBarTitleText": "分享赚钱",
   "navigationBarBackgroundColor": "fff"
 }

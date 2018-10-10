@@ -23,7 +23,7 @@
   </view>
 </scroll-view>
 <!--用品  -->
-<scroll-view scroll-y  bindscrolltoupper="upper" bindscrolltolower="lower">
+<scroll-view scroll-y="true" style='height:1156rpx;margin-top:178rpx;' lower-threshold="150rpx"  bindscrolltoupper="upper" bindscrolltolower="lower">
 <view class='list-box' wx:if="{{currentTab==0}}">
   <block wx:if="{{dataList.length>0}}">
     <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>

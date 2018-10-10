@@ -1,35 +1,17 @@
 <!--page/distribution/invite.wxml-->
 <filter-panel detail="{{ac_detail}}" title="{{ac_title}}" time="{{ac_time}}">
-  <view class='footer' slot="footer" catchtap="{{page==1?(isCheck==0?'goMoneyIndex':'checkShade'):'shareShade'}}">
+  <view class='{{(isCheck==1)?"footer":"footer gray-bg"}}' slot="footer"  catchtap="{{(isCheck==1)?'oncheckShade':''}}">
     申请成为分享达人
   </view>
   <view class="overlay" wx:if="{{checkShade}}" slot="overlay">
-    <view class='overlay-shade'></view>
+    <view class='overlay-shade' catchtap='cacelShade'></view>
     <view class="overlay-content back-content">
       <image src='../image/distribution/w-1.png'></image>
-      <text>资格审核中  （10s）</text>
+      <text>资格审核中</text>
       <view class="modal-button">
         <button catchtap='goback'>返回上一页</button>
       </view>
     </view>
   </view>
-  <view class="overlay" wx:if="{{shareShade}}" slot="overlay">
-    <view class='overlay-shade' catchtap='cacelShade'></view>
-    <view class="invite-content">
-      <text>立即邀请好友</text>
-      <view class='item-box'>
-        <view class='item'>
-        <button class='share-btn' open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.imgurl}}"></button>
-          <image src='../image/distribution/qugo_03.png'></image>
-          <text>微信好友</text>
-        </view>
-        <poster id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
-          <view class='item'  style='width:100%;'>
-            <image src='../image/distribution/qugo_05.png'></image>
-            <text>邀请卡</text>
-          </view>
-        </poster>
-      </view>
-    </view>
-  </view>
+  
 </filter-panel>

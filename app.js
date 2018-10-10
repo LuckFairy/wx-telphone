@@ -363,5 +363,24 @@ App({
       })
 
     })
-  }
+  },
+  //生成二维码图片
+  creatImg(id,that) {
+    let params = { "uid": that.data.uid, "store_id": that.data.store_id, "type": 2 };
+    console.log(id);
+    //商品id 如果type=1，这个值必须传。type=2，不需要
+    if(id) {
+      params = { "uid": that.data.uid, "store_id": that.data.store_id, "type": 1, "product_id": id };
+    }
+    return new Promise((resolve, reject) => {
+      this.api.postApi(__config.posterUrl, { params }, (err, res) => {
+        if (res.err_code == 0) {
+          resolve(res.err_msg.url);
+        } else {
+          console.error(err || res.err_msg);
+          reject(err || res.err_msg);
+        }
+      })
+    })
+  },
 })

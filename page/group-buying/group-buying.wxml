@@ -34,9 +34,10 @@
           <text class="mid-list-three mid-total">{{item}}</text>
           </block> -->
         </view>
-        <view class='mid-list-wraps-image' wx:if='{{sellout==1}}'>
-          <button class='mid-open-list share-bt' open-type='share' data-imgurl='{{product.shareUrl?product.shareUrl:image_lists[0]}}' data-price="{{product.price}}" data-title='{{product.name}}'></button>
-          <text class="mid-list-six-top share-txt">分享</text>
+        <view class='share-box' wx:if='{{sellout==1}}'>
+          <button class='share-bt' open-type='share' data-imgurl='{{product.shareUrl?product.shareUrl:image_lists[0]}}' data-price="{{product.price}}" data-title='{{product.name}}'></button>
+          <text class='share-img'></text>
+          <text class=" share-txt">分享</text>
         </view>
       </view>
       <view class='mid-list-wraps'>

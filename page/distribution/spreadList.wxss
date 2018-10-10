@@ -16,6 +16,7 @@ page{
   color: #ff3030 !important;
 }
 .search-msg {
+  position: fixed;
   display: flex;
   width: 750rpx;
   height: 88rpx;
@@ -83,7 +84,7 @@ page{
   margin-top: 32rpx;
   margin-left: 18rpx;
 }
-.tab-use{height: 80rpx;top:0rpx;z-index:9999;background: #fff;margin-bottom: 10rpx;}
+.tab-use{position: fixed;height: 80rpx;top:88rpx;z-index:9999;background: #fff;margin-bottom: 10rpx;}
 .tab-use>view{height: 80rpx;line-height: 80rpx;justify-content: space-around;}
 .tab-thing{height:80rpx;width:250rpx; line-height:80rpx;color:#999;font-size:30rpx;justify-content: center;} 
 .tab-some-thing{display:block;font-size:30rpx;text-align:center;}

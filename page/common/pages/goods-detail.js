@@ -6,14 +6,24 @@ let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 let physical_id = wx.getStorageSync('phy_id'); //门店id
 const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
 const fxUserUrl = "wxapp.php?c=promote&a=is_fx_user";//判断是否是分销员
+const cartUrl = "wxapp.php?c=cart&a=cart_list";
+const storeCouponUrl = "wxapp.php?c=coupon&a=store_coupon";
+const prodDetUrl = `wxapp.php?c=product&a=detail_of_product_v4`;
 Page({
   data: {
     isFx:0,//是否分销员，1是 0否
     shareShade: false,
-
+    shareOpt:{
+      title:'立即分享给好友',
+      tip:'朋友通过你分享的页面成功购买后，你可获得对应的佣金',
+      shareImg:'../image/distribution/qugo_03.png',
+      shareTxt:'微信好友',
+      posterImg:'../image/distribution/qugo_08.png',
+      posterTxt:'小程序'
+    },
     loading: false,
     data: null,
-    prodId: null,
+    prodId: null,//产品id
     action: null,    // 'present' 为赠品   'havealook'为从订单来查看详细的
     //多规格 start
     firstIndex: -1,
@@ -30,7 +40,7 @@ Page({
 
 
     moreChoose: false,
-    product: '',
+    product: {},
     store_id: "",
     uid: '',
     activity_err_msg: "",
@@ -51,7 +61,7 @@ Page({
     sku_list: '',
     skuid_list: [],
     sku_id: '',
-    product_id: '',
+   
     is_add_cart: 1,
     goPayment: false,//立即下单，增加立即下单
     goAddCard: false,
@@ -65,17 +75,249 @@ Page({
     tabCheck: false,//多属性是否选中,
     preTimeText: { hour: 0, minute: 0, second: 0 },
     preTime: 234,
-    isShowPre: false//显示预售商品提示
+    isShowPre: false,//显示预售商品提示
+    qrcodeUrl:null,//小程序二维码
+    jdConfig: {
+      width: 750,
+      height: 1334,
+      backgroundColor: '#fff',
+      debug: false,
+      blocks: [
+        {
+          width: 690,
+          height: 808,
+          x: 30,
+          y: 183,
+          borderWidth: 2,
+          borderColor: '#f0c2a0',
+          borderRadius: 20,
+        },
+        {
+          width: 634,
+          height: 74,
+          x: 59,
+          y: 770,
+          backgroundColor: '#fff',
+          opacity: 0.5,
+          zIndex: 100,
+        },
+      ],
+      texts: [
+        {
+          x: 113,
+          y: 61,
+          baseLine: 'middle',
+          text: '推荐人',
+          fontSize: 32,
+          color: '#8d8d8d',
+        },
+        {
+          x: 30,
+          y: 113,
+          baseLine: 'top',
+          text: '发现一个好物，推荐给你呀',
+          fontSize: 38,
+          color: '#080808',
+        },
+        {
+          x: 92,
+          y: 810,
+          fontSize: 38,
+          baseLine: 'middle',
+          text: '测试标题标题',
+          width: 570,
+          lineNum: 1,
+          color: '#8d8d8d',
+          zIndex: 200,
+        },
+        {
+          x: 59,
+          y: 895,
+          baseLine: 'middle',
+          text: [
+            {
+              text: '2人拼',
+              fontSize: 28,
+              color: '#ec1731',
+            },
+            {
+              text: '¥99',
+              fontSize: 36,
+              color: '#ec1731',
+              marginLeft: 30,
+            }
+          ]
+        },
+        {
+          x: 522,
+          y: 895,
+          baseLine: 'middle',
+          text: '已拼2件',
+          fontSize: 28,
+          color: '#929292',
+        },
+        {
+          x: 59,
+          y: 945,
+          baseLine: 'middle',
+          text: [
+            {
+              text: '商家发货&售后',
+              fontSize: 28,
+              color: '#929292',
+            },
+            {
+              text: '七天退货',
+              fontSize: 28,
+              color: '#929292',
+              marginLeft: 50,
+            },
+            {
+              text: '运费险',
+              fontSize: 28,
+              color: '#929292',
+              marginLeft: 50,
+            },
+          ]
+        },
+        {
+          x: 360,
+          y: 1065,
+          baseLine: 'top',
+          text: '长按识别小程序码',
+          fontSize: 38,
+          color: '#080808',
+        },
+        {
+          x: 360,
+          y: 1123,
+          baseLine: 'top',
+          text: '超值好货一起拼',
+          fontSize: 28,
+          color: '#929292',
+        },
+      ],
+      images: [
+        {
+          width: 62,
+          height: 62,
+          x: 30,
+          y: 30,
+          borderRadius: 62,
+          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b84c6c37f028.png',
+        },
+        {
+          width: 634,
+          height: 634,
+          x: 59,
+          y: 210,
+          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
+        },
+        {
+          width: 220,
+          height: 220,
+          x: 92,
+          y: 1020,
+          url: 'https://lc-I0j7ktVK.cn-n1.lcfile.com/d719fdb289c955627735.jpg',
+        },
+        {
+          width: 750,
+          height: 90,
+          x: 0,
+          y: 1244,
+          url: 'https://lc-I0j7ktVK.cn-n1.lcfile.com/67b0a8ad316b44841c69.png',
+        }
+      ]
+
+    },
   },
   onShareAppMessage(res) {
     let that = this;
-    let dataset = res.target.dataset;
-
+    let product = this.data.product;
+    console.log(this.data.product);
     return {
-      title: dataset.title,
-      path: `/page/common/pages/goods-detail?prodId=${that.data.product_id}&action=${that.data.action}`,
-      imageUrl: dataset.imgurl
+      title: product.name,
+      path: `/page/common/pages/goods-detail?prodId=${that.data.prodId}&action=${that.data.action}`,
+      imageUrl: (product.shareUrl ? product.shareUrl : product.product_image_list[0]) 
     }
+  },
+  onLoad: function (options) {
+    wx.hideShareMenu();
+    let that = this;
+    let store_id = app.store_id;
+    let uid = wx.getStorageSync('userUid');
+    physical_id = wx.getStorageSync('phy_id');
+
+    if (uid == undefined || uid == '') {
+      wx.switchTab({
+        url: '../../tabBar/home/index-new',
+      })
+    }
+    that.setData({
+      uid, store_id
+    },()=>{
+      // 页面初始化 options为页面跳转所带来的参数
+      let { prodId = '1786', action, params, categoryid = '' } = options;
+      if (action) { this.setData({ action }) }
+      that.setData({ prodId },()=>{
+        that._pase();
+        app.creatImg(prodId, that).then(data => {
+          that.setData({ qrcodeUrl: data })
+        })
+      });
+    }) 
+  },
+ 
+  onReady: function () {
+    // 页面渲染完成
+    this.loadData();
+  },
+  onShow: function () {
+    
+  },
+  onHide: function () {
+    // 页面隐藏
+    this.stopCountDown();
+  },
+  onUnload: function () {
+    // 页面关闭
+    this.stopCountDown();
+  },
+  _pase() {
+    let that = this;
+    //判断是否是分销商品
+    let opt = { uid:that.data.uid, store_id:that.data.store_id }
+    that.isFx(opt);
+    //购物车的数量
+    app.api.postApi(cartUrl, { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
+      if (err || resp.err_code != 0) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        that.setData({
+          newCartNum: resp.err_msg.cart_list_number
+        });
+      }
+    });
+
+    //线上优惠券信息
+    app.api.postApi(storeCouponUrl, { "params": { "uid": this.data.uid, "store_id": this.data.store_id, "product_id": this.data.prodId } }, (err, resp) => {
+      if (err || resp.err_code != 0) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        var coupon_value = [];
+        var len = resp.err_msg.coupon_count > 2 ? 2 : resp.err_msg.coupon_count;
+        for (var i = 0; i < len; i++) {
+          coupon_value.push(resp.err_msg.coupon_value[i]);
+        }
+        that.setData({
+          shopCoupon: resp.err_msg,
+          coupon_list: resp.err_msg.coupon_list,
+          coupon_value: coupon_value
+        });
+      }
+    });
   },
   isFx(params){
     app.api.postApi(fxUserUrl,{params},(err,res)=>{
@@ -84,7 +326,7 @@ Page({
       }
     })
   },
-  showShare(){
+  onShowShare(){
     this.setData({ shareShade:true})
   },
  
@@ -105,17 +347,9 @@ Page({
   },
   /**购物车立即购买 */
   doGoBuy(e) {
-    var that = this;
-    var buyQuantity = e.currentTarget.dataset.buyQuantity;
-    var isaddCart = e.currentTarget.dataset.isaddCart;
-    var productId = e.currentTarget.dataset.productId;
-    var skuId = e.currentTarget.dataset.skuId;
-
-  
-    var uid = e.currentTarget.dataset.uid;
-    var storeId = e.currentTarget.dataset.storeId;
-    var skuid_list = that.data.skuid_list;
-
+    let that = this;
+    let { buyQuantity, isaddCart, productId, skuId } = e.currentTarget.dataset;
+    let { uid, store_id, skuid_list}=that.data;
     if (skuid_list.length > 0) {
       if (!skuId) {
         wx.showLoading({
@@ -126,11 +360,11 @@ Page({
         }, 2000)
       } else {
         // 选择属性之后发送请求添加到购物车
-        that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
+        that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, store_id);
       }
     } else {
       // 直接发送请求添加到购物车
-      that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId);
+      that.goTheCar(buyQuantity, isaddCart, productId, skuId, uid, store_id);
     }
 
   },
@@ -169,8 +403,6 @@ Page({
             });
           }
         });
-
-
         setTimeout(function () {
           wx.hideLoading();
           var moreChoose = false;
@@ -219,98 +451,26 @@ Page({
       }
     });
   },
-  onLoad: function (options) {
-    wx.hideShareMenu();
-    var that = this;
-    var store_id = app.store_id;
-    var uid = wx.getStorageSync('userUid');
-    physical_id = wx.getStorageSync('phy_id');
-
-    if (uid == undefined || uid == '') {
-      wx.switchTab({
-        url: '../../tabBar/home/index-new',
-      })
-    }
-    that.setData({
-      uid, store_id
-    })
-    // 页面初始化 options为页面跳转所带来的参数
-    let { prodId='1786', action, params, categoryid = '' } = options;
-
-    //this.setData({ 'newCartNum': 0 });
-
-    if (action) { this.setData({ action})}
-
-    this.setData({ 'product_id': prodId, prodId });
-
-    //购物车的数量
-    app.api.postApi('wxapp.php?c=cart&a=cart_list', { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
-      if (err || resp.err_code != 0) {
-        return;
-      }
-      if (resp.err_code == 0) {
-        that.setData({
-          newCartNum: resp.err_msg.cart_list_number
-        });
-      }
-    });
-
-    //线上优惠券信息
-    app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid": this.data.uid, "store_id": this.data.store_id, "product_id": this.data.product_id } }, (err, resp) => {
-      if (err || resp.err_code != 0) {
-        return;
-      }
-      if (resp.err_code == 0) {
-        var coupon_value = [];
-        var len = resp.err_msg.coupon_count > 2 ? 2 : resp.err_msg.coupon_count;
-        for (var i = 0; i < len; i++) {
-          coupon_value.push(resp.err_msg.coupon_value[i]);
-        }
-        that.setData({
-          shopCoupon: resp.err_msg,
-          coupon_list: resp.err_msg.coupon_list,
-          coupon_value: coupon_value
-        });
-      }
-    });
-    //判断是否是分销商品
-    let opt = { uid, store_id }
-    that.isFx(opt);
-  },
-  onReady: function () {
-    // 页面渲染完成
-  },
-  //多规格 onShow
-  onShow: function () {
-    this.loadData();
-  },
-  onHide: function () {
-    // 页面隐藏
-    this.stopCountDown();
-  },
-  onUnload: function () {
-    // 页面关闭
-    this.stopCountDown();
-  },
-
   loadData() {
+    console.log('loadData');
     let that = this;
     let { prodId, action } = that.data;
     this.timer && clearInterval(this.timer);
     wx.showLoading({ title: '加载中' });
     //这里是严选
-    let url = 'wxapp.php?c=product&a=detail_of_product_v4';
+    let url = '';
     var params = {
       "product_id": prodId, uid: that.data.uid, store_id
     }
-    app.api.postApi(url, { params }, (err, resp) => {
+    app.api.postApi(prodDetUrl, { params }, (err, resp) => {
+      
       wx.hideLoading();
-      if (err) return;
-      if (resp.err_code != 0) {
+      if (err || resp.err_code != 0) {
         wx.showLoading({
-          title: resp.err_msg,
-        })
-      } else {
+          title: err||resp.err_msg,
+        }); return;
+      } 
+     
         var product = resp.err_msg.product;
         if (action == 'present') {
           console.log('新品试用');
@@ -321,21 +481,20 @@ Page({
             action = product.card_set_ids
 
           } else {
-            action = null
             console.log('普通商品');
+            action = null
           }
         }
+        console.log("product",product)
         that.setData({
           product, action
+        },()=>{
+          if (product.sold_time <= 0) {
+            that.setData({ preTime: product.sold_time })
+          } else {
+            that.startCountDown(product.sold_time);
+          }
         });
-        if (product.sold_time <= 0) {
-          that.setData({ preTime: product.sold_time })
-        } else {
-
-          that.startCountDown(product.sold_time);
-        }
-      }
-
     });
   },
   doBuy: function (e) {
@@ -359,17 +518,6 @@ Page({
       oneMatching.splice(0, oneMatching.length);//清空数组
     }
     var product_id = e.currentTarget.dataset.productId;
-    // that.setData({
-    //   moreChoose: true,
-    //   oneMatching: oneMatching,
-    //   oriPid: "",
-    //   curTabs: '',
-    //   arrone: '',
-    //   arrotwo: "",
-    //   product_id: product_id,
-    //   goAddCard: true,
-    //   goPayment: false
-    // });
     var uid = that.data.uid;
     var store_id = that.data.store_id;
     var params = {
@@ -605,11 +753,9 @@ Page({
       let { product, property_list = null, sku_list = null } = resp.err_msg;
       if (sku_list && sku_list.length > 0) {
         for (var i = 0; i < sku_list.length; i++) {
-         
           multiattribute.push(sku_list[i].properties.split(';'));//多属性选择数组
           quantitys.push(sku_list[i].quantity);//所有可能库存情况
           skuid_list.push(sku_list[i].sku_id);//所有sku_id情况
-
           price.push(sku_list[i].price);//s所有价格情况
         }
       }

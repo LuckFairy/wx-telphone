@@ -1,7 +1,6 @@
 {
   "usingComponents": {
-    "filter-panel": "../components/wxparse-page",
-    "poster": "../components/poster/poster/index"
+    "filter-panel": "../components/wxparse-page"
   },
   "navigationBarTitleText": "加入分享赚钱计划",
   "navigationBarBackgroundColor": "fff"

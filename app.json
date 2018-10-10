@@ -1,11 +1,12 @@
 {
   "pages": [
 
-    "page/distribution/spreadList",
+    "page/distribution/moneyIndex",
     "page/common/pages/goods-detail",
+    "page/distribution/invite",
+    "page/distribution/spreadList",
     "page/common/pages/activity-detail",
     "page/tabBar/home/index-new",
-    "page/distribution/invite",
     "page/distribution/spreadOrder",
     "page/distribution/my_customer",
     "page/distribution/my_invite",
@@ -18,7 +19,6 @@
   
     
 
-    "page/distribution/moneyIndex",
     "page/tabBar/my/myself",
     "page/common/pages/my-order",
     "page/common/pages/store-change",

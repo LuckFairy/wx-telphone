@@ -71,7 +71,10 @@ page {
   display: block;
   float: left;
 }
-
+.myself-id {
+  margin-right: 24rpx;
+  font-size: 28rpx;
+}
 .myself-detail {
   display: inline-block;
   font-size: 0rpx;
@@ -83,10 +86,7 @@ page {
   font-size: 24rpx;
 }
 
-.myself-id {
-  margin-right: 24rpx;
-  font-size: 28rpx;
-}
+
 /* 中间内容 */
 .midBox{
   flex-direction: column;
@@ -136,15 +136,15 @@ page {
   align-items: center;
 
 }
-.midBox-footer navigator{
+.midBox-footer navigator,.midBox-footer view{
   width: 210rpx;
   height: 120rpx;
   margin-right: 40rpx;
 }
-.midBox-footer navigator:last-child{
+.midBox-footer view:last-child{
   margin-right: 0;
 }
-.midBox-footer navigator image{
+.midBox-footer navigator image,.midBox-footer view image{
   width: 100%;
   height: 100%;
 }
