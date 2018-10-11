@@ -26,6 +26,9 @@
   padding: 24rpx;
   width: 750rpx;
   background-color: rgba(255, 255, 255, 1);
+      border-bottom:1px solid #e5e5e5;
+
+
 }
 
 .main-content-img{

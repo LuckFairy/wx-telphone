@@ -2,7 +2,7 @@
 <page>
 <view class='item top'>
   <text class='text'>可提现金额</text>
-  <text class='text'>¥360.00</text>
+  <text class='text'>¥{{blance}}</text>
 </view>
 
 <view class='line'>
@@ -10,7 +10,7 @@
 
 <view class='item'>
   <text class='text'>本次提现</text>
-  <input class='text text-input' placeholder-style='input' type='digit' placeholder='银行卡单笔最高提现5万'></input>
+  <input class='text text-input' bindinput='bindMoneyInpu' placeholder-style='input' type='digit' placeholder='银行卡单笔最高提现5万'></input>
 </view>
 
 

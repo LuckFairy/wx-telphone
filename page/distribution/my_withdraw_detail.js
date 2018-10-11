@@ -1,9 +1,10 @@
 // page/distribution/my_withdraw_detail.js
 const AccoutUrl = 'app.php?c=drp_ucenter&a=fx_find_account';
 const WithDrawUrl ='app.php?c=drp_ucenter&a=extract_info_v2';
+const _detailUrl = "wxapp.php?c=fx_user&a=get_fx_detail";
+
 var that;
 const app = getApp();
-var store_id
 
 Page({
 
@@ -13,7 +14,10 @@ Page({
   data: {
     tip:'去设置',
     account:null,
+    blance:0,//余额
     money:0,
+    store_id: app.store_id,
+
 
   },
 
@@ -22,7 +26,6 @@ Page({
    */
   onLoad: function (options) {
     that=this;
-    store_id = app.store_id;
 
 
   },
@@ -38,6 +41,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    let store_id = this.data.store_id;
     let params = { store_id, "uid": "83046"};
    
 
@@ -54,24 +58,12 @@ Page({
       });
     });
 
-    // wx.getStorage({
-    //   key: 'bankAccount',
-    //   success: function(res) {
-    //     console.log(res.data);
-    //     let account = res.data;
-    //     if(account){
-    //       let tip ='去修改';
-    //         that.setData({
-    //           account,
-    //           tip
-    //         })
-    //     }
-        
-    //   },
-    // })
-
-
+    app.api.postApi(_detailUrl, { params }, (err, rep) => {
+      if (err || rep.err_code != 0) { console.error(err || rep.err_msg); return; }
+      this.setData({ blance: rep.err_msg.forward_money });
+    })
   },
+
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -124,53 +116,61 @@ Page({
 
   onOkClick(){
      let that=this;
-    // let money=that.data.money;
-    // let accout=that.data.account;
-    // if(!money||money==0){
-    //   wx.showToast({
-    //     title: '金额输入不正确！',
-    //     icon: 'success',
-    //     duration: 2000
-    //   })
-    // }else if(!accout){
+    let store_id = this.data.store_id;
+    let blance = this.data.blance;
+    let uid = wx.getStorageSync("userUid")
 
-    //   wx.showToast({
-    //     title: '请设置银行账户！',
-    //     icon: 'success',
-    //     duration: 2000
-    //   })
-    // }else{
-      
-    //   let params = { "store_id": store_id, "uid": "83046", "extract_money": "1", "available_money": "11", "account_id": "3", "bank_id": "1" };
-
-
-    //   app.api.postApi(AccoutUrl, { params }, (err, reps) => {
-    //     if (err && reps.err_code != 0) return;
-    //     let account = reps.err_msg.fx_account;
-    //     let tip = that.data.tip;
-    //     if (account && account.bank_name) {
-    //       tip = '去修改';
-    //     }
-    //     that.setData({
-    //       account,
-    //       tip
-    //     });
-    //   });
-
-    // }
-
-    let params = { "store_id": store_id, "uid": "83046", "extract_money": "1", "available_money": "11", "account_id": "3", "bank_id": "1" };
-
-
-    app.api.postApi(WithDrawUrl, { params }, (err, reps) => {
-      if (err && reps.err_code != 0) return;
+    let money=that.data.money;
+    let accout=that.data.account;
+    if (!money || money == 0 || money > blance){
       wx.showToast({
-        title: reps.err_msg,
-        success:function(){
-          wx.navigateBack();
-        }
+        title: '金额输入不正确！',
+        icon: 'success',
+        duration: 2000
       })
-    });
+    }else if(!accout){
+
+      wx.showToast({
+        title: '请设置银行账户！',
+        icon: 'success',
+        duration: 2000
+      })
+    }else{
+
+
+      let params = { store_id, "uid": uid, "extract_money": money, "available_money": blance, "account_id": accout.id, "bank_id": accout.bank_id };
+
+
+      app.api.postApi(WithDrawUrl, { params }, (err, reps) => {
+        if (err && reps.err_code != 0) return;
+        wx.showToast({
+          title: reps.err_msg,
+          success: function () {
+            wx.navigateBack();
+          }
+        })
+      });
+      
+      // let params = { "store_id": store_id, "uid": "83046", "extract_money": "1", "available_money": "11", "account_id": "3", "bank_id": "1" };
+
+
+      // app.api.postApi(AccoutUrl, { params }, (err, reps) => {
+      //   if (err && reps.err_code != 0) return;
+      //   let account = reps.err_msg.fx_account;
+      //   let tip = that.data.tip;
+      //   if (account && account.bank_name) {
+      //     tip = '去修改';
+      //   }
+      //   that.setData({
+      //     account,
+      //     tip
+      //   });
+      // });
+
+    }
+
+
+   
 
 
   }

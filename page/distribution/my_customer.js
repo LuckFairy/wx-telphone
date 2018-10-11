@@ -25,7 +25,6 @@ Page({
   },
 
   getCustomers(index){
-   
     let that=this;
     that.setData({
       curActIndex: index,
@@ -34,32 +33,39 @@ Page({
     if(index==1){
       type ='others';
     }
-
-    var params = {
-      "fx_id": 2,
-      type,
-      "store_id": this.data.storeId
-    };
-    app.api.postApi(_get_user, { params }, (err, resp) => {
-      wx.hideLoading();
-      if (resp) {
-        if (resp.err_code == 0) {
-          let list = resp.err_msg;
-            if(index==0){
+    let fxid = wx.getStorageSync('fxid');
+    if (fxid) {
+      var params = {
+        "fx_id": fxid,
+        type,
+        "store_id": this.data.storeId
+      };
+      app.api.postApi(_get_user, { params }, (err, resp) => {
+        wx.hideLoading();
+        if (resp) {
+          if (resp.err_code == 0) {
+            let list = resp.err_msg;
+            if (index == 0) {
               that.setData({
-                list0:list,
+                list0: list,
               });
-            }else{
+            } else {
               that.setData({
                 list1: list,
               });
             }
-        } 
+          }
 
-      }
+        }
 
-    });
+      });
+
+    } else {
+      wx.navigateBack();
+    }
   },
+
+  
 
   /**
    * 生命周期函数--监听页面初次渲染完成

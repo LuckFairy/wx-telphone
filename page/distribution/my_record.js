@@ -2,6 +2,8 @@
 const withDrawUrl ='app.php?c=drp_ucenter&a=extract_list';
 const incomUrl ='app.php?c=drp_ucenter&a=brokeragetab_v2'
 const app = getApp();
+var uid =null;
+
 var store_id
 Page({
 
@@ -19,6 +21,7 @@ Page({
    */
   onLoad: function (options) {
     // let index = options.type;
+    uid= wx.getStorageSync("userUid")
     let index = options.type;
 
     store_id = app.store_id;
@@ -89,7 +92,7 @@ Page({
 
   getList(index){
     let that=this;
-    let params = { store_id, "uid": "83046", "page": "1" };
+    let params = { store_id, "uid": uid, "page": "1" };
 
     if(index==0){
       app.api.postApi(incomUrl, { params }, (err, resp) => {

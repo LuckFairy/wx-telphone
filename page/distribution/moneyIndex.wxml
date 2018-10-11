@@ -17,12 +17,12 @@
   </view>
 </view>
 <view class='midBox'>
-  <view  class='midBox-top'>
+  <view  class='midBox-top' bindtap='onIncomeClick'>
     <text class='shallowGray'>当前店铺累计收益（元）</text>
     <text>{{detail.total_money}}</text>
     <text class='shallowGray'>包含待结算{{detail.stay_money}}元</text>
   </view>
-  <navigator url='./my_withdraw' class='height padding line'>
+  <navigator url='./my_withdraw?money={{detail.forward_money}}' class='height padding line'>
     <view>
       <text class='black'>可提现佣金</text>
       <text class='black'>{{detail.forward_money}}元</text>
@@ -34,11 +34,11 @@
   </navigator>
 </view>
 <view class='m-t16 midBox-item'>
-  <view>
+  <view bindtap='onCustomerClick'>
     <text class='blue'>{{detail.self_user}}</text>
     <text class='black'>累计客户</text>
   </view>
-  <view>
+  <view bindtap='onInviteClivk'>
     <text class='blue'>{{detail.self_fx}}</text>
     <text class='black'>累计邀请</text>
   </view>

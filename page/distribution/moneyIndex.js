@@ -84,7 +84,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let uid = wx.getStorageSync("userUid");
+    // let uid = wx.getStorageSync("userUid");
+    let uid = 83046;
     console.log(uid)
     this.setData({uid},()=>{
       this.load();
@@ -134,6 +135,7 @@ Page({
     app.api.postApi(_detailUrl,{params},(err,rep)=>{
       if(err||rep.err_code!=0){console.error(err||rep.err_msg);return;}
       this.setData({detail:rep.err_msg});
+      wx.setStorageSync('fxid', rep.err_msg.id)
     })
   },
 
@@ -169,6 +171,22 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+
+  },
+  onCustomerClick() {
+    wx.navigateTo({
+      url: './my_customer'
+    });
+  },
+  onInviteClivk() {
+    wx.navigateTo({
+      url: './my_invite'
+    });
+  },
+  onIncomeClick(){
+    wx.navigateTo({
+      url: './my_income'
+    });
 
   }
 })

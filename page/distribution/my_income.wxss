@@ -16,13 +16,14 @@ page {
   padding-top: 45rpx;
   padding-bottom: 45rpx;
   background-color: rgba(255, 255, 255, 1);
+    border-bottom:1px solid #e5e5e5;
+
 }
 
 .more-image {
   width: 24rpx;
   height: 24rpx;
   margin-left: 2rpx;
-  padding-top:15rpx;
 
 }
 
@@ -62,7 +63,7 @@ display: flex;
 
 .content-top-right-text{
 	color: #5f5f5f;
-  height: 28rpx;
+  font-size: 28rpx;
 }
 
 .content-bottom{

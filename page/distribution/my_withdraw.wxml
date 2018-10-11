@@ -7,7 +7,7 @@
   </view>
 
   <view class='content content-text'>可提现金额</view>
-  <view class='content content-price'>¥ 200.00</view>
+  <view class='content content-price'>¥ {{money}}</view>
 
  <button class='content-btn' bindtap='onWithDrawClick'>提现</button>
 

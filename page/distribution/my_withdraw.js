@@ -1,6 +1,7 @@
 // page/distribution/my_withdraw.js
 
 const app = getApp();
+const _detailUrl = "wxapp.php?c=fx_user&a=get_fx_detail";
 
 Page({
 
@@ -8,6 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    money:0,
+    sid: app.store_id,
 
   },
 
@@ -15,26 +18,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    var params = {
-      "fx_id": 83046,
-      "type": 'my',
-      "store_id": this.data.storeId
-    };
-    app.api.postApi(_get_user, { params }, (err, resp) => {
-      wx.hideLoading();
-      if (resp) {
-        if (resp.err_code == 0) {
-
-        } else {
-
-        }
-
-      }
-
+    this.setData({
+      money:options.money
     });
-
-
   },
 
   /**
@@ -48,7 +34,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    // let uid = wx.getStorageSync("userUid");
+    let uid = 83046;
+    console.log(uid)
+    this.setData({ uid }, () => {
+      this.load();
+    })
 
+  },
+
+  load() {
+    let params = {
+      uid: this.data.uid,
+      store_id: this.data.sid
+    }
+    app.api.postApi(_detailUrl, { params }, (err, rep) => {
+      if (err || rep.err_code != 0) { console.error(err || rep.err_msg); return; }
+      this.setData({ money: rep.err_msg.forward_money });
+    })
   },
 
   /**
