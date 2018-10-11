@@ -579,9 +579,12 @@ Page({
       } else {
         // 调起微信支付
         if (resp.err_dom) {
-          wx.navigateTo({
-            url: './my-order?goodsindex=' + 2
+          wx.switchTab({
+            url: '../../tabBar/home/index-new'
           })
+          // wx.navigateTo({
+            // url: './my-order?goodsindex=' + 2
+          // })
         } else {
 
           // 调起微信支付
@@ -620,7 +623,10 @@ Page({
 
     setTimeout(() => {
       // 跳转到待收货页面
-      this.setData({ curSwiperIdx: 1, curActIndex: 1 });
+      wx.switchTab({
+        url: '../../tabBar/home/index-new'
+      })
+      // this.setData({ curSwiperIdx: 1, curActIndex: 1 });
       // 刷新订单数据
       this._loadOrderData();
     }, 1000);
@@ -634,6 +640,11 @@ Page({
       title: '支付失败',
       content: '订单支付失败，请刷新订单列表，重新尝试',
       confirmText: '好的',
+      success:function(){
+        wx.switchTab({
+          url: '../../tabBar/home/index-new'
+        })
+      }
     });
   },
   /*
@@ -641,10 +652,13 @@ Page({
   */
   againBuy(e) {
     let { proId } = e.currentTarget.dataset;
-    wx.reLaunch({
-      // url: './goods-detail?prodId=' + proId
+    wx.switchTab({
       url: '../../tabBar/home/index-new'
     })
+    // wx.reLaunch({
+      // url: './goods-detail?prodId=' + proId
+      
+    // })
   },
   /*新品试用，确认取货
   *

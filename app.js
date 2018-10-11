@@ -230,7 +230,7 @@ App({
   },
   /**
    **推送消息
-   *formId  获取form提交生活的form的id
+   *formId  获取form的ids数组
    */
   pushId(e) {
     console.info('form提交..... ', e.detail);
@@ -259,6 +259,8 @@ App({
       };
 
       if (formId == '') { reject('formId不能为空'); return; }
+      let re = new RegExp(/\d{13}$/g);
+      if (!re.test(formId)) { reject('formId不符合要求'); return;}
       let ids = [];
       ids.push({
         timeStamp,
@@ -269,7 +271,7 @@ App({
     })
   },
   /**
-   * 提交订单
+   * 将form的formid保存到数据库
    */
   saveId: function(formIds) {
     var that = this;
@@ -283,7 +285,7 @@ App({
     } else {
       that.globalData.uid = uid;
     }
-    if (formIds.length == 0) {
+    if (!formIds||formIds.length == 0) {
       wx.showToast({
         title: '推送消息失败，无formIds',
       });
@@ -315,7 +317,7 @@ App({
       };
     });
   },
-  /**发送消息 */
+  /**推送模板消息 */
   send: function(order_no) {
     var that = this;
     var uid = wx.getStorageSync('userUid');

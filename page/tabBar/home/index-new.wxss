@@ -39,12 +39,11 @@
 .area-content, .area-image-1 {
   height: 320rpx;
   width: 750rpx;
-  overflow: hidden;
 }
 
 .area-image-1 image {
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 .area-bottom {

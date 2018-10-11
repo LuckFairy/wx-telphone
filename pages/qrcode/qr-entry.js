@@ -194,7 +194,7 @@ Page({
       });
     } else {
       wx.switchTab({
-        url: indexUrl + `?locationid=${locationId}`,
+        url: indexUrl + `?locationid=${this.data.locationId}`,
       });
     }
     wx.hideLoading();

@@ -1518,7 +1518,7 @@ button[type=warn] {
   border-color: #999;
 }
 
-.no-goods {
+.no-goods ,.no-goods text{
   background-color: #ccc;
 }
 

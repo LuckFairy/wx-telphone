@@ -38,11 +38,11 @@
     "page/group-buying/group-join",
     "page/group-buying/tuan-detail",
     "pages/qrcode/qr-entry"
-  ],
+ ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
-    "navigationBarTitleText": "婴众科技",
+    "navigationBarTitleText": "趣购精选",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
