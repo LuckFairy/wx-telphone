@@ -1,11 +1,11 @@
 {
   "pages": [
 
+    "page/tabBar/home/index-new",
     "page/distribution/moneyIndex",
     "page/distribution/my_withdraw",
     "page/distribution/my_withdraw_detail",
     "page/distribution/bank",
-    "page/tabBar/home/index-new",
     "page/distribution/spreadList",
 
     "page/common/pages/goods-detail",

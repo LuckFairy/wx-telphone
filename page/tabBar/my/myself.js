@@ -3,6 +3,7 @@ var app = getApp();
 let hasPhone = wx.getStorageSync('hasPhone');
 let phone = wx.getStorageSync('phone');
 let uid = wx.getStorageSync('userUid');
+const _urlFxEn = "wxapp.php?c=fx_user&a=fx_entrance";//计划内容
 Page({
 
   /**
@@ -12,6 +13,8 @@ Page({
     uid,
     phone:null,
     hasPhone,//是否有手机login
+    isCheck: 1,//是否审核点击，1是 0否
+    sid:app.store_id
   },
   getPhoneNumber(e) {
     let that = this;
@@ -37,19 +40,6 @@ Page({
     */
   onLoad: function (options) {
     var that = this;
-    //检查是否有手机号
-
-    // app.checkphone().then(data => {
-    //   console.log(data);
-    //   that.setData({ hasPhone: true,uid:data.uid,phone:data.phone });
-    //   app.globalData.uid = data.uid;
-    //   app.globalData.phone = data.phone;
-     
-    //   wx.setStorageSync('userUid', data.uid); //存储uid
-    //   wx.setStorageSync('phone', data.phone); //存储uid
-    // }).catch(data => {
-    //   that.setData({ hasPhone: false });
-    // })
 
   },
   /**
@@ -69,7 +59,7 @@ Page({
       that.setData({ hasPhone: true, uid: uid, phone: phone });
     }
   },
-
+ 
   /**手机号脱敏 */
   substring(str) {
     if (typeof str == 'string') { //参数为字符串类型
@@ -98,10 +88,30 @@ Page({
       url: '../../common/pages/mycard'
     });
   },
-  goMoney(){
-    wx.navigateTo({
-      url: '../../distribution/invite'
-    });
+  goMoney() {
+    let that = this;
+    let params = {
+      uid:  this.data.uid,
+      store_id:this.data.sid,
+    }
+   
+    app.api.postApi(_urlFxEn, { params }, (err, rep) => {
+      if (rep.err_code == 0) {
+        let status = rep.err_msg.status;
+        let isCheck = (status == -1 || status == 2) ? 1 : 0;
+        that.setData({ isCheck }, () => {
+          if (isCheck != 1) {
+            wx.navigateTo({
+              url: '../../distribution/moneyIndex',
+            })
+          }else{
+            wx.navigateTo({
+              url: '../../distribution/invite'
+            });
+          }
+        })
+      }
+    })
   },
   gostore (){
     wx.navigateTo({

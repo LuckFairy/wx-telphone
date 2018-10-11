@@ -104,7 +104,13 @@ Page({
         let status = rep.err_msg.status;
         let isCheck = (status==-1||status==2)?1:0;
         let checkShade = (status==0)?true:false;
-        that.setData({ status, isCheck, checkShade})
+        that.setData({ status, isCheck, checkShade},()=>{
+          if(isCheck!=1){
+            wx.redirectTo({
+              url: './moneyIndex',
+            })
+          }
+        })
       }
     })
 

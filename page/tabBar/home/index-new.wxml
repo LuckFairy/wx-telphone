@@ -3,7 +3,7 @@
 <import src="../../common/template/coupon.wxml" />
 
 <template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{locationid}}"></template>
-<template wx:if="{{isInfo==false}}" is="getuserInfo-modal" ></template>   
+<template wx:if="{{isInfo==false}}" is="getuserInfo-modal"></template>
 <template wx:if="{{showpopteamModle==true}}" is="popteam-modal" data="{{popteamData,popteamUrl,popteamNicke}}"></template>
 <template wx:if="{{showModel==true}}" is="coupon-modal" data="{{showModel,couponList}}"></template>
 
@@ -33,7 +33,7 @@
         <text class='title'>{{physicalClost.name}}</text>
         <text class='message'>{{physicalClost.address}}</text>
       </view>
-      
+
       <navigator wx:if="{{changeFlag}}" url="../../common/pages/store-list?check=true&index=true&flag=true" class='shop-area-right'>
         <image class='icon' src='../../image/shop-icon.png'></image>
         <text>切换门店</text>
@@ -47,7 +47,8 @@
       <view class='card_body'>
         <image src="../../image/tab/mycard.png" class='card_img_1'></image>
         <view class='card_view'>
-          有<text class='card_text_3_red'>{{card_num}}</text>张未使用券
+          有
+          <text class='card_text_3_red'>{{card_num}}</text>张未使用券
         </view>
       </view>
       <view class='card-more'>
@@ -84,13 +85,13 @@
       </view>
     </view>
     <!-- tab栏目 -->
-    <form bindsubmit='clickGo' report-submit='true' wx:if='{{indexIcon.length>0}}'>
-    <view class='list-area'>
-      <view wx:for="{{indexIcon}}">
-        <image class='list-area-item' mode='aspectFill' src='{{item.icon}}'></image>
-        <button form-type='submit' class='sub-button' data-index="{{item.redi_type}}">按钮</button>
+    <form bindsubmit='clickGo' report-submit='true' wx:if='{{indexIcon&&indexIcon.length>0}}'>
+      <view class='list-area'>
+        <view wx:for="{{indexIcon}}"  wx:key="{{index}}">
+          <image class='list-area-item' mode='aspectFill' src='{{item.icon}}'></image>
+          <button form-type='submit' class='sub-button' data-index="{{item.redi_type}}">按钮</button>
+        </view>
       </view>
-    </view>
     </form>
     <!--拼团区域  -->
     <view class='yiya-pinduoduo-area' wx:if="{{groupData&&groupData.length>0}}">
@@ -101,27 +102,27 @@
           <image class='more-image' src='../../image/tab/pt-next-page.png'></image>
         </view>
       </view>
-      <view class='pinduoduo-content' >
+      <view class='pinduoduo-content'>
         <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{groupData}}" wx:key="{{item}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="clickGoGroupProduct">
           <image class='pinduoduo-content-image' mode='aspectFill' src='{{item.image}}'></image>
           <view class='pt-right'>
-              <view style='display:block;'>
-                <text class='pinduoduo-content-title'>{{item.name}}</text>
-                <view class='pinduoduo-content-price'>
-                  <text class='text-red'>已团{{item.count}}件</text>
-                  <text class='text'>仅剩{{item.quantity}}件</text>
-                </view>
+            <view style='display:block;'>
+              <text class='pinduoduo-content-title'>{{item.name}}</text>
+              <view class='pinduoduo-content-price'>
+                <text class='text-red'>已团{{item.count}}件</text>
+                <text class='text'>仅剩{{item.quantity}}件</text>
               </view>
-              <view class='pintuan-content-buttom'>
-                <view class='pinduoduo-buttom-aside'>
-                  <text class='pinduoduo-content-current'>￥<text class='text-style-1'>{{item.price}}</text></text>
-                  <text class='pinduoduo-already'>￥{{item.start_price}}</text>
-                </view>
-                <form wx:if="{{item.quantity>0}}" report-submit='true' bindsubmit='submitOrder'>
-                  <button form-type='submit' class='btn'>去开团</button>
-                </form>
-                <view wx:else class='shopping-go-group-end'>已售罄</view>
+            </view>
+            <view class='pintuan-content-buttom'>
+              <view class='pinduoduo-buttom-aside'>
+                <text class='pinduoduo-content-current'>￥<text class='text-style-1'>{{item.price}}</text></text>
+                <text class='pinduoduo-already'>￥{{item.start_price}}</text>
               </view>
+              <form wx:if="{{item.quantity>0}}" report-submit='true' bindsubmit='submitOrder'>
+                <button form-type='submit' class='btn'>去开团</button>
+              </form>
+              <view wx:else class='shopping-go-group-end'>已售罄</view>
+            </view>
           </view>
         </view>
       </view>
@@ -148,7 +149,7 @@
         </view>
         <view hidden>
           <image src='../../image/discount.png'></image>
-          <text >{{item.msg}}会员尊享6折优惠</text>
+          <text>{{item.msg}}会员尊享6折优惠</text>
         </view>
       </view>
     </block>
