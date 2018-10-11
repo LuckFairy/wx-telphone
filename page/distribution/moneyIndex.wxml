@@ -51,8 +51,9 @@
   <navigator url='./spreadList'>
     <image src='../image/distribution/ee-1.png'></image>
   </navigator>
-  <view catchtap='showShare'>
+  <view >
+    <button class='userInfoBtn' open-type='getUserInfo'  lang="zh_CN" bindgetuserinfo="onGotUserInfo"></button>
     <image src='../image/distribution/ee-2.png'></image>
   </view>
 </view>
-<share-panel style="0" shareShade="{{shareShade}}" opt="{{shareOpt}}"  posterConfig="{{jdConfig}}" jdImg="{{qrcodeUrl}}"></share-panel>
+<share-panel style="0" shareShade="{{shareShade}}" opt="{{shareOpt}}"  posterConfig="{{jdConfig}}" qrImg="{{qrcodeUrl}}"></share-panel>

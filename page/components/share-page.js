@@ -27,13 +27,17 @@ Component({
       type:String,
       value:null
     },
+    qrImg: {
+      type: String,
+      value: null
+    },
     posterConfig:{
       type: Object,
       value: {}
    },
-   style:Number,
-   poster:Object, 
-   qrcodeUrl:String
+  poster: Object
+
+
   },
 
   /**

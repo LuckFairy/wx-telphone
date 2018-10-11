@@ -5,6 +5,13 @@
 .gray{
   color:rgba(255, 255, 255, 0.4)
 }
+.userInfoBtn{
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
 .shallowGray{
   color: #999;
 }

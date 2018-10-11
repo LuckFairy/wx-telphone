@@ -62,16 +62,16 @@ Page({
     productData: [], //活动图列表
     valueList: [{
       txt: '正品保障',
-      src: './imgs/card-1.png'
+      src: '../../image/tab/card-1.png'
     }, {
       txt: '假一赔三',
-      src: './imgs/card-2.png'
+        src: '../../image/tab/card-2.png'
     }, {
       txt: '破损包邮',
-      src: './imgs/card-3.png'
+        src: '../../image/tab/card-3.png'
     }, {
       txt: '7天退换',
-      src: 'imgs/card-4.png'
+        src: '../../image/tab/card-4.png'
     }],
     saoma_url: null,
     set_flag: false, //是否設置為默認

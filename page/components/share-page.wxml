@@ -17,7 +17,7 @@
     </view>
   </view>
 </view>
-<view class="overlay poster" style='z-index:33333;' wx:if="{{posterShade&&style==1}}" slot="overlay">
+<view class="overlay poster" style='z-index:33333;' wx:if="{{posterShade&&jdImg}}" slot="overlay">
   <image class='overlay-close' src='../image/distribution/qugo_18.png' catchtap='onClose'></image>
   <view class="poster-content">
     <image src='{{poster.image}}' class='titleImg' mode='aspectFill'></image>
@@ -38,7 +38,7 @@
   </poster>
 </view>
 
-<view class="overlay poster" style='z-index:33333;' wx:if="{{posterShade&&style==0}}" slot="overlay">
+<view class="overlay poster" style='z-index:33333;' wx:if="{{posterShade&&qrImg}}" slot="overlay">
   <image class='overlay-close' src='../image/distribution/qugo_18.png' catchtap='onClose'></image>
   <view class="money-content">
     <view class='money-userInfo'>
@@ -46,9 +46,7 @@
     <open-data type="userNickName" class='myself-id'></open-data>
     </view>
     <view class='money-box'>
-      <button>邀你一起加入</button>
-      <image src='../image/distribution/qugo_18.png'></image>
-      <image class="money-qrImg" src='{{jdImg}}'></image>
+      <image class="money-qrImg" src='{{qrImg}}'></image>
       <text class='gray s-11'>长按识别小程序码</text>
     </view>
   </view>

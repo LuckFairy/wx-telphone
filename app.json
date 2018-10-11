@@ -2,13 +2,13 @@
   "pages": [
 
     "page/tabBar/home/index-new",
+    "page/common/pages/goods-detail",
     "page/distribution/moneyIndex",
     "page/distribution/my_withdraw",
     "page/distribution/my_withdraw_detail",
     "page/distribution/bank",
     "page/distribution/spreadList",
 
-    "page/common/pages/goods-detail",
     "page/distribution/invite",
    
     "page/common/pages/activity-detail",

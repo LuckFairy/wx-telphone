@@ -85,147 +85,64 @@ Page({
       blocks: [
         {
           width: 690,
-          height: 808,
+          height: 690,
           x: 30,
-          y: 183,
-          borderWidth: 2,
-          borderColor: '#f0c2a0',
-          borderRadius: 20,
-        },
-        {
-          width: 634,
-          height: 74,
-          x: 59,
-          y: 770,
-          backgroundColor: '#fff',
-          opacity: 0.5,
-          zIndex: 100,
-        },
+          y: 80,
+        }
+        
       ],
       texts: [
         {
-          x: 113,
-          y: 61,
-          baseLine: 'middle',
-          text: '推荐人',
-          fontSize: 32,
-          color: '#8d8d8d',
+          x: 30,
+          y: 830,
+          baseLine: 'top',
+          text: '南极人男加水电费阿斯顿发啦',
+          fontSize: 34,
+          color: '#333333',
+          lineHeight:50,
+          lineNum:2,
+          width:690,
         },
         {
           x: 30,
-          y: 113,
-          baseLine: 'top',
-          text: '发现一个好物，推荐给你呀',
-          fontSize: 38,
-          color: '#080808',
-        },
-        {
-          x: 92,
-          y: 810,
-          fontSize: 38,
-          baseLine: 'middle',
-          text: '测试标题标题',
-          width: 570,
-          lineNum: 1,
-          color: '#8d8d8d',
-          zIndex: 200,
-        },
-        {
-          x: 59,
-          y: 895,
-          baseLine: 'middle',
+          y: 1126,
+          baseLine: 'bottom',
           text: [
             {
-              text: '2人拼',
-              fontSize: 28,
-              color: '#ec1731',
+              text: '￥',
+              fontSize: 36,
+              color: '#ff3030',
             },
             {
-              text: '¥99',
-              fontSize: 36,
-              color: '#ec1731',
-              marginLeft: 30,
+              text: '99.00',
+              fontSize: 56,
+              color: '#ff3030',
             }
           ]
         },
         {
-          x: 522,
-          y: 895,
-          baseLine: 'middle',
-          text: '已拼2件',
-          fontSize: 28,
-          color: '#929292',
-        },
-        {
-          x: 59,
-          y: 945,
-          baseLine: 'middle',
-          text: [
-            {
-              text: '商家发货&售后',
-              fontSize: 28,
-              color: '#929292',
-            },
-            {
-              text: '七天退货',
-              fontSize: 28,
-              color: '#929292',
-              marginLeft: 50,
-            },
-            {
-              text: '运费险',
-              fontSize: 28,
-              color: '#929292',
-              marginLeft: 50,
-            },
-          ]
-        },
-        {
-          x: 360,
-          y: 1065,
+          x: 540,
+          y: 1230,
           baseLine: 'top',
-          text: '长按识别小程序码',
-          fontSize: 38,
-          color: '#080808',
-        },
-        {
-          x: 360,
-          y: 1123,
-          baseLine: 'top',
-          text: '超值好货一起拼',
-          fontSize: 28,
-          color: '#929292',
-        },
+          text: '扫码或长按小程序',
+          fontSize: 20,
+          color: '#999999',
+        }
       ],
       images: [
         {
-          width: 62,
-          height: 62,
+          width: 690,
+          height: 690,
           x: 30,
-          y: 30,
-          borderRadius: 62,
+          y: 80,
           url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b84c6c37f028.png',
         },
         {
-          width: 634,
-          height: 634,
-          x: 59,
-          y: 210,
-          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
-        },
-        {
-          width: 220,
-          height: 220,
-          x: 92,
-          y: 1020,
-          url: 'https://lc-I0j7ktVK.cn-n1.lcfile.com/d719fdb289c955627735.jpg',
-        },
-        {
-          width: 750,
-          height: 90,
-          x: 0,
-          y: 1244,
-          url: 'https://lc-I0j7ktVK.cn-n1.lcfile.com/67b0a8ad316b44841c69.png',
+          width: 160,
+          height: 160,
+          x: 548,
+          y: 1046,
+          url: 'https://zy.qutego.com//upload/wxapp/qrcode/93853_1786_1539242806.png',
         }
       ]
 
@@ -262,7 +179,9 @@ Page({
       that.setData({ prodId },()=>{
         that._pase();
         app.creatImg(prodId, that).then(data => {
-          that.setData({ qrcodeUrl: data })
+          let jdConfig = that.data.jdConfig;
+          jdConfig.images[1].url = data;
+          that.setData({ qrcodeUrl: data, jdConfig})
         })
       });
     }) 
@@ -485,9 +404,14 @@ Page({
             action = null
           }
         }
-        console.log("product",product)
+        console.log("product",product);
+      let jdConfig = that.data.jdConfig;
+      jdConfig.texts[0].text = product.name;
+      jdConfig.images[0].url = product.image;
+      jdConfig.texts[1]['text'][1].text = product.price;
+      console.log('jdConfig', jdConfig)
         that.setData({
-          product, action
+          product, action, jdConfig
         },()=>{
           if (product.sold_time <= 0) {
             that.setData({ preTime: product.sold_time })

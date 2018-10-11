@@ -10,7 +10,7 @@
 
       <view class='content-top-right'>
         <view class='content-top-right-text'>全部明细</view>
-        <image class='more-image' src='../tabBar/home/imgs/next-page.png'></image>
+        <image class='more-image' src='../image/next-page.png'></image>
       </view>
     </view>
 

@@ -24,150 +24,56 @@ Page({
       height: 1334,
       backgroundColor: '#fff',
       debug: false,
-      blocks: [
-        {
-          width: 690,
-          height: 808,
-          x: 30,
-          y: 183,
-          borderWidth: 2,
-          borderColor: '#f0c2a0',
-          borderRadius: 20,
-        },
-        {
-          width: 634,
-          height: 74,
-          x: 59,
-          y: 770,
-          backgroundColor: '#fff',
-          opacity: 0.5,
-          zIndex: 100,
-        },
-      ],
       texts: [
         {
-          x: 113,
-          y: 61,
-          baseLine: 'middle',
-          text: '推荐人',
-          fontSize: 32,
-          color: '#8d8d8d',
-        },
-        {
-          x: 30,
-          y: 113,
+          x: 350,
+          y: 360,
           baseLine: 'top',
-          text: '发现一个好物，推荐给你呀',
-          fontSize: 38,
-          color: '#080808',
+          textAlign: 'center',
+          text: 'amy',
+          fontSize: 36,
+          color: '#222222',
+          zIndex:2
         },
         {
-          x: 92,
-          y: 810,
-          fontSize: 38,
-          baseLine: 'middle',
-          text: '测试标题标题',
-          width: 570,
-          lineNum: 1,
-          color: '#8d8d8d',
-          zIndex: 200,
-        },
-        {
-          x: 59,
-          y: 895,
-          baseLine: 'middle',
-          text: [
-            {
-              text: '2人拼',
-              fontSize: 28,
-              color: '#ec1731',
-            },
-            {
-              text: '¥99',
-              fontSize: 36,
-              color: '#ec1731',
-              marginLeft: 30,
-            }
-          ]
-        },
-        {
-          x: 522,
-          y: 895,
-          baseLine: 'middle',
-          text: '已拼2件',
-          fontSize: 28,
-          color: '#929292',
-        },
-        {
-          x: 59,
-          y: 945,
-          baseLine: 'middle',
-          text: [
-            {
-              text: '商家发货&售后',
-              fontSize: 28,
-              color: '#929292',
-            },
-            {
-              text: '七天退货',
-              fontSize: 28,
-              color: '#929292',
-              marginLeft: 50,
-            },
-            {
-              text: '运费险',
-              fontSize: 28,
-              color: '#929292',
-              marginLeft: 50,
-            },
-          ]
-        },
-        {
-          x: 360,
-          y: 1065,
+          x: 350,
+          y: 1056,
           baseLine: 'top',
+          textAlign:'center',
           text: '长按识别小程序码',
-          fontSize: 38,
-          color: '#080808',
-        },
-        {
-          x: 360,
-          y: 1123,
-          baseLine: 'top',
-          text: '超值好货一起拼',
-          fontSize: 28,
-          color: '#929292',
-        },
+          fontSize: 26,
+          color: '#999',
+          zIndex:2
+        }
+        
       ],
       images: [
         {
-          width: 62,
-          height: 62,
-          x: 30,
-          y: 30,
-          borderRadius: 62,
-          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b84c6c37f028.png',
-        },
-        {
-          width: 634,
-          height: 634,
-          x: 59,
-          y: 210,
-          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
-        },
-        {
-          width: 220,
-          height: 220,
-          x: 92,
-          y: 1020,
-          url: 'https://lc-I0j7ktVK.cn-n1.lcfile.com/d719fdb289c955627735.jpg',
-        },
-        {
           width: 750,
-          height: 90,
+          height: 1334,
           x: 0,
-          y: 1244,
-          url: 'https://lc-I0j7ktVK.cn-n1.lcfile.com/67b0a8ad316b44841c69.png',
+          y: 0,
+          url: 'https://zy.qutego.com/upload/wxapp/images/fx_qrcode_bg.png',
+          zIndex:1
+        },
+        {
+          width: 160,
+          height: 160,
+          x: 296,
+          y: 180,
+          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
+          borderRadius:160,
+          borderWidth:6,
+          borderColor:'#fff',
+          zIndex: 2
+        },
+        {
+          width: 280,
+          height: 280,
+          x: 236,
+          y: 740,
+          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
+          zIndex: 2
         }
       ]
 
@@ -184,9 +90,7 @@ Page({
       this.load();
     })
   },
-  showShare() {
-    this.setData({ shareShade: true })
-  },
+ 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -200,8 +104,29 @@ Page({
   onShow: function () {
 
   },
+  onGotUserInfo: function (e) {
+    console.log("nickname=" + e.detail.userInfo.nickName);
+    let { userInfo } = e.detail;
+    let that = this; 
+    that.setData({ shareShade: true})
+    wx.showLoading({
+      mask:true,
+      title: '加载中',
+    })
+    let jdConfig = that.data.jdConfig;
+    jdConfig.texts[0].text = userInfo.nickName
+    jdConfig.images[1].url = userInfo.avatarUrl
+    app.creatImg(null, that).then(data => {
+      jdConfig.images[2].url = data;
+      console.log(data, jdConfig);
+      that.setData({ qrcodeUrl: data, jdConfig },()=>{
+        wx.hideLoading();
+      })
+    })
   
+  },
   load(uid){
+    let that =this;
     let params={
       uid:this.data.uid,
       store_id:this.data.sid
