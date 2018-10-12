@@ -545,7 +545,7 @@ Page({
   /**严选，立即购买，一般购买 */
   goPayment(e) {
     var that = this;
-    console.log('严选，立即购买，一般购买');
+    console.log('严选，立即购买，一般购买',e);
     var baokuan_action = e.target.dataset.baokuan_action;
     var { buyQuantity, productId, uid, storeId, skuId } = e.currentTarget.dataset;
     var skuid_list = that.data.skuid_list;
@@ -585,7 +585,7 @@ Page({
   *新品试用，立即购买
   */
   goPreApply(e) {
-    console.log('新品试用立即购买');
+    console.log('新品试用立即购买',e);
     var that = this;
     var { buyQuantity, productId, uid, storeId, skuId } = e.currentTarget.dataset;
     var skuid_list = that.data.skuid_list;

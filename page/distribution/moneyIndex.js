@@ -63,9 +63,9 @@ Page({
           y: 180,
           url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
           borderRadius:160,
-          borderWidth:6,
-          borderColor:'#fff',
-          zIndex: 2
+          // borderWidth:6,
+          // borderColor:'#fff',
+          zIndex: 1
         },
         {
           width: 280,
@@ -84,8 +84,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // let uid = wx.getStorageSync("userUid");
-    let uid = 83046;
+    let uid = wx.getStorageSync("userUid");
+
     console.log(uid)
     this.setData({uid},()=>{
       this.load();
@@ -119,7 +119,7 @@ Page({
     jdConfig.images[1].url = userInfo.avatarUrl
     app.creatImg(null, that).then(data => {
       jdConfig.images[2].url = data;
-      console.log(data, jdConfig);
+      // console.log(data, jdConfig);
       that.setData({ qrcodeUrl: data, jdConfig },()=>{
         wx.hideLoading();
       })

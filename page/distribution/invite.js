@@ -4,8 +4,8 @@
 let app = getApp();
 let WxParse = require('../../utils/wxParse/wxParse.js');
 
-const _urlFxEn = "wxapp.php?c=fx_user&a=fx_entrance";//计划内容
-const _urlCheck = "wxapp.php?c=fx_user&a=add_fx_user";//绑定手机
+const _urlFxEn = "wxapp.php?c=fx_user&a=fx_entrance";//分销入口
+const _urlCheck = "wxapp.php?c=fx_user&a=add_fx_user";// 申请为分销用户或修改上级分销
 Page({
 
   /**
@@ -102,7 +102,7 @@ Page({
       if(rep.err_code==0){
         WxParse.wxParse('ac_detail', 'html', rep.err_msg.detail, that);
         let status = rep.err_msg.status;
-        let isCheck = (status==-1||status==2)?1:0;
+        let isCheck = (status==-1||status==2||status==0)?1:0;//0未审核，1审核通过，2已经拉黑，-1审核拒绝
         let checkShade = (status==0)?true:false;
         that.setData({ status, isCheck, checkShade},()=>{
           if(isCheck!=1){
@@ -117,8 +117,8 @@ Page({
   },
   oncheckShade() {
     let that = this;
-    params = {
-      "uid": that.dta.uid,
+    let params = {
+      "uid": that.data.uid,
       "phone": that.data.phone,
       "store_id": that.data.sid
     }
@@ -162,7 +162,7 @@ Page({
 
   },
   cacelShade(){
-    this.setData({ checkShade:false})
+    // this.setData({ checkShade:false})
   },
  
 

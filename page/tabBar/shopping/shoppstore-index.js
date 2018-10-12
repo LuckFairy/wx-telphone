@@ -80,8 +80,10 @@ Page({
   },
   clickGoCategory(e) {
     console.log("宝宝", e)
-    var index = e.currentTarget.dataset.index;
-    var catId = e.currentTarget.dataset.catId;
+    //保存formid
+    app.pushId(e).then(ids => { app.saveId(ids) });
+    var index = e.detail.target.dataset.index;
+    var catId = e.detail.target.dataset.catId;
     wx.navigateTo({
       url: '../../common/pages/index-boabao?listId=' + index + '&catId=' + catId
     })

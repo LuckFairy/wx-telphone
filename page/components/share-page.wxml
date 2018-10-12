@@ -24,8 +24,8 @@
     <text class='titleTxt'>{{poster.name}}</text>
     <view class='qrBox'>
       <view>
-        <text class='red s-11'>￥</text>
-        <text class='red'>{{poster.price}}</text>
+        <text class='red s-11' style='margin-bottom:6rpx;'>￥</text>
+        <text class='red' >{{poster.price}}</text>
       </view>
       <view>
         <image class="qr-image" src='{{jdImg}}'></image>

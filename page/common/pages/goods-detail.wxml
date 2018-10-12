@@ -98,7 +98,7 @@
       <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
         <text class='add-invite-car-child'>加入购物车</text>
       </view>
-      <view wx:if="{{action =='present'}}" class='current-buying invite-total' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' bindtap="goPreApply">
+      <view wx:if="{{action =='present'}}" class='current-buying invite-total' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{prodId}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' bindtap="goPreApply">
         <text class='current-buying-child'>申请试用</text>
       </view>
       <view wx:if="{{action !='present'}}" class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
@@ -205,13 +205,13 @@
       </view>
     </view>
     <!--购物车  -->
-    <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
+    <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{prodId}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
     <!--新品试用  -->
-    <text wx:elif='{{action == "present"}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPreApply'>确定</text>
+    <text wx:elif='{{action == "present"}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{prodId}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPreApply'>确定</text>
     <!--虚拟商品 -->
-    <text wx:elif='{{(action != 0) && action }}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment' data-baokuan_action='{{action}}'>确定</text>
+    <text wx:elif='{{(action != 0) && action }}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{prodId}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment' data-baokuan_action='{{action}}'>确定</text>
     <!--一般购买  -->
-    <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>确定</text>
+    <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{prodId}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>确定</text>
     <!-- 数量的增减end -->
   </view>
 </view>

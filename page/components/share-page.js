@@ -64,25 +64,26 @@ Component({
       this.setData({ posterShade:true})
     },
     onPosterSuccess(e) {
+      let that = this;
       const { detail } = e;
-      // console.log(e.detail);
-      const downloadTask = wx.downloadFile({
-        url: e.detail, //仅为示例，并非真实的资源
-        success(res) {
-          // wx.previewImage({
-          //   current: res.tempFilePath,
-          //   urls: [res.tempFilePath]
+      console.log('下载的图片路径',e.detail);
+      wx.saveImageToPhotosAlbum({
+        filePath: e.detail,
+        success: function (data) {
+          console.log('保存的图片路径', data)
+          // wx.showToast({
+          //   title: `图片已经保存在${e.detail}`,
           // })
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-          })
+          that.setData({ posterShade:false})
+        },
+        fail: function () {
+          // wx.showToast({
+          //   title: '保存图片失败',
+          //   icon: 'fail'
+          // })
         }
       })
-      downloadTask.onProgressUpdate((res) => {
-        console.log('下载进度', res.progress)
-        console.log('已经下载的数据长度', res.totalBytesWritten)
-        console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
-      })
+   
     },
     onPosterFail(err) {
       console.error(err);

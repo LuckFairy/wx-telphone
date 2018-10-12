@@ -126,6 +126,12 @@ Page({
       that.getDataList(null, opts);
     }
   },
+  goDetails(e){
+    let {productid}=e.currentTarget.dataset;
+    wx.navigateTo({
+      url: `../common/pages/goods-detail?prodId=${productid}`,
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

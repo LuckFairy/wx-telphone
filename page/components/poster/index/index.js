@@ -87,10 +87,14 @@ const main = {
      * 渲染图片
      */
     drawImage(data) {
-        const { imgPath, x, y, w, h, sx, sy, sw, sh, borderRadius = 0, borderWidth = 0, borderColor } = data;
+        const { imgPath, x, y, w, h, sx, sy, sw, sh, borderRadius = 160, borderWidth = 0, borderColor } = data;
         this.ctx.save();
         if (borderRadius > 0) {
+          if (borderRadius === w && borderRadius === h) {
+            this.ctx.arc(this.toPx(x + borderRadius / 2), this.toPx(y + borderRadius / 2), this.toPx(borderRadius / 2), 0, 2 * Math.PI)
+          } else {
             this._drawRadiusRect(x, y, w, h, borderRadius);
+          }
             this.ctx.clip();
             this.ctx.drawImage(imgPath, this.toPx(sx), this.toPx(sy), this.toPx(sw), this.toPx(sh), this.toPx(x), this.toPx(y), this.toPx(w), this.toPx(h));
             if (borderWidth > 0) {
