@@ -72,7 +72,7 @@ Component({
         success: function (data) {
           console.log('保存的图片路径', data)
           // wx.showToast({
-          //   title: `图片已经保存在${e.detail}`,
+          //   title: `图片保存成功`,
           // })
           that.setData({ posterShade:false})
         },

@@ -86,10 +86,16 @@ Page({
   onLoad: function (options) {
     let uid = wx.getStorageSync("userUid");
 
-    console.log(uid)
+    if(uid){
+      
     this.setData({uid},()=>{
       this.load();
     })
+    }else{
+      wx.switchTab({
+        url: '../tabBar/home/index-new',
+      })
+    }
   },
  
   /**
@@ -171,7 +177,14 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    let that = this;
+    let imgurl = `${app.config.host}upload/wxapp/images/fx_share.jpg`;
+ 
+    return {
+      title: '你的好友向推荐 加入分享赚钱',
+      path: `/page/distribution/invite?pid=${this.data.uid}`,
+      imageUrl:imgurl,
+    }
   },
   onCustomerClick() {
     wx.navigateTo({

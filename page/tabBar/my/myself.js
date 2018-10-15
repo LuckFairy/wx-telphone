@@ -98,7 +98,7 @@ Page({
     app.api.postApi(_urlFxEn, { params }, (err, rep) => {
       if (rep.err_code == 0) {
         let status = rep.err_msg.status;
-        let isCheck = (status == -1 || status == 2||status==0) ? 1 : 0;//0未审核，1审核通过，2已经拉黑，-1审核拒绝
+        let isCheck = (status == -1 || status == 2||status==0) ? 1 : 0;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
         that.setData({ isCheck }, () => {
           if (isCheck != 1) {
             wx.navigateTo({

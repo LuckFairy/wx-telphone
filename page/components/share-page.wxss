@@ -48,6 +48,7 @@ button::after{border: none;}
   width: 750rpx;
   position: fixed;
   bottom: 0;
+  left:0;
  z-index: 2222;
  flex-direction: column;
  font-size: 32rpx;

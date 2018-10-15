@@ -16,7 +16,7 @@ Page({
     ac_title:'',
     ac_time:'',
     page: 1,//从上面页面进入，1我的 ，2分享赚钱
-    satus:-1,//-1、2可申请，0不可申请审核中，1不可申请申请完
+    satus: -1,//0审核中，1审核通过，2已经拉黑，-1审核拒绝
     isCheck:1,//是否审核点击，1是 0否
     uid:null,
     sid:null,
@@ -32,17 +32,15 @@ Page({
   onShareAppMessage: function (res) {
     let that = this, dataset = res.target.dataset;
     let store_id = that.data.sid, uid = that.data.uid;
-
-    // let opt, params;
     let pid = uid;
-    // params = JSON.stringify(params);
-    // console.log('params', params);
     let tip = `加入分享挣钱计划`;
     let url = `/page/distribution/invite?pid=${pid}`;
+    let imgurl = `${app.config.host}upload/wxapp/images/fx_share.jpg`;
+    
     return {
       title: tip,
       path: url,
-      imageUrl: dataset.imgurl,
+      imageUrl:imgurl,
       success: function (res) {
       
       },
@@ -102,7 +100,7 @@ Page({
       if(rep.err_code==0){
         WxParse.wxParse('ac_detail', 'html', rep.err_msg.detail, that);
         let status = rep.err_msg.status;
-        let isCheck = (status==-1||status==2||status==0)?1:0;//0未审核，1审核通过，2已经拉黑，-1审核拒绝
+        let isCheck = (status==-1||status==2||status==0)?1:0;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
         let checkShade = (status==0)?true:false;
         that.setData({ status, isCheck, checkShade},()=>{
           if(isCheck!=1){
