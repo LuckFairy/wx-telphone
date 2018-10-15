@@ -23,7 +23,9 @@ Page({
   onLoad: function (options) {
     that=this;
     store_id = app.store_id;
-    let params = { store_id, "uid": "83046" };
+    let uid = wx.getStorageSync("userUid");
+
+    let params = { store_id, uid };
     app.api.postApi(getInfoUrl, { params }, (err, reps) => {
       if (err && reps.err_code != 0) return;
       let account = reps.err_msg.fx_account;
@@ -141,7 +143,7 @@ Page({
     }
 
     let that = this;
-    let params = { store_id, "uid": "83046", "bank_id": bankId, "bank_account": card, "bank_user_name": name };
+    let params = { store_id, uid, "bank_id": bankId, "bank_account": card, "bank_user_name": name };
     wx.showLoading({
       title: '操作中...',
     })

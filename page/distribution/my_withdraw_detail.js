@@ -5,6 +5,7 @@ const _detailUrl = "wxapp.php?c=fx_user&a=get_fx_detail";
 
 var that;
 const app = getApp();
+var uid;
 
 Page({
 
@@ -26,6 +27,7 @@ Page({
    */
   onLoad: function (options) {
     that=this;
+    uid = wx.getStorageSync("userUid");
 
 
   },
@@ -42,7 +44,7 @@ Page({
    */
   onShow: function () {
     let store_id = this.data.store_id;
-    let params = { store_id, "uid": "83046"};
+    let params = { store_id, uid};
    
 
     app.api.postApi(AccoutUrl, { params }, (err, reps) => {
@@ -151,21 +153,7 @@ Page({
         })
       });
       
-      // let params = { "store_id": store_id, "uid": "83046", "extract_money": "1", "available_money": "11", "account_id": "3", "bank_id": "1" };
-
-
-      // app.api.postApi(AccoutUrl, { params }, (err, reps) => {
-      //   if (err && reps.err_code != 0) return;
-      //   let account = reps.err_msg.fx_account;
-      //   let tip = that.data.tip;
-      //   if (account && account.bank_name) {
-      //     tip = '去修改';
-      //   }
-      //   that.setData({
-      //     account,
-      //     tip
-      //   });
-      // });
+ 
 
     }
 

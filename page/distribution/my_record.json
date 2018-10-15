@@ -1,2 +1,5 @@
 {
+  "usingComponents": {
+    "empty_tip": "/page/components/empty_tip"
+  }
 }

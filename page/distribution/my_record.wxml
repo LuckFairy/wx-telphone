@@ -1,6 +1,6 @@
 <!--page/distribution/my_record.wxml-->
 
-<page>
+<view class='main-container'>
   <view class='title'>
     <text class='title-text'>日期</text>
     <text class='title-text'>金额</text>
@@ -16,7 +16,9 @@
       </view>
     </block>
     <block wx:else>
-      <empty_tip></empty_tip>
+                     <empty_tip></empty_tip>
+
+
     </block>
 
   </block>
@@ -32,8 +34,10 @@
 
     </block>
     <block wx:else>
-      <empty_tip></empty_tip>
-    </block>
+  <view class='nodata'>
+                 <empty_tip></empty_tip>
+
+    </view>    </block>
 
 
 
@@ -41,4 +45,4 @@
   </block>
 
 
-</page>
+</view>
