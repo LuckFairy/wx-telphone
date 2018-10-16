@@ -1,8 +1,9 @@
 {
   "pages": [
+        "page/tabBar/home/index-new",
+        
     "page/distribution/moneyIndex",
     
-    "page/tabBar/home/index-new",
     "page/common/pages/goods-detail",
     "page/distribution/my_withdraw",
     "page/distribution/my_withdraw_detail",

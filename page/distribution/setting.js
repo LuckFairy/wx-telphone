@@ -3,7 +3,8 @@ const url = 'app.php?c=drp_ucenter&a=fx_add_account'
 const getInfoUrl = 'app.php?c=drp_ucenter&a=fx_find_account'
 var that;
 const app = getApp();
-var store_id
+var store_id;
+var uid;
 Page({
 
   /**
@@ -23,19 +24,22 @@ Page({
   onLoad: function (options) {
     that=this;
     store_id = app.store_id;
-    let uid = wx.getStorageSync("userUid");
+    uid = wx.getStorageSync("userUid");
 
     let params = { store_id, uid };
     app.api.postApi(getInfoUrl, { params }, (err, reps) => {
       if (err && reps.err_code != 0) return;
       let account = reps.err_msg.fx_account;
+      if(account){
+        that.setData({
+          bank: account.bank_name,
+          card: account.bank_account,
+          name: account.bank_user_name,
+          bankId: account.bank_id
+        });
+      }
       
-      that.setData({
-        bank: account.bank_name,
-        card: account.bank_account,
-        name: account.bank_user_name,
-        bankId: account.bank_id
-      });
+     
     });
 
 

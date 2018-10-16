@@ -6,6 +6,7 @@ const _detailUrl = "wxapp.php?c=fx_user&a=get_fx_detail";
 var that;
 const app = getApp();
 var uid;
+var hasLoad=false;
 
 Page({
 
@@ -46,19 +47,23 @@ Page({
     let store_id = this.data.store_id;
     let params = { store_id, uid};
    
-
     app.api.postApi(AccoutUrl, { params }, (err, reps) => {
       if (err && reps.err_code != 0) return;
       let account = reps.err_msg.fx_account;
-      let tip=that.data.tip;
-      if (account && account.bank_name){
+      let tip = that.data.tip;
+      if (account && account.bank_name) {
         tip = '去修改';
       }
       that.setData({
-        account,
         tip
       });
+      if(account){
+        that.setData({
+          account
+        });
+      }
     });
+   
 
     app.api.postApi(_detailUrl, { params }, (err, rep) => {
       if (err || rep.err_code != 0) { console.error(err || rep.err_msg); return; }
