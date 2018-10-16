@@ -18,6 +18,7 @@
   font-size: 28rpx;
   color: #222222;
   display:flex;
+  min-width: 120rpx;
 justify-content:center;
 align-items:center;
 }

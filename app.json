@@ -1,6 +1,8 @@
 {
   "pages": [
+
     "page/tabBar/home/index-new",
+
     "page/distribution/moneyIndex",
     
     "page/common/pages/goods-detail",

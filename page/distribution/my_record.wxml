@@ -1,13 +1,14 @@
 <!--page/distribution/my_record.wxml-->
 
 <view class='main-container'>
-  <view class='title'>
-    <text class='title-text'>日期</text>
-    <text class='title-text'>金额</text>
-  </view>
+ 
 
   <block wx:if='{{index==0}}'>
     <block wx:if="{{list0 && list0.length > 0}}">
+ <view class='title'>
+    <text class='title-text'>日期</text>
+    <text class='title-text'>金额</text>
+  </view>
       <view wx:for='{{list0}}'>
         <view class='content'>
           <text class='content-text-left'>{{item.add_time_txt}}</text>
@@ -16,7 +17,7 @@
       </view>
     </block>
     <block wx:else>
-                     <empty_tip></empty_tip>
+      <empty_tip></empty_tip>
 
 
     </block>
@@ -25,6 +26,10 @@
   <block wx:else>
 
     <block wx:if="{{list1 && list1.length > 0}}">
+     <view class='title'>
+    <text class='title-text'>日期</text>
+    <text class='title-text'>金额</text>
+  </view>
       <view wx:for='{{list1}}'>
         <view class='content'>
           <text class='content-text-left'>{{item.add_time_txt}}</text>
@@ -34,10 +39,11 @@
 
     </block>
     <block wx:else>
-  <view class='nodata'>
-                 <empty_tip></empty_tip>
+      <view class='nodata'>
+        <empty_tip></empty_tip>
 
-    </view>    </block>
+      </view>
+    </block>
 
 
 
