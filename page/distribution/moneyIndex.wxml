@@ -20,7 +20,7 @@
   <view  class='midBox-top' bindtap='onIncomeClick'>
     <text class='shallowGray'>当前店铺累计收益（元）</text>
     <text>{{detail.total_money}}</text>
-    <text class='shallowGray'>包含待结算{{detail.stay_money}}元</text>
+    <text class='shallowGray'>待结算{{detail.stay_money}}元</text>
   </view>
   <navigator url='./my_withdraw?money={{detail.forward_money}}' class='height padding line'>
     <view>
