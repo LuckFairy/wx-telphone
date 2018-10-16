@@ -34,8 +34,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // let uid = wx.getStorageSync("userUid");
-    let uid = 83046;
+    let uid = wx.getStorageSync("userUid");
     console.log(uid)
     this.setData({ uid }, () => {
       this.load();
