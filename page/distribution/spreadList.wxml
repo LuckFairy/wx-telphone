@@ -2,7 +2,7 @@
 <view class='search-msg'>
   <view class='search-input'>
     <image class='search-image' src='../image/search.png'></image>
-    <input class='search-text' focus='true' confirm-type='go' placeholder='输入券名称直接搜索' bindconfirm='searchCard' bindinput='goNull'></input>
+    <input class='search-text' focus='false' confirm-type='go' placeholder='请输入关键字，商品搜索' bindconfirm='searchCard' bindinput='goNull'></input>
   </view>
 </view>
 <!-- 列表 -->
