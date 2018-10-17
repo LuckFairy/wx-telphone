@@ -5,13 +5,13 @@ let uid = wx.getStorageSync('userUid');
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 let physical_id = wx.getStorageSync('phy_id'); //门店id
 const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
-const fxUserUrl = "wxapp.php?c=promote&a=is_fx_user";//判断是否是分销员
+const fxUserUrl = "wxapp.php?c=promote&a=show_share_icon";//判断是否是分销员
 const cartUrl = "wxapp.php?c=cart&a=cart_list";
 const storeCouponUrl = "wxapp.php?c=coupon&a=store_coupon";
 const prodDetUrl = `wxapp.php?c=product&a=detail_of_product_v4`;
 Page({
   data: {
-    isFx:0,//是否分销员，1是 0否
+    isFx:0,//是否显示图标，1是 0否
     shareShade: false,
     shareOpt:{
       title:'立即分享给好友',
@@ -205,7 +205,7 @@ Page({
   _pase() {
     let that = this;
     //判断是否是分销商品
-    let opt = { uid:that.data.uid, store_id:that.data.store_id }
+    let opt = { uid: that.data.uid, store_id: that.data.store_id, product_id: that.data.prodId }
     that.isFx(opt);
     //购物车的数量
     app.api.postApi(cartUrl, { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
@@ -241,7 +241,7 @@ Page({
   isFx(params){
     app.api.postApi(fxUserUrl,{params},(err,res)=>{
       if(res.err_code==0){
-        this.setData({ isFx: res.err_msg.fx_user})
+        this.setData({ isFx: res.err_msg.show_icon})
       }
     })
   },
