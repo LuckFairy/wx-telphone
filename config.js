@@ -87,7 +87,10 @@ export default{
   jumpintuanUrl: `wxapp.php?c=tuan_v2&a=pop_team_list_v2`,
   
   //生成小程序推广二维码
-  posterUrl:`wxapp.php?c=promote&a=wxapp_qrcode`
+  posterUrl:`wxapp.php?c=promote&a=wxapp_qrcode`,
+
+  //申请成为分销员
+  submitFxUrl:`wxapp.php?c=fx_user&a=add_fx_user`
 }
 
 

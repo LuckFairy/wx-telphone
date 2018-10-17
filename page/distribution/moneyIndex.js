@@ -24,6 +24,7 @@ Page({
       height: 1334,
       backgroundColor: '#fff',
       debug: false,
+      pid:0,//分销员id
       texts: [
         {
           x: 350,
@@ -85,11 +86,37 @@ Page({
    */
   onLoad: function (options) {
     let uid = wx.getStorageSync("userUid");
+    let phone = wx.getStorageSync("phone");
 
     if(uid){
-      
+    
     this.setData({uid},()=>{
-      this.load();
+      if (!options.scene) {
+        this.load();
+      }else{
+        let querystr = {};
+        let strs = decodeURIComponent(options.scene).split('&');
+        //取得全部并赋值
+        for (let i = 0; i < strs.length; i++) {
+          querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+        }
+        var pid = querystr['fx_uid'];
+        var params =  {
+          "uid": uid,
+          "phone": phone ,
+          "store_id": app.store_id,
+          "pid":pid
+	      };
+        app.api.postApi(app.config.submitFxUrl,{params},(err,res)=>{
+            if(err||res.err_code!=0){console.error(err||res.err_msg);return;}
+          wx.showToast({
+            title:res.err_msg
+          })
+        })
+        this.load();
+      }
+
+      
     })
     }else{
       wx.switchTab({

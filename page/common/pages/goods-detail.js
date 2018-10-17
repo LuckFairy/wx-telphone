@@ -4,14 +4,16 @@ let store_id = app.store_id;
 let uid = wx.getStorageSync('userUid');
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 let physical_id = wx.getStorageSync('phy_id'); //门店id
-const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
+const addOrderUrl = 'wxapp.php?c=order_v3&a=add';//生成订单接口
 const fxUserUrl = "wxapp.php?c=promote&a=show_share_icon";//判断是否是分销员
 const cartUrl = "wxapp.php?c=cart&a=cart_list";
 const storeCouponUrl = "wxapp.php?c=coupon&a=store_coupon";
 const prodDetUrl = `wxapp.php?c=product&a=detail_of_product_v4`;
+const addCartUrl = `wxapp.php?c=cart_v3&a=add`;//加入购物车
 Page({
   data: {
     isFx:0,//是否显示图标，1是 0否
+    fx_uid: 0,//分销员uid 非必须,默认为0.参数可以设置传0
     shareShade: false,
     shareOpt:{
       title:'立即分享给好友',
@@ -154,7 +156,7 @@ Page({
     console.log(this.data.product);
     return {
       title: product.name,
-      path: `/page/common/pages/goods-detail?prodId=${that.data.prodId}&action=${that.data.action}`,
+      path: `/page/common/pages/goods-detail?prodId=${that.data.prodId}&action=${that.data.action}&pid=${that.data.uid}`,
       imageUrl: (product.shareUrl ? product.shareUrl : product.product_image_list[0]) 
     }
   },
@@ -163,6 +165,7 @@ Page({
     let that = this;
     let store_id = app.store_id;
     let uid = wx.getStorageSync('userUid');
+    let phone = wx.getStorageSync('phone');
     physical_id = wx.getStorageSync('phy_id');
 
     if (uid == undefined || uid == '') {
@@ -173,9 +176,36 @@ Page({
     that.setData({
       uid, store_id
     },()=>{
-      // 页面初始化 options为页面跳转所带来的参数
-      let { prodId = '1786', action, params, categoryid = '' } = options;
-      if (action) { this.setData({ action }) }
+      let prodId = null,action=null,pid=null;
+      if(!options.scene){
+        // 页面初始化 options为页面跳转所带来的参数
+        prodId =options.prodId, action=options.action, pid=options.pid; 
+      }else{
+        let querystr = {};
+        let strs = decodeURIComponent(options.scene).split('&');
+        //取得全部并赋值
+        for(let i = 0;i<strs.length;i++){
+          querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+        }
+         pid = querystr['fx_uid'], prodId = querystr['product_id'];
+      }
+      if (action) { that.setData({ action }) }
+      if (pid) { 
+        that.setData({ fx_uid:pid},()=>{
+        var obj = {
+          "uid": uid,
+          "phone": phone,
+          "store_id": store_id,
+          "pid": pid
+        };
+        app.api.postApi(app.config.submitFxUrl, { params:obj }, (err, res) => {
+          if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
+              wx.showToast({
+                title: res.err_msg
+              })
+            })
+          })
+      }
       that.setData({ prodId },()=>{
         that._pase();
         app.creatImg(prodId, that).then(data => {
@@ -288,16 +318,17 @@ Page({
 
   },
   goTheCar(buyQuantity, isaddCart, productId, skuId, uid, storeId) {
-    var that = this;
+    let that = this;
     var params = {
       uid,
       product_id: productId,
       is_add_cart: isaddCart,
       quantity: buyQuantity,
       sku_id: skuId,
-      store_id: storeId
+      store_id: storeId,
+      fx_uid: that.data.fx_uid
     }
-    app.api.postApi('wxapp.php?c=cart&a=add', { params }, (err, resp) => {
+    app.api.postApi(addCartUrl, { params }, (err, resp) => {
       if (err) {
         return;
       }
@@ -555,7 +586,8 @@ Page({
       product_id: productId,
       store_id: storeId,
       quantity: buyQuantity,
-      baokuan_action: baokuan_action
+      baokuan_action: baokuan_action,
+      fx_uid: that.data.fx_uid
     };
 
     if (skuid_list.length > 0) {
@@ -626,14 +658,15 @@ Page({
   */
   getOrderId(opts) {
     console.log('opts', opts)
-    var { quantity, product_id, uid, store_id, sku_id, baokuan_action } = opts;
+    var { quantity, product_id, uid, store_id, sku_id, baokuan_action, fx_uid=0} = opts;
     var params = {
       uid,
       product_id,
       store_id,
       quantity,
       sku_id,
-      physical_id
+      physical_id,
+      fx_uid
     };
     console.log('购买参数', params);
     app.api.postApi(addOrderUrl, { params }, (err, rep) => {
