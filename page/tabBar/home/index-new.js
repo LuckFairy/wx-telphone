@@ -95,11 +95,11 @@ Page({
       }
       app.login(params).then(() => {
         console.log('弹窗取消', app.globalData.uid)
-        uid = app.globalData.uid;
         that.setData({
-          hasPhone: true, isInfo: false
+          hasPhone: true, isInfo: false, uid: app.globalData.uid
+        },()=>{
+          that._parse();
         })
-        that._parse();
       }).catch(() => {
         console.log('弹窗弹窗')
         that.setData({
@@ -107,8 +107,13 @@ Page({
         })
       })
     } else {
+      //用户取消授权
       that.setData({
         hasPhone: false
+      }, () => {
+        wx.navigateTo({
+          url: '../../my/pages/bingPhone',
+        })
       })
     }
   },
@@ -132,6 +137,10 @@ Page({
     } else {
       that.setData({
         isInfo: false
+      }, () => {
+        wx.navigateTo({
+          url: '../../my/pages/bingPhone',
+        })
       });
     }
   },
@@ -164,9 +173,10 @@ Page({
         hasPhone: true,
         uid: data.uid,
         phone: data.phone
+      },()=>{
+        that._parse();
       });
       app.globalData.uid = data.uid;
-      uid = data.uid;
       app.globalData.phone = data.phone;
       wx.setStorageSync('userUid', data.uid); //存储uid
       wx.setStorageSync('phone', data.phone); //存储uid
@@ -179,7 +189,7 @@ Page({
         }
         app.bingUserScreen(opts);
       }
-      that._parse();
+     
     }).catch(data => {
       that.setData({
         hasPhone: false
@@ -230,7 +240,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log(this.route)
+
     if (app.globalData.uid) {
       this.loadMyCardNumData(); //我的卡包数量
       this.getCoupValue(); //优惠券数据
@@ -262,13 +272,13 @@ Page({
       var params = {
         store_id, //店铺id
         physical_id: phy_id,
-        uid,
+        uid:this.data.uid,
       },
         headImg = headImg_v4;
     } else {
       var params = {
         store_id, //店铺id
-        uid,
+        uid:that.data.uid,
       },
         headImg = headImg_v3;
     }
@@ -299,14 +309,14 @@ Page({
       var params = {
         store_id, //店铺id
         physical_id: phy_id,
-        uid,
+        uid:this.data.uid,
         page: '1',
       },
         activityUrl = activityUrl_v2;
     } else {
       var params = {
         store_id, //店铺id
-        uid,
+        uid:this.data.uid,
         page: '1',
       },
         activityUrl = activityUrl_v1;
@@ -336,11 +346,11 @@ Page({
     });
   },
   loadMyCardNumData: function () {
-    var uid = this.data.uid,
+    var 
       params = {},
       that = this;
     params = {
-      uid,
+      uid:that.data.uid,
       store_id,
     }
     app.api.postApi('wxapp.php?c=coupon&a=my_card_num', {
@@ -361,7 +371,7 @@ Page({
   jumpCoupon() {
     var that = this;
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id,
       "page": 1
     };
@@ -373,9 +383,10 @@ Page({
    * 优惠券面值列表
    */
   getCoupValue() {
+    let that = this;
     app.api.postApi(couponListUrl, {
       "params": {
-        uid,
+        uid:that.data.uid,
         store_id,
         "page": 1
       }
@@ -500,7 +511,7 @@ Page({
       title: '加载中'
     });
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id,
       long: logLat[0],
       lat: logLat[1]
@@ -546,7 +557,7 @@ Page({
       return;
     }
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id,
       "coupon_id_arr": that.data.coupon_id_arr
     }
@@ -562,7 +573,7 @@ Page({
     })
 
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id
     };
     cancelCoupon(params);

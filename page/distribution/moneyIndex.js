@@ -87,44 +87,58 @@ Page({
   onLoad: function (options) {
     let uid = wx.getStorageSync("userUid");
     let phone = wx.getStorageSync("phone");
+    let that = this;
 
     if(uid){
-    
-    this.setData({uid},()=>{
-      if (!options.scene) {
-        this.load();
-      }else{
-        let querystr = {};
-        let strs = decodeURIComponent(options.scene).split('&');
-        //取得全部并赋值
-        for (let i = 0; i < strs.length; i++) {
-          querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
-        }
-        var pid = querystr['fx_uid'];
-        var params =  {
-          "uid": uid,
-          "phone": phone ,
-          "store_id": app.store_id,
-          "pid":pid
-	      };
-        app.api.postApi(app.config.submitFxUrl,{params},(err,res)=>{
-            if(err||res.err_code!=0){console.error(err||res.err_msg);return;}
-          wx.showToast({
-            title:res.err_msg
-          })
-        })
-        this.load();
-      }
+      this.setData({uid},()=>{
+          let pid = null;
+          if (!options.scene) {
+            pid = options.pid;
+          }else{
+            let querystr = {};
+            let strs = decodeURIComponent(options.scene).split('&');
+            //取得全部并赋值
+            for (let i = 0; i < strs.length; i++) {
+              querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+            }
+            pid = querystr['fx_uid'];
+          }
+          that.isfx(pid, () => {
+            var params = {
+              "uid": uid,
+              "phone": phone,
+              "store_id": app.store_id,
+              "pid": pid
+            };
+            app.api.postApi(app.config.submitFxUrl, { params }, (err, res) => {
+              if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
 
-      
-    })
+            })
+            this.load();
+          })
+      })
     }else{
       wx.switchTab({
         url: '../tabBar/home/index-new',
       })
     }
   },
- 
+ isfx(pid,func){
+   //是否是分销员
+   app.api.postApi(app.config.isFxuserUrl, { params: { store_id:this.data.sid } }, (err, res) => {
+     if (err || res.err_code != 0) { console.error(err || res.err_code) }
+     let status = res.err_msg.status;
+     let isCheck = (status == -1 || status == 2 || status == 0) ? false : true;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
+     if (!isCheck) {
+       wx.redirectTo({
+         url: `./invite?pid=${pid}`,
+         
+       })
+     }else{
+       typeof func == 'function' && func();
+     }
+   })
+ },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

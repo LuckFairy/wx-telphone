@@ -4,11 +4,11 @@ let store_id = app.store_id;
 let uid = wx.getStorageSync('userUid');
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 let physical_id = wx.getStorageSync('phy_id'); //门店id
-const addOrderUrl = 'wxapp.php?c=order_v3&a=add';//生成订单接口
 const fxUserUrl = "wxapp.php?c=promote&a=show_share_icon";//判断是否是分销员
 const cartUrl = "wxapp.php?c=cart&a=cart_list";
 const storeCouponUrl = "wxapp.php?c=coupon&a=store_coupon";
 const prodDetUrl = `wxapp.php?c=product&a=detail_of_product_v4`;
+const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
 const addCartUrl = `wxapp.php?c=cart_v3&a=add`;//加入购物车
 Page({
   data: {
@@ -192,17 +192,14 @@ Page({
       if (action) { that.setData({ action }) }
       if (pid) { 
         that.setData({ fx_uid:pid},()=>{
+          //确认客户关系
         var obj = {
           "uid": uid,
-          "phone": phone,
           "store_id": store_id,
-          "pid": pid
+          "fx_uid": pid
         };
-        app.api.postApi(app.config.submitFxUrl, { params:obj }, (err, res) => {
+          app.api.postApi(app.config.becustomerUrl, { params:obj }, (err, res) => {
           if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
-              wx.showToast({
-                title: res.err_msg
-              })
             })
           })
       }
