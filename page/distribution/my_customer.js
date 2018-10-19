@@ -33,7 +33,7 @@ Page({
     if(index==1){
       type ='others';
     }
-    let fxid = wx.getStorageSync('fxid');
+     let fxid = wx.getStorageSync('fxid');
     if (fxid) {
       var params = {
         "fx_id": fxid,
@@ -44,7 +44,7 @@ Page({
         wx.hideLoading();
         if (resp) {
           if (resp.err_code == 0) {
-            let list = resp.err_msg;
+            let list = resp.err_msg.data;
             if (index == 0) {
               that.setData({
                 list0: list,
