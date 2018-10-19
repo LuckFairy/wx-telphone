@@ -42,7 +42,7 @@
     <text class='blue'>{{detail.self_fx}}</text>
     <text class='black'>累计邀请</text>
   </view>
-  <view>
+  <view bindtap='onspreadClick'>
     <text class='blue'>{{detail.account_num}}</text>
     <text class='black'>推广订单</text>
   </view>

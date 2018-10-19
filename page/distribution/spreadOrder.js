@@ -42,7 +42,9 @@ Page({
     let params =  { "uid": that.data.uid, "store_id": that.data.sid, "page": 1, "limit": 20} ;
     params = Object.assign(params,opt);
     app.api.postApi(listUrl,{params},(err,rep)=>{
-      if (err || rep.err_code != 0) {that._showError(err||rep.err_msg);return;}
+      if (err || rep.err_code != 0) {
+        // that._showError(err||rep.err_msg.msg);
+        return;}
       let { data=[],next_page}=rep.err_msg;
       if(data.length>0){that.setData({list:data})}
       that.setData({ nextPage: next_page})

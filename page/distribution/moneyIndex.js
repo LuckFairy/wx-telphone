@@ -242,5 +242,10 @@ Page({
       url: './my_income'
     });
 
+  },
+  onspreadClick(){
+    wx.navigateTo({
+      url: './spreadOrder'
+    });
   }
 })
