@@ -26,6 +26,7 @@ Page({
     });
    
     let fxid = wx.getStorageSync('fxid');
+
     if (fxid) {
       var params = {
         "fx_id": fxid,
