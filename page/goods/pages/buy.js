@@ -486,6 +486,13 @@ Page({
    * 支付成功
    */
   _onPaySuccess(res) {
+    if (res.errMsg == 'requestPayment:ok') {
+      // wx.showToast({ title: "订单支付成功", icon: "success", duration: 1000 });
+      var params = { "uid": this.data.uid, "store_id": this.data.storeId, "order_no": this.data.order_no }
+      app.api.postApi('wxapp.php?c=order_v2&a=pay_mark', { params }, (err, res) => {
+        if (err || res.err_code != 0) { console.error(err || res.err_msg) }
+      })
+    }
     wx.removeStorageSync('couponInfo');
     var that = this;
     // 支付成功弹窗

@@ -541,16 +541,16 @@ Page({
   },
   _doPrePay(orderId) {
     let addressId = this.data.addressId;
-    //let addressId = 47;
+
     let payType = this.data.payType;
     let is_app = this.data.is_app;
     let postage_list = this.data.postage_list;
-    //let postage_list = "a:1:{i:6;d:0;}";
+  
     let uid = this.data.uid;
     let store_id = this.data.storeId;
     let user_coupon_id = this.data.user_coupon_id;
     let shipping_method = this.data.shipping_method;
-    //console.log('22222-addressId=' + addressId); //return;
+ 
     var params = {
       payType: payType,
       orderNo: orderId,
@@ -584,7 +584,7 @@ Page({
         } else {
 
           // 调起微信支付
-          this._startPay(data);
+          this._startPay(data, orderId);
         }
       }
     });
@@ -594,7 +594,7 @@ Page({
   /**
    * 调起微信支付
    */
-  _startPay(payParams) {
+  _startPay(payParams, orderId) {
     let param = {
       timeStamp: payParams.timeStamp + "",
       nonceStr: payParams.nonceStr,
@@ -602,7 +602,7 @@ Page({
       "package": payParams.package,
       signType: 'MD5',
       paySign: payParams.paySign,
-      success: res => this._onPaySuccess(res),
+      success: res => this._onPaySuccess(res, orderId),
       fail: err => this._onPayFail(err)
     };
     wx.requestPayment(param);
@@ -611,11 +611,18 @@ Page({
   /**
    * 支付成功
    */
-  _onPaySuccess(res) {
-    wx.showToast({ title: "订单支付成功", icon: "success", duration: 1000 });
-    //2018年1月3日09:52:02
+  _onPaySuccess(res, orderId) {
+    if (res.errMsg == 'requestPayment:ok') {
+      wx.showToast({ title: "订单支付成功", icon: "success", duration: 1000 });
+      var params = { "uid": this.data.uid, "store_id": this.data.storeId, "order_no": this.orderId }
+      app.api.postApi('wxapp.php?c=order_v2&a=pay_mark', { params }, (err, res) => {
+        if (err || res.err_code != 0) { console.error(err || res.err_msg) }
+      })
+    }
+    
+ 
     wx.removeStorageSync('couponInfo');
-    this.giveCard(this.data.orderId);
+    this.giveCard(orderId);
 
     setTimeout(() => {
       // 跳转到待收货页面

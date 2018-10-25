@@ -3,7 +3,7 @@
 <block  wx:if="{{list.length>0}}">
   <view class='list' wx:for="{{list}}" wx:for-item="order" >
     <view class='h-80'>
-      <text>E{{order.order_no}}</text>
+      <text>{{order.order_no}}</text>
       <text class='red f-r'>{{order.status_txt}}</text>
     </view>
     <view class='b-t'>

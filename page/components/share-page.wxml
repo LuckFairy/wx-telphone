@@ -42,7 +42,9 @@
   <image class='overlay-close' src='../image/distribution/qugo_18.png' catchtap='onClose'></image>
   <view class="money-content">
     <view class='money-userInfo'>
-    <open-data type="userAvatarUrl" class="heading"></open-data>
+      <view class='myself-photo'>
+        <open-data type="userAvatarUrl" class="heading"></open-data>
+      </view>
     <open-data type="userNickName" class='myself-id'></open-data>
     </view>
     <view class='money-box'>

@@ -527,8 +527,15 @@ Page({
    * 支付成功
    */
   _onPaySuccess(res) {
+    let that = this;
+    if (res.errMsg =='requestPayment:ok'){
+      var params = { "uid": that.data.uid, "store_id": that.data.storeId , "order_no": that.data.orderId } 
+      app.api.postApi('wxapp.php?c=order_v2&a=pay_mark',{params},(err,res)=>{
+        if(err||res.err_code!=0){console.error(err||res.err_msg)}
+      })
+    }
     wx.removeStorageSync('couponInfo');
-    var that = this;
+   
     
     //推送消息
     app.send(that.data.orderId);

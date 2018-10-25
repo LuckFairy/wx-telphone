@@ -20,8 +20,7 @@ page {
 
 .myself-photo {
   display: inline-block;
-  width: 122rpx;
-  height: 122rpx;
+  overflow: hidden;
   margin-top: 19rpx;
   margin-left: 24rpx;
   border-radius: 50%;
@@ -29,6 +28,7 @@ page {
 
 .myself-detail {
   display: inline-block;
+ 
   font-size: 0rpx;
   margin-top: 35rpx;
   margin-left: 42rpx;
@@ -44,9 +44,9 @@ page {
 .heading {
   width: 122rpx;
   height: 122rpx;
-  border-radius: 50%;
+  border-radius: 40%;
   object-fit: cover;
-  clip-path: circle(50% at center);
+  clip-path: circle(40% at center);
   display: block;
   float: left;
 }

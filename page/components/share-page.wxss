@@ -146,17 +146,23 @@ button::after{border: none;}
   left: 50%;
   transform: translateX(-50%);
 }
+.myself-photo {
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 50%;
+  width: 100rpx;
+  height: 100rpx;
+}
 .heading {
   width: 100rpx;
   height: 100rpx;
-  border-radius: 50%;
+  border-radius: 40%;
   object-fit: cover;
-  clip-path: circle(50% at center);
+  clip-path: circle(40% at center);
   display: block;
   float: left;
 }
 .myself-id {
-  margin-right: 24rpx;
   font-size: 28rpx;
 }
 .money-box{

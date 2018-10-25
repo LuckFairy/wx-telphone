@@ -65,15 +65,16 @@ page {
 
 .myself-photo {
   display: inline-block;
-  margin-left: 24rpx;
+  overflow: hidden;
   border-radius: 50%;
-}
-.heading {
+  margin-left: 24rpx;
   width: 100rpx;
   height: 100rpx;
-  border-radius: 50%;
+}
+.heading {
+  border-radius: 40%;
   object-fit: cover;
-  clip-path: circle(50% at center);
+  clip-path: circle(40% at center);
   display: block;
   float: left;
 }
