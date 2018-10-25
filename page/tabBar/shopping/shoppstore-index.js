@@ -78,16 +78,16 @@ Page({
     this.loadMyCardNumData(); //我的卡包数量
 
   },
-  clickGoCategory(e) {
-    console.log("宝宝", e)
-    //保存formid
-    app.pushId(e).then(ids => { app.saveId(ids) });
-    var index = e.detail.target.dataset.index;
-    var catId = e.detail.target.dataset.catId;
-    wx.navigateTo({
-      url: '../../common/pages/index-boabao?listId=' + index + '&catId=' + catId
-    })
-  },
+    clickGoCategory(e) {
+      console.log("宝宝", e)
+      //保存formid
+      app.pushId(e).then(ids => { app.saveId(ids) });
+      var index = e.detail.target.dataset.index;
+      var catId = e.detail.target.dataset.catId;
+      wx.navigateTo({
+        url: '../../common/pages/index-boabao?listId=' + index + '&catId=' + catId
+      })
+    },
   getProductData(categoryid) {
     var params = { "store_id": this.data.store_id, "page": "1", "categoryid": categoryid };
     let url = 'wxapp.php?c=product&a=get_product_list_3';

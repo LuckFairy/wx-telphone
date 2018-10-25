@@ -1,7 +1,7 @@
 <import src="../../common/template/get-tel.wxml" />
 <template wx:if="{{hasPhone==false}}" is="getphone-modal" data="{{templateData}}"></template>
-
 <view class='myself'>
+<!-- <navigator url='../../my/pages/erwei'>为我们</navigator> -->
   <!--top  个人信息-->
 
   <view class='myself-top'>

@@ -55,7 +55,7 @@ Page({
     }
     app.api.postApi(getCategoryList, { params }, (err, resp) => {
       wx.hideLoading();
-      var dataList = resp.err_msg.products;
+      var dataList = resp.err_msg.products||[];
       if (dataList.length > 1) {
         for (var i in dataList) {
           dataList[i].diff = Number(dataList[i].original_price - dataList[i].price).toFixed(2);

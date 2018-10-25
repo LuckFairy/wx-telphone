@@ -1,14 +1,14 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
-    "page/group-buying/group-buying",
+    "page/common/pages/goods-detail",
     "page/tabBar/my/myself",
+    "page/group-buying/group-buying",
     "page/common/pages/my-order",
     "page/common/pages/store-change",
     "page/tabBar/goods/cart",
     "page/common/pages/buy",
     "page/group-buying/my-order",
-    "page/common/pages/goods-detail",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
 
@@ -42,7 +42,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
-    "navigationBarTitleText": "趣购精选",
+    "navigationBarTitleText": "贝贝家母婴连锁",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
