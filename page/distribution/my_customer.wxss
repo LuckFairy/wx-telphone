@@ -70,3 +70,11 @@
   width: 100%;
   height: 100%;
 }
+
+.content-day {
+  font-size: 24rpx;
+  color: #ffa207;
+  text-align:right;
+
+}
+

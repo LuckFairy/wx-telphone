@@ -11,6 +11,7 @@ Page({
     curActIndex:0,
     list0:[],
     list1:[],
+    list2: [],
     storeId: app.store_id,
 
   },
@@ -29,11 +30,14 @@ Page({
     that.setData({
       curActIndex: index,
     });
-    let type ='my';
+    //分类(‘all’:全部客户,’my’:未跑路客户,’others’:已跑路客户)
+    let type ='all';
     if(index==1){
-      type ='others';
+      type ='my';
+    }else if(index==2){
+      type = 'others';
     }
-     let fxid = wx.getStorageSync('fxid');
+    let fxid = wx.getStorageSync('fxid');
     if (fxid) {
       var params = {
         "fx_id": fxid,
@@ -45,15 +49,22 @@ Page({
         if (resp) {
           if (resp.err_code == 0) {
             let list = resp.err_msg.data;
+
             if (index == 0) {
               that.setData({
                 list0: list,
               });
-            } else {
+            } else if (index == 1){
               that.setData({
                 list1: list,
               });
+            } else if (index == 2) {
+              that.setData({
+                list2: list,
+              });
             }
+            console.log(index + ' ：' + JSON.stringify(that.data.list0));
+
           }
 
         }

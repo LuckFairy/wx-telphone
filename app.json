@@ -1,21 +1,17 @@
 {
   "pages": [
-
-    "page/tabBar/home/index-new",
-
-    "page/distribution/moneyIndex",
     
+    "page/tabBar/home/index-new",
+    "page/distribution/moneyIndex",
+    "page/distribution/my_customer",
     "page/common/pages/goods-detail",
     "page/distribution/my_withdraw",
     "page/distribution/my_withdraw_detail",
     "page/distribution/bank",
     "page/distribution/spreadList",
-
     "page/distribution/invite",
-   
     "page/common/pages/activity-detail",
     "page/distribution/spreadOrder",
-    "page/distribution/my_customer",
     "page/distribution/my_invite",
     "page/distribution/setting",
     "page/distribution/my_record",
@@ -53,7 +49,6 @@
     "page/group-buying/group-join",
     "page/group-buying/tuan-detail",
     "pages/qrcode/qr-entry"
-    
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -77,8 +72,7 @@
         "pagePath": "page/tabBar/shopping/shoppstore-index",
         "text": "商城",
         "iconPath": "img/shoppstore.png",
-        "selectedIconPath": "img/shoppstore-select.png" 
-
+        "selectedIconPath": "img/shoppstore-select.png"
       },
       {
         "pagePath": "page/tabBar/goods/cart",

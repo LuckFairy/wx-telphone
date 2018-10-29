@@ -39,10 +39,8 @@
 
     </block>
     <block wx:else>
-      <view class='nodata'>
-        <empty_tip></empty_tip>
+              <empty_tip></empty_tip>
 
-      </view>
     </block>
 
 
