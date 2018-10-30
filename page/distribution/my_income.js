@@ -77,6 +77,12 @@ Page({
     });
   },
 
+  onItemclick(){
+    wx.navigateTo({
+      url: './spreadOrder'
+    });
+  }
+
 
 
 })

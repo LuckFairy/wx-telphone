@@ -1,5 +1,5 @@
 <page>
-  <view class='content-container'>
+  <view class='content-container' bindtap='onItemclick'>
     <view class='content-top'>
       <view class='content-top-left'>
         <view class='content-top-text1'>
