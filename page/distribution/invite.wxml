@@ -1,6 +1,6 @@
 <!--page/distribution/invite.wxml-->
 <filter-panel detail="{{ac_detail}}" title="{{ac_title}}" time="{{ac_time}}">
-  <view class='{{(isCheck==1)?"footer":"footer gray-bg"}}' slot="footer"  catchtap="{{(isCheck==1)?'oncheckShade':''}}">
+  <view class='{{(isCheck)?"footer":"footer gray-bg"}}' slot="footer"  catchtap="{{(isCheck)?'oncheckShade':''}}">
     申请成为分享达人
   </view>
   <view class="overlay" wx:if="{{checkShade}}" slot="overlay">

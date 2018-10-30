@@ -183,12 +183,14 @@ Page({
       }else{
         let querystr = {};
         let strs = decodeURIComponent(options.scene).split('&');
+        console.log('strs....', strs);
         //取得全部并赋值
         for(let i = 0;i<strs.length;i++){
           querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
         }
          pid = querystr['fx_uid'], prodId = querystr['product_id'];
       }
+      console.log('pid...', pid);
       if (action) { that.setData({ action }) }
       if (pid) { 
         that.setData({ fx_uid:pid},()=>{

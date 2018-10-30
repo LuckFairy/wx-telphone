@@ -17,9 +17,10 @@ Page({
     ac_time:'',
     page: 1,//从上面页面进入，1我的 ，2分享赚钱
     satus: -1,//0审核中，1审核通过，2已经拉黑，-1审核拒绝
-    isCheck:1,//是否审核点击，1是 0否
+    isCheck:true,//是否点击申请
     uid:null,
     sid:null,
+    pid:null,
     phone:null,
     imgurl:null,//二维码图片
     proId:null,//产品id
@@ -58,14 +59,27 @@ Page({
   onLoad: function (options) {
     let uid = wx.getStorageSync('userUid'), sid = app.store_id, phone = wx.getStorageSync("phone") || app.globalData.phone,that= this;
     console.log(phone)
-    let {pid } = options;
+    let pid = null;
+    if (!options.scene) {
+      pid = options.pid;
+    } else {
+      let querystr = {};
+      let strs = decodeURIComponent(options.scene).split('&');
+      console.log('strs....', strs);
+      //取得全部并赋值
+      for (let i = 0; i < strs.length; i++) {
+        querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+      }
+      pid = querystr['fx_uid'];
+    }
     if(!uid){
       wx.switchTab({
         url: '../tabBar/home/index-new',
       })
       if(pid){wx.setStorageSync(pid, 'pid')}
     }else{
-      let pid = pid||wx.getStorageSync("pid");
+      pid = pid||wx.getStorageSync("pid");
+      console.log(options, 'pid...', pid);
       this.setData({uid,sid,phone,pid},()=>{
           that.loadDetail({pid});
       })
@@ -88,8 +102,7 @@ Page({
   
     
   },
-
-  loadDetail(opt){
+  loadDetail(opt,func){
     let that = this;
     let params = {
       uid: opt.uid || this.data.uid,
@@ -100,12 +113,13 @@ Page({
       if(rep.err_code==0){
         WxParse.wxParse('ac_detail', 'html', rep.err_msg.detail, that);
         let status = rep.err_msg.status;
-        let isCheck = (status==-1||status==2||status==0)?1:0;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
+        let isCheck = (status==1)?false:true;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
         let checkShade = (status==0)?true:false;
         that.setData({ status, isCheck, checkShade},()=>{
-          if(isCheck!=1){
+          if(!isCheck){
+            typeof func =='function' &&func();
             wx.redirectTo({
-              url: './moneyIndex',
+              url: `./moneyIndex?pid=${opt.pid}`,
             })
           }
         })
@@ -118,12 +132,14 @@ Page({
     let params = {
       "uid": that.data.uid,
       "phone": that.data.phone,
-      "store_id": that.data.sid
+      "store_id": that.data.sid,
+      "pid":that.data.pid
     }
     app.api.postApi(_urlCheck, { params }, (err, rep) => {
       if(rep.err_code==0){
+        wx.removeStorageSync('pid');
         let status = rep.err_msg.status;//0审核中1跳页
-        that.setData({isCheck:1},()=>{
+        that.setData({isCheck:true},()=>{
             if (status == 0) { that.setData({ checkShade:true})}
             else{
               that.goMoneyIndex();

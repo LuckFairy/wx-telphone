@@ -97,13 +97,16 @@ Page({
           }else{
             let querystr = {};
             let strs = decodeURIComponent(options.scene).split('&');
+            console.log('strs....',strs);
             //取得全部并赋值
             for (let i = 0; i < strs.length; i++) {
               querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
             }
             pid = querystr['fx_uid'];
           }
+        console.log(options,'pid...',pid);
           that.isfx(pid, () => {
+            if(!pid){return;}
             var params = {
               "uid": uid,
               "phone": phone,
@@ -114,7 +117,7 @@ Page({
               if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
 
             })
-            this.load();
+           
           })
       })
     }else{
@@ -125,14 +128,15 @@ Page({
   },
  isfx(pid,func){
    //是否是分销员
-   app.api.postApi(app.config.isFxuserUrl, { params: { store_id:this.data.sid } }, (err, res) => {
+   app.api.postApi(app.config.isFxuserUrl, { params: { store_id:this.data.sid ,uid:this.data.uid} }, (err, res) => {
      if (err || res.err_code != 0) { console.error(err || res.err_code) }
      let status = res.err_msg.status;
-     let isCheck = (status == -1 || status == 2 || status == 0) ? false : true;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
+     console.log(status);
+     let isCheck = (status ==1) ? true : false;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
+     console.log(isCheck);
      if (!isCheck) {
        wx.redirectTo({
          url: `./invite?pid=${pid}`,
-         
        })
      }else{
        typeof func == 'function' && func();
@@ -150,7 +154,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.load();
   },
   onGotUserInfo: function (e) {
     console.log("nickname=" + e.detail.userInfo.nickName);
@@ -182,7 +186,7 @@ Page({
     app.api.postApi(_detailUrl,{params},(err,rep)=>{
       if(err||rep.err_code!=0){console.error(err||rep.err_msg);return;}
       this.setData({detail:rep.err_msg});
-      wx.setStorageSync('fxid', rep.err_msg.id)
+      wx.setStorageSync('fxid', rep.err_msg.id);//分销用户ID
     })
   },
 
@@ -223,7 +227,7 @@ Page({
  
     return {
       title: '你的好友向推荐 加入分享赚钱',
-      path: `/page/distribution/invite?pid=${this.data.uid}`,
+      path: `/page/distribution/moneyIndex?pid=${that.data.uid}`,
       imageUrl:imgurl,
     }
   },
