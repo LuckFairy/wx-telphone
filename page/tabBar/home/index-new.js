@@ -172,20 +172,20 @@ Page({
       console.log('有手机号', data);
       that.setData({
         hasPhone: true,
-        uid: data.uid,
+        uid: app.config.uid ||data.uid,
         phone: data.phone
       });
-      app.globalData.uid = data.uid;
-      uid = data.uid;
+      app.globalData.uid = app.config.uid ||data.uid;
+      uid = app.config.uid ||data.uid;
       app.globalData.phone = data.phone;
-      wx.setStorageSync('userUid', data.uid); //存储uid
+      wx.setStorageSync('userUid', app.config.uid || data.uid); //存储uid
       wx.setStorageSync('phone', data.phone); //存储uid
       //绑定门店
       if (locationid) {
         var opts = {
           store_id: __config.sid,
           item_store_id: locationid,
-          uid: data.uid
+          uid: app.config.uid ||data.uid
         }
         app.bingUserScreen(opts);
       }

@@ -39,7 +39,7 @@
   <swiper bindchange="swiperChange" current="{{curSwiperIdx}}">
     <swiper-item>
       <view class='overlay-transparent' style="display:{{showHide ? 'none' : 'flex'}};background-color:#fff;"></view>
-      <scroll-view scroll-y="true" bindscrolltolower='pullUpLoadone' lower-threshold='0' scroll-top="{{scrollTop}}">
+      <scroll-view scroll-y="true" bindscrolltolower='pullUpLoadone' enable-back-to-top="true">
         <view wx:if="{{updateone||offlineData.length>0}}" class="card-list-view">
           <view  wx:if="{{updateone}}" catchtap='update'  class='update-btn'>网络超时，点击刷新</view>
           <block  wx:if="{{offlineData.length>0}}"  wx:for="{{offlineData}}" wx:for-item="card" wx:key="{{index}}">
@@ -95,7 +95,7 @@
     <swiper-item>
       <view class='overlay-transparent' style="display:{{showHide ? 'none' : 'flex'}};background-color:#fff;"></view>
 
-      <scroll-view scroll-y="true" bindscrolltolower='pullUpLoadtwo' lower-threshold='0' scroll-top="{{scrollTop}}">
+      <scroll-view scroll-y="true" bindscrolltolower='pullUpLoadtwo' enable-back-to-top="true">
         <view wx:if="{{updatetwo||onlineData.length>0}}" class="card-list-view">
           <view  wx:if="{{updatetwo}}" catchtap='update' class='update-btn'>网络超时，点击刷新</view>
           <block wx:if="{{onlineData.length>0}}" wx:for="{{onlineData}}" wx:for-item="card" wx:key="{{index}}">

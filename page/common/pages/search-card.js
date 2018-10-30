@@ -5,38 +5,17 @@ var isFirst = true;//是否首次进入页面
 
 Page({
   data: {
-    loading: true,
-    status: true,
-    windowHeight: '',
-    windowWidth: '',
-    msgList: [],
-    usedMsg: [],
-    expiredMsg: [],
-    scrollTop: 0,
-    scrollHeight: 0,
+    loadingone: true,
     pagesone: 1,
-    pagestwo: 1,
-    pagesthree: 1,
-    dataStatus: 0,
     curActIndex: "",
     store_id: '',
     uid: '',
-    image: '',
-    ex_image: '',
-    use_image: '',
-    indexSelect: 0,//门店券0，线上券1
-    normal: [],//页面数据
-    loadingtwo: true,//页面是否上拉刷新
+    normal: [],//数据数组
     showHide: true,
     typeText: '门店券',
-    category: 3,
-    searchValue: '',
-    onlinecard: '',
-    mendiancard: '',
-    onlinecard: '',
-    shopCard: '',
-    nullList: false
-
+    category: 3,//优惠券的类别 1线上 3门店
+    searchValue: null,
+    isSearch: false,//是否搜索
   },
   // 搜索卡包
   searchCard(e) {
@@ -46,7 +25,7 @@ Page({
       that.setData({
         searchValue: searchValue,
         pagesone: 1,
-        selectCardone: 1,
+        isSearch: true,
       });
     }
     that.loadData1(that);
@@ -58,7 +37,7 @@ Page({
       that.setData({
         searchValue: searchValue,
         pagesone: 1,
-        selectCardone: 1,
+        isSearch: true,
       });
       that.loadData1(that);
     }
@@ -77,35 +56,16 @@ Page({
   },
   // 选择券类型
   goChooseCard(e) {
-    var that = this;
+    let that = this;
     // 事件代理拿到点击目标
-    var { indexSelect, normal } = that.data.indexSelect;
-    var select = e.target.dataset.select;
-    if (indexSelect == select) { return; }
+    let { category, typeText}=that.data;
+    let categoryNew = e.target.dataset.category;
+    if (categoryNew == category) { return; }
+    if (categoryNew == 1) { typeText ='线上券'}
+    else if (categoryNew == 3) { typeText ='门店券'}
     that.setData({
-      indexSelect: select, normal: [], showHide: true, pagesone: 1, loadingone: true,
-      pagestwo: 1,
-      pagesthree: 1,
+      category: categoryNew, typeText, normal: [], showHide: true, pagesone: 1, loadingone: true,isSearch:false
     });
-    if (select == 0) {
-      this.setData({
-        typeText: '线上券',
-        category: 1,
-        onlinecard: 'onlinecard',
-        mendiancard: '',
-        xianshangCard: 'xianshangCard',
-        shopCard: ''
-      });
-    } else if (select == 1) {
-      this.setData({
-        typeText: '门店券',
-        category: 3,
-        mendiancard: 'mendiancard',
-        onlinecard: '',
-        xianshangCard: '',
-        shopCard: 'shopCard'
-      });
-    }
     that.loadData1(that);
   },
   pullUpLoadone(e) {
@@ -124,22 +84,9 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
-    that.setData({
-      mendiancard: 'mendiancard',
-      shopCard: "shopCard"
-    })
     var store_id = app.store_id;
     var uid = wx.getStorageSync('userUid');
     that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id });
-    // 自动获取手机宽高
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          windowHeight: res.windowHeight,
-          windowWidth: res.windowWidth
-        })
-      }
-    })
     that.loadData1(that);
   },
 
@@ -171,51 +118,26 @@ Page({
     this.setData({ qrImageUrl: qrUrl, showOverlay: true });
   },
 
-  loadData1: function (that) {
-    this.loadData1(that, false);
-  },
-
   //加载页面数据
   loadData1: function (that, isLoadMore) {
     wx.showLoading({
       title: '加载中',
     })
-    var { searchValue, pagesone, store_id, uid, category, nullList, normal = [] } = that.data;
-    // var params = {
-    //   page: pagesone, store_id, uid: uid, type: 'all', category: category, keyword: searchValue
-    // }
+    var { searchValue, pagesone, store_id, uid, category, searchFlag, normal = [] } = that.data;
     var params = {
       page: pagesone, store_id, uid: uid, type: category, tagId: 0, keyword: searchValue
     }
     app.api.postApi('wxapp.php?c=coupon&a=my_v2', { params }, (err, reps) => {
       if (err && reps.err_code != 0) { wx.hideLoading(); return; }
-      var { image, coupon_list = [], next_page } = reps.err_msg;
-
-
+      var {  coupon_list = [], next_page } = reps.err_msg;
       if (isLoadMore) {
-        var arrayList = [];
-        var nowDatas = that.data.normal;
-        arrayList = nowDatas;;
-        var i = 0;
-        var length = coupon_list.length;
-        for (i = 0; i < length; i++) {
-          arrayList.push(coupon_list[i]);
-        }
-        coupon_list = arrayList
+        normal = [...normal, ...coupon_list];
       } else {
-        //第一次加载无数据显示
-        if (coupon_list.length == 0) {
-          that.setData({ nullList: true, loadingone: next_page, normal: [] }); wx.hideLoading(); return;
-        }
+        normal = coupon_list;
       }
-
       that.setData({
-        nullList: false,
         loadingone: next_page,
-        loading: false,
-        normal: coupon_list,
-        image: image,
-        selectCardone: 0
+        normal
       });
       wx.hideLoading();
     });

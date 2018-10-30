@@ -6,41 +6,23 @@ Page({
   data: {
     updateone:false,//点击刷新
     updatetwo:false,
-    loading: true,
-    loadingone: true,//待使用是否上拉刷新
     offlineData: [],//门店数据
-    loadingtwo: true,//已过期是否上拉刷新
     onlineData: [],//线上数据
-  
-    status: true,
-    windowHeight: '',
-    windowWidth: '',
-    msgList: [],
-    usedMsg: [],
-    onlineDataMsg: [],
-    image: '',
-    ex_image: '',
-    use_image: '',
-    scrollTop: 0,
-    scrollHeight: 0,
+    loadingone: true,//待使用是否上拉刷新
+    loadingtwo: true,//已过期是否上拉刷新
     pagesone: 1,
     pagestwo: 1,
-    pagesthree: 1,
-    curActIndex: "",
+    curActIndex: 0,
+    curSwiperIdx:0,
     store_id: '',
     uid: '',
 
     tagData:[],//标签数据
-
-    mendiancard: '',
-    onlinecard: '',
     showHide: true,
     typeText: '全部',//菜单选项，默认是全部
     category:3,//线上券1，门店券3
     keynum: 0,//下拉选项下标，默认是全部0
     keyword: [],//下拉选项菜单
-
-    // keyword:['全部','精选','奶粉','纸尿裤','玩具','棉品','辅食','其它'],//下拉选项菜单
   },
   getCoupon() {
     var store_id = app.store_id;
@@ -82,7 +64,7 @@ Page({
     var select = e.target.dataset.select;//category数值
     if (category==select){return;}
     that.setData({
-      category: select, onlineData: [], offlineData: [], loadingone: true, loadingtwo: true, loadingthress: true, showHide: true, pagesone: 1, pagestwo: 1, pagesthree: 1
+      category: select, onlineData: [], offlineData: [], loadingone: true, loadingtwo: true, loadingthress: true, showHide: true, pagesone: 1, pagestwo: 1
     });
     that.loadData1(that);
     that.loadData2(that);
@@ -130,12 +112,10 @@ Page({
 
   onLoad: function (options) {
     var that = this;
-    that.setData({
-      mendiancard:'mendiancard',
-    })
+   
     var store_id = app.store_id;//store_id
     var uid = wx.getStorageSync('userUid');
-    that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
+    that.setData({  uid: uid, store_id: store_id });
 
   },
 
@@ -204,15 +184,10 @@ Page({
     let qrUrl = event.currentTarget.dataset.qrImageUrl;
     this.setData({ qrImageUrl: qrUrl, showOverlay: true });
   },
-  scroll: function (event) {
-    var that = this;
-    that.setData({
-      scrollTop: event.detail.scrollTop
-    });
-  },
+ 
   //加载页面数据
   loadData1: function (that,page,tag) {
-    var { offlineData = [], pagesone, store_id, uid, keynum, tagData} = that.data;//msgList长度;0/1之间判断切换
+    var { offlineData, pagesone, store_id, uid, keynum, tagData} = that.data;
     var tagId = 0;
     if(keynum!=0){
       tagId=tagData[keynum].tagId;
@@ -228,16 +203,17 @@ Page({
       wx.hideLoading();
       //网络异常
       if (err || code != 200 || reps.err_code != 0) {that.setData({ updateone:true}); return;}
-
       var { image, coupon_list = [], next_page } = reps.err_msg;
-      var list = [...coupon_list];
+      var list = [];
+      if (params.page == 1) { list = [...coupon_list]}else{
+        list = [...offlineData, ...coupon_list];
+      }
       //更新数据
       that.setData({
         loadingone: next_page,
-        loading: false,
         updateone: false,
         offlineData: list,
-        image: image,
+       
       });
     });
   },
@@ -262,14 +238,17 @@ Page({
       });
       
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
-      var list = [...coupon_list];
+      var list = [];
+      if (params.page == 1) { list = [...coupon_list] } else {
+        list = [...onlineData, ...coupon_list];
+      }
+    
       //更新数据
       that.setData({
         loadingtwo: next_page,
-        loading: false,
         updatetwo: false,
         onlineData: list,
-        image: image,
+       
       });
     });
   },

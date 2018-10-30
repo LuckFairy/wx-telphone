@@ -432,7 +432,7 @@ Page({
         if (err || resp.err_code != 0) {
           console.error(err||resp.err_msg);
           wx.showToast({
-            title: '网络错误',
+            title: err||resp.err_msg,
             icon: 'loading',
             duration: 2000
           })
