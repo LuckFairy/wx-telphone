@@ -4,7 +4,6 @@ import {
   getPhoneNumber,
   getLocation
 } from '../../../utils/util';
-import sign from '../../../utils/api_4'
 import {
   firstOpen,
   getCoupon,
@@ -169,16 +168,17 @@ Page({
     //检查是否有手机号
     app.checkphone().then(data => {
       console.log('有手机号', data);
+      
       that.setData({
         hasPhone: true,
-        uid: data.uid,
+        uid: app.config.uid|| data.uid,
         phone: data.phone
       },()=>{
         that._parse();
       });
-      app.globalData.uid = data.uid;
+      app.globalData.uid = app.config.uid||data.uid;
       app.globalData.phone = data.phone;
-      wx.setStorageSync('userUid', data.uid); //存储uid
+      wx.setStorageSync('userUid', app.config.uid|| data.uid); //存储uid
       wx.setStorageSync('phone', data.phone); //存储uid
       //绑定门店
       if (locationid) {

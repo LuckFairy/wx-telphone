@@ -1,4 +1,4 @@
-import sign from './utils/api_4'
+
 import __config from './config'
 import { ajax } from './utils/api_1'
 import { getLocation } from './utils/util'
@@ -9,6 +9,7 @@ App({
     // unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
     // logs.unshift(Date.now())
     // wx.setStorageSync('logs', logs);
+    if (!__config.uid) { wx.removeStorageSync("userUid");}
     getLocation();
     this.getTelWx();
   },
@@ -101,15 +102,15 @@ App({
         }
         return that.loginNew(params);
       }).then(data => {
-        console.log('uid', data.uid);
-        that.globalData.uid = data.uid;
-        wx.setStorageSync('userUid', data.uid); //存储uid
+        console.log('uid', app.config.uid||data.uid);
+        that.globalData.uid = app.config.uid||data.uid;
+        wx.setStorageSync('userUid', app.config.uid|| data.uid); //存储uid
         //绑定门店
         if (__opts.locationid) {
           var opts = {
             store_id: __config.sid,
             item_store_id: __opts.locationid,
-            uid: data.uid
+            uid: app.config.uid|| data.uid
           }
           that.bingUserScreen(opts);
         }

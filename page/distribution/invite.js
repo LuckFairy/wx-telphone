@@ -113,6 +113,10 @@ Page({
       if(rep.err_code==0){
         WxParse.wxParse('ac_detail', 'html', rep.err_msg.detail, that);
         let status = rep.err_msg.status;
+        let title = rep.err_msg.title;
+        wx.setNavigationBarTitle({
+          title: title
+        })
         let isCheck = (status==1)?false:true;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
         let checkShade = (status==0)?true:false;
         that.setData({ status, isCheck, checkShade},()=>{
