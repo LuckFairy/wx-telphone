@@ -1,6 +1,6 @@
 // page/distribution/invite.js
 let app = getApp();
-const _urlDetail = "wxapp.php?c=voucher&a=voucher_info";//获取活动详情   有活动id
+const _detailUrl = "wxapp.php?c=fx_user&a=get_fx_detail";//分享详情
 
 Page({
 
@@ -8,6 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    sid: app.store_id,
+    detail: null,
     curActIndex:0,
     list0:[],
     list1:[],
@@ -17,6 +19,25 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let uid = wx.getStorageSync("userUid");
+
+    this.setData({
+      uid
+    });
+  },
+
+  
+  load(uid) {
+    let that = this;
+    let params = {
+      uid: this.data.uid,
+      store_id: this.data.sid
+    }
+    app.api.postApi(_detailUrl, { params }, (err, rep) => {
+      if (err || rep.err_code != 0) { console.error(err || rep.err_msg); return; }
+      this.setData({ detail: rep.err_msg });
+      wx.setStorageSync('fxid', rep.err_msg.id);//分销用户ID
+    })
   },
 
   /**
@@ -30,7 +51,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.load();
   },
 
   /**
