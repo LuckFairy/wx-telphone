@@ -9,7 +9,7 @@
       </view>
 
       <view class='content-top-right'>
-        <view class='content-top-right-text'>全部明细</view>
+        <view class='content-top-right-text'></view>
 
         <image class='more-image' src='../../page/image/next-page.png'></image>
       </view>
@@ -27,7 +27,7 @@
       </view>
 
       <view class='content-top-right'>
-        <view class='content-top-right-text'>全部明细</view>
+        <view class='content-top-right-text'></view>
 
         <image class='more-image' src='../../page/image/next-page.png'></image>
       </view>
