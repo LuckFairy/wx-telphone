@@ -1,9 +1,21 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/distribution/moneyIndex",
+    "page/distribution/my_customer",
     "page/common/pages/goods-detail",
+    "page/distribution/my_withdraw",
+    "page/distribution/my_withdraw_detail",
+    "page/distribution/bank",
+    "page/distribution/spreadList",
+    "page/distribution/invite",
+    "page/common/pages/activity-detail",
+    "page/distribution/spreadOrder",
+    "page/distribution/my_invite",
+    "page/distribution/setting",
+    "page/distribution/my_record",
+    "page/distribution/my_income",
     "page/tabBar/my/myself",
-    "page/group-buying/group-buying",
     "page/common/pages/my-order",
     "page/common/pages/store-change",
     "page/tabBar/goods/cart",
@@ -11,14 +23,12 @@
     "page/group-buying/my-order",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
-
     "page/common/pages/activity-hository",
     "page/common/pages/activity-hosDet",
-    "page/common/pages/activity-detail",
-    "page/common/pages/hotsale",        
+    "page/common/pages/hotsale",
     "page/common/pages/mycard",
-    "page/common/pages/mycardHistory",        
-    "page/common/pages/index-mom",          
+    "page/common/pages/mycardHistory",
+    "page/common/pages/index-mom",
     "page/common/pages/address-list",
     "page/common/pages/address",
     "page/common/pages/card_detail",
@@ -42,7 +52,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",
-    "navigationBarTitleText": "贝贝家母婴连锁",
+    "navigationBarTitleText": "趣购精选",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -54,26 +64,26 @@
       {
         "pagePath": "page/tabBar/home/index-new",
         "text": "首页",
-        "iconPath": "image/index-list.png",
-        "selectedIconPath": "image/index-list-select.png"
+        "iconPath": "img/index-list.png",
+        "selectedIconPath": "img/index-list-select.png"
       },
       {
         "pagePath": "page/tabBar/shopping/shoppstore-index",
         "text": "商城",
-        "iconPath": "image/shoppstore.png",
-        "selectedIconPath": "image/shoppstore-select.png" 
+        "iconPath": "img/shoppstore.png",
+        "selectedIconPath": "img/shoppstore-select.png"
       },
       {
         "pagePath": "page/tabBar/goods/cart",
         "text": "购物车",
-        "iconPath": "image/shoppingcart.png",
-        "selectedIconPath": "image/shoppingcart-select.png"
+        "iconPath": "img/shoppingcart.png",
+        "selectedIconPath": "img/shoppingcart-select.png"
       },
       {
         "pagePath": "page/tabBar/my/myself",
         "text": "我的",
-        "iconPath": "image/mine-msg.png",
-        "selectedIconPath": "image/mine-msg-select.png"
+        "iconPath": "img/mine-msg.png",
+        "selectedIconPath": "img/mine-msg-select.png"
       }
     ]
   },
@@ -98,9 +108,7 @@
     },
     {
       "root": "page/goods/",
-      "pages": [
-
-      ]
+      "pages": []
     },
     {
       "root": "page/my/",
@@ -114,6 +122,5 @@
       ]
     }
   ],
- 
   "debug": true
 }

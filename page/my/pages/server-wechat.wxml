@@ -1,5 +1,5 @@
 <view class="server">
-  <image class='server-image' src='../resources/server-wechat.png'></image>
+  <image class='server-image' src='../../image/server-wechat2.png'></image>
   <view class='server-text'>
     <text style='text-align:center;margin-bottom:30rpx;'>欢迎光临！</text>
     <view>客户服务热线：<text catchtap='calling' class='calling'>{{phoneTxt}}</text></view>

@@ -1,7 +1,7 @@
 <view class="fail-list-total">
 <!--拼团失败  -->
     <view class="fail-title">
-        <image class="fail-img" src="../../../image/gro-fail.png"></image>
+        <image class="fail-img" src="../../image/gro-fail.png"></image>
         <view>
             <text class="fail-text">拼团尚未成功</text>
             <text class='fail-text_2'>赶快召集小伙伴来拼团吧</text>
@@ -15,7 +15,7 @@
     <!--地址开始  -->
     <view class="fail-address">
         <view class="fail-user">
-            <image class="fail-addr-img" src="../../../image/address.png"></image>
+            <image class="fail-addr-img" src="../../image/address.png"></image>
             <text class="fail-addr-name">{{userDataList.name}}</text>
             <text class="fail-addr-phone">{{userDataList.telephone}}</text>
         </view>

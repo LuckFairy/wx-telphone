@@ -18,7 +18,7 @@
     <view class='rush-buying-title'>
       <text class='rush-remind'>{{activityText}}</text>
       <view class='rush-buying-time'>
-          <image class='rush-buying-time-img' src='../../../image/seckill-time.png'></image>
+          <image class='rush-buying-time-img' src='../image/seckill-time.png'></image>
           <text class='rush-count-down'>距离活动结束 {{countDown.hour}}:{{countDown.minute}}:{{countDown.second}}</text>
       </view>
     </view>
@@ -27,7 +27,7 @@
     <view class='rush-buying-title'>
       <text class='rush-remind'>{{activityText}}</text>
       <view class='rush-buying-time'>
-          <image class='rush-buying-time-img' src='../../../image/seckill-time.png'></image>
+          <image class='rush-buying-time-img' src='../image/seckill-time.png'></image>
           <text class='rush-count-down'>距离活动开始 {{countDown.hour}}:{{countDown.minute}}:{{countDown.second}}</text>
       </view>
     </view>

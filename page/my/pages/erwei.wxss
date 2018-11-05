@@ -37,9 +37,11 @@ page{
 .m-t40{
   margin-top: 40rpx;
 }
+
 .m-b40{
   margin-bottom: 40rpx;
 }
+
 .qr-view text{
   color:#999;
   font-size: 28rpx;

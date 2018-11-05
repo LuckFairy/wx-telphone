@@ -1,3 +1,6 @@
 {
+  "usingComponents": {
+    "filter-panel": "../../components/wxparse-page"
+  },
   "navigationBarTitleText": "送券活动"
 }

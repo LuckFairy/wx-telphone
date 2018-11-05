@@ -5,7 +5,7 @@ const logisticsUrl = 'order/track/';  // 订单物流查询接口
 let _orderId = '';
 let _kuaidiCompanyCode, _kuaidiNumber, _kuaidiCompanyName;
 let errModalConfig = {
-  image: '../../../image/ma_icon_store_1.png',
+  image: '../../image/ma_icon_store_1.png',
   title: '将二维码出示给门店核销员由门店员核销即可',
 };
 // orderId = 20180919143520383544 & productId=1985 & newTrial=0
@@ -433,7 +433,7 @@ Page({
  * 显示错误信息
  */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
+    wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
   },
 

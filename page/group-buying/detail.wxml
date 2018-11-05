@@ -8,7 +8,7 @@
 
 <scroll-view class='content-container' scroll-y="{{true}}">
   <view class='error-tip'> 
-      <image class='error-tip-image' src='./resource/fail.png'>
+      <image class='error-tip-image' src='../image/fail.png'>
       </image>
 
       <view class='error-tip-text'>
@@ -24,7 +24,7 @@
   <view class='addr-sec-lists' wx:if="{{address.address_user!=''||address.address_user.length<0}}">
     <view class='addr-section'>
       <view class='address-list'>
-        <image class='address-image' src='../../image/address.png'></image>
+        <image class='address-image' src='../image/address.png'></image>
       </view>
       <view class="addr-item-view">
         <view class="name-phone-view">

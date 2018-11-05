@@ -49,6 +49,7 @@ Page({
    * first 1进入页面第一次加载
    * tab  是否是菜单栏点击 1是，0否
    */
+
   loadAddress(opt,frist,tab) {
     let params = {}, { uid, prodId, logLat } = this.data;
     if (!opt) {
@@ -105,6 +106,8 @@ Page({
           }
       }
       wx.hideLoading();
+
+
     })
   },
   /** 
@@ -124,7 +127,6 @@ Page({
       default: opt.provinId = id; this.setData({ provinId: id, provinces: name, cityId: null, city: '市', areaId: null, area: '区'  }); break;
     }
     that.loadAddress(opt);
-
   },
   /**
    * 切换选项
@@ -138,7 +140,6 @@ Page({
       case '2': opt.provinId = that.data.provinId; break;
       case '3': opt.provinId = that.data.provinId; opt.cityId = that.data.cityId; break;
     }
-
     that.loadAddress(opt,null,1);
   },
   /**

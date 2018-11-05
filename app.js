@@ -4,11 +4,7 @@ import { ajax } from './utils/api_1'
 import { getLocation } from './utils/util'
 import WxService from './utils/WxService'
 App({
-  onLaunch: function() {
-    // var logs = wx.getStorageSync('logs') || []
-    // unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
-    // logs.unshift(Date.now())
-    // wx.setStorageSync('logs', logs);
+  onLaunch: function () {
     if (!__config.uid) { wx.removeStorageSync("userUid"); }
     getLocation();
     this.getTelWx();
@@ -28,11 +24,11 @@ App({
     logLat: null, //当前位置
     formIds: [], //消息推送id
   },
-  getTelWx:function(){
-      let that = this;
-      let params={store_id:that.store_id};
-    that.api.postApi(that.config.getTelWxUrl,{params},(err,res)=>{
-      if(res.err_code==0){
+  getTelWx: function () {
+    let that = this;
+    let params = { store_id: that.store_id };
+    that.api.postApi(that.config.getTelWxUrl, { params }, (err, res) => {
+      if (res.err_code == 0) {
         //客服电话
         that.config.serverPhone = res.err_msg.TelnWx.service_tel;
 
@@ -58,7 +54,7 @@ App({
     //1、登录
     return new Promise((resolve, reject) => {
       that.WxService.login()
-      .then(data => {
+        .then(data => {
           console.log('jscode', data);
           that.globalData.code = data.code;
           var params = {
@@ -68,7 +64,7 @@ App({
           // 2、获取sessionkey
           return that.getSessionkey(params);
         }).then(data => {
-          console.log('获取sessionkey',data);
+          console.log('获取sessionkey', data);
           that.globalData.sessionKey = data.session_key;
           that.globalData.openid = data.openid;
           wx.setStorageSync('sessionKey', data.session_key);
@@ -79,16 +75,16 @@ App({
           }
           // 3、是否绑定手机
           return that.checkPhone(params)
-        }).then(data=>{
+        }).then(data => {
           resolve(data);
-        }).catch(data=>{
+        }).catch(data => {
           reject(data)
         })
     })
   },
   login: function (__opts) {
     console.log('弹窗登陆。。。');
-    let that = this;
+    let that = this,uid=null;
     let iv = __opts.iv, encryptedData = __opts.encryptedData, key = that.globalData.sessionKey;
     var params = { "session_key": key, iv, encryptedData, "store_id": __config.sid };
     return that.getPhone(params)
@@ -102,7 +98,8 @@ App({
         }
         return that.loginNew(params);
       }).then(data => {
-        console.log('106:uid', data.uid);
+        console.log("105:uid",data.uid);
+        that.globalData.uid = data.uid;
         //绑定门店
         if (__opts.locationid) {
           var opts = {
@@ -217,13 +214,13 @@ App({
   /**
    * 拨打电话
    */
-  calling: function(phone = __config.serverPhone) {
+  calling: function (phone = __config.serverPhone) {
     wx.makePhoneCall({
       phoneNumber: phone,
-      success: function() {
+      success: function () {
         console.log("拨打电话成功！")
       },
-      fail: function() {
+      fail: function () {
         console.log("拨打电话失败！")
       }
     })
@@ -249,11 +246,6 @@ App({
       let { detail: { formId = '' } } = e;
       let timeStamp = Date.parse(new Date()) / 1000;//时间戳
       if (formId.includes('formId')) {
-        // wx.showToast({
-        //   title: '请用手机调试',
-        //   icon: 'loading',
-        //   duration: 2000
-        // });
         reject('要使用手机调试才有formId！');
         return;
       };
@@ -273,7 +265,7 @@ App({
   /**
    * 将form的formid保存到数据库
    */
-  saveId: function(formIds) {
+  saveId: function (formIds) {
     var that = this;
     var uid = wx.getStorageSync('userUid');
     if (uid == undefined || uid == '') {
@@ -365,5 +357,24 @@ App({
       })
 
     })
-  }
+  },
+  //生成二维码图片
+  creatImg(id,that) {
+    let params = { "uid": that.data.uid, "store_id": that.data.sid, "type": 2 };
+    console.log(id);
+    //商品id 如果type=1，这个值必须传。type=2，不需要
+    if(id) {
+      params = { "uid": that.data.uid, "store_id": that.data.store_id, "type": 1, "product_id": id };
+    }
+    return new Promise((resolve, reject) => {
+      this.api.postApi(__config.posterUrl, { params }, (err, res) => {
+        if (res.err_code == 0) {
+          resolve(res.err_msg.url);
+        } else {
+          console.error(err || res.err_msg);
+          reject(err || res.err_msg);
+        }
+      })
+    })
+  },
 })

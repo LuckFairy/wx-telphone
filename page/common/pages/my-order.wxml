@@ -4,7 +4,7 @@
 <template wx:if="{{showErrModal}}" is="text-erwei-modal" data="{{...errModalConfig}}" />
 <template wx:if="{{showSuccessModal}}" is="text-comfirm-modal" data="{{...successModalConfig}}" />
 <view wx:if="{{showFlag}}" class='home' bindtap='onClickHome'>
-  <image class='home-image' src='../../../image/icon_home.png'>
+  <image class='home-image' src='../../image/icon_home.png'>
   </image>
   <view class='home-text'>
     首页
@@ -317,7 +317,7 @@
               <view style="">实付款：</view>
               <view style="color:#D84E52;">￥{{order.total}}</view>
             </view>
-            <!-- 非新品试用order.is_trial_product：0否，1是 -->
+            <!-- 新品试用order.is_trial_product：0否，1是 -->
             <block wx:if="{{order.is_trial_product == 0}}">
               <!-- 自提 -->
               <view wx:if="{{order.send_type == 2}}" class="purchase-satus goods-satus">
@@ -436,9 +436,9 @@
             <!--已完成  -->
             <view class='purchase-satus'>
               <view class='purchase-image-text'>
-                <image wx:if="{{item.status == 6}}" class='purchase-status-image' src='../../../image/pur-success.png'></image>
-                <image wx:if="{{item.status == 3}}" class='purchase-status-image' src='../../../image/pur-defeat.png'></image>
-                <image wx:else class='purchase-status-image' src='../../../image/pur-wait.png'></image>
+                <image wx:if="{{item.status == 6}}" class='purchase-status-image' src='../../image/pur-success.png'></image>
+                <image wx:if="{{item.status == 3}}" class='purchase-status-image' src='../../image/pur-defeat.png'></image>
+                <image wx:else class='purchase-status-image' src='../../image/pur-wait.png'></image>
                 <text class='purchase-status-text'>{{item.status_txt}}</text>
               </view>
               <text class='purchase-status-detail' bindtap='goDetail' data-the-id='{{item.id}}' data-the-id='{{item.id}}' data-order-no='{{item.order_no}}' data-order-status_txt='{{item.status_txt}}' data-order-status='{{item.status}}'>查看详情</text>
@@ -502,7 +502,7 @@
 <!--邀请分享模块开始  -->
 <!-- <view class='invite-friend-golists' wx:if="{{showshare}}">
   <view class='invite-friend-header'>
-    <image src='../../../image/baikuang.png'></image>
+    <image src='../../image/baikuang.png'></image>
     <text class='invite-friend-text'>邀好友参团</text>
   </view>
   <view class='invite-group-golist'>

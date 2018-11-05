@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "累计收益",
+  "usingComponents": {
+   
+    "empty_tip": "/page/components/empty_tip"
+  }
+ 
+}

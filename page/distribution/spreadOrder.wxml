@@ -1,0 +1,35 @@
+<!--page/distribution/spreadOrder.wxml-->
+<scroll-view scroll-y="true" bindscrolltolower="loadpage">
+<block  wx:if="{{list.length>0}}">
+  <view class='list' wx:for="{{list}}" wx:for-item="order" >
+    <view class='h-80'>
+      <text>{{order.order_no}}</text>
+      <text class='red f-r'>{{order.status_txt}}</text>
+    </view>
+    <view class='b-t'>
+      <image mode='aspectFill' src='{{order.product_info[0].image}}'></image>
+      <view class='detail-r'>
+        <text class='block clamp'>{{order.product_info[0].name}}</text>
+        <text class='red'>{{order.product_info[0].fx_rate}}</text>
+      </view>
+    </view>
+    <view class='b-t h-80'>
+      <text class='black  f-l'>佣金：</text>
+      <text class='gray  f-l'>(订单总价：￥{{order.total}})</text>
+      <text class='f-r'>{{order.clearing_from}}</text>
+    </view>
+    <view class='b-t h-80'>
+      <text class='gray'>{{order.add_date}}</text>
+    </view>
+  </view>
+  </block>
+   <block wx:else>
+    <view class='no-data'>
+      <image src='../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无内容</view>
+    </view>
+  </block>
+</scroll-view>
+<view class='errorModel' wx:if="{{error}}">
+  <text>{{error}}</text>
+</view>

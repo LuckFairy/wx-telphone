@@ -4,7 +4,6 @@ import {
   getPhoneNumber,
   getLocation
 } from '../../../utils/util';
-import sign from '../../../utils/api_4'
 import {
   firstOpen,
   getCoupon,
@@ -62,16 +61,16 @@ Page({
     productData: [], //活动图列表
     valueList: [{
       txt: '正品保障',
-      src: './imgs/card-1.png'
+      src: '../../image/tab/card-1.png'
     }, {
       txt: '假一赔三',
-      src: './imgs/card-2.png'
+        src: '../../image/tab/card-2.png'
     }, {
       txt: '破损包邮',
-      src: './imgs/card-3.png'
+        src: '../../image/tab/card-3.png'
     }, {
       txt: '7天退换',
-      src: 'imgs/card-4.png'
+        src: '../../image/tab/card-4.png'
     }],
     saoma_url: null,
     set_flag: false, //是否設置為默認
@@ -94,17 +93,18 @@ Page({
         locationid
       }
       app.login(params).then((data) => {
-        console.log('弹窗取消', data)
-        uid = app.config.uid?app.config.uid:data;
-        console.log('index.js:uid',uid);
-        app.globalData.uid = uid;
+        console.log('弹窗取消',data);
+        uid = app.config.uid ? app.config.uid:data;
+        console.log('index.js:uid',uid)
+        app.globalData.uid=uid;
         wx.setStorageSync('userUid', uid); //存储uid
         that.setData({
-          hasPhone: true, isInfo: false,uid
+          hasPhone: true, isInfo: false, uid: data
+        },()=>{
+          that._parse();
         })
-        that._parse();
       }).catch(() => {
-        console.log('弹窗弹窗')
+        console.log('弹窗弹窗');
         that.setData({
           hasPhone: false
         })
@@ -141,7 +141,7 @@ Page({
     } else {
       that.setData({
         isInfo: false
-      },()=>{
+      }, () => {
         wx.navigateTo({
           url: '../../my/pages/bingPhone',
         })
@@ -173,11 +173,14 @@ Page({
     //检查是否有手机号
     app.checkphone().then(data => {
       console.log('有手机号', data);
-      uid = app.config.uid ? app.config.uid:data.uid;
+      uid = app.config.uid ? app.config.uid : data.uid;
+      console.log('index.js:uid',uid);
       that.setData({
         hasPhone: true,
         uid: uid,
         phone: data.phone
+      },()=>{
+        that._parse();
       });
       app.globalData.uid = uid;
       app.globalData.phone = data.phone;
@@ -192,7 +195,7 @@ Page({
         }
         app.bingUserScreen(opts);
       }
-      that._parse();
+     
     }).catch(data => {
       that.setData({
         hasPhone: false
@@ -204,12 +207,12 @@ Page({
         store_id
       }
     }, (err, rep) => {
-      if (err && rep.err_code != 0 ) {console.error(err||rep.err_msg);return;}
+      if (err && rep.err_code != 0) { console.error(err || rep.err_msg); return; }
       if (rep.err_msg.data.template_id == '1') {
         return;
       }
       this.setData({
-        indexIcon: rep.err_msg.data.channel_content||[]
+        indexIcon: rep.err_msg.data.channel_content || []
       })
     })
     /**弹窗拼团信息**/
@@ -348,11 +351,11 @@ Page({
     });
   },
   loadMyCardNumData: function () {
-    var uid = this.data.uid,
+    var 
       params = {},
       that = this;
     params = {
-      uid,
+      uid:that.data.uid,
       store_id,
     }
     app.api.postApi('wxapp.php?c=coupon&a=my_card_num', {

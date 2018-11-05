@@ -9,7 +9,7 @@
 <!-- 邮寄样式 -->
   <view wx:if="{{sendMethod=='1'}}" class="addr-section"  bindtap="addrViewClick">
     <view class='address-list'>
-      <image class='address-image' src='../imgs/address.png'></image>
+      <image class='address-image' src='../../image/common/address.png'></image>
     </view>
     <view wx:if="{{address}}" class="addr-item-view">
       <view class="name-phone-view">
@@ -23,7 +23,7 @@
       手动添加收货地址
     </view>
     <view class='address-go' style='margin-right:24rpx;'>
-      <image class='address-go-image' src='../imgs/next-page.png'></image>
+      <image class='address-go-image' src='../../image/common/next-page.png'></image>
     </view>
   </view>
 
@@ -48,7 +48,7 @@
 <!-- 配送方式 -->
   <view class="addr-section m-n">
     <view class='address-list'>
-      <image class='address-image' src='../imgs/distribution.png'></image>
+      <image class='address-image' src='../../image/common/distribution.png'></image>
     </view>
     <view class="addressNew distriNew ">
       配送方式
@@ -59,7 +59,7 @@
   <!-- 自提方式样式 -->
    <view wx:if="{{sendMethod=='2'}}" class="addr-section m-n b-t">
     <view class='address-list'>
-      <image class='address-image' src='../imgs/store.png'></image>
+      <image class='address-image' src='../../image/common/store.png'></image>
     </view>
     <view class="addr-item-view black">
       <view class="name-store-view">
@@ -69,7 +69,7 @@
     </view>
     <view class='store-go' bindtap="storeViewClick">
       <text>切换门店</text>
-      <image class='address-go-image' src='../imgs/next-page.png'></image>
+      <image class='address-go-image' src='../../image/common/next-page.png'></image>
     </view>
   </view>
 
@@ -86,7 +86,7 @@
     <block wx:else>
       <text class='discount-ticket discount-ticket-no'>无可用</text>
     </block>
-    <image class='discount-go ' src='../imgs/next-page.png'></image>
+    <image class='discount-go ' src='../../image/common/next-page.png'></image>
   </view>
 </view>
 <!--优惠券选择结束  -->
@@ -140,8 +140,8 @@
 <!--购买成功之后弹窗  -->
 <view class='matte-hint-father' wx:if='{{matteShow}}' bindtap='closeBtn'>
   <view class='matte-hint'>
-    <image class='matte-close matte-total' src='../../../image/close.png'></image>
-    <image class='matte-icon matte-total' src='../../../image/success-icon.png'></image>
+    <image class='matte-close matte-total' src='../../image/close.png'></image>
+    <image class='matte-icon matte-total' src='../../image/success-icon.png'></image>
     <text class='matte-success matte-total'>购买成功</text>
     <text class='matte-detail matte-total'>恭喜你，已经购买成功</text>
   </view>

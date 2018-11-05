@@ -1,7 +1,7 @@
 // pages/qrcode/qr-entry.js
 import { getUrlQueryParam } from '../../utils/util.js';
-let indexUrl = '../../page/tabBar/home/index-new';
 let app = getApp();
+let indexUrl = '../../page/tabBar/home/index-new';
 var qrData = '';
 Page({
   data: {

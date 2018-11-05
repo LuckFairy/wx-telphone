@@ -1,0 +1,5 @@
+<!--page/components/empty_tip.wxml-->
+<view class='content'>
+<image class='content-img' src='../../page/image/distribution/qugo_15.png'></image>
+<text class='content-text'>暂没数据</text>
+</view>

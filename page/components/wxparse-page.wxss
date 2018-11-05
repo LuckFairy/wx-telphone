@@ -1,0 +1,48 @@
+
+ @import "../../utils/wxParse/wxParse.wxss"; 
+ view{display: block;}
+page{
+  background: #fff;
+}
+.errorModel {
+  display: flex;
+}
+scroll-view .wrap{
+  /* width: 750rpx; */
+  padding: 0 24rpx;
+  margin-bottom:100rpx;
+  background: #fff;
+}
+.wrap-top{
+  margin: 38rpx 0 28rpx 0;
+}
+.wrap-top text{
+  display: block;
+}
+.title{
+  font-size: 40rpx;
+  color: inherit;
+}
+.title-tip{
+  margin-top:22rpx;
+  font-size: 24rpx;
+  color: #898989;
+}
+/*富文本处理  */
+.html-box{
+  font-size: 28rpx;
+  color:#434343;
+  overflow: hidden;
+}
+.wxParse-p{
+  overflow: hidden;
+}
+ /* .WxEmojiView.wxParse-inline  */
+ .wxParse-p .wxParse-img{
+   width: 100%;
+  margin: 0;
+  padding:0;
+  display: block; 
+}
+ 
+

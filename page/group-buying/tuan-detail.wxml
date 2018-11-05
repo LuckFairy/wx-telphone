@@ -70,7 +70,7 @@
 <view wx:else>
   <view class='pintuan-succ'>
     <view class='pintuan-succ-one'>
-      <image class='pintuan-succ-img' src='../../../image/check.png'></image>
+      <image class='pintuan-succ-img' src='../image/check.png'></image>
       <text class='pintuan-succ-text'>拼团成功</text>
     </view>
     <button class='pintuan-succ-btn' catchtap='goGrouplist'>去拼团栏看看</button>
@@ -154,7 +154,7 @@
         <view class='shopping-detail-title-price'>
           <view class='shopping-detail-title'>
             <text class='shopping-detail-text'>{{product.name}}</text>
-            <image bindtap='goImageClose' class='shopping-detail-image' src='../../../image/close.png'></image>
+            <image bindtap='goImageClose' class='shopping-detail-image' src='../image/close.png'></image>
           </view>
           <text class='shopping-detail-price'>价格 {{product.price}}</text>
           <text class='shopping-detail-have'>库存 {{quantity}}件</text>

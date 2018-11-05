@@ -9,7 +9,6 @@
   <view class="goods-name-view">
     <!--秒杀倒计时开始  -->
   <view class='seckill-count-down'>
-    <!-- <image class='seckill-count-image' src='../../../image/seckill-down.png'></image> -->
     <view class='seckill-text-detail'>
       <text class='seckill-text-hint'>限时秒杀</text>
       <view class='seckill-text-times'>
@@ -122,62 +121,20 @@
   </view>
 </view>
 
-
-<!---底部开始-->
-<!-- <block wx:if="{{action=='present'}}">
-<view  class="buy-btn-view" bindtap="doBuy" data-status="1">
-    <text class="buy-btn">申请试用</text>
-</view>
-</block>
-
-<block wx:else>
-    <block wx:if="{{cateId==76 || cateId==77}}">
-    <view  class="buy-btn-view" bindtap="doBuy" data-status="1">
-        <text class="buy-btn">立即购买</text>
-    </view>
-    </block>
-
-    <block wx:else>
-    <view class="footfixed tc" wx:if="{{action !== 'present'}}" data-cateId='{{cateId}}'>
-      <view class="fl_l w40 font_12 hui03 df">
-        <view class="df_1 l_h15 pt5 bre server-total" bindtap="gotoCart">
-          <image class="icon_kf" src="/image/btn-tabs_05.png" class="service-image-one"></image>
-            <text class="service-number" wx:if="{{newCartNum}}">{{newCartNum}}</text>
-            <text class="service-number" wx:else >{{data.cartcount}}</text>
-        </view>
-        <view class="df_1 l_h15 pt5 bre server-total-two server-total">
-           <view session-from="productId_{{itemData.id}}">
-          <contact-button class="pos"></contact-button> 
-          <image class="icon_kf" src="/image/kefu.png" class="service-image"></image>
-                    <view class="service-text">客服</view>
-          </view> 
-        </view>
-      </view>
-      <view class="w60">
-        <view class="w50 fl_l add-to-car" bindtap="addShopCart" data-type="addcart">加入购物车</view>
-        <view wx:if="{{action !== 'havealook'}}" class="bg_red white w50 fl_l current-to-buy" bindtap="doBuy" data-status="1">
-          立即购买
-        </view>
-
-      </view>
-    </view>
-    </block>
-</block> -->
-<!--底部结束  -->
 <!--立即购买  -->
 <!--按钮  -->
 
 <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap="clickGoIndex">
-      <image class='invite-index-image' src='../../../image/index-list.png'></image>
+      <image class='invite-index-image' src='../../image/index-list.png'></image>
       <text class='invite-index-text'>首页</text>
     </view>
     <view class='invite-ke-server invite-total' bindtap="goStoreServer">
-      <image class='invite-ke-server-img' src='../../../image/ke-server.png'></image>
+      <image class='invite-ke-server-img' src='../../image/ke-server.png'></image>
       <text class='invite-ke-server-text'>客服</text>
     </view>
     <view class='invite-car invite-total'>
-      <!-- <image class='invite-car-img' src='../../../image/shop-cart2.png'></image>
+      <!-- <image class='invite-car-img' src='../../image/shop-cart2.png'></image>
       <text class='invite-car-num'>81</text> -->
     </view>
     <!-- <view class='add-invite-car invite-total'>

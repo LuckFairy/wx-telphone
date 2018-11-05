@@ -29,19 +29,19 @@
       </view>
       <view>
         <view style="line-height:100%;align-items:center;" bindtap="updateAddress" data-address-id="{{item.address_id}}">
-          <image class='editImg' mode="aspectFit" src='../../../image/icon_edit_address.png'>
+          <image class='editImg' mode="aspectFit" src='../../image/icon_edit_address.png'>
           </image>
           <text class="navigator" style="margin-right:10px;">编辑</text>
         </view>
         <view style="line-height:100%;align-items:center;" bindtap="bindDelAddr" data-index="{{index}}" data-address-id="{{item.address_id}}">
-          <image class='editImg' mode="aspectFit" src='../../../image/icon_delete.png'></image>
+          <image class='editImg' mode="aspectFit" src='../../image/icon_delete.png'></image>
           <text style="margin-right:10px;">删除</text>
         </view>
       </view>
     </view>
   </view>
  <view wx:if="{{addrList=='undefined'||addrList.length<1}}" class="no-data-view">
-  <image src='../../../image/address.png'></image>
+  <image src='../../image/address.png'></image>
   <text>你还没有添加地址</text>
   </view>
  

@@ -151,10 +151,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    hasSignin = wx.getStorageSync('hasSignin');
     store_id = app.store_id;
      uid = wx.getStorageSync('userUid');
-    if(hasSignin){
+    if(uid){
       that.setData({
         nickName: app.globalData.userInfo.nickName,
         userImg: app.globalData.userInfo.avatarUrl

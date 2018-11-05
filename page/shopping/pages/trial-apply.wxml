@@ -1,7 +1,7 @@
 <view class="containner">
     <view class="order-item-view" >
         <view class="goods-info-view">
-            <image class="goods-img" src="../../../image/card_bg.png" mode="widthFix"></image>
+            <image class="goods-img" src="../../image/card_bg.png" mode="widthFix"></image>
             <view class="goods-name-view">
                 <text>这一行显示商品名称全名称</text>
                 <view style="flex-direction:row;line-height:100%;">

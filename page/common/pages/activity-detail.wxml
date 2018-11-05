@@ -1,22 +1,13 @@
-<import src="../../../utils/wxParse/wxParse.wxml" />
-<scroll-view>
-  <view class='wrap'>
-    <view class='wrap-top'>
-      <text class='title'>{{title}}</text>
-      <text class='title-tip'>活动时间：{{date_msg}}</text>
-    </view>
-    <view class='html-box' >
-      <template is="wxParse" data="{{wxParseData:activity_detail.nodes}}"/>
-    </view>
-  </view>
-  <view class='footer'>
+
+<filter-panel detail="{{ac_detail}}" title="{{ac_title}}" time="{{ac_time}}">
+  <view class='footer' slot="footer">
     <view id='gohository' bindtap='gohisitory'>
-      <image src='../imgs/hisitory-icon.png'></image>
+      <image src='../../image/common/hisitory-icon.png'></image>
       参与记录
     </view>
     <view id='gojoin' bindtap="gojoin" data-id='{{id}}'>马上参与</view>
   </view>
-</scroll-view>
+</filter-panel>
 <view  class="overlay" wx:if="{{error}}">
   <view class='overlay-shade'></view>
   <view class="overlay-content tel-content">

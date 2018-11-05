@@ -25,7 +25,7 @@
   </block>
   <block wx:else>
   <view class='no-data'>
-    <image src='../../../image/no-data.png'></image>
+    <image src='../../image/no-data.png'></image>
     <view class='no-data-txt'>暂无内容</view>
   </view>
   </block>

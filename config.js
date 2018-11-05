@@ -10,10 +10,10 @@ var isRelease = true;
 var host = "https://saas.qutego.com/"
 var testhost = "https://zy.qutego.com/"
 var AGENT_ID = 2;
-var sid = 2334,
+var sid = 293,
   uid = null;//不填写默认null,填写直接改uid
 var sid_test = 293;//婴众趣购590
-var title = '贝贝家母婴连锁'; 
+var title = '趣购精选'; 
 var title_test = '婴众趣购';
 var phonetest = '4006088520';//测试客服电话
 var phone = '4000001312';//正式客服电话
@@ -86,8 +86,20 @@ export default{
   openIdUrl: `wxapp.php?c=wechatapp_v2&a=login_new`,
 
   //弹窗提示参团信息
-  jumpintuanUrl: `wxapp.php?c=tuan_v2&a=pop_team_list_v2`
+  jumpintuanUrl: `wxapp.php?c=tuan_v2&a=pop_team_list_v2`,
+  
+  //生成小程序推广二维码
+  posterUrl:`wxapp.php?c=promote&a=wxapp_qrcode`,
 
+  //申请成为分销员
+  submitFxUrl:`wxapp.php?c=fx_user&a=add_fx_user`,
+
+  //分销用户接口
+  isFxuserUrl:`wxapp.php?c=fx_user&a=fx_entrance`,
+
+  //确立分销客户关系
+  becustomerUrl:`wxapp.php?c=fx_user&a=become_customer`
 }
+
 
 
