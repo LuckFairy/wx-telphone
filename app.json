@@ -20,7 +20,6 @@
     "page/common/pages/store-change",
     "page/tabBar/goods/cart",
     "page/common/pages/buy",
-    "page/group-buying/my-order",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
     "page/common/pages/activity-hository",
@@ -42,11 +41,13 @@
     "page/common/pages/store-detail",
     "page/common/pages/store-list",
    
+    "page/group-buying/my-order",
     "page/group-buying/index-seckill",
     "page/group-buying/grouplist",
     "page/group-buying/detail",
     "page/group-buying/group-join",
     "page/group-buying/tuan-detail",
+    "page/group-buying/group-buying",
     "pages/qrcode/qr-entry"
  ],
   "window": {
