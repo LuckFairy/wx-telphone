@@ -7,7 +7,7 @@ page{
 .box{
   margin: 35rpx;
   width: 680rpx;
-  height: 812rpx;
+  /* height: 812rpx; */
   border-radius: 8rpx;
   box-shadow:  10rpx 16rpx 0.6 #ff8400;
   margin-top: 80rpx;
@@ -31,10 +31,14 @@ page{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 80rpx;
+  padding-bottom: 64rpx;
+  box-sizing: content-box;
 }
 .m-t40{
   margin-top: 40rpx;
+}
+.m-b40{
+  margin-bottom: 40rpx;
 }
 .qr-view text{
   color:#999;
@@ -45,5 +49,10 @@ page{
 }
 image.erwei{
   width: 420rpx;
-  box-sizing: border-box;
+  height: 420rpx;
+}
+.qr-view .m-t64{
+  margin-top:64rpx;
+  color: #222;
+  font-size: 28rpx;
 }

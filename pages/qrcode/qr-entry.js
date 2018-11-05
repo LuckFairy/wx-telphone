@@ -1,6 +1,6 @@
 // pages/qrcode/qr-entry.js
 import { getUrlQueryParam } from '../../utils/util.js';
-import { Api } from '../../utils/api_2';
+let indexUrl = '../../page/tabBar/home/index-new';
 let app = getApp();
 var qrData = '';
 Page({
@@ -21,7 +21,7 @@ Page({
       });
       setTimeout(() => {
         wx.switchTab({
-          url: '../../page/tabBar/home/index-new',
+          url: indexUrl,
         });
       }, 2000);
     }
@@ -41,7 +41,7 @@ Page({
       } catch (e) {
         setTimeout(() => {
           wx.switchTab({
-            url: '../../page/tabBar/home/index-new',
+            url: indexUrl,
           });
         }, 2000);
       }
@@ -194,7 +194,7 @@ Page({
       });
     } else {
       wx.switchTab({
-        url: indexUrl + `?locationid=${locationId}`,
+        url: indexUrl + `?locationid=${this.data.locationId}`,
       });
     }
     wx.hideLoading();

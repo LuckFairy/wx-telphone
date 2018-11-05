@@ -6,13 +6,15 @@ Page({
     order_no:null,
     uid:'',
     code:'',
+    physical_info:'',
   },
   onLoad: function (options) {
-    let that =this,{order_no}=options;
+    let that = this, { order_no, physical_info}=options;
     let { store_id,uid}=that.data;
     uid = wx.getStorageSync('userUid');
     store_id = app.store_id;
     if (order_no) { that.setData({ order_no})}
+    if (physical_info) { physical_info = JSON.parse(physical_info); that.setData({ physical_info})}
     that.setData({ uid, store_id});
   
   },

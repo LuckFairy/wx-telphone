@@ -6,9 +6,7 @@ const addReduceUrl = 'wxapp.php?c=cart&a=quantity';//购物车商品加减
 const deleteUrl = 'wxapp.php?c=cart&a=delete';//删除购物车商品
 const baokuanUrl = 'wxapp.php?c=product&a=get_product_list';//加载爆款数据
 let physical_id = wx.getStorageSync('phy_id'); //门店id
-let errModalConfig = {
-  title: '有错误！',
-};
+
 let hasPhone = wx.getStorageSync('hasPhone');
 Page({
   data: {
@@ -289,10 +287,10 @@ Page({
     }
   },
   //去结算
-  bindCheckout: function () {
-    var that = this;
+  bindCheckout: function (e) {
+    let that = this;
     // 初始化字符串
-    var ids = [], len = this.data.cart_list.length;
+    let ids = [], len = this.data.cart_list.length;
     // 遍历取出已勾选的cid
     for (var i = 0; i < len; i++) {
       if (this.data.cart_list[i].selected) {
@@ -302,11 +300,12 @@ Page({
       }
     }
     if (ids === undefined || ids.length == 0) {
-      that._showError({ title: "请选择要结算的商品" })
+      that._showError( "请选择要结算的商品")
 
       return false;
     }
-
+    //保存formid
+    app.pushId(e).then(ids => { app.saveId(ids) });
     console.log('购物车选择提交的ids' + ids);
     var uid = wx.getStorageSync('userUid'), store_id = that.data.store_id;
     //多商品下订单
@@ -486,12 +485,7 @@ Page({
       }
     })
   },
-  /**
-   * 点击隐藏模态框(错误模态框)
-   */
-  // tabModal() {
-  //   this.setData({ showErrModal: false });
-  // },
+
   /**
 * 显示错误信息
 */

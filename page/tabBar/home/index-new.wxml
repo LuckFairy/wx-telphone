@@ -90,7 +90,7 @@
     <form bindsubmit='clickGo' report-submit='true' wx:if='{{indexIcon.length>0}}'>
     <view class='list-area'>
       <view wx:for="{{indexIcon}}">
-        <image class='list-area-item' mode='scaleToFill' src='{{item.icon}}'></image>
+        <image class='list-area-item' mode='aspectFill' src='{{item.icon}}'></image>
         <button form-type='submit' class='sub-button' data-index="{{item.redi_type}}">按钮</button>
       </view>
     </view>

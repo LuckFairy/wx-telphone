@@ -7,6 +7,10 @@ page {
 .myself {
   display: block;
 }
+.myself-phone{
+  flex-direction: column;
+  justify-content:center;
+}
 
 .myself-top {
   justify-content: space-between;

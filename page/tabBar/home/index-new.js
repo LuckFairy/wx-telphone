@@ -1,7 +1,8 @@
 import {
   getUrlQueryParam,
   checkBingPhone,
-  getPhoneNumber
+  getPhoneNumber,
+  getLocation
 } from '../../../utils/util';
 import sign from '../../../utils/api_4'
 import {
@@ -92,11 +93,16 @@ Page({
         encryptedData,
         locationid
       }
-      app.login(params).then(() => {
-        console.log('弹窗取消')
+      app.login(params).then((data) => {
+        console.log('弹窗取消', data)
+        uid = app.config.uid?app.config.uid:data;
+        console.log('index.js:uid',uid);
+        app.globalData.uid = uid;
+        wx.setStorageSync('userUid', uid); //存储uid
         that.setData({
-          hasPhone: true, isInfo: false
+          hasPhone: true, isInfo: false,uid
         })
+        that._parse();
       }).catch(() => {
         console.log('弹窗弹窗')
         that.setData({
@@ -104,8 +110,13 @@ Page({
         })
       })
     } else {
+      //用户取消授权
       that.setData({
         hasPhone: false
+      },()=>{
+        wx.navigateTo({
+          url: '../../my/pages/bingPhone',
+        })
       })
     }
   },
@@ -120,6 +131,7 @@ Page({
         uid = wx.getStorageSync('userUid');
         if (uid) {
           clearInterval(userTimer);
+          that.setData({uid})
           //获取用户信息
           var url = "wxapp.php?c=wechatapp_v2&a=bind_userinfo";
           var params = { "uid": uid, "store_id": app.store_id, "userinfo": e.detail.userInfo }
@@ -129,6 +141,10 @@ Page({
     } else {
       that.setData({
         isInfo: false
+      },()=>{
+        wx.navigateTo({
+          url: '../../my/pages/bingPhone',
+        })
       });
     }
   },
@@ -157,22 +173,22 @@ Page({
     //检查是否有手机号
     app.checkphone().then(data => {
       console.log('有手机号', data);
+      uid = app.config.uid ? app.config.uid:data.uid;
       that.setData({
         hasPhone: true,
-        uid: data.uid,
+        uid: uid,
         phone: data.phone
       });
-      app.globalData.uid = data.uid;
-      uid = data.uid;
+      app.globalData.uid = uid;
       app.globalData.phone = data.phone;
-      wx.setStorageSync('userUid', data.uid); //存储uid
+      wx.setStorageSync('userUid',uid); //存储uid
       wx.setStorageSync('phone', data.phone); //存储uid
       //绑定门店
       if (locationid) {
         var opts = {
           store_id: __config.sid,
           item_store_id: locationid,
-          uid: data.uid
+          uid: uid
         }
         app.bingUserScreen(opts);
       }
@@ -188,17 +204,13 @@ Page({
         store_id
       }
     }, (err, rep) => {
-      if (!err && rep.err_code == 0 && rep.err_msg.data.length>0) {
-        if (rep.err_msg.data.template_id == '1') {
-          return;
-        }
-        console.log(rep.err_msg.data.channel_content)
-        var len = rep.err_msg.data.channel_content.length,
-          arr = [];
-        this.setData({
-          indexIcon: rep.err_msg.data.channel_content
-        })
+      if (err && rep.err_code != 0 ) {console.error(err||rep.err_msg);return;}
+      if (rep.err_msg.data.template_id == '1') {
+        return;
       }
+      this.setData({
+        indexIcon: rep.err_msg.data.channel_content||[]
+      })
     })
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
@@ -231,7 +243,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   console.log(this.route)
     if (app.globalData.uid) {
       this.loadMyCardNumData(); //我的卡包数量
       this.getCoupValue(); //优惠券数据
@@ -240,15 +251,18 @@ Page({
 
   },
   _parse() {
-    var that = this;
+    let that = this;
     wx.hideLoading();
     that.getCoupValue(); //优惠券数据
     that.jumpCoupon(); /*首页弹窗 */
     that.loadMyCardNumData(); //我的卡包数量
     that.getCoupValue(); //优惠券数据
-    that.isLoglat().then(data => {
+    console.log('_parse');
+    //是否定位成功
+    getLocation().then(data => {
+      logLat = data;
       that.loadLocation();
-    }).catch(data => {
+    }).catch(err => {
       that.loadMainLocation();
     })
   },
@@ -260,13 +274,13 @@ Page({
       var params = {
         store_id, //店铺id
         physical_id: phy_id,
-        uid,
+        uid:that.data.uid,
       },
         headImg = headImg_v4;
     } else {
       var params = {
         store_id, //店铺id
-        uid,
+        uid:that.data.uid,
       },
         headImg = headImg_v3;
     }
@@ -297,14 +311,14 @@ Page({
       var params = {
         store_id, //店铺id
         physical_id: phy_id,
-        uid,
+        uid:this.data.uid,
         page: '1',
       },
         activityUrl = activityUrl_v2;
     } else {
       var params = {
         store_id, //店铺id
-        uid,
+        uid:this.data.uid,
         page: '1',
       },
         activityUrl = activityUrl_v1;
@@ -359,7 +373,7 @@ Page({
   jumpCoupon() {
     var that = this;
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id,
       "page": 1
     };
@@ -371,9 +385,10 @@ Page({
    * 优惠券面值列表
    */
   getCoupValue() {
+    let that = this;
     app.api.postApi(couponListUrl, {
       "params": {
-        uid,
+        uid:that.data.uid,
         store_id,
         "page": 1
       }
@@ -452,27 +467,6 @@ Page({
     })
   },
   /**
-   * 是否定位成功
-   */
-  isLoglat() {
-    let that = this;
-    return new Promise((resolve, reject) => {
-      logLat = wx.getStorageSync('logLat');
-      if (!logLat || logLat == '') {
-        that.timer1 = setTimeout(() => {
-          logLat = wx.getStorageSync('logLat');
-          if (logLat) {
-            resolve();
-          } else {
-            reject();
-          }
-        }, 1500);
-      } else {
-        resolve();
-      }
-    })
-  },
-  /**
    * 获取总店信息
    */
   loadMainLocation() {
@@ -519,7 +513,7 @@ Page({
       title: '加载中'
     });
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id,
       long: logLat[0],
       lat: logLat[1]
@@ -565,7 +559,7 @@ Page({
       return;
     }
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id,
       "coupon_id_arr": that.data.coupon_id_arr
     }
@@ -581,7 +575,7 @@ Page({
     })
 
     var params = {
-      uid,
+      uid:that.data.uid,
       store_id
     };
     cancelCoupon(params);

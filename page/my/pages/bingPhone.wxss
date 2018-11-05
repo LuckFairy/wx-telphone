@@ -3,7 +3,15 @@
 page {
   background: #fff;
 }
-
+.heading {
+  width: 122rpx;
+  height: 122rpx;
+  border-radius: 50%;
+  object-fit: cover;
+  clip-path: circle(50% at center);
+  display: block;
+  float: left;
+}
 /*错误提示样式*/
 
 .errorModel {

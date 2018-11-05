@@ -1,3 +1,6 @@
+<view class='errorModel' wx:if="{{error}}">
+  <text>{{error}}</text>
+</view>
 <view class="goods-detail-containner">
   <view class="goods-banner-view">
     <swiper class="goods-banner-swiper" indicator-dots="{{true}}" indicator-color="lightgrey" indicator-active-color="white" autoplay="{{true}}">
@@ -43,10 +46,11 @@
         <text class="mid-list-one">{{product.price}}</text>
         <text class="mid-list-two">￥{{product.original_price}}</text>
       </view>
-      <view class='mid-list-wraps-image'>
-        <button class='mid-open-list share-bt' open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.shareUrl?product.shareUrl:product.product_image_list[0]}}"></button>
-        <text class="mid-list-six-top share-txt">分享</text>
-      </view>
+      <view class='share-box'>
+          <button class='share-bt' open-type='share' data-imgurl='{{product.shareUrl?product.shareUrl:image_lists[0]}}' data-price="{{product.price}}" data-title='{{product.name}}'></button>
+          <text class='share-img'></text>
+          <text class=" share-txt">分享</text>
+        </view>
     </view>
     <view class='mid-list-wraps' wx:if="{{product.sales}}">
       <text class="mid-list-six">已售</text>
@@ -109,15 +113,15 @@
         <text class='invite-car-num'>{{newCartNum}}</text>
         <text class='cart-ke-server-text'>购物车</text>
       </view>
-      <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
+      <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" style="{{action&&action!=0?'visibility:hidden':''}}">
         <text class='add-invite-car-child'>加入购物车</text>
       </view>
-      <view wx:if="{{action =='present'}}" class='current-buying invite-total' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' bindtap="goPreApply">
+      <view wx:if="{{action =='present'}}" class='current-buying invite-total'  bindtap="goPreApply">
         <text class='current-buying-child'>申请试用</text>
       </view>
-      <view wx:if="{{action !='present'}}" class='current-buying invite-total' bindtap="doBuy" data-product-id='{{product.product_id}}' data-type="addcart" data-status="1">
-        <text class='current-buying-child'>立即购买</text>
-      </view>
+      <form bindsubmit='doBuy' report-submit='true' wx:if="{{action !='present'}}" class='current-buying invite-total'>
+        <button form-type='submit' class='current-buying-child'>立即购买</button>
+      </form>
     </block>
 
     <block wx:if="{{preTime>0}}">
@@ -146,7 +150,7 @@
         <text class='cart-ke-server-text'>购物车</text>
       </view>
 
-      <view class='add-invite-car invite-total eee' data-type="addcart" data-product-id='{{product.product_id}}' style="{{action&&action!=0?'visibility:hidden':''}}">
+      <view class='add-invite-car invite-total eee' data-type="addcart"  style="{{action&&action!=0?'visibility:hidden':''}}">
 
         <text class='add-invite-car-child'>加入购物车</text>
       </view>
@@ -173,59 +177,50 @@
   <view class="commodity_attr_list">
     <view class='shopping-images-wrap'>
       <view class='shopping-images'>
-        <image class='order-images' src='{{activity_err_msg.image}}'></image>
+        <image class='order-images' mode='aspectFill' src='{{infoProduct.image}}'></image>
       </view>
       <view class='shopping-detail'>
         <view class='shopping-detail-title-price'>
           <view class='shopping-detail-title'>
-            <text class='shopping-detail-text'>{{activity_err_msg.name}}</text>
+            <text class='shopping-detail-text'>{{infoProduct.name}}</text>
             <icon bindtap='goImageClose' class='shopping-detail-image'></icon>
-
           </view>
-          <!-- <text wx:if="{{product.special}}" class='shopping-detail-price'>价格 {{activity_err_msg.price}}</text> -->
-          <text wx:if="{{product.price}}" class='shopping-detail-price'>价格 {{choPrice?choPrice:activity_err_msg.price}}</text>
-          <text wx:else class='shopping-detail-price'>价格 {{activity_err_msg.original_price}}</text>
-          <text class='shopping-detail-have'>库存 {{choQuantity?choQuantity:activity_err_msg.quantity}}件</text>
+          <text  class='shopping-detail-price'>价格 {{infoProduct.price}}</text>
+          <text class='shopping-detail-have'>库存 {{infoProduct.quantity>0?infoProduct.quantity:0}}件</text>
         </view>
       </view>
     </view>
     <!--每组属性-->
     <view class='shopping-property'>
-      <block wx:if='{{sku_list&&sku_list.length>0}}' wx:for='{{property_list}}' wx:for-item='pid' wx:for-index="idx" wx:key='{{idx}}'>
+      <block wx:if='{{property_list.length>0}}' wx:for='{{property_list}}' wx:for-item='pid' wx:for-index="x" wx:key='{{x}}'>
         <view class='property-list'>
           <text class='property-title'>{{pid.name}}</text>
           <view class='property-value-list'>
-            <text wx:for='{{pid.values}}' wx:for-item='vid' wx:key='{{index}}' data-pid='{{pid.pid}}' data-vid='{{vid.vid}}' class='pro-val-list  {{curTabs ==(pid.pid+vid.vid) || arrotwo==(pid.pid+vid.vid) || arrone==(pid.pid+vid.vid) ? "chooseTab" : ""}}' bindtap='chooseProperty'
-              data-pidvid='{{pid.pid+vid.vid}}'>{{vid.value}}</text>
-            <!-- <text wx:for='{{pid.values}}' wx:for-item='vid' wx:key='{{index}}' data-idx="{{idx}}" data-index="{{index}}" data-pid='{{pid.pid}}' data-vid='{{vid.vid}}' class='pro-val-list  {{tabCheck ? "chooseTab" : ""}}' catchtap='chooseProperty'
-              data-pidvid='{{pid.pid+vid.vid}}'>{{vid.value}}</text> -->
+            <text wx:for='{{pid.values}}' wx:for-item='vid' wx:for-index="j" wx:key='{{j}}' data-x="{{x}}" data-j="{{j}}"  class='pro-val-list  {{vid.checked? "chooseTab" : ""}}' bindtap='chooseProperty'
+              >{{vid.value}}</text>
           </view>
         </view>
       </block>
     </view>
-    <!-- <view class="attr_box_test">
-      <view class="attr_name">库存</view>
-      <view class="attr_value_box">{{data.quantity}}</view>
-    </view> -->
     <view class="stepper">
       <text class='ste-number'>购买数量</text>
       <view class='stepper-father'>
         <!-- 减号 -->
-        <text class="ste-reduce" bindtap="bindMinus" data-actions='{{action}}'>-</text>
+        <text class="ste-reduce" bindtap="bindMinus">-</text>
         <!-- 数值 -->
         <input class='ste-input-num' type="number" disabled="true" bindchange="bindManual" value="{{shopNum}}" />
         <!-- 加号 -->
-        <text class="normal ste-add" bindtap="bindPlus" data-actions='{{action}}'>+</text>
+        <text class="normal ste-add" bindtap="bindPlus">+</text>
       </view>
     </view>
     <!--购物车  -->
-    <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy' data-status="1" data-uid='{{uid}}' data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-isadd-cart='{{is_add_cart}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}'>确定</text>
+    <text wx:if='{{goAddCard}}' class='go-confirm' bindtap='doGoBuy'>确定</text>
     <!--新品试用  -->
-    <text wx:elif='{{action == "present"}}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPreApply'>确定</text>
+    <text wx:elif='{{action == "present"}}'    class='go-confirm' bindtap='goPreApply'>确定</text>
     <!--虚拟商品 -->
-    <text wx:elif='{{(action != 0) && action }}' data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment' data-baokuan_action='{{action}}'>确定</text>
+    <text wx:elif='{{(action != 0) && action }}'  class='go-confirm' bindtap='goPayment'>确定</text>
     <!--一般购买  -->
-    <text wx:else data-uid='{{uid}}' data-status="1" data-store-id='{{store_id}}' data-product-id='{{product_id}}' data-buy-quantity='{{shopNum}}' data-sku-id='{{sku_id}}' class='go-confirm' bindtap='goPayment'>确定</text>
+    <text wx:else    class='go-confirm' bindtap='goPayment'>确定</text>
     <!-- 数量的增减end -->
   </view>
 </view>

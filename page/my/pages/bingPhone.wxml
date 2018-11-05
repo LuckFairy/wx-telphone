@@ -5,10 +5,10 @@
 <!--头部  -->
 <view class='myself-top'>
   <view class='myself-photo'>
-    <image class='myself-image' src='{{userImg}}'></image>
+     <open-data type="userAvatarUrl" class="heading"></open-data> 
   </view>
   <view class='myself-detail'>
-    <text class='myself-id'>{{nickName}}</text>
+    <open-data type="userNickName" class='myself-id'></open-data>
   </view>
 </view>
 <form bindsubmit="formSubmit">
@@ -20,12 +20,19 @@
     </view>
   </view>
   <view class='item'>
+    <label for='password'>密码</label>
+    <view class='item-input'>
+      <input id='password' name='password' type='number' bindinput="passInput" value='{{password}}' maxlength='4' placeholder='请输入密码' placeholder-class="place"></input>
+      <icon wx:if="{{passClear}}" catchtap='clear' data-type='password' type="clear" size="18" color="#C7C7C7"/>
+    </view>
+  </view>
+  <!-- <view class='item'>
     <label for='code'>验证码</label>
     <view class='item-input'>
       <input id='code' name='code' type='number' bindinput="codeInput" value='{{code}}' maxlength='6' placeholder='请输入验证码' placeholder-class="place"></input>
       <icon wx:if="{{codeClear}}" catchtap='clear' data-type='code' type="clear" size="18" color="#C7C7C7"/>
       <button catchtap='{{getCode?"sendTel":""}}'>{{getCode?"获取验证码":times+"s"}}</button>
     </view>
-  </view>
+  </view> -->
   <button class='submit' formType="submit">确认绑定</button>
 </form>

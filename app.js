@@ -1,6 +1,7 @@
-import sign from './utils/api_4'
+
 import __config from './config'
 import { ajax } from './utils/api_1'
+import { getLocation } from './utils/util'
 import WxService from './utils/WxService'
 App({
   onLaunch: function() {
@@ -8,7 +9,8 @@ App({
     // unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
     // logs.unshift(Date.now())
     // wx.setStorageSync('logs', logs);
-    this.getLocation();//获取位置信息
+    if (!__config.uid) { wx.removeStorageSync("userUid"); }
+    getLocation();
     this.getTelWx();
   },
   api: ajax,
@@ -42,14 +44,6 @@ App({
         that.config.serverTxt = res.err_msg.TelnWx.service_weixin;
       }
     })
-  },
-  getLocation: function () {
-    return this.WxService.getLocation()
-      .then(res => {
-        var latitude = res.latitude, longitude = res.longitude //维度，经度
-        var logLat = [longitude, latitude];
-        wx.setStorageSync('logLat', logLat);
-      })
   },
   checkphone:function(){
     let that = this;
@@ -108,18 +102,17 @@ App({
         }
         return that.loginNew(params);
       }).then(data => {
-        console.log('uid',data.uid);
-        that.globalData.uid = data.uid;
-        wx.setStorageSync('userUid', data.uid); //存储uid
+        console.log('106:uid', data.uid);
         //绑定门店
         if (__opts.locationid) {
           var opts = {
             store_id: __config.sid,
             item_store_id: __opts.locationid,
-            uid: data.uid
+            uid:  data.uid
           }
           that.bingUserScreen(opts);
         }
+        return data.uid;
       })
   },
   /**
@@ -237,7 +230,7 @@ App({
   },
   /**
    **推送消息
-   *formId  获取form提交生活的form的id
+   *formId  获取form的ids数组
    */
   pushId(e) {
     console.info('form提交..... ', e.detail);
@@ -256,16 +249,18 @@ App({
       let { detail: { formId = '' } } = e;
       let timeStamp = Date.parse(new Date()) / 1000;//时间戳
       if (formId.includes('formId')) {
-        wx.showToast({
-          title: '请用手机调试',
-          icon: 'loading',
-          duration: 2000
-        });
+        // wx.showToast({
+        //   title: '请用手机调试',
+        //   icon: 'loading',
+        //   duration: 2000
+        // });
         reject('要使用手机调试才有formId！');
         return;
       };
 
       if (formId == '') { reject('formId不能为空'); return; }
+      let re = new RegExp(/\d{13}$/g);
+      if (!re.test(formId)) { reject('formId不符合要求'); return;}
       let ids = [];
       ids.push({
         timeStamp,
@@ -276,7 +271,7 @@ App({
     })
   },
   /**
-   * 提交订单
+   * 将form的formid保存到数据库
    */
   saveId: function(formIds) {
     var that = this;
@@ -290,7 +285,7 @@ App({
     } else {
       that.globalData.uid = uid;
     }
-    if (formIds.length == 0) {
+    if (!formIds||formIds.length == 0) {
       wx.showToast({
         title: '推送消息失败，无formIds',
       });
@@ -322,7 +317,7 @@ App({
       };
     });
   },
-  /**发送消息 */
+  /**推送模板消息 */
   send: function(order_no) {
     var that = this;
     var uid = wx.getStorageSync('userUid');

@@ -9,10 +9,11 @@
 var isRelease = false;
 var host = "https://saas.qutego.com/"
 var testhost = "https://zy.qutego.com/"
-var AGENT_ID = 2
-var sid = 293;
+var AGENT_ID = 2;
+var sid = 293,
+  uid = null;//不填写默认null,填写直接改uid
 var sid_test = 293;//婴众趣购590
-var title = '趣购精选';
+var title = '婴众趣购'; 
 var title_test = '婴众趣购';
 var phonetest = '4006088520';//测试客服电话
 var phone = '4000001312';//正式客服电话
@@ -20,10 +21,11 @@ var phoneTxt = '400-000-1312';
 var serverTxt = 'yzkf139';
 var appid = 'wx57d5cde97d7e1fd3';
 var config ={
-  pt_txt:'趣购拼团'
+  pt_txt:'超值拼团'
 }
 
 export default{
+  uid: uid,
 
   isRelease:isRelease,
 

@@ -20,7 +20,7 @@
 <view class='rush-baobao-box' wx:if="{{currentTab==0}}">
     <block wx:if="{{dataList.length>0}}">
     <view wx:for="{{dataList}}" wx:key="{{index}}" class='rush-baobao-image' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
-      <image class='rush-bobao-child' src='{{item.image}}'></image>
+      <image mode='aspectFill' class='rush-bobao-child' src='{{item.image}}'></image>
       <view class='rush-baobao-text'>
         <!-- <view class='rush-baobao-view-first'> -->
         <text class='rush-boabao-title'>{{item.name}}</text>

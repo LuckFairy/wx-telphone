@@ -1,13 +1,14 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/common/pages/goods-detail",
     "page/tabBar/my/myself",
+    "page/group-buying/group-buying",
     "page/common/pages/my-order",
     "page/common/pages/store-change",
     "page/tabBar/goods/cart",
     "page/common/pages/buy",
     "page/group-buying/my-order",
-    "page/common/pages/goods-detail",
     "page/common/pages/activity-join",
     "page/tabBar/shopping/shoppstore-index",
 
@@ -30,14 +31,14 @@
     "page/common/pages/shop-promotion",
     "page/common/pages/store-detail",
     "page/common/pages/store-list",
-    "page/group-buying/group-buying",
+   
     "page/group-buying/index-seckill",
     "page/group-buying/grouplist",
     "page/group-buying/detail",
     "page/group-buying/group-join",
     "page/group-buying/tuan-detail",
     "pages/qrcode/qr-entry"
-  ],
+ ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFE546",

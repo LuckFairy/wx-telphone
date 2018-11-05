@@ -1,32 +1,39 @@
 <scroll-view enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
   <!--5栏选项  -->
-  <view class='list-select-area' wx:if="{{indexIcon.length >4}}">
-    <view class="list-select-area-bottom">
-      <view class='select-list' bindtap="clickGoCategory" data-index='0' data-cat-id='{{indexIcon[5].cat_id}}'>
-        <image class='select-list-image' src='{{indexIcon[5].image}}'></image>
-        <text class='select-list-text'>{{indexIcon[5].title}}</text>
-      </view>
-      <view class='select-list' bindtap="clickGoCategory" data-index='1' data-cat-id='{{indexIcon[6].cat_id}}'>
-        <image class='select-list-image' src='{{indexIcon[6].image}}'></image>
-        <text class='select-list-text'>{{indexIcon[6].title}}</text>
-      </view>
-      <view class='select-list' bindtap="clickGoCategory" data-index='2' data-cat-id='{{indexIcon[7].cat_id}}'>
-        <image class='select-list-image' src='{{indexIcon[7].image}}'></image>
-        <text class='select-list-text'>{{indexIcon[7].title}}</text>
-      </view>
-      <view class='select-list' bindtap="clickGoCategory" data-index='3' data-cat-id='{{indexIcon[8].cat_id}}'>
-        <image class='select-list-image' src='{{indexIcon[8].image}}'></image>
-        <text class='select-list-text'>{{indexIcon[8].title}}</text>
-      </view>
-      <view class='select-list' bindtap="clickGoCategory" data-index='4' data-cat-id='{{indexIcon[9].cat_id}}'>
-        <image class='select-list-image' src='{{indexIcon[9].image}}'></image>
-        <text class='select-list-text'>{{indexIcon[9].title}}</text>
+  <form report-submit='true' bindsubmit="clickGoCategory">
+    <view class='list-select-area' wx:if="{{indexIcon.length >4}}">
+      <view class="list-select-area-bottom">
+        <view class='select-list'>
+          <image class='select-list-image' src='{{indexIcon[5].image}}'></image>
+          <text class='select-list-text'>{{indexIcon[5].title}}</text>
+          <button form-type='submit' data-index='0' data-cat-id='{{indexIcon[5].cat_id}}'> </button>
+        </view>
+        <view class='select-list'>
+          <image class='select-list-image' src='{{indexIcon[6].image}}'></image>
+          <text class='select-list-text'>{{indexIcon[6].title}}</text>
+          <button form-type='submit' data-index='1' data-cat-id='{{indexIcon[6].cat_id}}'> </button>
+        </view>
+        <view class='select-list'>
+          <image class='select-list-image' src='{{indexIcon[7].image}}'></image>
+          <text class='select-list-text'>{{indexIcon[7].title}}</text>
+          <button form-type='submit' data-index='2' data-cat-id='{{indexIcon[7].cat_id}}'> </button>
+        </view>
+        <view class='select-list'>
+          <image class='select-list-image' src='{{indexIcon[8].image}}'></image>
+          <text class='select-list-text'>{{indexIcon[8].title}}</text>
+          <button form-type='submit' data-index='3' data-cat-id='{{indexIcon[8].cat_id}}'> </button>
+        </view>
+        <view class='select-list'>
+          <image class='select-list-image' src='{{indexIcon[9].image}}'></image>
+          <text class='select-list-text'>{{indexIcon[9].title}}</text>
+          <button form-type='submit' data-index='4' data-cat-id='{{indexIcon[9].cat_id}}'> </button>
+        </view>
       </view>
     </view>
-  </view>
+  </form>
   <view class='wrap'>
     <!--爆款专区区域开始  -->
-    <view >
+    <view>
       <!--内容开始  -->
       <view class='baokuan-recommend'>
         <view class='baokuan-recommend-image baokuan-image-1' bindtap='clickGoBaoKuan' data-categoryid='100'>
@@ -57,7 +64,7 @@
 
     <!--爆款专区区结束  -->
     <!--热销专区区域开始  -->
-    <view >
+    <view>
       <!--内容开始  -->
       <view class='festival-recommend'>
 
@@ -94,7 +101,7 @@
     <!--热销专区区结束  -->
 
     <!--活动专区区域开始  -->
-    <view >
+    <view>
       <!--内容开始  -->
       <view class='festival-recommend'>
 
@@ -131,7 +138,7 @@
     <!--活动专区区结束  -->
 
     <!--百货专区区域开始  -->
-    <view >
+    <view>
       <view class='festival-recommend'>
         <view class='baokuan-recommend-image baokuan-image-4' bindtap='clickGoGoods' data-categoryid='102'>
           <image class='baokuan-image' src='{{indexImage[3].image}}'></image>

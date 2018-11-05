@@ -45,7 +45,6 @@ var Api = {
     let timestamp = parseInt(new Date().getTime() / 1000) + "";
     let sign = signUrl(formdata, timestamp);
     let header = { 'Content-Type': 'application/json', 'X-Sign': sign, 'X-Timestamp': timestamp, 'X-Agent-Id': AGENT_ID };
-
     wx.request({
       url: `${HOST}${url}`,
       data: params,
