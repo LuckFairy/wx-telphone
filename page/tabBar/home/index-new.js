@@ -92,15 +92,19 @@ Page({
         encryptedData,
         locationid
       }
-      app.login(params).then(() => {
-        console.log('弹窗取消', app.globalData.uid)
+      app.login(params).then((data) => {
+        console.log('弹窗取消',data);
+        uid = app.config.uid ? app.config.uid:data;
+        console.log('index.js:uid',uid)
+        app.globalData.uid=uid;
+        wx.setStorageSync('userUid', uid); //存储uid
         that.setData({
-          hasPhone: true, isInfo: false, uid: app.globalData.uid
+          hasPhone: true, isInfo: false, uid: data
         },()=>{
           that._parse();
         })
       }).catch(() => {
-        console.log('弹窗弹窗')
+        console.log('弹窗弹窗');
         that.setData({
           hasPhone: false
         })
@@ -168,17 +172,18 @@ Page({
     //检查是否有手机号
     app.checkphone().then(data => {
       console.log('有手机号', data);
-      
+      uid = app.config.uid ? app.config.uid : data.uid;
+      console.log('index.js:uid',uid);
       that.setData({
         hasPhone: true,
-        uid: app.config.uid|| data.uid,
+        uid: uid,
         phone: data.phone
       },()=>{
         that._parse();
       });
-      app.globalData.uid = app.config.uid||data.uid;
+      app.globalData.uid = uid;
       app.globalData.phone = data.phone;
-      wx.setStorageSync('userUid', app.config.uid|| data.uid); //存储uid
+      wx.setStorageSync('userUid', uid); //存储uid
       wx.setStorageSync('phone', data.phone); //存储uid
       //绑定门店
       if (locationid) {

@@ -32,8 +32,8 @@
         <text class='list-name'>{{item.name}}</text>
         <text class='black'>￥{{item.price}}</text>
         <view class='list-text2'>
-          <text class='gray'>比例 {{item.rate1}}%</text>
-          <text class='red'>收益：{{item.profit}}</text>
+          <text  wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 {{item.rate1}}%</text>
+          <text  wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：{{item.profit}}</text>
         </view>
       </view>
     </view>
@@ -55,8 +55,8 @@
         <text class='list-name'>{{item.name}}</text>
         <text class='black'>￥79.00</text>
         <view class='list-text2'>
-          <text class='gray'>比例 12%</text>
-          <text class='red'>收益：15.36</text>
+          <text wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 12%</text>
+          <text wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：15.36</text>
         </view>
       </view>
     </view>
@@ -77,8 +77,8 @@
         <text class='list-name'>{{item.name}}</text>
         <text class='black'>￥79.00</text>
         <view class='list-text2'>
-          <text class='gray'>比例 12%</text>
-          <text class='red'>收益：15.36</text>
+          <text  wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 12%</text>
+          <text  wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：15.36</text>
         </view>
       </view>
     </view>
@@ -99,8 +99,8 @@
         <text class='list-name'>{{item.name}}</text>
         <text class='black'>￥79.00</text>
         <view class='list-text2'>
-          <text class='gray'>比例 12%</text>
-          <text class='red'>收益：15.36</text>
+          <text  wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 12%</text>
+          <text   wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：15.36</text>
         </view>
       </view>
     </view>

@@ -113,7 +113,7 @@ Page({
       if(rep.err_code==0){
         WxParse.wxParse('ac_detail', 'html', rep.err_msg.detail, that);
         let status = rep.err_msg.status;
-        let title = rep.err_msg.title;
+        let title = rep.err_msg.title ||'加入分享赚钱计划';
         wx.setNavigationBarTitle({
           title: title
         })

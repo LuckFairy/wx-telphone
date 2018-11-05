@@ -157,7 +157,7 @@ Page({
     return {
       title: product.name,
       path: `/page/common/pages/goods-detail?prodId=${that.data.prodId}&action=${that.data.action}&pid=${that.data.uid}`,
-      imageUrl: (product.shareUrl ? product.shareUrl : product.product_image_list[0]) 
+      imageUrl: (product.shareUrl ? product.shareUrl : product.product_image_list[0].image) 
     }
   },
   onLoad: function (options) {
