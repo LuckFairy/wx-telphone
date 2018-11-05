@@ -5,6 +5,7 @@
     <text>自提核销</text>
   </view>
   <view class="qr-view">
+
     <text class='ma m-t40 m-b40'>{{order_no}}</text>
     <view>
     <image src="{{code}}" mode='aspectFit' class='erwei'></image>

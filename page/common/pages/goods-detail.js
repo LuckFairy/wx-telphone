@@ -63,12 +63,14 @@ Page({
     });
   },
 
+
   onLoad: function (options) {
     wx.hideShareMenu();
     let that = this;
     let store_id = app.store_id;
     let uid = wx.getStorageSync('userUid');
     physical_id = wx.getStorageSync('phy_id')||0;
+
 
     if (uid == undefined || uid == '') {
       wx.switchTab({
@@ -278,6 +280,8 @@ Page({
       }
     });
   },
+
+
   doBuy: function (e) {
     //保存formid
     app.pushId(e).then(ids => {
@@ -289,8 +293,10 @@ Page({
       goPayment: true,
       goAddCard: false
     });
+
     let {product_id, uid, store_id}=that.data;
     let params = {
+
       product_id,
       uid,
       store_id
@@ -376,9 +382,11 @@ Page({
   },
   /**严选，立即购买，一般购买 */
   goPayment(e) {
+
     let that = this;
     console.log('严选，立即购买，一般购买', e);
     var { product_id, action, sku_list, sku_id, uid, store_id, shopNum, uid, fx_uid} = that.data;
+
     var opts = {
       uid,
       product_id,
@@ -405,8 +413,10 @@ Page({
   *新品试用，立即购买
   */
   goPreApply(e) {
+
     let that = this;
     var {  sku_list, sku_id, uid, store_id, product_id, shopNum} = that.data;
+
     var opts = {
       uid,
       product_id,
@@ -468,6 +478,7 @@ Page({
     app.api.postApi('wxapp.php?c=cart&a=info', { params }, (err, resp) => {
       wx.hideLoading();
       //product商品数据集合,property_list多属性数据集合,sku_list多属性价格库存数据集合
+
       let { product, property_list = [], sku_list = [] } = resp.err_msg;
       infoProduct.name = product.name; infoProduct.image = product.image;
       if (product.min_price < product.max_price){
@@ -477,6 +488,7 @@ Page({
       }
       infoProduct.quantity = product.quantity;
       console.log(property_list);
+
       that.setData({
         infoProduct,
         property_list,
@@ -489,8 +501,10 @@ Page({
   //数量增减end
   //加入购物车start w
   addShopCart: function (e) {
+
     let that = this;
     let {uid,store_id,product_id}=that.data;
+
     that.setData({
       moreChoose: true,
       product_id,
@@ -508,6 +522,7 @@ Page({
     
   },
   chooseProperty(e) {
+
     let that = this;
     let { pid, vid,x,j } = e.currentTarget.dataset;
     let {  sku_list, property_list, infoProduct, sku_id, sku_arr} = that.data;
@@ -523,6 +538,7 @@ Page({
           sku_arr[x]=j;
         }else{
           sku_arr[x]=null;
+
         }
       } else {
         property_list[x]["values"][k].checked = false;
@@ -559,6 +575,7 @@ Page({
           infoProduct.quantity = p.quantity;
           sku_id=p.sku_id;
           that.setData({ sku_id, infoProduct });
+
         }
       }
     }

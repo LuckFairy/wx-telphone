@@ -12,6 +12,8 @@ button{
   -webkit-tap-highlight-color:transparent;
   border-color:none;
 
+
+
 }
 
 .ad, .attr_box_test {

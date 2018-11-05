@@ -79,7 +79,9 @@
   </view>
   <form bindsubmit='bindCheckout' report-submit='true'  class=''>
         <button form-type='submit' class='button' data-product-id='{{product.product_id}}'>去结算</button>
+
   </form>
+
   <!-- <view class="button" bindtap='bindCheckout'>去结算</view> -->
 </view>
 <!-- 热门推荐-->

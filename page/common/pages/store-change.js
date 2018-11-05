@@ -49,7 +49,9 @@ Page({
    * first 1进入页面第一次加载
    * tab  是否是菜单栏点击 1是，0否
    */
+
   loadAddress(opt,frist,tab) {
+
     let params = {}, { uid, prodId, logLat } = this.data;
     if (!opt) {
       //通过经纬度获取省份
@@ -70,6 +72,7 @@ Page({
         "area": opt.areaId
       }
     }
+
     wx.showLoading({
       title: '加载中',
     })
@@ -105,6 +108,7 @@ Page({
           }
       }
       wx.hideLoading();
+
     })
   },
   /** 
@@ -112,6 +116,7 @@ Page({
   */
   getItem(e) {
     let that = this, checkType = this.data.checkType, opt = {};
+
     let { provinId, cityId, areaId}=that.data;
     let { id, name } = e.target.dataset;
     that.setData({ showModel: false });
@@ -125,6 +130,7 @@ Page({
     }
     that.loadAddress(opt);
 
+
   },
   /**
    * 切换选项
@@ -132,7 +138,9 @@ Page({
   changeitem(e) {
     let that = this, { type } = e.currentTarget.dataset, opt = {};
     if (!type) { return };
+
     that.setData({ checkType: type });
+
     switch (type) {
       case '1': opt = undefined; break;
       case '2': opt.provinId = that.data.provinId; break;
