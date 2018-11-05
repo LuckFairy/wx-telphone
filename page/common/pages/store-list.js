@@ -185,7 +185,7 @@ Page({
         } else {
           wx.showToast({
             title: '亲，没有数据了',
-            image: '../imgs/use-ruler.png',
+            image: '../../image/use-ruler.png',
             duration: 1000
           })
         }

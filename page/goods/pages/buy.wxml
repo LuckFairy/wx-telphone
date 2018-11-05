@@ -31,7 +31,7 @@
       <scroll-view scroll-y="{{true}}">
         <view class="addr-section" bindtap="addrViewClick">
           <view class='address-list'>
-            <image class='address-image' src='../../../image/address.png'></image>
+            <image class='address-image' src='../../image/address.png'></image>
           </view>
           <view wx:if="{{address}}" class="addr-item-view">
             <view class="name-phone-view">
@@ -45,7 +45,7 @@
             新建收货地址
           </view>
           <view class='address-go'>
-            <image class='address-go-image' src='../../../image/address-go.png'></image>
+            <image class='address-go-image' src='../../image/address-go.png'></image>
           </view>
         </view>
       </scroll-view>
@@ -59,7 +59,7 @@
         </view>
         <view class='shop-area' style="border-bottom:1rpx solid #e5e5e5;">
           <navigator url="../../common/pages/store-list?check=true&index=true" class='shop-area-right'>
-            <image class='icon' src='../../../image/shop-icon.png'></image>
+            <image class='icon' src='../../image/shop-icon.png'></image>
             <text>切换门店</text>
           </navigator>
           <view class='shop-area-left'>
@@ -70,7 +70,7 @@
         </view>
         <view class="addr-section" bindtap="addrViewClick">
           <view class='address-list'>
-            <image class='address-image' src='../../../image/address.png'></image>
+            <image class='address-image' src='../../image/address.png'></image>
           </view>
           <view wx:if="{{address}}" class="addr-item-view">
             <view class="name-phone-view">
@@ -84,7 +84,7 @@
             新建收货地址
           </view>
           <view class='address-go'>
-            <image class='address-go-image' src='../../../image/address-go.png'></image>
+            <image class='address-go-image' src='../../image/address-go.png'></image>
           </view>
         </view>
       </scroll-view>
@@ -108,7 +108,7 @@
         </view>
         <view class='shop-area'>
           <navigator url="../../common/pages/store-list?check=true&index=true" class='shop-area-right'>
-            <image class='icon' src='../../../image/shop-icon.png'></image>
+            <image class='icon' src='../../image/shop-icon.png'></image>
             <text>切换门店</text>
           </navigator>
           <view class='shop-area-left'>
@@ -131,7 +131,7 @@
       <scroll-view class='addr-sec-lists' scroll-y="{{true}}">
         <view class="addr-section" bindtap="addrViewClick">
           <view class='address-list'>
-            <image class='address-image' src='../../../image/address.png'></image>
+            <image class='address-image' src='../../image/address.png'></image>
           </view>
           <view wx:if="{{address}}" class="addr-item-view">
             <view class="name-phone-view">
@@ -145,7 +145,7 @@
             新建收货地址
           </view>
           <view class='address-go'>
-            <image class='address-go-image' src='../../../image/address-go.png'></image>
+            <image class='address-go-image' src='../../image/address-go.png'></image>
           </view>
         </view>
       </scroll-view>
@@ -185,7 +185,7 @@
 
 <!--阴影  -->
 <view class='shadow-list'>
-  <image class='shadow-color' src='../../../image/shadow-color.png'></image>
+  <image class='shadow-color' src='../../image/shadow-color.png'></image>
   <text class='shadow-bg'></text>
 </view>
 <view class="buy-containner">
@@ -271,7 +271,7 @@
     <block wx:else>
       <text class='discount-ticket discount-ticket-no'>无可用</text>
     </block>
-    <image class='discount-go ' src='../../../image/address-go.png'></image>
+    <image class='discount-go ' src='../../image/address-go.png'></image>
   </view>
 </view>
 <!--优惠券选择结束  -->
@@ -299,45 +299,6 @@
     </block>
   </view>
 </view>
-<!--公众号开始 
-<view wx:if="{{showAreaPicer}}" catchtap="hideAreaPickerView" class="overlayer"></view>
-
-<view class='official-accounts' wx:if="{{showwechat}}">
-  <view class='off-acc-title'>
-    <image class='off-acc-close' src="../../../image/close-btn.png" bindtap='closewechat'></image>
-    <image class='off-acc-decorade' src='../../../image/longpress.png'></image>
-  </view>
-  <view class='atttention-wechat-wrap'>
-    <text class='atten-webchat-title atten-webchat-notice'>注：</text>
-    <text class='atten-webchat-title atten-webchat-text'>关注公众号“婴众趣购”，才能收到免单购获奖通知哦</text>
-    <view class='attention-wechat'>
-      <text class='wechat-public'>微信公众号：</text>
-      <text class='wechat-public-tetx' selectable="true">yzqg123</text>
-      <text class='wechat-copy'>长按可复制</text>
-    </view>
-  </view>
-</view>
- -->
-<!--公众号结束  -->
-<!-- <view class="bottom-view">
-   <view wx:if="{{totals.shipping}}" class="sub-fee-view">
-    <view class="">邮费</view>
-    <view class="money-text">{{totals.shipping.text}}</view>
-  </view>
-  <view class="total-fee-view">
-    <view class="">应付总额</view>
-    <view class="money-text">{{totals.total.text}}</view>
-  </view> 
-
-   <view class="confirm-btn-view">
-    <text class=''>实付款</text>
-    <text>{{totals.total.text}}</text>
-    <text class="confirm-btn" bindtap="submitOrder">提交订单</text> 
-        <text wx:if="{{!error}}" class="confirm-btn" bindtap="submitOrder">提交订单</text>
-        <text wx:else class="confirm-btn">提交订单</text>
-        
-  </view> 
-</view>  -->
 <view class="invite-friend-cluster">
   <view class='invite-total actual-payment'>
     <text class='actual-pay-one'>实付款: </text>
@@ -352,8 +313,8 @@
 <!--购买成功之后弹窗  -->
 <view class='matte-hint-father' wx:if="{{matteShow}}" >
   <view class='matte-hint'>
-    <image class='matte-close matte-total' bindtap='closeBtn' src='../../../image/close.png'></image>
-    <image class='matte-icon matte-total' src='../../../image/success-icon.png'></image>
+    <image class='matte-close matte-total' bindtap='closeBtn' src='../../image/close.png'></image>
+    <image class='matte-icon matte-total' src='../../image/success-icon.png'></image>
     <text class='matte-success matte-total'>购买成功</text>
     <text class='matte-detail matte-total'>恭喜你，已经购买成功</text>
   </view>

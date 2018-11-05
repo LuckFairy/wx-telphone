@@ -11,7 +11,7 @@ let modalConfig = {
   confirmText: '知道了'
 };
 let errModalConfig = {   // {image?: string, title: string}
-  image: '../../../image/use-ruler.png',
+  image: '../../image/use-ruler.png',
   title: "您已经申请过啦，试试申请别的吧"
 };
 //2017年8月17日16:46:48 by leo
@@ -91,7 +91,7 @@ Page({
             upList
           })
       } else{
-        that.submitError({ image: '../../../image/use-ruler.png', title: rep.err_msg });
+        that.submitError({ image: '../../image/use-ruler.png', title: rep.err_msg });
       }
      
     });
@@ -132,7 +132,7 @@ Page({
     let question = [];//问题列表
     for (let [name, value] of Object.entries(submit)) {
       if(value.length == 0){
-        return this.submitError({ image: '../../../image/use-ruler.png', title: '没有填写完，请填写完整' });
+        return this.submitError({ image: '../../image/use-ruler.png', title: '没有填写完，请填写完整' });
       }
       question.push({ "qid":name,"value":value});
     }
@@ -168,7 +168,7 @@ Page({
          that.submitData(params);
    
         }else{
-          this.submitError({ image: '../../../image/use-ruler.png', title: rep.err_msg });
+          this.submitError({ image: '../../image/use-ruler.png', title: rep.err_msg });
         }
     })
     
@@ -179,7 +179,7 @@ Page({
       if (!err && data.err_code == 0) {
         this.showModal('success');
       } else {
-        this.submitError({ image: '../../../image/use-ruler.png', title: data.err_msg });
+        this.submitError({ image: '../../image/use-ruler.png', title: data.err_msg });
       }
     });
   },

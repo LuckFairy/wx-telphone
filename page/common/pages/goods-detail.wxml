@@ -13,8 +13,8 @@
   <view class="middle-box">
   <block wx:if="{{preTime>0}}">
     <view class='pre_time'>
-      <image class='pre_time_img' src='/image/icon_pre_buy.png'></image>
-      <view class='pre_time_text'>距开始时间仅剩余
+      <image class='pre_time_img' src='../../image/icon_pre_buy.png'></image>
+      <view class='pre_time_text'>距开始时间仅剩
         <text class='pre_time_bj'>{{preTimeText.hour}}</text> 时
         <text class='pre_time_bj'>{{preTimeText.minute}}</text> 分
         <text class='pre_time_bj'>{{preTimeText.second}}</text> 秒
@@ -24,33 +24,20 @@
   
     <text class="middle-title">{{product.name}}</text>
     <view class="middle-detail">
-      <!-- <view class='mid-list-wrap'>
-        <block wx:if="{{product.special}}">
-          <text class="mid-list-zero">￥</text>
-          <text class="mid-list-one">{{product.price}}</text>
-          <text class="mid-list-two">￥{{product.original_price}}</text>
-        </block>
-        <block wx:else>
-          <block wx:if="{{product.price}}">
-            <text class="mid-list-zero">￥</text>
-            <text class="mid-list-one">{{product.price}}</text>
-          </block>
-          <block wx:else>
-            <text class="mid-list-zero">￥</text>
-            <text class="mid-list-one">{{product.original_price}}</text>
-          </block>
-        </block>
-      </view> -->
       <view class='mid-list-wrap'>
         <text class="mid-list-zero">￥</text>
         <text class="mid-list-one">{{product.price}}</text>
         <text class="mid-list-two">￥{{product.original_price}}</text>
       </view>
-      <view class='share-box'>
-          <button class='share-bt' open-type='share' data-imgurl='{{product.shareUrl?product.shareUrl:image_lists[0]}}' data-price="{{product.price}}" data-title='{{product.name}}'></button>
+
+      <view class='share-box' wx:if='{{isFx==0}}'>
+          <button class='share-bt' open-type='share'></button>
           <text class='share-img'></text>
           <text class=" share-txt">分享</text>
         </view>
+      
+      <image wx:if="{{isFx==1}}" src='../../image/distribution/qugo_21.png' catchtap='onShowShare' class='share-poster'></image>
+
     </view>
     <view class='mid-list-wraps' wx:if="{{product.sales}}">
       <text class="mid-list-six">已售</text>
@@ -70,8 +57,8 @@
           </view>
           <text wx:if="{{shopCoupon.coupon_count>2}}" style="color:#ff3030;margin-left:28rpx;">...</text>
         </view>
-        <image wx:if="{{showList}}" class='discount-go' src='../../../image/coupon_up.png'></image>
-        <image wx:else class='discount-go' src='../../../image/coupon_down.png'></image>
+        <image wx:if="{{showList}}" class='discount-go' src='../../image/coupon_up.png'></image>
+        <image wx:else class='discount-go' src='../../image/coupon_down.png'></image>
       </view>
 
       <!--优惠券列表  -->
@@ -100,16 +87,16 @@
 <block wx:if="{{product.quantity > 0}}">
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
-      <image class='invite-index-image' src='../../../image/index-list.png'></image>
+      <image class='invite-index-image' src='../../../img/index-list.png'></image>
       <text class='invite-index-text'>首页</text>
     </view>
     <view class='invite-ke-server invite-total' bindtap='goStoreServer'>
-      <image class='invite-ke-server-img' src='../../../image/ke-server.png'></image>
+      <image class='invite-ke-server-img' src='../../image/ke-server.png'></image>
       <text class='invite-ke-server-text'>客服</text>
     </view>
     <block wx:if="{{preTime<=0}}">
       <view class='invite-car invite-total' bindtap='goCart' style="{{action&&action!=0?'visibility:hidden':''}}">
-        <image class='invite-car-img' src='../../../image/shop-cart2.png'></image>
+        <image class='invite-car-img' src='../../image/shop-cart2.png'></image>
         <text class='invite-car-num'>{{newCartNum}}</text>
         <text class='cart-ke-server-text'>购物车</text>
       </view>
@@ -137,17 +124,17 @@
 <block wx:elif="{{product.quantity < 1}}">
   <view class="invite-friend-cluster">
     <view class='invite-index invite-total' bindtap='goNewIndex'>
-      <image class='invite-index-image' src='../../../image/index-list.png'></image>
+      <image class='invite-index-image' src='../../../img/index-list.png'></image>
       <text class='invite-index-text'>首页</text>
     </view>
     <view class='invite-ke-server invite-total' bindtap='goStoreServer'>
-      <image class='invite-ke-server-img' src='../../../image/ke-server.png'></image>
+      <image class='invite-ke-server-img' src='../../image/ke-server.png'></image>
       <text class='invite-ke-server-text'>客服</text>
     </view>
 
     <block wx:if="{{preTime<=0}}">
       <view class='invite-car invite-total' bindtap='goCart' style="{{action&&action!=0?'visibility:hidden':''}}">
-        <image class='invite-car-img' src='../../../image/shop-cart2.png'></image>
+        <image class='invite-car-img' src='../../image/shop-cart2.png'></image>
         <text class='invite-car-num'>{{newCartNum}}</text>
         <text class='cart-ke-server-text'>购物车</text>
       </view>
@@ -230,3 +217,5 @@
 <view class='pre_time_tip_bj' wx:if="{{isShowPre}}">
 <text class='pre_time_tip_text'>还没到售卖时间，暂不支持购买</text>
 </view>
+
+<share-panel  shareShade="{{shareShade}}" opt="{{shareOpt}}" poster="{{product}}" product="{{product}}" posterConfig="{{jdConfig}}" jdImg="{{qrcodeUrl}}"></share-panel>

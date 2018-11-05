@@ -2,14 +2,32 @@
 const app = getApp();
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 let physical_id = wx.getStorageSync('phy_id'); //门店id
+const fxUserUrl = "wxapp.php?c=promote&a=show_share_icon";//判断是否是分销员
+const cartUrl = "wxapp.php?c=cart&a=cart_list";
+const storeCouponUrl = "wxapp.php?c=coupon&a=store_coupon";
+const prodDetUrl = `wxapp.php?c=product&a=detail_of_product_v4`;
 const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
+
+const addCartUrl = `wxapp.php?c=cart_v3&a=add`;//加入购物车
 
 Page({
   data: {
+    isFx:0,//是否显示图标，1是 0否
+    fx_uid: 0,//分销员uid 非必须,默认为0.参数可以设置传0
+    shareShade: false,
+    shareOpt:{
+      title:'立即分享给好友',
+      tip:'朋友通过你分享的页面成功购买后，你可获得对应的佣金',
+      shareImg:'../image/distribution/qugo_03.png',
+      shareTxt:'微信好友',
+      posterImg:'../image/distribution/qugo_08.png',
+      posterTxt:'小程序'
+    },
     error:null,
     loading: false,
     newCartNum: 0,//读取后台购物车数量多少件
     moreChoose: false,
+
     goPayment: false,//立即下单，增加立即下单
     goAddCard: false,
     shopCoupon: [], //线上优惠券
@@ -35,18 +53,191 @@ Page({
     uid: '',
     preTimeText: { hour: 0, minute: 0, second: 0 },
     preTime: 234,
-    isShowPre: false//显示预售商品提示
+    isShowPre: false,//显示预售商品提示
+    qrcodeUrl:null,//小程序二维码
+    jdConfig: {
+      width: 750,
+      height: 1334,
+      backgroundColor: '#fff',
+      debug: false,
+      blocks: [
+        {
+          width: 690,
+          height: 690,
+          x: 30,
+          y: 80,
+        }
+        
+      ],
+      texts: [
+        {
+          x: 30,
+          y: 830,
+          baseLine: 'top',
+          text: '南极人男加水电费阿斯顿发啦',
+          fontSize: 34,
+          color: '#333333',
+          lineHeight:50,
+          lineNum:2,
+          width:690,
+        },
+        {
+          x: 30,
+          y: 1126,
+          baseLine: 'bottom',
+          text: [
+            {
+              text: '￥',
+              fontSize: 36,
+              color: '#ff3030',
+            },
+            {
+              text: '99.00',
+              fontSize: 56,
+              color: '#ff3030',
+            }
+          ]
+        },
+        {
+          x: 540,
+          y: 1230,
+          baseLine: 'top',
+          text: '扫码或长按小程序',
+          fontSize: 20,
+          color: '#999999',
+        }
+      ],
+      images: [
+        {
+          width: 690,
+          height: 690,
+          x: 30,
+          y: 80,
+          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b84c6c37f028.png',
+        },
+        {
+          width: 160,
+          height: 160,
+          x: 548,
+          y: 1046,
+          url: 'https://zy.qutego.com//upload/wxapp/qrcode/93853_1786_1539242806.png',
+        }
+      ]
+
+    },
   },
   onShareAppMessage(res) {
     let that = this;
-    let dataset = res.target.dataset;
-
+    let product = this.data.product;
+    console.log(this.data.product);
     return {
-      title: dataset.title,
-      path: `/page/common/pages/goods-detail?prodId=${that.data.product_id}&action=${that.data.action}`,
-      imageUrl: dataset.imgurl
+      title: product.name,
+      path: `/page/common/pages/goods-detail?prodId=${that.data.product_id}&action=${that.data.action}&pid=${that.data.uid}`,
+      imageUrl: (product.shareUrl ? product.shareUrl : product.product_image_list[0].image) 
     }
   },
+  onLoad: function (options) {
+    wx.hideShareMenu();
+    let that = this;
+    let store_id = app.store_id;
+    let uid = wx.getStorageSync('userUid');
+    let phone = wx.getStorageSync('phone');
+    physical_id = wx.getStorageSync('phy_id');
+
+    if (uid == undefined || uid == '') {
+      wx.switchTab({
+        url: '../../tabBar/home/index-new',
+      })
+    }
+    that.setData({
+      uid, store_id
+    },()=>{
+      let prodId = null,action=null,pid=null;
+      if(!options.scene){
+        // 页面初始化 options为页面跳转所带来的参数
+        prodId =options.prodId, action=options.action, pid=options.pid; 
+      }else{
+        let querystr = {};
+        let strs = decodeURIComponent(options.scene).split('&');
+        console.log('strs....', strs);
+        //取得全部并赋值
+        for(let i = 0;i<strs.length;i++){
+          querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+        }
+         pid = querystr['fx_uid'], prodId = querystr['product_id'];
+      }
+      console.log('pid...', pid);
+      if (action) { that.setData({ action }) }
+      if (pid) { 
+        that.setData({ fx_uid:pid},()=>{
+          //确认客户关系
+        var obj = {
+          "uid": uid,
+          "store_id": store_id,
+          "fx_uid": pid
+        };
+          app.api.postApi(app.config.becustomerUrl, { params:obj }, (err, res) => {
+          if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
+            })
+          })
+      }
+      that.setData({ product_id:prodId },()=>{
+        that._pase();
+        app.creatImg(prodId, that).then(data => {
+          let jdConfig = that.data.jdConfig;
+          jdConfig.images[1].url = data;
+          that.setData({ qrcodeUrl: data, jdConfig})
+        })
+      });
+    }) 
+  },
+  _pase() {
+    let that = this;
+    //判断是否是分销商品
+    let opt = { uid: that.data.uid, store_id: that.data.store_id, product_id: that.data.product_id }
+    that.isFx(opt);
+    //购物车的数量
+    app.api.postApi(cartUrl, { "params": { "uid": this.data.uid, "store_id": this.data.store_id } }, (err, resp) => {
+      if (err || resp.err_code != 0) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        that.setData({
+          newCartNum: resp.err_msg.cart_list_number
+        });
+      }
+    });
+
+    //线上优惠券信息
+    app.api.postApi(storeCouponUrl, { "params": { "uid": this.data.uid, "store_id": this.data.store_id, "product_id": this.data.product_id } }, (err, resp) => {
+      if (err || resp.err_code != 0) {
+        return;
+      }
+      if (resp.err_code == 0) {
+        var coupon_value = [];
+        var len = resp.err_msg.coupon_count > 2 ? 2 : resp.err_msg.coupon_count;
+        for (var i = 0; i < len; i++) {
+          coupon_value.push(resp.err_msg.coupon_value[i]);
+        }
+        that.setData({
+          shopCoupon: resp.err_msg,
+          coupon_list: resp.err_msg.coupon_list,
+          coupon_value: coupon_value
+        });
+      }
+    });
+  },
+  isFx(params){
+    app.api.postApi(fxUserUrl,{params},(err,res)=>{
+      if(res.err_code==0){
+        this.setData({ isFx: res.err_msg.show_icon})
+      }
+    })
+  },
+  onShowShare(){
+    this.setData({ shareShade:true})
+  },
+ 
   goStoreServer() {
     wx.navigateTo({
       url: '../../my/pages/server-wechat'
@@ -63,36 +254,12 @@ Page({
     });
   },
 
-
-  onLoad: function (options) {
-    wx.hideShareMenu();
-    let that = this;
-    let store_id = app.store_id;
-    let uid = wx.getStorageSync('userUid');
-    physical_id = wx.getStorageSync('phy_id')||0;
-
-
-    if (uid == undefined || uid == '') {
-      wx.switchTab({
-        url: '../../tabBar/home/index-new',
-      })
-      return;
-    }
-    let { prodId = 2159, action } = options;
-    if (action) { that.setData({ action }) }
-    that.setData({
-      uid, store_id, 'product_id': prodId 
-    },()=>{
-      that.loadCartNum();
-      that.loadCoupon();
-    })
-  },
   onReady: function () {
-    
+    this.loadData();
   },
   //多规格 onShow
   onShow: function () {
-    this.loadData();
+   
   },
   onHide: function () {
     // 页面隐藏
@@ -183,6 +350,7 @@ Page({
     let { sku_list,sku_id}=that.data;
     if (sku_list.length > 0) {
       if (!sku_id) {
+
         wx.showLoading({
           title: '请选择属性'
         });
@@ -191,6 +359,7 @@ Page({
         }, 2000)
       } else {
         // 选择属性之后发送请求添加到购物车
+
         that.goTheCar();
       }
     } else {
@@ -208,9 +377,11 @@ Page({
       is_add_cart,
       quantity: shopNum,
       sku_id,
-      store_id
+      store_id,
+      fx_uid: that.data.fx_uid
+
     }
-    app.api.postApi('wxapp.php?c=cart&a=add', { params }, (err, resp) => {
+    app.api.postApi(addCartUrl, { params }, (err, resp) => {
       if (err) {
         return;
       }
@@ -280,8 +451,6 @@ Page({
       }
     });
   },
-
-
   doBuy: function (e) {
     //保存formid
     app.pushId(e).then(ids => {
@@ -296,7 +465,6 @@ Page({
 
     let {product_id, uid, store_id}=that.data;
     let params = {
-
       product_id,
       uid,
       store_id
@@ -416,7 +584,6 @@ Page({
 
     let that = this;
     var {  sku_list, sku_id, uid, store_id, product_id, shopNum} = that.data;
-
     var opts = {
       uid,
       product_id,
@@ -478,7 +645,6 @@ Page({
     app.api.postApi('wxapp.php?c=cart&a=info', { params }, (err, resp) => {
       wx.hideLoading();
       //product商品数据集合,property_list多属性数据集合,sku_list多属性价格库存数据集合
-
       let { product, property_list = [], sku_list = [] } = resp.err_msg;
       infoProduct.name = product.name; infoProduct.image = product.image;
       if (product.min_price < product.max_price){
@@ -644,6 +810,8 @@ Page({
         isShowPre: false
       });
     }, 2000);
-  }
-
+  },
+  cacelShade() {
+    this.setData({ shareShade: false })
+  },
 })

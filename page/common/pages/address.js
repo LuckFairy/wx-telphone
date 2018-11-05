@@ -421,8 +421,7 @@ Page({
     return true;
   },
   _showError(errorMsg) {
-    // wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
-    // this.setData({ error: errorMsg });
+ 
     wx.showModal({
       title: '提示',
       showCancel:false,

@@ -1,0 +1,58 @@
+<!--page/components/share-page.wxml-->
+<view class="overlay" wx:if="{{shareShade}}" slot="overlay">
+  <view class='overlay-shade' catchtap='onTap'></view>
+  <view class="invite-content">
+    <text>{{opt.title}}</text>
+    <text wx:if="{{opt.tip}}" class='gray m-t12'>{{opt.tip}}</text>
+    <view class='item-box'>
+      <view class='item'>
+        <button class='share-btn' open-type='share' data-title="{{product.name}}" data-price="{{product.price}}" data-imgurl="{{product.imgurl}}"></button>
+        <image src='{{opt.shareImg}}'></image>
+        <text>{{opt.shareTxt}}</text>
+      </view>
+      <view class='item' bindtap='onshowposter'>
+        <image src='{{opt.posterImg}}'></image>
+        <text>{{opt.posterTxt}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="overlay poster" style='z-index:33333;' wx:if="{{posterShade&&jdImg}}" slot="overlay">
+  <image class='overlay-close' src='../image/distribution/qugo_18.png' catchtap='onClose'></image>
+  <view class="poster-content">
+    <image src='{{poster.image}}' class='titleImg' mode='aspectFill'></image>
+    <text class='titleTxt'>{{poster.name}}</text>
+    <view class='qrBox'>
+      <view>
+        <text class='red s-11' style='margin-bottom:6rpx;'>￥</text>
+        <text class='red' >{{poster.price}}</text>
+      </view>
+      <view>
+        <image class="qr-image" src='{{jdImg}}'></image>
+        <text class='s-10 gray m-t8'>扫描或长按小程序码</text>
+      </view>
+    </view>
+  </view>
+  <poster id="poster" hide-loading="{{true}}" preload="{{true}}" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
+    <button class='savephoto'>保存图片</button>
+  </poster>
+</view>
+
+<view class="overlay poster" style='z-index:33333;' wx:if="{{posterShade&&qrImg}}" slot="overlay">
+  <image class='overlay-close' src='../image/distribution/qugo_18.png' catchtap='onClose'></image>
+  <view class="money-content">
+    <view class='money-userInfo'>
+      <view class='myself-photo'>
+        <open-data type="userAvatarUrl" class="heading"></open-data>
+      </view>
+    <open-data type="userNickName" class='myself-id'></open-data>
+    </view>
+    <view class='money-box'>
+      <image class="money-qrImg" src='{{qrImg}}'></image>
+      <text class='gray s-11'>长按识别小程序码</text>
+    </view>
+  </view>
+  <poster id="poster" hide-loading="{{true}}" preload="{{true}}" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
+    <button class='savephoto'>保存图片</button>
+  </poster>
+</view>

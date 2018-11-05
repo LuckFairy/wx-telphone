@@ -17,7 +17,7 @@
     <block wx:if="{{send_type==2}}">
       <view class="name-phone-view">
         <view class="mText address-order-list">
-          <image class='address-image' src='../../../image/address.png'></image>
+          <image class='address-image' src='../../image/address.png'></image>
           自提门店：{{physical_info.name}}
         </view>
       </view>
@@ -26,7 +26,7 @@
     <block wx:else>
       <view class="name-phone-view">
         <view wx:if="{{newType != 1}}" class="mText address-order-list">
-          <image class='address-image' src='../../../image/address.png'></image>
+          <image class='address-image' src='../../image/address.png'></image>
           收货人：{{orderData.address_user}}
         </view>
         <view wx:if="{{orderData.address_tel}}" class="mText address-order-list">{{userTel}}</view>
@@ -90,9 +90,7 @@
   <!-- 新品試用 -->
   <block wx:if="{{ send_type==2}}">
     <view class='bottom-btn-view mText'>
-
       <text wx:if="{{orderData.status == '2'||orderData.status == '3'}}"  class="yellow-btn" data-physical="{{physical_info}}"   data-order-id="{{orderData.order_no}}" catchtap="goErwei" style='background:#fae53b'>自提二维码</text>
-
       <text wx:if="{{orderData.status == '1'}}" catchtap="pay" data-order-id="{{order_no}}" class="yellow-btn" style='background:#fae53b'>确认支付</text>
     </view>
   </block>

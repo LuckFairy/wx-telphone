@@ -13,7 +13,7 @@
   <!--搜索  -->
   <view class='search-msg'>
     <view class='search-input' bindtap='goInput'>
-      <image class='search-image' src='../../../image/search.png'></image>
+      <image class='search-image' src='../../image/search.png'></image>
       <input class='search-text' placeholder='输入券名称直接搜索'></input>
     </view>
     <view class='search-select'>
@@ -85,7 +85,7 @@
           </view>
         </view>
         <view wx:else class="no-data-view">
-          <image src="../../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+          <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
           <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
           <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
           <text class='footer-text-history' bindtap='goHistory'>查看历史</text>

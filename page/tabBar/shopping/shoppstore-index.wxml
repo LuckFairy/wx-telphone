@@ -217,7 +217,7 @@
 </scroll-view>
 
 <!--返回顶部按钮开始  -->
-<image wx:if="{{goTop_show}}" bindtap="goTopFun" class='yiya-top-image' src='../../../image/go-to-top.png'></image>
+<image wx:if="{{goTop_show}}" bindtap="goTopFun" class='yiya-top-image' src='../../image/go-to-top.png'></image>
 <!--返回顶部按钮结束  -->
 
 <!-- ************* 首页新用户领券的弹出框 **************-->

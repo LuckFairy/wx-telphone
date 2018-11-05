@@ -3,7 +3,7 @@ var app = getApp();
 const trialProductListUrl = 'wxapp.php?c=product_v2&a=trial_product_list';//新品试用商品列表url
 
 let errModalConfig = {   
-  image: '../../../image/use-ruler.png',
+  image: '../../image/use-ruler.png',
   title: "您已经申请过啦，试试申请别的吧"
 };
 let successModalConfig = {

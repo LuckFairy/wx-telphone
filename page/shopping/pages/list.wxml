@@ -12,8 +12,8 @@
         
         
         <view class="goods-list-view">
-            <navigator url="../../home/pages/goods-detail?goodsId=" class="goods-item-view">
-                <image src="../../../image/card.png" mode="widthFix" class="goods-cover-img"></image>
+            <navigator url="../home/pages/goods-detail?goodsId=" class="goods-item-view">
+                <image src="../../image/card.png" mode="widthFix" class="goods-cover-img"></image>
                 <view class="goods-info-view">
                     <view class="goods-info-left-view">
                         <text>移动充电器</text>

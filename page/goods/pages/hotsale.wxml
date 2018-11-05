@@ -23,7 +23,7 @@
         </view> -->
         <!-- <view class="group-shop-father">
             <view class="group-shop">
-                <image class="group-shop-image" src="../../../image/group-shop.jpg"></image>
+                <image class="group-shop-image" src="../../image/group-shop.jpg"></image>
                 <text class="group-shop-title">防火防盗回复的vkldfl</text>
                 <text class="group-shop-num">已团2333件</text>
                 <view class="group-shop-bottom">

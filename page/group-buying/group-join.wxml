@@ -51,7 +51,7 @@
   </block>
   <block wx:else>
     <view class="invite-fri-num">
-      <image class='peo-group-image' src='../../../image/pur-defeat.png'></image>
+      <image class='peo-group-image' src='../image/pur-defeat.png'></image>
       <text class="peo-time total-peo-number">团已满</text>
     </view>
     <view class="invite-friend-cluster" bindtap="doBuy">

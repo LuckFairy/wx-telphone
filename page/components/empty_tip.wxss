@@ -1,0 +1,20 @@
+/* page/components/empty_tip.wxss */
+.content{
+  width: 100%;
+  margin-top: 201rpx;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-img{
+  width: 160rpx;
+	height: 160rpx;
+}
+
+.content-text{
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: #999999;
+  padding-right: 22rpx;
+}

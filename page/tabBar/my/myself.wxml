@@ -3,17 +3,16 @@
 <view class='myself'>
 <!-- <navigator url='../../my/pages/erwei'>为我们</navigator> -->
   <!--top  个人信息-->
-
   <view class='myself-top'>
     <view>
       <view class='myself-photo'>
-         <open-data type="userAvatarUrl" class="heading"></open-data> 
+        <open-data type="userAvatarUrl" class="heading"></open-data> 
       </view>
       <view class='myself-detail'>
         <open-data type="userNickName" class='myself-id'></open-data>
         <view class='myself-address' bindtap='goaddress'>
           <text class='myself-addr-text'>收货地址</text>
-          <image class='myself-addr-image' src='../../../image/go-forward.png'></image>
+          <image class='myself-addr-image' src='../../image/go-forward.png'></image>
         </view>
       </view>
     </view>
@@ -31,30 +30,30 @@
     <text class='myself-order-list'>我的订单</text>
     <view class='myself-order-total' bindtap='goSearch'>
       <text class='myself-order-going'>查看全部</text>
-      <image class='myself-order-image' src='../../../image/group-go.png'></image>
+      <image class='myself-order-image' src='../../image/next-page.png'></image>
     </view>
   </view>
   <!--search total 订单全部 -->
   <!-- 代付款、待成团... -->
   <view class='wait-shopping-list'>
     <view class='wait-order-wrap' bindtap='goToList' data-list='1'>
-      <image class='wait-order-image' src='../../../image/wait-pay.png'></image>
+      <image class='wait-order-image' src='../../image/wait-pay.png'></image>
       <text class='wait-order-text'>待付款</text>
     </view>
     <view class='wait-order-wrap' bindtap='goToList' data-list='2'>
-      <image class='wait-order-image' src='../../../image/icon_tuaning.png'></image>
+      <image class='wait-order-image' src='../../image/tab/icon_tuaning.png'></image>
       <text class='wait-order-text'>待成团</text>
     </view>
     <view class='wait-order-wrap' bindtap='goToList' data-list='3'>
-      <image class='wait-order-image' src='../../../image/wait-goods.png'></image>
+      <image class='wait-order-image' src='../../image/wait-goods.png'></image>
       <text class='wait-order-text'>待收货</text>
     </view>
     <view class='wait-order-wrap' bindtap='goToList' data-list='4'>
-      <image class='wait-order-image' src='../../../image/yet-goods.png'></image>
+      <image class='wait-order-image' src='../../image/yet-goods.png'></image>
       <text class='wait-order-text'>已收货</text>
     </view>
     <view class='wait-order-wrap' bindtap='goToList' data-list='5'>
-      <image class='wait-order-image' src='../../../image/back-money.png'></image>
+      <image class='wait-order-image' src='../../image/tab/back-money.png'></image>
       <text class='wait-order-text'>退换/售后</text>
     </view>
   </view>
@@ -62,57 +61,65 @@
   <!--拼团、卡包、指南、客服 -->
   <view class='my-detail-msg' bindtap='gogroup' hidden='hidden' data-group='0'>
     <view class='my-detail-gro'>
-      <image class='my-gro-img' src='../../../image/my-group.png'></image>
+      <image class='my-gro-img' src='../../image/tab/my-group.png'></image>
       <text class='my-gro-text'>我的拼团</text>
     </view>
     <view class='my-gro-go'>
-      <image class='my-go-img' src='../../../image/group-go.png'></image>
+      <image class='my-go-img' src='../../image/next-page.png'></image>
     </view>
   </view>
   <view class='my-detail-msg' bindtap='mycard'>
     <view class='my-detail-gro'>
-      <image class='my-gro-img' src='../../../image/my-card.png'></image>
+      <image class='my-gro-img' src='../../image/tab/my-card.png'></image>
       <text class='my-gro-text'>我的卡包</text>
     </view>
     <view class='my-gro-go'>
-      <image class='my-go-img' src='../../../image/group-go.png'></image>
+      <image class='my-go-img' src='../../image/next-page.png'></image>
     </view>
   </view>
   <view class='my-detail-msg' bindtap='myGroupGo'>
     <view class='my-detail-gro'>
-      <image class='my-gro-img' src='../../../image/icon_tuan.png'></image>
+      <image class='my-gro-img' src='../../image/tab/icon_tuan.png'></image>
       <text class='my-gro-text'>我的拼团</text>
     </view>
     <view class='my-gro-go'>
-      <image class='my-go-img' src='../../../image/group-go.png'></image>
+      <image class='my-go-img' src='../../image/next-page.png'></image>
     </view>
   </view>
-
+  <view class='my-detail-msg' bindtap='goMoney'>
+    <view class='my-detail-gro'>
+      <image class='my-gro-img' src='../../image/tab/m-1.png'></image>
+      <text class='my-gro-text'>分享赚钱</text>
+    </view>
+    <view class='my-gro-go'>
+      <image class='my-go-img' src='../../image/next-page.png'></image>
+    </view>
+  </view>
   <view class='my-detail-msg my-store-service' bindtap='gostore'>
     <view class='my-detail-gro'>
-      <image class='my-gro-img' src='../../../image/store-fingerpost.png'></image>
+      <image class='my-gro-img' src='../../image/tab/store-fingerpost.png'></image>
       <text class='my-gro-text'>门店指南</text>
     </view>
     <view class='my-gro-go'>
-      <image class='my-go-img' src='../../../image/group-go.png'></image>
+      <image class='my-go-img' src='../../image/next-page.png'></image>
     </view>
   </view>
   <view class='my-detail-msg ' bindtap='goStoreServer'>
     <view class='my-detail-gro'>
-      <image class='my-gro-img' src='../../../image/store-service.png'></image>
+      <image class='my-gro-img' src='../../image/tab/store-service.png'></image>
       <text class='my-gro-text'>商城客服</text>
     </view>
     <view class='my-gro-go'>
-      <image class='my-go-img' src='../../../image/group-go.png'></image>
+      <image class='my-go-img' src='../../image/next-page.png'></image>
     </view>
   </view>
   <view class='my-detail-msg my-store-service' bindtap='goSetting'>
     <view class='my-detail-gro'>
-      <image class='my-gro-img' src='../../../image/setting.png'></image>
+      <image class='my-gro-img' src='../../image/tab/setting.png'></image>
       <text class='my-gro-text'>设置</text>
     </view>
     <view class='my-gro-go'>
-      <image class='my-go-img' src='../../../image/group-go.png'></image>
+      <image class='my-go-img' src='../../image/next-page.png'></image>
     </view>
   </view>
   <navigator class='changePhone' hidden url='../../my/pages/bingPhone' hover-class="none">切换绑定手机</navigator>

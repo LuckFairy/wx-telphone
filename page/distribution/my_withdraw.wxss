@@ -1,0 +1,84 @@
+/* page/distribution/my_withdraw.wxss */
+page{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  
+}
+
+
+.bi-wrapper{
+ 
+  margin-top: 83rpx;
+}
+
+.bi{
+  width: 143rpx;
+	height: 143rpx;
+}
+
+.content{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.content-text{
+   
+  margin-top: 83rpx;
+  font-size: 28rpx;
+  color: #222222;
+}
+
+.content-text{
+   
+  margin-top: 64rpx;
+  font-size: 28rpx;
+  color: #222222;
+}
+
+.content-price{
+   
+  margin-top: 41rpx;
+  font-size: 56rpx;
+  color: #222222;
+}
+
+.content-btn{
+  margin-top: 61rpx;
+  background-color: rgba(68, 187, 0, 1);
+	border-radius: 4rpx 4rpx 4rpx 4rpx;
+  color: #ffffff;
+  font-size: 32rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+}
+
+.content-item{
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  
+  background-color: rgba(255, 255, 255, 1);
+  border-top:1px solid #e5e5e5;
+}
+
+.item-top{
+    margin-top: 41rpx;
+}
+
+.item-text{
+  margin-left: 25rpx;
+  font-size: 28rpx;
+  color: #222222;
+}
+
+.item-icon{
+  margin-right: 25rpx;
+  width: 13rpx;
+	height: 25rpx;
+}

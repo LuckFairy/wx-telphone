@@ -14,10 +14,9 @@
                     <view class="mem-card-nickname-view">
                         <view style="margin-top:10px;">{{data.userInfo.nickName}}</view>
                         <!-- 先屏蔽消息 -->
-                        <!--<navigator url=""><image src="../../../image/dialog.png" mode="widthFix" style="width:50rpx;margin-top:5px;"></image></navigator>-->                        
                         <navigator url="../cart/cart" open-type="reLaunch">
                           <view class="the-cart">
-                            <image class="cart-image" src="../../../image/shop-cart2.png"></image>
+                            <image class="cart-image" src="../../image/shop-cart2.png"></image>
                             <text class="cart-text">{{data.cartcount ? data.cartcount : 0}}</text>
                           </view>
                         </navigator>
@@ -77,7 +76,7 @@
                     <view class="func-list-itm-desc-view">
                         <view class="func-list-itm-title-view"><text>{{funcItem.title}}</text></view>
                         <view class="func-list-itm-sub-title-view"><text>{{funcItem.subTitle}}</text></view>
-                        <view><image src="../../../image/ma_card_rught.png" mode="widthFix" style="width:20rpx;"></image></view>
+                        <view><image src="../../image/go-forward.png" mode="widthFix" style="width:20rpx;"></image></view>
                     </view>
                 </view>
             </navigator>

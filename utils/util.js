@@ -108,3 +108,4 @@ function getLocation() {
   })
 }
 module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile, getAddress,getLocation}
+

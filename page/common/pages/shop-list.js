@@ -32,7 +32,7 @@ Page({
       if (err) {
         return this._showError('网络出错，请稍候重试');;
       }
-
+      if(!resp.err_msg.products){return;}
       let { err_code, err_msg: { products: data = [] } } = resp;
       if (err_code != 0) {
         return this._showError(err_msg);

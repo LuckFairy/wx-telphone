@@ -23,7 +23,7 @@
       </view> -->
         <!-- <view class="blankblock"></view> -->
         <button class="navbarBtn" bindtap="navbarBtnClick">
-          <image src="../../../image/back.png" class="navbarBtn icon {{isPickerShow ? 'active' : ''}}"></image>
+          <image src="../../image/back.png" class="navbarBtn icon {{isPickerShow ? 'active' : ''}}"></image>
         </button>
       </view>
 
@@ -94,7 +94,7 @@
         </block>
         <block wx:if="{{!dataList||dataList.length<1}}">
           <view class="no-data-view">
-            <image src="../../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+            <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
             <text class="mText" class="no-data-text">暂无优惠券</text>
           </view>
 

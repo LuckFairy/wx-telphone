@@ -6,7 +6,7 @@
   <view class="card-smy-wrapper">
      <!--卡券 -->
 
-  <image src="../../../image/card-top.png" mode="widthFix" style="width:100%">
+  <image src="../../image/card-top.png" mode="widthFix" style="width:100%">
   </image>   
   <view class="card-smy-view">
     <!-- title -->
@@ -28,7 +28,7 @@
 
          <!-- 分隔线 -->
     <view class="split-img-view">
-      <image class="split-img" src="../../../image/card-smy-sp-line.png" mode="widthFix" style="width:100%"></image>
+      <image class="split-img" src="../../image/card-smy-sp-line.png" mode="widthFix" style="width:100%"></image>
     </view>
 
    
@@ -50,24 +50,12 @@
 
       <view wx:if="{{source!=2}}" class="card-bottom {{isUsedOrGet ? 'hide': ''}}" data-card-id="" catchtap="showOverlay">立即使用</view>
       <view wx:if="{{source==2}}" data-activityId='{{activityId}}' data-id='{{id}}' class="card-bottom {{(isUsedOrGet || cardInfo.exist) ? 'hide': ''}}" data-card-id="{{cardInfo.cardId}}" data-lottery-id="{{lottery-id}}" catchtap="saveCardNew">保存到卡包</view>
-   <!--     <view style="margin-bottom:146rpx;"></view>  -->
-      <!-- 功能列表区 -->
- 
-     <!--  <view bindtap='goCoupon' data-detail='{{detailData.description}}' data-end='{{detailData.end_time_str}}' data-start='{{detailData.start_time_str}}' class="func-list-view" >
-        <view class="mText">优惠券详情</view>
-        <view>
-          <image src="../../../image/ma_card_rught.png" mode="widthFix" style="width:15rpx;"></image>
-        </view>
-      </view>
-      <view wx:if="{{cardInfo.mchDesc}}" class="func-list-introduction-view">
-        <text class="mText">品牌介绍</text>
-        <text class="grayText xmText" style="background-color: #fcfcfc; margin-top: 25rpx; padding: 10rpx 5rpx; line-height: 120%">{{cardInfo.mchDesc}}</text>
-      </view> -->
+  
       <navigator wx:if="{{qrEntry}}" url="../index-new/index-new" open-type="switchTab" style="width:100%;">
         <view class="func-list-view">
           <view class="func-desc-view">去首页</view>
           <view>
-            <image src="../../../image/ma_card_rught.png" mode="widthFix" style="width:15rpx;"></image>
+            <image src="../../image/ma_card_rught.png" mode="widthFix" style="width:15rpx;"></image>
           </view>
         </view>
       </navigator>
@@ -81,10 +69,10 @@
   <view class="qr-view">
     <view class='qr-title'>
       <view class='qr-title-left'>
-          <image  src="../../../image/saoma.png"></image>
+          <image  src="../../image/saoma.png"></image>
           <text>卡券核销</text>
       </view>
-        <image src='../../../image/close.png'></image>
+        <image src='../../image/close.png'></image>
     </view>
     <text class='code-txt'>{{detailData.cname}}</text>
      <text wx:if="{{!codeFlag}}" class='code-txt'>{{detailData.card_no}}</text>

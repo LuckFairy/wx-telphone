@@ -88,6 +88,7 @@ Page({
         url: '../../common/pages/index-boabao?listId=' + index + '&catId=' + catId
       })
     },
+
   getProductData(categoryid) {
     var params = { "store_id": this.data.store_id, "page": "1", "categoryid": categoryid };
     let url = 'wxapp.php?c=product&a=get_product_list_3';
@@ -284,7 +285,7 @@ Page({
  * 显示错误信息
  */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
+    wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
     return false;
   },
