@@ -102,18 +102,17 @@ App({
         }
         return that.loginNew(params);
       }).then(data => {
-        console.log('uid', app.config.uid ||data.uid);
-        that.globalData.uid = app.config.uid ||data.uid;
-        wx.setStorageSync('userUid', app.config.uid ||data.uid); //存储uid
+        console.log('106:uid', data.uid);
         //绑定门店
         if (__opts.locationid) {
           var opts = {
             store_id: __config.sid,
             item_store_id: __opts.locationid,
-            uid: app.config.uid || data.uid
+            uid:  data.uid
           }
           that.bingUserScreen(opts);
         }
+        return data.uid;
       })
   },
   /**
