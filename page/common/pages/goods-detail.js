@@ -8,7 +8,7 @@ const storeCouponUrl = "wxapp.php?c=coupon&a=store_coupon";
 const prodDetUrl = `wxapp.php?c=product&a=detail_of_product_v4`;
 const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
 
-const addCartUrl = `wxapp.php?c=cart_v3&a=add`;//加入购物车
+const addCartUrl = `wxapp.php?c=cart&a=add`;//加入购物车
 
 Page({
   data: {
