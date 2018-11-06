@@ -51,12 +51,12 @@
   <block wx:if="{{dataList.length>0}}">
     <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
-      <view class='list-text'>
+       <view class='list-text'>
         <text class='list-name'>{{item.name}}</text>
-        <text class='black'>￥79.00</text>
+        <text class='black'>￥{{item.price}}</text>
         <view class='list-text2'>
-          <text wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 12%</text>
-          <text wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：15.36</text>
+          <text  wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 {{item.rate1}}%</text>
+          <text  wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：{{item.profit}}</text>
         </view>
       </view>
     </view>
@@ -75,10 +75,10 @@
       <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
       <view class='list-text'>
         <text class='list-name'>{{item.name}}</text>
-        <text class='black'>￥79.00</text>
+        <text class='black'>￥{{item.price}}</text>
         <view class='list-text2'>
-          <text  wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 12%</text>
-          <text  wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：15.36</text>
+          <text  wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 {{item.rate1}}%</text>
+          <text  wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：{{item.profit}}</text>
         </view>
       </view>
     </view>
@@ -95,12 +95,12 @@
   <block wx:if="{{dataList.length>0}}">
     <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
       <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
-      <view class='list-text'>
+     <view class='list-text'>
         <text class='list-name'>{{item.name}}</text>
-        <text class='black'>￥79.00</text>
+        <text class='black'>￥{{item.price}}</text>
         <view class='list-text2'>
-          <text  wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 12%</text>
-          <text   wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：15.36</text>
+          <text  wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 {{item.rate1}}%</text>
+          <text  wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：{{item.profit}}</text>
         </view>
       </view>
     </view>
