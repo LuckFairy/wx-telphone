@@ -27,7 +27,7 @@
 <view class='list-box' wx:if="{{currentTab==0}}">
   <block wx:if="{{dataList.length>0}}">
     <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
-      <image class='list-img' src='{{item.image}}'></image>
+      <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
       <view class='list-text'>
         <text class='list-name'>{{item.name}}</text>
         <text class='black'>￥{{item.price}}</text>
@@ -50,7 +50,7 @@
 <view class='list-box' wx:if="{{currentTab==1}}">
   <block wx:if="{{dataList.length>0}}">
     <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
-      <image class='list-img' src='{{item.image}}'></image>
+      <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
       <view class='list-text'>
         <text class='list-name'>{{item.name}}</text>
         <text class='black'>￥79.00</text>
@@ -72,7 +72,7 @@
 <view class='list-box' wx:if="{{currentTab==2}}">
   <block wx:if="{{dataList.length>0}}">
     <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
-      <image class='list-img' src='{{item.image}}'></image>
+      <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
       <view class='list-text'>
         <text class='list-name'>{{item.name}}</text>
         <text class='black'>￥79.00</text>
@@ -94,7 +94,7 @@
 <view class='list-box' wx:if="{{currentTab==3}}">
   <block wx:if="{{dataList.length>0}}">
     <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
-      <image class='list-img' src='{{item.image}}'></image>
+      <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
       <view class='list-text'>
         <text class='list-name'>{{item.name}}</text>
         <text class='black'>￥79.00</text>
