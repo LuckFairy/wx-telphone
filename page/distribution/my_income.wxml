@@ -17,7 +17,7 @@
 
     <view class='content-bottom'>待结算 {{detail.stay_extension_money}}</view>
   </view>
-    <view class='content-container' bindtap='onItemclick'>
+    <view class='content-container' >
     <view class='content-top'>
       <view class='content-top-left'>
         <view class='content-top-text1'>
@@ -26,11 +26,11 @@
         <view class='content-top-text2'>{{detail.invite_money}}</view>
       </view>
 
-      <view class='content-top-right'>
+      <!-- <view class='content-top-right'>
         <view class='content-top-right-text'></view>
 
         <image class='more-image' src='../../page/image/next-page.png'></image>
-      </view>
+      </view> -->
     </view>
 
     <view class='content-bottom'>待结算 {{detail.stay_invite_money}}</view>
