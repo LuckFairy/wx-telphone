@@ -16,10 +16,11 @@
     <view class='b-t h-80'>
       <text class='black  f-l'>佣金：</text>
       <text class='gray  f-l'>(订单总价：￥{{order.total}})</text>
-      <text class='f-r'>{{order.clearing_from}}</text>
+      <text class='f-r gray'>{{order.clearing_from}}</text>
     </view>
-    <view class='b-t h-80'>
+    <view class='b-t  between'>
       <text class='gray'>{{order.add_date}}</text>
+      <text>{{order.done_txt}}</text>
     </view>
   </view>
   </block>

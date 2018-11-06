@@ -41,13 +41,13 @@
     "page/common/pages/store-detail",
     "page/common/pages/store-list",
    
-    "page/group-buying/my-order",
     "page/group-buying/index-seckill",
+    "page/group-buying/my-order",
+    "page/group-buying/group-buying",
     "page/group-buying/grouplist",
     "page/group-buying/detail",
     "page/group-buying/group-join",
     "page/group-buying/tuan-detail",
-    "page/group-buying/group-buying",
     "pages/qrcode/qr-entry"
  ],
   "window": {

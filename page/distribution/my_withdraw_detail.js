@@ -142,8 +142,15 @@ Page({
         icon: 'success',
         duration: 2000
       })
-    }else{
+    } else if (money >=50000){
 
+      wx.showToast({
+        title: '提现金额不得超过50000',
+        icon: 'success',
+        duration: 2000
+      })
+
+    }else{
 
       let params = { store_id, "uid": uid, "extract_money": money, "available_money": blance, "account_id": accout.id, "bank_id": accout.bank_id };
 
