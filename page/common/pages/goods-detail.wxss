@@ -1223,6 +1223,7 @@ button[type=warn] {
 }
 
 .invite-total {
+  width: 226rpx;
   font-size: 0rpx;
   height: 88rpx;
 }
@@ -1306,7 +1307,7 @@ button[type=warn] {
 .current-buying-child {
   display: block;
   height: 88rpx;
-  width: 225rpx;
+  width: 100%;
   font-size: 28rpx;
   color: #1b1b1b;
   background: #ffe71c;

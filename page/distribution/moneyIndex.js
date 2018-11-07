@@ -54,7 +54,7 @@ Page({
           height: 1334,
           x: 0,
           y: 0,
-          url: 'https://zy.qutego.com/upload/wxapp/images/fx_qrcode_bg.png',
+          url: `${app.config.host}upload/wxapp/images/fx_qrcode_bg.png`,
           zIndex:1
         },
         {
@@ -62,7 +62,7 @@ Page({
           height: 160,
           x: 296,
           y: 180,
-          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
+          url: `${app.config.host}upload/images/000/000/293/201808/5b861e3aeb9fd.png`,
           borderRadius:160,
           // borderWidth:6,
           // borderColor:'#fff',
@@ -73,7 +73,7 @@ Page({
           height: 280,
           x: 236,
           y: 740,
-          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
+          url: `${app.config.host}upload/images/000/000/293/201808/5b861e3aeb9fd.png`,
           zIndex: 2
         }
       ]

@@ -14,7 +14,8 @@ Page({
     phone:null,
     hasPhone,//是否有手机login
     isCheck: 1,//是否审核点击，1是 0否
-    sid:app.store_id
+    sid:app.store_id,
+    showDistri:true
   },
   getPhoneNumber(e) {
     let that = this;
@@ -56,7 +57,9 @@ Page({
         url: '../home/index-new',
       })
     }else{
-      that.setData({ hasPhone: true, uid: uid, phone: phone });
+      that.setData({ hasPhone: true, uid: uid, phone: phone },()=>{
+        that.isShowDistri();
+      });
     }
   },
  
@@ -88,14 +91,28 @@ Page({
       url: '../../common/pages/mycard'
     });
   },
-  goMoney() {
+  isShowDistri(){
     let that = this;
     let params = {
+      uid: this.data.uid,
+      store_id: this.data.sid,
+    }
+
+    app.api.postApi(_urlFxEn, { params }, (err, rep) => {
+      if (err || rep.err_code != 0) { console.error(err || rep.err_msg); that.setData({ showDistri: false }); } else {
+        that.setData({ showDistri: true });
+      }
+    })
+    },
+  goMoney() {
+    let that = this,
+     params = {
       uid:  this.data.uid,
       store_id:this.data.sid,
-    }
+    };
    
     app.api.postApi(_urlFxEn, { params }, (err, rep) => {
+      if (err || rep.err_code != 0) { console.error(err || rep.err_msg); return; }
       if (rep.err_code == 0) {
         let status = rep.err_msg.status;
         let isCheck = (status == -1 || status == 2||status==0) ? 1 : 0;//0审核中，1审核通过，2已经拉黑，-1审核拒绝

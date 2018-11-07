@@ -86,7 +86,7 @@
       <image class='my-go-img' src='../../image/next-page.png'></image>
     </view>
   </view>
-  <view class='my-detail-msg' bindtap='goMoney'>
+  <view wx:if="{{showDistri}}" class='my-detail-msg' bindtap='goMoney'>
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../image/tab/m-1.png'></image>
       <text class='my-gro-text'>分享赚钱</text>

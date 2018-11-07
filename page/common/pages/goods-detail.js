@@ -111,14 +111,14 @@ Page({
           height: 690,
           x: 30,
           y: 80,
-          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b84c6c37f028.png',
+          url: `${app.config.host}upload/images/000/000/293/201808/5b84c6c37f028.png`,
         },
         {
           width: 160,
           height: 160,
           x: 548,
           y: 1046,
-          url: 'https://zy.qutego.com//upload/wxapp/qrcode/93853_1786_1539242806.png',
+          url: `${app.config.host}upload/wxapp/qrcode/93853_1786_1539242806.png`,
         }
       ]
 
