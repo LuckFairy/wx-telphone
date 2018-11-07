@@ -343,7 +343,7 @@ const helper = {
         const urlComponent = rawUrl.split(':');
         if (urlComponent.length === 2) {
             if (urlComponent[0] === 'http') {
-                // urlComponent[0] = 'https';
+                urlComponent[0] = 'https';
                 return `${urlComponent[0]}:${urlComponent[1]}`;
             }
         }

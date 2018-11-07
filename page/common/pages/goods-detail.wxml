@@ -191,7 +191,7 @@
         </view>
       </block>
     </view>
-    <view class="stepper">
+    <view class="stepper" wx:if="{{!(action>0)}}">
       <text class='ste-number'>购买数量</text>
       <view class='stepper-father'>
         <!-- 减号 -->
