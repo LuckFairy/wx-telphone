@@ -501,6 +501,7 @@ Page({
     })
       .then(data => {
         wx.setStorageSync('phy_id', data.phy_id);
+        app.globalData.phyid = data.phy_id;
         that.loadHeadicon(data.phy_id); //首页轮播图
         that.loadactivityData(data.phy_id); //活动图数据
         that.setData({ physicalClost: data })
@@ -532,15 +533,8 @@ Page({
         return;
       }
       var list = resp.err_msg.physical_info;
-      // for (var j = 0; j < list.length; j++) {
-      //   if (list[j].select_physical == "1") {
-      //     phyDefualt = list[j];
-      //   }
-      // }
-      // if (phyDefualt.length == 0) {
-      //   phyDefualt = list[0];
-      // }
       wx.setStorageSync('phy_id', list.pigcms_id);
+      app.globalData.phyid = list.pigcms_id;
       that.loadHeadicon(list.pigcms_id); //首页轮播图
       that.loadactivityData(list.pigcms_id); //活动图数据
       that.setData({ physicalClost: list })

@@ -1,5 +1,9 @@
 {
   "pages": [
+    "page/saoma/saoma-index",
+    "page/saoma/saoma-ziti-address",
+    "page/saoma/coupon-list",
+    "page/saoma/search",
     "page/tabBar/home/index-new",
     "page/distribution/moneyIndex",
     "page/distribution/my_customer",
@@ -85,6 +89,12 @@
         "text": "我的",
         "iconPath": "img/mine-msg.png",
         "selectedIconPath": "img/mine-msg-select.png"
+      },
+      {
+        "pagePath": "page/saoma/saoma-index",
+        "text": "扫码购",
+        "iconPath": "img/saoma.png",
+        "selectedIconPath": "img/saoma-select.png"
       }
     ]
   },

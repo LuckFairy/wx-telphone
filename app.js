@@ -6,7 +6,11 @@ import WxService from './utils/WxService'
 App({
   onLaunch: function () {
     if (!__config.uid) { wx.removeStorageSync("userUid"); }
-    getLocation();
+    getLocation().then(data=>{
+      this.globalData.logLat = data;
+    });
+    this.globalData.uid = wx.getStorageSync('userUid');
+    this.globalData.phyid = wx.getStorageSync('phy_id');
     this.getTelWx();
   },
   api: ajax,
@@ -20,6 +24,7 @@ App({
     phone: null,
     openid: null,
     uid: null, //用户id
+    phyid:null,//门店id
     sid: __config.sid, //商店id
     logLat: null, //当前位置
     formIds: [], //消息推送id
