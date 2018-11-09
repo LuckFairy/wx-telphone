@@ -165,7 +165,7 @@ Page({
         else { showmail=false;}
        } 
       console.log('physical_info', physical_info);
-      if (physical_info) { 
+      if (physical_info && physical_info.length>0) { 
         let default_physical = physical_info.default_physical;
          that.setData({ pickupPhy: default_physical, pickupStoreId: default_physical.phy_id})
       }
