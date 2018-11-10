@@ -26,6 +26,7 @@ let openid = wx.getStorageSync('userOpenid');
 let logLat = wx.getStorageSync('logLat');
 let phone = wx.getStorageSync('phone');
 let locationid = null; //门店屏id
+let pid = null, distri = null,opt=null;//分销页来源，0分销首页，1商品详情页
 Page({
   data: {
     random: parseInt(40 * Math.random()), //随机数
@@ -78,6 +79,7 @@ Page({
     phyDefualt: [], //默认门店信息
     changeFlag: true, //是否切换门店
     indexIcon: [], //首页图标
+    
   },
 
   getPhoneNumber(e) {
@@ -163,9 +165,15 @@ Page({
   onLoad: function (options) {
     let that = this;
     //门店locationid
-    if (options.locationid) {
-      locationid = options.locationid;
-      wx.setStorageSync('locationid', locationid)
+    locationid = wx.getStorageSync('locationid');
+    opt = wx.getStorageSync("index");
+    console.log("opt.....",opt)
+  
+    if(opt.pid){
+      pid=opt.pid;
+    }
+    if (opt.distri){
+      distri = opt.distri;
     }
     wx.showLoading({
       title: '加载中',
@@ -256,17 +264,83 @@ Page({
   _parse() {
     let that = this;
     wx.hideLoading();
-    that.getCoupValue(); //优惠券数据
-    that.jumpCoupon(); /*首页弹窗 */
-    that.loadMyCardNumData(); //我的卡包数量
-    that.getCoupValue(); //优惠券数据
-    console.log('_parse');
-    //是否定位成功
-    getLocation().then(data => {
-      logLat = data;
-      that.loadLocation();
-    }).catch(err => {
-      that.loadMainLocation();
+    console.log('distri.....pid.....',distri, pid)
+    if(distri==0){
+      console.log('moneyIdex.......')
+      wx.redirectTo({
+        url: `../../distribution/moneyIndex?pid=${pid}`,
+      })
+      distri=null,pid=null;
+      wx.removeStorageSync("index");
+      // that.isfx(pid, that.befxuser(pid));
+    } else if (distri == 1){
+      console.log('goods-detail.......')
+      wx.redirectTo({
+        url: `../../common/pages/goods-detail?prodId=${opt.prodId}&action=${opt.action}&pid=${pid}`,
+      })
+      distri=null,pid=null;
+      wx.removeStorageSync("index");
+      // that.becustumer(pid)
+    }else{
+      that.getCoupValue(); //优惠券数据
+      that.jumpCoupon(); /*首页弹窗 */
+      that.loadMyCardNumData(); //我的卡包数量
+      that.getCoupValue(); //优惠券数据
+      console.log('_parse');
+      //是否定位成功
+      getLocation().then(data => {
+        logLat = data;
+        that.loadLocation();
+      }).catch(err => {
+        that.loadMainLocation();
+      })
+
+    }
+  },
+  /**确立分销客户关系 */
+  becustumer(pid){
+    if (pid) {
+        //确认客户关系
+        var obj = {
+          "uid": uid,
+          "store_id": store_id,
+          "fx_uid": pid
+        };
+        app.api.postApi(app.config.becustomerUrl, { params: obj }, (err, res) => {
+          if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
+        })
+    }
+  },
+  /**确定分销上下级 */
+  befxuser(pid){
+    if (!pid) { return; }
+    var params = {
+      "uid": uid,
+      "phone": app.globalData.phone,
+      "store_id": store_id,
+      "pid": pid
+    };
+    app.api.postApi(app.config.submitFxUrl, { params }, (err, res) => {
+      if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
+
+    })
+
+  },
+  isfx(pid, func) {
+    //是否是分销员
+    app.api.postApi(app.config.isFxuserUrl, { params: { store_id, uid} }, (err, res) => {
+      if (err || res.err_code != 0) { console.error(err || res.err_code) }
+      let status = res.err_msg.status;
+      console.log(status);
+      let isCheck = (status == 1) ? true : false;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
+      console.log(isCheck);
+      if (!isCheck) {
+        wx.redirectTo({
+          url: `../../distribution/invite?pid=${pid}`,
+        })
+      } else {
+        typeof func == 'function' && func();
+      }
     })
   },
   /**顶部轮播图  **/

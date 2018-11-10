@@ -142,29 +142,33 @@ Page({
     let phone = wx.getStorageSync('phone');
     physical_id = wx.getStorageSync('phy_id');
 
+    let prodId = null, action = null, pid = null;
+    if (!options.scene) {
+      // 页面初始化 options为页面跳转所带来的参数
+      prodId = options.prodId, action = options.action, pid = options.pid;
+    } else {
+      let querystr = {};
+      let strs = decodeURIComponent(options.scene).split('&');
+      console.log('strs....', strs);
+      //取得全部并赋值
+      for (let i = 0; i < strs.length; i++) {
+        querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+      }
+      pid = querystr['fx_uid'], prodId = querystr['product_id'];
+    }
+    console.log('pid...', pid);
     if (uid == undefined || uid == '') {
+      var opt = {
+        prodId, action, pid, distri:1
+      }
+      wx.setStorageSync("index", opt)
       wx.switchTab({
-        url: '../../tabBar/home/index-new',
+        url: `../../tabBar/home/index-new`,
       })
     }
     that.setData({
       uid, store_id
     },()=>{
-      let prodId = null,action=null,pid=null;
-      if(!options.scene){
-        // 页面初始化 options为页面跳转所带来的参数
-        prodId =options.prodId, action=options.action, pid=options.pid; 
-      }else{
-        let querystr = {};
-        let strs = decodeURIComponent(options.scene).split('&');
-        console.log('strs....', strs);
-        //取得全部并赋值
-        for(let i = 0;i<strs.length;i++){
-          querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
-        }
-         pid = querystr['fx_uid'], prodId = querystr['product_id'];
-      }
-      console.log('pid...', pid);
       if (action) { that.setData({ action }) }
       if (pid) { 
         that.setData({ fx_uid:pid},()=>{
@@ -174,8 +178,9 @@ Page({
           "store_id": store_id,
           "fx_uid": pid
         };
+          console.log('wxapp.php?c=fx_user&a=become_customer参数。。。',obj);
           app.api.postApi(app.config.becustomerUrl, { params:obj }, (err, res) => {
-          if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
+          if (err || res.err_code != 0) { console.error(err || res.err_msg); }else{console.log(res);}
             })
           })
       }
@@ -306,7 +311,7 @@ Page({
   },
   loadData() {
     let that = this;
-    let { product_id, action,uid,store_id } = that.data;
+    let { product_id, action, uid, store_id, jdConfig } = that.data;
     this.timer && clearInterval(this.timer);
     wx.showLoading({ title: '加载中' });
     var params = {
@@ -329,9 +334,12 @@ Page({
             console.log('普通商品');
           }
         }
+        jdConfig.images[0].url = product.image;
+        jdConfig.texts[0].text=product.name;
+        jdConfig.texts[1].text[1].text = product.price;
         console.log(action,product)
         that.setData({
-          product, action, product_id: product.product_id
+          product, action, product_id: product.product_id, jdConfig
         },()=>{
           if (product.sold_time <= 0) {
             that.setData({ preTime: product.sold_time })

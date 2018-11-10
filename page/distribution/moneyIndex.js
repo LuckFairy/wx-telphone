@@ -88,22 +88,21 @@ Page({
     let uid = wx.getStorageSync("userUid");
     let phone = wx.getStorageSync("phone");
     let that = this;
-
+    let pid = null;
+    if (!options.scene) {
+      pid = options.pid;
+    } else {
+      let querystr = {};
+      let strs = decodeURIComponent(options.scene).split('&');
+      console.log('strs....', strs);
+      //取得全部并赋值
+      for (let i = 0; i < strs.length; i++) {
+        querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+      }
+      pid = querystr['fx_uid'];
+    }
     if(uid){
       this.setData({uid},()=>{
-          let pid = null;
-          if (!options.scene) {
-            pid = options.pid;
-          }else{
-            let querystr = {};
-            let strs = decodeURIComponent(options.scene).split('&');
-            console.log('strs....',strs);
-            //取得全部并赋值
-            for (let i = 0; i < strs.length; i++) {
-              querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
-            }
-            pid = querystr['fx_uid'];
-          }
         console.log(options,'pid...',pid);
           that.isfx(pid, () => {
             if(!pid){return;}
@@ -117,12 +116,16 @@ Page({
               if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
 
             })
-           
           })
       })
     }else{
+      var opt = {
+        pid,
+        distri:0
+      }
+      wx.setStorageSync("index", opt);
       wx.switchTab({
-        url: '../tabBar/home/index-new',
+        url: `../tabBar/home/index-new`,
       })
     }
   },

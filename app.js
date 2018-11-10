@@ -207,6 +207,7 @@ App({
         }
         if (rep.err_code == 0) {
           console.log(rep.err_msg.result);
+          wx.removeStorageSync('locationid');
         }
       })
     })
