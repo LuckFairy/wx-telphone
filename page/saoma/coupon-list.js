@@ -2,7 +2,7 @@
 const app = getApp();
 let store_id = app.globalData.sid;
 let uid = app.globalData.uid;
-let that;
+let that, ids=[];
 Page({
 
   /**
@@ -13,6 +13,8 @@ Page({
     uid: uid,
     // shopCoupon: [], //线上优惠券
     coupon_value: [],//线上优惠券面值数组
+    page:1,//当前页数
+    page_total:null//总页数
     // coupon_list: [],//线上优惠券数组
     // showList: false,//是否显示优惠券列表
   },
@@ -30,7 +32,7 @@ Page({
       })
       return;
     }
-    var cart_list = options.cart_list;
+    var cart_list = JSON.parse(options.cart_list);
     var carLength = cart_list.length;
     if (carLength == 0) {
       wx.redirectTo({
@@ -38,54 +40,37 @@ Page({
       })
       return;
     }
-    var ids = new Array(carLength);
+    console.log(cart_list, carLength);
     for (var i = 0; i < carLength; i++) {
       ids[i] = cart_list[i].product_id;
     }
+   
+    that.loadCoupon();
 
+  },
+  loadCoupon(page=1){
+    let { coupon_value, page_total}=that.data;
     var params = {
       uid, uid,
       sid: store_id,
-      ids: ids,
+      ids: ids, page
     }
-
     //线上优惠券信息
     app.api.postApi('wxapp.php?c=coupon&c=coupon_v2&a=inventory', { params }, (err, resp) => {
       if (resp.err_code == 0) {
-
-        // var couponLength = resp.err_msg.item.length;
-        // var len = couponLength > 2 ? 2 : couponLength;
-        // var coupon_value = new Array(len);
-        // for (var i = 0; i < len; i++) {
-        //   coupon_value[i] = resp.err_msg.item[i];
-        // }
+        page_total = resp.err_msg.page.page_total;
+        coupon_value = [...coupon_value, ...resp.err_msg.item];
         that.setData({
-          coupon_value: resp.err_msg.item
+          coupon_value, page_total
         });
       }
-    });   
-
-    // let product_id = "188";
-    //  that = this;
-    // //线上优惠券信息
-    // app.api.postApi('wxapp.php?c=coupon&a=store_coupon', { "params": { "uid":this.data.uid, "store_id": this.data.store_id, product_id } }, (err, resp) => {
-    //   if (err || resp.err_code != 0) {
-    //     return;
-    //   }
-    //   if (resp.err_code == 0) {
-    //     var coupon_value = [];
-    //     var len = resp.err_msg.coupon_count > 2 ? 2 : resp.err_msg.coupon_count;
-    //     for (var i = 0; i < len; i++) {
-    //       coupon_value.push(resp.err_msg.coupon_value[i]);
-    //     }
-    //     that.setData({
-    //       shopCoupon: resp.err_msg,
-    //       coupon_list: resp.err_msg.coupon_list,
-    //       coupon_value: coupon_value
-    //     });
-    //   }
-    // });   
-
+    });  
+  },
+  lower(){
+    let { page, page_total}=that.data;
+    if (page >= page_total){return;}
+    page++;
+    that.loadCoupon(page);
   },
   // 领取优惠券
   getCoupon(e) {

@@ -83,6 +83,8 @@
 </view>
 
 <!--按钮  -->
+<view wx:if="{{action !='saoma'}}">
+
 <!-- 有库存 -->
 <block wx:if="{{product.quantity > 0}}">
   <view class="invite-friend-cluster">
@@ -158,7 +160,11 @@
 
   </view>
 </block>
-
+</view>
+<view wx:else> 
+  <view class="invite-friend-cluster saoma-bottom" bindtap='onBackClick'>
+  去扫码购</view>
+</view>
 
 <!--按钮结束  -->
 <view wx:if='{{moreChoose}}'>
@@ -191,7 +197,7 @@
         </view>
       </block>
     </view>
-    <view class="stepper">
+    <view class="stepper" wx:if="{{!action}}">
       <text class='ste-number'>购买数量</text>
       <view class='stepper-father'>
         <!-- 减号 -->

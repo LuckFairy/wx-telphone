@@ -5,7 +5,8 @@ let errModalConfig = {
 const shoppUrl = 'wxapp.php?c=order_v2&a=add_by_cart';
 const physicalUrl = 'wxapp.php?c=physical&a=qrcode_physical_list';//las门店列表接口
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical';//总店信息
-
+const _saomaProdUrl = 'wxapp.php?c=qrproduct_v2&a=inventory';//扫码购商品列表
+const _couponUrl ='wxapp.php?c=coupon&c=coupon_v2&a=inventory';//优惠券列表
 Page({
   data: {
     uid:null ,
@@ -70,7 +71,7 @@ Page({
       sid: that.data.sid, uid: that.data.uid,
       physical_id
     }
-    app.api.postApi('wxapp.php?c=qrproduct_v2&a=inventory', { params }, (err, resp) => {
+    app.api.postApi(_saomaProdUrl, { params }, (err, resp) => {
       if (resp && resp.err_code == 0) {
         var cart_list = resp.err_msg.cart_list;
         var cartSHow = that.cartSHow;
@@ -111,10 +112,10 @@ Page({
     var params = {
       uid:that.data.uid,
       sid:that.data.sid,
-      ids:ids,
+      ids:ids,page:1
     }
     //线上优惠券信息
-    app.api.postApi('wxapp.php?c=coupon&c=coupon_v2&a=inventory', { params}, (err, resp) => {
+    app.api.postApi(_couponUrl, { params}, (err, resp) => {
       if (resp.err_code == 0) {
         var couponLength = resp.err_msg.item.length;
         var len = couponLength > 2 ? 2 : couponLength;
@@ -276,7 +277,9 @@ Page({
         var order_no = rep.err_msg.order_no;
         //下完订单，取的订单id
         var url = '../common/pages/buy?orderId=' + order_no;
-        wx.navigateTo({ url });
+        wx.redirectTo({
+          url
+        });
       } else {
         var msg = err || rep.err_msg;
         that.showModel({ title: msg })
@@ -326,7 +329,7 @@ Page({
      store_id:that.data.sid,
      code: value,
      quantity: 1,
-     physical_id: 154||that.data.phy_id
+     physical_id: that.data.phy_id
    };
 
    app.api.postApi('wxapp.php?c=qrproduct_v2&a=add', { params }, (err, resp) => {
@@ -377,7 +380,7 @@ Page({
  onItemClick:function(e){
    var prodId = e.currentTarget.id;
    wx.navigateTo({
-     url: '../shopping/goods-detail?prodId=' + prodId +'&action=saoma'
+     url: '../common/pages/goods-detail?prodId=' + prodId +'&action=saoma'
    })
  },
 
@@ -469,7 +472,7 @@ Page({
    * 显示错误信息
    */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../image/group-mes.png.png', mask: true });
+    wx.showToast({ title: errorMsg, image: '../image/group-mes.png.png', mask: true });
     this.setData({ error: errorMsg });
   },
   /**

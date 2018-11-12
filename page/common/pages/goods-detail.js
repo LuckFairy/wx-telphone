@@ -34,7 +34,7 @@ Page({
     showList: false,//是否显示优惠券列表
     product: [],//产品信息
     product_id: '',//产品id
-    action: null,// 'present' 为赠品 ;'havealook'为从订单来查看详细的
+    action: null,// 'present'新品试用，distri分销，saoma扫码购
     shopNum: 1,//购买数量
     is_add_cart: 1,
     infoProduct:{
@@ -164,7 +164,7 @@ Page({
         }
          pid = querystr['fx_uid'], prodId = querystr['product_id'];
       }
-      console.log('pid...', pid);
+      console.log('pid...action............', pid, action);
       if (action) { that.setData({ action }) }
       if (pid) { 
         that.setData({ fx_uid:pid},()=>{
@@ -225,10 +225,16 @@ Page({
       }
     });
   },
+  onBackClick: function () {
+    wx.navigateBack({
+      delta: 1
+    })
+  },
   isFx(params){
     app.api.postApi(fxUserUrl,{params},(err,res)=>{
       if(res.err_code==0){
-        this.setData({ isFx: res.err_msg.show_icon})
+        if (res.err_msg.show_icon==1){this.setData({action:'distri'})}
+        this.setData({ isFx: res.err_msg.show_icon});
       }
     })
   },
@@ -318,20 +324,20 @@ Page({
         var product = resp.err_msg.product;
         if (action == 'present') {
           console.log('新品试用');
-          action = action;
-        } else {
-          if (product.card_set_ids > 0) {
-            console.log('卡包商品');
-            action = product.card_set_ids
-
-          } else {
-            action = null;
-            console.log('普通商品');
-          }
+        } else if (action =='saoma'){
+          console.log('扫码购商品');
         }
+         else if(action=='distri') {
+          console.log('分销')
+        }
+        if (product.card_set_ids > 0) {
+          console.log('卡包商品');
+          action = product.card_set_ids;
+          that.setData({ action})
+        } 
         console.log(action,product)
         that.setData({
-          product, action, product_id: product.product_id
+          product,  product_id: product.product_id
         },()=>{
           if (product.sold_time <= 0) {
             that.setData({ preTime: product.sold_time })

@@ -1,10 +1,10 @@
 {
   "pages": [
+    "page/tabBar/home/index-new",
     "page/saoma/saoma-index",
     "page/saoma/saoma-ziti-address",
     "page/saoma/coupon-list",
     "page/saoma/search",
-    "page/tabBar/home/index-new",
     "page/distribution/moneyIndex",
     "page/distribution/my_customer",
     "page/common/pages/goods-detail",
@@ -44,7 +44,6 @@
     "page/common/pages/shop-promotion",
     "page/common/pages/store-detail",
     "page/common/pages/store-list",
-   
     "page/group-buying/my-order",
     "page/group-buying/index-seckill",
     "page/group-buying/group-buying",
@@ -89,12 +88,6 @@
         "text": "我的",
         "iconPath": "img/mine-msg.png",
         "selectedIconPath": "img/mine-msg-select.png"
-      },
-      {
-        "pagePath": "page/saoma/saoma-index",
-        "text": "扫码购",
-        "iconPath": "img/saoma.png",
-        "selectedIconPath": "img/saoma-select.png"
       }
     ]
   },

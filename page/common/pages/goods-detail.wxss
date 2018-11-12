@@ -1609,3 +1609,9 @@ button[type=warn] {
   width: 90rpx;
   height: 90rpx;
 }
+.saoma-bottom{
+  	display: block;
+    background: rgba(254, 231, 29, 1) !important;
+    text-align:center;
+    line-height: 88rpx;
+}
