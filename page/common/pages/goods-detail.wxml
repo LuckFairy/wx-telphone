@@ -96,7 +96,7 @@
       <image class='invite-ke-server-img' src='../../image/ke-server.png'></image>
       <text class='invite-ke-server-text'>客服</text>
     </view>
-    <block wx:if="{{preTime<=0}}">
+    <block wx:if="{{product.can_buy==1}}">
       <view class='invite-car invite-total' bindtap='goCart' style="{{action&&action!=0?'visibility:hidden':''}}">
         <image class='invite-car-img' src='../../image/shop-cart2.png'></image>
         <text class='invite-car-num'>{{newCartNum}}</text>
@@ -115,7 +115,7 @@
       </form>
     </block>
 
-    <block wx:if="{{preTime>0}}">
+    <block wx:if="{{product.can_buy==0}}">
       <view wx:if="{{action !='present'}}" class='current-buying invite-total pre_width pre_buy_bj' bindtap='showPreBuyTip'>
         <text class='current-buying-child pre_width pre_buy_text'>立即购买</text>
       </view>
@@ -150,7 +150,7 @@
       </view>
     </block>
 
-    <block wx:if="{{preTime>0}}">
+    <block wx:if="{{product.can_buy&&preTime>0}}">
       <view class='current-buying invite-total no-goods pre_width'>
         <text class='current-buying-child pre_width'>已售罄</text>
       </view>
