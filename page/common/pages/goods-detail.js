@@ -321,25 +321,17 @@ Page({
       wx.hideLoading();
       if (err || resp.err_code != 0){console.error(err||resp.err_msg); return;}
         var product = resp.err_msg.product;
-        if (action == 'present') {
-          console.log('新品试用');
-          action = action;
-        } else {
-          if (product.card_set_ids > 0) {
-            console.log('卡包商品');
-            action = product.card_set_ids
-
-          } else {
-            action = null;
-            console.log('普通商品');
-          }
+        if (product.card_set_ids > 0) {
+          console.log('卡包商品');
+          action = product.card_set_ids
+          that.setData({ action})
         }
+        console.log('action......',action,product)
         jdConfig.images[0].url = product.image;
         jdConfig.texts[0].text=product.name;
         jdConfig.texts[1].text[1].text = product.price;
-        console.log(action,product)
         that.setData({
-          product, action, product_id: product.product_id, jdConfig
+          product, product_id: product.product_id, jdConfig
         },()=>{
           if (product.sold_time <= 0) {
             that.setData({ preTime: product.sold_time })

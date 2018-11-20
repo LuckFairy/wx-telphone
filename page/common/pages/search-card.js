@@ -44,7 +44,7 @@ Page({
   },
   getCoupon() {
     wx.navigateTo({
-      url: '../index-new/shop-promotion',
+      url: './index-mom',
     })
   },
   // 点击弹出选择券类型
