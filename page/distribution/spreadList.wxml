@@ -1,0 +1,115 @@
+<!--搜索  -->
+<view class='search-msg'>
+  <view class='search-input'>
+    <image class='search-image' src='../image/search.png'></image>
+    <input class='search-text' confirm-type='go' placeholder='请输入关键字，商品搜索' bindconfirm='searchCard' bindinput='goNull'></input>
+  </view>
+</view>
+<!-- 列表 -->
+<scroll-view scroll-x="true" class='tab-use'>
+  <view>
+    <view class='tab-thing {{currentTab==0 ? "chooseTab" : ""}}' data-current="0" bindtap='getDataList' data-sort='commission'>
+      <text class='tab-some-thing '>佣金</text>
+    </view>
+    <view class='tab-thing {{currentTab==1 ? "chooseTab" : ""}}' data-current="1" bindtap='getDataList' data-sort='hot'>
+      <text class='tab-some-thing'>最热</text>
+    </view>
+    <view class='tab-thing {{currentTab==2 ? "chooseTab" : ""}}' data-current="2" bindtap='getDataList' data-sort='new'>
+      <text class='tab-some-thing'>最新</text>
+    </view>
+    <view class='tab-thing {{currentTab==3 ? "chooseTab" : ""}}' data-current="3" bindtap='getDataList' data-sort='price'>
+      <text class='tab-some-thing'>价格</text>
+    </view>
+  </view>
+</scroll-view>
+<!--用品  -->
+<scroll-view scroll-y="true" style='height:1156rpx;margin-top:178rpx;' lower-threshold="150rpx"  bindscrolltoupper="upper" bindscrolltolower="lower">
+<view class='list-box' wx:if="{{currentTab==0}}">
+  <block wx:if="{{dataList.length>0}}">
+    <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
+      <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
+      <view class='list-text'>
+        <text class='list-name'>{{item.name}}</text>
+        <text class='black'>￥{{item.price}}</text>
+        <view class='list-text2'>
+          <text  wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 {{item.rate1}}%</text>
+          <text  wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：{{item.profit}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class='no-data'>
+      <image src='../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无内容</view>
+    </view>
+  </block>
+</view>
+
+<!--用品  -->
+<view class='list-box' wx:if="{{currentTab==1}}">
+  <block wx:if="{{dataList.length>0}}">
+    <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
+      <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
+      <view class='list-text'>
+        <text class='list-name'>{{item.name}}</text>
+        <text class='black'>￥{{item.price}}</text>
+        <view class='list-text2'>
+          <text wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 {{item.rate1}}%</text>
+          <text wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：{{item.profit}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class='no-data'>
+      <image src='../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无内容</view>
+    </view>
+  </block>
+</view>
+<!--用品  -->
+<view class='list-box' wx:if="{{currentTab==2}}">
+  <block wx:if="{{dataList.length>0}}">
+    <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
+      <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
+       <view class='list-text'>
+        <text class='list-name'>{{item.name}}</text>
+        <text class='black'>￥{{item.price}}</text>
+        <view class='list-text2'>
+          <text wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 {{item.rate1}}%</text>
+          <text wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：{{item.profit}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class='no-data'>
+      <image src='../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无内容</view>
+    </view>
+  </block>
+</view>
+<!--用品  -->
+<view class='list-box' wx:if="{{currentTab==3}}">
+  <block wx:if="{{dataList.length>0}}">
+    <view wx:for="{{dataList}}" wx:key="{{index}}" class='list-item' bindtap='goDetails' data-categoryid='{{item.categoryId}}' data-productid='{{item.product_id}}'>
+      <image class='list-img' mode='aspectFill' src='{{item.image}}'></image>
+       <view class='list-text'>
+        <text class='list-name'>{{item.name}}</text>
+        <text class='black'>￥{{item.price}}</text>
+        <view class='list-text2'>
+          <text wx:if="{{item.fx_money_show[1]==1}}" class='gray'>比例 {{item.rate1}}%</text>
+          <text wx:if="{{item.fx_money_show[0]==1}}" class='red'>收益：{{item.profit}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class='no-data'>
+      <image src='../image/no-data.png'></image>
+      <view class='no-data-txt'>暂无内容</view>
+    </view>
+  </block>
+</view>
+</scroll-view>

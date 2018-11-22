@@ -1,0 +1,23 @@
+<!--page/distribution/my_withdraw.wxml-->
+
+<page>
+
+  <view class='content bi-wrapper'>
+    <image class='bi' src='../image/distribution/icon_bi.png'></image>
+  </view>
+
+  <view class='content content-text'>可提现金额</view>
+  <view class='content content-price'>¥ {{money}}</view>
+
+ <button class='content-btn' bindtap='onWithDrawClick'>提现</button>
+
+ <view class='content-item item-top' bindtap='onDetailClick'>
+  <text class='item-text'>收支明细</text>
+  <image class='item-icon' src='../image/distribution/c-1.png'></image>
+ </view>
+ <view class='content-item' bindtap='onRecordClick'>
+  <text class='item-text'>提现记录</text>
+  <image class='item-icon' src='../image/distribution/c-1.png'></image>
+ </view>
+
+</page>

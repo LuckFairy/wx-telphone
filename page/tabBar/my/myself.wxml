@@ -1,4 +1,5 @@
-
+<import src="../../common/template/modal.wxml" />
+<template wx:if="{{phoneFlag}}" is="getphone-modal"></template>
 
 <view class='myself'>
   <!--top  个人信息-->
@@ -10,7 +11,6 @@
          
       </view>
       <view class='myself-detail'>
-      
          <open-data type="userNickName" class='myself-id'></open-data>
         <view class='myself-address' bindtap='goaddress'>
           <text class='myself-addr-text'>收货地址</text>
@@ -73,6 +73,15 @@
     <view class='my-detail-gro'>
       <image class='my-gro-img' src='../../../image/icon_tuan.png'></image>
       <text class='my-gro-text'>我的拼团</text>
+    </view>
+    <view class='my-gro-go'>
+      <image class='my-go-img' src='../../../image/group-go.png'></image>
+    </view>
+  </view>
+  <view wx:if="{{showDistri}}" class='my-detail-msg' bindtap='goMoney'>
+    <view class='my-detail-gro'>
+      <image class='my-gro-img' src='../../image/tab/m-1.png'></image>
+      <text class='my-gro-text'>分享赚钱</text>
     </view>
     <view class='my-gro-go'>
       <image class='my-go-img' src='../../../image/group-go.png'></image>

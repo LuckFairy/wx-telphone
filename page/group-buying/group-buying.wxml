@@ -12,9 +12,9 @@
     </swiper>
     <!--商品详情区域开始  -->
     <view class="middle-box">
-       <block wx:if="{{preTime>0}}">
+      <block wx:if="{{preTime>0}}">
         <view class='pre_time'>
-          <image class='pre_time_img' src='./resource/icon_pre_buy.png'></image>
+          <image class='pre_time_img' src='../image/icon_pre_buy.png'></image>
           <view class='pre_time_text'>距开始时间仅剩余
             <text class='pre_time_bj'>{{preTimeText.hour}}</text> 时
             <text class='pre_time_bj'>{{preTimeText.minute}}</text> 分
@@ -34,9 +34,10 @@
           <text class="mid-list-three mid-total">{{item}}</text>
           </block> -->
         </view>
-        <view class='mid-list-wraps-image' wx:if='{{sellout==1}}'>
-          <button class='mid-open-list' open-type='share' data-imgurl='{{image_lists[0]}}'  data-price="{{product.price}}" data-title='{{product.name}}' ></button>
-          <text class="mid-list-six-top">分享给好友</text>
+        <view class='share-box' wx:if='{{sellout==1}}'>
+          <button class='share-bt' open-type='share' data-imgurl='{{product.shareUrl?product.shareUrl:image_lists[0]}}' data-price="{{product.price}}" data-title='{{product.name}}'></button>
+          <text class='share-img'></text>
+          <text class=" share-txt">分享</text>
         </view>
       </view>
       <view class='mid-list-wraps'>
@@ -86,7 +87,6 @@
     </view>
     <!--他人正在开团结束  -->
 
-
     <!--拼团规则开始  -->
     <view class="gro-products" wx:if="{{des_html.length>0}}" bindtap='showDetail' data-liststatus='{{listStatus}}'>
       <text class='gro-buy-pro'>拼团规则</text>
@@ -111,16 +111,14 @@
     <!--按钮  -->
     <view class="invite-friend-cluster">
       <view class='invite-index invite-total' bindtap='goIndex'>
-        <!-- <image class='invite-index-image' src='../../../image/index-list.png'></image>  -->
         <icon class='invite-index-image'></icon>
         <text class='invite-index-text'>首页</text>
       </view>
       <view class='invite-ke-server invite-total' bindtap='goServer'>
-        <!-- <image class='invite-ke-server-img' src='../../../image/ke-server.png'></image>  -->
         <icon class='invite-ke-server-img'></icon>
         <text class='invite-ke-server-text'>客服</text>
       </view>
-         <block wx:if="{{preTime<=0&&sellout==1}}">
+      <block wx:if="{{preTime<=0&&sellout==1}}">
         <view class="menu-add-car" bindtap="doBuy" data-ordertype="1">
           <text class="menu-add-text menu-add-price" data-number="{{selfBuy.number}}">￥{{selfBuy.price}}</text>
           <text class="menu-add-text">单独购买</text>
@@ -162,7 +160,6 @@
           <view class='shopping-detail-title'>
             <text class='shopping-detail-text'>{{actProduct.name}}</text>
             <icon bindtap='goImageClose' class='shopping-detail-image'></icon>
-            <!-- <image bindtap='goImageClose' class='shopping-detail-image' src='../../../image/close.png'></image> -->
           </view>
           <text class='shopping-detail-price'>价格 {{price}}</text>
           <text class='shopping-detail-have'>库存 {{quantity}}件</text>
@@ -186,18 +183,17 @@
       <text class='ste-number'>购买数量</text>
       <view class='stepper-father'>
         <!-- 减号 -->
-        <text class="ste-reduce" bindtap="bindMinus" data-actions='{{action}}'>-</text>
+        <text class="ste-reduce" bindtap="bindMinus">-</text>
         <!-- 数值 -->
         <input class='ste-input-num' type="number" disabled="true" bindchange="bindManual" value="{{num}}" />
         <!-- 加号 -->
-        <text class="normal ste-add" bindtap="bindPlus" data-actions='{{action}}'>+</text>
+        <text class="normal ste-add" bindtap="bindPlus">+</text>
       </view>
     </view>
     <!--一般购买  -->
-    <form report-submit='true' bindsubmit="goPayment" >
-      <button form-type='submit'  class='go-confirm'> 确定</button>
+    <form report-submit='true' bindsubmit="goPayment">
+      <button form-type='submit' class='go-confirm'> 确定</button>
     </form>
-    
   </view>
 </view>
 <view class='pre_time_tip_bj' wx:if="{{isShowPre}}">

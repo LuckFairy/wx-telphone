@@ -1,6 +1,20 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    
+    "page/distribution/moneyIndex",
+    "page/distribution/my_customer",
+    "page/distribution/my_withdraw",
+    "page/distribution/my_withdraw_detail",
+    "page/distribution/bank",
+    "page/distribution/spreadList",
+    "page/distribution/invite",
+    "page/distribution/spreadOrder",
+    "page/distribution/my_invite",
+    "page/distribution/setting",
+    "page/distribution/my_record",
+    "page/distribution/my_income",
+
     "page/tabBar/goods/cart",
     "page/common/pages/store-change",
     "page/common/pages/activity-join",

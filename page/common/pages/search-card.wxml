@@ -13,12 +13,12 @@
     </view>
   </view>
   <view class='wait-choose' hidden='{{showHide}}' bindtap='goChooseCard'>
-    <text class='online-card online-offline {{xianshangCard?xianshangCard:""}}' data-select='0'>线上券</text>
-    <text class='offline-card online-offline {{shopCard?shopCard:""}}' data-select='1'>门店券</text>
+    <text class='online-card online-offline {{category==1?"xianshangCard":""}}' data-category='1'>线上券</text>
+    <text class='offline-card online-offline {{category==3?"shopCard":""}}' data-category='3'>门店券</text>
   </view>
   <!-- nav详细内容展示区-->
   <!--one  -->
-  <scroll-view scroll-y="true" style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower='pullUpLoadone' lower-threshold='0' scroll-top="{{scrollTop}}">
+  <scroll-view scroll-y="true"  bindscrolltolower='pullUpLoadone'>
     <view class='overlay' style="display:{{showHide ? 'none' : 'flex'}}"></view>
     <block wx:if="{{normal || normal.length}}" wx:for='{{normal}}' wx:for-item="card">
       <view wx:if='{{(card.is_use==0)&&(card.is_expired==0)}}' data-distinguish='{{0}}' class='card-list-view normal-item'  data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.id}}'>
@@ -137,14 +137,19 @@
             </view>
       </view>
     </block>
-    <view wx:if='{{nullList}}' class="no-data-view">
+    <view wx:if='{{isSearch&&normal.length<1}}' class="no-data-view">
       <image src="../../../image/ma_card_no_1.png" class="no-data-image" />
       <text class="mText" class="no-data-text">哎呀，未搜索到优惠券</text>
       <text class="mText" class="no-data-text">换个字眼试试</text>
       <!-- <button class='no-data-btn' bindtap='getCoupon'>去领券</button> -->
     </view>
-    <text wx:if="{{!loadingone&&!nullList}}" class='dropload-noData'>已无更多</text>
-    <text wx:if="{{loadingone&&!nullList}}" class='dropload-noData'>上拉加载更多...</text>
+    <view wx:if="{{!loadingone&&!isSearch&&normal.length<1}}" class="no-data-view">
+        <image src="../../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+        <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
+        <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
+    </view>
+    <text wx:if="{{!loadingone&&!isSearch&&normal.length>0}}" class='dropload-noData'>已无更多</text>
+    <text wx:if="{{loadingone&&!isSearch&&normal.length>0}}" class='dropload-noData'>上拉加载更多...</text>
   </scroll-view>
 </view>
 <view class="overlay" style="display:{{showOverlay ? 'flex' : 'none'}}">

@@ -1,6 +1,6 @@
 <import src="../../common/template/modal.wxml" />
+<import src="../../common/template/count-down.wxml" />
 <template wx:if="{{phoneFlag}}" is="getphone-modal"></template>
-<import src="../template/count-down.wxml" />
 <!--pages/cart/cart.wxml-->
 <view wx:if="{{false}}" class="full-reduce">
   <text class="full-rec-text">满减</text>

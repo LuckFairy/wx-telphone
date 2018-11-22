@@ -1,0 +1,11 @@
+<!--page/distribution/bank.wxml-->
+<page>
+
+<view wx:for="{{list}}">
+<view class='content' data-id='{{item.bank_id}}' data-value='{{item.name}}' bindtap='onItemClick'>
+  {{item.name}}
+</view>
+</view>
+
+
+</page>

@@ -1,0 +1,133 @@
+/* page/components/list.wxss */
+/*商品列表开始  */
+page{
+  background: #efefef;
+  font-size: 28rpx;
+}
+.black{
+  color: #222 !important;
+  font-size: 30rpx;
+}
+.gray{
+  color: #999 !important;
+  font-size: 24rpx;
+}
+.red{
+  color: #ff3030 !important;
+}
+.search-msg {
+  position: fixed;
+  display: flex;
+  width: 750rpx;
+  height: 88rpx;
+  border-top: 1rpx solid #efefef;
+  background: #fff;
+  top: 0rpx;
+  left: 0rpx;
+  z-index: 10002;
+  background: #efefef;
+}
+
+.search-input {
+  flex: 1;
+  height: 60rpx;
+  position: relative;
+  background: #fff;
+  margin-top: 14rpx;
+  margin: 14rpx 24rpx 0;
+  border-radius: 5rpx;
+}
+
+.search-image {
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  left: 20rpx;
+  top: 15rpx;
+}
+
+.search-text {
+  position: absolute;
+  font-size: 26rpx;
+  color: #1b1b1b;
+  left: 60rpx;
+  display: inline-block;
+  width: 450rpx;
+  height: 60rpx;
+}
+
+.search-select {
+  position: relative;
+  display: block;
+  margin-left: 34rpx;
+  margin-top: 7rpx;
+}
+
+.search-current {
+  font-size: 0rpx;
+}
+
+.search-current-text {
+  font-size: 28rpx;
+  color: #1b1b1b;
+  height: 80rpx;
+  display: inline-block;
+}
+
+.search-current-trangle {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 10rpx solid transparent;
+  border-right: 10rpx solid transparent;
+  border-top: 15rpx solid #000;
+  margin-top: 32rpx;
+  margin-left: 18rpx;
+}
+.tab-use{position: fixed;height: 80rpx;top:88rpx;z-index:9999;background: #fff;margin-bottom: 10rpx;}
+.tab-use>view{height: 80rpx;line-height: 80rpx;justify-content: space-around;}
+.tab-thing{height:80rpx;width:250rpx; line-height:80rpx;color:#999;font-size:30rpx;justify-content: center;} 
+.tab-some-thing{display:block;font-size:30rpx;text-align:center;}
+.chooseTab{border-bottom:4rpx solid #ffe71c;color:#1b1b1b} 
+
+
+.list-box{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  /* background: #ececec; */
+}
+.list-item{
+  display: inline-block;
+  background: #ffffff;
+  margin-bottom: 16rpx;
+  /* height: 500rpx; */
+}
+.list-img{
+  width: 368rpx;
+  height: 368rpx;
+  display: block;
+}
+.list-text{
+  display: block;
+  width: 368rpx;
+  padding: 0rpx 24rpx;
+}
+.list-name{
+  color: #1b1b1b;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp: 1;
+  margin-top: 20rpx;
+  line-height: 1.4;
+}
+
+.list-text2{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 36rpx;
+}
+

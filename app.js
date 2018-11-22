@@ -4,6 +4,7 @@ import { getLocation } from './utils/util'
 let config = require('./config.js');
 App({
   onLaunch: function (opts) {
+    
     getLocation();
     this.getTelWx();
   },
@@ -67,9 +68,9 @@ App({
     })
   },
   /**
-   **推送消息
-   *formId  获取form提交生活的form的id
-   */
+    **推送消息
+    *formId  获取form的ids数组
+    */
   pushId(e) {
     console.info('form提交..... ', e.detail);
     var that = this;
@@ -87,15 +88,14 @@ App({
       let { detail: { formId = '' } } = e;
       let timeStamp = Date.parse(new Date()) / 1000;//时间戳
       if (formId.includes('formId')) {
-        // wx.showToast({
-        //   title: '请用手机调试',
-        //   icon: 'loading',
-        //   duration: 2000
-        // });
+        reject('要使用手机调试才有formId！');
+        return;
       };
-  
-      if (formId == '') { reject('formId不能为空');return;}
-      let ids =[];
+
+      if (formId == '') { reject('formId不能为空'); return; }
+      let re = new RegExp(/\d{13}$/g);
+      if (!re.test(formId)) { reject('formId不符合要求'); return; }
+      let ids = [];
       ids.push({
         timeStamp,
         token: formId,
@@ -105,10 +105,11 @@ App({
     })
   },
   /**
- * 收集formid
- */
+   * 将form的formid保存到数据库
+   */
   saveId: function (formIds) {
-    var that = this; var uid = wx.getStorageSync('userUid');
+    var that = this;
+    var uid = wx.getStorageSync('userUid');
     if (uid == undefined || uid == '') {
       wx.switchTab({
         url: './page/tabBar/home/index-new',
@@ -118,19 +119,36 @@ App({
     } else {
       that.globalData.uid = uid;
     }
-    if (!formIds||formIds.length <=0) {
-      // wx.showToast({ title: '推送消息失败，无formIds', });
+    if (!formIds || formIds.length == 0) {
+      wx.showToast({
+        title: '推送消息失败，无formIds',
+      });
       return;
     };
+    let arr = [];
+    if (formIds.length > 1) {
+      for (var i in formIds) {
+        var item = formIds[i];
+        if (item.timeStamp != undefined && item.token != undefined && item.timeStamp != '' && item.token != '') {
+          arr.push(item);
+          break;
+        }
+      };
+    }
+    let arr2 = arr.length > 0 ? arr : formIds;
     var params = {
       "uid": uid,
       "sid": that.globalData.sid,
-      "tokens": formIds
+      "tokens": arr2
     }
     console.log('submit params', params);
-    that.api.postApi('wxapp.php?c=tempmsg&a=formid_save', { params }, (err, rep) => {
+    that.api.postApi('wxapp.php?c=tempmsg&a=formid_save', {
+      params
+    }, (err, rep) => {
       console.log('submit ', rep);
-      if (err && rep.err_code != 0) { console.error(err || rep.err_msg) };
+      if (err && rep.err_code != 0) {
+        console.error(err || rep.err_msg)
+      };
     });
   },
   /**发送消息 */
@@ -166,5 +184,24 @@ App({
         }
       })
     })
-  }
+  },
+  //生成二维码图片
+  creatImg(id, that) {
+    let params = { "uid": that.data.uid, "store_id": that.data.sid, "type": 2 };
+    console.log(id);
+    //商品id 如果type=1，这个值必须传。type=2，不需要
+    if (id) {
+      params = { "uid": that.data.uid, "store_id": that.data.store_id, "type": 1, "product_id": id };
+    }
+    return new Promise((resolve, reject) => {
+      this.api.postApi(config.posterUrl, { params }, (err, res) => {
+        if (res.err_code == 0) {
+          resolve(res.err_msg.url);
+        } else {
+          console.error(err || res.err_msg);
+          reject(err || res.err_msg);
+        }
+      })
+    })
+  },
 })

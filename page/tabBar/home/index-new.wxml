@@ -48,7 +48,7 @@
     <!--  切换门店区域结束 -->
     <!--正品保障区域  -->
     <view class='card-banner-area'>
-      <view wx:for="{{valueList}}" class='card-banner-item'>
+      <view wx:for="{{valueList}}" wx:key="index" class='card-banner-item'>
         <image src='{{item.src}}'></image>
         <text>{{item.txt}}</text>
       </view>
@@ -57,7 +57,7 @@
     <form bindsubmit='areaClickGo' report-submit='true' wx:if='{{indexIcon.length>0}}'>
       <view class='list-select-area '>
         <view class="list-select-area-bottom">
-          <view wx:for="{{indexIcon}}" class='select-list' >
+          <view wx:for="{{indexIcon}}" wx:key="index" class='select-list' >
             <image class='select-list-image ' src='{{item.image}} '></image>
             <text class='select-list-text '>{{item.title}}</text>
             <button form-type='submit' class='sub-button' data-redi_type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}">按钮</button>
@@ -187,7 +187,7 @@
     <view class='pinduoduo-title' style='margin-top:16rpx;'>
     <image src='./imgs/goactivity.png' class='left-title-image'></image>
     </view>
-    <block wx:if="{{productData.length>0}}" wx:for="{{productData}}" wx:for-index="{{index}}">
+    <block wx:if="{{productData.length>0}}" wx:for="{{productData}}" wx:key="index" wx:for-index="{{index}}">
       <view class='area-content' bindtap='areaClickGo' data-redi_type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
         <view class='area-image-1'>
           <image src='{{item.banner}}' lazyLoad="true" mode='aspectFill'></image>

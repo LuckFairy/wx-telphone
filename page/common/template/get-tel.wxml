@@ -1,0 +1,32 @@
+<!-- 
+	couponCancel:  点击取消按钮
+  couponConfirm: 点击确认按钮
+ -->
+<template name="getphone-modal">
+<view  class="overlay">
+  <view class='overlay-shade'></view>
+  <view class="overlay-content tel-content">
+    <view class="title">
+      <text class="modal-firstText">绑定手机号，获取优质服务</text>
+    </view>
+    <view class="modal-button">
+      <button  open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" data-locationid="{{locationid}}" catchtap='cancelPhone'>极速绑定手机号</button>
+    </view>
+  </view>
+</view>
+</template>
+
+
+<template name="getuserInfo-modal">
+<view  class="overlay">
+  <view class='overlay-shade'></view>
+  <view class="overlay-content tel-content">
+    <view class="title">
+      <text class="modal-firstText">授权微信用户信息，获取更优质服务</text>
+    </view>
+    <view class="modal-button">
+       <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">一键授权</button>
+    </view>
+  </view>
+</view>
+</template>

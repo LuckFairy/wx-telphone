@@ -1,0 +1,48 @@
+/* page/distribution/invite.wxss */
+.gray-bg{background: #999 !important;}
+
+.footer{
+  display: flex;
+  width:750rpx;
+  height: 98rpx; 
+  position: fixed;
+  bottom: 0;
+  line-height: 98rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 32rpx;
+  background: #44bb00;
+  justify-content: center;
+}
+.back-content{
+  width: 622rpx;
+  text-align: center;
+ 
+}
+.back-content image{
+  width: 100rpx;
+  height: 100rpx;
+  margin: 72rpx auto 46rpx;
+}
+.back-content text{
+  display: block;
+  font-size: 30rpx;
+  color:#222;
+}
+.modal-button{
+  margin-top: 72rpx;
+  
+}
+.modal-button button{
+  background: #fff;
+  color:#44bb00;
+  font-size: 28rpx;
+  margin: 36rpx auto;
+  line-height: 1;
+  border: none;
+}
+.modal-button button::after{
+  border: none;
+}
+
+

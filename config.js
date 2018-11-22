@@ -79,7 +79,17 @@ var config = {
   //弹窗提示参团信息
   jumpintuanUrl: `wxapp.php?c=tuan_v2&a=pop_team_list_v2`,
 
+  //生成小程序推广二维码
+  posterUrl: `wxapp.php?c=promote&a=wxapp_qrcode`,
 
+  //申请成为分销员
+  submitFxUrl: `wxapp.php?c=fx_user&a=add_fx_user`,
+
+  //分销用户接口
+  isFxuserUrl: `wxapp.php?c=fx_user&a=fx_entrance`,
+
+  //确立分销客户关系
+  becustomerUrl: `wxapp.php?c=fx_user&a=become_customer`
 
 };
 

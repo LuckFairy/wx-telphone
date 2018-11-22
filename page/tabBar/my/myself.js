@@ -1,7 +1,8 @@
-
-var app = getApp();
-
+import { getPhoneNumber, checkBingPhone } from '../../../utils/util.js';
+let app = getApp();
+const _urlFxEn = "wxapp.php?c=fx_user&a=fx_entrance";//计划内容
 let uid = wx.getStorageSync('userUid');
+let phone = wx.getStorageSync('phone');
 Page({
 
   /**
@@ -12,7 +13,17 @@ Page({
     nickName: '',
     userImg: '',
     uid,
+    sid: app.globalData.sid,
     phone: null,
+    showDistri: true
+  },
+  getPhoneNumber(e) {
+    let that = this;
+    getPhoneNumber(e).then(data => {
+      that.setData({ phoneFlag: false })
+    }).catch(err => {
+      that.setData({ phoneFlag: true })
+    })
   },
   /**手机号脱敏 */
   substring(str) {
@@ -22,7 +33,7 @@ Page({
     }
   },
   showPhone(opt) {
-    var phone = opt;
+    let phone = opt;
     phone = this.substring(phone);
     this.setData({ phone })
   },
@@ -31,6 +42,45 @@ Page({
     wx.navigateTo({
       url: '../../my/pages/setting'
     });
+  },
+  isShowDistri() {
+    let that = this;
+    let params = {
+      uid: this.data.uid,
+      store_id: this.data.sid,
+    }
+
+    app.api.postApi(_urlFxEn, { params }, (err, rep) => {
+      if (err || rep.err_code != 0) { console.error(err || rep.err_msg); that.setData({ showDistri: false }); } else {
+        that.setData({ showDistri: true });
+      }
+    })
+  },
+  goMoney() {
+    let that = this;
+    let params = {
+      uid: this.data.uid,
+      store_id: this.data.sid,
+    }
+
+    app.api.postApi(_urlFxEn, { params }, (err, rep) => {
+      if(err||rep.err_code!=0){console.error(err||rep.err_msg);return;}
+      if (rep.err_code == 0) {
+        let status = rep.err_msg.status;
+        let isCheck = (status == -1 || status == 2 || status == 0) ? 1 : 0;//0审核中，1审核通过，2已经拉黑，-1审核拒绝
+        that.setData({ isCheck }, () => {
+          if (isCheck != 1) {
+            wx.navigateTo({
+              url: '../../distribution/moneyIndex',
+            })
+          } else {
+            wx.navigateTo({
+              url: '../../distribution/invite'
+            });
+          }
+        })
+      }
+    })
   },
   goSearch() {
     wx.navigateTo({
@@ -79,8 +129,24 @@ Page({
    */
   onLoad: function (options) {
     uid = wx.getStorageSync('userUid');
-    let phone = wx.getStorageSync('phone');
-    if(uid){this.setData({uid,phone})}
+    let phone = wx.getStorageSync('phone'),that =this;
+    if(uid){this.setData({uid},()=>{
+      let phone = wx.getStorageSync("phone");
+      if (phone) {
+        that.setData({ phoneFlag: false })
+      } else {
+        let params = {
+          store_id: this.data.sid,
+          uid
+        }
+        checkBingPhone(params).then(data => {
+          console.log(data);
+          that.setData({ phoneFlag: false,phone:data })
+        }).catch(err => {
+          that.setData({ phoneFlag: true })
+        })
+      }
+    })}
     
   },
 
@@ -104,7 +170,9 @@ Page({
     }
     var hasPhone = wx.getStorageSync('hasPhone');
     var phone = wx.getStorageSync('phone');
-    this.setData({ hasPhone, phone });
+    this.setData({ hasPhone, phone },()=>{
+      this.isShowDistri();
+    });
   },
 
   /**

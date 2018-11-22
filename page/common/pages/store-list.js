@@ -93,25 +93,6 @@ Page({
     prevPage.setData({ physicalClost: this.data.physicalClost });
     wx.navigateBack();
 
-    // var params = { "store_id":this.data.store_id, "uid":this.data.uid, "physical_id":phy_id }
-    // var url = 'wxapp.php?c=physical&a=select_physical';
-    // app.api.postApi(url, { params }, (err, resp) => {
-    //   if(err||resp.err_code!=0){this._showError('更改门店失败！');return;}
-    //   if (resp.err_code == 0){
-    //     this._showError(resp.err_msg);
-    //     setTimeout(()=>{
-    //       let pages = getCurrentPages();
-    //       let prevPage = pages[pages.length - 2];
-    //       console.log('选择门店数据', this.data.physicalClost);
-    //       wx.setStorageSync('phy_id', this.data.physicalClost.phy_id);
-    //       wx.setStorageSync('phy_flag', true);
-    //       prevPage.loadHeadicon(this.data.physicalClost.phy_id,true); //首页轮播图
-    //       prevPage.loadactivityData(this.data.physicalClost.phy_id,true); //活动图数据
-    //       prevPage.setData({ physicalClost: this.data.physicalClost});
-    //       wx.navigateBack();
-    //     },1000)
-    //   }
-    // })
   },
   /**
    * 选择门店

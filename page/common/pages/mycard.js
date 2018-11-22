@@ -4,41 +4,25 @@ const categoryUrl = 'wxapp.php?c=coupon&a=get_tag';//tab菜单接口
 
 Page({
   data: {
-    loading: true,
-    loadingone: true,//待使用是否上拉刷新
+    updateone: false,//点击刷新
+    updatetwo: false,
     offlineData: [],//门店数据
-    loadingtwo: true,//已过期是否上拉刷新
     onlineData: [],//线上数据
-  
-    status: true,
-    windowHeight: '',
-    windowWidth: '',
-    msgList: [],
-    usedMsg: [],
-    onlineDataMsg: [],
-    image: '',
-    ex_image: '',
-    use_image: '',
-    scrollTop: 0,
-    scrollHeight: 0,
+    loadingone: true,//待使用是否上拉刷新
+    loadingtwo: true,//已过期是否上拉刷新
     pagesone: 1,
     pagestwo: 1,
-    pagesthree: 1,
-    curActIndex: "",
+    curActIndex: 0,
+    curSwiperIdx: 0,
     store_id: '',
     uid: '',
 
-    tagData:[],//标签数据
-
-    mendiancard: '',
-    onlinecard: '',
+    tagData: [],//标签数据
     showHide: true,
     typeText: '全部',//菜单选项，默认是全部
-    category:3,//线上券1，门店券3
+    category: 3,//线上券1，门店券3
     keynum: 0,//下拉选项下标，默认是全部0
     keyword: [],//下拉选项菜单
-
-    // keyword:['全部','精选','奶粉','纸尿裤','玩具','棉品','辅食','其它'],//下拉选项菜单
   },
   getCoupon() {
     var store_id = app.store_id;
@@ -63,7 +47,7 @@ Page({
   goChooseCard(e) {
     var that = this;
     // 事件代理拿到点击目标
-    var { keynum,keyword, onlineData, offlineData} = that.data;
+    var { keynum, keyword, onlineData, offlineData } = that.data;
     var index = e.target.dataset.select;//选项下标
     if (keynum == index) { return; }
     var typeText = keyword[index];
@@ -74,32 +58,31 @@ Page({
     that.loadData2(that);
   },
   // 选择门店券还是线上券
-  goChooseCate(e){
-    var that =this;
+  goChooseCate(e) {
+    var that = this;
     var { category, onlineData, offlineData, used } = that.data;
     var select = e.target.dataset.select;//category数值
-    if (category==select){return;}
+    if (category == select) { return; }
     that.setData({
-      category: select, onlineData: [], offlineData: [], loadingone: true, loadingtwo: true, loadingthress: true, showHide: true, pagesone: 1, pagestwo: 1, pagesthree: 1
+      category: select, onlineData: [], offlineData: [], loadingone: true, loadingtwo: true, loadingthress: true, showHide: true, pagesone: 1, pagestwo: 1
     });
     that.loadData1(that);
     that.loadData2(that);
   },
-  pullUpLoadone(e) {
+  pullUpLoadone() {
     var that = this;
     var { loadingone, pagesone } = that.data;
     if (!loadingone) {//全部加载完成
       return;
     }
-    wx.showLoading({ title: '加载中',mask:true });
+    wx.showLoading({ title: '加载中', mask: true });
     pagesone++;
     that.setData({ pagesone })
     setTimeout(function () {
       that.loadData1(that);
-
     }, 1000)
   },
-  pullUpLoadtwo(e) {
+  pullUpLoadtwo() {
     var that = this;
     var { loadingtwo, pagestwo } = that.data;
     if (!loadingtwo) {//全部加载完成
@@ -114,29 +97,33 @@ Page({
     })
     setTimeout(function () {
       that.loadData2(that);
-
     }, 1000)
   },
+  update() {
+    let that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      that.loadData1(that);
+      that.loadData2(that);
+    }, 1000)
+  },
+
   onLoad: function (options) {
     var that = this;
-    that.setData({
-      mendiancard:'mendiancard',
-    })
+
     var store_id = app.store_id;//store_id
     var uid = wx.getStorageSync('userUid');
-    that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id: store_id });
-    
-   
-  
+    that.setData({ uid: uid, store_id: store_id });
+
   },
 
   onReady: function () {
-    var that=this;
+    var that = this;
     var store_id = app.store_id;
     var keyword = [];
     keyword.push(this.data.typeText);
-    
-
     // 页面渲染完成
     var params = {
       store_id,
@@ -144,36 +131,29 @@ Page({
     app.api.postApi(categoryUrl, { params }, (err, resp) => {
       wx.hideLoading();
       var activity_err_msg = resp.err_msg;
-      if(activity_err_msg&&activity_err_msg.length>0){
-        var j,len;
-        var tagData=[];
-        var defaultData = { tagId: 0};
+      if (activity_err_msg && activity_err_msg.length > 0) {
+        var j, len;
+        var tagData = [];
+        var defaultData = { tagId: 0 };
         tagData.push(defaultData);
         for (j = 0, len = activity_err_msg.length; j < len; j++) {
           keyword.push(activity_err_msg[j].tagName);
           tagData.push(activity_err_msg[j]);
         }
-        console.log(tagData);
-        console.log(tagData[0].tagId);
+
 
         that.setData({
           keyword,
           tagData
         });
       }
-      
-
-      // that.setData({
-      //   activity_err_msg
-      // });
     });
   },
   onShow: function () {
     // 页面显示
     let that = this;
-    that.loadData1(that);
-    that.loadData2(that);
-
+    that.loadData1(that, 1, 0);
+    that.loadData2(that, 1, 0);
   },
   onHide: function () {
     // 页面隐藏
@@ -204,74 +184,82 @@ Page({
     let qrUrl = event.currentTarget.dataset.qrImageUrl;
     this.setData({ qrImageUrl: qrUrl, showOverlay: true });
   },
-  scroll: function (event) {
-    var that = this;
-    that.setData({
-      scrollTop: event.detail.scrollTop
-    });
-  },
+
   //加载页面数据
-  loadData1: function (that) {
-    var { offlineData = [], pagesone, store_id, uid, keynum, tagData} = that.data;//msgList长度;0/1之间判断切换
+  loadData1: function (that, page, tag) {
+    var { offlineData, pagesone, store_id, uid, keynum, tagData } = that.data;
     var tagId = 0;
-    if(keynum!=0){
-      tagId=tagData[keynum].tagId;
+    if (keynum != 0) {
+      tagId = tagData[keynum].tagId;
     }
-    
+    //type=3门店券
     var params = {
       page: pagesone, store_id, uid: uid, type: 3, tagId
     }
-    app.api.postApi('wxapp.php?c=coupon&a=my_v2', { params }, (err, reps) => {
+    if (page) { params.page = 1 };
+    if (tag) { params.tagId = 0 };
+    console.log("params.....", params)
+    app.api.postApi('wxapp.php?c=coupon&a=my_v2', { params }, (err, reps, code) => {
       wx.hideLoading();
-      if (err && reps.err_code != 0) return;
+      //网络异常
+      if (err || code != 200 || reps.err_code != 0) { that.setData({ updateone: true }); return; }
       var { image, coupon_list = [], next_page } = reps.err_msg;
-      var list = [...coupon_list];
+      var list = [];
+      if (params.page == 1) { list = [...coupon_list] } else {
+        list = [...offlineData, ...coupon_list];
+      }
       //更新数据
       that.setData({
         loadingone: next_page,
-        loading: false,
+        updateone: false,
         offlineData: list,
-        image: image,
+
       });
-      wx.hideLoading();
     });
   },
-  loadData2: function (that) {
+  loadData2: function (that, page, tag) {
     var { onlineData, pagestwo, store_id, uid, loadingtwo, keynum, tagData } = that.data;
     var tagId = 0;
     if (keynum != 0) {
       tagId = tagData[keynum].tagId;
     }
-
+    //type=1线上券
     var params = {
       page: pagestwo, store_id, uid: uid, type: 1, tagId
     }
-    app.api.postApi('wxapp.php?c=coupon&a=my_v2', { params }, (err, reps) => {
+    if (page) { params.page = 1 };
+    if (tag) { params.tagId = 0 };
+    console.log("params.....", params)
+    app.api.postApi('wxapp.php?c=coupon&a=my_v2', { params }, (err, reps, code) => {
       wx.hideLoading();
-      if (err && reps.err_code != 0) return;
+      if (err || code != 200 || reps.err_code != 0) { that.setData({ updatetwo: true }); return; }
       that.setData({
         isLoaded2: true
       });
+
       var { image, coupon_list, next_page, next_page } = reps.err_msg;
-      var list = [...coupon_list];
+      var list = [];
+      if (params.page == 1) { list = [...coupon_list] } else {
+        list = [...onlineData, ...coupon_list];
+      }
+
       //更新数据
       that.setData({
         loadingtwo: next_page,
-        loading: false,
+        updatetwo: false,
         onlineData: list,
-        image: image,
+
       });
-      wx.hideLoading();
     });
   },
-  goHistory(e){
+  goHistory(e) {
     wx.navigateTo({
       url: './mycardHistory'
     })
   },
   goDetail(e) {
     if (_tapLock) return;
-    
+
     // 区分是否从卡包进入
     var distinguish = e.currentTarget.dataset.distinguish;
     var id = e.currentTarget.dataset.id;

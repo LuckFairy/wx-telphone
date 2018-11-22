@@ -69,6 +69,7 @@ Page({
   },
   /**获取用户信息 */
   getuserinfo(e) {
+    console.log('info弹窗。。。')
     app.globalData.userInfo = e.detail.userInfo;
     wx.setStorageSync("userInfo", e.detail.userInfo);
     this.setData({ infoFlag: false });
@@ -99,6 +100,7 @@ Page({
    */
   onLoad: function (options) {
     let that = this;
+    wx.removeStorageSync('phone');
     uid = wx.getStorageSync('userUid');
     wx.showLoading({
       title: '加载中',
@@ -111,7 +113,7 @@ Page({
       that.timer2 = setInterval(() => {
         i++;
         uid = wx.getStorageSync('userUid');
-        if (uid || i > 3) { that.setData({ uid, infoFlag: false });that._parse();clearInterval(that.timer2); }
+        if (uid) { that.setData({ uid, infoFlag: false });that._parse();clearInterval(that.timer2); }
       }, 4000);
     }
     that.loadGroupData();//拼多多数据
@@ -505,7 +507,7 @@ Page({
     wx.showLoading({ title: '加载中' });
     app.api.postApi(pintuanUrl, { "params": { store_id } }, (err, rep) => {
       wx.hideLoading();
-      if (err || rep.err_code != 0) return;
+      if (err || rep.err_code != 0||!rep.err_msg) return;
       var data = rep.err_msg;
       this.setData({ groupData: data });
     });
