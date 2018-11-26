@@ -108,8 +108,9 @@ Page({
     var baokuan_action = this.data.baokuan_action;
     let couponInfo = wx.getStorageSync('couponInfo') || [];
     if (couponInfo.length >= 2 ) {
-      if ( pinType == 0 || orderType != 6 || baokuan_action == 'undefined'){
+      if ( pinType == 0 || orderType != 6 || !baokuan_action){
         var user_coupon_id = [];
+        console.log(couponInfo);
         user_coupon_id.push(couponInfo[0]);
         this.setData({
           user_coupon_id,

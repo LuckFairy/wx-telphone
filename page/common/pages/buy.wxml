@@ -74,7 +74,7 @@
   </view>
 
 <!--优惠券选择  -->
-<view hidden="{{orderType==6||pinType==1|| baokuan_action!='undefined'}}" style='margin-top:16rpx;' class='discount' bindtap='changeCoupon' data-product_id='{{product_id}}' data-pro_price='{{pro_price}}'>
+<view hidden="{{orderType==6||pinType==1|| !baokuan_action}}" style='margin-top:16rpx;' class='discount' bindtap='changeCoupon' data-product_id='{{product_id}}' data-pro_price='{{pro_price}}'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
     <block wx:if="{{couponInfo.length}}">
@@ -103,7 +103,7 @@
     <text class='discount-ticket-price discount-color-red'>-￥{{fee}}</text>
   </view>
 </view>
-<view hidden="{{orderType==6||pinType==1||baokuan_action !='undefined'}}" class='discount discount-list'>
+<view hidden="{{orderType==6||pinType==1||!baokuan_action}}" class='discount discount-list'>
   <text class='discount-text'>优惠券</text>
   <view class='discount-father'>
     <block wx:if="{{couponInfo.length}}">
@@ -116,7 +116,7 @@
 </view>
 
 <view class="invite-friend-cluster">
-  <block wx:if="{{orderType==6||pinType==1||baokuan_action !='undefined'}}">
+  <block wx:if="{{orderType==6||pinType==1||!baokuan_action}}">
     <view class='invite-total actual-payment'>
       <text class='actual-pay-one'>实付款: </text>
       <text class='actual-pay-two'>￥ {{lastPay}}</text>
