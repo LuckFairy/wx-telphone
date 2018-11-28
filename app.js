@@ -1,33 +1,33 @@
-import { sign } from './utils/api_3';
+
+import  ajax  from './utils/api_1';
 import WxService from './utils/WxService'
 import { getLocation } from './utils/util'
 let config = require('./config.js');
+global.regeneratorRuntime = require('./lib/regenerator/runtime-module')
+const { regeneratorRuntime } = global
 App({
   onLaunch: function (opts) {
-    
     getLocation();
     this.getTelWx();
   },
   onShow: function (opts) {
     // console.log('App Show', opts)
   },
-  api: sign.api,
-  store_id: sign.store_id,
-  sign: sign.signin,
+  onHide: function () {
+    console.log('App Hide')
+  },
+  api: ajax,
+  store_id: config.sid,
   WxService: new WxService,
   config:config,
   globalData: {
-    systemInfo: wx.getSystemInfoSync(),//系统信息
-    userInfo: "",//用户信息
-    TOKEN_ID: "",//token_id
-    uid: '',//用户id
+    userInfo: null,//用户信息
+    uid: null,//用户id
     sid: config.sid,//商店id
-    openid: '',//用户openid
-    phone: '',//用户手机
-    logLat: '',//当前位置
-    hasSign: false,//是否登录
+    openid: null,//用户openid
+    phone: null,//用户手机
+    logLat: null,//当前位置
     formIds: [],//消息推送id
-    info_flag: true,//是否一键授权用户信息
   },
   getTelWx: function () {
     let that = this;
@@ -45,13 +45,43 @@ App({
       }
     })
   },
- 
-  login: function (info, callback2, locationid) {
-    let that = this;
-    that.sign(null, 3, info, callback2, locationid);
+  /**获取用户信息 */
+  async getuserinfo(e) {
+    // console.log('info弹窗。。。getUserInfo....', e.detail);
+    try{
+      let that = this;
+      /**获取jscode */
+      let jscode = await that.WxService.login();
+      console.log('jscode...',jscode);
+      let { userInfo, rawData, signature, encryptedData, iv } = e.detail;
+      let params = {
+        jscode:jscode.code,
+        userInfo,
+        store_id: config.sid,
+        userInfoData: rawData,
+        encryptedData,
+        iv
+      }
+      console.log('doSign....params..', params);
+      let data =await that.doSign(params);
+      return data;
+    }catch(err){
+      console.error("+++1+++ error:", err)
+    }
   },
-  onHide: function () {
-    console.log('App Hide')
+  doSign(params){
+    let that = this;
+    return new Promise((resolve,reject)=>{
+      that.api.postApi(that.config.loginUrl, {
+        params
+      }, (err, resp) => {
+        if (err && resp.err_code != 0) {
+          reject (err || resp.err_msg);
+        } else {
+          resolve(resp.err_msg);
+        }
+      })
+    })
   },
   /**
    * 拨打电话

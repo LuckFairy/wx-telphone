@@ -291,15 +291,6 @@ Page({
     });
 
   },
-  _prepare(prodId, skuid, quantity, groupbuyId) {
-    checkTimer = setInterval(() => {
-      if (getApp().hasSignin) {
-        clearInterval(checkTimer);
-        this._prepareOrder(prodId, skuid, quantity, groupbuyId);
-      }
-    }, 100);
-  },
-
   addAddr: function (event) {
     wx.navigateTo({
       url: './address?goodsId='

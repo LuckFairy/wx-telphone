@@ -1,8 +1,5 @@
 import config from '../config.js';
-
-import {
-  Api
-} from './api_1';
+import  ajax from './api_1';
 
 function formatTime(date) {
   var date = new Date(date * 1000); //如果date为10位不需要乘1000
@@ -144,7 +141,7 @@ function getLocation() {
 /**检验是否绑定手机 */
 function checkBingPhone(params) {
   return new Promise((resolve, reject) => {
-    Api.postApi(config.checkBingUrl, {
+    ajax.postApi(config.checkBingUrl, {
       params
     }, (error, rep) => {
       var {
@@ -185,7 +182,7 @@ function login() {
  */
 function getSessionKey(params) {
   return new Promise(resolve => {
-    Api.postApi(config.sessionUrl, {
+    ajax.postApi(config.sessionUrl, {
       params
     }, (error, rep) => {
       if (rep.err_code == 0) {
@@ -200,7 +197,7 @@ function getSessionKey(params) {
 /**获取手机号 */
 function getPhone(params) {
   return new Promise((resolve, reject) => {
-    Api.postApi(config.getPhoneUrl, {
+    ajax.postApi(config.getPhoneUrl, {
       params
     }, (error, rep) => {
       if (rep.err_code == 0) {
@@ -220,7 +217,7 @@ function getPhone(params) {
 /**绑定手机号 */
 function bingPhone(params) {
   return new Promise(resolve => {
-    Api.postApi(config.bingPhoneUrl, {
+    ajax.postApi(config.bingPhoneUrl, {
       params
     }, (error, rep) => {
       var msg = '';

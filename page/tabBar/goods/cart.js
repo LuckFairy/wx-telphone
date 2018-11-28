@@ -11,8 +11,6 @@ Page({
   data: {
     phoneFlag: true,//true手机弹窗，false不弹窗
     hasShop: 0,//购物车数量
-    //2017年12月19日14:55:05
-    //carts: [],//购物车列表
     store_id:app.store_id,
     cart_list: '',//购物车列表
     selectedAllStatus:true,//默认不全选
@@ -281,7 +279,7 @@ Page({
    var hasShop = that.data.hasShop;//有无商品
  
   var store_id = that.data.store_id;
-  var uid = that.data.uid;
+  var uid = that.data.uid || wx.getStorageSync("userUid");
   var params = {
     store_id, uid
   }

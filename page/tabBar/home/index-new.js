@@ -24,17 +24,16 @@ let hasSignin = wx.getStorageSync('hasSignin');
 let logLat = wx.getStorageSync('logLat');
 
 let locationid = null;//门店屏id
+let that = this;
 Page({
   data: {
-    infoFlag: app.globalData.info_flag,
+    infoFlag: true,
     random: parseInt(40 * Math.random()),//随机数
     phoneFlag:false,//true手机弹窗，false不弹窗
     showpopteamModle: false,//true有拼团信息，弹窗
     popteamData: null,//弹窗拼团信息
     popteamNicke: null,//弹窗名字
     popteamUrl: '../../group-buying/group-join',
-
-
     scroll_top: 0,
     goTop_show: false,
     hotData: [], //热点推荐数据
@@ -68,19 +67,20 @@ Page({
     indexIcon: null, //首页图标
   },
   /**获取用户信息 */
-  getuserinfo(e) {
-    console.log('info弹窗。。。')
-    app.globalData.userInfo = e.detail.userInfo;
-    wx.setStorageSync("userInfo", e.detail.userInfo);
-    this.setData({ infoFlag: false });
-    var that = this;
-    locationid = wx.getStorageSync('locationid');
-    console.log('getuserinfo....locationid', locationid);
-    app.login(e.detail, function () {
-      //  wx.setStorageSync('userUid', "94810");//存储uid
-      that.setData({ infoFlag: true });
-      app.globalData.info_flag = true;
-    }, locationid);
+  getuserinfo(e){
+    if (e.detail.errMsg != "getUserInfo:ok") return;
+    app.getuserinfo(e).then(data => {
+      console.log(data);
+      global.uid = data.uid;
+      uid = data.uid;
+      wx.setStorageSync('userUid', data.uid);
+      that.setData({ uid, infoFlag: false }, () => {
+        that._parse();
+      })
+    }).catch(err => {
+      that.setData({ infoFlag: true })
+    })
+
   },
 
   /**
@@ -89,7 +89,7 @@ Page({
   */
   submitOrder: function (e) {
     console.log('formid')
-    let that = this;
+    
     //保存formid
     app.pushId(e).then(ids => {
       app.saveId(ids)
@@ -99,7 +99,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let that = this;
+    that = this;
     wx.removeStorageSync('phone');
     uid = wx.getStorageSync('userUid');
     wx.showLoading({
@@ -109,12 +109,7 @@ Page({
       that.setData({ uid, infoFlag: false });
       that._parse();
     } else {
-      var i = 0;
-      that.timer2 = setInterval(() => {
-        i++;
-        uid = wx.getStorageSync('userUid');
-        if (uid) { that.setData({ uid, infoFlag: false });that._parse();clearInterval(that.timer2); }
-      }, 4000);
+      that.setData({ infoFlag: true})
     }
     that.loadGroupData();//拼多多数据
 
@@ -145,13 +140,20 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.loadMyCardNumData(); //我的卡包数量
+    uid = wx.getStorageSync('userUid');
+    if (uid) {
+      this.setData({ infoFlag: false });
+      this.loadMyCardNumData(); //我的卡包数量
+    } else {
+      this.setData({ infoFlag: true })
+    }
+    console.log('global.uid..', global.uid)
     // this.getCoupValue();//优惠券数据
     
   },
   _parse() {
     console.log('_parse');
-    let that = this;
+   
     wx.hideLoading();
     that.getCoupValue();//优惠券数据
     that.jumpCoupon();/******首页弹窗 */
@@ -212,8 +214,6 @@ Page({
    * 扫码购
    */
   saoma() {
-
-    var that = this;
     wx.scanCode({
       success: (res) => {
         var url = res.result;
@@ -251,7 +251,7 @@ Page({
    * 获取总店信息
    */
   loadMainLocation() {
-    let that = this;
+
     let phyDefualt = [];
     var url = physicalMainUrl;
     var params = {
@@ -287,7 +287,7 @@ Page({
    * 获取当前门店位置
    */
   loadLocation() {
-    let that = this;
+    
     let phyDefualt = [];
     wx.showLoading({
       title: '加载中'
@@ -317,7 +317,7 @@ Page({
   },
   /**顶部轮播图  **/
   loadHeadicon(phy_id, flag) {
-    let that = this;
+   
     var flag = flag || wx.getStorageSync("phy_flag");
     if (flag) {
       var params = {
@@ -401,7 +401,7 @@ Page({
   *
   */
   jumpCoupon() {
-    var that = this;
+    
     var params = {
       uid,
       store_id,
@@ -436,7 +436,7 @@ Page({
   },
 
   cancelCoupon() {
-    var that = this;
+   
     that.setData({ showModel: false })
 
     var params = {
@@ -548,14 +548,6 @@ Page({
       url: '../../common/pages/goods-detail?prodId=' + prodId + '&productPrice=' + productPrice + '&skPrice=' + skPrice + '&activityStatus=' + activityStatus + '&expireTime=' + expireTime + '&quantity=' + quantity + '&pskid=' + pskid
     })
   },
-
-  /**
-   * 若还没登录，启用定时器
-   */
-  _prepare() {
-    var that = this;
-
-  },
   //返回顶部功能
   goTopFun() {
     this.setData({
@@ -601,8 +593,7 @@ Page({
 
 
   loadMyCardNumData: function () {
-    var uid = this.data.uid, params = {}, that = this;
-    if (uid) {
+    var uid = this.data.uid, params = {};
       params = {
         uid,
         store_id,
@@ -612,34 +603,13 @@ Page({
         var card_num = response.err_msg.card_num;
         this.setData({ card_num });
       });
-    } else {
-      clearInterval(that.timer3);
-      var i = 0;
-      that.timer3 = setInterval(() => {
-        uid = wx.getStorageSync('userUid');
-        i++;
-        this.loadMyCardNumData(); //我的卡包数量
-        if (uid || i > 3) {
-          clearInterval(that.timer3);
-          params = {
-            uid: uid,
-            store_id,
-          }
-          app.api.postApi(myCardUrl, { params }, (err, response) => {
-            if (err || response.err_code != 0) return;
-            var card_num = response.err_msg.card_num;
-            this.setData({ card_num });
-          });
-        }
-      }, 4000);
-    }
   },
 
   /**
    * 精选活动跳链
    */
   areaClickGo(e) {
-    let that = this;
+    
     //保存formid
     app.pushId(e).then(ids => {
       app.saveId(ids)
