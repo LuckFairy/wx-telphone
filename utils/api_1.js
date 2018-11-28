@@ -2,7 +2,7 @@ const md5 = require('./md5.js');
 import __config from '../config.js';
 const HOST = __config.host;
 const IS_RELEASE = __config.isRelease;
-const AGENT_ID = __config.AGENT_ID;   
+const AGENT_ID = 2;   
 function signUrl(url, tokenId, secretKey, timestamp) {
   if (!url) url = '';
   // TODO: 有bug，参数里带有=号，会被split掉

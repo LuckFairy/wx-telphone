@@ -7,7 +7,7 @@ let uid = wx.getStorageSync('userUid');
 
 const sendUrl = 'wxapp.php?c=wxapp_login&a=sendsms';//发送验证码
 const checkUrl = 'wxapp.php?c=wxapp_login&a=checksms';//修改手机号
-const loginUrl = "wxapp.php?c=wechatapp_v2&a=phone_login";//根据手机号码和验证码登录小程序（第一版，给腾讯审核人员专用）
+const phoneLoginUrl = "wxapp.php?c=wechatapp_v2&a=phone_login";//根据手机号码和验证码登录小程序（第一版，给腾讯审核人员专用）
 Page({
 
   /**
@@ -120,7 +120,7 @@ Page({
 
         if(code.length>0){
           var params =  {"code": code, "store_id": store_id, "phone": phone } ;
-          app.api.postApi(loginUrl, { params }, (err, rep) => {
+          app.api.postApi(phoneLoginUrl, { params }, (err, rep) => {
             if (rep.err_code != 0 || rep.err_msg.is_phone!=1) { var msg = rep.err_msg; that._showError(msg);}else{
               wx.setStorageSync('openid', rep.err_msg.openid);
               wx.setStorageSync('phone', rep.err_msg.phone);

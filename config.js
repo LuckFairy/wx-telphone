@@ -9,31 +9,24 @@
 var isRelease = true;
 var host = "https://saas.qutego.com/"
 var testhost = "https://zy.qutego.com/"
-var AGENT_ID = 2;
-var sid = 3372,
+var sid = 3377,
   uid = null;//不填写默认null,填写直接改uid
 var sid_test = 293;//婴众趣购590
-var title = '小状元孕婴童连锁'; 
+var title = '岳阳乐小乐'; 
 var title_test = '婴众趣购';
 var phonetest = '4006088520';//测试客服电话
 var phone = '4000001312';//正式客服电话
 var phoneTxt = '400-000-1312';
 var serverTxt = 'yzkf139';
-var appid = 'wx57d5cde97d7e1fd3';
-var config ={
-  pt_txt:'超值拼团'
-}
+var pt_txt = '超值拼团';
 
-export default{
-  uid: uid,
+let config = {
+  isRelease,
 
-  isRelease:isRelease,
+  uid,
 
   // 下面的地址配合云端 Server 工作
   host: isRelease ? host : testhost,
-
-  // 上线时需要根据实际数据修改
-  AGENT_ID,
 
   //客服电话
   serverPhone: isRelease? phone:phonetest,
@@ -46,20 +39,15 @@ export default{
 
   //店铺id
   sid: isRelease ? sid : sid_test,
-
-  //appid
-  appid,
   
   //分享标题
   shareTitle: isRelease ? title : title_test,
 
-  pt_txt:config.pt_txt,
+  //拼团名称
+  pt_txt,
   
   //获取小程序客服微信
   getTelWxUrl:`api.php?c=common&a=getTelnWx`,
-
-  // 登录地址，用于建立会话
-  loginUrl: `wxapp.php?c=wechatapp_v2&a=login_new`,
 
   //判断用户是否绑定了手机第一版
   checkBingOldUrl: `wxapp.php?c=wechatapp_v2&a=check_phone`,
@@ -103,3 +91,4 @@ export default{
 
 
 
+module.exports = config
