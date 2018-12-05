@@ -16,6 +16,9 @@ App({
   onHide: function () {
     console.log('App Hide')
   },
+  onError(msg) {
+    console.error("[APP ERROR]", msg)
+  },
   api: ajax,
   store_id: config.sid,
   WxService: new WxService,

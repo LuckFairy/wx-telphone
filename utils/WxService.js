@@ -132,7 +132,7 @@ class WxService {
             'navigateTo',
             'redirectTo',
             'switchTab',
-            // 'navigateBack', 
+            // 'navigateBack', //关闭当前页面，返回上一页面或多级页面。改函数不带参数？
             'reLaunch',
         ]
 
