@@ -1,6 +1,6 @@
 
 import __config from './config'
-import { ajax } from './utils/api_1'
+import ajax  from './utils/api_1'
 import { getLocation } from './utils/util'
 import WxService from './utils/WxService'
 App({

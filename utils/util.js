@@ -1,5 +1,5 @@
 import __config from '../config.js';
-import { Api } from './api_1';
+import  Api from './api_1';
 function formatTime(date) {
   var date = new Date(date * 1000);//如果date为10位不需要乘1000
   var year = date.getFullYear()
