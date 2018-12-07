@@ -12,7 +12,6 @@ import {
 let app = getApp();
 
 const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon'; //优惠券列表数据
-const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num';//我的卡包接口
 const activityUrl_v1 = "wxapp.php?c=index_activity&a=jx_activity_v2";//精选活动（第二版）
 const activityUrl_v2 = 'wxapp.php?c=index_activity&a=jx_activity_v3'; //精选活动（第三版）
 const headImg_v3 = 'wxapp.php?c=product&a=banner_list_v3'; //轮播图接口（第三版）
@@ -21,7 +20,6 @@ const physicalUrl = 'wxapp.php?c=address&a=getaphysical'; //獲取門店
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical'; //总店信息
 const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index'; //拼团活动列表
 const tabUrl = "wxapp.php?c=wxapp_index&a=get_content"; //tab栏目接口(新)
-const iconUrl = "wxapp.php?c=index&a=get_icon_v3";//栏目地址
 let store_id = app.store_id;
 let uid = wx.getStorageSync('userUid');
 let openid = wx.getStorageSync('userOpenid');
@@ -29,10 +27,8 @@ let logLat = wx.getStorageSync('logLat');
 let phone = wx.getStorageSync('phone');
 let locationid = null; //门店屏id
 let pid = null, distri = null,opt=null;//分销页来源，0分销首页，1商品详情页
-let that;
 Page({
   data: {
-    change:app.config.change,
     random: parseInt(40 * Math.random()), //随机数
     hasPhone: false, //是否有手机
     isInfo: true,
@@ -40,6 +36,8 @@ Page({
     popteamData: null, //弹窗拼团信息
     popteamNicke: null, //弹窗名字
     popteamUrl: '../../group-buying/group-join',
+    mode: 'aspectFit',
+    lazyLoad: 'true',
     pt_txt: app.config.pt_txt,
     scroll_top: 0,
     goTop_show: false,
@@ -85,7 +83,7 @@ Page({
   },
 
   getPhoneNumber(e) {
- 
+    let that = this;
     console.log(e.detail);
     if (e.detail.errMsg == "getPhoneNumber:ok") {
       let iv = e.detail.iv,
@@ -125,54 +123,38 @@ Page({
     }
   },
   onGotUserInfo(e) {
-
-    // console.log('getUserInfo....', e.detail);
-    if(that.data.change){
-      if (e.detail.errMsg != "getUserInfo:ok") return;
-      app.getuserinfo(e).then(data => {
-        console.log(data);
-        global.uid = data.uid;
-        uid = data.uid;
-        wx.setStorageSync('userUid', data.uid);
-        that.setData({ uid, isInfo: true }, () => {
-          that._parse();
+    let that = this;
+    console.log('getUserInfo....', e.detail);
+    if (e.detail.errMsg == "getUserInfo:ok") {
+      that.setData({
+        isInfo: true
+      });
+      let userTimer = setInterval(() => {
+        uid = wx.getStorageSync('userUid');
+        if (uid) {
+          clearInterval(userTimer);
+          that.setData({uid})
+          //获取用户信息
+          var url = "wxapp.php?c=wechatapp_v2&a=bind_userinfo";
+          var params = { "uid": uid, "store_id": app.store_id, "userinfo": e.detail.userInfo }
+          app.api.postApi(url, { params }, (err, res) => { })
+        }
+      }, 1000);
+    } else {
+      that.setData({
+        isInfo: false
+      }, () => {
+        wx.navigateTo({
+          url: '../../my/pages/bingPhone',
         })
-      }).catch(err => {
-        that.setData({ isInfo: false })
-      })
-    }else{
-
-      if (e.detail.errMsg == "getUserInfo:ok") {
-        that.setData({
-          isInfo: true
-        });
-        let userTimer = setInterval(() => {
-          uid = wx.getStorageSync('userUid');
-          if (uid) {
-            clearInterval(userTimer);
-            that.setData({uid})
-            //获取用户信息
-            var url = "wxapp.php?c=wechatapp_v2&a=bind_userinfo";
-            var params = { "uid": uid, "store_id": app.store_id, "userinfo": e.detail.userInfo }
-            app.api.postApi(url, { params }, (err, res) => { })
-          }
-        }, 1000);
-      } else {
-        that.setData({
-          isInfo: false
-        }, () => {
-          wx.navigateTo({
-            url: '../../my/pages/bingPhone',
-          })
-        });
-      }
+      });
     }
   },
   /**
    * 收集formid
    */
   submitOrder: function (e) {
-
+    let that = this;
     app.pushId(e).then(ids => {
       app.saveId(ids)
     });
@@ -181,10 +163,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-     that = this;
+    let that = this;
     //门店locationid
     locationid = wx.getStorageSync('locationid');
-    uid = wx.getStorageSync('userUid');
     opt = wx.getStorageSync("index");
     console.log("opt.....",opt)
   
@@ -198,67 +179,50 @@ Page({
       title: '加载中',
     })
     //检查是否有手机号
-  
-    if(that.data.change){
-      if (uid) {
-        that.setData({ uid, isInfo: true });
+    app.checkphone().then(data => {
+      console.log('有手机号', data);
+      uid = app.config.uid ? app.config.uid : data.uid;
+      console.log('index.js:uid',uid);
+      that.setData({
+        hasPhone: true,
+        uid: uid,
+        phone: data.phone
+      },()=>{
         that._parse();
-      } else {
-        that.setData({ isInfo: false })
+      });
+      app.globalData.uid = uid;
+      app.globalData.phone = data.phone;
+      wx.setStorageSync('userUid',uid); //存储uid
+      wx.setStorageSync('phone', data.phone); //存储uid
+      //绑定门店
+      if (locationid) {
+        var opts = {
+          store_id: __config.sid,
+          item_store_id: locationid,
+          uid: uid
+        }
+        app.bingUserScreen(opts);
       }
-      app.api.postApi(iconUrl, { "params": { store_id } }, (err, rep) => {
-        if (!err && rep.err_code == 0) {
-          this.setData({
-            indexIcon: rep.err_msg.icon_list
-          })
-        }
-      })
-    }else{
-      console.log('app.checkphone')
-      app.checkphone().then(data => {
-        console.log('有手机号', data);
-        uid = app.config.uid ? app.config.uid : data.uid;
-        console.log('index.js:uid', uid);
-        that.setData({
-          hasPhone: true,
-          uid: uid,
-          phone: data.phone
-        }, () => {
-          that._parse();
-        });
-        app.globalData.uid = uid;
-        app.globalData.phone = data.phone;
-        wx.setStorageSync('userUid', uid); //存储uid
-        wx.setStorageSync('phone', data.phone); //存储uid
-        //绑定门店
-        if (locationid) {
-          var opts = {
-            store_id: __config.sid,
-            item_store_id: locationid,
-            uid: uid
-          }
-          app.bingUserScreen(opts);
-        }
+     
+    }).catch(data => {
+      that.setData({
+        hasPhone: false
+      });
+    })
 
-      }).catch(data => {
-        that.setData({
-          hasPhone: false
-        });
+    app.api.postApi(tabUrl, {
+      "params": {
+        store_id
+      }
+    }, (err, rep) => {
+      if (err && rep.err_code != 0) { console.error(err || rep.err_msg); return; }
+      if (rep.err_msg.data.template_id == '1') {
+        return;
+      }
+      this.setData({
+        indexIcon: rep.err_msg.data.channel_content || []
       })
-      app.api.postApi(tabUrl, {
-        "params": {
-          store_id
-        }
-      }, (err, rep) => {
-        if (err && rep.err_code != 0) { console.error(err || rep.err_msg); return; }
-        if (rep.err_msg.data.template_id == '1') {
-          return;
-        }
-        this.setData({
-          indexIcon: rep.err_msg.data.channel_content || []
-        })
-      })
-    }
+    })
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
       let len = data.length,
@@ -298,7 +262,7 @@ Page({
 
   },
   _parse() {
- 
+    let that = this;
     wx.hideLoading();
     console.log('distri.....pid.....',distri, pid)
     if(distri==0){
@@ -322,7 +286,7 @@ Page({
       that.jumpCoupon(); /*首页弹窗 */
       that.loadMyCardNumData(); //我的卡包数量
       that.getCoupValue(); //优惠券数据
-     
+      console.log('_parse');
       //是否定位成功
       getLocation().then(data => {
         logLat = data;
@@ -381,7 +345,7 @@ Page({
   },
   /**顶部轮播图  **/
   loadHeadicon(phy_id, flag) {
-
+    let that = this;
     var flag = flag || wx.getStorageSync("phy_flag");
     if (flag) {
       var params = {
@@ -468,7 +432,7 @@ Page({
       uid:that.data.uid,
       store_id,
     }
-    app.api.postApi(myCardUrl, {
+    app.api.postApi('wxapp.php?c=coupon&a=my_card_num', {
       params
     }, (err, response) => {
       if (err || response.err_code != 0) return;
@@ -498,7 +462,7 @@ Page({
    * 优惠券面值列表
    */
   getCoupValue() {
-
+    let that = this;
     app.api.postApi(couponListUrl, {
       "params": {
         uid:that.data.uid,
@@ -583,7 +547,7 @@ Page({
    * 获取总店信息
    */
   loadMainLocation() {
-
+    let that = this;
     let phyDefualt = [];
     var url = physicalMainUrl;
     var params = {
@@ -620,7 +584,7 @@ Page({
    * 获取当前门店位置
    */
   loadLocation() {
-
+    let that = this;
     let phyDefualt = [];
     wx.showLoading({
       title: '加载中'
@@ -899,7 +863,7 @@ Page({
   },
   //点击事件banner菜单
   clickGo: function (e) {
-
+    let that = this;
     let {
       index
     } = e.detail.target.dataset;

@@ -1,20 +1,13 @@
 
-import _config from './config'
-import config from './config_y.js'
+import __config from './config'
 import ajax  from './utils/api_1'
 import { getLocation } from './utils/util'
 import WxService from './utils/WxService'
-global.regeneratorRuntime = require('./lib/regenerator/runtime-module')
-const { regeneratorRuntime } = global
-let __config = _config
-if (_config.change) {  __config = Object.assign(_config, config) }
-// console.log('--config',__config)
 App({
   onLaunch: function () {
     if (!__config.uid) { wx.removeStorageSync("userUid"); }
     getLocation();
     this.getTelWx();
-    
   },
   api: ajax,
   store_id: __config.sid,
@@ -81,7 +74,7 @@ App({
             "openid": data.openid
           }
           // 3、是否绑定手机
-          return that.isCheckPhone(params)
+          return that.checkPhone(params)
         }).then(data => {
           resolve(data);
         }).catch(data => {
@@ -142,7 +135,7 @@ App({
   /**
    *2、 判断用户是否已经绑定了手机号码
    */
-  isCheckPhone(params) {
+  checkPhone(params) {
     var that = this;
     return new Promise((resolve, reject) => {
       console.log('checkPhone--params', params);
@@ -215,44 +208,6 @@ App({
         if (rep.err_code == 0) {
           console.log(rep.err_msg.result);
           wx.removeStorageSync('locationid');
-        }
-      })
-    })
-  },
-  /**获取用户信息 */
-  async getuserinfo(e) {
-    // console.log('info弹窗。。。getUserInfo....', e.detail);
-    try {
-      let that = this;
-      /**获取jscode */
-      let jscode = await that.WxService.login();
-      console.log('jscode...', jscode);
-      let { userInfo, rawData, signature, encryptedData, iv } = e.detail;
-      let params = {
-        jscode: jscode.code,
-        userInfo,
-        store_id: config.sid,
-        userInfoData: rawData,
-        encryptedData,
-        iv
-      }
-      console.log('doSign....params..', params);
-      let data = await that.doSign(params);
-      return data;
-    } catch (err) {
-      console.error("+++1+++ error:", err)
-    }
-  },
-  doSign(params) {
-    let that = this;
-    return new Promise((resolve, reject) => {
-      that.api.postApi(__config.loginUrl, {
-        params
-      }, (err, resp) => {
-        if (err || resp.err_code != 0) {
-          reject(err || resp.err_msg);
-        } else {
-          resolve(resp.err_msg);
         }
       })
     })

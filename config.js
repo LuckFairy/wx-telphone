@@ -6,13 +6,13 @@
  * AGENT  api请求中的hear参数
  * sid   店铺id
  */
-var isRelease = false;
+var isRelease = true;
 var host = "https://saas.qutego.com/"
 var testhost = "https://zy.qutego.com/"
-var sid = 293,
+var sid = 2387,
   uid = null;//不填写默认null,填写直接改uid
 var sid_test = 293;//婴众趣购590
-var title = '婴众趣购'; 
+var title = '黄梅爱婴宝'; 
 var title_test = '婴众趣购';
 var phonetest = '4006088520';//测试客服电话
 var phone = '4000001312';//正式客服电话
@@ -20,11 +20,8 @@ var phoneTxt = '400-000-1312';
 var serverTxt = 'yzkf139';
 var pt_txt = '超值拼团';
 
-
 let config = {
   isRelease,
-
-  change:(sid==293)?true:false,
 
   uid,
 
