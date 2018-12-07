@@ -123,7 +123,7 @@ text {
   position: fixed;
   top: 0rpx;
   left: 0rpx;
-  z-index: 10002;
+  z-index: 222222;
 }
 
 .search-input {

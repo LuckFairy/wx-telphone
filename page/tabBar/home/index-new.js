@@ -20,6 +20,7 @@ const physicalUrl = 'wxapp.php?c=address&a=getaphysical'; //獲取門店
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical'; //总店信息
 const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index'; //拼团活动列表
 const tabUrl = "wxapp.php?c=wxapp_index&a=get_content"; //tab栏目接口(新)
+const iconUrl = "wxapp.php?c=index&a=get_icon_v3";//栏目地址
 let store_id = app.store_id;
 let uid = wx.getStorageSync('userUid');
 let openid = wx.getStorageSync('userOpenid');
@@ -29,6 +30,7 @@ let locationid = null; //门店屏id
 let pid = null, distri = null,opt=null;//分销页来源，0分销首页，1商品详情页
 Page({
   data: {
+    change: app.config.change,
     random: parseInt(40 * Math.random()), //随机数
     hasPhone: false, //是否有手机
     isInfo: true,
@@ -209,20 +211,30 @@ Page({
         hasPhone: false
       });
     })
-
-    app.api.postApi(tabUrl, {
-      "params": {
-        store_id
-      }
-    }, (err, rep) => {
-      if (err && rep.err_code != 0) { console.error(err || rep.err_msg); return; }
-      if (rep.err_msg.data.template_id == '1') {
-        return;
-      }
-      this.setData({
-        indexIcon: rep.err_msg.data.channel_content || []
+    if(that.data.change){
+      app.api.postApi(iconUrl, { "params": { store_id } }, (err, rep) => {
+        if (!err && rep.err_code == 0) {
+          this.setData({
+            indexIcon: rep.err_msg.icon_list
+          })
+        }
       })
-    })
+    }else{
+
+      app.api.postApi(tabUrl, {
+        "params": {
+          store_id
+        }
+      }, (err, rep) => {
+        if (err && rep.err_code != 0) { console.error(err || rep.err_msg); return; }
+        if (rep.err_msg.data.template_id == '1') {
+          return;
+        }
+        that.setData({
+          indexIcon: rep.err_msg.data.channel_content || []
+        })
+      })
+    }
     /**弹窗拼团信息**/
     app.loadJumpPin().then(data => {
       let len = data.length,
@@ -922,7 +934,16 @@ Page({
    * 精选活动跳链
    */
   areaClickGo(e) {
-    var params = e.currentTarget.dataset;
+    var params = '';
+    if(this.data.change){
+      //保存formid
+      app.pushId(e).then(ids => {
+        app.saveId(ids)
+      });
+      params = e.detail.target.dataset;
+    }else{
+     params = e.currentTarget.dataset;
+    }
     console.log('精选活动跳链', params);
     var {
       type,
@@ -930,7 +951,7 @@ Page({
       rediurl
     } = params;
     console.log('type', type);
-    console.log('id', id);
+    console.log('rediurl', rediurl);
     //跳转类型，栏目1 ，商品2，送券活动4
     if (type == 1) {
       switch (rediurl) {
@@ -967,6 +988,10 @@ Page({
         case "10":
           var url = `../../common/pages/hotsale?categoryid=104&page=1&store_id=${store_id}`;
           break;
+        //拼团
+        case "11": var url = `../../group-buying/grouplist`; break;
+        //增值活动
+        case "12": var url = `../../common/pages/index-mom`; break;
 
       }
     } else if (type == 2) {
@@ -976,7 +1001,10 @@ Page({
     } else if (type == 4) {
       console.log('要跳到送券活动');
       var url = `../../common/pages/activity-detail?id=` + rediurl;
-    } else {
+    } else if (type = 5) {
+      console.log('dm海报');
+      var url = `../../common/pages/index-activity`;
+    }else {
       console.log('未定义的跳转url');
     }
 
