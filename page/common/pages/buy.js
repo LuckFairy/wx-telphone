@@ -1,5 +1,5 @@
 
-import { util, getAddress, formatTime } from '../../../utils/util';
+import { checkMobile, getAddress, formatTime } from '../../../utils/util';
 const app = getApp();
 const myAddressUrl = 'wxapp.php?c=address&a=MyAddress';//默认的收货地址
 const orderDetailUrl = 'wxapp.php?c=order&a=mydetail_v2';//订单详情
@@ -643,7 +643,7 @@ Page({
       if (!shippingTelephone) {
         return this._showError('请填写手机号码');
       }
-      if (!util.checkMobile(shippingTelephone)) {
+      if (!checkMobile(shippingTelephone)) {
         return this._showError('不是有效的手机号码');
       }
       if (!location) {

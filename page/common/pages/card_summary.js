@@ -7,6 +7,8 @@ let saveNewUrl = 'wxapp.php?c=activity&a=get_hot_coupon';//保存优化券新接
 let getUrl = 'wxapp.php?c=coupon&a=coupon_detail_v2';//优惠券详情接口
 let getNewUrl = 'wxapp.php?c=coupon&a=coupon_list_detail';//优惠券详情新接口
 let isDoGetCard = false;//是否显示按钮，false显示，true不显示
+let that, qrcode;
+let QRCode = require('../../../utils/qrcode.js')
 Page({
   data: {
     showPopup: true,
@@ -26,11 +28,21 @@ Page({
     source: "",
     page: '',//什么页面过来的，‘index’表示index-new过来用新接口
     qrUrl: null,//核销二维码，线上券没有核销二维码
+    code_w: app.globalData.code_w,
   },
   onLoad: function (options) {
-    var that = this;
+     that = this;
     openid = wx.getStorageSync('openid');
     uid = wx.getStorageSync('userUid');
+    let opts = {
+      usingIn: this,//为了向canvas传入实例对象this
+      text: "",//需要转化为二维码的字符串
+      width: that.data.code_w,
+      height: that.data.code_w,
+      correctLevel: QRCode.CorrectLevel.H,
+    }
+    qrcode = new QRCode('qrcode',opts);
+    
     let { activityId, id, distinguish, source, page=1, lotteryId } = options;
     that.setData({
       source,
@@ -52,7 +64,7 @@ Page({
    * 我的卡包老接口数据，二维码接入
    */
   getLoad(params) {
-    var that = this;
+ 
     app.api.postApi(getUrl, { params }, (err, resp) => {
       wx.hideLoading();
       if (err || resp.err_code != 0) {
@@ -60,6 +72,9 @@ Page({
       }
       var detailData = resp.err_msg;
       that.replace(detailData.card_no);
+      if (detailData.qrcode){
+        qrcode.makeCode(detailData.qrcode);
+      }
       if (that.distinguish != 0) {
         that.setData({
           detailData,
@@ -75,11 +90,26 @@ Page({
 
     });
   },
+  save(){
+    wx.showActionSheet({
+      itemList: ['保存图片'],
+      success: function (res) {
+        console.log(res.tapIndex)
+        if (res.tapIndex == 0) {
+          qrcode.exportImage(function (path) {
+            wx.saveImageToPhotosAlbum({
+              filePath: path,
+            })
+          })
+        }
+      }
+    })
+  },
   /**
    * 首页优惠券领取，接新接口，没有核销二维码
    */
   getNewLoad(params) {
-    var that = this;
+
     app.api.postApi(getNewUrl, { params }, (err, resp) => {
       wx.hideLoading();
       if (err || resp.err_code != 0) {
@@ -104,7 +134,7 @@ Page({
    * 保存优惠券
    */
   saveCardNew(e) {
-    let that = this;
+
     let { activityid, id } = e.currentTarget.dataset;
 
     var params = {//领券老接口
@@ -163,7 +193,7 @@ Page({
   },
   // 大轉盤領取信息
   getLottery() {
-    var that = this;
+
     if (!that.data.lotteryId) { return; }
     var url = doLotteryUrl;
     var params = {
@@ -341,7 +371,7 @@ Page({
     this.setData({ showOverlay: false });
   },
   showOverlay: function () {
-    var that = this;
+
     wx.showLoading({ title: '加载中...', mask: true, });
     setTimeout(function () {
       that.setData({ showOverlay: true, isUsedOrGet: false });

@@ -19,12 +19,11 @@ var phonetest = '4006088520';//测试客服电话
 var phone = '4000001312';//正式客服电话
 var phoneTxt = '400-000-1312';
 var serverTxt = 'yzkf139';
-var appid = 'wx57d5cde97d7e1fd3';
-var config ={
-  pt_txt:'超值拼团'
-}
+var pt_txt='超值拼团';
+
 
 export default{
+  isParams:false,
   uid: uid,
 
   isRelease:isRelease,
@@ -46,14 +45,11 @@ export default{
 
   //店铺id
   sid: isRelease ? sid : sid_test,
-
-  //appid
-  appid,
   
   //分享标题
   shareTitle: isRelease ? title : title_test,
 
-  pt_txt:config.pt_txt,
+  pt_txt,
   
   //获取小程序客服微信
   getTelWxUrl:`api.php?c=common&a=getTelnWx`,

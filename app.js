@@ -1,8 +1,14 @@
 
 import __config from './config'
-import { ajax } from './utils/api_1'
+import  ajax  from './utils/api_1'
 import { getLocation } from './utils/util'
 import WxService from './utils/WxService'
+global.regeneratorRuntime = require('./utils/regenerator/runtime-module')
+const { regeneratorRuntime } = global
+const W = wx.getSystemInfoSync().windowWidth;
+const rate = 750.0 / W;
+// 300rpx 在6s上为 150px
+const code_w = 300 / rate;
 App({
   onLaunch: function () {
     if (!__config.uid) { wx.removeStorageSync("userUid"); }
@@ -28,6 +34,7 @@ App({
     sid: __config.sid, //商店id
     logLat: null, //当前位置
     formIds: [], //消息推送id
+    code_w: code_w
   },
   getTelWx: function () {
     let that = this;
@@ -363,7 +370,7 @@ App({
 
     })
   },
-  //生成二维码图片
+  //生成小程序码图片
   creatImg(id,that) {
     let params = { "uid": that.data.uid, "store_id": that.data.sid, "type": 2 };
     console.log(id);
@@ -381,5 +388,5 @@ App({
         }
       })
     })
-  },
+  }
 })
