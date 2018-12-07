@@ -3,17 +3,16 @@ import { firstOpen, getCoupon, cancelCoupon  } from '../../common/template/coupo
 let app = getApp();
 const couponListUrl = 'wxapp.php?c=activity&a=index_hot_coupon';//优惠券列表数据
 const myCardUrl = 'wxapp.php?c=coupon&a=my_card_num';//我的卡包接口
-const activityUrl = 'wxapp.php?c=index_activity&a=jx_activity';//精选活动（第三版）
-const activityNewUrl = 'screen.php?c=index&a=activity_index';//大屏首页取代活动页
+// const activityUrl = 'wxapp.php?c=index_activity&a=jx_activity';//精选活动（第三版）
+
 const activityUrl_v1 = "wxapp.php?c=index_activity&a=jx_activity_v2";//精选活动（第二版）
 const activityUrl_v2 = 'wxapp.php?c=index_activity&a=jx_activity_v3'; //精选活动（第三版）
-const tabUrl = 'wxapp.php?c=category&a=get_category_by_pid_new';//tab接口地址
-
 const headImg_v3 = 'wxapp.php?c=product&a=banner_list_v3'; //轮播图接口（第三版）
 const headImg_v4 = 'wxapp.php?c=product&a=banner_list_v4'; //轮播图接口（第四版）
 const physicalUrl = 'wxapp.php?c=address&a=getaphysical'; //獲取門店
 const physicalMainUrl = 'wxapp.php?c=physical&a=main_physical'; //总店信息
 const pintuanUrl = 'wxapp.php?c=tuan_v2&a=tuan_index';//拼团活动列表
+// const tabUrl = 'wxapp.php?c=category&a=get_category_by_pid_new';//tab接口地址
 const iconUrl = "wxapp.php?c=index&a=get_icon_v3";//栏目地址
 
 
@@ -50,8 +49,6 @@ Page({
     //2017年12月21日18:50:42 by leo
     card_num: 0,
     uid,//用户id
-    iconOne: [],
-    //indexImage: null,//4个大图图片列表
     showModel: false,//是否显示弹窗模板
     couponList: [],//弹窗专用券列表
     coupon_id_arr: [],//弹窗优惠券id

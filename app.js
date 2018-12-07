@@ -78,7 +78,7 @@ App({
       that.api.postApi(that.config.loginUrl, {
         params
       }, (err, resp) => {
-        if (err && resp.err_code != 0) {
+        if (err || resp.err_code != 0) {
           reject (err || resp.err_msg);
         } else {
           resolve(resp.err_msg);
