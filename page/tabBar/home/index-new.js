@@ -935,6 +935,7 @@ Page({
    */
   areaClickGo(e) {
     var params = '';
+    // console.log(e)
     if(this.data.change){
       //保存formid
       app.pushId(e).then(ids => {
