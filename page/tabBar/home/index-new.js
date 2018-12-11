@@ -940,10 +940,8 @@ Page({
       app.pushId(e).then(ids => {
         app.saveId(ids)
       });
-      params = e.detail.target.dataset;
-    }else{
-     params = e.currentTarget.dataset;
     }
+    params = e.detail.target ? e.detail.target.dataset : e.currentTarget.dataset;
     console.log('精选活动跳链', params);
     var {
       type,

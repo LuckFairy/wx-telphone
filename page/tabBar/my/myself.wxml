@@ -4,18 +4,18 @@
 <!-- <navigator url='../../my/pages/erwei'>为我们</navigator> -->
   <!--top  个人信息-->
   <view class='myself-top'>
-    <view>
       <view class='myself-photo'>
         <open-data type="userAvatarUrl" class="heading"></open-data> 
       </view>
       <view class='myself-detail'>
-        <open-data type="userNickName" class='myself-id'></open-data>
+        <open-data type="userNickName" class='myself-name'></open-data>
         <view class='myself-address' bindtap='goaddress'>
           <text class='myself-addr-text'>收货地址</text>
           <image class='myself-addr-image' src='../../image/go-forward.png'></image>
         </view>
       </view>
-    </view>
+    <!-- <view>
+    </view> -->
     <view class='myself-phone'>
       <text class='myself-id'>{{phone}}</text>
       <text class='myself-id'>UID:{{uid}}</text>

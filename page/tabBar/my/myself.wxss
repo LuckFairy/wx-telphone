@@ -8,6 +8,7 @@ page {
   display: block;
 }
 .myself-phone{
+  width: 300rpx;
   flex-direction: column;
   justify-content:center;
 }
@@ -27,11 +28,11 @@ page {
 }
 
 .myself-detail {
-  display: inline-block;
- 
+  width: 320rpx;
+  flex-direction: column;
   font-size: 0rpx;
   margin-top: 35rpx;
-  margin-left: 42rpx;
+  margin-left: 14rpx;
 }
 
 .myself-image {
@@ -57,10 +58,24 @@ page {
 }
 
 .myself-id {
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
   margin-right: 24rpx;
   font-size: 36rpx;
   color: #1b1b1b;
 }
+
+.myself-name {
+  width: 100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  margin-right: 24rpx;
+  font-size: 34rpx;
+  color: #1b1b1b;
+}
+
 
 .myself-addr-image {
   width: 16rpx;

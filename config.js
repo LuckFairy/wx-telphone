@@ -9,7 +9,7 @@
 var isRelease = false;
 var host = "https://saas.qutego.com/"
 var testhost = "https://zy.qutego.com/"
-var sid = 310,
+var sid = 293,
   uid = null;//不填写默认null,填写直接改uid
 var sid_test = 293;//婴众趣购590
 var title = '婴众趣购'; 
@@ -23,7 +23,7 @@ var pt_txt = '超值拼团';
 let config = {
   isRelease,
 
-  change:sid==310?true:false,
+  change:sid==293?true:false,
 
   uid,
 
