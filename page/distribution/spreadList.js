@@ -129,7 +129,7 @@ Page({
   goDetails(e){
     let {productid}=e.currentTarget.dataset;
     wx.navigateTo({
-      url: `../common/pages/goods-detail?prodId=${productid}&action='distri'`,
+      url: `../common/pages/goods-detail?prodId=${productid}`,
     })
   },
   /**

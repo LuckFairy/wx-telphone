@@ -1,9 +1,7 @@
 @import "./store-list.wxss";
 @import "./store-detail.wxss";
 
-page {
-  background: #fff;
-}
+
 .black{
   color: #1b1b1b !important;
   font-size: 26rpx;
@@ -15,7 +13,7 @@ button:after {
 .item-split-line {
   width: 750rpx;
   height: 10px;
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
 }
 
 button {
@@ -898,4 +896,31 @@ discount-ticket-have {
 
 .discount-ticket-no {
   color: #a9a9a9;
+}
+/*推荐门店*/
+
+.store-bar{
+ position: relative;
+ height: 66rpx;
+ display: block;
+}
+.store-bar>view{
+  position: absolute;
+  color: #424242;
+  font-size: 22rpx;
+  padding: 22rpx 24rpx;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYwAAABMCAYAAAB+poBKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQwIDc5LjE2MDQ1MSwgMjAxNy8wNS8wNi0wMTowODoyMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTggKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzQ0MEJFMEFGMEUzMTFFOEJDMTlDMDkwRUFGNzQyQ0MiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzQ0MEJFMEJGMEUzMTFFOEJDMTlDMDkwRUFGNzQyQ0MiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDowRkU4NTVGNUVGQUYxMUU4QkMxOUMwOTBFQUY3NDJDQyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDowRkU4NTVGNkVGQUYxMUU4QkMxOUMwOTBFQUY3NDJDQyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PueD7CgAAAJKSURBVHja7NyxTlNhAIbhU4n1PhjFRHc3w1CCl1EHR3VWIzPq5EDgNjAMhMkL0IQ4El24Ao1pE4rfD9ScofQo2uqxz5N8AZYm/JC8+dtC53RwXAEwE4+zl9lG9rzt38w1P0+AmcaieJa9EAwApsWi+l+iIRgAs49FPRobggHAtFiMPW1rNAQDYH6xaHU0BANgvrFobTQEA2D+sWhlNAQD4Oqe/EYsWhcNwQC4eiw2/9BjtSIaggHwd2PRmmh0/GsQgF9yN3s3w8dfz962JRg3s37Wy5azG34/ABbCIDvK9rKd7ONlwehmr7KHlaeqABbdKNvOHmXf6sEosdjNVp0RADUH2Vo2HN8kXosFABPcq86ffTq7Yazk44dsybkAMMFJdrvcMPpiAcAUpRH9EoyeswCgQa88JVXeRtV1FgBMcfait1gA0KTr7y0A+CmCAYBgACAYAAgGAIIBgGAAIBgAIBgACAYAggGAYAAgGAAIBgCCAQCCAYBgACAYAAgGAIIBgGAAIBgAIBgACAYAggGAYAAgGAAIBgCCAQCCAYBgACAYAAgGAIIBgGAAIBgAIBgACAYAggGAYAAgGAAIBgCCAQCCAYBgACAYAAgGAP92MIaOAYAGX0owjpwDAA0+l2DsOQcAGux3TgfHt/LJ+2zJeQAwwUl2p9wwDrMt5wHAJUojDssNo3zRzXazVecCQM1BtpYNx2+rLe+UWs/eZCPnA7DwRhc3i/sXjajGN4y6lexB1suWs+vODWAhfM0+ZfvZTnX+ksUP3wUYABuNYDYQdvNrAAAAAElFTkSuQmCC");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: 100%;
+  width: 400rpx;
+  height: 76rpx;
+  right: 24rpx;
+  top: -8rpx;
+}
+.store-bar>view text:first-child{
+  margin-right: 40rpx;
+}
+.store-bar>view text:last-child{
+  color: #4791f6;
 }

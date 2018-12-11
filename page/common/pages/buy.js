@@ -1,10 +1,11 @@
 
-import { checkMobile, getAddress, formatTime } from '../../../utils/util';
+import { util, getAddress, formatTime } from '../../../utils/util';
 const app = getApp();
 const myAddressUrl = 'wxapp.php?c=address&a=MyAddress';//默认的收货地址
 const orderDetailUrl = 'wxapp.php?c=order&a=mydetail_v2';//订单详情
 const couponDataUrl = 'wxapp.php?c=coupon&a=store_coupon_use';//优惠券信息
 const _buyUrl = 'wap/wxapp_saveorder.php?action=pay_xcx';//立即購買接口
+const physicalListUrl ="wxapp.php?c=order_v2&a=get_physical_list";//门店列表
 
 var checkTimer = null;
 let _prodId;                          // 记录商品 id
@@ -13,7 +14,8 @@ let quantity;                          // 购买商品的数量
 let groupbuyId = 0;                   //团购ID 兼容团购和爆款
 let physical_id = wx.getStorageSync('phy_id'); //门店id
 let hasWxLocation = wx.getStorageSync('hasWxLocation');//是否是初次使用微信地址
-// orderId = PIG20180913164958600963 & uid=93853 & baokuan_action=undefined
+let logLat = wx.getStorageSync('logLat') || ['0', '0'];
+// orderId=PIG20181207113857430344&uid=142734&baokuan_action=null
 Page({
   data: {
     error: false,
@@ -49,13 +51,13 @@ Page({
     matteShow: false,  //购买成功弹窗
 
     orderData: '',//订单数据
-    orderId: '',//订单号
+    orderId: 'PIG20181207113857430344',//订单号
     storeId: app.store_id,//商店id
-    uid: '',//用户id
+    uid: null,//用户id
     address: null,    // 存放当前收货地址数据
     addressList: [],  //地址列表
     addressId: 0,     // 选择的收货地址id
-    pickupPhy:{},//自提门店地址
+    pickupPhy: { name:'请选择门店'},//自提门店地址
     pickupStoreId: null, // 自提门店id
     productList: null,//产品列表
     fee: 0,//运费
@@ -79,6 +81,7 @@ Page({
     // 自提參數
     showself:true,
     showmail:true,
+    pushStore:{name:'有事了体育西店'},//推荐门店
 
   },
   onLoad: function (options) {
@@ -86,9 +89,10 @@ Page({
     wx.removeStorageSync('recid');
     wx.removeStorageSync('cname');
     wx.removeStorageSync('face_money');
+    logLat = wx.getStorageSync('logLat') || ['0', '0'];
     let { pid, skuId, storeId, qrEntry, orderId, baokuan_action, quantity, ordertype = 0, diff_people } = options;
     if (diff_people) { this.data.setData({ diff_people }) };
-    let uid = wx.getStorageSync('userUid');
+    let uid = wx.getStorageSync('userUid') ||'142734';
     physical_id = wx.getStorageSync('phy_id'); //门店id
     if (baokuan_action) { this.setData({ baokuan_action }) }
     if (!orderId) { orderId = this.data.orderId }
@@ -108,8 +112,9 @@ Page({
     var baokuan_action = this.data.baokuan_action;
     let couponInfo = wx.getStorageSync('couponInfo') || [];
     if (couponInfo.length >= 2 ) {
-      if ( pinType == 0 || orderType != 6 || baokuan_action == 'undefined'){
+      if ( pinType == 0 || orderType != 6 || !baokuan_action){
         var user_coupon_id = [];
+        console.log(couponInfo);
         user_coupon_id.push(couponInfo[0]);
         this.setData({
           user_coupon_id,
@@ -125,6 +130,29 @@ Page({
   },
   onUnload: function () {
     // 页面关闭
+  },
+  getStore(){
+    if(!logLat){return;}
+    let that =this;
+
+    let params = {
+     
+      "position" : 1,
+      "lat": logLat[0],
+      "lng":logLat[1],
+      "uid" : that.data.uid,
+      "product_id": that.data.product_id,
+      
+    }
+    app.api.postApi(physicalListUrl,{params},(err,rep)=>{
+      if(err||rep.err_code!=0){console.error(err||rep.err_msg);return;}
+      let { physical_list}=rep.err_msg;
+      that.setData({ pushStore:physical_list[0]})
+    })
+  },
+  changeStore(){
+    let { pickupPhy, pushStore}=this.data;
+    this.setData({ pickupPhy: pushStore, pushStore:null})
   },
   putchange(e) {
     let { method } = e.target.dataset, { shopListData}=this.data;
@@ -165,13 +193,13 @@ Page({
         else { showmail=false;}
        } 
       console.log('physical_info', physical_info);
-      if (physical_info && physical_info.length>0) { 
+      if (physical_info&&physical_info.length>0) { 
         let default_physical = physical_info.default_physical;
          that.setData({ pickupPhy: default_physical, pickupStoreId: default_physical.phy_id})
       }
       that.setData({
-      "shopListData": orderdata,
-       "productList": orderdata.product, 
+      shopListData: orderdata,
+       productList: orderdata.product, 
        totals: orderdata.sub_total, 
        fee: orderdata.postage_int, 
        lastPay: (orderdata.sub_total - orderdata.postage_int),
@@ -183,7 +211,7 @@ Page({
           sendMethod, 
           send_type,
           showmail, showself
-          });
+          },that.getStore);
       //优惠券信息
       that.loadCouponData(product_id);
     })
@@ -643,7 +671,7 @@ Page({
       if (!shippingTelephone) {
         return this._showError('请填写手机号码');
       }
-      if (!checkMobile(shippingTelephone)) {
+      if (!util.checkMobile(shippingTelephone)) {
         return this._showError('不是有效的手机号码');
       }
       if (!location) {
@@ -848,25 +876,11 @@ Page({
    * 显示错误信息
    */
   _showError(errorMsg) {
-    wx.showToast({ title: errorMsg, image: '../../image/use-ruler.png', mask: true });
     this.setData({ error: errorMsg });
+    setTimeout(() => {
+      this.setData({ error: null });
+    }, 2000);
     return false;
-  },
-
-  /**
-   * 获取门店列表数据
-   */
-  _loadShopData() {
-    // app.api.fetchApi(ListURL, (err, res) => {   // 获取门店列表数据
-    //   if (!err && res.rtnCode == 0) {
-    //     let { data: shopListData } = res;
-    //     this._loadShopDetailData(shopListData[0]);   // 默认加载第一个门店的详情数据
-    //     this.setData({ shopListData });
-    //   } else {
-    //   }
-    // });
-
-
   },
 
   /**

@@ -1,9 +1,7 @@
 // pages/store/store-list.js
 var app = getApp();
 let phy_id = null;//选择的门店id
-const physicalUrl = 'wxapp.php?c=address&a=physical_list';//门店列表老接口
-const physicalNewUrl = 'wxapp.php?c=physical&a=physical_list';//门店列表新接口
-
+const physicalListUrl ="wxapp.php?c=order_v2&a=get_physical_list";
 
 Page({
   data: {
@@ -31,8 +29,8 @@ Page({
     let that = this;
 
     let logLat = wx.getStorageSync('logLat') || ['0', '0'],
-      { prodId } = options,
-      uid = wx.getStorageSync('userUid'),
+      { prodId ='1855' } = options,
+      uid = wx.getStorageSync('userUid') ||'142734',
       store_id = app.store_id;
     phy_id = wx.getStorageSync('phy_id');
     if (prodId) {
@@ -42,6 +40,31 @@ Page({
       store_id, uid, logLat
     })
     this.loadAddress(undefined,1,1);
+  },
+  // 搜索门店
+  searchCard(e) {
+    var that = this;
+    var searchValue = e.detail.value;//搜索值
+    if (searchValue) {
+      that.setData({
+        searchValue: searchValue,
+        pagesone: 1,
+        isSearch: true,
+      });
+    }
+    that.loadData1(that);
+  },
+  goNull(e) {
+    var that = this;
+    var searchValue = e.detail.value;
+    if (!searchValue) {
+      that.setData({
+        searchValue: searchValue,
+        pagesone: 1,
+        isSearch: true,
+      });
+      that.loadData1(that);
+    }
   },
   /**
    * 加载省份,城市，地区
@@ -75,7 +98,7 @@ Page({
       title: '加载中',
     })
     console.log(params);
-    app.api.postApi("wxapp.php?c=order_v2&a=get_physical_list", { params }, (err, resp) => {
+    app.api.postApi(physicalListUrl, { params }, (err, resp) => {
       if (err || resp.err_code != 0) { wx.hideLoading();return; }
       let { err_msg } = resp;
       let { provinces, city, area, physical_list } = err_msg;

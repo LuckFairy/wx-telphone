@@ -2,7 +2,7 @@
   <!--搜索  -->
   <view class='search-msg'>
     <view class='search-input'>
-      <image class='search-image' src='../../../image/search.png'></image>
+      <image class='search-image' src='../../image/search.png'></image>
       <input class='search-text' focus='true' confirm-type='go' placeholder='输入券名称直接搜索' bindconfirm='searchCard' bindinput='goNull'></input>
     </view>
     <view class='search-select'>
@@ -138,13 +138,18 @@
       </view>
     </block>
     <view wx:if='{{isSearch&&normal.length<1}}' class="no-data-view">
-      <image src="../../../image/ma_card_no_1.png" class="no-data-image" />
+      <image src="../../image/ma_card_no_1.png" class="no-data-image" />
       <text class="mText" class="no-data-text">哎呀，未搜索到优惠券</text>
       <text class="mText" class="no-data-text">换个字眼试试</text>
       <!-- <button class='no-data-btn' bindtap='getCoupon'>去领券</button> -->
     </view>
-    <text wx:if="{{!loadingone&&!isSearch}}" class='dropload-noData'>已无更多</text>
-    <text wx:if="{{loadingone&&!isSearch}}" class='dropload-noData'>上拉加载更多...</text>
+    <view wx:if="{{!loadingone&&!isSearch&&normal.length<1}}" class="no-data-view">
+        <image src="../../image/ma_card_no_1.png" mode="widthFix" class="no-data-image" />
+        <text class="mText" class="no-data-text">还没有可以用的优惠券</text>
+        <button class='no-data-btn' bindtap='getCoupon'>去领券</button>
+    </view>
+    <text wx:if="{{!loadingone&&!isSearch&&normal.length>0}}" class='dropload-noData'>已无更多</text>
+    <text wx:if="{{loadingone&&!isSearch&&normal.length>0}}" class='dropload-noData'>上拉加载更多...</text>
   </scroll-view>
 </view>
 <view class="overlay" style="display:{{showOverlay ? 'flex' : 'none'}}">

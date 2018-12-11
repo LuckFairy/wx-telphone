@@ -1,4 +1,10 @@
 <!-- 选择省份，区域，地区 -->
+ <view class='search-msg'>
+    <view class='search-input'>
+      <image class='search-image' src='../../image/search.png'></image>
+      <input class='search-text' focus='false' confirm-type='go' placeholder='搜索门店' bindconfirm='searchCard' bindinput='goNull'></input>
+    </view>
+    </view>
 <view class='setction-top'>
   <view class="section" catchtap='{{provinFlag?"changeitem":""}}' data-type='1'>
     <view class="section__title">{{provinces?provinces:'省'}}</view>

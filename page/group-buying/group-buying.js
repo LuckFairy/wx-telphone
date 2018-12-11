@@ -12,7 +12,6 @@ const tuanOrderUrl = 'wxapp.php?c=tuan_v2&a=order';//一键开团生成订单,�
 Page({
   data: {
     loading: false,
-    action: null,    // 'present' 为赠品   'havealook'为从订单来查看详细的
     moreChoose: false,//属性弹窗
     num: 1,//购买数量
     showShareModal: false,//分享成功后模式层

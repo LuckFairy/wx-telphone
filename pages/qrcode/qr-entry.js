@@ -1,67 +1,143 @@
 // pages/qrcode/qr-entry.js
-import { getUrlQueryParam } from '../../utils/util.js';
+import {
+  getUrlQueryParam,
+  checkBingPhone,
+  getPhoneNumber,
+  getLocation
+} from '../../utils/util';
+import {
+  firstOpen,
+  getCoupon,
+  cancelCoupon
+} from '../../page/common/template/coupon.js';
 let app = getApp();
 let indexUrl = '../../page/tabBar/home/index-new';
 var qrData = '';
+let that = '', uid = null, store_id = '', locationId=155;
 Page({
   data: {
-    store_id: '',
     uid: null,
-    locationId: 155
+    hasPhone: false, //是否有手机
+    isInfo: true,
+  },
+  getPhoneNumber(e) {
+    console.log(e.detail);
+    if (e.detail.errMsg == "getPhoneNumber:ok") {
+      let iv = e.detail.iv,
+        encryptedData = e.detail.encryptedData,
+        locationid = wx.getStorageSync('locationid');
+      var params = {
+        iv,
+        encryptedData,
+        locationid
+      }
+      app.login(params).then((data) => {
+        console.log('弹窗取消', data);
+        uid = app.config.uid ? app.config.uid : data;
+        console.log('qr-entry.js:uid', uid)
+        app.globalData.uid = uid;
+        wx.setStorageSync('userUid', uid); //存储uid
+        that.setData({
+          hasPhone: true, isInfo: false, uid: data
+        }, () => {
+          that.redirctPageNew();
+        })
+      }).catch(() => {
+        console.log('弹窗弹窗');
+        that.setData({
+          hasPhone: false
+        })
+      })
+    } else {
+      //用户取消授权
+      that.setData({
+        hasPhone: false
+      }, () => {
+        wx.navigateTo({
+          url: '../../my/pages/bingPhone',
+        })
+      })
+    }
+  },
+  onGotUserInfo(e) {
+    let that = this;
+    console.log('getUserInfo....', e.detail);
+    if (e.detail.errMsg == "getUserInfo:ok") {
+      that.setData({
+        isInfo: true
+      });
+      let userTimer = setInterval(() => {
+        uid = wx.getStorageSync('userUid');
+        if (uid) {
+          clearInterval(userTimer);
+          that.setData({ uid })
+          //获取用户信息
+          var url = "wxapp.php?c=wechatapp_v2&a=bind_userinfo";
+          var params = { "uid": uid, "store_id": app.store_id, "userinfo": e.detail.userInfo }
+          app.api.postApi(url, { params }, (err, res) => { })
+        }
+      }, 1000);
+    } else {
+      that.setData({
+        isInfo: false
+      }, () => {
+        wx.navigateTo({
+          url: '../../page/tabBar/my/pages/bingPhone',
+        })
+      });
+    }
   },
   onLoad: function (options) {
     let { q } = options;
-    let that = this,
-    store_id = app.store_id,  
-     uid = wx.getStorageSync('userUid');
-    if (uid) { } else {
-      wx.showModal({
-        title: '请求结果',
-        content: '等待超时，跳转到首页',
-      });
-      setTimeout(() => {
-        wx.switchTab({
-          url: indexUrl,
-        });
-      }, 2000);
-    }
-    // wx.showLoading({ title: '加载中...', mask: true, });
-
-
+    that = this;
+    store_id = app.store_id;  
     if (q) {
       q = decodeURIComponent(q);
-      try {
-        let params = getUrlQueryParam(q, 'data');
-        qrData = JSON.parse(params);
-        let locationId = qrData.location_id;
-        if (!locationId) {locationId = 155;}
-        wx.setStorageSync('locationId', locationId);//存储locationId
-        that.setData({ uid: uid, store_id: store_id, locationId });
-       
-      } catch (e) {
-        setTimeout(() => {
-          wx.switchTab({
-            url: indexUrl,
-          });
-        }, 2000);
-      }
+      let params = getUrlQueryParam(q, 'data');
+      qrData = JSON.parse(params);
+      locationId = qrData.location_id ||155;
+      wx.setStorageSync('locationId', locationId);  
     }
+    //检查是否有手机号
+    app.checkphone().then(data => {
+      console.log('有手机号', data);
+      uid = app.config.uid ? app.config.uid : data.uid;
+      console.log('index.js:uid', uid);
+      that.setData({
+        hasPhone: true,
+        uid: uid,
+        phone: data.phone
+      }, () => {
+        that.redirctPageNew();
+      });
+      app.globalData.uid = uid;
+      app.globalData.phone = data.phone;
+      wx.setStorageSync('userUid', uid); //存储uid
+      wx.setStorageSync('phone', data.phone); //存储uid
+      //绑定门店
+      if (locationId) {
+        var opts = {
+          store_id,
+          item_store_id: locationId,
+          uid
+        }
+        app.bingUserScreen(opts);
+      }
+
+    }).catch(data => {
+      that.setData({
+        hasPhone: false
+      });
+    })
+
+
+
+   
   },
   onReady: function () {
     // 页面渲染完成
   },
   onShow: function () {
-    var that = this;
-    var uid = that.data.uid;
-    if(uid){
-    that.redirctPageNew();   // 加载数据
-    }else{
-      setTimeout(()=>{
-        uid = wx.getStorageSync('userUid');
-        that.setData({uid});
-        that.redirctPageNew();   // 加载数据
-      },4000);
-    }
   },
   onHide: function () {
     // 页面隐藏
@@ -78,9 +154,9 @@ Page({
   //绑定用户归属门店
   checkUserFirstVisitNew: function () {
     var params = {
-      store_id: this.data.store_id,
-      item_store_id: this.data.locationId,
-      uid: this.data.uid
+      store_id,
+      item_store_id: locationId,
+      uid
     }
     app.api.postApi('screen.php?c=index&a=binding_user', { params }, (err, resp) => {
       if (err) return;
@@ -88,8 +164,6 @@ Page({
     });
 
   },
-
-
   buildRedirctUrlNew: function () { 
     let groupbuyId = qrData.groupbuyId;
     let groupbuyOrderId = qrData.groupbuyOrderId;
@@ -104,7 +178,7 @@ Page({
     let action = qrData.action; //新品试用
     let { resType, resId, activityId, location_id, lotteryId, prize, reditype, rediurl } = qrData;//跳链页面类型,
     //resType跳转类型
-    let url = '', store_id = this.data.store_id;
+    let url = '';
     console.log('qrData', qrData);
     switch (resType) {
       //云屏活动
@@ -187,14 +261,14 @@ Page({
       //首页
       default: url = ''; break;
     }
-
+    console.log('跳转链接',url);
     if (url.length > 0) {
       wx.redirectTo({
         url
       });
     } else {
       wx.switchTab({
-        url: indexUrl + `?locationid=${this.data.locationId}`,
+        url: indexUrl,
       });
     }
     wx.hideLoading();

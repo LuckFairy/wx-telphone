@@ -54,7 +54,7 @@ Page({
           height: 1334,
           x: 0,
           y: 0,
-          url: 'https://zy.qutego.com/upload/wxapp/images/fx_qrcode_bg.png',
+          url: `${app.config.host}upload/wxapp/images/fx_qrcode_bg.png`,
           zIndex:1
         },
         {
@@ -62,7 +62,7 @@ Page({
           height: 160,
           x: 296,
           y: 180,
-          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
+          url: `${app.config.host}upload/images/000/000/293/201808/5b861e3aeb9fd.png`,
           borderRadius:160,
           // borderWidth:6,
           // borderColor:'#fff',
@@ -73,7 +73,7 @@ Page({
           height: 280,
           x: 236,
           y: 740,
-          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b861e3aeb9fd.png',
+          url: `${app.config.host}upload/images/000/000/293/201808/5b861e3aeb9fd.png`,
           zIndex: 2
         }
       ]
@@ -88,22 +88,21 @@ Page({
     let uid = wx.getStorageSync("userUid");
     let phone = wx.getStorageSync("phone");
     let that = this;
-
+    let pid = null;
+    if (!options.scene) {
+      pid = options.pid;
+    } else {
+      let querystr = {};
+      let strs = decodeURIComponent(options.scene).split('&');
+      console.log('strs....', strs);
+      //取得全部并赋值
+      for (let i = 0; i < strs.length; i++) {
+        querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+      }
+      pid = querystr['fx_uid'];
+    }
     if(uid){
       this.setData({uid},()=>{
-          let pid = null;
-          if (!options.scene) {
-            pid = options.pid;
-          }else{
-            let querystr = {};
-            let strs = decodeURIComponent(options.scene).split('&');
-            console.log('strs....',strs);
-            //取得全部并赋值
-            for (let i = 0; i < strs.length; i++) {
-              querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
-            }
-            pid = querystr['fx_uid'];
-          }
         console.log(options,'pid...',pid);
           that.isfx(pid, () => {
             if(!pid){return;}
@@ -117,12 +116,16 @@ Page({
               if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
 
             })
-           
           })
       })
     }else{
+      var opt = {
+        pid,
+        distri:0
+      }
+      wx.setStorageSync("index", opt);
       wx.switchTab({
-        url: '../tabBar/home/index-new',
+        url: `../tabBar/home/index-new`,
       })
     }
   },

@@ -34,7 +34,7 @@ Page({
     showList: false,//是否显示优惠券列表
     product: [],//产品信息
     product_id: '',//产品id
-    action: null,// 'present'新品试用，distri分销，saoma扫码购
+    action: null,// 'present' 为赠品 ;'havealook'为从订单来查看详细的
     shopNum: 1,//购买数量
     is_add_cart: 1,
     infoProduct:{
@@ -111,14 +111,14 @@ Page({
           height: 690,
           x: 30,
           y: 80,
-          url: 'https://zy.qutego.com//upload/images/000/000/293/201808/5b84c6c37f028.png',
+          url: `${app.config.host}upload/images/000/000/293/201808/5b84c6c37f028.png`,
         },
         {
           width: 160,
           height: 160,
           x: 548,
           y: 1046,
-          url: 'https://zy.qutego.com//upload/wxapp/qrcode/93853_1786_1539242806.png',
+          url: `${app.config.host}upload/wxapp/qrcode/93853_1786_1539242806.png`,
         }
       ]
 
@@ -142,29 +142,33 @@ Page({
     let phone = wx.getStorageSync('phone');
     physical_id = wx.getStorageSync('phy_id');
 
+    let prodId = null, action = null, pid = null;
+    if (!options.scene) {
+      // 页面初始化 options为页面跳转所带来的参数
+      prodId = options.prodId, action = options.action, pid = options.pid;
+    } else {
+      let querystr = {};
+      let strs = decodeURIComponent(options.scene).split('&');
+      console.log('strs....', strs);
+      //取得全部并赋值
+      for (let i = 0; i < strs.length; i++) {
+        querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+      }
+      pid = querystr['fx_uid'], prodId = querystr['product_id'];
+    }
+    console.log('pid...', pid);
     if (uid == undefined || uid == '') {
+      var opt = {
+        prodId, action, pid, distri:1
+      }
+      wx.setStorageSync("index", opt)
       wx.switchTab({
-        url: '../../tabBar/home/index-new',
+        url: `../../tabBar/home/index-new`,
       })
     }
     that.setData({
       uid, store_id
     },()=>{
-      let prodId = null,action=null,pid=null;
-      if(!options.scene){
-        // 页面初始化 options为页面跳转所带来的参数
-        prodId =options.prodId, action=options.action, pid=options.pid; 
-      }else{
-        let querystr = {};
-        let strs = decodeURIComponent(options.scene).split('&');
-        console.log('strs....', strs);
-        //取得全部并赋值
-        for(let i = 0;i<strs.length;i++){
-          querystr[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
-        }
-         pid = querystr['fx_uid'], prodId = querystr['product_id'];
-      }
-      console.log('pid...action............', pid, action);
       if (action) { that.setData({ action }) }
       if (pid) { 
         that.setData({ fx_uid:pid},()=>{
@@ -174,8 +178,9 @@ Page({
           "store_id": store_id,
           "fx_uid": pid
         };
+          console.log('wxapp.php?c=fx_user&a=become_customer参数。。。',obj);
           app.api.postApi(app.config.becustomerUrl, { params:obj }, (err, res) => {
-          if (err || res.err_code != 0) { console.error(err || res.err_msg); return; }
+          if (err || res.err_code != 0) { console.error(err || res.err_msg); }else{console.log(res);}
             })
           })
       }
@@ -225,16 +230,10 @@ Page({
       }
     });
   },
-  onBackClick: function () {
-    wx.navigateBack({
-      delta: 1
-    })
-  },
   isFx(params){
     app.api.postApi(fxUserUrl,{params},(err,res)=>{
       if(res.err_code==0){
-        if (res.err_msg.show_icon==1){this.setData({action:'distri'})}
-        this.setData({ isFx: res.err_msg.show_icon});
+        this.setData({ isFx: res.err_msg.show_icon})
       }
     })
   },
@@ -312,7 +311,7 @@ Page({
   },
   loadData() {
     let that = this;
-    let { product_id, action,uid,store_id } = that.data;
+    let { product_id, action, uid, store_id, jdConfig } = that.data;
     this.timer && clearInterval(this.timer);
     wx.showLoading({ title: '加载中' });
     var params = {
@@ -322,22 +321,17 @@ Page({
       wx.hideLoading();
       if (err || resp.err_code != 0){console.error(err||resp.err_msg); return;}
         var product = resp.err_msg.product;
-        if (action == 'present') {
-          console.log('新品试用');
-        } else if (action =='saoma'){
-          console.log('扫码购商品');
-        }
-         else if(action=='distri') {
-          console.log('分销')
-        }
         if (product.card_set_ids > 0) {
           console.log('卡包商品');
-          action = product.card_set_ids;
+          action = product.card_set_ids
           that.setData({ action})
-        } 
-        console.log(action,product)
+        }
+        console.log('action......',action,product)
+        jdConfig.images[0].url = product.image;
+        jdConfig.texts[0].text=product.name;
+        jdConfig.texts[1].text[1].text = product.price;
         that.setData({
-          product,  product_id: product.product_id
+          product, product_id: product.product_id, jdConfig
         },()=>{
           if (product.sold_time <= 0) {
             that.setData({ preTime: product.sold_time })

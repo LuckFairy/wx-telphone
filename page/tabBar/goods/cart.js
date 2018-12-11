@@ -98,13 +98,16 @@ Page({
   },
   onShow: function () {
     wx.hideShareMenu();
-    var that = this;
-    if (that.data.uid) {
-      var params = {
-        store_id: that.data.store_id,
-        uid: that.data.uid
-      };
-      that.loadList(params);
+    let that = this;
+    let uid = wx.getStorageSync("userUid");
+    if (uid) {
+      that.setData({ uid },()=>{
+        var params = {
+          store_id: that.data.store_id,
+          uid: uid
+        };
+        that.loadList(params);
+      })
     } else {
       wx.switchTab({
         url: '../home/index-new',
