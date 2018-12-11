@@ -138,8 +138,8 @@ Page({
     let params = {
      
       "position" : 1,
-      "lat": logLat[0],
-      "lng":logLat[1],
+      "lng":logLat[0],
+      "lat": logLat[1],
       "uid" : that.data.uid,
       "product_id": that.data.product_id,
       

@@ -174,3 +174,17 @@ margin-bottom: 12rpx;
   width: 450rpx;
   height: 60rpx;
 }
+/* 推荐 */
+.item-recommend{
+  display: inline-block;
+  margin-left: 16rpx;
+  font-size: 24rpx;
+  color: #fff;
+  background: #ffa207;
+  border-radius: 4rpx;
+  padding:4rpx 8rpx;
+}
+.distance{
+  font-size: 26rpx;
+  color: #999;
+}

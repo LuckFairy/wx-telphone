@@ -43,27 +43,30 @@ Page({
   },
   // 搜索门店
   searchCard(e) {
-    var that = this;
+    let that = this;
     var searchValue = e.detail.value;//搜索值
     if (searchValue) {
-      that.setData({
-        searchValue: searchValue,
-        pagesone: 1,
-        isSearch: true,
-      });
+      that.setData({ searchValue},()=>{
+        let opt = {"keyword":searchValue}
+        that.loadAddress(opt, null, 0);
+
+      })
     }
-    that.loadData1(that);
   },
   goNull(e) {
     var that = this;
     var searchValue = e.detail.value;
     if (!searchValue) {
       that.setData({
-        searchValue: searchValue,
-        pagesone: 1,
-        isSearch: true,
+        searchValue:'',
+        provinces: null,
+        provinId: 0,
+        city: null,
+        cityId: 0,
+        area: null,
+        areaId: 0
       });
-      that.loadData1(that);
+      this.loadAddress(undefined, 1, 0);
     }
   },
   /**
@@ -81,8 +84,15 @@ Page({
         "position": 1,
         "uid": uid,
         "product_id": prodId,
-        "lat": logLat[0],
-        "lng": logLat[1],
+        "lng": logLat[0],
+        "lat": logLat[1],
+      }
+    } else if (opt.keyword){
+      params={
+        "position": 1,
+        "uid": uid,
+        "product_id": prodId,
+        "keyword": opt.keyword
       }
     } else {
       params = {
@@ -171,16 +181,16 @@ Page({
   selectPhysical(e) {
     let { index } = e.currentTarget.dataset;
     let that = this;
-    var list = that.data.physical_list; var physical_check = [];
-    // if(!index){return;}
-    list[index].select_physical = (list[index].select_physical == 0 ? 1 : 1);
-    var select = list[index].select_physical;
-    for (let i = 0; i < list.length; i++) {
-      if (i != index) { list[i].select_physical = 0 }
-    }
-    that.setData({
-      physical_list: list,
-    })
+    var list = that.data.physical_list; var physical_check = {};
+    physical_check.name ="请选择门店";
+    // list[index].select_physical = (list[index].select_physical == 0 ? 1 : 1);
+    // var select = list[index].select_physical;
+    // for (let i = 0; i < list.length; i++) {
+    //   if (i != index) { list[i].select_physical = 0 }
+    // }
+    // that.setData({
+    //   physical_list: list,
+    // })
     physical_check = list[index]; var id = physical_check.phy_id;
     console.log(physical_check);
     setTimeout(() => {

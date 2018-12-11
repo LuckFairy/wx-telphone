@@ -95,8 +95,8 @@ function getLocation() {
       wx.getLocation({
         success: function (res) {
           var latitude = res.latitude,
-            longitude = res.longitude //维度，经度
-          var logLat = [longitude, latitude];
+            longitude = res.longitude 
+          var logLat = [longitude, latitude];//经度，维度
           wx.setStorageSync('logLat', logLat);
           resolve(logLat);
         },
