@@ -161,7 +161,7 @@ Page({
     let page = that.data.page;
     // 获取current确定点击哪里
     let { current, activityid } = e.currentTarget.dataset;
-    console.log(e, current, activityid);
+    // console.log(e, current, activityid);
     that.setData({
       current, activityid
     });

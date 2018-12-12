@@ -52,10 +52,8 @@
  ],
   "window": {
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#FFE546",
-
-    "navigationBarTitleText": "桂阳宝贝宝贝孕婴童连锁",
-
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "婴众趣购",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
