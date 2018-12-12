@@ -24,13 +24,14 @@ Page({
     provinFlag: false,
     cityFlag: false,
     areaFlag: false,
+    searchValue:''
   },
   onLoad: function (options) {
     let that = this;
 
     let logLat = wx.getStorageSync('logLat') || ['0', '0'],
-      { prodId ='1855' } = options,
-      uid = wx.getStorageSync('userUid') ||'142734',
+      { prodId } = options,
+      uid = wx.getStorageSync('userUid'),
       store_id = app.store_id;
     phy_id = wx.getStorageSync('phy_id');
     if (prodId) {

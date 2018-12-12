@@ -1,8 +1,8 @@
 {
   "pages": [
+    "page/tabBar/home/index-new",
     "page/common/pages/store-change",
     "page/common/pages/buy",
-    "page/tabBar/home/index-new",
     "page/distribution/moneyIndex",
     "page/distribution/my_customer",
     "page/distribution/my_withdraw",

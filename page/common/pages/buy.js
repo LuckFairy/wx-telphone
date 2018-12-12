@@ -51,7 +51,7 @@ Page({
     matteShow: false,  //购买成功弹窗
 
     orderData: '',//订单数据
-    orderId: 'PIG20181207113857430344',//订单号
+    orderId: '',//订单号
     storeId: app.store_id,//商店id
     uid: null,//用户id
     address: null,    // 存放当前收货地址数据
@@ -81,7 +81,7 @@ Page({
     // 自提參數
     showself:true,
     showmail:true,
-    pushStore:{name:'有事了体育西店'},//推荐门店
+    pushStore:null,//推荐门店
 
   },
   onLoad: function (options) {
@@ -92,7 +92,7 @@ Page({
     logLat = wx.getStorageSync('logLat') || ['0', '0'];
     let { pid, skuId, storeId, qrEntry, orderId, baokuan_action, quantity, ordertype = 0, diff_people } = options;
     if (diff_people) { this.data.setData({ diff_people }) };
-    let uid = wx.getStorageSync('userUid') ||'142734';
+    let uid = wx.getStorageSync('userUid');
     physical_id = wx.getStorageSync('phy_id'); //门店id
     if (baokuan_action) { this.setData({ baokuan_action }) }
     if (!orderId) { orderId = this.data.orderId }

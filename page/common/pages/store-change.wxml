@@ -24,13 +24,13 @@
   <view class="store-list-containner store-containner">
     <view class="list-view-wrap" wx:for="{{physical_list}}" wx:for-index="index">
       <view class="list-item-view sp-border" catchtap='selectPhysical'  data-index="{{index}}">
-        <navigator class="list-item-dtl-left-view" hover-class="none" >
+        <view class="list-item-dtl-left-view" hover-class="none" >
           <view class="list-item-title-view">
           <text class='normalText'>{{item.name}}</text>
           <text  wx:if="{{index==0}}" class='item-recommend'>推荐</text>
           </view>
           <text class="list-item-addr-view mText grayText">{{item.address}}</text>
-        </navigator>
+        </view>
         <view>
         <text class='distance'>{{item.distance}}公里</text>
         </view>
