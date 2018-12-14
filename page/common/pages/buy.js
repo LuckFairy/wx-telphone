@@ -177,7 +177,9 @@ Page({
     app.api.postApi(orderDetailUrl, {
       "params": {
         "order_no": opt.orderId,
-        "default_physical": phy_id
+        "default_physical": phy_id,
+        "lat": logLat[1],
+        "lng": logLat[0]
       }
     }, (err, rep) => {
       if (err||rep.err_code!=0) { console.log('err ', err); return; }

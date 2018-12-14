@@ -4,7 +4,7 @@
   <!-- <scroll-view scroll-x="true" class='child-list' wx:if="{{activity_err_msg.length > 0}}">
       <view wx:for="{{activity_err_msg}}" wx:for-index="index" class='list-tab {{index==current?"current":""}}' data-current='{{index}}' data-activityid="{{item.activityId}}" bindtap='clickGo'>
         <text class='child-list-text'>{{item.activityAlias}}</text>
-      </view>
+      </view
     </scroll-view> -->
 
   <view class="navbar">
