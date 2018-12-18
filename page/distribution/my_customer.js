@@ -29,7 +29,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({ changeone: true });
     this.getCustomers(0);
 
   },
@@ -195,7 +195,6 @@ Page({
       case 0: if (!changeone) { that.setData({ changeone: true }); this.getCustomers(index);}break;
       case 1: if (!changetwo) { that.setData({ changetwo: true }); this.getCustomers(index); } break;
       case 2: if (!changethree) { that.setData({ changethree: true }); this.getCustomers(index); } break;
-      default: if (!changeone) { that.setData({ changeone: true }); this.getCustomers(index); } break;
     }
     
    
