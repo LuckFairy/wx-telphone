@@ -18,7 +18,7 @@
   <swiper bindchange="swiperChange" class='swiper-item' current="{{curActIndex}}">
     <swiper-item >
     <block   wx:if="{{list0 && list0.length > 0}}" >
-
+      <scroll-view  scroll-y="true" bindscrolltolower='pullUpLoadone' enable-back-to-top="true">
          <view class='main-content'  wx:for="{{list0}}">
         <view>
           <image class='main-content-img' src='{{item.userinfo.avatar}}'>
@@ -33,7 +33,7 @@
           <text>成交金额： ¥{{item.order_money}}</text>
         </view>
       </view>
-      
+      </scroll-view>
       </block>
       <block wx:else>
         <empty_tip></empty_tip>
@@ -43,6 +43,7 @@
 
      <swiper-item >
     <block wx:if="{{list1 && list1.length > 0}}">
+      <scroll-view scroll-y="true" bindscrolltolower='pullUpLoadtwo' enable-back-to-top="true">
          <view class='main-content' wx:for="{{list1}}">
         <view>
           <image class='main-content-img' src='{{item.userinfo.avatar}}'>
@@ -57,7 +58,7 @@
           <text>成交金额： ¥{{item.order_money}}</text>
         </view>
       </view>
-      
+      </scroll-view>
       </block>
       <block wx:else>
         <empty_tip></empty_tip>
@@ -67,6 +68,7 @@
 
      <swiper-item >
     <block wx:if="{{list2 && list2.length > 0}}">
+        <scroll-view scroll-y="true" bindscrolltolower='pullUpLoadthree' enable-back-to-top="true">
          <view class='main-content' wx:for="{{list2}}">
         <view>
           <image class='main-content-img' src='{{item.userinfo.avatar}}'>
@@ -81,7 +83,7 @@
           <text>成交金额： ¥{{item.order_money}}</text>
         </view>
       </view>
-      
+      </scroll-view>
       </block>
       <block wx:else>
         <empty_tip></empty_tip>

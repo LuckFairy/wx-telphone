@@ -81,8 +81,13 @@ page {
 .myself-id {
   margin-right: 24rpx;
   font-size: 28rpx;
+  overflow:hidden;
+width: 100%;
+text-overflow:ellipsis;
+white-space:nowrap;
 }
 .myself-detail {
+  flex:1;
   display: inline-block;
   font-size: 0rpx;
 

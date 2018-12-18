@@ -13,6 +13,15 @@ Page({
     list1:[],
     list2: [],
     storeId: app.store_id,
+    one:1,
+    flagone:false,
+    changeone:false,
+    two:1,
+    changetwo:false,
+    flagtwo:false,
+    three:1,
+    changethree:false,
+    flagthree:false
 
   },
 
@@ -24,12 +33,37 @@ Page({
     this.getCustomers(0);
 
   },
+  pullUpLoadone(){
+    let index = this.data.curActIndex,page = this.data.one;
+    if(!this.data.flagone){return;}
+    page++;
+    let that = this;
+    // console.log(page);
+    this.setData({one:page},()=>{
+       that.getCustomers(index,page);
+    })
+  },
+  pullUpLoadtwo(){
+    let index = this.data.curActIndex, page = this.data.two;
+    if (!this.data.flagtwo) { return; }
+    page++;
+    let that = this;
+    this.setData({ two: page }, () => {
+      that.getCustomers(index, page);
+    })
+  },
+  pullUpLoadthree(){
+    let index = this.data.curActIndex, page = this.data.three;
+    if (!this.data.flagthree) { return; }
+    page++;
+    let that = this;
+    this.setData({ three: page }, () => {
+      that.getCustomers(index, page);
+    })
+  },
 
-  getCustomers(index){
+  getCustomers(index,page){
     let that=this;
-    that.setData({
-      curActIndex: index,
-    });
     //分类(‘all’:全部客户,’my’:未跑路客户,’others’:已跑路客户)
     let type ='all';
     if(index==1){
@@ -42,7 +76,8 @@ Page({
       var params = {
         "fx_id": fxid,
         type,
-        "store_id": this.data.storeId
+        "store_id": this.data.storeId,
+        page:page?page:1
       };
       app.api.postApi(_get_user, { params }, (err, resp) => {
         wx.hideLoading();
@@ -51,20 +86,35 @@ Page({
             let list = resp.err_msg.data;
 
             if (index == 0) {
-              that.setData({
-                list0: list,
-              });
+              if(!list.length||list.length==0){that.setData({flagone:false})}
+              else{
+               var  arr = [...that.data.list0,...list];
+             
+                that.setData({
+                  list0: arr,
+                  flagone:true
+                });
+              }
             } else if (index == 1){
-              that.setData({
-                list1: list,
-              });
+              if (!list.length || list.length == 0) { that.setData({ flagtwo: false }) }
+              else {
+                var arr = [...that.data.list1, ...list];
+                that.setData({
+                  list1: arr,
+                  flagtwo: true
+                });
+              }
             } else if (index == 2) {
-              that.setData({
-                list2: list,
-              });
+              if (!list.length || list.length == 0) { that.setData({ flagthree: false }) }
+              else {
+                var arr = [...that.data.list2, ...list];
+                that.setData({
+                  list2: arr,
+                  flagthree: true
+                });
+              }
             }
-            console.log(index + ' ：' + JSON.stringify(that.data.list0));
-
+           
           }
 
         }
@@ -136,10 +186,20 @@ Page({
     that.getCustomers(index);
   },
   swiperChange: function (e) {
-    console.log("current：" + e.detail.current);
+    // console.log("current：" + e.detail.current);
     let index = e.detail.current;//待拼团对应下标
     let that = this;
-    this.getCustomers(index);
+    let{changeone,changetwo,changethree}=that.data;
+    this.setData({ curActIndex: index })
+    switch(index){
+      case 0: if (!changeone) { that.setData({ changeone: true }); this.getCustomers(index);}break;
+      case 1: if (!changetwo) { that.setData({ changetwo: true }); this.getCustomers(index); } break;
+      case 2: if (!changethree) { that.setData({ changethree: true }); this.getCustomers(index); } break;
+      default: if (!changeone) { that.setData({ changeone: true }); this.getCustomers(index); } break;
+    }
+    
+   
+
   }
 
 
