@@ -193,7 +193,7 @@ Page({
     var logo = e.currentTarget.dataset.logo
     var source = e.currentTarget.dataset.source
     wx.navigateTo({
-      url: './card_summary?activityid=' + activityid + '&id=' + id + '&endTime=' + endTime + '&faceMoney=' + faceMoney + '&name=' + name + '&originalPrice=' + originalPrice + '&startTime=' + startTime + '&logo=' + logo + '&source=' + source
+      url: './card_get?activityid=' + activityid + '&id=' + id + '&endTime=' + endTime + '&faceMoney=' + faceMoney + '&name=' + name + '&originalPrice=' + originalPrice + '&startTime=' + startTime + '&logo=' + logo + '&source=' + source
     })
   },
   /**

@@ -1,5 +1,26 @@
 import __config from '../config.js';
 import  Api from './api_1';
+import qrcode from './qrcode';
+import barcode from './barcode';
+function convert_length(length) {
+  return Math.round(wx.getSystemInfoSync().windowWidth * length / 750);
+}
+
+// 把数字转换成条形码
+function toBarcode(canvasId, code, width, height) {
+  barcode.code128(wx.createCanvasContext(canvasId), code, convert_length(width), convert_length(height))
+}
+
+// 把数字转换成二维码
+function toQrcode(canvasId, code, width, height) {
+  qrcode.api.draw(code, {
+    ctx: wx.createCanvasContext(canvasId),
+    width: convert_length(width),
+    height: convert_length(height)
+  })
+}
+
+
 function formatTime(date) {
   var date = new Date(date * 1000);//如果date为10位不需要乘1000
   var year = date.getFullYear()
@@ -107,5 +128,6 @@ function getLocation() {
     }
   })
 }
-module.exports = { formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile, getAddress,getLocation}
+module.exports = {
+  formatTime, formatDuration, getUrlQueryParam, formatMoney, checkMobile, getAddress, getLocation, toBarcode,toQrcode}
 
