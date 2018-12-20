@@ -1,6 +1,7 @@
 {
   "pages": [
     "page/tabBar/home/index-new",
+    "page/common/pages/goods-detail",
     "page/common/pages/card_get",
     "page/common/pages/card_summary",
     "page/common/pages/mycard",
@@ -20,7 +21,7 @@
     "page/distribution/my_income",
     "page/tabBar/my/myself",
     "page/common/pages/activity-detail",
-    "page/common/pages/goods-detail",
+   
     "page/common/pages/my-order",
     "page/tabBar/goods/cart",
     "page/common/pages/activity-join",

@@ -6,6 +6,7 @@ const fxUserUrl = "wxapp.php?c=promote&a=show_share_icon";//判断是否是分�
 const cartUrl = "wxapp.php?c=cart&a=cart_list";
 const storeCouponUrl = "wxapp.php?c=coupon&a=store_coupon";
 const prodDetUrl = `wxapp.php?c=product&a=detail_of_product_v4`;
+// const prodDetUrl = `wxapp.php?c=product&a=detail_of_product`;
 const addOrderUrl = 'wxapp.php?c=order_v2&a=add';//生成订单接口
 const addCartUrl = `wxapp.php?c=cart&a=add`;//加入购物车
 Page({
@@ -317,7 +318,7 @@ Page({
     var params = {
       product_id, uid, store_id
     }
-    app.api.postApi('wxapp.php?c=product&a=detail_of_product_v4', { params }, (err, resp) => {
+    app.api.postApi(prodDetUrl, { params }, (err, resp) => {
       wx.hideLoading();
       if (err || resp.err_code != 0){console.error(err||resp.err_msg); return;}
         var product = resp.err_msg.product;
@@ -333,9 +334,9 @@ Page({
         that.setData({
           product, product_id: product.product_id, jdConfig
         },()=>{
-          if (product.sold_time <= 0) {
-            that.setData({ preTime: product.sold_time })
-          } else {
+          if (!product.sold_time||product.sold_time <= 0) {
+            that.setData({ preTime: -1 })
+          } else  {
             that.startCountDown(product.sold_time);
           }
         });
@@ -759,7 +760,7 @@ Page({
    * 倒计时处理
    */
   startCountDown(preTime) {
-
+    clearInterval(this.timer)
     let now = (new Date().getTime()) / 1000;
     let leftTime = preTime - now;
     if (leftTime <= 0) {

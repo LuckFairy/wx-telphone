@@ -95,12 +95,12 @@
       <text class='invite-ke-server-text'>客服</text>
     </view>
     <block wx:if="{{product.can_buy==1}}">
-      <view class='invite-car invite-total' bindtap='goCart' style="{{action&&action!=0?'visibility:hidden':''}}">
+      <view class='invite-car invite-total' bindtap='goCart' style="{{(action&&action!=0&&product.is_shopping_cart==1)?'visibility:hidden':''}}">
         <image class='invite-car-img' src='../../image/shop-cart2.png'></image>
         <text class='invite-car-num'>{{newCartNum}}</text>
         <text class='cart-ke-server-text'>购物车</text>
       </view>
-      <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" style="{{action&&action!=0?'visibility:hidden':''}}">
+      <view class='add-invite-car invite-total' bindtap="addShopCart" data-type="addcart" style="{{(action&&action!=0&&product.is_shopping_cart==1)?'visibility:hidden':''}}">
         <text class='add-invite-car-child'>加入购物车</text>
       </view>
       <view wx:if="{{action =='present'}}" class='current-buying invite-total'  bindtap="goPreApply">
@@ -133,13 +133,13 @@
     </view>
 
     <block wx:if="{{preTime<=0}}">
-      <view class='invite-car invite-total' bindtap='goCart' style="{{action&&action!=0?'visibility:hidden':''}}">
+      <view class='invite-car invite-total' bindtap='goCart' style="{{(action&&action!=0&&product.is_shopping_cart==1)?'visibility:hidden':''}}">
         <image class='invite-car-img' src='../../image/shop-cart2.png'></image>
         <text class='invite-car-num'>{{newCartNum}}</text>
         <text class='cart-ke-server-text'>购物车</text>
       </view>
 
-      <view class='add-invite-car invite-total eee' data-type="addcart"  style="{{action&&action!=0?'visibility:hidden':''}}">
+      <view class='add-invite-car invite-total eee' data-type="addcart"  style="{{(action&&action!=0&&product.is_shopping_cart==1)?'visibility:hidden':''}}">
 
         <text class='add-invite-car-child'>加入购物车</text>
       </view>
