@@ -350,7 +350,7 @@ App({
         params
       }, (err, rep) => {
         if (err || rep.err_code != 0) {
-          console.error(err || rep.err_msg);
+          //console.error(err || rep.err_msg);
           return;
         } else {
           resolve(rep.err_msg);

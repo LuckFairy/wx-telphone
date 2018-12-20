@@ -426,7 +426,7 @@ Page({
         err_msg
       } = resp;
       if (err_code != 0) {
-        console.error(activityUrl, resp.err_msg);
+        // console.error(activityUrl, resp.err_msg);
         return;
       }
 
@@ -633,7 +633,7 @@ Page({
     });
   },
   /**
-   * 新用户领券
+   * 新用户领券?///////////
    */
   getCoupon() {
     var that = this;

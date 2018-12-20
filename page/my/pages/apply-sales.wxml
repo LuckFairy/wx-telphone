@@ -1,6 +1,6 @@
 <view class='wrap'>
   <!--顶部商品信息  -->
-  <view class='apply-shopping'>
+  <!-- <view class='apply-shopping'>
     <image class='apply-shopping-img' src='{{dataList.image}}'></image>
     <view class='apply-shopping-detail'>
       <view class='apply-shopping-title'>
@@ -15,6 +15,25 @@
         <text class='apply-shopping-money-text'>金额：</text>
         <text class='apply-shopping-money-num'>￥{{dataList.pro_price}}</text>
       </view>
+    </view>
+  </view> -->
+   <!--商品列表开始  -->
+  <view wx:for="{{product}}" wx:key="{{index}}" class="goods-info-block">
+    <view class="goods-info-view">
+      <image src="{{item.image}}" mode='aspectFit' class="goods-img"></image>
+      <view class="goods-name-view-wrap">
+        <text class='goods-title-name'>{{item.name}}</text>
+        <view class='goods-size-name'>
+          <text wx:if="{{item.sku_data.length > 0 }}" wx:for="{{item.sku_data}}" wx:for-item="item2" class='goods-color-name'>{{item2.name}}:{{item2.value}} </text>
+
+
+        </view>
+        <view class='goods-price-number'>
+          <text class='goods-price'>￥{{item.pro_price}}</text>
+          <text class='goods-number'>X{{item.pro_num}}</text>
+        </view>
+      </view>
+
     </view>
   </view>
   <!--顶部商品信息结束  -->

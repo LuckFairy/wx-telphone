@@ -59,7 +59,7 @@
     <!--優惠券區域  -->
     <view class='coupon-area' wx:if="{{couponValue.length>0}}">
       <view class='coupon-area-up'>
-        <view wx:for="{{couponValue}}" wx:for-item="value" class="{{value.is_get==1?'coupon-up-item':'coupon-up-item coupon-up-get-item'}}" data-id="{{value.id}}" catchtap="{{value.is_get==1?'getValue':'showError'}}" data-source="{{value.is_get==1?'2':''}}">
+        <view wx:for="{{couponValue}}" wx:key="{{index}}" wx:for-item="value" class="{{value.is_get==1?'coupon-up-item':'coupon-up-item coupon-up-get-item'}}" data-id="{{value.id}}" catchtap="{{value.is_get==1?'getValue':'showError'}}" data-source="{{value.is_get==1?'2':''}}">
           <view class='coupon-up-value'>
             <view>
               <text>￥</text>
@@ -79,7 +79,7 @@
     </view>
     <!--正品保障区域  -->
     <view class='card-banner-area'>
-      <view wx:for="{{valueList}}" class='card-banner-item'>
+      <view wx:for="{{valueList}}" wx:key="{{index}}" class='card-banner-item'>
         <image src='{{item.src}}'></image>
         <text>{{item.txt}}</text>
       </view>
@@ -103,7 +103,7 @@
         </view>
       </view>
       <view class='pinduoduo-content'>
-        <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{groupData}}" wx:key="{{item}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="clickGoGroupProduct">
+        <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{groupData}}" wx:key="{{index}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="clickGoGroupProduct">
           <image class='pinduoduo-content-image' mode='aspectFill' src='{{item.image}}'></image>
           <view class='pt-right'>
             <view style='display:block;'>
@@ -136,7 +136,7 @@
       <text>精选活动</text>
       <!-- <image src='../../image/start.png'></image> -->
     </view>
-    <block wx:if="{{productData.length>0}}" wx:for="{{productData}}" wx:for-index="{{index}}">
+    <block wx:if="{{productData.length>0}}" wx:for="{{productData}}" wx:for-index="{{index}}" wx:key="{{index}}">
       <view class='area-content' bindtap='areaClickGo' data-type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
         <view class='area-image-1'>
           <image src='{{item.banner}}' lazyLoad="true" mode='aspectFill'></image>
@@ -202,7 +202,7 @@
     <!--  切换门店区域结束 -->
     <!--正品保障区域  -->
     <view class='card-banner-area'>
-      <view wx:for="{{valueList}}" wx:key="index" class='card-banner-item'>
+      <view wx:for="{{valueList}}" wx:key="{{index}}" class='card-banner-item'>
         <image src='{{item.src}}'></image>
         <text>{{item.txt}}</text>
       </view>
@@ -211,7 +211,7 @@
     <form bindsubmit='areaClickGo' report-submit='true' wx:if='{{indexIcon.length>0}}'>
       <view class='list-select-area '>
         <view class="list-select-area-bottom">
-          <view wx:for="{{indexIcon}}" wx:key="index" class='select-list' >
+          <view wx:for="{{indexIcon}}" wx:key="{{index}}" class='select-list' >
             <image class='select-list-image ' src='{{item.image}} '></image>
             <text class='select-list-text '>{{item.title}}</text>
             <button form-type='submit' class='sub-button' data-type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}">按钮</button>
@@ -273,7 +273,7 @@
     </view> -->
     <view class='coupon-area hide' wx:if="{{couponValue.length>0}}">
       <view class='coupon-area-up'>
-        <view wx:for="{{couponValue}}" wx:for-item="value" class="{{value.is_get==1?'coupon-up-item':'coupon-up-item coupon-up-get-item'}}" data-id="{{value.id}}" catchtap="{{value.is_get==1?'getValue':'showError'}}" data-source="{{value.is_get==1?'2':''}}">
+        <view wx:for="{{couponValue}}" wx:key="{{index}}" wx:for-item="value" class="{{value.is_get==1?'coupon-up-item':'coupon-up-item coupon-up-get-item'}}" data-id="{{value.id}}" catchtap="{{value.is_get==1?'getValue':'showError'}}" data-source="{{value.is_get==1?'2':''}}">
           <view class='coupon-up-value'>
             <view>
               <text>￥</text>
@@ -305,7 +305,7 @@
       </view>
 
       <view class='pinduoduo-content'>
-        <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{groupData}}" wx:key="{{item}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="clickGoGroupProduct">
+        <view class='pinduoduo-content-list pintuan-content-list' wx:for="{{groupData}}" wx:key="{{index}}" data-prodId="{{item.product_id}}" data-tuanId="{{item.tuan_id}}" data-quantity="{{item.quantity}}" bindtap="clickGoGroupProduct">
           <image class='pinduoduo-content-image' mode='aspectFill' lazy-load='true' src='{{item.image}}'></image>
           <text class='pinduoduo-content-title'>{{item.name}}</text>
           <view class='pinduoduo-content-price'>
@@ -341,7 +341,7 @@
     <view class='pinduoduo-title' style='margin-top:16rpx;'>
     <image src='./imgs/goactivity.png' class='left-title-image'></image>
     </view>
-    <block wx:if="{{productData.length>0}}" wx:for="{{productData}}" wx:key="index" wx:for-index="{{index}}">
+    <block wx:if="{{productData.length>0}}" wx:for="{{productData}}" wx:key="{{index}}" wx:for-index="{{index}}">
       <view class='area-content' bindtap='areaClickGo' data-type="{{item.redi_type}}" data-rediurl="{{item.rediurl}}" data-id='{{item.id}}'>
         <view class='area-image-1'>
           <image src='{{item.banner}}' lazyLoad="true" mode='aspectFill'></image>

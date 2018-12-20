@@ -76,9 +76,7 @@ Page({
   goSales(e) {
     var that = this;
     var orderId = e.currentTarget.dataset.orderId;
-    var orderProductId = e.currentTarget.dataset.orderProductId;
-
-    console.log('orderId', orderId);
+    var orderProductId = this.data.pigcms_id;
     console.log('orderProductId', orderProductId);
     var uid = this.data.uid;
     //判断是否能申请售后，如果可以才跳到售后界面
@@ -102,7 +100,7 @@ Page({
         });
       } else {
         wx.navigateTo({
-          url: '../../my/pages/apply-sales?orderId=' + orderId + '&orderProductId=' + orderProductId + '&uid=' + uid
+          url: '../../my/pages/apply-sales?orderId=' + orderId + '&orderProductId=' + orderProductId + '&uid=' + uid + '&product=' + JSON.stringify(that.data.orderData.product)
         })
       }
     });
@@ -329,9 +327,12 @@ Page({
           }
           self.setData({ physical_info });
         }
-
+        var pigcms_id = orderdata.product.map(val=>{
+          return val.pigcms_id;
+        })
         self.setData({
           orderData: orderdata,
+          pigcms_id,
           send_type: orderdata.send_type,
           orderTime: formatTime(orderdata.add_time),
           uid: orderdata.uid,
@@ -400,8 +401,7 @@ Page({
   },
   //查看 售后
   showSales() {
-    console.log('购物车为空，去下单');
-    //wx.reLaunch({ url: '../../tabBar/pages/index-new' });
+    // console.log('购物车为空，去下单');
     wx.navigateTo({
       url: '../../common/pages/my-order?page=5'
     })

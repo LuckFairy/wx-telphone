@@ -6,6 +6,7 @@ Page({
    */
   data: {
     turnStatus:null,
+    product:[],
     dataList:'',
     orderId:'',
     productId: '', 
@@ -25,12 +26,14 @@ Page({
     var that = this;
     console.log(options,334433);
     var orderId = options.orderId;
-    var orderProductId = options.orderProductId;
+    var orderProductId = [options.orderProductId];
+    var product = JSON.parse(options.product)
     var uid = options.uid;
     that.setData({
       orderId: orderId,
       orderProductId: orderProductId,
-      uid: uid
+      uid: uid,
+      product
     })
 
     var params = {
@@ -38,10 +41,10 @@ Page({
       "pigcms_id": orderProductId,
       "uid": uid
     };
-    console.log('请求参数', params);
-    var url = 'wxapp.php?c=return&a=applyReturn';
-    app.api.postApi(url, { params }, (err, response) => {
-      console.log('applyReturn接口返回数据=', response);
+    // console.log('请求参数', params);
+
+    app.api.postApi('wxapp.php?c=return&a=applyReturn', { params }, (err, response) => {
+      // console.log('applyReturn接口返回数据=', response);
       if (err) return;
       if (response.err_code != 0) {
 
