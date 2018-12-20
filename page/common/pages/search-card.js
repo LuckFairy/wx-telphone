@@ -16,6 +16,7 @@ Page({
     category: 3,//优惠券的类别 1线上 3门店
     searchValue: null,
     isSearch: false,//是否搜索
+    package_id:null
   },
   // 搜索卡包
   searchCard(e) {
@@ -86,6 +87,8 @@ Page({
     var that = this;
     var store_id = app.store_id;
     var uid = wx.getStorageSync('userUid');
+    let { package_id } = options;
+    if (package_id) { that.setData({ package_id }) }
     that.setData({ curSwiperIdx: 0, curActIndex: 0, uid: uid, store_id });
     that.loadData1(that);
   },
@@ -123,9 +126,9 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    var { searchValue, pagesone, store_id, uid, category, searchFlag, normal = [] } = that.data;
+    var { searchValue, pagesone, store_id, uid, category, searchFlag, normal = [],package_id } = that.data;
     var params = {
-      page: pagesone, store_id, uid: uid, type: category, tagId: 0, keyword: searchValue
+      page: pagesone, store_id, uid: uid, type: category, tagId: 0, package_id, keyword: searchValue
     }
     app.api.postApi('wxapp.php?c=coupon&a=my_v2', { params }, (err, reps) => {
       if (err && reps.err_code != 0) { wx.hideLoading(); return; }

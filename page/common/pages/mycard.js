@@ -102,9 +102,12 @@ Page({
   onUnload: function () {
     // 页面关闭
   },
-  goAll(){
+  goAll(e){
+    console.log(e)
+    let index = e.currentTarget.dataset.index;
+    let package_id = this.data.offlineData[index].package_id;
  wx.navigateTo({
-   url: './allcard',
+   url: `./allcard?package_id=${package_id}`,
  })
 
   },

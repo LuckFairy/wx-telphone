@@ -1,5 +1,5 @@
 
-@import'mycard.wxss';
+@import'allcard.wxss';
 
 @import'mycardHistory.wxss';
 

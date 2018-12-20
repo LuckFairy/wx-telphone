@@ -44,8 +44,9 @@ Page({
       wx.hideLoading();
       if(err||rep.err_code!=0){console.error(err||rep.err_msg);return;}
       let { err_code,err_msg}=rep;
-      toQrcode('qrcode', JSON.stringify(err_msg.qrcode), 210, 210);
-      // toBarcode('barcode', err_msg.card_no, 280, 60);
+      toQrcode('qrcode', JSON.stringify(err_msg.qrcode), 260, 260);
+      toBarcode('barcode', err_msg.card_no, 560, 120);
+      err_msg.card_no = err_msg.card_no.replace(/(\w{4})(?=\w)/g, '$1 ')
       that.setData({
         msg:err_msg
       })

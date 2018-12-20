@@ -23,12 +23,12 @@
       <scroll-view wx:else scroll-y="true" bindscrolltolower='pullUpLoadone' enable-back-to-top="true">
         <view  class="card-list-view">
           
-          <block wx:for="{{offlineData}}" wx:for-item="li" wx:key="{{i}}">
+          <block wx:for="{{offlineData}}" wx:for-item="li" wx:key="{{index}}">
            <view class='boxItem'>
               <view class='item-top'>
                 <image src='{{li.img}}'></image>
                 <text>{{li.title}}</text>
-                <button bindtap='goAll'>查看全部</button>
+                <button bindtap='goAll' data-index='{{index}}'>查看全部</button>
               </view>
               <block wx:for="{{li.list}}" wx:for-item="card" wx:key="{{index}}">
                 <view class="card-item-view" bindtap='goDetail' data-source='{{card.source}}' data-type='{{card.type}}' data-id='{{card.coupon_id}}' data-distinguish='{{0}}'>

@@ -6,6 +6,7 @@ Page({
   data: {
     updateone: false,//点击刷新
     updatetwo: false,
+    package_id:null,
     offlineData: [],//门店数据
     onlineData: [],//线上数据
     loadingone: true,//待使用是否上拉刷新
@@ -40,7 +41,7 @@ Page({
   },
   goInput() {
     wx.navigateTo({
-      url: './search-card'
+      url: `./search-card?package_id=${this.data.package_id}`
     })
   },
   // 选择keyword全部，玩具等类型券
@@ -115,6 +116,8 @@ Page({
 
     var store_id = app.store_id;//store_id
     var uid = wx.getStorageSync('userUid') ||142734;
+    let { package_id}= options;
+    if (package_id) { that.setData({ package_id})}
     that.setData({ uid: uid, store_id: store_id });
 
   },
@@ -187,14 +190,14 @@ Page({
 
   //加载页面数据
   loadData1: function (that, page, tag) {
-    var { offlineData, pagesone, store_id, uid, keynum, tagData } = that.data;
+    var { offlineData, pagesone, store_id, uid, keynum, tagData, package_id} = that.data;
     var tagId = 0;
     if (keynum != 0) {
       tagId = tagData[keynum].tagId;
     }
     //type=3门店券
     var params = {
-      page: pagesone, store_id, uid: uid, type: 3, tagId
+      page: pagesone, store_id, uid: uid, type: 3, tagId, package_id
     }
     if (page) { params.page = 1 };
     if (tag) { params.tagId = 0 };
@@ -218,14 +221,14 @@ Page({
     });
   },
   loadData2: function (that, page, tag) {
-    var { onlineData, pagestwo, store_id, uid, loadingtwo, keynum, tagData } = that.data;
+    var { onlineData, pagestwo, store_id, uid, loadingtwo, keynum, tagData, package_id } = that.data;
     var tagId = 0;
     if (keynum != 0) {
       tagId = tagData[keynum].tagId;
     }
     //type=1线上券
     var params = {
-      page: pagestwo, store_id, uid: uid, type: 1, tagId
+      page: pagestwo, store_id, uid: uid, type: 1, tagId, package_id
     }
     if (page) { params.page = 1 };
     if (tag) { params.tagId = 0 };

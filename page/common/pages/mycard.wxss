@@ -174,10 +174,14 @@ color: #939393;
 font-size: 24rpx;
 }
 .card-item-up-middle{
+  width: 268rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: left;
   font-size: 22rpx;
   flex-direction: column;
-  margin-left: 60rpx;
+  margin-left: 58rpx;
 }
 .card-title-text {
 font-size:28rpx;
@@ -541,10 +545,12 @@ color:rgba(27,27,27,1);
 flex: 1;
 
 }
+.item-top button::after{border: none;}
+.item-top button::before{border: none;}
 .item-top button{
   width:120rpx;
 height:48rpx;
-border:1px solid rgba(153,153,153,1);
+border:1rpx solid rgba(153,153,153,1);
 border-radius:6rpx;
 font-size:24rpx;
 font-family:PingFangSC-Light;
