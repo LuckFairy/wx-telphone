@@ -152,7 +152,7 @@ Page({
   },
   changeStore(){
     let { pickupPhy, pushStore}=this.data;
-    this.setData({ pickupPhy: pushStore, pushStore:null})
+    this.setData({ pickupPhy: pushStore, pickupStoreId: pushStore.phy_id, pushStore: null})
   },
   putchange(e) {
     let { method } = e.target.dataset, { shopListData}=this.data;

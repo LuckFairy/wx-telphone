@@ -7,6 +7,9 @@
 <template wx:if="{{showpopteamModle==true}}" is="popteam-modal" data="{{popteamData,popteamUrl,popteamNicke}}"></template>
 <template wx:if="{{showModel==true}}" is="coupon-modal" data="{{showModel,couponList}}"></template>
 
+<view class='errorModel' wx:if="{{error}}">
+  <text>{{error}}</text>
+</view>
 <scroll-view wx:if="{{!change}}" enable-back-to-top='true' scroll-y="true" class='yiya-top' scroll-top="{{scroll_top}}" bindscroll="scrollTopFun">
   <view class='wrap'>
     <!--轮播图 -->

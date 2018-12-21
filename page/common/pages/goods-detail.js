@@ -752,8 +752,13 @@ Page({
  * 显示错误信息
  */
   _showError(errorMsg) {
-    // wx.showToast({ title: errorMsg, image: '../../../image/use-ruler.png', mask: true });
-    this.setData({ error: errorMsg });
+    this.setData({
+      error: errorMsg
+    }, () => {
+      setTimeout(() => {
+        that.setData({ error: null })
+      }, 1500)
+    });
     return false;
   },
   /**

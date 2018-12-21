@@ -4,6 +4,7 @@
     "page/common/pages/goods-detail",
     "page/common/pages/card_get",
     "page/common/pages/card_summary",
+    "page/common/pages/card_summary2",
     "page/common/pages/mycard",
     "page/common/pages/store-change",
     "page/common/pages/buy",

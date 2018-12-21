@@ -506,7 +506,6 @@ Page({
    * 马上领取优惠券
    */
   getValue(e) {
-    console.log('catch:e....', e)
     let {
       id,
       source,
@@ -855,7 +854,7 @@ Page({
     }
   },
   showError() {
-    var msg = `你已经领过该券了，试试领其他的`;
+    var msg = `你已经领过该券了`;
     this._showError(msg);
   },
 
@@ -863,13 +862,13 @@ Page({
    * 显示错误信息
    */
   _showError(errorMsg) {
-    wx.showToast({
-      title: errorMsg,
-      image: '../../../image/use-ruler.png',
-      mask: true
-    });
+    let that = this;
     this.setData({
       error: errorMsg
+    },()=>{
+      setTimeout(()=>{
+        that.setData({error:null})
+      },1500)
     });
     return false;
   },

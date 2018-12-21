@@ -154,7 +154,7 @@ Page({
     if (_type == 3) {
       // 门店券
       wx.navigateTo({
-        url: './card_summary?id=' + id + '&distinguish=' + distinguish
+        url: './card_summary2?id=' + id + '&distinguish=' + distinguish
       })
     } else {
       wx.navigateTo({
