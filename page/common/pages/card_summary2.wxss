@@ -13,8 +13,8 @@ page{
   flex-direction: column;
 }
 .qr-top{
-  height: 96rpx;
 background: #fff;
+padding: 40rpx 0 30rpx 0;
 font-size:28rpx;
 font-family:PingFangSC-Regular;
 font-weight:400;
@@ -22,10 +22,29 @@ color:rgba(66,66,66,1);
   align-items: center;
 }
 .qr-top image{
-  margin: 0 20rpx 0 30rpx;
- width:27rpx;
-height:33rpx;
+  margin: 0 10rpx 0 24rpx;
+ width:48rpx;
+height:48rpx;
+border-radius:50%;
 
+
+}
+.text-top{
+  background: #fff;
+  justify-content: space-between;
+  padding-bottom: 8rpx;
+}
+.text-top text{
+  display: block;
+}
+.text-top>view:first-child{
+  flex-direction: column;
+  font-size: 24rpx;
+  margin-left: 80rpx;
+}
+.text-top>text:last-child{
+font-size: 48rpx;
+margin-right: 26rpx;
 }
 .barLine{
   height: 32rpx;
@@ -45,7 +64,7 @@ height:33rpx;
 .qr-view{
   background: #fff;
   flex-direction: column;
-  padding: 30rpx;
+  padding:30rpx;
   padding-bottom: 64rpx;
   align-items: center;
   text-align: center;
@@ -55,32 +74,23 @@ height:33rpx;
   text-align: center;
   justify-content: center;
 }
-.qr-view>view:first-child .color3{
-  font-size: 72rpx;
-  margin-top: 80rpx;
-}
-.qr-view>view:first-child .color9{
-  font-size: 24rpx;
-  margin-top: 24rpx;
-}
-.qr-view>view:nth-child(2) .color3{
+.qr-view>view.qr-view-code .color3{
   font-size: 26rpx;
-  margin-top: 96rpx;
 }
-.qr-view>view:nth-child(2) .barcode{
- width:560rpx;
-height:120rpx;
+.qr-view>view.qr-view-code .barcode{
+width:592rpx;
+height:144rpx;
 margin-top: 24rpx;
 
 }
-.qr-view>view:nth-child(2) .color42{
-  font-size: 28rpx;
+.qr-view>view.qr-view-code .color42{
+  font-size: 40rpx;
   margin-top: 24rpx;
 }
 .qr-view>.erwei{
   width:300rpx;
 height:300rpx;
-margin-top: 56rpx;
+/* margin-top: 40rpx; */
 }
 .depict{
   border-top:1rpx dashed rgba(214,214,214,1);

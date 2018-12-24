@@ -52,20 +52,20 @@
                     <view class="card-money-text">￥
                       <text>{{card.face_money}}</text>
                     </view>
-                    <view class="card-limit-text">{{card.type_left}}</view>
+                    <view class="card-limit-text color70">{{card.type_left}}</view>
 
                   </view>
                   <view class='card-item-up-middle'>
-                    <view class="card-title-text">{{card.cname}}</view>
+                    <view class="card-title-text color42">{{card.cname}}</view>
                     <!-- <view wx:if="{{category==3}}" class='card-tip'>现金券</view>
                     <view wx:if="{{category==1 && card.limit_money==0}}" class='card-tip'>通用券</view>
                     <view wx:if="{{category==1 && card.limit_money!=0}}" class='card-tip'>满减券</view> -->
 
-                    <view class="card-time-text">{{card.start_time_str}}-{{card.end_time_str}}</view>
+                    <view class="card-time-text color9">{{card.start_time_str}}-{{card.end_time_str}}</view>
                   </view>
 
                 </view>
-                <view class="card-item-down">券码：{{card.card_no}}</view>
+                <view class="card-item-down color42">券码：{{card.card_no}}</view>
               </view>
               <view class="card-list-view-right">
                 <view class="card-list-view-right-text">{{card.type_right}}</view>
@@ -108,19 +108,19 @@
                     <view class="card-money-text">￥
                       <text>{{card.face_money}}</text>
                     </view>
-                    <view class="card-limit-text">{{card.type_left}}</view>
+                    <view class="card-limit-text color70">{{card.type_left}}</view>
 
                   </view>
                   <view class='card-item-up-middle'>
-                    <view class="card-title-text">{{card.cname}}</view>
+                    <view class="card-title-text color42">{{card.cname}}</view>
                     <!-- <view wx:if="{{category==3}}" class='card-tip'>现金券</view>
                     <view wx:if="{{category==1 && card.limit_money==0}}" class='card-tip'>通用券</view>
                     <view wx:if="{{category==1 && card.limit_money!=0}}" class='card-tip'>满减券</view> -->
 
-                    <view class="card-time-text">{{card.start_time_str}}-{{card.end_time_str}}</view>
+                    <view class="card-time-text color9">{{card.start_time_str}}-{{card.end_time_str}}</view>
                   </view>
                 </view>
-                <view class="card-item-down">券ID：{{card.id}}</view>
+                <!-- <view class="card-item-down color42">券ID：{{card.id}}</view> -->
               </view>
               <view class="card-list-view-right">
                 <view class="card-list-view-right-text">{{card.type_right}}</view>

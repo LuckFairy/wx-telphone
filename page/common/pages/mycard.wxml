@@ -44,10 +44,11 @@
                       <view class='card-item-up-middle'>
                         <view class="card-title-text">{{card.cname}}</view>
                         <view class="card-time-text">{{card.start_time_str}}-{{card.end_time_str}}</view>
+                        <view class='card-type-text'>{{card.type_txt}}</view>
                       </view>
 
                     </view>
-                    <view class="card-item-down">券码：{{card.card_no}}</view>
+                    <view wx:if="{{card.type==3}}" class="card-item-down">券码：{{card.card_no}}</view>
                   </view>
                   <view class="card-list-view-right">
                     <view class="card-list-view-right-text">{{card.type_right}}</view>

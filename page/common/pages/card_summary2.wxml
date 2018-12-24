@@ -4,13 +4,21 @@
     <image src='{{msg.mch_imgurl}}'></image>
     <text>{{msg.cname}}</text>
   </view>
+  <view class='text-top'>
+    <view>
+      <text class='color9'>{{msg.type_left}}</text>
+      <text class='color9'>有效期:{{msg.start_time_str}}-{{msg.end_time_str}}</text>
+    </view>
+    <text class='color3'>{{msg.face_money}}元</text>
+  </view>
   <view class='barLine'></view>
   <view class='qr-view'>
-    <view>
+
+      <!-- <view>
         <text  wx:if="{{msg.face_money}}" class='color3'>{{msg.face_money}}元</text>
         <text class='color9'>有效期:{{msg.start_time_str}}至{{msg.end_time_str}}</text>
-      </view>
-      <view wx:if="{{msg.barcode}}">
+      </view> -->
+      <view class='qr-view-code' wx:if="{{msg.barcode}}">
         <text class='color3'>将条码（二维码）出示给店员核销</text>
         <canvas canvas-id="barcode" class='barcode' />
 
@@ -24,8 +32,8 @@
   <view class='depict' wx:if="{{msg.phy_name||msg.coupon_desc!=''||msg.description!=''}}">
     <text class='color3'>适合的门店</text>
     <text class='color9'>{{msg.phy_name}}</text>
-    <view class='ul'>
-      <text class='color3' wx:if="{{msg.coupon_desc!=''||msg.description!=''}}">优惠券详情</text>
+    <view class='ul'  wx:if="{{msg.coupon_desc!=''||msg.description!=''}}">
+      <text class='color3'>优惠券详情</text>
       <text class='color9'>{{msg.coupon_desc!=''?msg.coupon_desc:msg.description}}</text>
     </view>
   </view>
