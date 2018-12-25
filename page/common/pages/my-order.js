@@ -162,7 +162,7 @@ Page({
       "store_id": this.data.storeId
     };
     console.log('售后数据请求参数', params);
-    var url = 'wxapp.php?c=return&a=listOfReturn';
+    var url = 'wxapp.php?c=return&a=listOfReturn_v2';
     app.api.postApi(url, { params }, (err, resp) => {
       wx.hideLoading();
       if (resp) {

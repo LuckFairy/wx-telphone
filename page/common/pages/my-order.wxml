@@ -413,31 +413,28 @@
           <view class='purchase-data-total' wx:if='{{!showSale}}'>
             <view class='purchase-data-sd'>
               <text class='purchase-data-number'>服务单号：{{item.order_no}}</text>
-              <text wx:if='{{item.type==1}}' class='purchase-data-back'>退货</text>
-              <text wx:if='{{item.type==2}}' class='purchase-data-back'>换货</text>
-              <text wx:if='{{item.type==3}}' class='purchase-data-back'>维修</text>
-              <text wx:if='{{item.type==4}}' class='purchase-data-back'>补发商品</text>
+              <text class='purchase-data-back'>{{item.type_txt}}</text>
             </view>
-            <view class='purchase-shop-list'>
-              <image class='purchase-shop-image' mode='aspectFill' src='{{item.image}}'></image>
+            <view wx:for="{{item.list}}" wx:for-item="li" class='purchase-shop-list'>
+              <image class='purchase-shop-image' mode='aspectFill' src='{{li.image}}'></image>
               <view class='purchase-shop-detail'>
                 <view class='purchase-shop-text'>
-                  <text class='purchase-shop-title'>{{item.name}}</text>
-                  <text class='purchase-shop-num'>x{{item.pro_num}}</text>
+                  <text class='purchase-shop-title'>{{li.name}}</text>
+                  <text class='purchase-shop-num'>x{{li.pro_num}}</text>
 
                 </view>
-                <text class='gray purchase-value' wx:if="{{item.sku_data_arr.length > 0 }}">
-                  <text style='display:inline;' >{{item.sku_data_arr[1].value}}{{item.sku_data_arr[0].value}}码</text>
+                <text class='gray purchase-value' wx:if="{{li.sku_data_arr.length > 0 }}">
+                  <text style='display:inline;' >{{li.sku_data_arr[1].value}}{{li.sku_data_arr[0].value}}码</text>
                 </text>
-                <text class='purchase-price'><text class='gray'>金额：</text>￥{{item.pro_price}}</text>
+                <text class='purchase-price'><text class='gray'>金额：</text>￥{{li.pro_price}}</text>
               </view>
             </view>
-            <!-- status 1 处理中   3商家审核不通  6已完成-->
+            <!-- status 1：申请中，2：商家审核不通过，3：商家审核通过，4：退货物流，5：退货完成，6：退货取消-->
             <!--已完成  -->
             <view class='purchase-satus'>
               <view class='purchase-image-text'>
-                <image wx:if="{{item.status == 6}}" class='purchase-status-image' src='../../image/pur-success.png'></image>
-                <image wx:if="{{item.status == 3}}" class='purchase-status-image' src='../../image/pur-defeat.png'></image>
+                <image wx:if="{{item.status == 5}}" class='purchase-status-image' src='../../image/pur-success.png'></image>
+                <image wx:elif="{{item.status == 2}}" class='purchase-status-image' src='../../image/pur-defeat.png'></image>
                 <image wx:else class='purchase-status-image' src='../../image/pur-wait.png'></image>
                 <text class='purchase-status-text'>{{item.status_txt}}</text>
               </view>
@@ -450,44 +447,6 @@
       </scroll-view>
     </swiper-item>
     <!--退换/售后结束  -->
-
-
-    <!-- <swiper-item wx:if="{{uncheckOrders && uncheckOrders.length}}">
-  <scroll-view class="" scroll-y="{{true}}">
-
-    <view class="order-list-view"> -->
-    <!--<block wx:for="{{usedCardList}}" wx:for-item="card" wx:key="{{card.cardId}}">-->
-    <!--待审核-->
-    <!-- <view wx:for="{{uncheckOrders}}" wx:for-item="order" wx:key="{{order.orderId}}" class="order-item-view">
-        <view class="goods-info-view" wx:for="{{order.products}}" wx:key="{{item.productId}}">
-          <image class="goods-img" src="{{item.image}}" mode="widthFix"></image>
-          <view class="goods-name-view">
-            <text class="goods-name">{{item.name}}</text>
-            <text style="margin-right: 10rpx;">x{{item.quantity}}</text>
-          </view>
-        </view>
-        <view class="goods-price-view">
-          <view style="margin-right:25rpx;">共{{order.products.length}}件商品</view>
-          <view style="">实付款：</view>
-          <view style="color:#D84E52;">￥{{order.total}}</view>
-        </view>
-        <view class="yellow-btn-view">
-          <text class="yellow-btn" data-order-id="{{order.orderId}}" catchtap="delOrder" style="background-color:white;border:1px solid #9D9D9D;margin-right:5px;">删除</text>
-          <text class="yellow-btn" data-order-id="{{order.orderId}}" data-qr="{{order.qrcodeUrl}}" catchtap="showTrialQRcode">到店取货</text>
-        </view>
-      </view> -->
-    <!--/待审核-->
-    <!--</block>-->
-    <!-- </view>
-  </scroll-view>
-</swiper-item> -->
-    <!--拼团购订单-->
-    <!-- <swiper-item wx:if="{{groupOrders && groupOrders.length}}">
-  <scroll-view scroll-y="{{true}}">
-
-  </scroll-view>
-</swiper-item> -->
-
   </swiper>
 </view>
 
@@ -499,22 +458,3 @@
     <i class="fa fa-times close-icon" catchtap="closeOverlay"></i>
   </view>
 </view>
-<!--邀请分享模块开始  -->
-<!-- <view class='invite-friend-golists' wx:if="{{showshare}}">
-  <view class='invite-friend-header'>
-    <image src='../../image/baikuang.png'></image>
-    <text class='invite-friend-text'>邀好友参团</text>
-  </view>
-  <view class='invite-group-golist'>
-    <text class='inv-gro-click invite-total-class'>点击</text>
-    <text class='inv-gor-clc-friend invite-total-class'>“邀请好友参团”</text>
-    <text class='share-friend-gro invite-total-class'>分享给好友</text>
-    <text class='can-go-up-success invite-total-class'>可大大提高拼团成功率哦</text>
-  </view>
-  <view class='track-ground-list'>
-    <text class='track-ground-text_1' bindtap='know'>知道了</text>
-    <text class='track-ground-text_2' bindtap='noPrompt'>不再提醒</text>
-  </view>
-</view> -->
-
-<!--邀请分享模块结束  -->
