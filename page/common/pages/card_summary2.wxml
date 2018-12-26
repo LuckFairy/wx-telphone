@@ -22,11 +22,9 @@
         <text class='color3'>将条码（二维码）出示给店员核销</text>
         <canvas canvas-id="barcode" class='barcode' />
 
-        <!-- <image src="{{msg.barcode}}" mode='aspectFit' class='barcode'></image> -->
         <text wx:if="{{msg.card_no}}" class='color42'>{{msg.card_no}} </text>
       </view>
-      <canvas canvas-id="qrcode" class='erwei'/>
-      <!-- <image src='{{msg.qrUrl}}' mode='aspectFit' class='erwei'></image> -->
+      <canvas canvas-id="qrcode" style="width:{{qrcode_w}}px; height:{{qrcode_w}}px;"  class='erwei'/>
   </view>
 
   <view class='depict' wx:if="{{msg.phy_name||msg.coupon_desc!=''||msg.description!=''}}">

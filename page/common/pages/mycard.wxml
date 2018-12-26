@@ -27,7 +27,7 @@
            <view class='boxItem'>
               <view class='item-top'>
                 <image src='{{li.img}}'></image>
-                <text>{{li.title}}</text>
+                <text>{{li.title}}({{li.coupon_count}}张)</text>
                 <button bindtap='goAll' data-index='{{index}}'>查看全部</button>
               </view>
               <block wx:for="{{li.list}}" wx:for-item="card" wx:key="{{index}}">

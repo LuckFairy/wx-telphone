@@ -4,12 +4,10 @@ page{
   height: auto;
 }
 .box{
-  margin: 35rpx;
-  width: 680rpx;
+ margin: 24rpx;
   /* height: 812rpx; */
   border-radius: 8rpx;
   box-shadow:  10rpx 16rpx 0.6 #ff8400;
-  margin-top: 80rpx;
   flex-direction: column;
 }
 .qr-top{
@@ -73,6 +71,7 @@ margin-right: 26rpx;
   flex-direction: column;
   text-align: center;
   justify-content: center;
+  align-items: center;
 }
 .qr-view>view.qr-view-code .color3{
   font-size: 26rpx;
@@ -88,9 +87,7 @@ margin-top: 24rpx;
   margin-top: 24rpx;
 }
 .qr-view>.erwei{
-  width:300rpx;
-height:300rpx;
-/* margin-top: 40rpx; */
+margin-top: 48rpx;
 }
 .depict{
   border-top:1rpx dashed rgba(214,214,214,1);

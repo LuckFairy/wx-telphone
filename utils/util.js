@@ -1,6 +1,6 @@
 import __config from '../config.js';
 import  Api from './api_1';
-import qrcode from './qrcode';
+import QRCode from './qrcode.js';
 import barcode from './barcode';
 function convert_length(length) {
   return Math.round(wx.getSystemInfoSync().windowWidth * length / 750);
@@ -9,15 +9,19 @@ function convert_length(length) {
 // 把数字转换成条形码
 function toBarcode(canvasId, code, width, height) {
   barcode.code128(wx.createCanvasContext(canvasId), code, convert_length(width), convert_length(height))
+
 }
 
 // 把数字转换成二维码
 function toQrcode(canvasId, code, width, height) {
-  qrcode.api.draw(code, {
-    ctx: wx.createCanvasContext(canvasId),
-    width: convert_length(width),
-    height: convert_length(height)
-  })
+ return new QRCode(canvasId, {
+    // usingIn: this,
+  //  typeNumber:4,
+    text: code,
+    width: width,
+    height: width,
+    correctLevel: QRCode.CorrectLevel.H,
+  });
 }
 
 

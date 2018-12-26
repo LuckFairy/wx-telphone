@@ -1,8 +1,8 @@
 {
   "navigationBarTitleText": "优惠券",
   "navigationBarTextStyle": "white",
-  "navigationBarBackgroundColor": "ffa438",
-  "backgroundColor": "ffa438",
-  "backgroundColorTop": "ffa438",
-  "backgroundColorBottom": "ffa438"
+  "navigationBarBackgroundColor": "#ffa438",
+  "backgroundColor": "#ffa438",
+  "backgroundColorTop": "#ffa438",
+  "backgroundColorBottom": "#ffa438"
 }
